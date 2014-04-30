@@ -1,0 +1,113 @@
+﻿using DevExpress.ExpressApp;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CTMS.Module.BusinessObjects.Cash;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.Xpo;
+using DevExpress.Data.Filtering;
+using CTMS.Module.BusinessObjects.Market;
+using System.Diagnostics;
+using DevExpress.ExpressApp.Xpo;
+using CTMS.Module.ParamObjects.Cash;
+using DevExpress.ExpressApp.SystemModule;
+using CTMS.Module.BusinessObjects.Forex;
+using CTMS.Module.BusinessObjects;
+
+namespace CTMS.Module.Controllers.Cash
+{
+    public class CashFlowViewController : ViewControllerEx
+    {
+        public CashFlowViewController()
+        {
+            TargetObjectType = typeof(CashFlow);
+         
+            runProgramAction = new SingleChoiceAction(this, "RunCashFlowProgramAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
+            runProgramAction.Caption = "Run Program";
+            runProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
+            runProgramAction.Execute += runProgramAction_Execute;
+            runProgramAction.ShowItemsOnClick = true;
+
+            var dailyUpdateAction = new ChoiceActionItem();
+            dailyUpdateAction.Caption = "Daily Update";
+            runProgramAction.Items.Add(dailyUpdateAction);
+
+            var mapAction = new ChoiceActionItem();
+            mapAction.Caption = "Map";
+            runProgramAction.Items.Add(mapAction);
+
+            var fixForecastAction = new ChoiceActionItem();
+            fixForecastAction.Caption = "Fix Forecast";
+            runProgramAction.Items.Add(fixForecastAction);
+
+            var reloadForexTradesAction = new ChoiceActionItem();
+            reloadForexTradesAction.Caption = "Reload Forex Forecast";
+            runProgramAction.Items.Add(reloadForexTradesAction);
+
+            var saveForecastAction = new ChoiceActionItem();
+            saveForecastAction.Caption = "Save Forecast";
+            runProgramAction.Items.Add(saveForecastAction);
+        }
+
+        void runProgramAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
+        {
+            switch (e.SelectedChoiceActionItem.Caption)
+            {
+                case "Daily Update":
+                    ShowNonPersistentPopupDialogDetailView(Application, typeof(DailyCashUpdateParam));
+                    break;
+                case "Fix Forecast":
+                    ShowSingletonPopupDialogDetailView<CashFlowFixParam>(Application);
+                    break;
+                case "Map":
+                    ExecuteMapping();
+                    break;
+                case "Reload Forex Forecast":
+                    ForexTrade.UploadToCashFlowForecast(((XPObjectSpace)ObjectSpace).Session);
+                    ObjectSpace.CommitChanges();
+                    break;
+                case "Save Forecast":
+                    SaveForecast();
+                    break;
+            }
+        }
+
+        private SingleChoiceAction runProgramAction;
+
+        private void SaveForecast()
+        {
+            var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
+            CashFlow.SaveForecast(objSpace);
+        }
+
+        private void ExecuteMapping()
+        {
+            var objSpace = (XPObjectSpace)ObjectSpace;
+            var mappings = objSpace.GetObjects<CashFlowFixMapping>();
+
+            foreach (CashFlow cf in View.SelectedObjects)
+            {
+                foreach (var mapping in mappings)
+                {
+                    if (cf.Fit(mapping.CriteriaExpression))
+                    {
+                        if (mapping.FixActivity != null)
+                            cf.FixActivity = mapping.FixActivity;
+                        if (mapping.Fix != null)
+                            cf.Fix = mapping.Fix;
+                        if (mapping.FixFromDateExpr != null)
+                            cf.FixFromDate = (DateTime)cf.Evaluate(CriteriaOperator.Parse(mapping.FixFromDateExpr));
+                        if (mapping.FixToDateExpr != null)
+                            cf.FixToDate = (DateTime)cf.Evaluate(CriteriaOperator.Parse(mapping.FixToDateExpr));
+                        break;
+                    }
+                }
+                cf.Save();
+            }
+            objSpace.CommitChanges();
+        }
+        
+    }
+}

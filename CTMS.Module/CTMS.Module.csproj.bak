@@ -1,0 +1,556 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CTMS.Module</RootNamespace>
+    <AssemblyName>CTMS.Module</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'EasyTest|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;EASYTEST</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'EasyTest|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\EasyTest\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;EASYTEST</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.ExpressApp.CloneObject.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.PivotGrid.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Reports.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Security.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Validation.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.ViewVariantsModule.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.Xpo.v13.2">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v13.2.Core, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v13.2.Core">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.Data.v13.2">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.ExpressApp.v13.2">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.Base.v13.2">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.Persistent.BaseImpl.v13.2">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxPivotGrid.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v13.2">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Charts.v13.2.Core, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v13.2.Wizard, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v13.2.Core, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPivotGrid.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v13.2.UI, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraReports.v13.2, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraReports.v13.2.Extensions, Version=13.2.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="EPPlus">
+      <HintPath>..\Lib\EPPlus.dll</HintPath>
+    </Reference>
+    <Reference Include="LumenWorks.Framework.IO">
+      <HintPath>..\Lib\LumenWorks.Framework.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Security">
+      <HintPath>..\packages\Npgsql.2.0.14.3\lib\net45\Mono.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\packages\Npgsql.2.0.14.3\lib\net45\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="ParserUtils">
+      <HintPath>..\Lib\ParserUtils.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <Name>System</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppSettings.cs" />
+    <Compile Include="AutoCreatableObjectAttribute.cs" />
+    <Compile Include="BusinessObjects\ActionRequest.cs" />
+    <Compile Include="BusinessObjects\BankStmtCashFlowForecast.cs" />
+    <Compile Include="BusinessObjects\Cash\ActivityTag.cs" />
+    <Compile Include="BusinessObjects\Cash\CashFlowDefaults.cs" />
+    <Compile Include="BusinessObjects\Cash\CashFlowSnapshot.cs" />
+    <Compile Include="BusinessObjects\FinAccounting\AustPostSettle.cs" />
+    <Compile Include="BusinessObjects\Forex\CashFlowForexSettleType.cs" />
+    <Compile Include="BusinessObjects\Cash\CashFlowNote.cs" />
+    <Compile Include="BusinessObjects\Cash\CashFlowFixMapping.cs" />
+    <Compile Include="BusinessObjects\FinAccounting\FinAccount.cs" />
+    <Compile Include="BusinessObjects\FinAccounting\FinAccountingDefaults.cs" />
+    <Compile Include="BusinessObjects\FinAccounting\FinActivity.cs" />
+    <Compile Include="BusinessObjects\FinAccounting\GenLedger.cs" />
+    <Compile Include="BusinessObjects\FinAccounting\FinJournalGroup.cs" />
+    <Compile Include="BusinessObjects\Forex\ForexCounterparty.cs" />
+    <Compile Include="BusinessObjects\Forex\ForexStdSettleAccount.cs" />
+    <Compile Include="BusinessObjects\Forex\ForexSettleLink.cs" />
+    <Compile Include="BusinessObjects\Forex\ForexTrade.cs" />
+    <Compile Include="BusinessObjects\Forex\ForexTradePredelivery.cs" />
+    <Compile Include="BusinessObjects\ICalculateToggleObject.cs" />
+    <Compile Include="BusinessObjects\IImportObject.cs" />
+    <Compile Include="BusinessObjects\Cash\CashFlowFixDetail.cs" />
+    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApInvSource.cs" />
+    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApPayGroup.cs" />
+    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApVendor.cs" />
+    <Compile Include="BusinessObjects\Cash\AccountSummary.cs" />
+    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApBankAccount.cs" />
+    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApSource.cs" />
+    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApPmtDistn.cs" />
+    <Compile Include="BusinessObjects\Bank.cs" />
+    <Compile Include="BusinessObjects\Cash\BankStmtAccountImportMapping.cs" />
+    <Compile Include="BusinessObjects\Cash\BankStmtMapping.cs" />
+    <Compile Include="BusinessObjects\Cash\CashFlow.cs" />
+    <Compile Include="BusinessObjects\Cash\CashFlowSource.cs" />
+    <Compile Include="BusinessObjects\Cash\CashForecastFixTag.cs" />
+    <Compile Include="BusinessObjects\IMappingObject.cs" />
+    <Compile Include="Controllers\CalculateToggleViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\ICashReportController.cs" />
+    <Compile Include="Controllers\Forex\ForexSettleLinkViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Forex\ForexTradePredeliveryListViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Forex\ForexTradeViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <None Include="FunctionalTests\ForexTrade_Create.ets" />
+    <Compile Include="HelperClasses\Data\PostgreSQLClientHelper.cs" />
+    <Compile Include="HelperClasses\Xpo\XpoExtensions.cs" />
+    <Compile Include="ParamObjects\Cash\CashReportParam.cs" />
+    <Compile Include="BusinessObjects\ChartOfAccounts\GlAccount.cs" />
+    <Compile Include="BusinessObjects\ChartOfAccounts\GlCompany.cs" />
+    <Compile Include="BusinessObjects\ChartOfAccounts\GlCostCentre.cs" />
+    <Compile Include="BusinessObjects\ChartOfAccounts\GlCountry.cs" />
+    <Compile Include="BusinessObjects\ChartOfAccounts\GlIntercompany.cs" />
+    <Compile Include="BusinessObjects\ChartOfAccounts\GlLocation.cs" />
+    <Compile Include="BusinessObjects\ChartOfAccounts\GlProduct.cs" />
+    <Compile Include="BusinessObjects\ChartOfAccounts\GlProject.cs" />
+    <Compile Include="BusinessObjects\ChartOfAccounts\GlSalesChannel.cs" />
+    <Compile Include="BusinessObjects\Market\ForexRate.cs" />
+    <Compile Include="BusinessObjects\Payments\ArtfTaskPayment.cs" />
+    <Compile Include="BusinessObjects\SetOfBooks.cs" />
+    <Compile Include="BusinessObjects\Setup\DateDim.cs" />
+    <Compile Include="BusinessObjects\Setup\SqlScript.cs" />
+    <Compile Include="BusinessObjects\Setup\SqlScriptFolder.cs" />
+    <Compile Include="BusinessObjects\User\UserDefaultSetting.cs" />
+    <Compile Include="BusinessObjects\User\UserViewLayout.cs" />
+    <Compile Include="HelperClasses\ExpressApp\ExcelReportHelper.cs" />
+    <Compile Include="ControllerHelpers\FinAccounting\JournalGenerator.cs" />
+    <Compile Include="Controllers\Cash\CashBalanceReportViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\CashFlowPivotGridController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\CashReportViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ExcelReporting\ExcelReportViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\FinAccounting\GenLedgerListViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\MappingViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\MoveToIndexParamViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomFunctions\BoMonthFunction.cs" />
+    <Compile Include="CustomFunctions\EoMonthFunction.cs" />
+    <Compile Include="BusinessObjects\ExcelReport.cs" />
+    <Compile Include="ExcelReportFieldAttribute.cs" />
+    <Compile Include="HelperClasses\ConvertException.cs" />
+    <Compile Include="HelperClasses\ExpressApp\ReportCreator.cs" />
+    <Compile Include="HelperClasses\Data\MSSqlClientHelper.cs" />
+    <Compile Include="HelperClasses\UI\PopupDialogDetailViewManager.cs" />
+    <Compile Include="HelperClasses\UI\PopupDialogListViewManager.cs" />
+    <Compile Include="HelperClasses\Xpo\CloneIXPSimpleObjectHelper.cs" />
+    <Compile Include="Controllers\ActionRequestViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\AccountSummaryViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ARTF\ArtfLedgerLookupListViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\ApPmtDistnViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\CashFlowFixParamViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\CashFlowViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\BankStmtViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\DailyCashUpdateViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\ImportBankStmtViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\BatchDeleteListViewControllerBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ImportDelimitedFileDataViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Market\ImportForexParamViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Setup\CreateDateDimParamViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Setup\DateDimViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ShowNavigationItemControllerEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ShowPaymentBatchReportController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ViewControllerEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomFunctions\RegexMatchFunction.cs" />
+    <Compile Include="Editors\PivotGridViewItem.cs" />
+    <Compile Include="Editors\CustomUserControlViewItem.cs" />
+    <Compile Include="HelperClasses\IO\ImportErrorInfo.cs" />
+    <Compile Include="HelperClasses\IO\ImportErrorInfoKey.cs" />
+    <Compile Include="HelperClasses\StaticHelpers.cs" />
+    <Compile Include="HelperClasses\Xpo\CsvXpoEngine.cs" />
+    <Compile Include="HelperClasses\Xpo\FieldMaps.cs" />
+    <Compile Include="HelperClasses\Xpo\XpoImportEngine.cs" />
+    <Compile Include="ReportParams\CashReportParameters.cs" />
+    <Compile Include="ParamObjects\FinAccounting\FinGenJournalParam.cs" />
+    <Compile Include="ParamObjects\FinAccounting\FinJournalGroupParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportActionType.cs" />
+    <Compile Include="ParamObjects\Import\ImportBankStmtParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportLibrary.cs" />
+    <Compile Include="ParamObjects\MoveToIndexParam.cs" />
+    <Compile Include="ParamObjects\User\SaveUserViewLayout.cs" />
+    <Compile Include="ReportScriptHelper\CashReport.cs" />
+    <Compile Include="Validation\ForexTradeRule.cs" />
+    <Compile Include="Validation\GenLedgerRule.cs" />
+    <Compile Include="XpoCriteriaFixer.cs" />
+    <Compile Include="ReportParams\ArtfPaymentReportParameters.cs" />
+    <Compile Include="ParamObjects\ARTF\AtrtfCreateGlJournalsParam.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfCustomerType.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfGlCode.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfGlJournal.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfLedger.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfReceipt.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfRecon.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfSystem.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfTask.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfReconTaskMap.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfTaskOwnerDefaults.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfActivityReclassTask.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfFundsTransferTask.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfGlJournalTask.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfLedgerTask.cs" />
+    <Compile Include="BusinessObjects\ARTF\ArtfReceiptTask.cs" />
+    <Compile Include="BusinessObjects\Payments\CreditAccount.cs" />
+    <Compile Include="BusinessObjects\Cash\Account.cs" />
+    <Compile Include="BusinessObjects\Cash\AccountActivityMap.cs" />
+    <Compile Include="BusinessObjects\Cash\Activity.cs" />
+    <Compile Include="BusinessObjects\Cash\BankStmt.cs" />
+    <Compile Include="BusinessObjects\Cash\Counterparty.cs" />
+    <Compile Include="BusinessObjects\Currency.cs" />
+    <Compile Include="BusinessObjects\ARTF\IReconMaster.cs" />
+    <Compile Include="BusinessObjects\Payments\Payment.cs" />
+    <Compile Include="BusinessObjects\Payments\PaymentBatch.cs" />
+    <Compile Include="Captions.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="Controllers\ARTF\ArtfReconDetailCustomCommitController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ARTF\ArtfReconDetailViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ARTF\ArtfReconDetailViewController.Designer.cs">
+      <DependentUpon>ArtfReconDetailViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ARTF\ArtfReconCreateTaskViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ARTF\ArtfTaskDetailViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ARTF\ArtfTaskDetailViewController.Designer.cs">
+      <DependentUpon>ArtfTaskDetailViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\ARTF\BankTransferTaskCreator.cs" />
+    <Compile Include="Controllers\ARTF\CreateTaskBankPaymentsController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ARTF\GlJournalTaskCreator.cs" />
+    <Compile Include="Controllers\CustomizeValidationMessageController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ImportListViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ARTF\ArtfReceiptLookupListViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\TaskResultParamController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ImportDataLogic.cs" />
+    <Compile Include="Model\IModelExtenders.cs" />
+    <Compile Include="Module.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Module.Designer.cs">
+      <DependentUpon>Module.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomFunctions\MultiConcatFunction.cs" />
+    <Compile Include="ParamObjects\ARTF\ArtfCreatePaymentsParam.cs" />
+    <Compile Include="ParamObjects\Cash\CashFlowFixParam.cs" />
+    <Compile Include="ParamObjects\Cash\DailyCashUpdateParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPmtDistnParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportDelimitedFileDataParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportForexRatesParam.cs" />
+    <Compile Include="ParamObjects\Import\OpenFileData.cs" />
+    <Compile Include="ReportParams\PaymentsReportParameters.cs" />
+    <Compile Include="ParamObjects\Setup\CreateDateDimParam.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DatabaseUpdate\Updater.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Controllers\ARTF\ArtfReconDetailViewController.resx">
+      <DependentUpon>ArtfReconDetailViewController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\ARTF\ArtfTaskDetailViewController.resx">
+      <DependentUpon>ArtfTaskDetailViewController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\ARTF\CreateTaskBankPaymentsController.resx">
+      <DependentUpon>CreateTaskBankPaymentsController.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Model.DesignedDiffs.xafml">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Module.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Module.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="DatabaseUpdate\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="BusinessObjects\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Controllers\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FunctionalTests\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="FunctionalTests\Test.ets" />
+    <None Include="Images\ReadMe.txt" />
+    <None Include="packages.config" />
+    <None Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FunctionalTests\Config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <None Include="UnusableNodes10.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes9.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes8.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes7.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes6.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes5.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes4.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes3.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes2.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes1.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <EmbeddedResource Include="Images\vodafone_banner.png" />
+    <Content Include="FunctionalTests\Counterparty_Create.inc" />
+    <Content Include="FunctionalTests\ForexCounterparty_Create.inc" />
+    <Content Include="Images\vodafone_logo.png" />
+    <Content Include="Images\vodafone_logo_32x32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CTMS.ImportData\CTMS.ImportData.csproj">
+      <Project>{B9EF03FF-D05B-4FD4-A8E9-F90D819CB1DC}</Project>
+      <Name>CTMS.ImportData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DG2NTT.ExpressApp.PivotGrid\DG2NTT.ExpressApp.PivotGrid.csproj">
+      <Project>{b5c18c13-85c7-4749-9f2d-ef92d3692ad3}</Project>
+      <Name>DG2NTT.ExpressApp.PivotGrid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DG2NTT.ExpressApp\DG2NTT.ExpressApp.csproj">
+      <Project>{96b07e0f-dcf1-41f7-bba4-6c8d959e1f8a}</Project>
+      <Name>DG2NTT.ExpressApp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DG2NTT.StringEvaluators\DG2NTT.StringEvaluators.csproj">
+      <Project>{5b146106-01ee-401f-a024-99c1bc2cc237}</Project>
+      <Name>DG2NTT.StringEvaluators</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DG2NTT.Utilities\DG2NTT.Utilities.csproj">
+      <Project>{27104bf1-1ef2-47f5-b3dc-5cdce2a41b08}</Project>
+      <Name>DG2NTT.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GenerateUserFriendlyId.Module\GenerateUserFriendlyId.Module.csproj">
+      <Project>{484a8217-dd6b-4e8f-b47e-f1f64d03bbb6}</Project>
+      <Name>GenerateUserFriendlyId.Module</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BusinessObjects\Common\" />
+    <Folder Include="ControllerHelpers\ExcelReporting\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

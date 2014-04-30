@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <SchemaModules>
+    <SchemaModule Name="CloneObjectModule" Version="13.1.5.0" IsNewNode="True" />
+    <SchemaModule Name="SystemAspNetModule" Version="13.1.5.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="13.1.5.0" IsNewNode="True" />
+  </SchemaModules>
+  <Views>
+    <DashboardView Id="BankStmtPivotGridView">
+      <Items>
+        <CustomUserControlViewItem Id="BankStmtPivotGridViewItem" CustomControlPath="Controls/BankStmtAnalysisControl.ascx" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutItem Id="BankStmtPivotGridViewItem" ShowCaption="False" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+  </Views>
+</Application>

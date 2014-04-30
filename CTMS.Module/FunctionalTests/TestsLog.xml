@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Tests xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Date="11/04/2014">
+  <Test Name="ForexTrade_Create" ApplicationName="CTMSWin" Result="Failed" Elapsed="00:00:09.4370549" Started="11/04/2014 6:38:57 PM" ApplicationViews="ForexTrade_Create_CTMSWin_View.jpeg" MachineName="VHATNT016" IP="169.254.85.22">
+    <Error Type="DevExpress.EasyTest.Framework.AdapterOperationException">
+      <Message><![CDATA[Cannot find the 'Log On' control, OperationTag:'Action', line 5]]></Message>
+    </Error>
+  </Test>
+</Tests>

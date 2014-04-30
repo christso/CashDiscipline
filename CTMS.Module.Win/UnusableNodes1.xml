@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <ListView Id="CashBalance_PivotGridView" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
+  </Views>
+</Application>

@@ -1,0 +1,797 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application Title="Corporate Treasury Management System" Logo="vodafone_banner" Company="Vodafone Hutchison Australia Pty Limited" Copyright="Copyright (C) 2013 {0:Company}" WebSite="VHA.Treasury@vodafone.com.au">
+  <BOModel>
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfCustomerType" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True" />
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfGlCode" DefaultListViewImage="BO_List" DefaultDetailViewImage="BO_List" IsCloneable="True" />
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfGlJournal" ImageName="BO_List" />
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfLedger" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True">
+      <OwnMembers>
+        <Member Name="FromUnreconTotal" Caption="Unrecon Total" />
+        <Member Name="LedgerDate" DisplayFormat="dd-MMM-yy" EditMask="dd-MMM-yy" />
+      </OwnMembers>
+    </Class>
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfReceipt" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True">
+      <OwnMembers>
+        <Member Name="ReceiptDate" EditMask="dd-MMM-yy" DisplayFormat="dd-MMM-yy" />
+      </OwnMembers>
+    </Class>
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfRecon" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True">
+      <OwnMembers>
+        <Member Name="Amount" EditMask="n2" />
+        <Member Name="BankStmt" LookupProperty="Id" DisplayFormat="" Caption="Bank Stmt" />
+        <Member Name="ReconDate" DisplayFormat="dd-MMM-yy" EditMask="dd-MMM-yy" />
+      </OwnMembers>
+    </Class>
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfReconTaskMap" DefaultDetailViewImage="BO_List" DefaultListViewAllowEdit="True" />
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfSystem" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True" />
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfTask" DefaultDetailViewImage="BO_List" ImageName="BO_List" IsCloneable="True">
+      <OwnMembers>
+        <Member Name="ArtfRecon" LookupProperty="ReconId" />
+      </OwnMembers>
+    </Class>
+    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfTaskOwnerDefaults" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" ImageName="BO_List" />
+    <Class Name="CTMS.Module.BusinessObjects.Cash.Account" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
+    <Class Name="CTMS.Module.BusinessObjects.Cash.Activity" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
+    <Class Name="CTMS.Module.BusinessObjects.Cash.BankStmt" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" DefaultListViewShowAutoFilterRow="True" />
+    <Class Name="CTMS.Module.BusinessObjects.Cash.Counterparty" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
+    <Class Name="CTMS.Module.ParamObjects.Artf.ArtfCreateGlJournalsParam" ImageName="Action_SimpleAction" />
+  </BOModel>
+  <NavigationItems DefaultChildItemsDisplayStyle="List" DefaultLeafImageName="BO_List" GenerateRelatedViewVariantsGroup="True" NavigationStyle="NavBar" StartupNavigationItem="BankStmt">
+    <Items>
+      <Item Id="Default" Caption="Administration" Index="0" ImageName="BO_Folder" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="GlAccount_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="GlCompany_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="GlCostCentre_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="GlCountry_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="GlIntercompany_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="GlLocation_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="GlProduct_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="GlProject_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="GlSalesChannel_ListView" IsNewNode="True" Removed="True" />
+        </Items>
+      </Item>
+      <Item Id="ArTransfers" Caption="AR Transfers" Index="1" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="ArtfCreateGlJournals" Caption="Create GL Journals" ViewId="CTMS.Module.BusinessObjects.Artf.ArtfCreateGlJournals_DetailView" ImageName="Action_SimpleAction" IsNewNode="True" />
+          <Item Id="ArtfGlJournal" ViewId="ArtfGlJournal_ListView" Caption="Gl Journal" IsNewNode="True" />
+          <Item Id="ArtfLedger" ViewId="ArtfLedger_ListView" Caption="Ledger" IsNewNode="True" />
+          <Item Id="ArtfReceipt" ViewId="ArtfReceipt_ListView" Caption="Receipt" IsNewNode="True" />
+          <Item Id="ArtfRecon" Caption="Recon" ViewId="ArtfRecon_ListView_Varied" IsNewNode="True" />
+          <Item Id="BankStmt" ViewId="BankStmt_ListView_Artf" Caption="Bank Stmt" IsNewNode="True" />
+          <Item Id="Reports" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="Recon Pivot" ViewId="ArtfRecon_ListView_Pivot" Caption="Recon Pivot" IsNewNode="True" />
+            </Items>
+          </Item>
+          <Item Id="Setup" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="ArtfCustomerType" ViewId="ArtfCustomerType_ListView" Caption="Customer Type" IsNewNode="True" />
+              <Item Id="ArtfReconTaskMap" ViewId="ArtfReconTaskMap_ListView" Caption="Recon Task Map" ImageName="" IsNewNode="True" />
+              <Item Id="ArtfSystem" ViewId="ArtfSystem_ListView" Caption="System" IsNewNode="True" />
+              <Item Id="ArtfTaskOwnerDefaults" Caption="Task Owner Defaults" ViewId="ArtfTaskOwnerDefaults_ListView" IsNewNode="True" />
+              <Item Id="CashAccount" Caption="Cash Account" ViewId="Account_ListView" IsNewNode="True" />
+              <Item Id="GlCode" ViewId="ArtfGlCode_ListView" Caption="Gl Code" IsNewNode="True" />
+            </Items>
+          </Item>
+          <Item Id="Tasks" ViewId="ArtfTask_ListView" Caption="Tasks" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="ActivityReclass" ViewId="ArtfActivityReclassTask_ListView" Caption="Activity Reclass" Index="0" IsNewNode="True" />
+              <Item Id="FundsTransfer" ViewId="ArtfFundsTransferTask_ListView" Caption="Funds Transfer" Index="1" IsNewNode="True" />
+              <Item Id="GlJournal" ViewId="ArtfGlJournalTask_ListView" Caption="GL Journal" IsNewNode="True" />
+              <Item Id="Ledger" ViewId="ArtfLedgerTask_ListView" Caption="Ledger" IsNewNode="True" />
+              <Item Id="Receipt" ViewId="ArtfReceiptTask_ListView" Caption="Receipt" IsNewNode="True" />
+            </Items>
+          </Item>
+        </Items>
+      </Item>
+      <Item Id="Banking" Index="2" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="BankStmtFca" ImageName="BO_List" ViewId="BankStmt_ListView_FCA" Caption="Bank Stmt FCA" IsNewNode="True" />
+          <Item Id="CreditAccount" ViewId="CreditAccount_ListView" IsNewNode="True" />
+          <Item Id="PaymentBatch" ViewId="PaymentBatch_ListView" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="CashManagement" Caption="Cash Management" Index="3" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="Data" Index="0" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="0" IsNewNode="True" />
+              <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="1" IsNewNode="True" />
+              <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="3" IsNewNode="True" />
+              <Item Id="CashFlowSnapshot" ViewId="CashFlowSnapshot_ListView" Index="4" IsNewNode="True" />
+            </Items>
+          </Item>
+          <Item Id="Setup" Index="2" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="Account" ViewId="Account_ListView" Index="0" IsNewNode="True" />
+              <Item Id="AccountActivityMap" ViewId="AccountActivityMap_ListView" Index="1" IsNewNode="True" />
+              <Item Id="Activity" ViewId="Activity_ListView" Index="4" IsNewNode="True" />
+              <Item Id="BankStmtAccountImportMapping" ViewId="BankStmtAccountImportMapping_ListView" Index="7" IsNewNode="True" />
+              <Item Id="BankStmtMapping" ViewId="BankStmtMapping_ListView" Index="8" IsNewNode="True" />
+              <Item Id="CashForecastFixTag" ViewId="CashForecastFixTag_ListView" Index="10" IsNewNode="True" />
+              <Item Id="CashForecastFixTagType" ViewId="CashForecastFixTagType_ListView" Index="11" IsNewNode="True" />
+              <Item Id="CashFlowDefaults" ViewId="CashFlowDefaults_DetailView" Index="13" IsNewNode="True" />
+              <Item Id="CashFlowFixMapping" ViewId="CashFlowFixMapping_ListView" Index="14" IsNewNode="True" />
+              <Item Id="CashFlowSource" ViewId="CashFlowSource_ListView" Index="16" IsNewNode="True" />
+              <Item Id="Counterparty" ViewId="Counterparty_ListView" Index="17" IsNewNode="True" />
+            </Items>
+          </Item>
+          <Item Id="Report Params" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="CashReportParam" ViewId="CashReportParam_ListView" IsNewNode="True" />
+            </Items>
+          </Item>
+          <Item Id="Reports" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="CashBalanceReport" Caption="Cash Balance Report" ViewId="AccountSummary_PivotGridView" Index="13" IsNewNode="True" />
+              <Item Id="CashFlowReport" ViewId="CashFlow_PivotGridView" Caption="Cash Flow Report" Index="16" IsNewNode="True" />
+              <Item Id="CashFlowReportTest" Caption="Cash Flow Report Test" ViewId="CashFlow_PivotGridViewTest" IsNewNode="True" />
+            </Items>
+          </Item>
+          <Item Id="System" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="AccountSummary" Index="0" ViewId="AccountSummary_ListView" IsNewNode="True" />
+              <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
+              <Item Id="CashFlowNote" ViewId="CashFlowNote_ListView" Caption="Note" Index="3" IsNewNode="True" />
+            </Items>
+          </Item>
+        </Items>
+      </Item>
+      <Item Id="Reports" Index="4">
+        <Items>
+          <Item Id="ExcelReport" ViewId="ExcelReport_ListView" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="CustomAnalysis" Caption="Custom Analysis" ImageName="BO_Folder" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="Analysis Tutorial" ViewId="AnalysisServicesTutorialPivotGridView" IsNewNode="True" />
+          <Item Id="BankStmtPivotGrid" Caption="Bank Stmt Pivot Grid" ImageName="Navigation_Item_PivotChart" ViewId="BankStmtPivotGridView" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Financial Accounting" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="AustPostSettle" ViewId="AustPostSettle_ListView" IsNewNode="True" />
+          <Item Id="Cash Flow Mapping" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="FinAccount" ViewId="FinAccount_ListView" IsNewNode="True" />
+              <Item Id="FinActivity" ViewId="FinActivity_ListView" IsNewNode="True" />
+            </Items>
+          </Item>
+          <Item Id="Chart of Accounts" IsNewNode="True">
+            <Items IsNewNode="True">
+              <Item Id="Gl Account" ViewId="GlAccount_ListView" ObjectKey="" IsNewNode="True" />
+              <Item Id="Gl Company" ViewId="GlCompany_ListView" ObjectKey="" IsNewNode="True" />
+              <Item Id="Gl Cost Centre" ViewId="GlCostCentre_ListView" ObjectKey="" IsNewNode="True" />
+              <Item Id="Gl Country" ViewId="GlCountry_ListView" ObjectKey="" IsNewNode="True" />
+              <Item Id="Gl Intercompany" ViewId="GlIntercompany_ListView" ObjectKey="" IsNewNode="True" />
+              <Item Id="Gl Location" ViewId="GlLocation_ListView" ObjectKey="" IsNewNode="True" />
+              <Item Id="Gl Product" ViewId="GlProduct_ListView" ObjectKey="" IsNewNode="True" />
+              <Item Id="Gl Project" ViewId="GlProject_ListView" ObjectKey="" IsNewNode="True" />
+              <Item Id="Gl Sales Channel" ViewId="GlSalesChannel_ListView" ObjectKey="" IsNewNode="True" />
+            </Items>
+          </Item>
+          <Item Id="Fin Journal Group" ViewId="FinJournalGroup_ListView" IsNewNode="True" />
+          <Item Id="FinAccountingDefaults" Caption="Default Accounting" ViewId="FinAccountingDefaults_ListView" IsNewNode="True" />
+          <Item Id="General Ledger" ViewId="GenLedger_ListView" Caption="General Ledger" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Forex" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="ForexCounterparty" ViewId="ForexCounterparty_ListView" Caption="Counterparty" IsNewNode="True" />
+          <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
+          <Item Id="ForexTrade" ViewId="ForexTrade_ListView" Caption="Trades" IsNewNode="True" />
+          <Item Id="ForexTradePredeliveries" ViewId="ForexTradePredelivery_ListView" Caption="Predeliveries" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Market Data" Caption="Market Data" ViewId="" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="Forex Rates" ViewId="ForexRate_ListView" IsNewNode="True" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+  <SchemaModules>
+    <SchemaModule Name="CloneObjectModule" Version="13.2.9.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="13.2.9.0" IsNewNode="True" />
+    <SchemaModule Name="SystemWindowsFormsModule" Version="12.2.7.0" IsNewNode="True" />
+  </SchemaModules>
+  <Templates>
+    <Template Id="DevExpress.ExpressApp.Win.Templates.DetailViewForm" IsNewNode="True" />
+    <Template Id="DevExpress.ExpressApp.Win.Templates.LookupControlTemplate" IsNewNode="True" />
+    <Template Id="DevExpress.ExpressApp.Win.Templates.NestedFrameTemplate" IsNewNode="True" />
+  </Templates>
+  <Views>
+    <ListView Id="Account_BankStmt_ListView" ImageName="BO_List" />
+    <ListView Id="Account_ListView" AllowEdit="True" AllowNew="True" NewItemRowPosition="Top" IsGroupPanelVisible="True">
+      <Columns>
+        <ColumnInfo Id="Id" Index="0" />
+        <ColumnInfo Id="Name" Index="1" />
+      </Columns>
+      <Filters CurrentFilterId="ArAccounts">
+        <Filter Id="AllAccounts" Caption="All Accounts" IsNewNode="True" />
+        <Filter Id="ArAccounts" Criteria="[ArtfCustomerType] Is Not Null" Caption="AR Accounts" IsNewNode="True" />
+      </Filters>
+    </ListView>
+    <ListView Id="AccountActivityMap_ListView" AllowEdit="True" NewItemRowPosition="Top" />
+    <ListView Id="AccountSummary_PivotGridView" ClassName="CTMS.Module.BusinessObjects.Cash.AccountSummary" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="TranDate" PropertyName="TranDate" Width="70" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Account" PropertyName="Account" Width="70" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="AccountCcyAmt" PropertyName="AccountCcyAmt" Width="50" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="LineType" PropertyName="LineType" Width="70" Index="4" IsNewNode="True" />
+      </Columns>
+      <PivotSettings Settings="﻿&lt;XtraSerializer version=&quot;1.0&quot; application=&quot;PivotGrid&quot;&gt;&#xD;&#xA;  &lt;property name=&quot;#LayoutVersion&quot; /&gt;&#xD;&#xA;  &lt;property name=&quot;OptionsCustomization&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;    &lt;property name=&quot;AllowPrefilter&quot;&gt;false&lt;/property&gt;&#xD;&#xA;  &lt;/property&gt;&#xD;&#xA;  &lt;property name=&quot;Prefilter&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;    &lt;property name=&quot;Criteria&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;    &lt;property name=&quot;Enabled&quot;&gt;true&lt;/property&gt;&#xD;&#xA;  &lt;/property&gt;&#xD;&#xA;  &lt;property name=&quot;Fields&quot; iskey=&quot;true&quot; value=&quot;6&quot;&gt;&#xD;&#xA;    &lt;property name=&quot;Item1&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;      &lt;property name=&quot;FieldName&quot;&gt;TranDate&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;UnboundFieldName&quot;&gt;Field_TranDate&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryFilter&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;StartValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;EndValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;Mode&quot;&gt;LastLevel&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;RowFieldComponentName&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ColumnFieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FilterValues&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Values&quot;&gt;~Xtra#Array0, &lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;ValuesCore&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;DeferFilterString&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ShowBlanks&quot;&gt;true&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FilterType&quot;&gt;Excluded&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Caption&quot;&gt;Tran Date&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Index&quot;&gt;0&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryType&quot;&gt;Count&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SortBySummaryInfo&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Conditions&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;FieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;GroupInterval&quot;&gt;Date&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CellFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot;&gt;{0:dd-MMM-yy}&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CustomTotals&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Options&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;AllowRunTimeSummaryChange&quot;&gt;true&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ToolTips&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;HeaderText&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ValueText&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ValueFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot;&gt;{0:dd-MMM-yy}&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;GrandTotalCellFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot;&gt;{0:d}&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FieldEditName&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;RunningTotal&quot;&gt;true&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Name&quot;&gt;Field_TranDate&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Area&quot;&gt;ColumnArea&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;AreaIndex&quot;&gt;0&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ActualSortMode&quot;&gt;Default&lt;/property&gt;&#xD;&#xA;    &lt;/property&gt;&#xD;&#xA;    &lt;property name=&quot;Item2&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;      &lt;property name=&quot;FieldName&quot;&gt;Account.BankAccountNumber&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryFilter&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;StartValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;EndValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;Mode&quot;&gt;LastLevel&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;RowFieldComponentName&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ColumnFieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FilterValues&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Values&quot;&gt;~Xtra#Array0, &lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;ValuesCore&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;DeferFilterString&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ShowBlanks&quot;&gt;true&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FilterType&quot;&gt;Excluded&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Caption&quot;&gt;Bank Account Number&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Index&quot;&gt;1&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryType&quot;&gt;Count&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SortBySummaryInfo&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Conditions&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;FieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CustomTotals&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Options&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;AllowRunTimeSummaryChange&quot;&gt;true&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ToolTips&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;HeaderText&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ValueText&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FieldEditName&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Name&quot;&gt;Field_Account.BankAccountNumber&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Area&quot;&gt;RowArea&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;AreaIndex&quot;&gt;0&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ActualSortMode&quot;&gt;Default&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SortOrder&quot;&gt;Descending&lt;/property&gt;&#xD;&#xA;    &lt;/property&gt;&#xD;&#xA;    &lt;property name=&quot;Item3&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;      &lt;property name=&quot;FieldName&quot;&gt;AccountCcyAmt&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryFilter&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;StartValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;EndValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;Mode&quot;&gt;LastLevel&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;RowFieldComponentName&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ColumnFieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FilterValues&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Values&quot;&gt;~Xtra#Array0, &lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;ValuesCore&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;DeferFilterString&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ShowBlanks&quot;&gt;true&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FilterType&quot;&gt;Excluded&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Caption&quot;&gt;Account Ccy Amt&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Index&quot;&gt;2&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SortBySummaryInfo&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Conditions&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;FieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CellFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot;&gt;{0:C}&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CustomTotals&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Options&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;AllowRunTimeSummaryChange&quot;&gt;true&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ToolTips&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;HeaderText&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ValueText&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ValueFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot;&gt;{0:C}&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;GrandTotalCellFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot;&gt;{0:C}&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FieldEditName&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Name&quot;&gt;Field_AccountCcyAmt&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Area&quot;&gt;DataArea&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;AreaIndex&quot;&gt;0&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ActualSortMode&quot;&gt;Default&lt;/property&gt;&#xD;&#xA;    &lt;/property&gt;&#xD;&#xA;    &lt;property name=&quot;Item4&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;      &lt;property name=&quot;FieldName&quot;&gt;LineType&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryFilter&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;StartValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;EndValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;Mode&quot;&gt;LastLevel&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;RowFieldComponentName&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ColumnFieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FilterValues&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Values&quot;&gt;~Xtra#Array0, &lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;ValuesCore&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;DeferFilterString&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ShowBlanks&quot;&gt;true&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FilterType&quot;&gt;Excluded&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Caption&quot;&gt;Line Type&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Index&quot;&gt;3&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryType&quot;&gt;Count&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SortBySummaryInfo&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Conditions&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;FieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CellFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CustomTotals&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Options&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;AllowRunTimeSummaryChange&quot;&gt;true&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ToolTips&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;HeaderText&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ValueText&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ValueFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;GrandTotalCellFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FieldEditName&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Name&quot;&gt;Field_LineType&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;AreaIndex&quot;&gt;0&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ActualSortMode&quot;&gt;Default&lt;/property&gt;&#xD;&#xA;    &lt;/property&gt;&#xD;&#xA;    &lt;property name=&quot;Item5&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;      &lt;property name=&quot;FieldName&quot;&gt;Snapshot.Name&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryFilter&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;StartValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;EndValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;Mode&quot;&gt;LastLevel&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;RowFieldComponentName&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ColumnFieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FilterValues&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Values&quot;&gt;~Xtra#Array0, &lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;ValuesCore&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;DeferFilterString&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ShowBlanks&quot;&gt;true&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FilterType&quot;&gt;Excluded&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Caption&quot;&gt;Snapshot&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Index&quot;&gt;4&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryType&quot;&gt;Count&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SortBySummaryInfo&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Conditions&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;FieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CustomTotals&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Options&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;AllowRunTimeSummaryChange&quot;&gt;true&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ToolTips&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;HeaderText&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ValueText&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FieldEditName&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Name&quot;&gt;Field_Snapshot.Name&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Area&quot;&gt;ColumnArea&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;AreaIndex&quot;&gt;1&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ActualSortMode&quot;&gt;Default&lt;/property&gt;&#xD;&#xA;    &lt;/property&gt;&#xD;&#xA;    &lt;property name=&quot;Item6&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;      &lt;property name=&quot;FieldName&quot;&gt;AccountCcyAmt&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SummaryFilter&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;StartValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;EndValue&quot; isnull=&quot;true&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;Mode&quot;&gt;LastLevel&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;RowFieldComponentName&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ColumnFieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FilterValues&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Values&quot;&gt;~Xtra#Array0, &lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;ValuesCore&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;DeferFilterString&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ShowBlanks&quot;&gt;true&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FilterType&quot;&gt;Excluded&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Caption&quot;&gt;Account Ccy Amt Var&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Index&quot;&gt;5&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;SortBySummaryInfo&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;Conditions&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;FieldComponentName&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CellFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot;&gt;{0:C}&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;CustomTotals&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Options&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;AllowRunTimeSummaryChange&quot;&gt;true&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ToolTips&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;HeaderText&quot; /&gt;&#xD;&#xA;        &lt;property name=&quot;ValueText&quot; /&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ValueFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot;&gt;{0:C}&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;GrandTotalCellFormat&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;        &lt;property name=&quot;FormatString&quot;&gt;{0:C}&lt;/property&gt;&#xD;&#xA;        &lt;property name=&quot;FormatType&quot;&gt;Custom&lt;/property&gt;&#xD;&#xA;      &lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;FieldEditName&quot; /&gt;&#xD;&#xA;      &lt;property name=&quot;Name&quot;&gt;Field_AccountCcyAmt&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;Area&quot;&gt;ColumnArea&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;AreaIndex&quot;&gt;2&lt;/property&gt;&#xD;&#xA;      &lt;property name=&quot;ActualSortMode&quot;&gt;Default&lt;/property&gt;&#xD;&#xA;    &lt;/property&gt;&#xD;&#xA;  &lt;/property&gt;&#xD;&#xA;  &lt;property name=&quot;OptionsChartDataSource&quot; isnull=&quot;true&quot; iskey=&quot;true&quot;&gt;&#xD;&#xA;    &lt;property name=&quot;DataProvideMode&quot;&gt;UseCustomSettings&lt;/property&gt;&#xD;&#xA;  &lt;/property&gt;&#xD;&#xA;  &lt;property name=&quot;Groups&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;  &lt;property name=&quot;FormatConditions&quot; iskey=&quot;true&quot; value=&quot;0&quot; /&gt;&#xD;&#xA;&lt;/XtraSerializer&gt;" IsNewNode="True" />
+    </ListView>
+    <DetailView Id="ActionRequest_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="DetailViewActions" ActionContainer="ActionRequestDetailViewActions" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutItem Id="DetailViewActionsObject" ViewItem="DetailViewActions" IsNewNode="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="Activity_ListView" AllowEdit="True" />
+    <DashboardView Id="AnalysisServicesTutorialPivotGridView" IsNewNode="True">
+      <Items IsNewNode="True">
+        <PivotGridViewItem Id="AnalysisServicesTutorialPivotGridViewItem" IsNewNode="True" />
+      </Items>
+      <Layout IsNewNode="True">
+        <LayoutGroup Id="Main" IsNewNode="True">
+          <LayoutItem Id="AnalysisServicesTutorialPivotGridViewItem" ViewItem="AnalysisServicesTutorialPivotGridViewItem" Index="0" IsNewNode="True" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+    <ListView Id="ApPmtDistn_ListView" UseServerMode="True" />
+    <DetailView Id="ArtfCustomerType_DetailView" ImageName="" />
+    <ListView Id="ArtfFromReceipt_LookupListView" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfReceipt" DetailViewID="ArtfReceipt_DetailView" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="ReceiptAlias" PropertyName="ReceiptAlias" Width="70" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="ReceiptDate" PropertyName="ReceiptDate" Width="70" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="ReceiptBatchNumber" PropertyName="ReceiptBatchNumber" Width="70" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="ReceiptNumber" PropertyName="ReceiptNumber" Width="70" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="Amount" PropertyName="Amount" Width="50" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="System" PropertyName="System" Width="70" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Width="70" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="RemittanceAccount" PropertyName="RemittanceAccount" Width="70" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="IsReversed" PropertyName="IsReversed" Width="50" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="ToUnreconTotal" PropertyName="ToUnreconTotal" Width="70" Index="9" IsNewNode="True" />
+        <ColumnInfo Id="FromUnreconTotal" PropertyName="FromUnreconTotal" Width="70" Index="10" IsNewNode="True" />
+        <ColumnInfo Id="FromReconTotal" PropertyName="FromReconTotal" Width="70" Index="11" IsNewNode="True" />
+        <ColumnInfo Id="ToReconTotal" PropertyName="ToReconTotal" Width="70" Index="12" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="ArtfGlCode_DetailView" ImageName="" />
+    <DetailView Id="ArtfLedger_DetailView" ImageName="">
+      <Items>
+        <PropertyEditor Id="Amount" Index="0" />
+        <PropertyEditor Id="Description" Index="2" />
+        <PropertyEditor Id="LedgerDate" Index="4" />
+        <PropertyEditor Id="LedgerId" Index="5" />
+        <PropertyEditor Id="System" Index="7" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="ArtfLedger">
+              <LayoutGroup Id="ArtfLedger_col1">
+                <LayoutItem Id="LedgerId" ViewItem="LedgerId" />
+                <LayoutItem Id="LedgerDate" ViewItem="LedgerDate" />
+                <LayoutItem Id="Amount" ViewItem="Amount" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors">
+            <LayoutItem Id="Description" ViewItem="Description" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ArtfLedger_ListView" NewItemRowPosition="Top" />
+    <DetailView Id="ArtfReceipt_DetailView">
+      <Items>
+        <PropertyEditor Id="Amount" Index="0" />
+        <PropertyEditor Id="ReceiptAlias" Index="2" />
+        <PropertyEditor Id="ReceiptBatchNumber" Index="3" />
+        <PropertyEditor Id="ReceiptDate" Index="4" />
+        <PropertyEditor Id="ReceiptNumber" Index="5" />
+      </Items>
+    </DetailView>
+    <ListView Id="ArtfReceipt_ListView">
+      <Columns>
+        <ColumnInfo Id="System" Index="5" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArtfRecon_ArtfTasks_ListView">
+      <Columns>
+        <ColumnInfo Id="ArtfRecon" Caption="Recon Id" />
+      </Columns>
+    </ListView>
+    <DetailView Id="ArtfRecon_DetailView" Caption="Reconciliation" FreezeLayout="True" DefaultFocusedItem="CustomerType">
+      <Items>
+        <PropertyEditor Id="Amount" Index="0" />
+        <PropertyEditor Id="ArtfTasks" Index="1" />
+        <PropertyEditor Id="BankStmt" Caption="Id" Index="2" />
+        <PropertyEditor Id="BankStmtTranAmount" PropertyName="BankStmt.TranAmount" Caption="Amount" Index="3" IsNewNode="True" />
+        <PropertyEditor Id="BankStmtDate" PropertyName="BankStmt.TranDate" Index="4" IsNewNode="True" />
+        <PropertyEditor Id="BankStmtAccount" PropertyName="BankStmt.Account" Index="5" IsNewNode="True" />
+        <PropertyEditor Id="Comments" Index="6" />
+        <PropertyEditor Id="CreatedBy" Index="7" />
+        <PropertyEditor Id="CustomerAccount" Index="8" />
+        <PropertyEditor Id="CustomerInvoice" Index="9" />
+        <PropertyEditor Id="CustomerType" Index="10" />
+        <PropertyEditor Id="FromLedger" Caption="Id" Index="11" />
+        <PropertyEditor Id="FromLedgerDate" PropertyName="FromLedger.LedgerDate" Index="12" IsNewNode="True" />
+        <PropertyEditor Id="FromLedgerAmount" PropertyName="FromLedger.Amount" Index="13" IsNewNode="True" />
+        <PropertyEditor Id="FromLedgerUnreconTotal" PropertyName="FromLedger.FromUnreconTotal" Index="14" IsNewNode="True" />
+        <PropertyEditor Id="FromReceipt" Caption="Id" Index="15" View="" />
+        <PropertyEditor Id="FromReceiptAmount" PropertyName="FromReceipt.Amount" Index="16" IsNewNode="True" />
+        <PropertyEditor Id="FromReceiptDate" PropertyName="FromReceipt.ReceiptDate" Caption="Date" Index="17" IsNewNode="True" />
+        <PropertyEditor Id="FromReceiptUnreconTotal" PropertyName="FromReceipt.FromUnreconTotal" Caption="Unreconciled" Index="18" IsNewNode="True" />
+        <PropertyEditor Id="ReconDate" Index="19" />
+        <PropertyEditor Id="ToLedger" Caption="Id" Index="20" />
+        <PropertyEditor Id="ToLedgerDate" PropertyName="ToLedger.LedgerDate" Caption="Date" Index="21" IsNewNode="True" />
+        <PropertyEditor Id="ToLedgerAmount" PropertyName="ToLedger.Amount" Index="22" IsNewNode="True" />
+        <PropertyEditor Id="ToLedgerUnreconTotal" PropertyName="ToLedger.ToUnreconTotal" Caption="Unreconciled" Index="23" IsNewNode="True" />
+        <PropertyEditor Id="ReconId" Index="24" />
+        <PropertyEditor Id="TfrToBankAccount" Index="25" />
+        <PropertyEditor Id="ToReceipt" Caption="Id" Index="26" View="" />
+        <PropertyEditor Id="ToReceiptDate" PropertyName="ToReceipt.ReceiptDate" Index="27" IsNewNode="True" />
+        <PropertyEditor Id="ToReceiptAmount" PropertyName="ToReceipt.Amount" Index="28" IsNewNode="True" />
+        <PropertyEditor Id="ToReceiptUnreconTotal" PropertyName="ToReceipt.ToUnreconTotal" Caption="Unreconciled" Index="29" IsNewNode="True" />
+      </Items>
+      <Layout IsNewNode="True" Removed="True">
+        <LayoutGroup Id="Main" Index="0" ShowCaption="False" RelativeSize="100" IsNewNode="True">
+          <LayoutGroup Id="SimpleEditors" Index="0" ShowCaption="False" RelativeSize="54" IsNewNode="True">
+            <LayoutGroup Id="ArtfRecon" Index="0" Direction="Vertical" ShowCaption="True" Caption="Reconcliation" RelativeSize="0" IsNewNode="True">
+              <LayoutGroup Id="ArtfRecon_row1" Direction="Horizontal" Index="1" IsNewNode="True">
+                <LayoutItem Id="ReconId" ViewItem="ReconId" Index="0" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
+                <LayoutItem Id="ReconDate" ViewItem="ReconDate" Index="1" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
+                <LayoutItem Id="Amount" ViewItem="Amount" Index="2" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="ArtfRecon_row2" Index="2" Direction="Horizontal" IsNewNode="True">
+                <LayoutItem Id="Comments" ViewItem="Comments" Index="-1" SizeConstraintsType="Default" RelativeSize="47" IsNewNode="True" />
+                <LayoutItem Id="CreatedBy" ViewItem="CreatedBy" Index="-1" SizeConstraintsType="Default" RelativeSize="52" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="ReconFrom" Index="1" Direction="Vertical" ShowCaption="True" RelativeSize="37" Caption="From" IsNewNode="True">
+              <LayoutGroup Id="ReconFromBankStmt" Index="0" ShowCaption="True" RelativeSize="0" Caption="Bank Stmt" Direction="Horizontal" IsNewNode="True">
+                <LayoutGroup Id="BankStmt_col1" Index="3" Direction="Vertical" IsNewNode="True">
+                  <LayoutItem Id="BankStmt" Index="0" ViewItem="BankStmt" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
+                  <LayoutItem Id="BankStmtAccount" ViewItem="BankStmtAccount" Index="1" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutGroup Id="BankStmt_col2" Direction="Vertical" IsNewNode="True">
+                  <LayoutItem Id="BankStmtDate" ViewItem="BankStmtDate" Index="2" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
+                  <LayoutItem Id="BankStmtTranAmount" ViewItem="BankStmtTranAmount" Index="4" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
+                </LayoutGroup>
+              </LayoutGroup>
+              <LayoutGroup Id="ReconFromRequest" Direction="Horizontal" IsNewNode="True">
+                <LayoutGroup Id="Receipt" Index="1" ShowCaption="True" RelativeSize="0" IsNewNode="True">
+                  <LayoutItem Id="FromReceipt" ViewItem="FromReceipt" Index="0" SizeConstraintsType="Default" RelativeSize="24" IsNewNode="True" />
+                  <LayoutItem Id="FromReceiptAmount" ViewItem="FromReceiptAmount" Index="1" SizeConstraintsType="Default" RelativeSize="18" IsNewNode="True" />
+                  <LayoutItem Id="FromReceiptUnreconTotal" ViewItem="FromReceiptUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="24" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutGroup Id="Ledger" Index="2" ShowCaption="True" RelativeSize="0" IsNewNode="True">
+                  <LayoutItem Id="FromLedger" ViewItem="FromLedger" Index="0" SizeConstraintsType="Default" RelativeSize="24" IsNewNode="True" />
+                  <LayoutItem Id="FromLedgerAmount" ViewItem="FromLedgerAmount" Index="1" SizeConstraintsType="Default" RelativeSize="18" IsNewNode="True" />
+                  <LayoutItem Id="FromLedgerUnreconTotal" ViewItem="FromLedgerUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="24" IsNewNode="True" />
+                </LayoutGroup>
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="ReconTo" Direction="Vertical" ShowCaption="True" Index="2" RelativeSize="44" Caption="To" IsNewNode="True">
+              <LayoutGroup Id="ReconToTarget" Index="0" ShowCaption="True" RelativeSize="31" Caption="Target" Direction="Horizontal" IsNewNode="True">
+                <LayoutGroup Id="ReconToTarget_col1" Index="3" IsNewNode="True">
+                  <LayoutItem Id="CustomerType" Index="0" ViewItem="CustomerType" IsNewNode="True" />
+                  <LayoutItem Id="TfrToBankAccount" ViewItem="TfrToBankAccount" Index="1" SizeConstraintsType="Default" RelativeSize="0" ToolTipIconType="None" ToolTip="ToolTip" ToolTipTitle="" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutGroup Id="ReconToTarget_col2" IsNewNode="True">
+                  <LayoutItem Id="CustomerAccount" ViewItem="CustomerAccount" Index="2" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
+                  <LayoutItem Id="CustomerInvoice" ViewItem="CustomerInvoice" Index="4" SizeConstraintsType="Default" RelativeSize="20" IsNewNode="True" />
+                </LayoutGroup>
+              </LayoutGroup>
+              <LayoutGroup Id="ReconToRequest" Direction="Horizontal" IsNewNode="True">
+                <LayoutGroup Id="ReconToReceipt" Index="1" ShowCaption="True" RelativeSize="0" Caption="Receipt" IsNewNode="True">
+                  <LayoutItem Id="ToReceipt" ViewItem="ToReceipt" Index="0" SizeConstraintsType="Default" RelativeSize="20" IsNewNode="True" />
+                  <LayoutItem Id="ToReceiptAmount" ViewItem="ToReceiptAmount" Index="1" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
+                  <LayoutItem Id="ToReceiptUnreconTotal" ViewItem="ToReceiptUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="36" IsNewNode="True" />
+                </LayoutGroup>
+                <LayoutGroup Id="ReconToLedger" Index="2" ShowCaption="True" RelativeSize="0" Caption="Ledger" IsNewNode="True">
+                  <LayoutItem Id="ToLedger" ViewItem="ToLedger" Index="0" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
+                  <LayoutItem Id="ToLedgerAmount" ViewItem="ToLedgerAmount" Index="1" SizeConstraintsType="Default" RelativeSize="36" IsNewNode="True" />
+                  <LayoutItem Id="ToLedgerUnreconTotal" ViewItem="ToLedgerUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="20" IsNewNode="True" />
+                </LayoutGroup>
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="ArtfTasks_Group" Index="2" ShowCaption="True" RelativeSize="38" Caption="ArtfTasks" IsNewNode="True">
+            <LayoutItem Id="ArtfTasks" ViewItem="ArtfTasks" Index="0" SizeConstraintsType="Default" RelativeSize="86" IsNewNode="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ArtfRecon_ListView_Grouped" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfRecon" Caption="Reconciliations" IsGroupPanelVisible="True" AllowEdit="True" NewItemRowPosition="Top" AutoExpandAllGroups="True" IsFooterVisible="True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Comments" PropertyName="Comments" Width="70" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Width="70" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="CustomerAccount" PropertyName="CustomerAccount" Width="70" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="CustomerInvoice" PropertyName="CustomerInvoice" Width="70" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="FromReceipt" PropertyName="FromReceipt" Width="70" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="ReconId" PropertyName="ReconId" Width="70" Index="-1" SortOrder="Descending" IsNewNode="True" />
+        <ColumnInfo Id="TfrToBankAccount" PropertyName="TfrToBankAccount" Width="70" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="ToReceipt" PropertyName="ToReceipt" Width="70" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="ReconDate" PropertyName="ReconDate" Width="70" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Amount" PropertyName="Amount" Width="50" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="FromCustomerType" PropertyName="BankStmt" Width="70" Index="2" LookupProperty="Account.ArtfCustomerType" Caption="From Customer Type" GroupIndex="1" IsNewNode="True" />
+        <ColumnInfo Id="BankStmt" PropertyName="BankStmt" Width="70" Index="3" LookupProperty="Id" IsNewNode="True" />
+        <ColumnInfo Id="FromBankStmtDate" PropertyName="BankStmt.TranDate" Caption="Stmt Date" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="FromBankAccount" PropertyName="BankStmt.Account.BankAccountNumber" Caption="From Bank Acc" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="FromLedger" PropertyName="FromLedger" Width="70" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="ToCustomerType" PropertyName="CustomerType" Width="70" Index="7" GroupIndex="0" Caption="To Customer Type" IsNewNode="True" />
+        <ColumnInfo Id="ToLedger" PropertyName="ToLedger" Width="70" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="TfrToBankAccountFinal" PropertyName="TfrToBankAccountFinal" Width="70" Index="9" Caption="To Bank Acc" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArtfRecon_ListView_Pivot" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfRecon" Caption="Pivot Grid" AllowEdit="True" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Index="-1" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="CustomerAccount" PropertyName="CustomerAccount" Index="-1" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="CustomerInvoice" PropertyName="CustomerInvoice" Index="-1" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="TfrToBankAccount" PropertyName="TfrToBankAccount" Index="-1" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="ReconId" PropertyName="ReconId" Index="0" Width="70" SortOrder="Descending" IsNewNode="True" />
+        <ColumnInfo Id="ReconDate" PropertyName="ReconDate" Index="1" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="Amount" PropertyName="Amount" Index="2" Width="50" IsNewNode="True" />
+        <ColumnInfo Id="CustomerType" PropertyName="CustomerType" Index="3" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="BankStmt" PropertyName="BankStmt" Index="4" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="FromLedger" PropertyName="FromLedger" Index="6" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="FromReceipt" PropertyName="FromReceipt" Index="7" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="ToLedger" PropertyName="ToLedger" Index="8" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="ToReceipt" PropertyName="ToReceipt" Index="9" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="Comments" PropertyName="Comments" Index="10" Width="70" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArtfRecon_ListView_Varied" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfRecon" IsNewNode="True">
+      <Variants Current="Default" IsNewNode="True">
+        <Variant Id="Default" ViewID="ArtfRecon_ListView" Caption="Default" IsNewNode="True" />
+        <Variant Id="Grouped" ViewID="ArtfRecon_ListView_Grouped" Caption="Grouped" IsNewNode="True" />
+      </Variants>
+    </ListView>
+    <ListView Id="ArtfRecon_LookupListView" AllowEdit="True" DetailViewID="ArtfRecon_DetailView" />
+    <DetailView Id="ArtfReconTaskMap_DetailView">
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100" ImageName="" Caption="Main" CaptionLocation="Default" CaptionWordWrap="Default" CaptionHorizontalAlignment="Default" CaptionVerticalAlignment="Default">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100" ImageName="">
+            <LayoutGroup Id="Item2" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="19" Caption="Task" Direction="Horizontal" IsNewNode="True">
+              <LayoutGroup Id="ArtfReconTaskMap_col1" ShowCaption="False" Index="0" RelativeSize="45" IsNewNode="True">
+                <LayoutItem Id="FromCustomerType" ViewItem="FromCustomerType" SizeConstraintsType="Default" Index="0" RelativeSize="28" IsNewNode="True" />
+                <LayoutItem Id="ToCustomerType" ViewItem="ToCustomerType" SizeConstraintsType="Default" Index="1" RelativeSize="21" IsNewNode="True" />
+                <LayoutItem Id="CanFromLedger" ViewItem="CanFromLedger" Index="2" IsNewNode="True" />
+                <LayoutItem Id="CanToLedger" ViewItem="CanToLedger" IsNewNode="True" />
+                <LayoutItem Id="LedgerFromGlCode" ViewItem="LedgerFromGlCode" IsNewNode="True" />
+                <LayoutItem Id="LedgerToGlCode" ViewItem="LedgerToGlCode" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="ArtfReconTaskMap_col2" ShowCaption="False" Index="1" RelativeSize="49" IsNewNode="True">
+                <LayoutItem Id="IsBankTfr" ViewItem="IsBankTfr" SizeConstraintsType="Default" Index="0" RelativeSize="28" IsNewNode="True" />
+                <LayoutItem Id="TfrFromBankAccount" ViewItem="TfrFromBankAccount" SizeConstraintsType="Default" Index="1" RelativeSize="21" IsNewNode="True" />
+                <LayoutItem Id="TfrToBankAccount" ViewItem="TfrToBankAccount" SizeConstraintsType="Default" Index="2" RelativeSize="21" IsNewNode="True" />
+                <LayoutItem Id="IsReclassedToActivity" ViewItem="IsReclassedToActivity" SizeConstraintsType="Default" Index="3" RelativeSize="28" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="Item1" ShowCaption="True" Caption="General Ledger" CaptionLocation="Top" Direction="Horizontal" Index="1" RelativeSize="11" IsNewNode="True">
+              <LayoutGroup Id="ArtfReconTaskMap_col1" ShowCaption="False" Caption="" Index="0" RelativeSize="45" IsNewNode="True">
+                <LayoutItem Id="GlDebitGlCode" ViewItem="GlDebitGlCode" SizeConstraintsType="Default" Index="0" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="GlCreditGlCode" ViewItem="GlCreditGlCode" SizeConstraintsType="Default" Index="1" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="ArtfReconTaskMap_col2" ShowCaption="False" Caption="" Index="1" RelativeSize="49" IsNewNode="True">
+                <LayoutItem Id="GlDebitBaccountCustType" ViewItem="GlDebitBaccountCustType" SizeConstraintsType="Default" Index="0" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="GlCreditBaccountCustType" ViewItem="GlCreditBaccountCustType" SizeConstraintsType="Default" Index="1" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="AdditionalInformation" ShowCaption="True" Caption="Additional Information" IsNewNode="True">
+              <LayoutItem Id="Description" ViewItem="Description" SizeConstraintsType="Default" Index="2" RelativeSize="3" IsNewNode="True" />
+              <LayoutItem Id="Comments" ViewItem="Comments" SizeConstraintsType="Default" Index="3" RelativeSize="65" IsNewNode="True" />
+            </LayoutGroup>
+            <LayoutGroup Id="ArtfReconTaskMap" RelativeSize="19" ImageName="" Removed="True">
+              <LayoutGroup Id="ArtfReconTaskMap_col1" ShowCaption="False" Index="0" RelativeSize="45" IsNewNode="True" Removed="True">
+                <LayoutItem Id="FromCustomerType" ViewItem="FromCustomerType" SizeConstraintsType="Default" Index="0" RelativeSize="28" IsNewNode="True" />
+                <LayoutItem Id="ToCustomerType" ViewItem="ToCustomerType" SizeConstraintsType="Default" Index="1" RelativeSize="21" IsNewNode="True" />
+                <LayoutItem Id="LedgerGlCode" ViewItem="LedgerGlCode" SizeConstraintsType="Default" Index="2" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="ArtfReconTaskMap_col2" RelativeSize="49" ImageName="">
+                <LayoutItem Id="IsBankTfr" SizeConstraintsType="Default" RelativeSize="28" Index="0" ViewItem="IsBankTfr" />
+                <LayoutItem Id="TfrFromBankAccount" SizeConstraintsType="Default" RelativeSize="21" Index="1" ViewItem="TfrFromBankAccount" />
+                <LayoutItem Id="TfrToBankAccount" SizeConstraintsType="Default" RelativeSize="21" Index="2" ViewItem="TfrToBankAccount" />
+                <LayoutItem Id="IsReclassedToActivity" SizeConstraintsType="Default" RelativeSize="28" Index="3" ViewItem="IsReclassedToActivity" />
+                <LayoutItem Id="GlDebitBaccountCustType" SizeConstraintsType="Default" RelativeSize="23" ViewItem="GlDebitBaccountCustType" Removed="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors" RelativeSize="70" ImageName="" Removed="True">
+            <LayoutItem Id="Comments" SizeConstraintsType="Default" RelativeSize="100" ViewItem="Comments" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="ArtfTask_DetailView" Caption="Tasks">
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutItem Id="Comments" ViewItem="Comments" Index="2" IsNewNode="True" />
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors">
+            <LayoutItem Id="Comments" Removed="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ArtfTask_ListView" Caption="Tasks" AllowEdit="True">
+      <Columns>
+        <ColumnInfo Id="ArtfRecon" Caption="Recon Id" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArtfToReceipt_LookupListView" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfReceipt" DetailViewID="ArtfReceipt_DetailView" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="ReceiptAlias" PropertyName="ReceiptAlias" Width="70" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="ReceiptDate" PropertyName="ReceiptDate" Width="70" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="ReceiptBatchNumber" PropertyName="ReceiptBatchNumber" Width="70" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="ReceiptNumber" PropertyName="ReceiptNumber" Width="70" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="Amount" PropertyName="Amount" Width="50" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="System" PropertyName="System" Width="70" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Width="70" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="RemittanceAccount" PropertyName="RemittanceAccount" Width="70" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="IsReversed" PropertyName="IsReversed" Width="50" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="ToUnreconTotal" PropertyName="ToUnreconTotal" Width="70" Index="9" IsNewNode="True" />
+        <ColumnInfo Id="FromUnreconTotal" PropertyName="FromUnreconTotal" Width="70" Index="10" IsNewNode="True" />
+        <ColumnInfo Id="FromReconTotal" PropertyName="FromReconTotal" Width="70" Index="11" IsNewNode="True" />
+        <ColumnInfo Id="ToReconTotal" PropertyName="ToReconTotal" Width="70" Index="12" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="BankStmt_DetailView" AllowEdit="True" AllowNew="True" AllowDelete="True" ImageName="">
+      <Items>
+        <PropertyEditor Id="OraTrxNum" AllowEdit="False" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="BankStmt" Index="0" Direction="Vertical" ShowCaption="True" Caption="Bank Stmt" IsNewNode="True">
+            <LayoutGroup Id="SimpleEditors" ShowCaption="False" Index="0" Direction="Horizontal" IsNewNode="True">
+              <LayoutGroup Id="BankStmt_col1" Index="0" ShowCaption="False" IsNewNode="True">
+                <LayoutItem Id="OraTrxNum" ViewItem="OraTrxNum" Index="0" IsNewNode="True" />
+                <LayoutItem Id="BankStmtId" Index="1" ViewItem="BankStmtId" IsNewNode="True" />
+                <LayoutItem Id="Account" ViewItem="Account" Index="2" IsNewNode="True" />
+                <LayoutItem Id="TranDate" ViewItem="TranDate" Index="3" IsNewNode="True" />
+                <LayoutItem Id="TranType" ViewItem="TranType" Index="4" IsNewNode="True" />
+                <LayoutItem Id="TranRef" ViewItem="TranRef" Index="5" IsNewNode="True" />
+                <LayoutItem Id="TranAmount" ViewItem="TranAmount" Index="6" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="BankStmt_col2" Index="1" ShowCaption="False" IsNewNode="True">
+                <LayoutItem Id="Activity" ViewItem="Activity" Index="0" IsNewNode="True" />
+                <LayoutItem Id="Counterparty" ViewItem="Counterparty" Index="1" IsNewNode="True" />
+                <LayoutItem Id="FunctionalCcyAmt" ViewItem="FunctionalCcyAmt" Index="2" IsNewNode="True" />
+                <LayoutItem Id="CounterCcyAmt" ViewItem="CounterCcyAmt" Index="3" IsNewNode="True" />
+                <LayoutItem Id="CounterCcy" ViewItem="CounterCcy" Index="4" IsNewNode="True" />
+                <LayoutItem Id="ArtfReconTotal" Index="5" ViewItem="ArtfReconTotal" IsNewNode="True" />
+                <LayoutItem Id="GenLedgerFuncTotal" ViewItem="GenLedgerFuncTotal" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutItem Id="TranDescription" ViewItem="TranDescription" Index="2" MaxSize="0, 1" RelativeSize="1" IsNewNode="True" />
+            <LayoutItem Id="SummaryDescription" ViewItem="SummaryDescription" MaxSize="0, 1" RelativeSize="1" Index="3" IsNewNode="True" />
+          </LayoutGroup>
+          <LayoutGroup Id="SimpleEditors" Removed="True">
+            <LayoutGroup Id="BankStmt" Removed="True">
+              <LayoutItem Id="TranDescription" ViewItem="TranDescription" Index="2" MaxSize="0, 1" RelativeSize="1" IsNewNode="True" />
+              <LayoutItem Id="SummaryDescription" ViewItem="SummaryDescription" MaxSize="0, 1" RelativeSize="1" Index="3" IsNewNode="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors" RelativeSize="1" Removed="True">
+            <LayoutItem Id="SummaryDescription" MaxSize="0, 1" RelativeSize="1" ViewItem="SummaryDescription" Removed="True" />
+            <LayoutItem Id="TranDescription" MaxSize="0, 1" RelativeSize="1" ViewItem="TranDescription" Removed="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="BankStmt_ListView" AllowEdit="True" NewItemRowPosition="Top" UseServerMode="True">
+      <Columns>
+        <ColumnInfo Id="TranDate" SortOrder="Descending" />
+      </Columns>
+    </ListView>
+    <ListView Id="BankStmt_ListView_Artf" UseServerMode="True" AllowNew="False" AllowDelete="False" ShowAutoFilterRow="True" ClassName="CTMS.Module.BusinessObjects.Cash.BankStmt" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="SummaryDescription" PropertyName="SummaryDescription" Width="70" Index="-1" IsNewNode="True" />
+        <ColumnInfo Id="BankStmtId" PropertyName="BankStmtId" Width="41" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="TranDate" PropertyName="TranDate" Width="81" Index="1" View="" SortIndex="0" SortOrder="Descending" IsNewNode="True" />
+        <ColumnInfo Id="Account" PropertyName="Account" Width="92" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="TranType" PropertyName="TranType" Width="88" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="TranRef" PropertyName="TranRef" Width="72" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="TranAmount" PropertyName="TranAmount" Width="77" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="TranDescription" PropertyName="TranDescription" Width="120" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="Activity" PropertyName="Activity" Width="90" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="Counterparty" PropertyName="Counterparty" Width="71" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="ArtfReconTotal" PropertyName="ArtfReconTotal" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="BankStmt_ListView_FCA" UseServerMode="True" ShowAutoFilterRow="True" AllowDelete="False" AllowNew="False" ClassName="CTMS.Module.BusinessObjects.Cash.BankStmt" IsNewNode="True">
+      <Columns IsNewNode="True">
+        <ColumnInfo Id="Id" PropertyName="Id" Index="0" Width="50" IsNewNode="True" />
+        <ColumnInfo Id="TranDate" PropertyName="TranDate" Index="1" Width="70" SortIndex="0" SortOrder="Ascending" IsNewNode="True" />
+        <ColumnInfo Id="Account" Index="2" PropertyName="Account" IsNewNode="True" />
+        <ColumnInfo Id="TranType" PropertyName="TranType" Index="3" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="TranRef" PropertyName="TranRef" Index="4" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="TranAmount" PropertyName="TranAmount" Index="5" Width="50" IsNewNode="True" />
+        <ColumnInfo Id="FunctionalCcyAmt" PropertyName="FunctionalCcyAmt" Index="6" Width="50" IsNewNode="True" />
+        <ColumnInfo Id="Activity" PropertyName="Activity" Index="7" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="Counterparty" PropertyName="Counterparty" Index="8" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="TranDescription" PropertyName="TranDescription" Index="9" Width="70" IsNewNode="True" />
+        <ColumnInfo Id="SummaryDescription" PropertyName="SummaryDescription" Index="10" Width="70" IsNewNode="True" />
+      </Columns>
+      <Filters CurrentFilterId="AR_FCA_Filter" IsNewNode="True">
+        <Filter Id="AR_FCA_Filter" Criteria="[Account.Name] In ('VHA ANZ USD', 'VHA ANZ EUR', 'VHA ANZ NZD', 'VHA ANZ GBP') And Not [Activity.Name] In ('Pymt', 'Rcpt', 'TSY Rcpt') And [Activity.Dim_1_1] = 'Receipts'" Caption="AR FCA Filter" IsNewNode="True" />
+      </Filters>
+    </ListView>
+    <ListView Id="BankStmt_LookupListView" UseServerMode="True">
+      <Columns>
+        <ColumnInfo Id="Id" PropertyName="Id" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="OraTrxNum" Index="1" Removed="True" />
+        <ColumnInfo Id="TranDate" Width="80" Index="2" />
+        <ColumnInfo Id="Account" Index="3" />
+        <ColumnInfo Id="Activity" PropertyName="Activity" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="TranAmount" PropertyName="TranAmount" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="TranDescription" Index="6" />
+      </Columns>
+    </ListView>
+    <DashboardView Id="BankStmtPivotGridView" Caption="Bank Stmt Pivot Grid" IsNewNode="True">
+      <Items IsNewNode="True">
+        <PivotGridViewItem Id="PivotGridViewItem" IsNewNode="True" />
+      </Items>
+      <Layout IsNewNode="True">
+        <LayoutGroup Id="Main" IsNewNode="True">
+          <LayoutItem Id="PivotGridViewItem" ViewItem="PivotGridViewItem" Index="0" IsNewNode="True" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+    <DetailView Id="CashFlow_DetailView">
+      <Items>
+        <PropertyEditor Id="ForexLinkedAccountCcyAmt" Caption="Linked Account Ccy Amt" />
+        <PropertyEditor Id="ForexLinkIsClosed" Caption="Link Is Closed" />
+        <PropertyEditor Id="ForexSettleGroupId" Caption="Settle Group Id" />
+        <PropertyEditor Id="ForexSettleLinksIn" Caption="Settle Links In" />
+        <PropertyEditor Id="ForexSettleLinksOut" Caption="Settle Links Out" />
+        <PropertyEditor Id="ForexSettleType" Caption="Settle Type" />
+        <PropertyEditor Id="ForexUnlinkedAccountCcyAmt" Caption="Unlinked Account Ccy Amt" />
+        <PropertyEditor Id="ParentCashFlow" PropertyName="ParentCashFlow" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" CaptionHorizontalAlignment="Default" CaptionWordWrap="Wrap" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="47.6" CaptionWordWrap="Wrap">
+            <LayoutGroup Id="CashFlow" RelativeSize="54.061624649859944">
+              <LayoutGroup Id="CashFlow_col1" RelativeSize="48.533333333333331">
+                <LayoutItem Id="CashFlowId" SizeConstraintsType="Default" RelativeSize="20" />
+                <LayoutItem Id="AccountCcyAmt" SizeConstraintsType="Default" Index="2" RelativeSize="15" />
+                <LayoutItem Id="FunctionalCcyAmt" SizeConstraintsType="Default" Index="3" RelativeSize="15" />
+                <LayoutItem Id="TranDate" SizeConstraintsType="Default" RelativeSize="15" />
+                <LayoutItem Id="CounterCcyAmt" SizeConstraintsType="Default" Index="4" RelativeSize="15" />
+                <LayoutItem Id="CounterCcy" SizeConstraintsType="Default" Index="5" RelativeSize="20" />
+                <LayoutItem Id="Account" Removed="True" />
+                <LayoutItem Id="Activity" Removed="True" />
+                <LayoutItem Id="Counterparty" Removed="True" />
+                <LayoutItem Id="FixRank" Removed="True" />
+                <LayoutItem Id="Source" Removed="True" />
+                <LayoutItem Id="Status" Removed="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="CashFlow_col2" RelativeSize="48.533333333333331">
+                <LayoutItem Id="Account" ViewItem="Account" Index="0" SizeConstraintsType="Default" RelativeSize="20" IsNewNode="True" />
+                <LayoutItem Id="Activity" ViewItem="Activity" Index="1" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
+                <LayoutItem Id="Counterparty" ViewItem="Counterparty" Index="2" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
+                <LayoutItem Id="Source" ViewItem="Source" Index="3" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
+                <LayoutItem Id="Status" ViewItem="Status" Index="4" SizeConstraintsType="Default" RelativeSize="35" IsNewNode="True" />
+                <LayoutItem Id="DateUnFix" Removed="True" />
+                <LayoutItem Id="FixActivity" Removed="True" />
+                <LayoutItem Id="Fixer" Removed="True" />
+                <LayoutItem Id="FixFromDate" Removed="True" />
+                <LayoutItem Id="FixToDate" Removed="True" />
+                <LayoutItem Id="ForexLinkedAccountCcyAmt" Removed="True" />
+                <LayoutItem Id="ForexLinkIsClosed" Removed="True" />
+                <LayoutItem Id="ForexSettleGroupId" Removed="True" />
+                <LayoutItem Id="ForexSettleType" Removed="True" />
+                <LayoutItem Id="ForexUnlinkedAccountCcyAmt" Removed="True" />
+                <LayoutItem Id="IsFixUpdated" Removed="True" />
+                <LayoutItem Id="IsReclass" Removed="True" />
+                <LayoutItem Id="ParentCashFlow" Removed="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="Forex" ShowCaption="True" Index="1" RelativeSize="45.938375350140056" CaptionWordWrap="Wrap" Direction="Horizontal" IsNewNode="True">
+              <LayoutGroup Id="Forex_col1" Index="4" IsNewNode="True">
+                <LayoutItem Id="ForexSettleType" ViewItem="ForexSettleType" Index="0" SizeConstraintsType="Default" RelativeSize="19.512195121951219" IsNewNode="True" />
+                <LayoutItem Id="ForexLinkedAccountCcyAmt" ViewItem="ForexLinkedAccountCcyAmt" Index="1" SizeConstraintsType="Default" RelativeSize="14.634146341463415" IsNewNode="True" />
+                <LayoutItem Id="ForexUnlinkedAccountCcyAmt" ViewItem="ForexUnlinkedAccountCcyAmt" Index="2" SizeConstraintsType="Default" MinSize="203, 24" MaxSize="0, 0" RelativeSize="14.634146341463415" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Forex_col2" IsNewNode="True">
+                <LayoutItem Id="ForexLinkIsClosed" ViewItem="ForexLinkIsClosed" Index="3" SizeConstraintsType="Default" RelativeSize="14.634146341463415" IsNewNode="True" />
+                <LayoutItem Id="ForexSettleGroupId" ViewItem="ForexSettleGroupId" Index="5" SizeConstraintsType="Default" RelativeSize="19.512195121951219" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="Forecast" Direction="Horizontal" ShowCaption="True" Index="3" RelativeSize="19.333333333333332" IsNewNode="True">
+              <LayoutGroup Id="Forecast_col1" Index="0" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
+                <LayoutItem Id="Fix" ViewItem="Fix" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
+                <LayoutItem Id="DateUnFix" ViewItem="DateUnFix" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="FixFromDate" ViewItem="FixFromDate" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="FixRank" ViewItem="FixRank" Index="2" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="FixToDate" ViewItem="FixToDate" Index="2" SizeConstraintsType="Default" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Forecast_col2" Index="2" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
+                <LayoutItem Id="FixActivity" ViewItem="FixActivity" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
+                <LayoutItem Id="IsReclass" ViewItem="IsReclass" Index="1" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
+                <LayoutItem Id="Fixer" ViewItem="Fixer" Index="2" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
+                <LayoutItem Id="ParentCashFlow" ViewItem="ParentCashFlow" Index="3" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="IsFixUpdated" ViewItem="IsFixUpdated" Index="4" SizeConstraintsType="Default" RelativeSize="50" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors" RelativeSize="4.4">
+            <LayoutItem Id="Description" MaxSize="0, 1" SizeConstraintsType="Default" RelativeSize="100" />
+          </LayoutGroup>
+          <TabbedGroup Id="Tabs" RelativeSize="28.666666666666668">
+            <LayoutGroup Id="BankStmts" RelativeSize="100">
+              <LayoutItem Id="BankStmts" SizeConstraintsType="Default" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="PrimaryCashFlowForexTrades" RelativeSize="100">
+              <LayoutItem Id="PrimaryCashFlowForexTrades" SizeConstraintsType="Default" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="CounterCashFlowForexTrades" RelativeSize="100">
+              <LayoutItem Id="CounterCashFlowForexTrades" SizeConstraintsType="Default" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="ChildCashFlows" RelativeSize="100">
+              <LayoutItem Id="ChildCashFlows" SizeConstraintsType="Default" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="Fixees" RelativeSize="100">
+              <LayoutItem Id="Fixees" SizeConstraintsType="Default" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="ForexSettleLinksIn" RelativeSize="100">
+              <LayoutItem Id="ForexSettleLinksIn" SizeConstraintsType="Default" RelativeSize="100" />
+            </LayoutGroup>
+            <LayoutGroup Id="ForexSettleLinksOut" RelativeSize="100">
+              <LayoutItem Id="ForexSettleLinksOut" SizeConstraintsType="Default" RelativeSize="100" />
+            </LayoutGroup>
+          </TabbedGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="CashFlow_ListView" UseServerMode="True" DetailViewID="" />
+    <ListView Id="CashFlow_LookupListView">
+      <Columns>
+        <ColumnInfo Id="TranDate" PropertyName="TranDate" Width="70" Index="1" IsNewNode="True" />
+        <ColumnInfo Id="Account" PropertyName="Account" Width="70" Index="2" IsNewNode="True" />
+        <ColumnInfo Id="Activity" PropertyName="Activity" Width="70" Index="3" IsNewNode="True" />
+        <ColumnInfo Id="Counterparty" PropertyName="Counterparty" Width="70" Index="4" IsNewNode="True" />
+        <ColumnInfo Id="AccountCcyAmt" PropertyName="AccountCcyAmt" Width="50" Index="5" IsNewNode="True" />
+        <ColumnInfo Id="FunctionalCcyAmt" PropertyName="FunctionalCcyAmt" Width="50" Index="6" IsNewNode="True" />
+        <ColumnInfo Id="CounterCcyAmt" PropertyName="CounterCcyAmt" Width="50" Index="7" IsNewNode="True" />
+        <ColumnInfo Id="CounterCcy" PropertyName="CounterCcy" Width="70" Index="8" IsNewNode="True" />
+        <ColumnInfo Id="Source" PropertyName="Source" Width="70" Index="9" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="CashFlow_PivotGridView" ClassName="CTMS.Module.BusinessObjects.Cash.CashFlow" IsNewNode="True">
+      <PivotSettings Settings="" IsNewNode="True" />
+    </ListView>
+    <ListView Id="CashFlow_PivotGridViewTest" ClassName="CTMS.Module.BusinessObjects.Cash.CashFlow" Caption="Cash Flow" IsNewNode="True" />
+    <ListView Id="DateDim_ListView">
+      <Columns>
+        <ColumnInfo Id="DateKey" PropertyName="DateKey" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <DetailView Id="FinGenJournalParam_DetailView" AllowNew="False" AllowDelete="False" />
+    <ListView Id="FinGenJournalParam_JournalGroupParams_ListView" AllowDelete="False" AllowNew="False" />
+    <DetailView Id="ImportForexRatesParam_DetailView">
+      <Items>
+        <StaticText Id="StatusMessage" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutItem Id="StatusMessage" ViewItem="StatusMessage" ShowCaption="False" IsNewNode="True" />
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+</Application>
