@@ -79,7 +79,7 @@
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
     <Reference Include="D2NXAF.PivotGrid">
-      <HintPath>..\..\..\..\..\Bin\D2NXAF\D2NXAF.PivotGrid.dll</HintPath>
+      <HintPath>D:\Visual_Studio\Packages\D2NXAF\D2NXAF.PivotGrid.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.FileAttachment.Win.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.PivotChart.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
