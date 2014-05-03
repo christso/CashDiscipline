@@ -76,6 +76,9 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp.PivotGridLayout">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGridLayout.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.ExpressApp.CloneObject.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
@@ -200,10 +203,8 @@
     <Compile Include="BusinessObjects\Cash\CashFlowSource.cs" />
     <Compile Include="BusinessObjects\Cash\CashForecastFixTag.cs" />
     <Compile Include="BusinessObjects\IMappingObject.cs" />
+    <Compile Include="ControllerHelpers\Cash\CashFlowPivotGridSetup.cs" />
     <Compile Include="Controllers\CalculateToggleViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\Cash\CashFlowTestPivotGridController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Cash\ICashReportController.cs" />
@@ -233,8 +234,6 @@
     <Compile Include="BusinessObjects\Setup\DateDim.cs" />
     <Compile Include="BusinessObjects\Setup\SqlScript.cs" />
     <Compile Include="BusinessObjects\Setup\SqlScriptFolder.cs" />
-    <Compile Include="BusinessObjects\User\UserDefaultSetting.cs" />
-    <Compile Include="BusinessObjects\User\UserViewLayout.cs" />
     <Compile Include="ControllerHelpers\FinAccounting\JournalGenerator.cs" />
     <Compile Include="Controllers\Cash\CashBalanceReportViewController.cs">
       <SubType>Component</SubType>
@@ -257,8 +256,8 @@
     <Compile Include="Controllers\MoveToIndexParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomFunctions\BoMonthFunction.cs" />
-    <Compile Include="CustomFunctions\EoMonthFunction.cs" />
+    <Compile Include="Controllers\CustomFunctions\BoMonthFunction.cs" />
+    <Compile Include="Controllers\CustomFunctions\EoMonthFunction.cs" />
     <Compile Include="BusinessObjects\ExcelReport.cs" />
     <Compile Include="Controllers\ActionRequestViewController.cs">
       <SubType>Component</SubType>
@@ -308,7 +307,7 @@
     <Compile Include="Controllers\ViewControllerEx.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomFunctions\RegexMatchFunction.cs" />
+    <Compile Include="Controllers\CustomFunctions\RegexMatchFunction.cs" />
     <Compile Include="Editors\PivotGridViewItem.cs" />
     <Compile Include="Editors\CustomUserControlViewItem.cs" />
     <Compile Include="ReportParams\CashReportParameters.cs" />
@@ -317,11 +316,9 @@
     <Compile Include="ParamObjects\Import\ImportBankStmtParam.cs" />
     <Compile Include="ParamObjects\Import\ImportLibrary.cs" />
     <Compile Include="ParamObjects\MoveToIndexParam.cs" />
-    <Compile Include="ParamObjects\User\SaveUserViewLayout.cs" />
     <Compile Include="ReportScriptHelper\CashReport.cs" />
     <Compile Include="Validation\ForexTradeRule.cs" />
     <Compile Include="Validation\GenLedgerRule.cs" />
-    <Compile Include="Validation\LayoutReservedNameRule.cs" />
     <Compile Include="XpoCriteriaFixer.cs" />
     <Compile Include="ReportParams\ArtfPaymentReportParameters.cs" />
     <Compile Include="ParamObjects\ARTF\AtrtfCreateGlJournalsParam.cs" />
@@ -393,7 +390,7 @@
     <Compile Include="Module.Designer.cs">
       <DependentUpon>Module.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomFunctions\MultiConcatFunction.cs" />
+    <Compile Include="Controllers\CustomFunctions\MultiConcatFunction.cs" />
     <Compile Include="ParamObjects\ARTF\ArtfCreatePaymentsParam.cs" />
     <Compile Include="ParamObjects\Cash\CashFlowFixParam.cs" />
     <Compile Include="ParamObjects\Cash\DailyCashUpdateParam.cs" />

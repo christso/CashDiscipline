@@ -78,6 +78,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp.PivotGridLayout, Version=1.0.5236.16884, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGridLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="D2NXAF.ExpressApp.PivotGridLayout.Web">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGridLayout.Web.dll</HintPath>
+    </Reference>
     <Reference Include="D2NXAF.PivotGrid">
       <HintPath>D:\Visual_Studio\Packages\D2NXAF\D2NXAF.PivotGrid.dll</HintPath>
     </Reference>
@@ -176,7 +183,7 @@
     <Compile Include="Controllers\Cash\CashFlowPivotGridControllerWeb.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\Cash\CashFlowPivotGridTestControllerWeb.cs">
+    <Compile Include="Controllers\Cash\CashFlowPivotGridLayoutControllerWeb.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\CTMSPivotGridDrillDownController.cs">

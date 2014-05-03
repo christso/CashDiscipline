@@ -49,6 +49,8 @@
           <Item Id="GlProduct_ListView" IsNewNode="True" Removed="True" />
           <Item Id="GlProject_ListView" IsNewNode="True" Removed="True" />
           <Item Id="GlSalesChannel_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="PivotGridLoadedLayout_ListView" ViewId="PivotGridLoadedLayout_ListView" IsNewNode="True" />
+          <Item Id="PivotGridSavedLayout_ListView" ViewId="PivotGridSavedLayout_ListView" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="ArTransfers" Caption="AR Transfers" Index="1" IsNewNode="True">

@@ -16,6 +16,9 @@ using DevExpress.ExpressApp.Model.Core;
 using DevExpress.ExpressApp.SystemModule;
 using DevExpress.Xpo.Metadata;
 using CTMS.Module.Validation;
+using D2NXAF.ExpressApp.PivotGridLayout;
+using CTMS.Module.ControllerHelpers;
+using CTMS.Module.BusinessObjects.Cash;
 
 namespace CTMS.Module
 {
@@ -25,7 +28,6 @@ namespace CTMS.Module
         {
             InitializeComponent();
         }
-        //const string GeneratedEntityName = "ArtfGlJournal";
 
         public override IEnumerable<ModuleUpdater> GetModuleUpdaters(IObjectSpace objectSpace, Version versionFromDB)
         {
@@ -39,31 +41,20 @@ namespace CTMS.Module
             // register my code rules
             ValidationRulesRegistrator.RegisterRule(moduleManager, typeof(GenLedgerRule), typeof(IRuleBaseProperties));
             ValidationRulesRegistrator.RegisterRule(moduleManager, typeof(ForexTradeRule), typeof(IRuleBaseProperties));
-            ValidationRulesRegistrator.RegisterRule(moduleManager, typeof(LayoutReservedNameRule), typeof(IRuleBaseProperties));
-            //ValidationRulesRegistrator.RegisterRule(modulesManager, ..., ...);
-            //registrator.RegisterRule(typeof(CTMS.Module.Validation.ReconLedgerRule), typeof(IRuleBaseProperties));
+
         }
         public override void Setup(XafApplication application)
         {
             base.Setup(application);
-            //application.SettingUp += application_SettingUp;
             application.CustomProcessShortcut += application_CustomProcessShortcut;
-            //XafTypesInfo.Instance.RegisterEntity("ArtfGlJournal", typeof(CTMS.Module.BusinessObjects.Artf.ArtfGlJournal));
+
+            // PivotGridSavedLayout
+            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutMonthlyVariance, typeof(CashFlow).Name);
+            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutDaily, typeof(CashFlow).Name);
+            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutFixForecast, typeof(CashFlow).Name);
+            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutWeekly, typeof(CashFlow).Name);
+            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutMonthly, typeof(CashFlow).Name);
         }
-
-        //void application_SettingUp(object sender, SetupEventArgs e)
-        //{
-        //    DevExpress.Xpo.Metadata.XPDictionary xpDictionary = DevExpress.ExpressApp.Xpo.XpoTypesInfoHelper.GetXpoTypeInfoSource().XPDictionary;
-        //    XPClassInfo generatedDcEntity = xpDictionary.GetClassInfo(GetType().Assembly.FullName, "DevExpress.ExpressApp.DC.GeneratedClasses." + GeneratedEntityName);
-        //    generatedDcEntity.AddAttribute(new PersistentAttribute("artf.GlJournal"));
-        //    XafTypesInfo.Instance.RefreshInfo(generatedDcEntity.ClassType);
-        //}
-
-        //public override void CustomizeTypesInfo(ITypesInfo typesInfo)
-        //{
-        //    base.CustomizeTypesInfo(typesInfo);
-        //    typesInfo.RegisterEntity(GeneratedEntityName, typeof(CTMS.Module.BusinessObjects.Artf.ArtfGlJournal));
-        //}
 
         #region AutoCreatableObject
         void application_CustomProcessShortcut(object sender, CustomProcessShortcutEventArgs e)

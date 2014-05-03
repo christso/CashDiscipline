@@ -30,7 +30,7 @@ namespace CTMS.Module.Controllers.Cash
             paramAction.Execute += paramAction_Execute;
         }
 
-        protected CashReportParam ReportParam;
+        public CashReportParam ReportParam;
 
         private SimpleAction paramAction;
 

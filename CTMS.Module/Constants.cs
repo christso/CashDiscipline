@@ -39,13 +39,5 @@ namespace CTMS.Module
         public const string CashFlowPivotLayoutMonthly = "Monthly";
         public const string CashFlowPivotLayoutMonthlyVariance = "MonthlyVariance";
         public const string CashFlowPivotLayoutFixForecast = "FixForecast";
-        public static readonly List<string> CashFlowPivotLayouts = new List<string>() 
-        {
-            CashFlowPivotLayoutDaily,
-            CashFlowPivotLayoutWeekly,
-            CashFlowPivotLayoutMonthly,
-            CashFlowPivotLayoutMonthlyVariance,
-            CashFlowPivotLayoutFixForecast
-        };
     }
 }

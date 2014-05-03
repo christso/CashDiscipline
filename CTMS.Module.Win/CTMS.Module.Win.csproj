@@ -78,6 +78,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp.PivotGridLayout, Version=1.0.5236.16884, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGridLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="D2NXAF.ExpressApp.PivotGridLayout.Win">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGridLayout.Win.dll</HintPath>
+    </Reference>
     <Reference Include="D2NXAF.PivotGrid">
       <HintPath>D:\Visual_Studio\Packages\D2NXAF\D2NXAF.PivotGrid.dll</HintPath>
     </Reference>
@@ -178,13 +185,13 @@
     <Compile Include="Controllers\BulkUpdateListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\Cash\CashFlowTestPivotGridControllerWin.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\Cash\CashFlowListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Cash\CashFlowPivotGridControllerWin.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\CashFlowPivotGridLayoutControllerWin.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\CTMSPivotGridDrillDownController.cs">

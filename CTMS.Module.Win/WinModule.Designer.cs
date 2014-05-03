@@ -44,6 +44,7 @@ namespace CTMS.Module.Win
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotChart.Win.PivotChartWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(DG2NTT.ExpressApp.PivotGrid.Win.DG2NTTPivotGridWinModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule));
+            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule));
 
         }
 
