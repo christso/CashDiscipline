@@ -67,8 +67,10 @@ namespace CTMS.UnitTests
             switch (TargetDbType)
             {
                 case DbType.SQLServer:
-                    server = @"(localdb)\Projects";
-                    MSSqlClientHelper.DropAndCreateDatabase(server, database, @"D:\Data\SQL Server");
+                    //server = @"(localdb)\Projects";
+                    server = @".\SQLEXPRESS";
+                    //MSSqlClientHelper.DropAndCreateDatabase(server, database, @"D:\Data\SQL Server");
+                    MSSqlClientHelper.DropAndCreateDatabase(server, database, @"D:\Program Files\Microsoft SQL Server\MSSQL10.SQLEXPRESS\MSSQL\DATA");
                     return MSSqlConnectionProvider.GetConnectionString(server, database);
                 case DbType.PostgreSQL:
                     server = "localhost";
