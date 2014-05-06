@@ -45,54 +45,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTester", "WebTester\WebTester.csproj", "{4990AC44-3204-4C5A-A297-9AE0390E6EF8}"
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 15
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://christso.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = CTMS.Module.Web\\CTMS.Module.Web.csproj
-		SccProjectName1 = CTMS.Module.Web
-		SccLocalPath1 = CTMS.Module.Web
-		SccProjectUniqueName2 = CTMS.Module.Win\\CTMS.Module.Win.csproj
-		SccProjectName2 = CTMS.Module.Win
-		SccLocalPath2 = CTMS.Module.Win
-		SccProjectUniqueName3 = CTMS.Module\\CTMS.Module.csproj
-		SccProjectName3 = CTMS.Module
-		SccLocalPath3 = CTMS.Module
-		SccProjectUniqueName4 = CTMS.Web\\CTMS.Web.csproj
-		SccProjectName4 = CTMS.Web
-		SccLocalPath4 = CTMS.Web
-		SccProjectUniqueName5 = CTMS.Win\\CTMS.Win.csproj
-		SccProjectName5 = CTMS.Win
-		SccLocalPath5 = CTMS.Win
-		SccProjectUniqueName6 = GenerateUserFriendlyId.Module\\GenerateUserFriendlyId.Module.csproj
-		SccProjectName6 = GenerateUserFriendlyId.Module
-		SccLocalPath6 = GenerateUserFriendlyId.Module
-		SccProjectUniqueName7 = DG2NTT.ExpressApp.PivotGrid.Web\\DG2NTT.ExpressApp.PivotGrid.Web.csproj
-		SccProjectName7 = DG2NTT.ExpressApp.PivotGrid.Web
-		SccLocalPath7 = DG2NTT.ExpressApp.PivotGrid.Web
-		SccProjectUniqueName8 = DG2NTT.ExpressApp.PivotGrid.Win\\DG2NTT.ExpressApp.PivotGrid.Win.csproj
-		SccProjectName8 = DG2NTT.ExpressApp.PivotGrid.Win
-		SccLocalPath8 = DG2NTT.ExpressApp.PivotGrid.Win
-		SccProjectUniqueName9 = DG2NTT.ExpressApp\\DG2NTT.ExpressApp.csproj
-		SccProjectName9 = DG2NTT.ExpressApp
-		SccLocalPath9 = DG2NTT.ExpressApp
-		SccProjectUniqueName10 = DG2NTT.Utilities\\DG2NTT.Utilities.csproj
-		SccProjectName10 = DG2NTT.Utilities
-		SccLocalPath10 = DG2NTT.Utilities
-		SccProjectUniqueName11 = DG2NTT.ExpressApp.PivotGrid\\DG2NTT.ExpressApp.PivotGrid.csproj
-		SccProjectName11 = DG2NTT.ExpressApp.PivotGrid
-		SccLocalPath11 = DG2NTT.ExpressApp.PivotGrid
-		SccProjectUniqueName12 = DG2NTT.StringEvaluators\\DG2NTT.StringEvaluators.csproj
-		SccProjectName12 = DG2NTT.StringEvaluators
-		SccLocalPath12 = DG2NTT.StringEvaluators
-		SccProjectUniqueName13 = CTMS.UnitTests\\CTMS.UnitTests.csproj
-		SccProjectName13 = CTMS.UnitTests
-		SccLocalPath13 = CTMS.UnitTests
-		SccProjectUniqueName14 = WebTester\\WebTester.csproj
-		SccProjectName14 = WebTester
-		SccLocalPath14 = WebTester
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -343,8 +295,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

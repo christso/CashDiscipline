@@ -11,7 +11,7 @@
     <RootNamespace>CTMS.Win</RootNamespace>
     <AssemblyName>CTMS.Win</AssemblyName>
     <ApplicationIcon>vodafone_logo.ico</ApplicationIcon>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>D:\Visual_Studio\Active_Projects\CTMS\Distribution\</PublishUrl>
     <Install>true</Install>
