@@ -27,13 +27,13 @@ namespace CTMS.Module.Web.Controllers.Cash
 
         private void CashFlow_PivotGridFieldsMapped(object sender)
         {
-            PivotGridControl.OptionsDataField.ColumnValueLineCount = 2;
+            //PivotGridControl.OptionsDataField.ColumnValueLineCount = 2;
 
-            PivotGridControl.Styles.CellStyle.Wrap = DefaultBoolean.True;
-            PivotGridControl.Styles.FieldValueStyle.Wrap = DefaultBoolean.True;
-            PivotGridControl.Styles.HeaderStyle.Wrap = DefaultBoolean.True;
-            PivotGridControl.Styles.RowAreaStyle.Wrap = DefaultBoolean.True;
-            PivotGridControl.Styles.ColumnAreaStyle.Wrap = DefaultBoolean.True;
+            //PivotGridControl.Styles.CellStyle.Wrap = DefaultBoolean.True;
+            //PivotGridControl.Styles.FieldValueStyle.Wrap = DefaultBoolean.True;
+            //PivotGridControl.Styles.HeaderStyle.Wrap = DefaultBoolean.True;
+            //PivotGridControl.Styles.RowAreaStyle.Wrap = DefaultBoolean.True;
+            //PivotGridControl.Styles.ColumnAreaStyle.Wrap = DefaultBoolean.True;
         }
 
         protected override void OnDeactivated()

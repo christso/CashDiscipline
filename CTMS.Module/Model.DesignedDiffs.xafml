@@ -128,7 +128,6 @@
             <Items IsNewNode="True">
               <Item Id="CashBalanceReport" Caption="Cash Balance Report" ViewId="AccountSummary_PivotGridView" Index="13" IsNewNode="True" />
               <Item Id="CashFlowReport" ViewId="CashFlow_PivotGridView" Caption="Cash Flow Report" Index="16" IsNewNode="True" />
-              <Item Id="CashFlowReportTest" Caption="Cash Flow Report Test" ViewId="CashFlow_PivotGridViewTest" IsNewNode="True" />
             </Items>
           </Item>
           <Item Id="System" IsNewNode="True">
@@ -777,7 +776,6 @@
     <ListView Id="CashFlow_PivotGridView" ClassName="CTMS.Module.BusinessObjects.Cash.CashFlow" IsNewNode="True">
       <PivotSettings Settings="" IsNewNode="True" />
     </ListView>
-    <ListView Id="CashFlow_PivotGridViewTest" ClassName="CTMS.Module.BusinessObjects.Cash.CashFlow" Caption="Cash Flow" IsNewNode="True" />
     <ListView Id="DateDim_ListView">
       <Columns>
         <ColumnInfo Id="DateKey" PropertyName="DateKey" IsNewNode="True" />

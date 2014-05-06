@@ -39,8 +39,12 @@ namespace CTMS.Module.Web.Controllers
         {
             if (element is ASPxLookupPropertyEditor)
             {
-                AddClientSideFunctionalityCore(((ASPxLookupPropertyEditor)element).DropDownEdit.DropDown);
-                AddClientSideFunctionalityCore(((ASPxLookupPropertyEditor)element).FindEdit.TextBox);
+                if (((ASPxLookupPropertyEditor)element).DropDownEdit != null
+                && ((ASPxLookupPropertyEditor)element).FindEdit != null)
+                {
+                    AddClientSideFunctionalityCore(((ASPxLookupPropertyEditor)element).DropDownEdit.DropDown);
+                    AddClientSideFunctionalityCore(((ASPxLookupPropertyEditor)element).FindEdit.TextBox);
+                }
             }
             else if (element is WebPropertyEditor)
             {

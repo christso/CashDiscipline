@@ -739,14 +739,14 @@ namespace CTMS.Module.BusinessObjects.Forex
         {
             var forexActivity = Session.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
             var source = Session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.ForexSettleCashFlowSource.Oid);
+            var snapshot = Session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
 
             var criteria = CriteriaOperator.Parse(
                        "Account.Currency = ? And TranDate = ? And Account = ? And Activity = ? And Source = ?" 
                        + " And ForexSettleGroupId = ? And Counterparty = ?"
                        + " And Snapshot = ?",
                        PrimaryCcy, PrimarySettleDate, PrimarySettleAccount, forexActivity, source, 
-                       SettleGroupId, Counterparty.CashFlowCounterparty,
-                       SetOfBooks.CachedInstance.CurrentCashFlowSnapshot);
+                       SettleGroupId, Counterparty.CashFlowCounterparty, snapshot);
             return Session.FindObject<CashFlow>(PersistentCriteriaEvaluationBehavior.InTransaction, criteria);
         }
         public CashFlow FindCounterCashFlow()
@@ -754,6 +754,7 @@ namespace CTMS.Module.BusinessObjects.Forex
 
             var forexActivity = Session.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
             var source = Session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.ForexSettleCashFlowSource.Oid);
+            var snapshot = Session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
 
             var criteria = CriteriaOperator.Parse(
                        "Account.Currency = ? And TranDate = ? And Account = ? And Activity = ? And Source = ?"
@@ -761,7 +762,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                         + " And Snapshot = ?",
                        CounterCcy, CounterSettleDate, CounterSettleAccount, forexActivity, source, 
                        SettleGroupId, Counterparty.CashFlowCounterparty,
-                       SetOfBooks.CachedInstance.CurrentCashFlowSnapshot);
+                       snapshot);
             return Session.FindObject<CashFlow>(PersistentCriteriaEvaluationBehavior.InTransaction, criteria);
         }
 

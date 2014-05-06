@@ -182,6 +182,7 @@ namespace CTMS.Module.BusinessObjects.Cash
         [ModelDefault("AllowEdit", "false")]
         [VisibleInLookupListView(false)]
         [VisibleInListView(false)]
+        [VisibleInDetailView(false)]
         public long OrigSequentialNumber
         {
             get
@@ -777,6 +778,8 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         // Potentially determine whether this is an outflow or inflow to compute either In or Out but not both
         // for lazy calculation
+        [ModelDefault("EditMask", "n2")]
+        [ModelDefault("DisplayFormat", "n2")]
         public decimal ForexLinkedAccountCcyAmt
         {
             get
@@ -785,6 +788,8 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
         // this has same sign as AccountCcyAmt
+        [ModelDefault("EditMask", "n2")]
+        [ModelDefault("DisplayFormat", "n2")]
         public decimal ForexUnlinkedAccountCcyAmt
         {
             get

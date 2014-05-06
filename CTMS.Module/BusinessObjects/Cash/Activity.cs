@@ -53,6 +53,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
+        [ImmediatePostData(true)]
         public ActivityTag Dim_1_1
         {
             get
@@ -64,7 +65,7 @@ namespace CTMS.Module.BusinessObjects.Cash
                 SetPropertyValue("Dim_1_1", ref _Dim_1_1, value);
             }
         }
-
+        [ImmediatePostData(true)]
         public ActivityTag Dim_1_2
         {
             get
@@ -76,7 +77,7 @@ namespace CTMS.Module.BusinessObjects.Cash
                 SetPropertyValue("Dim_1_2", ref _Dim_1_2, value);
             }
         }
-
+        [ImmediatePostData(true)]
         public ActivityTag Dim_1_3
         {
             get
