@@ -141,6 +141,10 @@ namespace CTMS.Module.ParamObjects.Cash
             var session = reportParam.Session;
             var result = false;
             // create default parameters if no parameters exist
+            var cashFlowCount = Convert.ToInt32(session.Evaluate<CashFlow>(
+                CriteriaOperator.Parse("Count()"), null));
+            if (cashFlowCount == 0) return false;
+            
             if (reportParam.FromDate == default(DateTime))
             {
                 reportParam.FromDate = (DateTime)session.Evaluate<CashFlow>(
