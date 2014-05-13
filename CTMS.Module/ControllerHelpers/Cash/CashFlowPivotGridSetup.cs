@@ -265,8 +265,6 @@ namespace CTMS.Module.ControllerHelpers.Cash
                     fieldFunctionalCcyAmt.Area = PivotArea.DataArea;
                     break;
                 case Constants.CashFlowPivotLayoutMonthlyVariance:
-                    foreach (PivotGridFieldBase field in Fields)
-                        field.Visible = false;
                     fieldActivity.Area = PivotArea.RowArea;
                     fieldSnapshot.Area = PivotArea.ColumnArea;
                     fieldFunctionalCcyAmtVar.Area = PivotArea.DataArea;

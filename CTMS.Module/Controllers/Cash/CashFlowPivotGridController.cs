@@ -48,8 +48,10 @@ namespace CTMS.Module.Controllers.Cash
             base.SetupView();
             var listView = (ListView)View;
 
-            var dateCriteria = CriteriaOperator.Parse("TranDate Between (?,?)",
-            ReportParam.FromDate, ReportParam.ToDate);
+            CriteriaOperator dateCriteria = null;
+            if (ReportParam.SetDefaultParams())
+                dateCriteria = CriteriaOperator.Parse("TranDate Between (?,?)",
+                    ReportParam.FromDate, ReportParam.ToDate);
 
             CriteriaOperator snapshotCriteria = null;
             if (ReportParam.Snapshot1 != null)
