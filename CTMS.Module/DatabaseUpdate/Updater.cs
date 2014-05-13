@@ -176,7 +176,31 @@ namespace CTMS.Module.DatabaseUpdate
             base.UpdateDatabaseAfterUpdateSchema();
 
             SetupObjects(ObjectSpace);
-          
+
+#if TESTDATA
+            #region Cash Flow
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "AP Pymt";
+            activity.Dim_1_1 = ObjectSpace.CreateObject<ActivityTag>();
+            activity.Dim_1_1.Text = "Non-Capex Payments";
+            activity.Dim_1_2 = ObjectSpace.CreateObject<ActivityTag>();
+            activity.Dim_1_2.Text = "Other OPEX";
+
+            CashFlow cf;
+            cf = ObjectSpace.CreateObject<CashFlow>();
+            cf.InitDefaultValues();
+            cf.TranDate = new DateTime(2014, 5, 6);
+            cf.Activity = activity;
+            cf.AccountCcyAmt = 1000;
+            cf.FunctionalCcyAmt = 1000;
+            cf.CounterCcyAmt = 1000;
+            cf.Save();
+            ObjectSpace.CommitChanges();
+
+            var shot = CashFlow.SaveForecast((XPObjectSpace)ObjectSpace);
+
+            #endregion
+#endif
             #region Security System
             // Administrative role
             SecuritySystemRole adminRole = ObjectSpace.FindObject<SecuritySystemRole>(
