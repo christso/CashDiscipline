@@ -15,24 +15,24 @@ namespace CTMS.Module.Controllers
         {
             TargetObjectType = typeof(ICalculateToggleObject);
 
-            calculateAction = new SingleChoiceAction(this, "CalculateToggleAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
-            calculateAction.ItemType = SingleChoiceActionItemType.ItemIsMode;
-            calculateAction.Caption = "";
-            calculateAction.Execute += calculateAction_Execute;
+            CalculateAction = new SingleChoiceAction(this, "CalculateToggleAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
+            CalculateAction.ItemType = SingleChoiceActionItemType.ItemIsMode;
+            CalculateAction.Caption = "";
+            CalculateAction.Execute += calculateAction_Execute;
 
             calculateOnChoice = new ChoiceActionItem();
             calculateOnChoice.Caption = "Calculate ON";
-            calculateAction.Items.Add(calculateOnChoice);
+            CalculateAction.Items.Add(calculateOnChoice);
 
             calculateOffChoice = new ChoiceActionItem();
             calculateOffChoice.Caption = "Calculate OFF";
-            calculateAction.Items.Add(calculateOffChoice);
+            CalculateAction.Items.Add(calculateOffChoice);
         }
 
         protected override void OnActivated()
         {
             base.OnActivated();
-            calculateAction.SelectedItem = calculateOnChoice;
+            CalculateAction.SelectedItem = calculateOnChoice;
 
             View.SelectionChanged += View_SelectionChanged;
         }
@@ -46,7 +46,7 @@ namespace CTMS.Module.Controllers
             }
         }
 
-        private SingleChoiceAction calculateAction;
+        public SingleChoiceAction CalculateAction;
         private ChoiceActionItem calculateOnChoice;
         private ChoiceActionItem calculateOffChoice;
 

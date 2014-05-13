@@ -207,6 +207,9 @@
     <Compile Include="Controllers\CalculateToggleViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\Cash\CashReportParamDetailViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Cash\ICashReportController.cs" />
     <Compile Include="Controllers\Forex\ForexSettleLinkViewController.cs">
       <SubType>Component</SubType>

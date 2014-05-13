@@ -242,7 +242,7 @@ namespace CTMS.Module.ControllerHelpers.Cash
             #endregion
         }
 
-        public override void LayoutFields(string layoutName)
+        public void LayoutFields(string layoutName)
         {
             foreach (PivotGridFieldBase field in Fields)
                 field.Area = PivotArea.FilterArea;

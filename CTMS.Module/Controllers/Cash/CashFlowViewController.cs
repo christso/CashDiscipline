@@ -24,31 +24,31 @@ namespace CTMS.Module.Controllers.Cash
         {
             TargetObjectType = typeof(CashFlow);
          
-            runProgramAction = new SingleChoiceAction(this, "RunCashFlowProgramAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
-            runProgramAction.Caption = "Run Program";
-            runProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
-            runProgramAction.Execute += runProgramAction_Execute;
-            runProgramAction.ShowItemsOnClick = true;
+            RunProgramAction = new SingleChoiceAction(this, "RunCashFlowProgramAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
+            RunProgramAction.Caption = "Run Program";
+            RunProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
+            RunProgramAction.Execute += runProgramAction_Execute;
+            RunProgramAction.ShowItemsOnClick = true;
 
             var dailyUpdateAction = new ChoiceActionItem();
             dailyUpdateAction.Caption = "Daily Update";
-            runProgramAction.Items.Add(dailyUpdateAction);
+            RunProgramAction.Items.Add(dailyUpdateAction);
 
             var mapAction = new ChoiceActionItem();
             mapAction.Caption = "Map";
-            runProgramAction.Items.Add(mapAction);
+            RunProgramAction.Items.Add(mapAction);
 
             var fixForecastAction = new ChoiceActionItem();
             fixForecastAction.Caption = "Fix Forecast";
-            runProgramAction.Items.Add(fixForecastAction);
+            RunProgramAction.Items.Add(fixForecastAction);
 
             var reloadForexTradesAction = new ChoiceActionItem();
             reloadForexTradesAction.Caption = "Reload Forex Forecast";
-            runProgramAction.Items.Add(reloadForexTradesAction);
+            RunProgramAction.Items.Add(reloadForexTradesAction);
 
             var saveForecastAction = new ChoiceActionItem();
             saveForecastAction.Caption = "Save Forecast";
-            runProgramAction.Items.Add(saveForecastAction);
+            RunProgramAction.Items.Add(saveForecastAction);
         }
 
         void runProgramAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -74,7 +74,7 @@ namespace CTMS.Module.Controllers.Cash
             }
         }
 
-        private SingleChoiceAction runProgramAction;
+        public SingleChoiceAction RunProgramAction;
 
         private void SaveForecast()
         {

@@ -32,6 +32,17 @@ namespace CTMS.Module.Controllers.Cash
             TargetViewId = "CashFlow_PivotGridView";
         }
 
+        protected override void OnActivated()
+        {
+            var cashFlowController = Frame.GetController<CashFlowViewController>();
+            if (cashFlowController != null)
+                cashFlowController.RunProgramAction.Active["PivotGrid"] = false;
+            var calculateToggleController = Frame.GetController<CalculateToggleViewController>();
+            if (calculateToggleController != null)
+                calculateToggleController.CalculateAction.Active["PivotGrid"] = false;
+            base.OnActivated();
+        }
+
         protected override void SetupView()
         {
             base.SetupView();
