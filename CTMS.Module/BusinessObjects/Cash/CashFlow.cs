@@ -1377,13 +1377,15 @@ namespace CTMS.Module.BusinessObjects.Cash
             return snapshot;
         }
 
-        public static void SaveForecast(XPObjectSpace objSpace)
+        public static CashFlowSnapshot SaveForecast(XPObjectSpace objSpace, bool commit = true)
         {
             var session = ((XPObjectSpace)objSpace).Session;
             var minDate = (DateTime)session.Evaluate<CashFlow>(CriteriaOperator.Parse("Min(TranDate)"),
                 CriteriaOperator.Parse("Status = ?", CashFlowStatus.Forecast));
-            CashFlow.SaveSnapshot(session, minDate);
-            objSpace.CommitChanges();
+            var result = CashFlow.SaveSnapshot(session, minDate);
+            if (commit)
+                objSpace.CommitChanges();
+            return result;
         }
 
         #endregion

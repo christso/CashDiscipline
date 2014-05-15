@@ -22,7 +22,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;TESTDATA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -320,6 +320,9 @@
     <Compile Include="ParamObjects\Import\ImportLibrary.cs" />
     <Compile Include="ParamObjects\MoveToIndexParam.cs" />
     <Compile Include="ReportScriptHelper\CashReport.cs" />
+    <Compile Include="Test\TestViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Validation\ForexTradeRule.cs" />
     <Compile Include="Validation\GenLedgerRule.cs" />
     <Compile Include="XpoCriteriaFixer.cs" />

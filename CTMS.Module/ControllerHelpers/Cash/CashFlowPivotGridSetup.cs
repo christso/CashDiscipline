@@ -245,11 +245,20 @@ namespace CTMS.Module.ControllerHelpers.Cash
         public void LayoutFields(string layoutName)
         {
             foreach (PivotGridFieldBase field in Fields)
+            {
                 field.Area = PivotArea.FilterArea;
+                field.Visible = false;
+            }
 
             switch (layoutName)
             {
                 case Constants.CashFlowPivotLayoutFixForecast:
+                    fieldParentMonth.Visible = true;
+                    fieldParentSource.Visible = true;
+                    fieldParentDate.Visible = true;
+                    fieldFix.Visible = true;
+                    fieldFunctionalCcyAmt.Visible = true;
+
                     fieldParentMonth.Area = PivotArea.RowArea;
                     fieldParentSource.Area = PivotArea.RowArea;
                     fieldParentDate.Area = PivotArea.RowArea;
@@ -257,6 +266,13 @@ namespace CTMS.Module.ControllerHelpers.Cash
                     fieldFunctionalCcyAmt.Area = PivotArea.DataArea;
                     break;
                 case Constants.CashFlowPivotLayoutMonthly:
+                    fieldDim_1_1.Visible = true;
+                    fieldDim_1_2.Visible = true;
+                    fieldDim_1_3.Visible = true;
+                    fieldTranYear.Visible = true;
+                    fieldTranMonth.Visible = true;
+                    fieldFunctionalCcyAmt.Visible = true;
+
                     fieldDim_1_1.Area = PivotArea.RowArea;
                     fieldDim_1_2.Area = PivotArea.RowArea;
                     fieldDim_1_3.Area = PivotArea.RowArea;
@@ -265,12 +281,13 @@ namespace CTMS.Module.ControllerHelpers.Cash
                     fieldFunctionalCcyAmt.Area = PivotArea.DataArea;
                     break;
                 case Constants.CashFlowPivotLayoutMonthlyVariance:
-                    fieldActivity.Area = PivotArea.RowArea;
-                    fieldSnapshot.Area = PivotArea.ColumnArea;
-                    fieldFunctionalCcyAmtVar.Area = PivotArea.DataArea;
                     fieldActivity.Visible = true;
                     fieldSnapshot.Visible = true;
                     fieldFunctionalCcyAmtVar.Visible = true;
+
+                    fieldActivity.Area = PivotArea.RowArea;
+                    fieldSnapshot.Area = PivotArea.ColumnArea;
+                    fieldFunctionalCcyAmtVar.Area = PivotArea.DataArea;
                     break;
             }
         }

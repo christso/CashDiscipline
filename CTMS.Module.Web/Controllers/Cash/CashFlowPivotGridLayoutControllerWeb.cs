@@ -1,10 +1,14 @@
 ﻿using CTMS.Module.ControllerHelpers.Cash;
 using D2NXAF.ExpressApp.PivotGridLayout.Web.Controllers;
 using DevExpress.Utils;
+using DevExpress.Web.ASPxPivotGrid;
+using DevExpress.XtraPivotGrid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace CTMS.Module.Web.Controllers.Cash
 {
@@ -27,13 +31,20 @@ namespace CTMS.Module.Web.Controllers.Cash
 
         private void CashFlow_PivotGridFieldsMapped(object sender)
         {
-            //PivotGridControl.OptionsDataField.ColumnValueLineCount = 2;
+            PivotGridControl.OptionsDataField.ColumnValueLineCount = 2;
 
-            //PivotGridControl.Styles.CellStyle.Wrap = DefaultBoolean.True;
-            //PivotGridControl.Styles.FieldValueStyle.Wrap = DefaultBoolean.True;
-            //PivotGridControl.Styles.HeaderStyle.Wrap = DefaultBoolean.True;
-            //PivotGridControl.Styles.RowAreaStyle.Wrap = DefaultBoolean.True;
-            //PivotGridControl.Styles.ColumnAreaStyle.Wrap = DefaultBoolean.True;
+            PivotGridControl.Styles.CellStyle.Wrap = DefaultBoolean.True;
+            PivotGridControl.Styles.FieldValueStyle.Wrap = DefaultBoolean.True;
+            PivotGridControl.Styles.HeaderStyle.Wrap = DefaultBoolean.True;
+            PivotGridControl.Styles.RowAreaStyle.Wrap = DefaultBoolean.True;
+            PivotGridControl.Styles.ColumnAreaStyle.Wrap = DefaultBoolean.True;
+
+            foreach (PivotGridField field in PivotGridControl.Fields)
+            {
+                field.HeaderStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+                field.ValueStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+                field.CellStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+            }
         }
 
         protected override void OnDeactivated()
