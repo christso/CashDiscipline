@@ -190,7 +190,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="SkipLogonForm.aspx" />
-    <Content Include="Controls\BankStmtAnalysisControl.ascx" />
     <Content Include="Default.aspx" />
     <Content Include="DefaultVerticalTemplateContent1.ascx" />
     <Content Include="DialogTemplateContent1.ascx" />
@@ -213,13 +212,6 @@
     </Compile>
     <Compile Include="SkipLogonForm.aspx.designer.cs">
       <DependentUpon>SkipLogonForm.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\BankStmtAnalysisControl.ascx.cs">
-      <DependentUpon>BankStmtAnalysisControl.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Controls\BankStmtAnalysisControl.ascx.designer.cs">
-      <DependentUpon>BankStmtAnalysisControl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
@@ -253,7 +245,7 @@
     </Compile>
     <Compile Include="LogonTemplateContent1.ascx.designer.cs">
       <DependentUpon>LogonTemplateContent1.ascx</DependentUpon>
-    </Compile>
+    </Compile>		
     <Compile Include="WebApplication.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -319,7 +311,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controls\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

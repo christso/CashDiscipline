@@ -232,18 +232,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\AnalysisServicesTutorialControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\AnalysisServicesTutorialControl.Designer.cs">
-      <DependentUpon>AnalysisServicesTutorialControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\BankStmtAnalysisControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\BankStmtAnalysisControl.Designer.cs">
-      <DependentUpon>BankStmtAnalysisControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="UnusableNodes.xml">
@@ -263,12 +251,6 @@
       <SubType>Designer</SubType>
     </None>
     <Content Include="vodafone_logo.ico" />
-    <EmbeddedResource Include="Controls\AnalysisServicesTutorialControl.resx">
-      <DependentUpon>AnalysisServicesTutorialControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\BankStmtAnalysisControl.resx">
-      <DependentUpon>BankStmtAnalysisControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -358,6 +340,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
