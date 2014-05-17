@@ -1,5 +1,7 @@
 ﻿using CTMS.Module.ControllerHelpers.Cash;
 using D2NXAF.ExpressApp.PivotGridLayout.Web.Controllers;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.PivotGrid.Web;
 using DevExpress.Utils;
 using DevExpress.Web.ASPxPivotGrid;
 using DevExpress.XtraPivotGrid;
@@ -29,21 +31,42 @@ namespace CTMS.Module.Web.Controllers.Cash
             PivotGridFieldsMapped += CashFlow_PivotGridFieldsMapped;
         }
 
-        private void CashFlow_PivotGridFieldsMapped(object sender)
+        protected override void OnViewControlsCreated()
         {
-            PivotGridControl.OptionsDataField.ColumnValueLineCount = 2;
+            base.OnViewControlsCreated();
+            PivotGridControl.Width = Unit.Pixel(200);
+        }
 
-            PivotGridControl.Styles.CellStyle.Wrap = DefaultBoolean.True;
+        private void CashFlow_PivotGridFieldsMapped(object sender, D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutEventArgs e)
+        {
+ 
+            PivotGridControl.OptionsCustomization.CustomizationFormStyle
+                    = DevExpress.XtraPivotGrid.Customization.CustomizationFormStyle.Excel2007;
+            PivotGridControl.OptionsView.ShowColumnHeaders = false;
+            PivotGridControl.OptionsView.ShowRowHeaders = false;
+            PivotGridControl.OptionsView.ShowDataHeaders = false;
+            PivotGridControl.OptionsView.ShowFilterHeaders = false;
+            PivotGridControl.OptionsView.RowTotalsLocation = PivotRowTotalsLocation.Tree;
             PivotGridControl.Styles.FieldValueStyle.Wrap = DefaultBoolean.True;
-            PivotGridControl.Styles.HeaderStyle.Wrap = DefaultBoolean.True;
             PivotGridControl.Styles.RowAreaStyle.Wrap = DefaultBoolean.True;
+            PivotGridControl.Styles.FilterAreaStyle.Wrap = DefaultBoolean.True;
             PivotGridControl.Styles.ColumnAreaStyle.Wrap = DefaultBoolean.True;
+            PivotGridControl.Styles.CellStyle.Wrap = DefaultBoolean.True;
+            PivotGridControl.Styles.AreaStyle.Wrap = DefaultBoolean.True;
+            PivotGridControl.OptionsDataField.ColumnValueLineCount = 2;
 
             foreach (PivotGridField field in PivotGridControl.Fields)
             {
                 field.HeaderStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
                 field.ValueStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
                 field.CellStyle.Wrap = DevExpress.Utils.DefaultBoolean.True;
+            }
+
+            switch (e.Layout.Name)
+            {
+                case Constants.CashFlowPivotLayoutMonthlyVariance:
+                    
+                    break;
             }
         }
 

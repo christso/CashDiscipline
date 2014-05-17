@@ -46,9 +46,10 @@ namespace CTMS.Module.Win.Controllers.Cash
             PivotGridFieldsMapped -= CashFlow_PivotGridFieldsMapped;
         }
 
-        void CashFlow_PivotGridFieldsMapped(object sender)
+        void CashFlow_PivotGridFieldsMapped(object sender, D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutEventArgs e)
         {
-
+            PivotGridControl.OptionsCustomization.CustomizationFormStyle
+                    = DevExpress.XtraPivotGrid.Customization.CustomizationFormStyle.Excel2007;
             PivotGridControl.OptionsDataField.ColumnValueLineCount = 2;
             PivotGridControl.Appearance.Cell.Options.UseTextOptions = true;
             PivotGridControl.Appearance.Cell.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
@@ -65,6 +66,13 @@ namespace CTMS.Module.Win.Controllers.Cash
             {
                 field.Appearance.Header.Options.UseTextOptions = true;
                 field.Appearance.Header.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            }
+
+            switch (e.Layout.Name)
+            {
+                case Constants.CashFlowPivotLayoutMonthlyVariance:
+
+                    break;
             }
         }
 

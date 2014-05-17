@@ -1362,8 +1362,10 @@ namespace CTMS.Module.BusinessObjects.Cash
             snapshot.FromDate = fromTranDate;
             snapshot.Name = string.Format("Snapshot {0:d-MMM-yy HH:mm:ss}", DateTime.Now);
 
-            var criteria = CriteriaOperator.Parse("TranDate >= ? And Snapshot = ?",
-                fromTranDate, session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid));
+            var criteria = CriteriaOperator.Parse("Snapshot = ?",
+                session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid));
+            if (fromTranDate != default(DateTime))
+                criteria = criteria & CriteriaOperator.Parse("TranDate >= ?", fromTranDate);
             var cashFlows = session.GetObjects(session.GetClassInfo(typeof(CashFlow)),
                             criteria,
                             new SortingCollection(null), 0, false, true);
@@ -1380,8 +1382,8 @@ namespace CTMS.Module.BusinessObjects.Cash
         public static CashFlowSnapshot SaveForecast(XPObjectSpace objSpace, bool commit = true)
         {
             var session = ((XPObjectSpace)objSpace).Session;
-            var minDate = (DateTime)session.Evaluate<CashFlow>(CriteriaOperator.Parse("Min(TranDate)"),
-                CriteriaOperator.Parse("Status = ?", CashFlowStatus.Forecast));
+            var minDate = (DateTime)(session.Evaluate<CashFlow>(CriteriaOperator.Parse("Min(TranDate)"),
+                CriteriaOperator.Parse("Status = ?", CashFlowStatus.Forecast)) ?? default(DateTime));
             var result = CashFlow.SaveSnapshot(session, minDate);
             if (commit)
                 objSpace.CommitChanges();
