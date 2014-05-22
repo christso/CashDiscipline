@@ -33,5 +33,5 @@ rmdir /S /Q DG2NTT.ExpressApp.PivotGrid.Win\obj
 rmdir /S /Q DG2NTT.PivotGrid\obj
 rmdir /S /Q DG2NTT.Utilities\obj
 
-rmdir /S /Q "C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\11.0\ProjectAssemblies"
+rmdir /S /Q "C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies"
 pause
