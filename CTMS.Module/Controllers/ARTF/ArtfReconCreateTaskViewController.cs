@@ -17,7 +17,7 @@ using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.BusinessObjects;
 using CTMS.Module.ParamObjects.Artf;
 using DevExpress.Data.Filtering;
-using DG2NTT.ExpressApp.SystemModule;
+using D2NXAF.ExpressApp.SystemModule;
 
 namespace CTMS.Module.Controllers.Artf
 {

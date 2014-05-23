@@ -237,21 +237,21 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DG2NTT.ExpressApp.PivotGrid.Web\DG2NTT.ExpressApp.PivotGrid.Web.csproj">
+    <ProjectReference Include="..\D2NXAF.ExpressApp.PivotGrid.Web\D2NXAF.ExpressApp.PivotGrid.Web.csproj">
       <Project>{1CE44561-0989-454F-B5CA-847E2EEFDE7C}</Project>
-      <Name>DG2NTT.ExpressApp.PivotGrid.Web</Name>
+      <Name>D2NXAF.ExpressApp.PivotGrid.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\CTMS.Module\CTMS.Module.csproj">
       <Project>{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}</Project>
       <Name>CTMS.Module</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DG2NTT.ExpressApp.PivotGrid\DG2NTT.ExpressApp.PivotGrid.csproj">
+    <ProjectReference Include="..\D2NXAF.ExpressApp.PivotGrid\D2NXAF.ExpressApp.PivotGrid.csproj">
       <Project>{b5c18c13-85c7-4749-9f2d-ef92d3692ad3}</Project>
-      <Name>DG2NTT.ExpressApp.PivotGrid</Name>
+      <Name>D2NXAF.ExpressApp.PivotGrid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DG2NTT.ExpressApp\DG2NTT.ExpressApp.csproj">
+    <ProjectReference Include="..\D2NXAF.ExpressApp\D2NXAF.ExpressApp.csproj">
       <Project>{96b07e0f-dcf1-41f7-bba4-6c8d959e1f8a}</Project>
-      <Name>DG2NTT.ExpressApp</Name>
+      <Name>D2NXAF.ExpressApp</Name>
     </ProjectReference>
     <ProjectReference Include="..\GenerateUserFriendlyId.Module\GenerateUserFriendlyId.Module.csproj">
       <Project>{484a8217-dd6b-4e8f-b47e-f1f64d03bbb6}</Project>

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DG2NTT.Utilities;
+using D2NXAF.Utilities;
 using CTMS.Module.HelperClasses.Xpo;
 
 namespace CTMS.Module.ParamObjects.Import

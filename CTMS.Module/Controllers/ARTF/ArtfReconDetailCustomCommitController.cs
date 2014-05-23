@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CTMS.Module.BusinessObjects.Artf;
-using DG2NTT.ExpressApp.SystemModule;
+using D2NXAF.ExpressApp.SystemModule;
 
 namespace CTMS.Module.Controllers.Artf
 {

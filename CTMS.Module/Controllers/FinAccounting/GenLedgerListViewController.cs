@@ -4,19 +4,8 @@ using DevExpress.ExpressApp.Actions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CTMS.Module.HelperClasses.UI;
+
 using CTMS.Module.ParamObjects.FinAccounting;
-using CTMS.Module.BusinessObjects.Cash;
-using CTMS.Module.ControllerHelpers.FinAccounting;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp.Xpo;
-using DevExpress.Data.Filtering;
-using DG2NTT.Utilities;
-using DG2NTT.StringEvaluators;
-using System.Collections;
-using System.Diagnostics;
 
 namespace CTMS.Module.Controllers.FinAccounting
 {
@@ -51,7 +40,7 @@ namespace CTMS.Module.Controllers.FinAccounting
             var objSpace = Application.CreateObjectSpace();
             var paramObj = FinGenJournalParam.GetInstance(objSpace);
             _ParamObj = paramObj;
-            var dialog = new PopupDialogDetailViewManager(Application);
+            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
             dialog.Accepting += dialog_Accepting;
             dialog.ShowView(objSpace, paramObj);
         }

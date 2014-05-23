@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CTMS.Module.HelperClasses.UI;
+
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
 using CTMS.Module.HelperClasses;
@@ -52,7 +52,7 @@ namespace CTMS.Module.Controllers.Cash
             ReportParam = CashReportParam.GetInstance(_ReportObjSpace);
             if (ReportParam.SetDefaultParams())
                 _ReportObjSpace.CommitChanges();
-            var dialog = new PopupDialogDetailViewManager(Application);
+            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
             dialog.Accepting += dialog_Accepting;
             dialog.ShowView(_ReportObjSpace, ReportParam);
         }

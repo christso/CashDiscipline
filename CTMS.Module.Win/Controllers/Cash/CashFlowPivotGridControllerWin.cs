@@ -1,6 +1,6 @@
 ﻿using CTMS.Module.ControllerHelpers.Cash;
 using CTMS.Module.Controllers.Cash;
-using CTMS.Module.HelperClasses.UI;
+
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.PivotGrid.Win;
 using DevExpress.ExpressApp.SystemModule;
@@ -71,7 +71,7 @@ namespace CTMS.Module.Win.Controllers.Cash
                 {
                     // remember location of cell that was double-clicked
                     DoubleClickPivotCellEventArgs = e;
-                    var dialog = new PopupDialogDetailViewManager(Application);
+                    var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
                     dialog.Accepting += noteDialogAccepting;
                     dialog.ShowView(objSpace, noteObj);
                 }

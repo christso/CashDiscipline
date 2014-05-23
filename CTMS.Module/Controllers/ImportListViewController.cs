@@ -12,7 +12,7 @@ using CTMS.Module.BusinessObjects;
 using DevExpress.Data.Filtering;
 using CTMS.Module.ParamObjects.Import;
 using DevExpress.ExpressApp.SystemModule;
-using DG2NTT.ExpressApp.SystemModule;
+using D2NXAF.ExpressApp.SystemModule;
 using System.Threading;
 using System.Threading.Tasks;
 using CTMS.Module.HelperClasses;

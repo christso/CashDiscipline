@@ -26,7 +26,7 @@ using CTMS.Module.BusinessObjects;
 using DevExpress.Persistent.Validation;
 using CTMS.Module;
 using CTMS.Module.Controllers.Cash;
-using CTMS.Module.HelperClasses.Data;
+
 
 using System.Diagnostics;
 using System.Data.SqlClient;
@@ -70,7 +70,7 @@ namespace CTMS.UnitTests
                     //server = @"(localdb)\Projects";
                     server = @".\SQLEXPRESS";
                     //MSSqlClientHelper.DropAndCreateDatabase(server, database, @"D:\Data\SQL Server");
-                    MSSqlClientHelper.DropAndCreateDatabase(server, database, @"D:\Program Files\Microsoft SQL Server\MSSQL10.SQLEXPRESS\MSSQL\DATA");
+                    D2NXAF.Utilities.Data.MSSqlClientHelper.DropAndCreateDatabase(server, database, @"D:\Program Files\Microsoft SQL Server\MSSQL10.SQLEXPRESS\MSSQL\DATA");
                     return MSSqlConnectionProvider.GetConnectionString(server, database);
                 case DbType.PostgreSQL:
                     server = "localhost";

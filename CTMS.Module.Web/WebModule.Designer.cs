@@ -36,7 +36,7 @@ namespace CTMS.Module.Web
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.ScriptRecorder.Web.ScriptRecorderAspNetModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Reports.Web.ReportsAspNetModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotGrid.Web.PivotGridAspNetModule));
-            this.RequiredModuleTypes.Add(typeof(DG2NTT.ExpressApp.PivotGrid.Web.DG2NTTPivotGridWebModule));
+            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGrid.Web.D2NXAFPivotGridWebModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.FileAttachments.Web.FileAttachmentsAspNetModule));
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule));
         }

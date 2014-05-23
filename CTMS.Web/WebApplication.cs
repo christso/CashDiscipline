@@ -28,8 +28,8 @@ namespace CTMS.Web
         private DevExpress.ExpressApp.Reports.ReportsModule reportsModule1;
         private DevExpress.ExpressApp.Reports.Web.ReportsAspNetModule reportsAspNetModule1;
         private DevExpress.ExpressApp.PivotGrid.Web.PivotGridAspNetModule pivotGridAspNetModule1;
-        private DG2NTT.ExpressApp.SystemModule.DG2NTTSystemModule dG2NTTSystemModule1;
-        private DG2NTT.ExpressApp.PivotGrid.Web.DG2NTTPivotGridWebModule dG2NTTPivotGridWebModule1;
+        private D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule D2NXAFSystemModule1;
+        private D2NXAF.ExpressApp.PivotGrid.Web.D2NXAFPivotGridWebModule D2NXAFPivotGridWebModule1;
         private DevExpress.ExpressApp.FileAttachments.Web.FileAttachmentsAspNetModule fileAttachmentsAspNetModule1;
         private System.Data.SqlClient.SqlConnection sqlConnection1;
 
@@ -107,8 +107,8 @@ namespace CTMS.Web
             this.reportsModule1 = new DevExpress.ExpressApp.Reports.ReportsModule();
             this.reportsAspNetModule1 = new DevExpress.ExpressApp.Reports.Web.ReportsAspNetModule();
             this.pivotGridAspNetModule1 = new DevExpress.ExpressApp.PivotGrid.Web.PivotGridAspNetModule();
-            this.dG2NTTSystemModule1 = new DG2NTT.ExpressApp.SystemModule.DG2NTTSystemModule();
-            this.dG2NTTPivotGridWebModule1 = new DG2NTT.ExpressApp.PivotGrid.Web.DG2NTTPivotGridWebModule();
+            this.D2NXAFSystemModule1 = new D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule();
+            this.D2NXAFPivotGridWebModule1 = new D2NXAF.ExpressApp.PivotGrid.Web.D2NXAFPivotGridWebModule();
             this.fileAttachmentsAspNetModule1 = new DevExpress.ExpressApp.FileAttachments.Web.FileAttachmentsAspNetModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
@@ -160,8 +160,8 @@ namespace CTMS.Web
             this.Modules.Add(this.reportsModule1);
             this.Modules.Add(this.reportsAspNetModule1);
             this.Modules.Add(this.pivotGridAspNetModule1);
-            this.Modules.Add(this.dG2NTTSystemModule1);
-            this.Modules.Add(this.dG2NTTPivotGridWebModule1);
+            this.Modules.Add(this.D2NXAFSystemModule1);
+            this.Modules.Add(this.D2NXAFPivotGridWebModule1);
             this.Modules.Add(this.fileAttachmentsAspNetModule1);
             this.Modules.Add(this.module4);
             this.Modules.Add(this.securityModule1);

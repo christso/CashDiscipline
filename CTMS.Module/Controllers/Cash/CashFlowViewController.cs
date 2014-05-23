@@ -1,20 +1,12 @@
-﻿using DevExpress.ExpressApp;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CTMS.Module.BusinessObjects.Cash;
 using DevExpress.ExpressApp.Actions;
-using DevExpress.Xpo;
 using DevExpress.Data.Filtering;
-using CTMS.Module.BusinessObjects.Market;
-using System.Diagnostics;
 using DevExpress.ExpressApp.Xpo;
 using CTMS.Module.ParamObjects.Cash;
-using DevExpress.ExpressApp.SystemModule;
 using CTMS.Module.BusinessObjects.Forex;
-using CTMS.Module.BusinessObjects;
 
 namespace CTMS.Module.Controllers.Cash
 {

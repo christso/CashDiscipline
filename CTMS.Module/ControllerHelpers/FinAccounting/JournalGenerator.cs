@@ -5,7 +5,7 @@ using CTMS.Module.ParamObjects.FinAccounting;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.Xpo;
-using DG2NTT.StringEvaluators;
+using D2NXAF.StringEvaluators;
 using System;
 using System.Collections.Generic;
 using System.Linq;

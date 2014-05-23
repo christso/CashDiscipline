@@ -16,7 +16,7 @@ using CTMS.Module.BusinessObjects.Setup;
 using DevExpress.ExpressApp.Xpo;
 using CTMS.Module.ParamObjects.Cash;
 using System.Diagnostics;
-using DG2NTT.Utilities;
+using D2NXAF.Utilities;
 using GenerateUserFriendlyId.Module.BusinessObjects;
 using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.HelperClasses.Xpo;

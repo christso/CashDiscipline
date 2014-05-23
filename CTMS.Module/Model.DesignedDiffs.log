@@ -91,7 +91,7 @@ Loaded assemblies
 	DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, Location=C:\windows\Microsoft.Net\assembly\GAC_MSIL\DevExpress.XtraReports.v13.2.Extensions\v4.0_13.2.9.0__b88d1754d700e49a\DevExpress.XtraReports.v13.2.Extensions.dll
 	DevExpress.XtraReports.VSPackage, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, Location=C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\PrivateAssemblies\DevExpress.XtraReports.VSPackage.dll
 	DevExpress.XtraTreeList.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, Location=C:\windows\Microsoft.Net\assembly\GAC_MSIL\DevExpress.XtraTreeList.v13.2\v4.0_13.2.9.0__b88d1754d700e49a\DevExpress.XtraTreeList.v13.2.dll
-	DG2NTT.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\gl8nhtfs01\DG2NTT.StringEvaluators.dll
+	D2NXAF.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\gl8nhtfs01\D2NXAF.StringEvaluators.dll
 	EnvDTE, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, Location=C:\windows\assembly\GAC\EnvDTE\8.0.0.0__b03f5f7f11d50a3a\EnvDTE.dll
 	EnvDTE80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, Location=C:\windows\assembly\GAC\EnvDTE80\8.0.0.0__b03f5f7f11d50a3a\EnvDTE80.dll
 	EPPlus, Version=3.1.3.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ft7aarbe01\EPPlus.dll
@@ -447,26 +447,26 @@ Loaded assemblies
 	DevExpress.XtraRichEdit.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, Location=C:\windows\Microsoft.Net\assembly\GAC_MSIL\DevExpress.XtraRichEdit.v13.2\v4.0_13.2.9.0__b88d1754d700e49a\DevExpress.XtraRichEdit.v13.2.dll
 	DevExpress.XtraTreeList.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, Location=C:\windows\Microsoft.Net\assembly\GAC_MSIL\DevExpress.XtraTreeList.v13.2\v4.0_13.2.9.0__b88d1754d700e49a\DevExpress.XtraTreeList.v13.2.dll
 	DevExpress.XtraVerticalGrid.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, Location=C:\windows\Microsoft.Net\assembly\GAC_MSIL\DevExpress.XtraVerticalGrid.v13.2\v4.0_13.2.9.0__b88d1754d700e49a\DevExpress.XtraVerticalGrid.v13.2.dll
-	DG2NTT.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\alh3ktzu01\DG2NTT.ExpressApp.dll
-	DG2NTT.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\dm-tymwr01\DG2NTT.ExpressApp.dll
-	DG2NTT.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\dvpv8wrl01\DG2NTT.ExpressApp.dll
-	DG2NTT.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\p8ovspcd01\DG2NTT.ExpressApp.dll
-	DG2NTT.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ux_cvci-01\DG2NTT.ExpressApp.dll
-	DG2NTT.ExpressApp.PivotGrid, Version=1.0.5234.16617, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\6431a3gi01\DG2NTT.ExpressApp.PivotGrid.dll
-	DG2NTT.ExpressApp.PivotGrid, Version=1.0.5234.16714, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\-qzpnc-101\DG2NTT.ExpressApp.PivotGrid.dll
-	DG2NTT.ExpressApp.PivotGrid, Version=1.0.5234.16737, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\drzdq0kg01\DG2NTT.ExpressApp.PivotGrid.dll
-	DG2NTT.ExpressApp.PivotGrid, Version=1.0.5234.16782, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\jt98ix8g01\DG2NTT.ExpressApp.PivotGrid.dll
-	DG2NTT.ExpressApp.PivotGrid, Version=1.0.5234.16812, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\oqeab9wz01\DG2NTT.ExpressApp.PivotGrid.dll
-	DG2NTT.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\_nlseco601\DG2NTT.StringEvaluators.dll
-	DG2NTT.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\esour9s001\DG2NTT.StringEvaluators.dll
-	DG2NTT.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ewqfuemk01\DG2NTT.StringEvaluators.dll
-	DG2NTT.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ndorhfa201\DG2NTT.StringEvaluators.dll
-	DG2NTT.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\xmjj8gwo01\DG2NTT.StringEvaluators.dll
-	DG2NTT.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\kinifdj101\DG2NTT.Utilities.dll
-	DG2NTT.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\n6-pwvvw01\DG2NTT.Utilities.dll
-	DG2NTT.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ntzjukwx01\DG2NTT.Utilities.dll
-	DG2NTT.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ydpjlddd01\DG2NTT.Utilities.dll
-	DG2NTT.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\yvfljxhb01\DG2NTT.Utilities.dll
+	D2NXAF.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\alh3ktzu01\D2NXAF.ExpressApp.dll
+	D2NXAF.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\dm-tymwr01\D2NXAF.ExpressApp.dll
+	D2NXAF.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\dvpv8wrl01\D2NXAF.ExpressApp.dll
+	D2NXAF.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\p8ovspcd01\D2NXAF.ExpressApp.dll
+	D2NXAF.ExpressApp, Version=1.2.0.2, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ux_cvci-01\D2NXAF.ExpressApp.dll
+	D2NXAF.ExpressApp.PivotGrid, Version=1.0.5234.16617, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\6431a3gi01\D2NXAF.ExpressApp.PivotGrid.dll
+	D2NXAF.ExpressApp.PivotGrid, Version=1.0.5234.16714, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\-qzpnc-101\D2NXAF.ExpressApp.PivotGrid.dll
+	D2NXAF.ExpressApp.PivotGrid, Version=1.0.5234.16737, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\drzdq0kg01\D2NXAF.ExpressApp.PivotGrid.dll
+	D2NXAF.ExpressApp.PivotGrid, Version=1.0.5234.16782, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\jt98ix8g01\D2NXAF.ExpressApp.PivotGrid.dll
+	D2NXAF.ExpressApp.PivotGrid, Version=1.0.5234.16812, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\oqeab9wz01\D2NXAF.ExpressApp.PivotGrid.dll
+	D2NXAF.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\_nlseco601\D2NXAF.StringEvaluators.dll
+	D2NXAF.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\esour9s001\D2NXAF.StringEvaluators.dll
+	D2NXAF.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ewqfuemk01\D2NXAF.StringEvaluators.dll
+	D2NXAF.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ndorhfa201\D2NXAF.StringEvaluators.dll
+	D2NXAF.StringEvaluators, Version=1.0.0.1, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\xmjj8gwo01\D2NXAF.StringEvaluators.dll
+	D2NXAF.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\kinifdj101\D2NXAF.Utilities.dll
+	D2NXAF.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\n6-pwvvw01\D2NXAF.Utilities.dll
+	D2NXAF.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ntzjukwx01\D2NXAF.Utilities.dll
+	D2NXAF.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\ydpjlddd01\D2NXAF.Utilities.dll
+	D2NXAF.Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null, Location=C:\Users\ctso\AppData\Local\Microsoft\VisualStudio\12.0\ProjectAssemblies\yvfljxhb01\D2NXAF.Utilities.dll
 	DX_About, Version=13.2.9.0, Culture=neutral, PublicKeyToken=null, Location=C:\Program Files (x86)\DevExpress 13.2\CodeRush\System\DXCore\Bin\System\DX_About.dll
 	DX_AspExtensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=null, Location=C:\Program Files (x86)\DevExpress 13.2\CodeRush\System\DXCore\Bin\System\DX_AspExtensions.dll
 	DX_CodeDifference, Version=13.2.9.0, Culture=neutral, PublicKeyToken=null, Location=C:\Program Files (x86)\DevExpress 13.2\CodeRush\System\DXCore\Bin\System\DX_CodeDifference.dll

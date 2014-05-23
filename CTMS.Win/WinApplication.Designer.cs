@@ -49,8 +49,8 @@ namespace CTMS.Win
             this.pivotGridWindowsFormsModule1 = new DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule();
             this.pivotChartModuleBase1 = new DevExpress.ExpressApp.PivotChart.PivotChartModuleBase();
             this.pivotChartWindowsFormsModule1 = new DevExpress.ExpressApp.PivotChart.Win.PivotChartWindowsFormsModule();
-            this.ctmsPivotGridWinModule1 = new DG2NTT.ExpressApp.PivotGrid.Win.DG2NTTPivotGridWinModule();
-            this.dG2NTTSystemModule1 = new DG2NTT.ExpressApp.SystemModule.DG2NTTSystemModule();
+            this.ctmsPivotGridWinModule1 = new D2NXAF.ExpressApp.PivotGrid.Win.D2NXAFPivotGridWinModule();
+            this.D2NXAFSystemModule1 = new D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule();
             this.fileAttachmentsWindowsFormsModule1 = new DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
@@ -108,7 +108,7 @@ namespace CTMS.Win
             this.Modules.Add(this.pivotGridWindowsFormsModule1);
             this.Modules.Add(this.pivotChartModuleBase1);
             this.Modules.Add(this.pivotChartWindowsFormsModule1);
-            this.Modules.Add(this.dG2NTTSystemModule1);
+            this.Modules.Add(this.D2NXAFSystemModule1);
             this.Modules.Add(this.ctmsPivotGridWinModule1);
             this.Modules.Add(this.fileAttachmentsWindowsFormsModule1);
             this.Modules.Add(this.module4);
@@ -143,8 +143,8 @@ namespace CTMS.Win
         private DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule pivotGridWindowsFormsModule1;
         private DevExpress.ExpressApp.PivotChart.PivotChartModuleBase pivotChartModuleBase1;
         private DevExpress.ExpressApp.PivotChart.Win.PivotChartWindowsFormsModule pivotChartWindowsFormsModule1;
-        private DG2NTT.ExpressApp.PivotGrid.Win.DG2NTTPivotGridWinModule ctmsPivotGridWinModule1;
-        private DG2NTT.ExpressApp.SystemModule.DG2NTTSystemModule dG2NTTSystemModule1;
+        private D2NXAF.ExpressApp.PivotGrid.Win.D2NXAFPivotGridWinModule ctmsPivotGridWinModule1;
+        private D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule D2NXAFSystemModule1;
         private DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule fileAttachmentsWindowsFormsModule1;
     }
 }
