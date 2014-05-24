@@ -53,9 +53,8 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="D2NXAF.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.Utilities.dll</HintPath>
+    <Reference Include="D2NXAF.Utils">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.Utils.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.Data.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DevExpress.ExpressApp;
-using D2NXAF.Utilities;
+using D2NXAF.Utils;
 using System.Collections;
 using DevExpress.Persistent.Base;
 

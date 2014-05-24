@@ -141,7 +141,7 @@ namespace CTMS.Module.HelperClasses.Xpo
                                 ExceptionInfo = ex,
                                 OrigValue = csv[fieldMaps.Target[memberInfo.Name].SourceField]
                             };
-                            throw new D2NXAF.Utilities.Data.ConvertException(ErrorInfo.OrigValue, ErrorInfo.ColumnType);
+                            throw new D2NXAF.Utils.Data.ConvertException(ErrorInfo.OrigValue, ErrorInfo.ColumnType);
                         }
                     }
                     objSpace.Session.Save(targetObject);

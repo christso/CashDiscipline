@@ -13,7 +13,7 @@ using System.IO;
 using LumenWorks.Framework.IO.Csv;
 using DevExpress.Xpo;
 using DevExpress.ExpressApp.Xpo;
-using D2NXAF.Utilities;
+using D2NXAF.Utils;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Model.NodeGenerators;
 using DevExpress.Data.Filtering;
@@ -102,7 +102,7 @@ namespace CTMS.Module.Controllers
                         }
                     }
                 }
-                catch (D2NXAF.Utilities.Data.ConvertException)
+                catch (D2NXAF.Utils.Data.ConvertException)
                 {
                     CustomRequestExitStatus = RequestStatus.Error;
 

@@ -17,7 +17,7 @@ using DevExpress.ExpressApp.Security.Strategy;
 using CTMS.Module.HelperClasses;
 using DevExpress.ExpressApp.Xpo;
 using SDP.ParserUtils;
-using D2NXAF.Utilities;
+using D2NXAF.Utils;
 
 namespace CTMS.Module.Controllers.Market
 {

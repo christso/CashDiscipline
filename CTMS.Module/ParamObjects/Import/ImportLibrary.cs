@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using D2NXAF.Utilities;
+using D2NXAF.Utils;
 
 namespace CTMS.Module.ParamObjects.Import
 {
