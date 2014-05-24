@@ -8,7 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using D2NXAF.Utils;
-using CTMS.Module.HelperClasses.Xpo;
+using D2NXAF.ExpressApp.Xpo;
+using D2NXAF.ExpressApp.IO;
 
 namespace CTMS.Module.ParamObjects.Import
 {

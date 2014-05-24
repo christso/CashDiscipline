@@ -14,7 +14,7 @@ using DevExpress.Persistent.Validation;
 using DevExpress.ExpressApp.Security.Strategy;
 using CTMS.Module.BusinessObjects.Cash;
 using DevExpress.ExpressApp.Xpo;
-using CTMS.Module.HelperClasses;
+
 using CTMS.Module.BusinessObjects;
 
 namespace CTMS.Module.ParamObjects.Cash

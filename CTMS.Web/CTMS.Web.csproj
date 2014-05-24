@@ -55,6 +55,14 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="D2NXAF.ExpressApp, Version=1.2.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.dll</HintPath>
+    </Reference>
+    <Reference Include="D2NXAF.ExpressApp.PivotGrid.Web, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGrid.Web.dll</HintPath>
+    </Reference>
     <Reference Include="DevExpress.ExpressApp.CloneObject.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
@@ -245,7 +253,7 @@
     </Compile>
     <Compile Include="LogonTemplateContent1.ascx.designer.cs">
       <DependentUpon>LogonTemplateContent1.ascx</DependentUpon>
-    </Compile>		
+    </Compile>
     <Compile Include="WebApplication.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -284,14 +292,6 @@
     <ProjectReference Include="..\CTMS.Module\CTMS.Module.csproj">
       <Project>{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}</Project>
       <Name>CTMS.Module</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\D2NXAF.ExpressApp.PivotGrid.Web\D2NXAF.ExpressApp.PivotGrid.Web.csproj">
-      <Project>{1CE44561-0989-454F-B5CA-847E2EEFDE7C}</Project>
-      <Name>D2NXAF.ExpressApp.PivotGrid.Web</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\D2NXAF.ExpressApp\D2NXAF.ExpressApp.csproj">
-      <Project>{96b07e0f-dcf1-41f7-bba4-6c8d959e1f8a}</Project>
-      <Name>D2NXAF.ExpressApp</Name>
     </ProjectReference>
     <ProjectReference Include="..\GenerateUserFriendlyId.Module\GenerateUserFriendlyId.Module.csproj">
       <Project>{484A8217-DD6B-4E8F-B47E-F1F64D03BBB6}</Project>

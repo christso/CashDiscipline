@@ -15,9 +15,9 @@ using DevExpress.ExpressApp.SystemModule;
 using D2NXAF.ExpressApp.SystemModule;
 using System.Threading;
 using System.Threading.Tasks;
-using CTMS.Module.HelperClasses;
+
 using DevExpress.ExpressApp.Security.Strategy;
-using CTMS.Module.HelperClasses.Xpo;
+using D2NXAF.ExpressApp.Xpo;
 
 
 namespace CTMS.Module.Controllers

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
-using CTMS.Module.HelperClasses;
+
 using CTMS.Module.ParamObjects.Cash;
 
 namespace CTMS.Module.Controllers.Cash

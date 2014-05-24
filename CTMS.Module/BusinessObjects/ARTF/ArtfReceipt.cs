@@ -11,7 +11,7 @@ using DevExpress.Persistent.Validation;
 using CTMS.Module.BusinessObjects;
 using CTMS.Module.BusinessObjects.Cash;
 using DevExpress.ExpressApp.Security.Strategy;
-using CTMS.Module.HelperClasses;
+
 using DevExpress.ExpressApp.Model;
 
 namespace CTMS.Module.BusinessObjects.Artf

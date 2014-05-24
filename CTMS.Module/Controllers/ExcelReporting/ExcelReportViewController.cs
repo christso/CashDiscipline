@@ -13,8 +13,7 @@ using DevExpress.ExpressApp.Utils;
 using CTMS.Module.ParamObjects.FinAccounting;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
-
-using CTMS.Module.HelperClasses.ExpressApp;
+using D2NXAF.ExpressApp.Reports;
 using DevExpress.Data.Filtering;
 using CTMS.Module.BusinessObjects.FinAccounting;
 using CTMS.Module.ParamObjects.Cash;

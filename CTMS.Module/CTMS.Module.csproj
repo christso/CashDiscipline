@@ -76,6 +76,14 @@
     <Reference Include="AutoMapper.Net4">
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp, Version=1.2.0.2, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.dll</HintPath>
+    </Reference>
+    <Reference Include="D2NXAF.ExpressApp.PivotGrid, Version=1.0.5257.28963, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGrid.dll</HintPath>
+    </Reference>
     <Reference Include="D2NXAF.ExpressApp.PivotGridLayout">
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGridLayout.dll</HintPath>
     </Reference>
@@ -508,14 +516,6 @@
     <Content Include="Images\vodafone_logo_32x32.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\D2NXAF.ExpressApp.PivotGrid\D2NXAF.ExpressApp.PivotGrid.csproj">
-      <Project>{b5c18c13-85c7-4749-9f2d-ef92d3692ad3}</Project>
-      <Name>D2NXAF.ExpressApp.PivotGrid</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\D2NXAF.ExpressApp\D2NXAF.ExpressApp.csproj">
-      <Project>{96b07e0f-dcf1-41f7-bba4-6c8d959e1f8a}</Project>
-      <Name>D2NXAF.ExpressApp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\GenerateUserFriendlyId.Module\GenerateUserFriendlyId.Module.csproj">
       <Project>{484a8217-dd6b-4e8f-b47e-f1f64d03bbb6}</Project>
       <Name>GenerateUserFriendlyId.Module</Name>

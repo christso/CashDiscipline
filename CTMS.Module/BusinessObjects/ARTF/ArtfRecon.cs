@@ -11,7 +11,7 @@ using DevExpress.Persistent.Validation;
 using DevExpress.ExpressApp.DC;
 using GenerateUserFriendlyId.Module.BusinessObjects;
 using DevExpress.ExpressApp.Security.Strategy;
-using CTMS.Module.HelperClasses;
+
 using DevExpress.ExpressApp.Model;
 using Cash = CTMS.Module.BusinessObjects.Cash;
 

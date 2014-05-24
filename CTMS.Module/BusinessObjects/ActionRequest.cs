@@ -12,7 +12,7 @@ using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.ExpressApp.Security.Strategy;
-using CTMS.Module.HelperClasses;
+
 using GenerateUserFriendlyId.Module.BusinessObjects;
 using DevExpress.ExpressApp.Actions;
 using System.Threading;

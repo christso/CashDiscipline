@@ -19,7 +19,8 @@ using System.Diagnostics;
 using D2NXAF.Utils;
 using GenerateUserFriendlyId.Module.BusinessObjects;
 using CTMS.Module.BusinessObjects.Forex;
-using CTMS.Module.HelperClasses.Xpo;
+using D2NXAF.ExpressApp.Xpo;
+using D2NXAF.ExpressApp.Reports;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CTMS.Module.BusinessObjects.Cash

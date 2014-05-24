@@ -17,7 +17,7 @@ using System.Diagnostics;
 using DevExpress.Persistent.Base;
 using CTMS.Module.ParamObjects.FinAccounting;
 using CTMS.Module.BusinessObjects.FinAccounting;
-using CTMS.Module.HelperClasses;
+
 
 namespace CTMS.Module.DatabaseUpdate
 {

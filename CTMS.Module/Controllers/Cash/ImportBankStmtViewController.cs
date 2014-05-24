@@ -14,7 +14,7 @@ using DevExpress.Data.Filtering;
 using CTMS.Module.BusinessObjects;
 using D2NXAF.ExpressApp;
 using D2NXAF.Utils;
-using CTMS.Module.HelperClasses.Xpo;
+using D2NXAF.ExpressApp.Xpo;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Xpo;
 using LumenWorks.Framework.IO.Csv;

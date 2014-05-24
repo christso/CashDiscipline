@@ -12,7 +12,7 @@ using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.BusinessObjects.Forex;
 using DevExpress.Xpo;
 using DevExpress.ExpressApp.Xpo;
-using CTMS.Module.HelperClasses.Xpo;
+using D2NXAF.ExpressApp.Xpo;
 using System.Diagnostics;
 
 namespace CTMS.Module.Controllers.Forex

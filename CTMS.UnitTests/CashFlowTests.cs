@@ -9,7 +9,7 @@ using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.BusinessObjects.Market;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
-using CTMS.Module.HelperClasses;
+
 using CTMS.Module.DatabaseUpdate;
 using System.Diagnostics;
 using CTMS.Module.BusinessObjects.Forex;

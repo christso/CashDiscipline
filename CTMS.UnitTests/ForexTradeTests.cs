@@ -13,7 +13,7 @@ using DevExpress.Data.Filtering;
 using CTMS.Module.Controllers.Forex;
 using DevExpress.ExpressApp;
 using CTMS.Module.BusinessObjects.Market;
-using CTMS.Module.HelperClasses.Xpo;
+using D2NXAF.ExpressApp.Xpo;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
 using CTMS.Module.Controllers.Cash;

@@ -15,6 +15,7 @@ using CTMS.Module.BusinessObjects.ChartOfAccounts;
 using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.ControllerHelpers.FinAccounting;
 using CTMS.Module.ParamObjects.FinAccounting;
+using D2NXAF.ExpressApp.Reports;
 
 namespace CTMS.Module.BusinessObjects.FinAccounting
 {

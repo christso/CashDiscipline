@@ -19,8 +19,9 @@ using DevExpress.ExpressApp.Model.NodeGenerators;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Actions;
 using OfficeOpenXml;
-using CTMS.Module.HelperClasses;
+
 using CTMS.Module.BusinessObjects;
+using D2NXAF.ExpressApp.IO;
 
 namespace CTMS.Module.Controllers
 {
@@ -75,7 +76,7 @@ namespace CTMS.Module.Controllers
 
             Action job = new Action(() =>
             {
-                var engine = new CTMS.Module.HelperClasses.Xpo.CsvXpoEngine(Application);
+                var engine = new D2NXAF.ExpressApp.Xpo.CsvXpoEngine(Application);
                 bool userTriggersEnabled = AppSettings.UserTriggersEnabled;
                 try
                 {

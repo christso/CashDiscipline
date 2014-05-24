@@ -11,7 +11,7 @@ using DevExpress.Persistent.Validation;
 
 using GenerateUserFriendlyId.Module.BusinessObjects;
 using DevExpress.ExpressApp.Security.Strategy;
-using CTMS.Module.HelperClasses;
+
 using DevExpress.ExpressApp.Model;
 
 namespace CTMS.Module.BusinessObjects.Artf
