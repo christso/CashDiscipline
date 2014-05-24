@@ -52,6 +52,10 @@ namespace CTMS.Win
             this.ctmsPivotGridWinModule1 = new D2NXAF.ExpressApp.PivotGrid.Win.D2NXAFPivotGridWinModule();
             this.D2NXAFSystemModule1 = new D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule();
             this.fileAttachmentsWindowsFormsModule1 = new DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule();
+            this.pivotGridLayoutModule1 = new D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule();
+            this.xpoModule1 = new D2NXAF.ExpressApp.Xpo.XpoModule();
+            this.concurrencyModule1 = new D2NXAF.ExpressApp.Concurrency.ConcurrencyModule();
+            this.pivotGridLayoutWindowsFormsModule1 = new D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlConnection1
@@ -70,14 +74,14 @@ namespace CTMS.Win
             // 
             this.authenticationStandard1.LogonParametersType = typeof(DevExpress.ExpressApp.Security.AuthenticationStandardLogonParameters);
             // 
-            // viewVariantsModule1
+            // securityModule1
             // 
-            this.viewVariantsModule1.GenerateVariantsNode = true;
-            this.viewVariantsModule1.ShowAdditionalNavigation = false;
+            this.securityModule1.UserType = typeof(DevExpress.ExpressApp.Security.Strategy.SecuritySystemUser);
             // 
             // validationModule1
             // 
             this.validationModule1.AllowValidationDetailsAccess = true;
+            this.validationModule1.IgnoreWarningAndInformationRules = false;
             // 
             // reportsModule1
             // 
@@ -101,6 +105,11 @@ namespace CTMS.Win
             this.Modules.Add(this.validationModule1);
             this.Modules.Add(this.pivotGridModule1);
             this.Modules.Add(this.reportsModule1);
+            this.Modules.Add(this.securityModule1);
+            this.Modules.Add(this.pivotGridLayoutModule1);
+            this.Modules.Add(this.xpoModule1);
+            this.Modules.Add(this.D2NXAFSystemModule1);
+            this.Modules.Add(this.concurrencyModule1);
             this.Modules.Add(this.module3);
             this.Modules.Add(this.scriptRecorderModuleBase1);
             this.Modules.Add(this.scriptRecorderWindowsFormsModule1);
@@ -108,11 +117,10 @@ namespace CTMS.Win
             this.Modules.Add(this.pivotGridWindowsFormsModule1);
             this.Modules.Add(this.pivotChartModuleBase1);
             this.Modules.Add(this.pivotChartWindowsFormsModule1);
-            this.Modules.Add(this.D2NXAFSystemModule1);
             this.Modules.Add(this.ctmsPivotGridWinModule1);
             this.Modules.Add(this.fileAttachmentsWindowsFormsModule1);
+            this.Modules.Add(this.pivotGridLayoutWindowsFormsModule1);
             this.Modules.Add(this.module4);
-            this.Modules.Add(this.securityModule1);
             this.Security = this.securityStrategyComplex1;
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CTMSWindowsFormsApplication_DatabaseVersionMismatch);
             this.CustomizeLanguagesList += new System.EventHandler<DevExpress.ExpressApp.CustomizeLanguagesListEventArgs>(this.CTMSWindowsFormsApplication_CustomizeLanguagesList);
@@ -146,5 +154,9 @@ namespace CTMS.Win
         private D2NXAF.ExpressApp.PivotGrid.Win.D2NXAFPivotGridWinModule ctmsPivotGridWinModule1;
         private D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule D2NXAFSystemModule1;
         private DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule fileAttachmentsWindowsFormsModule1;
+        private D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule pivotGridLayoutModule1;
+        private D2NXAF.ExpressApp.Xpo.XpoModule xpoModule1;
+        private D2NXAF.ExpressApp.Concurrency.ConcurrencyModule concurrencyModule1;
+        private D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule pivotGridLayoutWindowsFormsModule1;
     }
 }

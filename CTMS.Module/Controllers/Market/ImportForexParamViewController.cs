@@ -21,7 +21,7 @@ using D2NXAF.Utils;
 
 namespace CTMS.Module.Controllers.Market
 {
-    public class ImportForexParamViewController : ViewControllerEx
+    public class ImportForexParamViewController : ViewController
     {
         public ImportForexParamViewController()
         {
@@ -40,6 +40,8 @@ namespace CTMS.Module.Controllers.Market
 
         void AcceptAction_Execute(object sender, DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs e)
         {
+            var request = new D2NXAF.ExpressApp.Concurrency.RequestManager(Application);
+
             var paramObj = View.CurrentObject as ImportForexRatesParam;
             var byteArray = paramObj.File.Content;
             var stream = new MemoryStream(byteArray);
@@ -76,7 +78,8 @@ namespace CTMS.Module.Controllers.Market
                 }
                 objSpace.CommitChanges();
             });
-            SubmitRequest("Import Forex Rates", job);
+
+            request.SubmitRequest("Import Forex Rates", job);
         }
 
         private class WbcFxRateParser : StringLayoutUtility

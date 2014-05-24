@@ -40,6 +40,7 @@
     <Items>
       <Item Id="Default" Caption="Administration" Index="0" ImageName="BO_Folder" IsNewNode="True">
         <Items IsNewNode="True">
+          <Item Id="ActionRequest" ViewId="ActionRequest_ListView" IsNewNode="True" />
           <Item Id="GlAccount_ListView" IsNewNode="True" Removed="True" />
           <Item Id="GlCompany_ListView" IsNewNode="True" Removed="True" />
           <Item Id="GlCostCentre_ListView" IsNewNode="True" Removed="True" />
@@ -238,9 +239,6 @@
     </DetailView>
     <ListView Id="Activity_ListView" AllowEdit="True" />
     <DashboardView Id="AnalysisServicesTutorialPivotGridView" IsNewNode="True">
-      <Items IsNewNode="True">
-        <PivotGridViewItem Id="AnalysisServicesTutorialPivotGridViewItem" IsNewNode="True" />
-      </Items>
       <Layout IsNewNode="True">
         <LayoutGroup Id="Main" IsNewNode="True">
           <LayoutItem Id="AnalysisServicesTutorialPivotGridViewItem" ViewItem="AnalysisServicesTutorialPivotGridViewItem" Index="0" IsNewNode="True" />
@@ -643,9 +641,6 @@
       </Columns>
     </ListView>
     <DashboardView Id="BankStmtPivotGridView" Caption="Bank Stmt Pivot Grid" IsNewNode="True">
-      <Items IsNewNode="True">
-        <PivotGridViewItem Id="PivotGridViewItem" IsNewNode="True" />
-      </Items>
       <Layout IsNewNode="True">
         <LayoutGroup Id="Main" IsNewNode="True">
           <LayoutItem Id="PivotGridViewItem" ViewItem="PivotGridViewItem" Index="0" IsNewNode="True" />
@@ -670,8 +665,8 @@
               <LayoutGroup Id="CashFlow_col1" RelativeSize="48.533333333333331">
                 <LayoutItem Id="CashFlowId" SizeConstraintsType="Default" RelativeSize="20" />
                 <LayoutItem Id="AccountCcyAmt" SizeConstraintsType="Default" Index="2" RelativeSize="15" />
-                <LayoutItem Id="FunctionalCcyAmt" SizeConstraintsType="Default" Index="3" RelativeSize="15" />
                 <LayoutItem Id="TranDate" SizeConstraintsType="Default" RelativeSize="15" />
+                <LayoutItem Id="FunctionalCcyAmt" SizeConstraintsType="Default" Index="3" RelativeSize="15" />
                 <LayoutItem Id="CounterCcyAmt" SizeConstraintsType="Default" Index="4" RelativeSize="15" />
                 <LayoutItem Id="CounterCcy" SizeConstraintsType="Default" Index="5" RelativeSize="20" />
                 <LayoutItem Id="Account" Removed="True" />

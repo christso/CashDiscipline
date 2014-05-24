@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CTMS.Module.Controllers.Setup
 {
-    public class DateDimViewController : ViewControllerEx
+    public class DateDimViewController : ViewController
     {
         public DateDimViewController()
         {

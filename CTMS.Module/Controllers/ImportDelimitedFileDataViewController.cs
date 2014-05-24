@@ -22,10 +22,11 @@ using OfficeOpenXml;
 
 using CTMS.Module.BusinessObjects;
 using D2NXAF.ExpressApp.IO;
+using D2NXAF.ExpressApp.Concurrency;
 
 namespace CTMS.Module.Controllers
 {
-    public class ImportDelimitedFileDataViewController : ViewControllerEx
+    public class ImportDelimitedFileDataViewController : ViewController
     {
         public ImportDelimitedFileDataViewController()
         {
@@ -65,6 +66,8 @@ namespace CTMS.Module.Controllers
 
         private void FastCsvImport()
         {
+            var request = new D2NXAF.ExpressApp.Concurrency.RequestManager(Application);
+
             var paramObj = (ImportDelimitedFileDataParam)View.CurrentObject;
             if (paramObj.File.Content == null)
                 throw new UserFriendlyException("No file was selected to upload.");
@@ -81,7 +84,7 @@ namespace CTMS.Module.Controllers
                 try
                 {
                     AppSettings.UserTriggersEnabled = false;
-                    engine.CancellationTokenSource = this.CancellationTokenSource;
+                    engine.CancellationTokenSource = request.CancellationTokenSource;
                     engine.Options.CreateMembers = paramObj.CreateMembers;
                     engine.Options.CacheObjects = paramObj.CacheLookupObjects;
                     if (paramObj.ImportActionType == ImportActionType.Insert)
@@ -98,40 +101,41 @@ namespace CTMS.Module.Controllers
                             messageFormat = "Members not found: {0} = {1}";
                         foreach (var pair in engine.XpObjectsNotFound)
                         {
-                            WriteLogLine(string.Format(messageFormat, pair.Key, QuoteJoinString(",", "'", pair.Value)), false);
-                            WriteLogLine("", false);
+                            request.WriteLogLine(string.Format(messageFormat, pair.Key, QuoteJoinString(",", "'", pair.Value)), false);
+                            request.WriteLogLine("", false);
                         }
                     }
                 }
                 catch (D2NXAF.Utils.Data.ConvertException)
                 {
-                    CustomRequestExitStatus = RequestStatus.Error;
+                    request.CustomRequestExitStatus = RequestStatus.Error;
 
                     if (engine.ErrorInfo != null)
                     {
-                        WriteLogLine(string.Format("Line: {0}. Field: {1}. Error converting '{2}' to type: '{3}'. {4}",
+                        request.WriteLogLine(string.Format("Line: {0}. Field: {1}. Error converting '{2}' to type: '{3}'. {4}",
                             engine.ErrorInfo.LineNumber,
                             engine.ErrorInfo.ColumnName,
                             engine.ErrorInfo.OrigValue,
                             engine.ErrorInfo.ColumnType,
                             engine.ErrorInfo.ExceptionInfo.Message), false);
-                        WriteLogLine("", false);
+                        request.WriteLogLine("", false);
                     }
                 }
                 catch (InvalidDataException)
                 {
                     if (engine.ErrorInfo == null) throw;
-                    CustomRequestExitStatus = RequestStatus.Error;
-                    WriteLogLine(string.Format("Line: {0}. {2}",
+                    request.CustomRequestExitStatus = RequestStatus.Error;
+                    request.WriteLogLine(string.Format("Line: {0}. {2}",
                         engine.ErrorInfo.ExceptionInfo.Message), false);
-                    WriteLogLine("", false);
+                    request.WriteLogLine("", false);
                 }
                 finally
                 {
                     AppSettings.UserTriggersEnabled = userTriggersEnabled;
                 }
             });
-            SubmitRequest("Import CSV File", job);
+
+            request.SubmitRequest("Import CSV File", job);
         }
 
         protected void AcceptAction_Execute(object sender, DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs e)

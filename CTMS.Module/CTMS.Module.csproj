@@ -80,6 +80,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp.Concurrency">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.Concurrency.dll</HintPath>
+    </Reference>
     <Reference Include="D2NXAF.ExpressApp.PivotGrid, Version=1.0.5257.28963, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGrid.dll</HintPath>
@@ -189,7 +192,6 @@
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
     <Compile Include="AutoCreatableObjectAttribute.cs" />
-    <Compile Include="BusinessObjects\ActionRequest.cs" />
     <Compile Include="BusinessObjects\BankStmtCashFlowForecast.cs" />
     <Compile Include="BusinessObjects\Cash\ActivityTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowDefaults.cs" />
@@ -243,6 +245,9 @@
       <SubType>Component</SubType>
     </Compile>
     <None Include="FunctionalTests\ForexTrade_Create.ets" />
+    <Compile Include="Test\Request\RequestTestController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ParamObjects\Cash\CashReportParam.cs" />
     <Compile Include="BusinessObjects\ChartOfAccounts\GlAccount.cs" />
     <Compile Include="BusinessObjects\ChartOfAccounts\GlCompany.cs" />
@@ -284,9 +289,6 @@
     <Compile Include="Controllers\CustomFunctions\BoMonthFunction.cs" />
     <Compile Include="Controllers\CustomFunctions\EoMonthFunction.cs" />
     <Compile Include="BusinessObjects\ExcelReport.cs" />
-    <Compile Include="Controllers\ActionRequestViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\ARTF\ArtfLedgerLookupListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -329,9 +331,6 @@
     <Compile Include="Controllers\ShowPaymentBatchReportController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ViewControllerEx.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\CustomFunctions\RegexMatchFunction.cs" />
     <Compile Include="ReportParams\CashReportParameters.cs" />
     <Compile Include="ParamObjects\FinAccounting\FinGenJournalParam.cs" />
@@ -340,6 +339,10 @@
     <Compile Include="ParamObjects\Import\ImportLibrary.cs" />
     <Compile Include="ParamObjects\MoveToIndexParam.cs" />
     <Compile Include="ReportScriptHelper\CashReport.cs" />
+    <Compile Include="Test\Request\TestParam.cs" />
+    <Compile Include="Test\Request\TestParamViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Test\TestViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -470,50 +473,6 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="UnusableNodes10.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes9.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes8.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes7.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes6.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes5.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes4.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes3.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes2.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes1.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
     <EmbeddedResource Include="Images\vodafone_banner.png" />
     <Content Include="FunctionalTests\Counterparty_Create.inc" />
     <Content Include="FunctionalTests\ForexCounterparty_Create.inc" />

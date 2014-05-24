@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CTMS.Module.Controllers.Cash
 {
-    public class ApPmtDistnViewController : ViewControllerEx
+    public class ApPmtDistnViewController : ViewController
     {
         public ApPmtDistnViewController()
         {

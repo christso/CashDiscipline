@@ -15,7 +15,7 @@ using System.Diagnostics;
 
 namespace CTMS.Module.Controllers.Cash
 {
-    public class BankStmtViewController : ViewControllerEx
+    public class BankStmtViewController : ViewController
     {
         public BankStmtViewController()
         {

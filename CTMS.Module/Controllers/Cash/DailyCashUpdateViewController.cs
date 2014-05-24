@@ -13,7 +13,7 @@ using CTMS.Module.BusinessObjects.Cash;
 
 namespace CTMS.Module.Controllers.Cash
 {
-    public class DailyCashUpdateViewController : ViewControllerEx
+    public class DailyCashUpdateViewController : ViewController
     {
         public DailyCashUpdateViewController()
         {

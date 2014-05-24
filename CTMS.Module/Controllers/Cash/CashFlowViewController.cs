@@ -11,7 +11,7 @@ using DevExpress.ExpressApp;
 
 namespace CTMS.Module.Controllers.Cash
 {
-    public class CashFlowViewController : ViewControllerEx
+    public class CashFlowViewController : ViewController
     {
         public CashFlowViewController()
         {

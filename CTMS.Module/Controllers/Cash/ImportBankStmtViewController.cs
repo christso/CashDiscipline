@@ -24,7 +24,7 @@ using System.Collections;
 
 namespace CTMS.Module.Controllers.Cash
 {
-    public class ImportBankStmtViewController : ViewControllerEx
+    public class ImportBankStmtViewController : ViewController
     {
         public ImportBankStmtViewController()
         {
@@ -63,6 +63,8 @@ namespace CTMS.Module.Controllers.Cash
 
         protected void AcceptAction_Execute(object sender, DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs e)
         {
+            var request = new D2NXAF.ExpressApp.Concurrency.RequestManager(Application);
+
             var paramObj = (ImportBankStmtParam)View.CurrentObject;
             if (paramObj.File.Content == null)
                 throw new UserFriendlyException("No file was selected to upload.");
@@ -80,8 +82,8 @@ namespace CTMS.Module.Controllers.Cash
 
                     while (csv.ReadNextRecord())
                     {
-                        if (CancellationTokenSource.IsCancellationRequested)
-                            CancellationTokenSource.Token.ThrowIfCancellationRequested();
+                        if (request.CancellationTokenSource.IsCancellationRequested)
+                            request.CancellationTokenSource.Token.ThrowIfCancellationRequested();
 
                         BankStmt bankStmt = objSpace.CreateObject<BankStmt>();
 
@@ -113,7 +115,8 @@ namespace CTMS.Module.Controllers.Cash
                     objSpace.CommitChanges();
                 }
             });
-            SubmitRequest("Import CSV File", job);
+
+            request.SubmitRequest("Import CSV File", job);
         }
     }
 }

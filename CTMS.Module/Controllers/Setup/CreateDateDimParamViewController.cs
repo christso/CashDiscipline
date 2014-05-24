@@ -14,7 +14,7 @@ using DevExpress.Data.Filtering;
 
 namespace CTMS.Module.Controllers.Setup
 {
-    public class CreateDateDimParamViewController : ViewControllerEx
+    public class CreateDateDimParamViewController : ViewController
     {
         public CreateDateDimParamViewController()
         {

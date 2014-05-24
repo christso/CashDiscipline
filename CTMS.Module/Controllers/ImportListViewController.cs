@@ -1,28 +1,16 @@
 using System;
-using System.ComponentModel;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using CTMS.Module.BusinessObjects.Artf;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
-using DevExpress.ExpressApp.Xpo;
-using CTMS.Module.BusinessObjects;
-using DevExpress.Data.Filtering;
 using CTMS.Module.ParamObjects.Import;
-using DevExpress.ExpressApp.SystemModule;
-using D2NXAF.ExpressApp.SystemModule;
-using System.Threading;
-using System.Threading.Tasks;
 
-using DevExpress.ExpressApp.Security.Strategy;
 using D2NXAF.ExpressApp.Xpo;
 
 
 namespace CTMS.Module.Controllers
 {
-    public partial class ImportListViewController : ViewControllerEx
+    public partial class ImportListViewController : ViewController
     {
         public ImportListViewController()
         {
@@ -37,7 +25,6 @@ namespace CTMS.Module.Controllers
 
             ChoiceActionItem csvActionItem = new ChoiceActionItem();
             csvActionItem.Caption = "CSV";
-            //csvActionItem.Data = "ArtfCustomerType_ListView";
 
             importDataAction = new SingleChoiceAction(this, "ImportData", PredefinedCategory.ObjectsCreation);
             importDataAction.Caption = "Import";
