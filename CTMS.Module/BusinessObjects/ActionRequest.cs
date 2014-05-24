@@ -21,7 +21,7 @@ using System.Threading;
 namespace CTMS.Module.BusinessObjects
 {
     [DefaultClassOptions]
-    public class ActionRequest : GenerateUserFriendlyId.Module.BusinessObjects.UserFriendlyIdPersistentObject
+    public class ActionRequest : UserFriendlyIdPersistentObject
     { // You can use a different base persistent class based on your requirements (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ActionRequest(Session session)
             : base(session)

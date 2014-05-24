@@ -43,6 +43,7 @@ namespace CTMS.Module
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotGrid.PivotGridModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Validation.ValidationModule));
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule));
+            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Xpo.XpoModule));
         }
 
         #endregion

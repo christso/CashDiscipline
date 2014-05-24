@@ -5,6 +5,7 @@ using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Web;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.ExpressApp.Security;
+using D2NXAF.ExpressApp.Xpo;
 
 namespace CTMS.Web
 {
@@ -49,7 +50,7 @@ namespace CTMS.Web
 
         protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)
         {
-            args.ObjectSpaceProvider = new XPObjectSpaceProvider(args.ConnectionString, args.Connection, true);
+            args.ObjectSpaceProvider = new D2NObjectSpaceProvider(args.ConnectionString, args.Connection, true);
         }
 
         private void CTMSAspNetApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e)

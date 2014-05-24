@@ -17,6 +17,7 @@ using CTMS.Module.BusinessObjects.Market;
 using DevExpress.ExpressApp.Xpo;
 using GenerateUserFriendlyId.Module.BusinessObjects;
 using System.Collections;
+using D2NXAF.ExpressApp.Xpo;
 
 namespace CTMS.Module.BusinessObjects.Forex
 {

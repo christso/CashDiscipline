@@ -5,6 +5,7 @@ using DevExpress.ExpressApp.Win;
 using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Xpo;
+using D2NXAF.ExpressApp.Xpo;
 
 namespace CTMS.Win
 {
@@ -18,7 +19,7 @@ namespace CTMS.Win
 
         protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)
         {
-            args.ObjectSpaceProvider = new XPObjectSpaceProvider(args.ConnectionString, args.Connection);
+            args.ObjectSpaceProvider = new D2NObjectSpaceProvider(args.ConnectionString, args.Connection);
         }
         private void CTMSWindowsFormsApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e)
         {

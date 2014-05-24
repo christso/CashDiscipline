@@ -41,8 +41,11 @@ namespace CTMS.Module.BusinessObjects.Cash
             Changed += CashFlow_Changed;
         }
 
+        
         void CashFlow_Changed(object sender, ObjectChangeEventArgs e)
         {
+            // This does not execute when IdentityBaseObject is used since
+            // XAF is not aware of changes to SequentialNumber that is computed by the database server
             if (e.PropertyName == "SequentialNumber")
             {
                 if (Snapshot.Oid == SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid)
@@ -86,6 +89,11 @@ namespace CTMS.Module.BusinessObjects.Cash
 
             if (IsFixUpdated)
                 IsFixUpdated = false;
+        }
+
+        protected override void OnSaved()
+        {
+            base.OnSaved();
         }
 
         protected override void OnDeleting()

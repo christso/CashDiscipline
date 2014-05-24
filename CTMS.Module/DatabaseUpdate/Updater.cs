@@ -17,6 +17,7 @@ using System.Diagnostics;
 using DevExpress.Persistent.Base;
 using CTMS.Module.ParamObjects.FinAccounting;
 using CTMS.Module.BusinessObjects.FinAccounting;
+using CTMS.Module.BusinessObjects.Forex;
 
 
 namespace CTMS.Module.DatabaseUpdate
@@ -27,18 +28,13 @@ namespace CTMS.Module.DatabaseUpdate
         {
         }
 
-        private Version _PreviousDBVersion = null;
-
         public override void UpdateDatabaseBeforeUpdateSchema()
         {
-            _PreviousDBVersion = CurrentDBVersion;
-
             base.UpdateDatabaseBeforeUpdateSchema();
-
-            #region Database Schema
-            #endregion
-
+            //D2NXAF.ExpressApp.Xpo.Updater.SetupIdentityColumn(((XPObjectSpace)ObjectSpace).Session, typeof(CashFlow));
+            //D2NXAF.ExpressApp.Xpo.Updater.SetupIdentityColumn(((XPObjectSpace)ObjectSpace).Session, typeof(ForexTrade));
         }
+
 
         protected new void DropColumn(string tableName, string columnName)
         {

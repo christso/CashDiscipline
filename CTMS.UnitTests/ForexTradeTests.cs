@@ -705,8 +705,8 @@ namespace CTMS.UnitTests
 
         protected override void SetupObjects()
         {
-            Updater.CreateCurrencies(ObjectSpace);
-            Updater.InitSetOfBooks(ObjectSpace);
+            CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
+            CTMS.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
         }
     }
 }
