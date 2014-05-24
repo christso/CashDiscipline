@@ -178,7 +178,7 @@ namespace CTMS.Module.BusinessObjects.Artf
         #region FromLedger
         ArtfLedger _FromLedger;
         [Association(@"ArtfFromLedger-ArtfRecons")]
-        [EditorAlias("CustomLookupPropertyEditor")]
+        [EditorAlias("D2NLookupPropertyEditor")]
         [ImmediatePostData(true)]
         [VisibleInListView(false)]
         [ModelDefault("LookupProperty", "LedgerId")]
@@ -261,7 +261,7 @@ namespace CTMS.Module.BusinessObjects.Artf
         #region ToLedger
         ArtfLedger _ToLedger;
         [Association(@"ArtfToLedger-ArtfRecons")]
-        [EditorAlias("CustomLookupPropertyEditor")]
+        [EditorAlias("D2NLookupPropertyEditor")]
         [ImmediatePostData(true)]
         [VisibleInListView(false)]
         [ModelDefault("LookupProperty", "LedgerId")]

@@ -24,7 +24,7 @@ namespace CTMS.Module.Controllers
         private ActionRequest _RequestObj;
         protected RequestStatus? CustomRequestExitStatus;
 
-        protected virtual void SubmitRequest(string requestName, Action job)
+        protected void SubmitRequest(string requestName, Action job)
         {
             var ts = new CancellationTokenSource();
             CancellationTokenSource = ts;
@@ -89,46 +89,6 @@ namespace CTMS.Module.Controllers
             }
             requestObj.Save();
             requestObj.Session.CommitTransaction();
-        }
-
-        protected void ShowSingletonPopupDialogDetailView<T>(XafApplication app)
-        {
-            var objSpace = Application.CreateObjectSpace();
-            var svp = new ShowViewParameters();
-            svp.CreatedView = app.CreateDetailView(objSpace,
-                StaticHelpers.GetInstance<T>(objSpace));
-            svp.TargetWindow = TargetWindow.NewModalWindow;
-            svp.Context = TemplateContext.PopupWindow;
-            svp.CreateAllControllers = true;
-            var dc = app.CreateController<DialogController>();
-            svp.Controllers.Add(dc);
-            app.ShowViewStrategy.ShowView(svp, new ShowViewSource(null, null));
-        }
-
-        public static void ShowNonPersistentPopupDialogDetailView(XafApplication app, Type objType)
-        {
-            var svp = new ShowViewParameters();
-            svp.CreatedView = app.CreateDetailView(ObjectSpaceInMemory.CreateNew(),
-                Activator.CreateInstance(objType));
-            svp.TargetWindow = TargetWindow.NewModalWindow;
-            svp.Context = TemplateContext.PopupWindow;
-            svp.CreateAllControllers = true;
-            var dc = app.CreateController<DialogController>();
-            svp.Controllers.Add(dc);
-            app.ShowViewStrategy.ShowView(svp, new ShowViewSource(null, null));
-        }
-
-        public static void ShowPopupDialogDetailView(XafApplication app, object classInstance)
-        {
-            var svp = new ShowViewParameters();
-            svp.CreatedView = app.CreateDetailView(ObjectSpaceInMemory.CreateNew(),
-                classInstance);
-            svp.TargetWindow = TargetWindow.NewModalWindow;
-            svp.Context = TemplateContext.PopupWindow;
-            svp.CreateAllControllers = true;
-            var dc = app.CreateController<DialogController>();
-            svp.Controllers.Add(dc);
-            app.ShowViewStrategy.ShowView(svp, new ShowViewSource(null, null));
         }
     }
 }

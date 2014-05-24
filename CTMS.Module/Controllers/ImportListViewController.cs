@@ -63,7 +63,6 @@ namespace CTMS.Module.Controllers
 
         private void importDataAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
-            
             ChoiceActionItem activeItem = e.SelectedChoiceActionItem;
             var currentTypeInfo = ((ObjectView)View).ObjectTypeInfo;
 
@@ -75,7 +74,8 @@ namespace CTMS.Module.Controllers
                         FieldMaps = fieldAliases
                     };
                     paramObj.CreateTemplate();
-                    ShowPopupDialogDetailView(Application, paramObj);
+                    var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    dialog.ShowView(paramObj);
                 });
 
 
@@ -87,11 +87,13 @@ namespace CTMS.Module.Controllers
                 
                 if (currentTypeInfo.Type == typeof(CTMS.Module.BusinessObjects.Market.ForexRate))
                 {
-                    ShowNonPersistentPopupDialogDetailView(Application, typeof(ImportForexRatesParam));
+                    var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application); 
+                    dialog.ShowNonPersistentView(typeof(ImportForexRatesParam));
                 }
                 else if (currentTypeInfo.Type == typeof(CTMS.Module.BusinessObjects.Cash.BankStmt))
                 {
-                    ShowNonPersistentPopupDialogDetailView(Application, typeof(ImportBankStmtParam));
+                    var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application); 
+                    dialog.ShowNonPersistentView(typeof(ImportBankStmtParam));
                 }
                 else if (currentTypeInfo.Type == typeof(CTMS.Module.BusinessObjects.Cash.AccountsPayable.ApPmtDistn))
                 {

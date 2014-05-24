@@ -22,7 +22,8 @@ namespace CTMS.Module.Controllers.Setup
 
         void _CreateDateAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            ShowNonPersistentPopupDialogDetailView(Application, typeof(CreateDateDimParam));
+            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application); 
+            dialog.ShowNonPersistentView(typeof(CreateDateDimParam));
         }
         private SimpleAction createDateAction;
     }

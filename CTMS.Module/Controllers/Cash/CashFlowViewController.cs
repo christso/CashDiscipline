@@ -7,6 +7,7 @@ using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
 using CTMS.Module.ParamObjects.Cash;
 using CTMS.Module.BusinessObjects.Forex;
+using DevExpress.ExpressApp;
 
 namespace CTMS.Module.Controllers.Cash
 {
@@ -48,10 +49,12 @@ namespace CTMS.Module.Controllers.Cash
             switch (e.SelectedChoiceActionItem.Caption)
             {
                 case "Daily Update":
-                    ShowNonPersistentPopupDialogDetailView(Application, typeof(DailyCashUpdateParam));
+                    var dialog1 = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    dialog1.ShowNonPersistentView(typeof(DailyCashUpdateParam));
                     break;
                 case "Fix Forecast":
-                    ShowSingletonPopupDialogDetailView<CashFlowFixParam>(Application);
+                    var dialog2 = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    dialog2.ShowSingletonView<CashFlowFixParam>((IObjectSpace)Application.CreateObjectSpace());
                     break;
                 case "Map":
                     ExecuteMapping();
