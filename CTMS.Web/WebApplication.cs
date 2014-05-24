@@ -32,6 +32,9 @@ namespace CTMS.Web
         private D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule D2NXAFSystemModule1;
         private D2NXAF.ExpressApp.PivotGrid.Web.D2NXAFPivotGridWebModule D2NXAFPivotGridWebModule1;
         private DevExpress.ExpressApp.FileAttachments.Web.FileAttachmentsAspNetModule fileAttachmentsAspNetModule1;
+        private D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule pivotGridLayoutModule1;
+        private XpoModule xpoModule1;
+        private D2NXAF.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule pivotGridLayoutAspNetModule1;
         private System.Data.SqlClient.SqlConnection sqlConnection1;
 
         public CTMSAspNetApplication()
@@ -111,6 +114,9 @@ namespace CTMS.Web
             this.D2NXAFSystemModule1 = new D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule();
             this.D2NXAFPivotGridWebModule1 = new D2NXAF.ExpressApp.PivotGrid.Web.D2NXAFPivotGridWebModule();
             this.fileAttachmentsAspNetModule1 = new DevExpress.ExpressApp.FileAttachments.Web.FileAttachmentsAspNetModule();
+            this.pivotGridLayoutModule1 = new D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule();
+            this.xpoModule1 = new D2NXAF.ExpressApp.Xpo.XpoModule();
+            this.pivotGridLayoutAspNetModule1 = new D2NXAF.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlConnection1
@@ -129,14 +135,14 @@ namespace CTMS.Web
             // 
             this.authenticationStandard1.LogonParametersType = typeof(DevExpress.ExpressApp.Security.AuthenticationStandardLogonParameters);
             // 
-            // viewVariantsModule1
+            // securityModule1
             // 
-            this.viewVariantsModule1.GenerateVariantsNode = true;
-            this.viewVariantsModule1.ShowAdditionalNavigation = false;
+            this.securityModule1.UserType = typeof(DevExpress.ExpressApp.Security.Strategy.SecuritySystemUser);
             // 
             // validationModule1
             // 
             this.validationModule1.AllowValidationDetailsAccess = true;
+            this.validationModule1.IgnoreWarningAndInformationRules = false;
             // 
             // reportsModule1
             // 
@@ -155,6 +161,9 @@ namespace CTMS.Web
             this.Modules.Add(this.viewVariantsModule1);
             this.Modules.Add(this.validationModule1);
             this.Modules.Add(this.pivotGridModule1);
+            this.Modules.Add(this.securityModule1);
+            this.Modules.Add(this.pivotGridLayoutModule1);
+            this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.module3);
             this.Modules.Add(this.scriptRecorderModuleBase1);
             this.Modules.Add(this.scriptRecorderAspNetModule1);
@@ -164,8 +173,8 @@ namespace CTMS.Web
             this.Modules.Add(this.D2NXAFSystemModule1);
             this.Modules.Add(this.D2NXAFPivotGridWebModule1);
             this.Modules.Add(this.fileAttachmentsAspNetModule1);
+            this.Modules.Add(this.pivotGridLayoutAspNetModule1);
             this.Modules.Add(this.module4);
-            this.Modules.Add(this.securityModule1);
             this.Security = this.securityStrategyComplex1;
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CTMSAspNetApplication_DatabaseVersionMismatch);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();

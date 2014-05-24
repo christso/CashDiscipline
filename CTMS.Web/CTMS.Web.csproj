@@ -63,8 +63,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGrid.Web.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp.PivotGridLayout, Version=1.0.5258.2116, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGridLayout.dll</HintPath>
+    </Reference>
+    <Reference Include="D2NXAF.ExpressApp.PivotGridLayout.Web, Version=1.0.5258.2117, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGridLayout.Web.dll</HintPath>
+    </Reference>
     <Reference Include="D2NXAF.ExpressApp.Xpo">
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.Xpo.dll</HintPath>
+    </Reference>
+    <Reference Include="D2NXAF.PivotGrid, Version=1.0.5258.2116, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.PivotGrid.dll</HintPath>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.CloneObject.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
