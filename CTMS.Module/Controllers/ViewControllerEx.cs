@@ -96,7 +96,7 @@ namespace CTMS.Module.Controllers
             var objSpace = Application.CreateObjectSpace();
             var svp = new ShowViewParameters();
             svp.CreatedView = app.CreateDetailView(objSpace,
-                CTMS.Module.HelperClasses.StaticHelpers.GetInstance<T>(objSpace));
+                StaticHelpers.GetInstance<T>(objSpace));
             svp.TargetWindow = TargetWindow.NewModalWindow;
             svp.Context = TemplateContext.PopupWindow;
             svp.CreateAllControllers = true;

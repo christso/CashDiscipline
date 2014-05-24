@@ -5,11 +5,8 @@ using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-
-namespace CTMS.Module.HelperClasses
+namespace D2NXAF.ExpressApp
 {
     public class StaticHelpers
     {

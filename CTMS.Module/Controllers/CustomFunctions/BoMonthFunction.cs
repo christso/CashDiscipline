@@ -17,7 +17,7 @@ namespace CTMS.Module.CustomFunctions
         object ICustomFunctionOperator.Evaluate(params object[] operands)
         {
             var dt = (DateTime)operands[0];
-            return HelperClasses.StaticHelpers.DateObject(dt.Year, dt.Month, 1);
+            return D2NXAF.ExpressApp.StaticHelpers.DateObject(dt.Year, dt.Month, 1);
         }
 
         string ICustomFunctionOperator.Name

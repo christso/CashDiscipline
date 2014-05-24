@@ -57,14 +57,14 @@ namespace CTMS.Module.DatabaseUpdate
             InitSetOfBooks(objSpace);
             CreateFinAccountingDefaults(objSpace);
             CreateCashFlowDefaults(objSpace);
-            StaticHelpers.GetInstance<CTMS.Module.ParamObjects.Cash.CashFlowFixParam>(objSpace);
+            D2NXAF.ExpressApp.StaticHelpers.GetInstance<CTMS.Module.ParamObjects.Cash.CashFlowFixParam>(objSpace);
 
         }
 
         public static void CreateFinAccountingDefaults(IObjectSpace objSpace)
         {
-            StaticHelpers.GetInstance<FinGenJournalParam>(objSpace);
-            StaticHelpers.GetInstance<FinAccountingDefaults>(objSpace);
+            D2NXAF.ExpressApp.StaticHelpers.GetInstance<FinGenJournalParam>(objSpace);
+            D2NXAF.ExpressApp.StaticHelpers.GetInstance<FinAccountingDefaults>(objSpace);
         }
 
         public static void InitSetOfBooks(IObjectSpace objSpace)
@@ -162,7 +162,7 @@ namespace CTMS.Module.DatabaseUpdate
                 account.Currency = objSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
             }
 
-            var cfDef = StaticHelpers.GetInstance<CashFlowDefaults>(objSpace);
+            var cfDef = D2NXAF.ExpressApp.StaticHelpers.GetInstance<CashFlowDefaults>(objSpace);
             if (cfDef.Counterparty == null)
                 cfDef.Counterparty = counterparty;
             if (cfDef.Activity == null)

@@ -34,7 +34,7 @@ namespace CTMS.Module.ParamObjects.Cash
         {
             base.AfterConstruction();
             // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
-            ReportUser = StaticHelpers.GetCurrentUser(Session);
+            ReportUser = D2NXAF.ExpressApp.StaticHelpers.GetCurrentUser(Session);
             Snapshot1 = Session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
         }
         // Fields...
@@ -118,7 +118,7 @@ namespace CTMS.Module.ParamObjects.Cash
         
         public static CashReportParam GetInstance(XPObjectSpace objSpace)
         {
-            var currentUser = StaticHelpers.GetCurrentUser(objSpace.Session);
+            var currentUser = D2NXAF.ExpressApp.StaticHelpers.GetCurrentUser(objSpace.Session);
             CashReportParam result = objSpace.FindObject<CashReportParam>(
                 CriteriaOperator.Parse("ReportUser = ?", currentUser));
             if (result == null)
