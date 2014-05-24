@@ -31,20 +31,4 @@ namespace CTMS.Module
         }
 
     }
-    //public class AutoCreatableObjectController : ViewController<DetailView>
-    //{
-    //    protected override void OnViewChanging(View view)
-    //    {
-    //        base.OnViewChanging(view);
-    //        Active.SetItemValue("AutoCreatableObject", false);
-    //        if (view != null && view is ObjectView)
-    //        {
-    //            AutoCreatableObjectAttribute attribute = ((ObjectView)view).ObjectTypeInfo.FindAttribute<AutoCreatableObjectAttribute>(true);
-    //            if (attribute != null)
-    //            {
-    //                Active.SetItemValue("AutoCreatableObject", true);
-    //            }
-    //        }
-    //    }
-    //}
 }

@@ -6,15 +6,5 @@
     <SchemaModule Name="SystemWindowsFormsModule" Version="13.1.6.0" IsNewNode="True" />
   </SchemaModules>
   <Views>
-    <DashboardView Id="AnalysisServicesTutorialPivotGridView">
-      <Items>
-        <PivotGridViewItem Id="AnalysisServicesTutorialPivotGridViewItem" CustomControlTypeName="CTMS.Win.Controls.AnalysisServicesTutorialControl" />
-      </Items>
-    </DashboardView>
-    <DashboardView Id="BankStmtPivotGridView">
-      <Items>
-        <PivotGridViewItem Id="PivotGridViewItem" CustomControlTypeName="CTMS.Win.Controls.BankStmtAnalysisControl" />
-      </Items>
-    </DashboardView>
   </Views>
 </Application>

@@ -221,8 +221,6 @@
     <Compile Include="Controllers\RefocusWebControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Editors\ASPxCustomLookupPropertyEditor.cs" />
-    <Compile Include="Editors\WebCustomUserControlViewItem.cs" />
     <Compile Include="Layout\CustomLayoutTemplates.cs" />
     <Compile Include="WebModule.cs">
       <SubType>Component</SubType>

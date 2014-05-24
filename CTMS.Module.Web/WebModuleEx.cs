@@ -13,7 +13,6 @@ namespace CTMS.Module.Web
         public override void ExtendModelInterfaces(DevExpress.ExpressApp.Model.ModelInterfaceExtenders extenders)
         {
             base.ExtendModelInterfaces(extenders);
-            extenders.Add<CTMS.Module.Editors.IModelCustomUserControlViewItem, CTMS.Module.Web.Editors.IModelWebCustomUserControlViewItem>();
         }
     }
 }

@@ -238,9 +238,6 @@
     <Compile Include="Controllers\ToolbarViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Editors\CustomLookupPropertyEditor.cs" />
-    <Compile Include="Editors\WinCustomUserControlViewItem.cs" />
-    <Compile Include="Editors\WinPivotGridViewItem.cs" />
     <Compile Include="WinModule.cs">
       <SubType>Component</SubType>
     </Compile>
