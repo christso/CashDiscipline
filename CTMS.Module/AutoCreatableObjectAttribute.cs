@@ -29,6 +29,5 @@ namespace CTMS.Module
             get { return viewEditMode; }
             set { viewEditMode = value; }
         }
-
     }
 }

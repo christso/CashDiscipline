@@ -19,14 +19,24 @@ namespace CTMS.Module.Test
         protected override void OnActivated()
         {
             base.OnActivated();
-            var controller = Frame.GetController<DialogController>();
-            controller.Accepting += controller_Accepting;
+            View.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.Edit;
+            //var controller = Frame.GetController<DialogController>();
+            //controller.Accepting += controller_Accepting;
         }
 
         void controller_Accepting(object sender, DialogControllerAcceptingEventArgs e)
         {
-            var request = new D2NXAF.ExpressApp.Concurrency.RequestManager(Application);
-            request.SubmitRequest("Test", Job1);
+            //View.ViewEditMode = DevExpress.ExpressApp.Editors.ViewEditMode.View;
+
+            //var request = new D2NXAF.ExpressApp.Concurrency.RequestManager(Application);
+            //request.SubmitRequest("Test", Job1);
+        }
+
+        protected override void OnDeactivated()
+        {
+            base.OnDeactivated();
+            var controller = Frame.GetController<DialogController>();
+            controller.Accepting -= controller_Accepting;
         }
 
         private void Job1()

@@ -220,7 +220,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SkipLogonForm.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="DefaultVerticalTemplateContent1.ascx" />
     <Content Include="DialogTemplateContent1.ascx" />
@@ -237,13 +236,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SkipLogonForm.aspx.cs">
-      <DependentUpon>SkipLogonForm.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SkipLogonForm.aspx.designer.cs">
-      <DependentUpon>SkipLogonForm.aspx</DependentUpon>
-    </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
