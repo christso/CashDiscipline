@@ -78,6 +78,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp.Layout">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.Layout.dll</HintPath>
+    </Reference>
+    <Reference Include="D2NXAF.ExpressApp.Layout.Web">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.Layout.Web.dll</HintPath>
+    </Reference>
     <Reference Include="D2NXAF.ExpressApp.PivotGrid, Version=1.0.5257.28963, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGrid.dll</HintPath>
@@ -205,12 +211,6 @@
     <Compile Include="Controllers\CTMSPivotGridDrillDownController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\CustomLayoutViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\CustomLayoutViewController.Designer.cs">
-      <DependentUpon>CustomLayoutViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\ImportFileDataViewController.cs" />
     <Compile Include="Controllers\PopupDetailViewController.cs">
       <SubType>Component</SubType>
@@ -221,7 +221,6 @@
     <Compile Include="Controllers\RefocusWebControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Layout\CustomLayoutTemplates.cs" />
     <Compile Include="WebModule.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -236,9 +235,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Controllers\ArtfCreateGlJournalsWebViewController.resx">
       <DependentUpon>ArtfCreateGlJournalsWebViewController.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controllers\CustomLayoutViewController.resx">
-      <DependentUpon>CustomLayoutViewController.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controllers\PopupDetailViewController.resx">
       <DependentUpon>PopupDetailViewController.cs</DependentUpon>

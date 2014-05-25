@@ -15,7 +15,6 @@ using CTMS.Module.BusinessObjects.Artf;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.SystemModule;
 using DevExpress.ExpressApp.Model;
-using CTMS.Module.Model;
 using DevExpress.ExpressApp.Validation;
 using DevExpress.Persistent.Validation;
 

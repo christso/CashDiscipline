@@ -45,6 +45,7 @@ namespace CTMS.Module
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule));
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Xpo.XpoModule));
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Concurrency.ConcurrencyModule));
+            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.LayoutModule));
         }
 
         #endregion

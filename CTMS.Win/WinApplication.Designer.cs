@@ -56,6 +56,8 @@ namespace CTMS.Win
             this.xpoModule1 = new D2NXAF.ExpressApp.Xpo.XpoModule();
             this.concurrencyModule1 = new D2NXAF.ExpressApp.Concurrency.ConcurrencyModule();
             this.pivotGridLayoutWindowsFormsModule1 = new D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule();
+            this.layoutModule1 = new D2NXAF.ExpressApp.Layout.LayoutModule();
+            this.layoutWindowsFormsModule1 = new D2NXAF.ExpressApp.Layout.Win.LayoutWindowsFormsModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlConnection1
@@ -110,6 +112,7 @@ namespace CTMS.Win
             this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.D2NXAFSystemModule1);
             this.Modules.Add(this.concurrencyModule1);
+            this.Modules.Add(this.layoutModule1);
             this.Modules.Add(this.module3);
             this.Modules.Add(this.scriptRecorderModuleBase1);
             this.Modules.Add(this.scriptRecorderWindowsFormsModule1);
@@ -120,6 +123,7 @@ namespace CTMS.Win
             this.Modules.Add(this.ctmsPivotGridWinModule1);
             this.Modules.Add(this.fileAttachmentsWindowsFormsModule1);
             this.Modules.Add(this.pivotGridLayoutWindowsFormsModule1);
+            this.Modules.Add(this.layoutWindowsFormsModule1);
             this.Modules.Add(this.module4);
             this.Security = this.securityStrategyComplex1;
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CTMSWindowsFormsApplication_DatabaseVersionMismatch);
@@ -158,5 +162,7 @@ namespace CTMS.Win
         private D2NXAF.ExpressApp.Xpo.XpoModule xpoModule1;
         private D2NXAF.ExpressApp.Concurrency.ConcurrencyModule concurrencyModule1;
         private D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule pivotGridLayoutWindowsFormsModule1;
+        private D2NXAF.ExpressApp.Layout.LayoutModule layoutModule1;
+        private D2NXAF.ExpressApp.Layout.Win.LayoutWindowsFormsModule layoutWindowsFormsModule1;
     }
 }

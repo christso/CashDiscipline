@@ -1,24 +1,19 @@
-using System;
-using System.Collections.Generic;
-
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Updating;
-using DevExpress.ExpressApp.Validation;
-using DevExpress.Persistent.Validation;
-using DevExpress.ExpressApp.Model;
-using CTMS.Module.Model;
-using System.Diagnostics;
-using DevExpress.ExpressApp.DC;
-using DevExpress.Xpo;
-using DevExpress.Persistent.BaseImpl;
-using DevExpress.ExpressApp.Editors;
-using DevExpress.ExpressApp.Model.Core;
-using DevExpress.ExpressApp.SystemModule;
-using DevExpress.Xpo.Metadata;
+using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.Validation;
 using D2NXAF.ExpressApp.PivotGridLayout;
-using CTMS.Module.ControllerHelpers;
-using CTMS.Module.BusinessObjects.Cash;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.Model;
+using DevExpress.ExpressApp.Model.Core;
+using DevExpress.ExpressApp.SystemModule;
+using DevExpress.ExpressApp.Updating;
+using DevExpress.ExpressApp.Validation;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Persistent.Validation;
+using DevExpress.Xpo;
+using System;
+using System.Collections.Generic;
 
 namespace CTMS.Module
 {
@@ -82,7 +77,7 @@ namespace CTMS.Module
                         }
                         else
                         {
-                            obj = typeof(BaseObject).IsAssignableFrom(typeInfo.Type) ? 
+                            obj = typeof(BaseObject).IsAssignableFrom(typeInfo.Type) ?
                                 objSpace.CreateObject(typeInfo.Type) : Activator.CreateInstance(typeInfo.Type);
                         }
                         DetailView detailView = Application.CreateDetailView(objSpace, obj, true);
@@ -95,15 +90,6 @@ namespace CTMS.Module
                     }
                 }
             }
-        }
-        #endregion
-
-        #region Application Model Properties
-        public override void ExtendModelInterfaces(ModelInterfaceExtenders extenders)
-        {
-            base.ExtendModelInterfaces(extenders);
-            extenders.Add<IModelLayoutItem, IModelLayoutItemIcon>();
-            extenders.Add<IModelMember, IModelIcon>();
         }
         #endregion
 

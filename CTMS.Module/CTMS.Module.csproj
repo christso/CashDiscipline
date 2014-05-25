@@ -83,6 +83,9 @@
     <Reference Include="D2NXAF.ExpressApp.Concurrency">
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.Concurrency.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp.Layout">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.Layout.dll</HintPath>
+    </Reference>
     <Reference Include="D2NXAF.ExpressApp.PivotGrid, Version=1.0.5257.28963, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGrid.dll</HintPath>
@@ -412,7 +415,6 @@
     <Compile Include="Controllers\TaskResultParamController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Model\IModelExtenders.cs" />
     <Compile Include="Module.cs">
       <SubType>Component</SubType>
     </Compile>

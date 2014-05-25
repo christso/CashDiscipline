@@ -82,6 +82,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp.Layout">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.Layout.dll</HintPath>
+    </Reference>
+    <Reference Include="D2NXAF.ExpressApp.Layout.Win">
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.Layout.Win.dll</HintPath>
+    </Reference>
     <Reference Include="D2NXAF.ExpressApp.PivotGrid, Version=1.0.5257.28963, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGrid.dll</HintPath>
@@ -217,12 +223,6 @@
     <Compile Include="Controllers\CTMSPivotGridDrillDownController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\CustomLayoutViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\CustomLayoutViewController.Designer.cs">
-      <DependentUpon>CustomLayoutViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\FinAccounting\GenLedgerListViewControllerWin.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -250,9 +250,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controllers\CustomLayoutViewController.resx">
-      <DependentUpon>CustomLayoutViewController.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Model.DesignedDiffs.xafml">
       <SubType>Designer</SubType>
     </EmbeddedResource>
