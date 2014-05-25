@@ -222,7 +222,6 @@
   <ItemGroup>
     <Content Include="Default.aspx" />
     <Content Include="DefaultVerticalTemplateContent1.ascx" />
-    <Content Include="DialogTemplateContent1.ascx" />
     <Content Include="Error.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Images\vodafone_ctms_banner_h.png">
@@ -245,13 +244,6 @@
     </Compile>
     <Compile Include="DefaultVerticalTemplateContent1.ascx.designer.cs">
       <DependentUpon>DefaultVerticalTemplateContent1.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="DialogTemplateContent1.ascx.cs">
-      <DependentUpon>DialogTemplateContent1.ascx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="DialogTemplateContent1.ascx.designer.cs">
-      <DependentUpon>DialogTemplateContent1.ascx</DependentUpon>
     </Compile>
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
