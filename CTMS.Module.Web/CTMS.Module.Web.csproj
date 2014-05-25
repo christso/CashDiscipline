@@ -211,7 +211,6 @@
     <Compile Include="Controllers\CTMSPivotGridDrillDownController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ImportFileDataViewController.cs" />
     <Compile Include="Controllers\PopupDetailViewController.cs">
       <SubType>Component</SubType>
     </Compile>
