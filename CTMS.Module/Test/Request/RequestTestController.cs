@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using D2NXAF.ExpressApp.Concurrency;
 using D2NXAF.ExpressApp.SystemModule;
+using DevExpress.ExpressApp.SystemModule;
 
 namespace CTMS.Module.Test
 {
@@ -22,8 +23,21 @@ namespace CTMS.Module.Test
 
         void myAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var dialog = new PopupDialogDetailViewManager(Application);
-            dialog.ShowNonPersistentView(typeof(TestParam));
+            var app = Application;
+            var objType = typeof(TestParam);
+
+            var svp = new ShowViewParameters();
+            svp.CreatedView = app.CreateDetailView(ObjectSpaceInMemory.CreateNew(),
+                Activator.CreateInstance(objType));
+            svp.TargetWindow = TargetWindow.NewModalWindow;
+            svp.Context = TemplateContext.PopupWindow;
+            svp.CreateAllControllers = true;
+            var dc = app.CreateController<DialogController>();
+            svp.Controllers.Add(dc);
+            app.ShowViewStrategy.ShowView(svp, new ShowViewSource(null, null));
+
+            //var dialog = new PopupDialogDetailViewManager(Application);
+            //dialog.ShowNonPersistentView(typeof(TestParam));
         }
 
         private void dialogAccepting(object sender, ShowViewParameters e)
