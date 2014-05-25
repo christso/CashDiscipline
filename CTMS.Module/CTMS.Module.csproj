@@ -194,7 +194,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
-    <Compile Include="AutoCreatableObjectAttribute.cs" />
     <Compile Include="BusinessObjects\BankStmtCashFlowForecast.cs" />
     <Compile Include="BusinessObjects\Cash\ActivityTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowDefaults.cs" />
@@ -289,7 +288,7 @@
     <Compile Include="Controllers\CustomFunctions\BoMonthFunction.cs" />
     <Compile Include="Controllers\CustomFunctions\EoMonthFunction.cs" />
     <Compile Include="BusinessObjects\ExcelReport.cs" />
-    <Compile Include="Controllers\ARTF\ArtfLedgerLookupListViewController.cs">
+    <Compile Include="Controllers\Artf\ArtfLedgerLookupListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Cash\ApPmtDistnViewController.cs">
@@ -346,7 +345,7 @@
     <Compile Include="Validation\GenLedgerRule.cs" />
     <Compile Include="XpoCriteriaFixer.cs" />
     <Compile Include="ReportParams\ArtfPaymentReportParameters.cs" />
-    <Compile Include="ParamObjects\ARTF\AtrtfCreateGlJournalsParam.cs" />
+    <Compile Include="ParamObjects\Artf\AtrtfCreateGlJournalsParam.cs" />
     <Compile Include="BusinessObjects\ARTF\ArtfCustomerType.cs" />
     <Compile Include="BusinessObjects\ARTF\ArtfGlCode.cs" />
     <Compile Include="BusinessObjects\ARTF\ArtfGlJournal.cs" />
@@ -373,36 +372,36 @@
     <Compile Include="BusinessObjects\Payments\Payment.cs" />
     <Compile Include="BusinessObjects\Payments\PaymentBatch.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="Controllers\ARTF\ArtfReconDetailCustomCommitController.cs">
+    <Compile Include="Controllers\Artf\ArtfReconDetailCustomCommitController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ARTF\ArtfReconDetailViewController.cs">
+    <Compile Include="Controllers\Artf\ArtfReconDetailViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ARTF\ArtfReconDetailViewController.Designer.cs">
+    <Compile Include="Controllers\Artf\ArtfReconDetailViewController.Designer.cs">
       <DependentUpon>ArtfReconDetailViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ARTF\ArtfReconCreateTaskViewController.cs">
+    <Compile Include="Controllers\Artf\ArtfReconCreateTaskViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ARTF\ArtfTaskDetailViewController.cs">
+    <Compile Include="Controllers\Artf\ArtfTaskDetailViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ARTF\ArtfTaskDetailViewController.Designer.cs">
+    <Compile Include="Controllers\Artf\ArtfTaskDetailViewController.Designer.cs">
       <DependentUpon>ArtfTaskDetailViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\ARTF\BankTransferTaskCreator.cs" />
-    <Compile Include="Controllers\ARTF\CreateTaskBankPaymentsController.cs">
+    <Compile Include="Controllers\Artf\BankTransferTaskCreator.cs" />
+    <Compile Include="Controllers\Artf\CreateTaskBankPaymentsController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ARTF\GlJournalTaskCreator.cs" />
+    <Compile Include="Controllers\Artf\GlJournalTaskCreator.cs" />
     <Compile Include="Controllers\CustomizeValidationMessageController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\ImportListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ARTF\ArtfReceiptLookupListViewController.cs">
+    <Compile Include="Controllers\Artf\ArtfReceiptLookupListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\TaskResultParamController.cs">
@@ -415,26 +414,25 @@
       <DependentUpon>Module.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\CustomFunctions\MultiConcatFunction.cs" />
-    <Compile Include="ParamObjects\ARTF\ArtfCreatePaymentsParam.cs" />
+    <Compile Include="ParamObjects\Artf\ArtfCreatePaymentsParam.cs" />
     <Compile Include="ParamObjects\Cash\CashFlowFixParam.cs" />
     <Compile Include="ParamObjects\Cash\DailyCashUpdateParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPmtDistnParam.cs" />
     <Compile Include="ParamObjects\Import\ImportDelimitedFileDataParam.cs" />
     <Compile Include="ParamObjects\Import\ImportForexRatesParam.cs" />
-    <Compile Include="ParamObjects\Import\OpenFileData.cs" />
     <Compile Include="ReportParams\PaymentsReportParameters.cs" />
     <Compile Include="ParamObjects\Setup\CreateDateDimParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseUpdate\Updater.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controllers\ARTF\ArtfReconDetailViewController.resx">
+    <EmbeddedResource Include="Controllers\Artf\ArtfReconDetailViewController.resx">
       <DependentUpon>ArtfReconDetailViewController.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controllers\ARTF\ArtfTaskDetailViewController.resx">
+    <EmbeddedResource Include="Controllers\Artf\ArtfTaskDetailViewController.resx">
       <DependentUpon>ArtfTaskDetailViewController.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controllers\ARTF\CreateTaskBankPaymentsController.resx">
+    <EmbeddedResource Include="Controllers\Artf\CreateTaskBankPaymentsController.resx">
       <DependentUpon>CreateTaskBankPaymentsController.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Model.DesignedDiffs.xafml">

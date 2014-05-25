@@ -1,28 +1,23 @@
 ﻿using DevExpress.Persistent.Base;
-using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CTMS.Module.ParamObjects.Import
 {
     [NonPersistent]
-    [AutoCreatableObject]
+    [D2NXAF.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [FileAttachment("File")]
+    [DefaultClassOptions]
     public class ImportForexRatesParam
     {
         public ImportForexRatesParam()
         {
-            _File = new OpenFileData();
+            _File = new D2NXAF.ExpressApp.SystemModule.OpenFileData();
         }
 
-        private OpenFileData _File;
+        private D2NXAF.ExpressApp.SystemModule.OpenFileData _File;
 
         [DisplayName("Please upload a file")]
-        public OpenFileData File
+        public D2NXAF.ExpressApp.SystemModule.OpenFileData File
         {
             get
             {

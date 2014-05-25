@@ -14,13 +14,13 @@ using D2NXAF.ExpressApp.IO;
 namespace CTMS.Module.ParamObjects.Import
 {
     [NonPersistent]
-    [AutoCreatableObject]
+    [D2NXAF.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [FileAttachment("File")]
     public class ImportDelimitedFileDataParam
     {
         public ImportDelimitedFileDataParam()
         {
-            _File = new OpenFileData();
+            _File = new D2NXAF.ExpressApp.SystemModule.OpenFileData();
             _ImportLibrary = ImportLibrary.FastCsvReader;
             _Delimiter = ",";
         }
@@ -30,8 +30,8 @@ namespace CTMS.Module.ParamObjects.Import
         private ImportLibrary _ImportLibrary;
         private string _Delimiter;
         private bool _CreateMembers;
-        private OpenFileData _File;
-        private OpenFileData _TemplateFile;
+        private D2NXAF.ExpressApp.SystemModule.OpenFileData _File;
+        private D2NXAF.ExpressApp.SystemModule.OpenFileData _TemplateFile;
 
         public ImportLibrary ImportLibrary
         {
@@ -71,7 +71,7 @@ namespace CTMS.Module.ParamObjects.Import
         }
 
         [DisplayName("Please upload a file")]
-        public OpenFileData File
+        public D2NXAF.ExpressApp.SystemModule.OpenFileData File
         {
             get
             {
@@ -96,7 +96,7 @@ namespace CTMS.Module.ParamObjects.Import
         }
 
         [DisplayName("Template File")]
-        public OpenFileData TemplateFile
+        public D2NXAF.ExpressApp.SystemModule.OpenFileData TemplateFile
         {
             get
             {
@@ -164,7 +164,7 @@ namespace CTMS.Module.ParamObjects.Import
             }
 
             byte[] buffer = string.Join(",", templateMemberNames).ToBytes();
-            paramObj.TemplateFile = new OpenFileData();
+            paramObj.TemplateFile = new D2NXAF.ExpressApp.SystemModule.OpenFileData();
             paramObj.TemplateFile.Load("Template.csv", buffer);
         }
 

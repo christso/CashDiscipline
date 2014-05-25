@@ -196,7 +196,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ArtfCreateGlJournalsWebViewController.cs">
+    <Compile Include="Controllers\Artf\ArtfCreateGlJournalsWebViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\BulkUpdateListViewController.cs">
@@ -210,12 +210,6 @@
     </Compile>
     <Compile Include="Controllers\CTMSPivotGridDrillDownController.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\PopupDetailViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\PopupDetailViewController.Designer.cs">
-      <DependentUpon>PopupDetailViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\RefocusWebControl.cs">
       <SubType>Component</SubType>
@@ -232,12 +226,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Controllers\ArtfCreateGlJournalsWebViewController.resx">
-      <DependentUpon>ArtfCreateGlJournalsWebViewController.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controllers\PopupDetailViewController.resx">
-      <DependentUpon>PopupDetailViewController.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Model.DesignedDiffs.xafml" />
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="WebModule.resx">

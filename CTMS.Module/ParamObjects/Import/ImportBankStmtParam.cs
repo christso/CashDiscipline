@@ -13,12 +13,12 @@ using D2NXAF.ExpressApp.Xpo;
 namespace CTMS.Module.ParamObjects.Import
 {
     [NonPersistent]
-    [AutoCreatableObject]
+    [D2NXAF.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     public class ImportBankStmtParam
     {
         public ImportBankStmtParam()
         {
-            _File = new OpenFileData();
+            _File = new D2NXAF.ExpressApp.SystemModule.OpenFileData();
         }
         private BankStmtImportType _ImportType;
 
@@ -34,10 +34,10 @@ namespace CTMS.Module.ParamObjects.Import
             }
         }
 
-        private OpenFileData _File;
+        private D2NXAF.ExpressApp.SystemModule.OpenFileData _File;
 
         [DisplayName("Please upload a file")]
-        public OpenFileData File
+        public D2NXAF.ExpressApp.SystemModule.OpenFileData File
         {
             get
             {

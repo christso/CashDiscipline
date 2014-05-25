@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace CTMS.Module.ParamObjects.Artf
 {
     [NonPersistent]
-    [AutoCreatableObject]
+    [D2NXAF.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     public class ArtfCreateGlJournalsParam // : INotifyPropertyChanged
     {
         //private SimpleAction properties = new SimpleAction();

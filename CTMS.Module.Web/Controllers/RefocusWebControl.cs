@@ -1,11 +1,9 @@
-﻿using System;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Web;
-using System.Collections.Generic;
-using DevExpress.Web.ASPxClasses;
+﻿using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.Web.Editors;
 using DevExpress.ExpressApp.Web.Editors.ASPx;
+using DevExpress.Web.ASPxClasses;
+using System;
 
 namespace CTMS.Module.Web.Controllers
 {
@@ -85,7 +83,6 @@ namespace CTMS.Module.Web.Controllers
                 existingHandler = String.Format("{0}{1}\r\n}}", existingHandler.Substring(0, existingHandler.LastIndexOf('}')), handler);
                 control.SetClientSideEventHandler(eventName, existingHandler);
             }
-
         }
     }
 }
