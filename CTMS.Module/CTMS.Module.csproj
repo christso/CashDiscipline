@@ -248,9 +248,6 @@
       <SubType>Component</SubType>
     </Compile>
     <None Include="FunctionalTests\ForexTrade_Create.ets" />
-    <Compile Include="Test\Request\RequestTestController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ParamObjects\Cash\CashReportParam.cs" />
     <Compile Include="BusinessObjects\ChartOfAccounts\GlAccount.cs" />
     <Compile Include="BusinessObjects\ChartOfAccounts\GlCompany.cs" />
@@ -342,10 +339,6 @@
     <Compile Include="ParamObjects\Import\ImportLibrary.cs" />
     <Compile Include="ParamObjects\MoveToIndexParam.cs" />
     <Compile Include="ReportScriptHelper\CashReport.cs" />
-    <Compile Include="Test\Request\TestParam.cs" />
-    <Compile Include="Test\Request\TestParamViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Test\TestViewController.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
+using CTMS.Module.ParamObjects.Import;
+using D2NXAF.ExpressApp.Xpo;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
-using CTMS.Module.ParamObjects.Import;
-
-using D2NXAF.ExpressApp.Xpo;
+using System;
 
 
 namespace CTMS.Module.Controllers
@@ -39,7 +37,7 @@ namespace CTMS.Module.Controllers
         protected override void OnActivated()
         {
             base.OnActivated();
-            
+
             // Disable for non-admin user
             if (SecuritySystem.CurrentUserName != null)
             {
@@ -62,6 +60,7 @@ namespace CTMS.Module.Controllers
                     };
                     paramObj.CreateTemplate();
                     var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    dialog.CanCloseWindow = false;
                     dialog.ShowView(paramObj);
                 });
 
@@ -71,15 +70,17 @@ namespace CTMS.Module.Controllers
                 // TODO: how to show different custom form for each parameter object?
                 // Using ViewController?
                 // Using attributes to show view parameters?
-                
+
                 if (currentTypeInfo.Type == typeof(CTMS.Module.BusinessObjects.Market.ForexRate))
                 {
-                    var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application); 
+                    var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    dialog.CanCloseWindow = false;
                     dialog.ShowNonPersistentView(typeof(ImportForexRatesParam));
                 }
                 else if (currentTypeInfo.Type == typeof(CTMS.Module.BusinessObjects.Cash.BankStmt))
                 {
-                    var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application); 
+                    var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    dialog.CanCloseWindow = false;
                     dialog.ShowNonPersistentView(typeof(ImportBankStmtParam));
                 }
                 else if (currentTypeInfo.Type == typeof(CTMS.Module.BusinessObjects.Cash.AccountsPayable.ApPmtDistn))
