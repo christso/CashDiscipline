@@ -232,7 +232,7 @@
     <Compile Include="Controllers\ReconMaster\ReconMasterListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\BankStmtFilterViewController.cs">
+    <Compile Include="Controllers\Cash\BankStmtFilterViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\ToolbarViewController.cs">
