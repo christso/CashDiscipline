@@ -1,18 +1,12 @@
-using System;
-using System.Linq;
-using System.Text;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp;
-using System.ComponentModel;
-using DevExpress.ExpressApp.DC;
 using DevExpress.Data.Filtering;
-using DevExpress.Persistent.Base;
-using System.Collections.Generic;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
-using DevExpress.Persistent.BaseImpl;
-using DevExpress.Persistent.Validation;
 using DevExpress.ExpressApp.Xpo;
-using System.Drawing;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CTMS.Module.BusinessObjects.Cash
 {
@@ -111,10 +105,9 @@ namespace CTMS.Module.BusinessObjects.Cash
         public static void CalculateBalance(XPObjectSpace objSpace, DateTime atDate, IList<CashFlowSnapshot> snapshots)
         {
             // delete balances matching the specified date
-            CriteriaOperator deleteCriteria = CriteriaOperator.Parse("TranDate = ? And LineType = ?",
-                atDate, AccountSummaryLineType.Balance);
+            CriteriaOperator deleteCriteria = Fields.TranDate == atDate & Fields.LineType == new OperandValue(AccountSummaryLineType.Balance);
             var snapshotOids = GetOidsFromSnapshots(snapshots);
-            deleteCriteria = deleteCriteria & new InOperator("Snapshot.Oid", snapshotOids);
+            deleteCriteria = deleteCriteria & new InOperator(AccountSummary.Fields.SnapshotOid.PropertyName, snapshotOids);
             objSpace.Session.Delete(objSpace.GetObjects<AccountSummary>(deleteCriteria));
 
             // get currenet snapshot GUID
@@ -130,22 +123,41 @@ namespace CTMS.Module.BusinessObjects.Cash
 
                 if (snapshotOid != curSnapshotOid)
                 {
-                    
-                    // previous snapshot
 
-                    cfGrouped = from c in cashFlows
-                                where c.TranDate <= atDate
-                                    && (
-                                    c.Snapshot.Oid == snapshotOid
-                                    && c.TranDate > maxActualDate
-                                    || c.Snapshot.Oid == curSnapshotOid
-                                    && c.Status == CashFlowStatus.Actual
-                                    )
-                                group c by new { c.Account } into grp
-                                select new CashBalanceGrouped(
-                                    grp.Key.Account,
-                                    (decimal)grp.Sum(c => c.AccountCcyAmt)
-                                );
+                    // previous snapshot
+                    if (maxActualDate == default(DateTime))
+                    {
+                        cfGrouped = from c in cashFlows
+                                    where c.TranDate <= atDate
+                                        && (
+                                        c.Snapshot.Oid == snapshotOid
+                                        //&& c.TranDate > maxActualDate
+                                        || c.Snapshot.Oid == curSnapshotOid
+                                        && c.Status == CashFlowStatus.Actual
+                                        )
+                                    group c by new { c.Account } into grp
+                                    select new CashBalanceGrouped(
+                                        grp.Key.Account,
+                                        (decimal)grp.Sum(c => c.AccountCcyAmt)
+                                    );
+                    }
+                    else
+                    {
+                        cfGrouped = from c in cashFlows
+                                    where c.TranDate <= atDate
+                                        && (
+                                        c.Snapshot.Oid == snapshotOid
+                                        && c.TranDate > maxActualDate
+                                        || c.Snapshot.Oid == curSnapshotOid
+                                        && c.Status == CashFlowStatus.Actual
+                                        )
+                                    group c by new { c.Account } into grp
+                                    select new CashBalanceGrouped(
+                                        grp.Key.Account,
+                                        (decimal)grp.Sum(c => c.AccountCcyAmt)
+                                    );
+                    }
+
                 }
                 else
                 {
@@ -197,7 +209,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             var curSnapshotOid = SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid;
 
             // add cash flows to AccountSummary
-            var maxActualDate = CashFlow.GetMaxActualTranDate(objSpace.Session);
+            var maxActualDate = CashFlow.GetMaxActualTranDate(objSpace.Session); // TODO: why default(DateTime)?
             XPQuery<CashFlow> cashFlows = new XPQuery<CashFlow>(((XPObjectSpace)objSpace).Session);
 
             foreach (Guid snapshotOid in snapshotOids)
@@ -206,22 +218,43 @@ namespace CTMS.Module.BusinessObjects.Cash
                 if (snapshotOid != curSnapshotOid)
                 {
                     // previous snapshot
-                    cfQuery = from c in cashFlows
-                              where c.TranDate >= fromDate && c.TranDate <= toDate
-                              && (
-                              c.Snapshot.Oid == snapshotOid
-                              && c.TranDate > maxActualDate
-                              || c.Snapshot.Oid == curSnapshotOid
-                              && c.Status == CashFlowStatus.Actual
-                              )
-                              orderby c.TranDate ascending
-                              group c by new { c.TranDate, c.Account } into grp
-                              select new CashFlowGrouped(
-                                  grp.Key.TranDate,
-                                  grp.Key.Account,
-                                  (decimal)grp.Sum(c => c.AccountCcyAmt)
-                              );
-
+                    if (maxActualDate == default(DateTime))
+                    {
+                        // exclude max actual date from query
+                        cfQuery = from c in cashFlows
+                                  where c.TranDate >= fromDate && c.TranDate <= toDate
+                                  && (c.Snapshot.Oid == curSnapshotOid
+                                  && c.Status == CashFlowStatus.Actual
+                                  ||
+                                  c.Snapshot.Oid == snapshotOid
+                                      // && c.TranDate > maxActualDate
+                                  )
+                                  orderby c.TranDate ascending
+                                  group c by new { c.TranDate, c.Account } into grp
+                                  select new CashFlowGrouped(
+                                      grp.Key.TranDate,
+                                      grp.Key.Account,
+                                      (decimal)grp.Sum(c => c.AccountCcyAmt)
+                                  );
+                    }
+                    else
+                    {
+                        cfQuery = from c in cashFlows
+                                  where c.TranDate >= fromDate && c.TranDate <= toDate
+                                  && (c.Snapshot.Oid == curSnapshotOid
+                                  && c.Status == CashFlowStatus.Actual
+                                  ||
+                                  c.Snapshot.Oid == snapshotOid
+                                  && c.TranDate > maxActualDate
+                                  )
+                                  orderby c.TranDate ascending
+                                  group c by new { c.TranDate, c.Account } into grp
+                                  select new CashFlowGrouped(
+                                      grp.Key.TranDate,
+                                      grp.Key.Account,
+                                      (decimal)grp.Sum(c => c.AccountCcyAmt)
+                                  );
+                    }
                 }
                 else
                 {
@@ -326,6 +359,66 @@ namespace CTMS.Module.BusinessObjects.Cash
             public decimal AccountCcyAmt { get; set; }
         }
 
+        #endregion
+
+        #region Field Operators
+
+        public new class Fields
+        {
+            public static OperandProperty TranDate
+            {
+                get
+                {
+                    return new OperandProperty("TranDate");
+                }
+            }
+            public static OperandProperty Snapshot
+            {
+                get
+                {
+                    return new OperandProperty("Snapshot");
+                }
+            }
+            public static OperandProperty Account
+            {
+                get
+                {
+                    return new OperandProperty("Account");
+                }
+            }
+            public static OperandProperty LineType
+            {
+                get
+                {
+                    return new OperandProperty("LineType");
+                }
+            }
+            public static OperandProperty AccountCcyAmt
+            {
+                get
+                {
+                    return new OperandProperty("AccountCcyAmt");
+                }
+            }
+            public static OperandProperty SnapshotOid
+            {
+                get
+                {
+                    return new OperandProperty(Snapshot.PropertyName + "." + CashFlowSnapshot.Fields.Oid.PropertyName);
+                }
+            }
+        }
+
+        public static FieldNamesClass FieldNames { get { return new FieldNamesClass(); } }
+        public class FieldNamesClass
+        {
+            public string TranDate { get { return Fields.TranDate.PropertyName; } }
+            public string Snapshot { get { return Fields.Snapshot.PropertyName; } }
+            public string Account { get { return Fields.Account.PropertyName; } }
+            public string LineType { get { return Fields.LineType.PropertyName; } }
+            public string AccountCcyAmt { get { return Fields.AccountCcyAmt.PropertyName; } }
+            public string SnapshotOid { get { return Snapshot + "." + CashFlowSnapshot.FieldNames.Oid; } }
+        }
         #endregion
     }
     public enum AccountSummaryLineType

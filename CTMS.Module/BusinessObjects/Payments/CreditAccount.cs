@@ -1,17 +1,8 @@
-using System;
-using System.Linq;
-using System.Text;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp;
-using System.ComponentModel;
-using DevExpress.ExpressApp.DC;
+using CTMS.Module.BusinessObjects.Cash;
 using DevExpress.Data.Filtering;
-using DevExpress.Persistent.Base;
-using System.Collections.Generic;
-using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
-using CTMS.Module.BusinessObjects.Cash;
+using DevExpress.Xpo;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CTMS.Module.BusinessObjects.Payments
@@ -79,7 +70,7 @@ namespace CTMS.Module.BusinessObjects.Payments
             }
             set
             {
-                SetPropertyValue("BeneficiaryName", ref _EntityName, value);
+                SetPropertyValue("EntityName", ref _EntityName, value);
             }
         }
 
@@ -92,7 +83,7 @@ namespace CTMS.Module.BusinessObjects.Payments
             }
             set
             {
-                SetPropertyValue("AccountNumber", ref _BankAccountNumber, value);
+                SetPropertyValue("BankAccountNumber", ref _BankAccountNumber, value);
             }
         }
 

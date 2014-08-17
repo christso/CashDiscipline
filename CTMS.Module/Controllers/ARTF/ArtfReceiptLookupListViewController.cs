@@ -75,8 +75,8 @@ namespace CTMS.Module.Controllers.Artf
 
                     if (custType != null)
                     {
-                        var account = ObjectSpace.FindObject<Account>(Account.OperandProperties.ArtfCustomerType == custType
-                            & Account.OperandProperties.IsArtfDefault == new OperandValue(true));
+                        var account = ObjectSpace.FindObject<Account>(Account.Fields.ArtfCustomerType == custType
+                            & Account.Fields.IsArtfDefault == new OperandValue(true));
                         if (account != null)
                         {
                             account = e.ObjectSpace.GetObjectByKey<Account>(ObjectSpace.GetKeyValue(account));

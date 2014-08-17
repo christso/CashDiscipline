@@ -38,6 +38,8 @@ namespace CTMS.Web
         private D2NXAF.ExpressApp.Concurrency.ConcurrencyModule concurrencyModule1;
         private D2NXAF.ExpressApp.Layout.LayoutModule layoutModule1;
         private D2NXAF.ExpressApp.Layout.Web.LayoutAspNetModule layoutAspNetModule1;
+        private D2NXAF.ExpressApp.Web.SystemModule.D2NXAFSystemAspNetModule d2NXAFSystemAspNetModule1;
+        private D2NXAF.ExpressApp.MsoExcel.MsoExcelModule msoExcelModule1;
         private System.Data.SqlClient.SqlConnection sqlConnection1;
 
         public CTMSAspNetApplication()
@@ -123,6 +125,8 @@ namespace CTMS.Web
             this.concurrencyModule1 = new D2NXAF.ExpressApp.Concurrency.ConcurrencyModule();
             this.layoutModule1 = new D2NXAF.ExpressApp.Layout.LayoutModule();
             this.layoutAspNetModule1 = new D2NXAF.ExpressApp.Layout.Web.LayoutAspNetModule();
+            this.d2NXAFSystemAspNetModule1 = new D2NXAF.ExpressApp.Web.SystemModule.D2NXAFSystemAspNetModule();
+            this.msoExcelModule1 = new D2NXAF.ExpressApp.MsoExcel.MsoExcelModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlConnection1
@@ -140,10 +144,6 @@ namespace CTMS.Web
             // authenticationStandard1
             // 
             this.authenticationStandard1.LogonParametersType = typeof(DevExpress.ExpressApp.Security.AuthenticationStandardLogonParameters);
-            // 
-            // securityModule1
-            // 
-            this.securityModule1.UserType = typeof(DevExpress.ExpressApp.Security.Strategy.SecuritySystemUser);
             // 
             // validationModule1
             // 
@@ -169,10 +169,11 @@ namespace CTMS.Web
             this.Modules.Add(this.pivotGridModule1);
             this.Modules.Add(this.securityModule1);
             this.Modules.Add(this.pivotGridLayoutModule1);
-            this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.D2NXAFSystemModule1);
             this.Modules.Add(this.concurrencyModule1);
+            this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.layoutModule1);
+            this.Modules.Add(this.msoExcelModule1);
             this.Modules.Add(this.module3);
             this.Modules.Add(this.scriptRecorderModuleBase1);
             this.Modules.Add(this.scriptRecorderAspNetModule1);
@@ -183,6 +184,7 @@ namespace CTMS.Web
             this.Modules.Add(this.fileAttachmentsAspNetModule1);
             this.Modules.Add(this.pivotGridLayoutAspNetModule1);
             this.Modules.Add(this.layoutAspNetModule1);
+            this.Modules.Add(this.d2NXAFSystemAspNetModule1);
             this.Modules.Add(this.module4);
             this.Security = this.securityStrategyComplex1;
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CTMSAspNetApplication_DatabaseVersionMismatch);

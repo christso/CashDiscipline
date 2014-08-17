@@ -41,6 +41,8 @@ namespace CTMS.Module.Web
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule));
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.LayoutModule));
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.Web.LayoutAspNetModule));
+            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule));
+            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Web.SystemModule.D2NXAFSystemAspNetModule));
         }
 
         #endregion

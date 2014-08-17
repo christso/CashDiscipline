@@ -1,12 +1,11 @@
-﻿using System;
-using DevExpress.Xpo;
+﻿using CTMS.Module.BusinessObjects.Artf;
+using CTMS.Module.BusinessObjects.Payments;
 using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
-using CTMS.Module.BusinessObjects.Artf;
-using CTMS.Module.BusinessObjects.Payments;
-using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Validation;
+using DevExpress.Xpo;
 
 namespace CTMS.Module.BusinessObjects.Cash
 {
@@ -107,7 +106,7 @@ namespace CTMS.Module.BusinessObjects.Cash
                 SetPropertyValue("ArtfCustomerType", ref _ArtfCustomerType, value);
             }
         }
-        
+
         [Association(@"Account-BankStmt", typeof(BankStmt))]
         public XPCollection<BankStmt> BankStmt { get { return GetCollection<BankStmt>("BankStmt"); } }
 
@@ -119,7 +118,7 @@ namespace CTMS.Module.BusinessObjects.Cash
                 return GetCollection<CashFlow>("CashFlows");
             }
         }
-        
+
         [Association("BankAccount-ArtfRecons")]
         public XPCollection<ArtfRecon> ArtfRecon
         {
@@ -211,8 +210,12 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        public class OperandProperties
+        public new class Fields
         {
+            public static OperandProperty Name
+            {
+                get { return new OperandProperty("Name"); }
+            }
             public static OperandProperty IsArtfDefault
             {
                 get { return new OperandProperty("IsArtfDefault"); }
@@ -228,30 +231,6 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         }
 
-        //public Activity ActivityMap
-        //{
-        //    get
-        //    {
-        //        return _ActivityMap;
-        //    }
-        //    set
-        //    {
-        //        if (_ActivityMap == value)
-        //            return;
-
-        //        Activity prevActivityMap = _ActivityMap;
-        //        _ActivityMap = value;
-
-        //        if (IsLoading) return;
-
-        //        if (prevActivityMap != null && prevActivityMap.AccountMap == this)
-        //            prevActivityMap.AccountMap = null;
-
-        //        if (_ActivityMap != null)
-        //            _ActivityMap.AccountMap = this;
-        //        OnChanged("ActivityMap");
-        //    }
-        //}
 
     }
 

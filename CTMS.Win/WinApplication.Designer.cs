@@ -58,6 +58,8 @@ namespace CTMS.Win
             this.pivotGridLayoutWindowsFormsModule1 = new D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule();
             this.layoutModule1 = new D2NXAF.ExpressApp.Layout.LayoutModule();
             this.layoutWindowsFormsModule1 = new D2NXAF.ExpressApp.Layout.Win.LayoutWindowsFormsModule();
+            this.d2NXAFSystemWindowsFormsModule1 = new D2NXAF.ExpressApp.Win.SystemModule.D2NXAFSystemWindowsFormsModule();
+            this.msoExcelModule1 = new D2NXAF.ExpressApp.MsoExcel.MsoExcelModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlConnection1
@@ -109,10 +111,11 @@ namespace CTMS.Win
             this.Modules.Add(this.reportsModule1);
             this.Modules.Add(this.securityModule1);
             this.Modules.Add(this.pivotGridLayoutModule1);
-            this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.D2NXAFSystemModule1);
             this.Modules.Add(this.concurrencyModule1);
+            this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.layoutModule1);
+            this.Modules.Add(this.msoExcelModule1);
             this.Modules.Add(this.module3);
             this.Modules.Add(this.scriptRecorderModuleBase1);
             this.Modules.Add(this.scriptRecorderWindowsFormsModule1);
@@ -124,6 +127,7 @@ namespace CTMS.Win
             this.Modules.Add(this.fileAttachmentsWindowsFormsModule1);
             this.Modules.Add(this.pivotGridLayoutWindowsFormsModule1);
             this.Modules.Add(this.layoutWindowsFormsModule1);
+            this.Modules.Add(this.d2NXAFSystemWindowsFormsModule1);
             this.Modules.Add(this.module4);
             this.Security = this.securityStrategyComplex1;
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CTMSWindowsFormsApplication_DatabaseVersionMismatch);
@@ -164,5 +168,7 @@ namespace CTMS.Win
         private D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule pivotGridLayoutWindowsFormsModule1;
         private D2NXAF.ExpressApp.Layout.LayoutModule layoutModule1;
         private D2NXAF.ExpressApp.Layout.Win.LayoutWindowsFormsModule layoutWindowsFormsModule1;
+        private D2NXAF.ExpressApp.Win.SystemModule.D2NXAFSystemWindowsFormsModule d2NXAFSystemWindowsFormsModule1;
+        private D2NXAF.ExpressApp.MsoExcel.MsoExcelModule msoExcelModule1;
     }
 }

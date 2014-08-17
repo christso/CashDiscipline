@@ -1,16 +1,9 @@
-using System;
-using System.Linq;
-using System.Text;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp;
-using System.ComponentModel;
-using DevExpress.ExpressApp.DC;
 using DevExpress.Data.Filtering;
-using DevExpress.Persistent.Base;
-using System.Collections.Generic;
-using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
+using DevExpress.Xpo;
+using System;
+using System.ComponentModel;
 
 namespace CTMS.Module.BusinessObjects.Cash
 {
@@ -83,9 +76,15 @@ namespace CTMS.Module.BusinessObjects.Cash
             base.OnDeleting();
         }
 
-        public static class FieldNames
+        public new class Fields
         {
-            public const string Oid = "Oid";
+            public static OperandProperty Oid { get { return new OperandProperty("Oid"); } }
+            public static OperandProperty Name { get { return new OperandProperty("Name"); } }
+        }
+        public class FieldNames
+        {
+            public static string Oid { get { return Fields.Oid.PropertyName; } }
+            public static string Name { get { return Fields.Name.PropertyName; } }
         }
     }
 }

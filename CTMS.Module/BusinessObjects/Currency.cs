@@ -1,10 +1,9 @@
-﻿using System;
-using DevExpress.Xpo;
+﻿using CTMS.Module.BusinessObjects.Cash;
 using DevExpress.Data.Filtering;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
-using CTMS.Module.BusinessObjects.Cash;
 using DevExpress.Persistent.Validation;
+using DevExpress.Xpo;
 
 namespace CTMS.Module.BusinessObjects
 {
@@ -71,10 +70,28 @@ namespace CTMS.Module.BusinessObjects
             }
         }
 
+        public new class Fields
+        {
+            public static OperandProperty Oid
+            {
+                get
+                {
+                    return new OperandProperty("Oid");
+                }
+            }
+            public static OperandProperty Name
+            {
+                get
+                {
+                    return new OperandProperty("Name");
+                }
+            }
+        }
+
         public class FieldNames
         {
-            public static string Oid = "Oid";
-            public static string Name = "Name";
+            public static string Oid { get { return Fields.Oid.PropertyName; } }
+            public static string Name { get { return Fields.Name.PropertyName; } }
         }
     }
 

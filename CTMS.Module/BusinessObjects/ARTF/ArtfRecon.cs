@@ -124,8 +124,8 @@ namespace CTMS.Module.BusinessObjects.Artf
             get
             {
                 // get default bank account
-                var defaultBankAcc = Session.FindObject<Cash.Account>(Cash.Account.OperandProperties.IsArtfDefault == new OperandValue(true)
-                    & Cash.Account.OperandProperties.ArtfCustomerType == CustomerType);
+                var defaultBankAcc = Session.FindObject<Cash.Account>(Cash.Account.Fields.IsArtfDefault == new OperandValue(true)
+                    & Cash.Account.Fields.ArtfCustomerType == CustomerType);
                 return TfrToBankAccount == null ? defaultBankAcc : TfrToBankAccount;
             }
         }

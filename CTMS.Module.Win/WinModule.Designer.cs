@@ -47,6 +47,8 @@ namespace CTMS.Module.Win
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.LayoutModule));
             this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.Win.LayoutWindowsFormsModule));
+            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule));
+            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Win.SystemModule.D2NXAFSystemWindowsFormsModule));
         }
 
         #endregion

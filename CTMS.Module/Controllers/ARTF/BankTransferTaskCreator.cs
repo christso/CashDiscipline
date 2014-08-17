@@ -109,7 +109,7 @@ namespace CTMS.Module.Controllers.Artf
             if (t.ArtfRecon.FromLedger != null)
             {
                 // get TfrFromBankAccount from the Ledger Gl Code
-                var account = session.FindObject<Account>(Account.OperandProperties.GlCode == t.ArtfRecon.FromLedger.GlCode);
+                var account = session.FindObject<Account>(Account.Fields.GlCode == t.ArtfRecon.FromLedger.GlCode);
                 if (account != null)
                 {
                     t.TfrFromBankAccount = account;
@@ -203,7 +203,7 @@ namespace CTMS.Module.Controllers.Artf
             Account ledgerBankAccount;
             if (t.ArtfRecon.ToLedger != null)
             {
-                ledgerBankAccount = session.FindObject<Account>(Account.OperandProperties.GlCode == t.ArtfRecon.ToLedger.GlCode);
+                ledgerBankAccount = session.FindObject<Account>(Account.Fields.GlCode == t.ArtfRecon.ToLedger.GlCode);
                 if (ledgerBankAccount != null)
                 {
                     // use account for ledger GL Code
@@ -218,8 +218,8 @@ namespace CTMS.Module.Controllers.Artf
             // get default bank account for the customer type
             Account custTypeBankAccount =
                 session.FindObject<Account>(
-                Account.OperandProperties.IsArtfDefault == new OperandValue(true)
-                & Account.OperandProperties.ArtfCustomerType == t.ArtfRecon.CustomerType);
+                Account.Fields.IsArtfDefault == new OperandValue(true)
+                & Account.Fields.ArtfCustomerType == t.ArtfRecon.CustomerType);
             if (custTypeBankAccount != null)
             {
                 // use default bank account for customer type

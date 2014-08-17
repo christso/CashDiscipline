@@ -1,28 +1,20 @@
-using System;
-using System.Linq;
-using System.Text;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp;
-using System.ComponentModel;
-using DevExpress.ExpressApp.DC;
-using DevExpress.Data.Filtering;
-using DevExpress.Persistent.Base;
-using System.Collections.Generic;
-using DevExpress.ExpressApp.Model;
-using DevExpress.Persistent.BaseImpl;
-using DevExpress.Persistent.Validation;
-using CTMS.Module.BusinessObjects;
 using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.BusinessObjects.Market;
+using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.Validation;
+using DevExpress.Xpo;
 using GenerateUserFriendlyId.Module.BusinessObjects;
-using System.Collections;
-using D2NXAF.ExpressApp.Xpo;
+using System;
+using System.ComponentModel;
 
 namespace CTMS.Module.BusinessObjects.Forex
 {
     [ModelDefault("IsCloneable", "True")]
     [DefaultProperty("TradeId")]
+    [ModelDefault("IsFooterVisible", "True")]
     public class ForexTrade : UserFriendlyIdPersistentObject, ICalculateToggleObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ForexTrade(Session session)
@@ -151,6 +143,8 @@ namespace CTMS.Module.BusinessObjects.Forex
 
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
+        [ImmediatePostData(true)]
+        [EditorAlias("D2NXAF_DecimalActionPropertyEditor")]
         public decimal PrimaryCcyAmt
         {
             get
@@ -162,7 +156,9 @@ namespace CTMS.Module.BusinessObjects.Forex
                 if (SetPropertyValue("PrimaryCcyAmt", ref _PrimaryCcyAmt, value))
                 {
                     if (!IsLoading && !IsSaving && CalculateEnabled)
-                        UpdateCashFlowForecast();
+                    {
+                        UpdateCounterCcyAmt();
+                    }
                 }
             }
         }
@@ -171,6 +167,7 @@ namespace CTMS.Module.BusinessObjects.Forex
         [ModelDefault("DisplayFormat", "n5")]
         [DbType("decimal(19, 6)")]
         [ImmediatePostData(true)]
+        [EditorAlias("D2NXAF_DecimalActionPropertyEditor")]
         public decimal Rate
         {
             get
@@ -217,7 +214,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                     {
                         var obj = this;
                         var fromCcy = _CounterCcy;
-                        var fromAmt = _CounterCcyAmt;               
+                        var fromAmt = _CounterCcyAmt;
                         if (fromCcy == null)
                         {
                             return;
@@ -229,7 +226,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                         }
                         else if (obj.ValueDate != default(DateTime))
                         {
-                            CalculatePrimaryCcyAmt(obj, fromCcy, fromAmt);
+                            CalculatePrimaryCcyAmt(fromCcy, fromAmt);
                         }
 
                         UpdateCounterSettleAccount();
@@ -242,6 +239,7 @@ namespace CTMS.Module.BusinessObjects.Forex
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
         [ImmediatePostData(true)]
+        [EditorAlias("D2NXAF_DecimalActionPropertyEditor")]
         public decimal CounterCcyAmt
         {
             get
@@ -254,27 +252,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                 {
                     if (!IsLoading && !IsSaving && CalculateEnabled)
                     {
-                        var obj = this;
-                        var fromCcy = CounterCcy;
-                        var fromAmt = CounterCcyAmt;
-                        if (obj.Rate != 0.00M)
-                        {
-                            obj.PrimaryCcyAmt = Math.Round(fromAmt / obj.Rate, 2);
-                        }
-                        else if (fromCcy == null)
-                        {
-                            return;
-                        }
-                        else if (SetOfBooks.CachedInstance.FunctionalCurrency.Oid == fromCcy.Oid)
-                        {
-                            obj.PrimaryCcyAmt = Math.Round(fromAmt, 2);
-                            obj.SetPropertyValue("Rate", ref obj._Rate, 1);
-                        }
-                        else if (obj.ValueDate != default(DateTime))
-                        {
-                            CalculatePrimaryCcyAmt(obj, fromCcy, fromAmt);
-                        }
-                        UpdateCashFlowForecast();
+                        UpdatePrimaryCcyAmt();
                     }
                 }
             }
@@ -304,7 +282,7 @@ namespace CTMS.Module.BusinessObjects.Forex
 
         [ModelDefault("EditMask", "dd-MMM-yy")]
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
-        [RuleRequiredField("ForexTrade.ValueDate_RuleRequiredField", DefaultContexts.Save, SkipNullOrEmptyValues=false)]
+        [RuleRequiredField("ForexTrade.ValueDate_RuleRequiredField", DefaultContexts.Save, SkipNullOrEmptyValues = false)]
         public DateTime ValueDate
         {
             get
@@ -498,7 +476,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                 SetPropertyValue("MtmDealNum", ref _MtmDealNum, value);
             }
         }
-        
+
         [Association("PrimaryCashFlow-ForexTrades")]
         public CashFlow PrimaryCashFlow
         {
@@ -553,7 +531,7 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
             set
             {
-            	SetPropertyValue("OrigTrade", ref _OrigTrade, value);
+                SetPropertyValue("OrigTrade", ref _OrigTrade, value);
             }
         }
 
@@ -743,10 +721,10 @@ namespace CTMS.Module.BusinessObjects.Forex
             var snapshot = Session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
 
             var criteria = CriteriaOperator.Parse(
-                       "Account.Currency = ? And TranDate = ? And Account = ? And Activity = ? And Source = ?" 
+                       "Account.Currency = ? And TranDate = ? And Account = ? And Activity = ? And Source = ?"
                        + " And ForexSettleGroupId = ? And Counterparty = ?"
                        + " And Snapshot = ?",
-                       PrimaryCcy, PrimarySettleDate, PrimarySettleAccount, forexActivity, source, 
+                       PrimaryCcy, PrimarySettleDate, PrimarySettleAccount, forexActivity, source,
                        SettleGroupId, Counterparty.CashFlowCounterparty, snapshot);
             return Session.FindObject<CashFlow>(PersistentCriteriaEvaluationBehavior.InTransaction, criteria);
         }
@@ -761,7 +739,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                        "Account.Currency = ? And TranDate = ? And Account = ? And Activity = ? And Source = ?"
                         + " And ForexSettleGroupId = ? And Counterparty = ?"
                         + " And Snapshot = ?",
-                       CounterCcy, CounterSettleDate, CounterSettleAccount, forexActivity, source, 
+                       CounterCcy, CounterSettleDate, CounterSettleAccount, forexActivity, source,
                        SettleGroupId, Counterparty.CashFlowCounterparty,
                        snapshot);
             return Session.FindObject<CashFlow>(PersistentCriteriaEvaluationBehavior.InTransaction, criteria);
@@ -826,40 +804,92 @@ namespace CTMS.Module.BusinessObjects.Forex
         #region Forex Rate Logic
         public void UpdateRate()
         {
-            var obj = this;
             var fromAmt = CounterCcyAmt;
             var session = Session;
             var fromCcy = CounterCcy;
 
-            if (obj.Rate == 0.00M && obj.PrimaryCcyAmt != 0.00M && obj.CounterCcyAmt != 0.00M)
+            if (this.PrimaryCcyAmt != 0.00M && this.CounterCcyAmt != 0.00M)
             {
-                obj.SetPropertyValue("Rate", ref obj._Rate, Math.Round(obj.CounterCcyAmt / obj.PrimaryCcyAmt, 5));
+                this.SetPropertyValue("Rate", ref this._Rate, Math.Round(this.CounterCcyAmt / this.PrimaryCcyAmt, 5));
             }
-            else if (obj.Rate == 0.00M && obj.PrimaryCcy != null & obj.CounterCcy != null)
+            else if (this.ValueDate != default(DateTime))
             {
-                obj.SetPropertyValue("Rate", ref obj._Rate, 5);
-            }
-
-            else if (obj.ValueDate != default(DateTime))
-            {
-                var rateObj = GetForexRateObject(session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, obj.ValueDate);
-                if (rateObj != null)
+                var ratethis = GetForexRateObject(session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, this.ValueDate);
+                if (ratethis != null)
                 {
-                    var value = Math.Round(fromAmt * (decimal)rateObj.ConversionRate, 2);
-                    obj.SetPropertyValue("PrimaryCcyAmt", ref obj._PrimaryCcyAmt, value);
+                    var value = Math.Round(fromAmt * (decimal)ratethis.ConversionRate, 2);
+                    this.SetPropertyValue("PrimaryCcyAmt", ref this._PrimaryCcyAmt, value);
                 }
             }
         }
 
-        private void CalculatePrimaryCcyAmt(ForexTrade obj, Currency fromCcy, decimal fromAmt)
+        public void UpdatePrimaryCcyAmt()
         {
-            var session = obj.Session;
-            var rateObj = GetForexRateObject(session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, obj.ValueDate);
+            var fromCcy = CounterCcy;
+            var fromAmt = CounterCcyAmt;
+            if (Rate != 0.00M)
+            {
+                SetPropertyValue("PrimaryCcyAmt", ref _PrimaryCcyAmt, Math.Round(fromAmt / Rate, 2));
+            }
+            else if (fromCcy == null)
+            {
+                return;
+            }
+            else if (SetOfBooks.CachedInstance.FunctionalCurrency.Oid == fromCcy.Oid)
+            {
+                SetPropertyValue("PrimaryCcyAmt", ref _PrimaryCcyAmt, Math.Round(fromAmt, 2));
+                SetPropertyValue("Rate", ref this._Rate, 1);
+            }
+            else if (this.ValueDate != default(DateTime))
+            {
+                CalculatePrimaryCcyAmt(fromCcy, fromAmt);
+            }
+            UpdateCashFlowForecast();
+        }
+
+        public void CalculatePrimaryCcyAmt(Currency fromCcy, decimal fromAmt)
+        {
+            var rateObj = GetForexRateObject(Session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, ValueDate);
             if (rateObj != null)
             {
                 var usedRate = 1 / rateObj.ConversionRate;
-                obj.SetPropertyValue("Rate", ref obj._Rate, usedRate);
-                obj.PrimaryCcyAmt = Math.Round(fromAmt / usedRate, 2);
+                SetPropertyValue("Rate", ref _Rate, usedRate);
+                SetPropertyValue("PrimaryCcyAmt", ref _PrimaryCcyAmt, Math.Round(fromAmt / usedRate, 2));
+            }
+        }
+
+        public void UpdateCounterCcyAmt()
+        {
+            var fromCcy = PrimaryCcy;
+            var fromAmt = PrimaryCcyAmt;
+            if (this.Rate != 0.00M)
+            {
+                SetPropertyValue("CounterCcyAmt", ref _CounterCcyAmt, Math.Round(fromAmt * this.Rate, 2));
+            }
+            else if (fromCcy == null)
+            {
+                return;
+            }
+            else if (SetOfBooks.CachedInstance.FunctionalCurrency.Oid == fromCcy.Oid)
+            {
+                SetPropertyValue("CounterCcyAmt", ref _CounterCcyAmt, Math.Round(fromAmt, 2));
+                SetPropertyValue("Rate", ref this._Rate, 1);
+            }
+            else if (this.ValueDate != default(DateTime))
+            {
+                CalculateCounterCcyAmt(fromCcy, fromAmt);
+            }
+            UpdateCashFlowForecast();
+        }
+
+        public void CalculateCounterCcyAmt(Currency fromCcy, decimal fromAmt)
+        {
+            var rateObj = GetForexRateObject(Session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, ValueDate);
+            if (rateObj != null)
+            {
+                var usedRate = rateObj.ConversionRate;
+                SetPropertyValue("Rate", ref _Rate, usedRate);
+                SetPropertyValue("PrimaryCcyAmt", ref _PrimaryCcyAmt, Math.Round(fromAmt * usedRate, 2));
             }
         }
 
@@ -884,7 +914,7 @@ namespace CTMS.Module.BusinessObjects.Forex
         public ForexTradePredelivery Predeliver(decimal counterCcyAmt, DateTime valueDate, decimal rate)
         {
             var pdy = new ForexTradePredelivery(Session);
-            
+
             pdy.FromForexTrade = this;
             pdy.CounterCcyAmt = counterCcyAmt;
             pdy.ValueDate = valueDate;
@@ -919,7 +949,7 @@ namespace CTMS.Module.BusinessObjects.Forex
 
             CriteriaOperator criteria;
             if (maxActualDate != default(DateTime))
-                criteria = CriteriaOperator.Parse("PrimarySettleDate > ? Or CounterSettleDate > ?", 
+                criteria = CriteriaOperator.Parse("PrimarySettleDate > ? Or CounterSettleDate > ?",
                     maxActualDate, maxActualDate);
             else
                 criteria = null;
@@ -954,6 +984,13 @@ namespace CTMS.Module.BusinessObjects.Forex
                     _CounterCashFlow.ForexSettleGroupId = SettleGroupId;
                 }
             }
+        }
+
+        public class FieldNames
+        {
+            public const string CounterCcyAmt = "CounterCcyAmt";
+            public const string PrimaryCcyAmt = "PrimaryCcyAmt";
+            public const string Rate = "Rate";
         }
     }
 

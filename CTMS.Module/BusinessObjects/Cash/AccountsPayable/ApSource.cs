@@ -1,8 +1,6 @@
-﻿using System;
-using DevExpress.Xpo;
-using DevExpress.Data.Filtering;
-using DevExpress.Persistent.Base;
+﻿using DevExpress.Data.Filtering;
 using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
 
 namespace CTMS.Module.BusinessObjects.Cash.AccountsPayable
 {
@@ -33,6 +31,17 @@ namespace CTMS.Module.BusinessObjects.Cash.AccountsPayable
             set
             {
                 SetPropertyValue("Name", ref _Name, value);
+            }
+        }
+
+        public new class Fields
+        {
+            public static OperandProperty Name
+            {
+                get
+                {
+                    return new OperandProperty("Name");
+                }
             }
         }
     }

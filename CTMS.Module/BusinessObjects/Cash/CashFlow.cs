@@ -1,26 +1,20 @@
-using System;
-using System.Linq;
-using System.Text;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp;
-using System.ComponentModel;
-using DevExpress.ExpressApp.DC;
-using DevExpress.Data.Filtering;
-using DevExpress.Persistent.Base;
-using System.Collections.Generic;
-using DevExpress.ExpressApp.Model;
-using DevExpress.Persistent.BaseImpl;
-using DevExpress.Persistent.Validation;
+using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.BusinessObjects.Market;
 using CTMS.Module.BusinessObjects.Setup;
-using DevExpress.ExpressApp.Xpo;
 using CTMS.Module.ParamObjects.Cash;
-using System.Diagnostics;
-using D2NXAF.Utils;
-using GenerateUserFriendlyId.Module.BusinessObjects;
-using CTMS.Module.BusinessObjects.Forex;
 using D2NXAF.ExpressApp.Xpo;
-using D2NXAF.ExpressApp.Reports;
+using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Model;
+using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.Validation;
+using DevExpress.Xpo;
+using GenerateUserFriendlyId.Module.BusinessObjects;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CTMS.Module.BusinessObjects.Cash
@@ -28,7 +22,7 @@ namespace CTMS.Module.BusinessObjects.Cash
     [VisibleInReports(true)]
     [ModelDefault("IsCloneable", "True")]
     [ModelDefault("IsFooterVisible", "True")]
-    [DefaultListViewOptions(allowEdit:true, newItemRowPosition: NewItemRowPosition.Top)]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("CashFlowId")]
     public class CashFlow : UserFriendlyIdPersistentObject, ICalculateToggleObject
     {
@@ -41,14 +35,15 @@ namespace CTMS.Module.BusinessObjects.Cash
             Changed += CashFlow_Changed;
         }
 
-        
+
         void CashFlow_Changed(object sender, ObjectChangeEventArgs e)
         {
             // This does not execute when IdentityBaseObject is used since
             // XAF is not aware of changes to SequentialNumber that is computed by the database server
             if (e.PropertyName == "SequentialNumber")
             {
-                if (Snapshot.Oid == SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid)
+                if (Snapshot != null && !IsDeleted &&
+                    Snapshot.Oid == SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid)
                 {
                     OrigSequentialNumber = (long)e.NewValue;
                 }
@@ -69,10 +64,10 @@ namespace CTMS.Module.BusinessObjects.Cash
             TranDate = DateTime.Now.Date;
 
             CounterCcy = Session.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
-            
+
             var defObj = Session.FindObject<CashFlowDefaults>(null);
             if (defObj == null) return;
-            
+
             Counterparty = defObj.Counterparty;
             Account = defObj.Account;
             Activity = defObj.Activity;
@@ -155,7 +150,7 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         #region Main Properties
 
-        [ExcelReportField]
+        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         [PersistentAlias("concat('CF', ToStr(SequentialNumber))")]
         public string CashFlowId
         {
@@ -206,7 +201,7 @@ namespace CTMS.Module.BusinessObjects.Cash
 
 
 
-        [ExcelReportField]
+        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         [RuleRequiredField("CashFlow.TranDate_RuleRequiredField", DefaultContexts.Save)]
         public DateTime TranDate
@@ -222,7 +217,7 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
 
         [MemberDesignTimeVisibility(false)]
-        [ExcelReportField]
+        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         [DevExpress.Xpo.DisplayName("Account")]
         public string AccountName
         {
@@ -251,12 +246,12 @@ namespace CTMS.Module.BusinessObjects.Cash
                             SetPropertyValue("CounterCcy", ref _CounterCcy, value.Currency);
                     }
                 }
-                
+
             }
         }
 
         [MemberDesignTimeVisibility(false)]
-        [ExcelReportField]
+        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         [DevExpress.Xpo.DisplayName("Activity")]
         public string ActivityName
         {
@@ -279,7 +274,7 @@ namespace CTMS.Module.BusinessObjects.Cash
                 SetPropertyValue("Activity", ref _Activity, value);
             }
         }
-        
+
         [Association("Counterparty-CashFlows")]
         [RuleRequiredField("CashFlow.Counterparty_RuleRequiredField", DefaultContexts.Save)]
         public Counterparty Counterparty
@@ -294,7 +289,8 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [ExcelReportField("Activity")]
+        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [EditorAlias("D2NXAF_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
         [ImmediatePostData(true)]
@@ -318,7 +314,8 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [ExcelReportField]
+        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [EditorAlias("D2NXAF_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
         public decimal FunctionalCcyAmt
@@ -329,7 +326,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
             set
             {
-                if (SetPropertyValue("FunctionalCcyAmt", ref _FunctionalCcyAmt, Math.Round(value,2)))
+                if (SetPropertyValue("FunctionalCcyAmt", ref _FunctionalCcyAmt, Math.Round(value, 2)))
                 {
                     if (!IsSaving && !IsLoading)
                     {
@@ -339,7 +336,8 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [ExcelReportField]
+        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [EditorAlias("D2NXAF_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
         [ImmediatePostData(true)]
@@ -351,7 +349,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
             set
             {
-                if (SetPropertyValue("CounterCcyAmt", ref _CounterCcyAmt, Math.Round(value,2)))
+                if (SetPropertyValue("CounterCcyAmt", ref _CounterCcyAmt, Math.Round(value, 2)))
                 {
                     if (!IsLoading && CounterCcy != null && CalculateEnabled && TranDate != default(DateTime))
                     {
@@ -362,7 +360,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [ExcelReportField]
+        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         [MemberDesignTimeVisibility(false)]
         [DevExpress.Xpo.DisplayName("Counter Ccy")]
         public string CounterCcyName
@@ -493,6 +491,14 @@ namespace CTMS.Module.BusinessObjects.Cash
             return 0;
         }
 
+        public void UpdateAccountCcyAmt()
+        {
+            if (CounterCcyAmt != 0 && CounterCcy != null && TranDate != default(DateTime))
+            {
+                UpdateAccountCcyAmt(this, CounterCcyAmt, CounterCcy);
+            }
+        }
+
         public static void UpdateAccountCcyAmt(CashFlow obj, decimal fromAmt, Currency fromCcy)
         {
             if (obj.Account == null) return;
@@ -510,6 +516,19 @@ namespace CTMS.Module.BusinessObjects.Cash
                     var value = fromAmt * (decimal)rateObj.ConversionRate;
                     obj.SetPropertyValue("AccountCcyAmt", ref obj._AccountCcyAmt, value);
                 }
+            }
+        }
+
+        public void UpdateFunctionalCcyAmt()
+        {
+            if (CounterCcyAmt != 0 && CounterCcy != null && TranDate != default(DateTime))
+            {
+                UpdateFunctionalCcyAmt(this, CounterCcyAmt, CounterCcy);
+            }
+            else if (AccountCcyAmt != 0 && Account != null && Account.Currency != null
+                & TranDate != default(DateTime))
+            {
+                UpdateFunctionalCcyAmt(this, AccountCcyAmt, Account.Currency);
             }
         }
 
@@ -535,6 +554,15 @@ namespace CTMS.Module.BusinessObjects.Cash
                     var value = fromAmt * (decimal)rateObj.ConversionRate;
                     obj.FunctionalCcyAmt = value;
                 }
+            }
+        }
+
+        public void UpdateCounterCcyAmt()
+        {
+            if (AccountCcyAmt != 0 && Account != null && Account.Currency != null
+                & TranDate != default(DateTime))
+            {
+                UpdateCounterCcyAmt(this, AccountCcyAmt, Account.Currency);
             }
         }
 
@@ -988,7 +1016,7 @@ namespace CTMS.Module.BusinessObjects.Cash
 
                 OnChanged("CounterCcyAmt", oldCounterCcyAmt, _CounterCcyAmt);
                 OnChanged("AccountCcyAmt", oldAccountCcyAmt, _AccountCcyAmt);
- 
+
             }
             finally
             {
@@ -1053,7 +1081,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             decimal tempTotal = 0;
             foreach (ForexSettleLink detail in ForexSettleLinksOut)
                 // we subtract because the links are based on linkedins and we want linkedout
-                tempTotal -= detail.AccountCcyAmt; 
+                tempTotal -= detail.AccountCcyAmt;
             _ForexLinkedOutAccountCcyAmt = tempTotal;
             if (forceChangeEvents)
                 OnChanged("ForexLinkedOutAccountCcyAmt", oldAmount, _ForexLinkedOutAccountCcyAmt);
@@ -1160,6 +1188,8 @@ namespace CTMS.Module.BusinessObjects.Cash
                 this.paramObj = paramObj;
                 this.application = app;
                 // default values and parameters
+                if (paramObj.ApReclassActivity == null)
+                    throw new InvalidOperationException("AP Reclass Activity must be defined.");
                 paramApReclassActivity = objSpace.GetObjectByKey<Activity>(objSpace.GetKeyValue(paramObj.ApReclassActivity));
                 defaultCounterparty = objSpace.FindObject<Counterparty>(
                  CriteriaOperator.Parse("Name LIKE ?", "UNDEFINED"));
@@ -1176,7 +1206,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             public void FixCashFlows()
             {
                 bool bTriggersEnabled = AppSettings.UserTriggersEnabled;
-                
+
                 cashFlowsToDelete.Clear();
 
                 try
@@ -1241,7 +1271,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             // TODO: get session from fixee instead of objspace
             private void FixFixee(IList<CashFlow> cashFlows, CashFlow fixee)
             {
-                
+
                 // delete existing fixes
                 foreach (var child in fixee.ChildCashFlows)
                 {
@@ -1401,17 +1431,92 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         #endregion
 
-        public static class FieldNames
+        #region Field Operators
+
+        public new class Fields
         {
-            public const string TranDate = "TranDate";
-            public const string Snapshot = "Snapshot";
-            public const string Source = "Source";
+            public static OperandProperty SnapshotOid
+            {
+                get
+                {
+                    return new OperandProperty("Snapshot." + CashFlowSnapshot.Fields.Oid.PropertyName);
+                }
+            }
+            public static OperandProperty TranDate
+            {
+                get
+                {
+                    return new OperandProperty("TranDate");
+                }
+            }
+
+            public static OperandProperty Snapshot
+            {
+                get
+                {
+                    return new OperandProperty("Snapshot");
+                }
+            }
+
+            public static OperandProperty Source
+            {
+                get
+                {
+                    return new OperandProperty("Source");
+                }
+            }
+            public static OperandProperty AccountCcyAmt
+            {
+                get
+                {
+                    return new OperandProperty("AccountCcyAmt");
+                }
+            }
+            public static OperandProperty FunctionalCcyAmt
+            {
+                get
+                {
+                    return new OperandProperty("FunctionalCcyAmt");
+                }
+            }
+            public static OperandProperty CounterCcyAmt
+            {
+                get
+                {
+                    return new OperandProperty("CounterCcyAmt");
+                }
+            }
+            public static OperandProperty Status
+            {
+                get
+                {
+                    return new OperandProperty("Status");
+                }
+            }
         }
 
+        public class FieldNames
+        {
+            public static string SnapshotOid
+            {
+                get
+                {
+                    return Snapshot + "." + CashFlowSnapshot.Fields.Oid.PropertyName;
+                }
+            }
+            public static string TranDate { get { return Fields.TranDate.PropertyName; } }
+            public static string Snapshot { get { return Fields.Snapshot.PropertyName; } }
+            public static string Source { get { return Fields.Source.PropertyName; } }
+            public static string AccountCcyAmt { get { return Fields.AccountCcyAmt.PropertyName; } }
+            public static string FunctionalCcyAmt { get { return Fields.FunctionalCcyAmt.PropertyName; } }
+            public static string CounterCcyAmt { get { return Fields.CounterCcyAmt.PropertyName; } }
+        }
+
+        #endregion
     }
     public enum CashFlowStatus
     {
-        Forecast=0,
-        Actual=1
+        Forecast = 0,
+        Actual = 1
     }
 }

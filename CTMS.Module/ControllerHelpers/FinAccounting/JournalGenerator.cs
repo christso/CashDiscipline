@@ -2,15 +2,13 @@
 using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.BusinessObjects.FinAccounting;
 using CTMS.Module.ParamObjects.FinAccounting;
+using D2NXAF.StringEvaluators;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.Xpo;
-using D2NXAF.StringEvaluators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CTMS.Module.ControllerHelpers.FinAccounting
 {
@@ -182,7 +180,7 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
                                     + " (SELECT BankStmt.Oid FROM BankStmt WHERE BankStmt.TranDate BETWEEN @FromDate AND @ToDate)"
                                 + " OR GenLedger.SrcCashFlow IN"
                                     + " (SELECT CashFlow.Oid FROM CashFlow WHERE CashFlow.TranDate BETWEEN @FromDate AND @ToDate"
-                                    +" AND CashFlow.Snapshot = @SnapshotOid)"
+                                    + " AND CashFlow.Snapshot = @SnapshotOid)"
                                 + ")");
             var sqlParamNames = new string[] { "FromDate", "ToDate", "EntryType", "SnapshotOid" };
             var sqlParamValues = new object[] { paramObj.FromDate, paramObj.ToDate,
@@ -292,7 +290,7 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
                 _GenLedgerFinActivityJoin.Clear();
                 foreach (var activityMap in activityMaps)
                 {
-                    if (activityMap.FromActivity != cf.Activity 
+                    if (activityMap.FromActivity != cf.Activity
                         || !(activityMap.TargetObject == FinJournalTargetObject.CashFlow
                         || activityMap.TargetObject == FinJournalTargetObject.All)) continue;
 
@@ -316,11 +314,9 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
             session.CommitTransaction();
         }
 
-        private static System.Collections.Generic.IList<T> GetObjects<T>(Session session, CriteriaOperator criteria)
+        private static XPCollection<T> GetObjects<T>(Session session, CriteriaOperator criteria)
         {
-            return session.GetObjects(session.GetClassInfo(typeof(T)),
-                            criteria,
-                            new SortingCollection(null), 0, false, true).Cast<T>().ToList();
+            return new XPCollection<T>(session: session, theCriteria: criteria);
         }
 
         private class GenLedgerFinActivityJoin

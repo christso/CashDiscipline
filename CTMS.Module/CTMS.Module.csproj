@@ -86,6 +86,10 @@
     <Reference Include="D2NXAF.ExpressApp.Layout">
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.Layout.dll</HintPath>
     </Reference>
+    <Reference Include="D2NXAF.ExpressApp.MsoExcel, Version=1.0.5260.17768, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.MsoExcel.dll</HintPath>
+    </Reference>
     <Reference Include="D2NXAF.ExpressApp.PivotGrid, Version=1.0.5257.28963, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.ExpressApp.PivotGrid.dll</HintPath>
@@ -103,68 +107,68 @@
     <Reference Include="D2NXAF.Utils">
       <HintPath>..\..\..\..\Packages\D2NXAF\D2NXAF.Utils.dll</HintPath>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.CloneObject.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.ExpressApp.CloneObject.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.PivotGrid.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.Reports.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.Security.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.ExpressApp.PivotGrid.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Reports.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Security.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.Validation.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.ExpressApp.Validation.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.ViewVariantsModule.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.ExpressApp.ViewVariantsModule.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.Xpo.v13.2">
-      <SpecificVersion>False</SpecificVersion>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="DevExpress.PivotGrid.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Printing.v13.2.Core">
+    <Reference Include="DevExpress.ExpressApp.Xpo.v14.1">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Data.v13.2">
+    <Reference Include="DevExpress.PivotGrid.v14.1.Core, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v14.1.Core">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.v13.2">
+    <Reference Include="DevExpress.Data.v14.1">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Persistent.Base.v13.2">
+    <Reference Include="DevExpress.ExpressApp.v14.1">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Persistent.BaseImpl.v13.2">
+    <Reference Include="DevExpress.Persistent.Base.v14.1">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Utils.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="DevExpress.Web.ASPxPivotGrid.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="DevExpress.Xpo.v13.2">
+    <Reference Include="DevExpress.Persistent.BaseImpl.v14.1">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraEditors.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Charts.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraCharts.v13.2.Wizard, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraCharts.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Sparkline.v13.2.Core, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraPivotGrid.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Utils.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraPrinting.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v13.2.UI, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraReports.v13.2, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraReports.v13.2.Extensions, Version=13.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Web.ASPxPivotGrid.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v14.1">
+      <SpecificVersion>False</SpecificVersion>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Charts.v14.1.Core, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v14.1.Wizard, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v14.1.Core, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPivotGrid.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraPrinting.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v14.1.UI, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraReports.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraReports.v14.1.Extensions, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EPPlus">
       <HintPath>..\Lib\EPPlus.dll</HintPath>
     </Reference>
@@ -233,11 +237,23 @@
     <Compile Include="Controllers\CalculateToggleViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\Cash\CashFlowCalculatorDetailViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Cash\CashReportParamDetailViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Cash\ICashReportController.cs" />
+    <Compile Include="Controllers\Cash\ImportApPmtDistnViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ImportListViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Forex\ForexSettleLinkViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Forex\ForexTradeDetailViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Forex\ForexTradePredeliveryListViewController.cs">
@@ -246,7 +262,11 @@
     <Compile Include="Controllers\Forex\ForexTradeViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <EmbeddedResource Include="EmbeddedExcelTemplates\Cash Report.xlsx" />
+    <EmbeddedResource Include="EmbeddedExcelTemplates\Gen Ledger Report.xlsx" />
     <None Include="FunctionalTests\ForexTrade_Create.ets" />
+    <Compile Include="ExcelReportCreators\CashReportCreator.cs" />
+    <Compile Include="ExcelReportCreators\GenLedgerReportCreator.cs" />
     <Compile Include="ParamObjects\Cash\CashReportParam.cs" />
     <Compile Include="BusinessObjects\ChartOfAccounts\GlAccount.cs" />
     <Compile Include="BusinessObjects\ChartOfAccounts\GlCompany.cs" />
@@ -273,9 +293,6 @@
     <Compile Include="Controllers\Cash\CashReportViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ExcelReporting\ExcelReportViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\FinAccounting\GenLedgerListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -285,9 +302,8 @@
     <Compile Include="Controllers\MoveToIndexParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\CustomFunctions\BoMonthFunction.cs" />
-    <Compile Include="Controllers\CustomFunctions\EoMonthFunction.cs" />
-    <Compile Include="BusinessObjects\ExcelReport.cs" />
+    <Compile Include="CustomFunctions\BoMonthFunction.cs" />
+    <Compile Include="CustomFunctions\EoMonthFunction.cs" />
     <Compile Include="Controllers\Artf\ArtfLedgerLookupListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -312,9 +328,6 @@
     <Compile Include="Controllers\BatchDeleteListViewControllerBase.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ImportDelimitedFileDataViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\Market\ImportForexParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -330,12 +343,11 @@
     <Compile Include="Controllers\ShowPaymentBatchReportController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\CustomFunctions\RegexMatchFunction.cs" />
+    <Compile Include="CustomFunctions\RegexMatchFunction.cs" />
     <Compile Include="ReportParams\CashReportParameters.cs" />
     <Compile Include="ParamObjects\FinAccounting\FinGenJournalParam.cs" />
     <Compile Include="ParamObjects\FinAccounting\FinJournalGroupParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParam.cs" />
-    <Compile Include="ParamObjects\Import\ImportLibrary.cs" />
     <Compile Include="ParamObjects\MoveToIndexParam.cs" />
     <Compile Include="ReportScriptHelper\CashReport.cs" />
     <Compile Include="Test\TestViewController.cs">
@@ -398,9 +410,6 @@
     <Compile Include="Controllers\CustomizeValidationMessageController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ImportListViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\Artf\ArtfReceiptLookupListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -413,12 +422,11 @@
     <Compile Include="Module.Designer.cs">
       <DependentUpon>Module.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\CustomFunctions\MultiConcatFunction.cs" />
+    <Compile Include="CustomFunctions\MultiConcatFunction.cs" />
     <Compile Include="ParamObjects\Artf\ArtfCreatePaymentsParam.cs" />
     <Compile Include="ParamObjects\Cash\CashFlowFixParam.cs" />
     <Compile Include="ParamObjects\Cash\DailyCashUpdateParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPmtDistnParam.cs" />
-    <Compile Include="ParamObjects\Import\ImportDelimitedFileDataParam.cs" />
     <Compile Include="ParamObjects\Import\ImportForexRatesParam.cs" />
     <Compile Include="ReportParams\PaymentsReportParameters.cs" />
     <Compile Include="ParamObjects\Setup\CreateDateDimParam.cs" />
@@ -474,8 +482,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="BusinessObjects\Common\" />
-    <Folder Include="ControllerHelpers\ExcelReporting\" />
-    <Folder Include="Editors\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />

@@ -1,25 +1,10 @@
 ﻿using CTMS.Module.BusinessObjects.Cash;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Actions;
 using DevExpress.XtraPivotGrid;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DevExpress.Data.Filtering;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp.SystemModule;
 
 
-using System.IO;
-using DevExpress.Persistent.BaseImpl;
-using DevExpress.ExpressApp.Xpo;
-using System.Diagnostics;
-using D2NXAF.ExpressApp.PivotGrid.Controllers;
-using CTMS.Module.ParamObjects.Cash;
-using System.Collections;
-using CTMS.Module.BusinessObjects;
 
 namespace CTMS.Module.Controllers.Cash
 {
@@ -41,6 +26,17 @@ namespace CTMS.Module.Controllers.Cash
             if (calculateToggleController != null)
                 calculateToggleController.CalculateAction.Active["PivotGrid"] = false;
             base.OnActivated();
+        }
+
+        protected override void OnDeactivated()
+        {
+            base.OnDeactivated();
+            var cashFlowController = Frame.GetController<CashFlowViewController>();
+            if (cashFlowController != null)
+                cashFlowController.RunProgramAction.Active["PivotGrid"] = true;
+            var calculateToggleController = Frame.GetController<CalculateToggleViewController>();
+            if (calculateToggleController != null)
+                calculateToggleController.CalculateAction.Active["PivotGrid"] = true;
         }
 
         protected override void SetupView()
@@ -72,7 +68,7 @@ namespace CTMS.Module.Controllers.Cash
 
         protected PivotCellEventArgs DoubleClickPivotCellEventArgs;
 
-        protected CashFlowNote GetNoteObject(PivotCellBaseEventArgs e, IObjectSpace objSpace, 
+        protected CashFlowNote GetNoteObject(PivotCellBaseEventArgs e, IObjectSpace objSpace,
             bool autoCreate)
         {
             if (e.DataField.Caption != fieldNoteCaption)

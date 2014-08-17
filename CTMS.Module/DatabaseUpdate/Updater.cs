@@ -1,30 +1,24 @@
-using System;
-using System.Collections.Generic;
-using DevExpress.ExpressApp;
-using DevExpress.ExpressApp.Updating;
-using DevExpress.Xpo;
+using CTMS.Module.BusinessObjects;
+using CTMS.Module.BusinessObjects.Cash;
+using CTMS.Module.BusinessObjects.FinAccounting;
+using CTMS.Module.ParamObjects.FinAccounting;
 using DevExpress.Data.Filtering;
-using DevExpress.Persistent.BaseImpl;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.Strategy;
-using CTMS.Module.BusinessObjects;
+using DevExpress.ExpressApp.Updating;
+using DevExpress.Persistent.Base;
+using System;
 using Artf = CTMS.Module.BusinessObjects.Artf;
 using Cash = CTMS.Module.BusinessObjects.Cash;
-using CTMS.Module.BusinessObjects.Cash;
-using DevExpress.ExpressApp.Xpo;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using DevExpress.Persistent.Base;
-using CTMS.Module.ParamObjects.FinAccounting;
-using CTMS.Module.BusinessObjects.FinAccounting;
-using CTMS.Module.BusinessObjects.Forex;
 
 
 namespace CTMS.Module.DatabaseUpdate
 {
     public class Updater : ModuleUpdater
     {
-        public Updater(IObjectSpace objectSpace, Version currentDBVersion) : base(objectSpace, currentDBVersion) 
+        public Updater(IObjectSpace objectSpace, Version currentDBVersion)
+            : base(objectSpace, currentDBVersion)
         {
         }
 
@@ -65,7 +59,7 @@ namespace CTMS.Module.DatabaseUpdate
 
         public static void InitSetOfBooks(IObjectSpace objSpace)
         {
-            var setOfBooks = SetOfBooks.GetInstance(objSpace); 
+            var setOfBooks = SetOfBooks.GetInstance(objSpace);
 
             if (setOfBooks.ForexSettleActivity == null)
             {
@@ -218,7 +212,7 @@ namespace CTMS.Module.DatabaseUpdate
             GrantFullAcccess(typeof(Artf.ArtfSystem), arRole);
             GrantFullAcccess(typeof(Artf.ArtfTask), arRole);
             #endregion
-      }
+        }
 
         // Grant full access if permission object not found for the owner
         // note that if you want to grant full access, you need to delete the existing permissions object

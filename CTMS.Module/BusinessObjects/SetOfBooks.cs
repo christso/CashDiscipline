@@ -1,18 +1,10 @@
-using System;
-using System.Linq;
-using System.Text;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp;
-using System.ComponentModel;
-using DevExpress.ExpressApp.DC;
-using DevExpress.Data.Filtering;
-using DevExpress.Persistent.Base;
-using System.Collections.Generic;
-using DevExpress.ExpressApp.Model;
-using DevExpress.Persistent.BaseImpl;
-using DevExpress.Persistent.Validation;
-using DevExpress.ExpressApp.Xpo;
 using CTMS.Module.BusinessObjects.Cash;
+using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
+using System;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CTMS.Module.BusinessObjects
@@ -40,7 +32,7 @@ namespace CTMS.Module.BusinessObjects
 
         // Fields...
         private static SetOfBooks _CachedInstance;
-        public static SetOfBooks CachedInstance 
+        public static SetOfBooks CachedInstance
         {
             get
             {

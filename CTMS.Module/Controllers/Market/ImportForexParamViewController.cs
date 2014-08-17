@@ -1,23 +1,15 @@
-﻿using DevExpress.ExpressApp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CTMS.Module.ParamObjects.Import;
-using DevExpress.ExpressApp.SystemModule;
-using System.Diagnostics;
-using System.Threading;
-using DevExpress.ExpressApp.Editors;
+﻿using CTMS.Module.BusinessObjects;
 using CTMS.Module.BusinessObjects.Market;
-using CTMS.Module.BusinessObjects;
-using DevExpress.Data.Filtering;
-using System.IO;
-using DevExpress.ExpressApp.Security.Strategy;
-
-using DevExpress.ExpressApp.Xpo;
-using SDP.ParserUtils;
+using CTMS.Module.ParamObjects.Import;
+using D2NXAF.ExpressApp.Concurrency;
 using D2NXAF.Utils;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.SystemModule;
+using SDP.ParserUtils;
+using System;
+using System.IO;
+using System.Text;
 
 namespace CTMS.Module.Controllers.Market
 {
@@ -40,7 +32,7 @@ namespace CTMS.Module.Controllers.Market
 
         void AcceptAction_Execute(object sender, DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs e)
         {
-            var request = new D2NXAF.ExpressApp.Concurrency.RequestManager(Application);
+            var request = new RequestManager(Application);
 
             var paramObj = View.CurrentObject as ImportForexRatesParam;
             var byteArray = paramObj.File.Content;
@@ -65,14 +57,16 @@ namespace CTMS.Module.Controllers.Market
                         if (!DateTime.TryParse(dateText, out convDate))
                             throw new InvalidDataException(string.Format("Invalid date format '{0}'", dateText));
                     }
-              
+
                     if (reader.CurrentLineNumber < 11) continue;
                     if (reader.CurrentLineNumber > 55) break;
                     parser.Parse(reader.CurrentLine);
                     if (!parser.IsValid()) continue;
 
+                    var currency = objSpace.FindObject<Currency>(Currency.Fields.Name == parser.CcyCode);
+                    if (currency == null) continue;
                     var forexRate = objSpace.CreateObject<ForexRate>();
-                    forexRate.ToCurrency = objSpace.FindObject<Currency>(CriteriaOperator.Parse(Currency.FieldNames.Name + " = ?", parser.CcyCode));
+                    forexRate.ToCurrency = currency;
                     forexRate.ConversionDate = convDate;
                     forexRate.ConversionRate = parser.TtMidAmt;
                 }
@@ -80,6 +74,7 @@ namespace CTMS.Module.Controllers.Market
             });
 
             request.SubmitRequest("Import Forex Rates", job);
+            View.Close();
         }
 
         private class WbcFxRateParser : StringLayoutUtility

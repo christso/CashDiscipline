@@ -1,17 +1,8 @@
-using System;
-using System.Linq;
-using System.Text;
-using DevExpress.Xpo;
-using DevExpress.ExpressApp;
-using System.ComponentModel;
-using DevExpress.ExpressApp.DC;
 using DevExpress.Data.Filtering;
-using DevExpress.Persistent.Base;
-using System.Collections.Generic;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
-using DevExpress.Persistent.Validation;
-using CTMS.Module.BusinessObjects.Cash;
+using DevExpress.Xpo;
+using System;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CTMS.Module.BusinessObjects.Market
@@ -81,6 +72,8 @@ namespace CTMS.Module.BusinessObjects.Market
         }
 
         [DbType("decimal(19, 6)")]
+        [ModelDefault("DisplayFormat", "n6")]
+        [ModelDefault("EditMask", "n6")]
         public decimal ConversionRate
         {
             get
@@ -103,7 +96,7 @@ namespace CTMS.Module.BusinessObjects.Market
             base.OnSaving();
             if (!_IsReversedStatus && !IsDeleted)
             {
-    
+
                 var revForexRate = Session.FindObject<ForexRate>(CriteriaOperator.Parse(
                     "ConversionDate = ? And FromCurrency = ? And ToCurrency = ?",
                     ConversionDate, ToCurrency, FromCurrency));

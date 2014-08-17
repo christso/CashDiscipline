@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using CTMS.Module.BusinessObjects.Cash;
-using DevExpress.ExpressApp.Actions;
-using DevExpress.Data.Filtering;
-using DevExpress.ExpressApp.Xpo;
-using CTMS.Module.ParamObjects.Cash;
+﻿using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.BusinessObjects.Forex;
+using CTMS.Module.ParamObjects.Cash;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.ExpressApp.Xpo;
+using System;
 
 namespace CTMS.Module.Controllers.Cash
 {
@@ -16,7 +14,7 @@ namespace CTMS.Module.Controllers.Cash
         public CashFlowViewController()
         {
             TargetObjectType = typeof(CashFlow);
-         
+
             RunProgramAction = new SingleChoiceAction(this, "RunCashFlowProgramAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             RunProgramAction.Caption = "Run Program";
             RunProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
@@ -64,7 +62,8 @@ namespace CTMS.Module.Controllers.Cash
                     ObjectSpace.CommitChanges();
                     break;
                 case "Save Forecast":
-                    SaveForecast();
+                    var requestManager = new D2NXAF.ExpressApp.Concurrency.RequestManager(Application);
+                    requestManager.SubmitRequest("Save Forecast", SaveForecast);
                     break;
             }
         }
@@ -103,6 +102,6 @@ namespace CTMS.Module.Controllers.Cash
             }
             objSpace.CommitChanges();
         }
-        
+
     }
 }

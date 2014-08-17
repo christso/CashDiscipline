@@ -17,7 +17,6 @@ using DevExpress.Xpo;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Utils;
 
-using CTMS.Module.Controllers.ExcelReporting;
 using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.BusinessObjects.FinAccounting;
 using CTMS.Module.BusinessObjects.ChartOfAccounts;
@@ -154,7 +153,6 @@ namespace CTMS.UnitTests
             #endregion
             #endregion
 
-
             #region Generate Journals
             // Params
             var glParam = ObjectSpace.CreateObject<FinGenJournalParam>();
@@ -185,7 +183,7 @@ namespace CTMS.UnitTests
         [Test]
         [Category("Coverage_2")]
         public void GenerateJournals_AustPostSettle_MappedToJournals()
-        {   
+        {
             #region Prepare
             var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
             journalGroup.Name = "VF Bank";
@@ -233,7 +231,7 @@ namespace CTMS.UnitTests
             commActivity.Name = "V AustPost Comm";
             var commGlAccount = ObjectSpace.CreateObject<GlAccount>();
             commGlAccount.Code = "691090";
-            
+
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
             finActivity1.FromActivity = grossActivity;
             finActivity1.ToActivity = commActivity;
@@ -263,7 +261,7 @@ namespace CTMS.UnitTests
             #endregion
 
             #region Dishonour Chequqe Fee
-            var dsrFeeActivity = ObjectSpace.CreateObject<Activity>(); 
+            var dsrFeeActivity = ObjectSpace.CreateObject<Activity>();
             dsrFeeActivity.Name = "V AustPost Dsr Chq Fee";
             var dsrFeeGlAccount = ObjectSpace.CreateObject<GlAccount>();
             dsrFeeGlAccount.Code = "671701";
@@ -551,7 +549,7 @@ namespace CTMS.UnitTests
             finAccount.Account = account;
             finAccount.GlAccount = bankGlAccount;
             finAccount.JournalGroup = journalGroup;
-            
+
             // commission
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
             finActivity1.FromActivity = commActivity;
