@@ -4,20 +4,20 @@ using DevExpress.Xpo;
 namespace CTMS.Module.ParamObjects.Import
 {
     [NonPersistent]
-    [D2NXAF.ExpressApp.Attributes.AutoCreatableObjectAttribute]
+    [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [FileAttachment("File")]
     [DefaultClassOptions]
     public class ImportForexRatesParam
     {
         public ImportForexRatesParam()
         {
-            _File = new D2NXAF.ExpressApp.SystemModule.OpenFileData();
+            _File = new Xafology.ExpressApp.SystemModule.OpenFileData();
         }
 
-        private D2NXAF.ExpressApp.SystemModule.OpenFileData _File;
+        private Xafology.ExpressApp.SystemModule.OpenFileData _File;
 
         [DisplayName("Please upload a file")]
-        public D2NXAF.ExpressApp.SystemModule.OpenFileData File
+        public Xafology.ExpressApp.SystemModule.OpenFileData File
         {
             get
             {

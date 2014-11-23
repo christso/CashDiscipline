@@ -71,7 +71,7 @@ namespace CTMS.Module.Controllers.Cash
             var objSpace = app.CreateObjectSpace();
 
             // Show Cash flow View
-            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogListViewManager(app, typeof(CashFlow), objSpace);
+            var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogListViewManager(app, typeof(CashFlow), objSpace);
             dialog.Accepting += reconcileForecastDialog_Accepting;
             dialog.ShowView("CashFlow_LookupListView",
                 CriteriaOperator.Parse("TranDate = ? And Status = ? And Account.Oid = ? And AccountCcyAmt = ?",

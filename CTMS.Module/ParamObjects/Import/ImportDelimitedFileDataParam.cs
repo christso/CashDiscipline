@@ -7,20 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using D2NXAF.Utils;
-using D2NXAF.ExpressApp.Xpo;
-using D2NXAF.ExpressApp.IO;
+using Xafology.Utils;
+using Xafology.ExpressApp.Xpo;
+using Xafology.ExpressApp.IO;
 
 namespace CTMS.Module.ParamObjects.Import
 {
     [NonPersistent]
-    [D2NXAF.ExpressApp.Attributes.AutoCreatableObjectAttribute]
+    [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [FileAttachment("File")]
     public class ImportDelimitedFileDataParam
     {
         public ImportDelimitedFileDataParam()
         {
-            _File = new D2NXAF.ExpressApp.SystemModule.OpenFileData();
+            _File = new Xafology.ExpressApp.SystemModule.OpenFileData();
             _ImportLibrary = ImportLibrary.FastCsvReader;
             _Delimiter = ",";
         }
@@ -30,8 +30,8 @@ namespace CTMS.Module.ParamObjects.Import
         private ImportLibrary _ImportLibrary;
         private string _Delimiter;
         private bool _CreateMembers;
-        private D2NXAF.ExpressApp.SystemModule.OpenFileData _File;
-        private D2NXAF.ExpressApp.SystemModule.OpenFileData _TemplateFile;
+        private Xafology.ExpressApp.SystemModule.OpenFileData _File;
+        private Xafology.ExpressApp.SystemModule.OpenFileData _TemplateFile;
 
         public ImportLibrary ImportLibrary
         {
@@ -71,7 +71,7 @@ namespace CTMS.Module.ParamObjects.Import
         }
 
         [DisplayName("Please upload a file")]
-        public D2NXAF.ExpressApp.SystemModule.OpenFileData File
+        public Xafology.ExpressApp.SystemModule.OpenFileData File
         {
             get
             {
@@ -96,7 +96,7 @@ namespace CTMS.Module.ParamObjects.Import
         }
 
         [DisplayName("Template File")]
-        public D2NXAF.ExpressApp.SystemModule.OpenFileData TemplateFile
+        public Xafology.ExpressApp.SystemModule.OpenFileData TemplateFile
         {
             get
             {
@@ -164,7 +164,7 @@ namespace CTMS.Module.ParamObjects.Import
             }
 
             byte[] buffer = string.Join(",", templateMemberNames).ToBytes();
-            paramObj.TemplateFile = new D2NXAF.ExpressApp.SystemModule.OpenFileData();
+            paramObj.TemplateFile = new Xafology.ExpressApp.SystemModule.OpenFileData();
             paramObj.TemplateFile.Load("Template.csv", buffer);
         }
 

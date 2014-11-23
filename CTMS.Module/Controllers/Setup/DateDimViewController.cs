@@ -22,7 +22,7 @@ namespace CTMS.Module.Controllers.Setup
 
         void _CreateDateAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application); 
+            var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application); 
             dialog.ShowNonPersistentView(typeof(CreateDateDimParam));
         }
         private SimpleAction createDateAction;

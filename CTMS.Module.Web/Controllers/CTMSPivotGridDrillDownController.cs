@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using D2NXAF.ExpressApp.PivotGrid.Web.Controllers;
+using Xafology.ExpressApp.PivotGrid.Web.Controllers;
 
 namespace CTMS.Module.Web.Controllers
 {

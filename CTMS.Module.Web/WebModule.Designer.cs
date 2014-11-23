@@ -36,13 +36,13 @@ namespace CTMS.Module.Web
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.ScriptRecorder.Web.ScriptRecorderAspNetModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Reports.Web.ReportsAspNetModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotGrid.Web.PivotGridAspNetModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGrid.Web.D2NXAFPivotGridWebModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.PivotGrid.Web.XafologyPivotGridWebModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.FileAttachments.Web.FileAttachmentsAspNetModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.LayoutModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.Web.LayoutAspNetModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Web.SystemModule.D2NXAFSystemAspNetModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.LayoutModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.Web.LayoutAspNetModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.SystemModule.XafologySystemModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Web.SystemModule.XafologySystemAspNetModule));
         }
 
         #endregion

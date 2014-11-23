@@ -35,7 +35,7 @@ namespace CTMS.Module.BusinessObjects.Artf
             // Place here your initialization code.
             ReceiptDate = DateTime.Now;
 
-            SecuritySystemUser currentUser = D2NXAF.ExpressApp.StaticHelpers.GetCurrentUser(Session);
+            SecuritySystemUser currentUser = Xafology.ExpressApp.StaticHelpers.GetCurrentUser(Session);
             if (currentUser != null)
                 this.CreatedBy = currentUser;
         }

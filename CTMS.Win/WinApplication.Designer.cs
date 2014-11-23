@@ -49,17 +49,17 @@ namespace CTMS.Win
             this.pivotGridWindowsFormsModule1 = new DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule();
             this.pivotChartModuleBase1 = new DevExpress.ExpressApp.PivotChart.PivotChartModuleBase();
             this.pivotChartWindowsFormsModule1 = new DevExpress.ExpressApp.PivotChart.Win.PivotChartWindowsFormsModule();
-            this.ctmsPivotGridWinModule1 = new D2NXAF.ExpressApp.PivotGrid.Win.D2NXAFPivotGridWinModule();
-            this.D2NXAFSystemModule1 = new D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule();
+            this.ctmsPivotGridWinModule1 = new Xafology.ExpressApp.PivotGrid.Win.XafologyPivotGridWinModule();
+            this.XafologySystemModule1 = new Xafology.ExpressApp.SystemModule.XafologySystemModule();
             this.fileAttachmentsWindowsFormsModule1 = new DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule();
-            this.pivotGridLayoutModule1 = new D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule();
-            this.xpoModule1 = new D2NXAF.ExpressApp.Xpo.XpoModule();
-            this.concurrencyModule1 = new D2NXAF.ExpressApp.Concurrency.ConcurrencyModule();
-            this.pivotGridLayoutWindowsFormsModule1 = new D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule();
-            this.layoutModule1 = new D2NXAF.ExpressApp.Layout.LayoutModule();
-            this.layoutWindowsFormsModule1 = new D2NXAF.ExpressApp.Layout.Win.LayoutWindowsFormsModule();
-            this.d2NXAFSystemWindowsFormsModule1 = new D2NXAF.ExpressApp.Win.SystemModule.D2NXAFSystemWindowsFormsModule();
-            this.msoExcelModule1 = new D2NXAF.ExpressApp.MsoExcel.MsoExcelModule();
+            this.pivotGridLayoutModule1 = new Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule();
+            this.xpoModule1 = new Xafology.ExpressApp.Xpo.XpoModule();
+            this.concurrencyModule1 = new Xafology.ExpressApp.Concurrency.ConcurrencyModule();
+            this.pivotGridLayoutWindowsFormsModule1 = new Xafology.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule();
+            this.layoutModule1 = new Xafology.ExpressApp.Layout.LayoutModule();
+            this.layoutWindowsFormsModule1 = new Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule();
+            this.XafologySystemWindowsFormsModule1 = new Xafology.ExpressApp.Win.SystemModule.XafologySystemWindowsFormsModule();
+            this.msoExcelModule1 = new Xafology.ExpressApp.MsoExcel.MsoExcelModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlConnection1
@@ -111,7 +111,7 @@ namespace CTMS.Win
             this.Modules.Add(this.reportsModule1);
             this.Modules.Add(this.securityModule1);
             this.Modules.Add(this.pivotGridLayoutModule1);
-            this.Modules.Add(this.D2NXAFSystemModule1);
+            this.Modules.Add(this.XafologySystemModule1);
             this.Modules.Add(this.concurrencyModule1);
             this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.layoutModule1);
@@ -127,7 +127,7 @@ namespace CTMS.Win
             this.Modules.Add(this.fileAttachmentsWindowsFormsModule1);
             this.Modules.Add(this.pivotGridLayoutWindowsFormsModule1);
             this.Modules.Add(this.layoutWindowsFormsModule1);
-            this.Modules.Add(this.d2NXAFSystemWindowsFormsModule1);
+            this.Modules.Add(this.XafologySystemWindowsFormsModule1);
             this.Modules.Add(this.module4);
             this.Security = this.securityStrategyComplex1;
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CTMSWindowsFormsApplication_DatabaseVersionMismatch);
@@ -159,16 +159,16 @@ namespace CTMS.Win
         private DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule pivotGridWindowsFormsModule1;
         private DevExpress.ExpressApp.PivotChart.PivotChartModuleBase pivotChartModuleBase1;
         private DevExpress.ExpressApp.PivotChart.Win.PivotChartWindowsFormsModule pivotChartWindowsFormsModule1;
-        private D2NXAF.ExpressApp.PivotGrid.Win.D2NXAFPivotGridWinModule ctmsPivotGridWinModule1;
-        private D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule D2NXAFSystemModule1;
+        private Xafology.ExpressApp.PivotGrid.Win.XafologyPivotGridWinModule ctmsPivotGridWinModule1;
+        private Xafology.ExpressApp.SystemModule.XafologySystemModule XafologySystemModule1;
         private DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule fileAttachmentsWindowsFormsModule1;
-        private D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule pivotGridLayoutModule1;
-        private D2NXAF.ExpressApp.Xpo.XpoModule xpoModule1;
-        private D2NXAF.ExpressApp.Concurrency.ConcurrencyModule concurrencyModule1;
-        private D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule pivotGridLayoutWindowsFormsModule1;
-        private D2NXAF.ExpressApp.Layout.LayoutModule layoutModule1;
-        private D2NXAF.ExpressApp.Layout.Win.LayoutWindowsFormsModule layoutWindowsFormsModule1;
-        private D2NXAF.ExpressApp.Win.SystemModule.D2NXAFSystemWindowsFormsModule d2NXAFSystemWindowsFormsModule1;
-        private D2NXAF.ExpressApp.MsoExcel.MsoExcelModule msoExcelModule1;
+        private Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule pivotGridLayoutModule1;
+        private Xafology.ExpressApp.Xpo.XpoModule xpoModule1;
+        private Xafology.ExpressApp.Concurrency.ConcurrencyModule concurrencyModule1;
+        private Xafology.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule pivotGridLayoutWindowsFormsModule1;
+        private Xafology.ExpressApp.Layout.LayoutModule layoutModule1;
+        private Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule layoutWindowsFormsModule1;
+        private Xafology.ExpressApp.Win.SystemModule.XafologySystemWindowsFormsModule XafologySystemWindowsFormsModule1;
+        private Xafology.ExpressApp.MsoExcel.MsoExcelModule msoExcelModule1;
     }
 }

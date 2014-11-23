@@ -2,7 +2,7 @@
 using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.BusinessObjects.FinAccounting;
 using CTMS.Module.ParamObjects.FinAccounting;
-using D2NXAF.StringEvaluators;
+using Xafology.StringEvaluators;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.Xpo;

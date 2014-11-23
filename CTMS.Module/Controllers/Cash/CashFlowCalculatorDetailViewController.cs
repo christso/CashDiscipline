@@ -1,5 +1,5 @@
 ﻿using CTMS.Module.BusinessObjects.Cash;
-using D2NXAF.ExpressApp.Editors;
+using Xafology.ExpressApp.Editors;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Editors;
 

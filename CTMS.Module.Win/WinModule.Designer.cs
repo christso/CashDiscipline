@@ -42,13 +42,13 @@ namespace CTMS.Module.Win
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Reports.Win.ReportsWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotChart.Win.PivotChartWindowsFormsModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGrid.Win.D2NXAFPivotGridWinModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.PivotGrid.Win.XafologyPivotGridWinModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.LayoutModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.Win.LayoutWindowsFormsModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Win.SystemModule.D2NXAFSystemWindowsFormsModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.LayoutModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.SystemModule.XafologySystemModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Win.SystemModule.XafologySystemWindowsFormsModule));
         }
 
         #endregion

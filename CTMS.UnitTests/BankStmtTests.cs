@@ -44,6 +44,7 @@ namespace CTMS.UnitTests
 
             Assert.AreEqual(Math.Round(bs.TranAmount / rate.ConversionRate, 2),
                 Math.Round(bs.FunctionalCcyAmt, 2));
+            ObjectSpace.CommitChanges();
         }
 
         [Test]

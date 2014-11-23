@@ -3,12 +3,12 @@
 namespace CTMS.Module.ParamObjects.Import
 {
     [NonPersistent]
-    [D2NXAF.ExpressApp.Attributes.AutoCreatableObjectAttribute]
+    [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     public class ImportBankStmtParam
     {
         public ImportBankStmtParam()
         {
-            _File = new D2NXAF.ExpressApp.SystemModule.OpenFileData();
+            _File = new Xafology.ExpressApp.SystemModule.OpenFileData();
         }
         private BankStmtImportType _ImportType;
 
@@ -24,10 +24,10 @@ namespace CTMS.Module.ParamObjects.Import
             }
         }
 
-        private D2NXAF.ExpressApp.SystemModule.OpenFileData _File;
+        private Xafology.ExpressApp.SystemModule.OpenFileData _File;
 
         [DisplayName("Please upload a file")]
-        public D2NXAF.ExpressApp.SystemModule.OpenFileData File
+        public Xafology.ExpressApp.SystemModule.OpenFileData File
         {
             get
             {

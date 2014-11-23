@@ -1,4 +1,4 @@
-﻿using D2NXAF.ExpressApp.PivotGridLayout;
+﻿using Xafology.ExpressApp.PivotGridLayout;
 using DevExpress.XtraPivotGrid;
 using System;
 using System.Collections.Generic;

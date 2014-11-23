@@ -42,12 +42,12 @@ namespace CTMS.Module
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.ViewVariantsModule.ViewVariantsModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotGrid.PivotGridModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Validation.ValidationModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Xpo.XpoModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Concurrency.ConcurrencyModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.Layout.LayoutModule));
-            this.RequiredModuleTypes.Add(typeof(D2NXAF.ExpressApp.MsoExcel.MsoExcelModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Xpo.XpoModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Concurrency.ConcurrencyModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.SystemModule.XafologySystemModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.LayoutModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.MsoExcel.MsoExcelModule));
         }
 
         #endregion

@@ -21,7 +21,7 @@ namespace CTMS.Module.ReportParams
 
         public CashReportParameters(IObjectSpace objectSpace, Type reportDataType) : base(objectSpace, reportDataType)
         {
-            var currentUser = D2NXAF.ExpressApp.StaticHelpers.GetCurrentUser(objectSpace);
+            var currentUser = Xafology.ExpressApp.StaticHelpers.GetCurrentUser(objectSpace);
             var paramObj = objectSpace.FindObject<CashReportParameters>(
                 CriteriaOperator.Parse("ReportUser = ?", currentUser));
             FromDate = paramObj.FromDate;

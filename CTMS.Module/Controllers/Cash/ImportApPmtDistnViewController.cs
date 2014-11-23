@@ -2,7 +2,7 @@
 using CTMS.Module.BusinessObjects.Cash.AccountsPayable;
 using CTMS.Module.BusinessObjects.ChartOfAccounts;
 using CTMS.Module.ParamObjects.Import;
-using D2NXAF.ExpressApp.Concurrency;
+using Xafology.ExpressApp.Concurrency;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.SystemModule;

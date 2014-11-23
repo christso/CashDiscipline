@@ -1,7 +1,7 @@
 ﻿using CTMS.Module.BusinessObjects.FinAccounting;
 using CTMS.Module.ParamObjects.FinAccounting;
-using D2NXAF.ExpressApp.MsoExcel.Attributes;
-using D2NXAF.ExpressApp.MsoExcel.Reports;
+using Xafology.ExpressApp.MsoExcel.Attributes;
+using Xafology.ExpressApp.MsoExcel.Reports;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
@@ -30,7 +30,7 @@ namespace CTMS.Module.ExcelReportCreators
         {
             var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = FinGenJournalParam.GetInstance(objSpace);
-            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+            var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
             dialog.Accepting += dialog_Accepting;
             _ParamObj = paramObj;
             dialog.ShowView(objSpace, paramObj);

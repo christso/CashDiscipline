@@ -52,7 +52,7 @@ namespace CTMS.Module.Controllers.Cash
             ReportParam = CashReportParam.GetInstance(_ReportObjSpace);
             if (ReportParam.SetDefaultParams())
                 _ReportObjSpace.CommitChanges();
-            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+            var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
             dialog.Accepting += dialog_Accepting;
             dialog.ShowView(_ReportObjSpace, ReportParam);
         }

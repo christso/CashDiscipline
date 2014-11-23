@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using D2NXAF.Utils;
+using Xafology.Utils;
 
 namespace CTMS.Module.ParamObjects.Import
 {

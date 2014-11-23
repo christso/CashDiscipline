@@ -2,7 +2,7 @@
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.PivotGrid.Win;
 using DevExpress.XtraPivotGrid;
-using D2NXAF.PivotGrid;
+using Xafology.PivotGrid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ using CTMS.Module.ParamObjects.Cash;
 
 using DevExpress.ExpressApp.SystemModule;
 using DevExpress.Data.Filtering;
-using D2NXAF.ExpressApp.PivotGridLayout.Controllers;
+using Xafology.ExpressApp.PivotGridLayout.Controllers;
 using CTMS.Module.ControllerHelpers.Cash;
 
 namespace CTMS.Module.Win.Controllers.Cash
@@ -46,7 +46,7 @@ namespace CTMS.Module.Win.Controllers.Cash
             PivotGridFieldsMapped -= CashFlow_PivotGridFieldsMapped;
         }
 
-        void CashFlow_PivotGridFieldsMapped(object sender, D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutEventArgs e)
+        void CashFlow_PivotGridFieldsMapped(object sender, Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutEventArgs e)
         {
             PivotGridControl.OptionsCustomization.CustomizationFormStyle
                     = DevExpress.XtraPivotGrid.Customization.CustomizationFormStyle.Excel2007;

@@ -47,11 +47,11 @@ namespace CTMS.Module.Controllers.Cash
             switch (e.SelectedChoiceActionItem.Caption)
             {
                 case "Daily Update":
-                    var dialog1 = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    var dialog1 = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
                     dialog1.ShowNonPersistentView(typeof(DailyCashUpdateParam));
                     break;
                 case "Fix Forecast":
-                    var dialog2 = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    var dialog2 = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
                     dialog2.ShowSingletonView<CashFlowFixParam>((IObjectSpace)Application.CreateObjectSpace());
                     break;
                 case "Map":
@@ -62,7 +62,7 @@ namespace CTMS.Module.Controllers.Cash
                     ObjectSpace.CommitChanges();
                     break;
                 case "Save Forecast":
-                    var requestManager = new D2NXAF.ExpressApp.Concurrency.RequestManager(Application);
+                    var requestManager = new Xafology.ExpressApp.Concurrency.RequestManager(Application);
                     requestManager.SubmitRequest("Save Forecast", SaveForecast);
                     break;
             }

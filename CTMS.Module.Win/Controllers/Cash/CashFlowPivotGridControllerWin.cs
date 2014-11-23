@@ -71,7 +71,7 @@ namespace CTMS.Module.Win.Controllers.Cash
                 {
                     // remember location of cell that was double-clicked
                     DoubleClickPivotCellEventArgs = e;
-                    var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
                     dialog.Accepting += noteDialogAccepting;
                     dialog.ShowView(objSpace, noteObj);
                 }

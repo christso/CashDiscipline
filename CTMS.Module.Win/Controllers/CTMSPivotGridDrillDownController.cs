@@ -1,6 +1,6 @@
 ﻿using CTMS.Module.Controllers.Cash;
 using DevExpress.ExpressApp.PivotGrid.Win;
-using D2NXAF.ExpressApp.PivotGrid.Win.Controllers;
+using Xafology.ExpressApp.PivotGrid.Win.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

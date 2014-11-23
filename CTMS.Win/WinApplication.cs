@@ -5,7 +5,7 @@ using DevExpress.ExpressApp.Win;
 using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Xpo;
-using D2NXAF.ExpressApp.Xpo;
+using Xafology.ExpressApp.Xpo;
 
 namespace CTMS.Win
 {

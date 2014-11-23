@@ -13,7 +13,7 @@ using DevExpress.ExpressApp.Utils;
 using CTMS.Module.ParamObjects.FinAccounting;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
-using D2NXAF.ExpressApp.Reports;
+using Xafology.ExpressApp.Reports;
 using DevExpress.Data.Filtering;
 using CTMS.Module.BusinessObjects.FinAccounting;
 using CTMS.Module.ParamObjects.Cash;
@@ -53,7 +53,7 @@ namespace CTMS.Module.Controllers.ExcelReporting
             {
                 var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 _ParamObj = CashReportParam.GetInstance(objSpace);
-                var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
                 dialog.Accepting += dialog_Accepting;
                 dialog.ShowView(objSpace, _ParamObj);
             }
@@ -80,7 +80,7 @@ namespace CTMS.Module.Controllers.ExcelReporting
             {
                 var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
                 var paramObj = FinGenJournalParam.GetInstance(objSpace);
-                var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
                 dialog.Accepting += dialog_Accepting;
                 _ParamObj = paramObj;
                 dialog.ShowView(objSpace, paramObj);

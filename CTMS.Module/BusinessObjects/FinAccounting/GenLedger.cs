@@ -77,7 +77,7 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
                 }
             }
         }
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         public GenLedgerSourceType SourceType
         {
             get
@@ -93,7 +93,7 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
         [VisibleInListView(false)]
         [VisibleInDetailView(false)]
         [VisibleInLookupListView(false)]
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         public string SrcId
         {
             get
@@ -103,7 +103,7 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
                 return SrcBankStmt.BankStmtId;
             }
         }
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         public DateTime? SrcDate
         {
             get
@@ -126,7 +126,7 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
                 return null;
             }
         }
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         public decimal? SrcAccountCcyAmt
         {
             get
@@ -138,7 +138,7 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
                 return null;
             }
         }
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         public string SrcDescription
         {
             get
@@ -151,7 +151,7 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
             }
         }
         #endregion
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         [Association("JournalGroup-GenLedger")]
         public FinJournalGroup JournalGroup
         {
@@ -180,7 +180,7 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
 
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         [DevExpress.Xpo.DisplayName("Gl Functional Ccy Amt")]
         public decimal FunctionalCcyAmt
         {
@@ -195,14 +195,14 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
         }
 
         private GlCompany _GlCompany;
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         public GlCompany GlCompany
         {
             get { return _GlCompany; }
             set { SetPropertyValue("GlCompany", ref _GlCompany, value); }
         }
         private GlAccount _GlAccount;
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         public GlAccount GlAccount
         {
             get { return _GlAccount; }
@@ -252,7 +252,7 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
         }
 
         private string _GlDescription;
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         public string GlDescription
         {
             get
@@ -276,7 +276,7 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
                 SetPropertyValue("EntryType", ref _EntryType, value);
             }
         }
-        [D2NXAF.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
         public bool IsActivity
         {
             get

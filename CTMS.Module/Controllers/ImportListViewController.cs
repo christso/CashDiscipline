@@ -2,7 +2,7 @@
 using CTMS.Module.BusinessObjects.Cash.AccountsPayable;
 using CTMS.Module.BusinessObjects.Market;
 using CTMS.Module.ParamObjects.Import;
-using d2import = D2NXAF.ExpressApp.Xpo.Import;
+using d2import = Xafology.ExpressApp.Xpo.Import;
 
 namespace CTMS.Module.Controllers
 {
@@ -41,7 +41,7 @@ namespace CTMS.Module.Controllers
 
         private void ShowParamView(object paramObj)
         {
-            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+            var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
             dialog.CanCloseWindow = false;
             dialog.ShowNonPersistentView(paramObj);
             IsHandled = true;

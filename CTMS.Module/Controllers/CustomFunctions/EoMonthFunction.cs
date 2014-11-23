@@ -17,7 +17,7 @@ namespace CTMS.Module.CustomFunctions
         object ICustomFunctionOperator.Evaluate(params object[] operands)
         {
             var dt = (DateTime)operands[0];
-            return D2NXAF.Utils.DateUtils.DateObject(dt.Year, dt.Month + 1, 0);
+            return Xafology.Utils.DateUtils.DateObject(dt.Year, dt.Month + 1, 0);
         }
 
         string ICustomFunctionOperator.Name

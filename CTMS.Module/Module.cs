@@ -1,6 +1,6 @@
 using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.Validation;
-using D2NXAF.ExpressApp.PivotGridLayout;
+using Xafology.ExpressApp.PivotGridLayout;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Model.Core;

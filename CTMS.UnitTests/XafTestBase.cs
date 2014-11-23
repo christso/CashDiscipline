@@ -69,7 +69,7 @@ namespace CTMS.UnitTests
                     //server = @"(localdb)\Projects";
                     server = @".\SQLEXPRESS";
                     //MSSqlClientHelper.DropAndCreateDatabase(server, database, @"D:\Data\SQL Server");
-                    D2NXAF.Utils.Data.MSSqlClientHelper.DropAndCreateDatabase(server, database, @"D:\Program Files\Microsoft SQL Server\MSSQL10.SQLEXPRESS\MSSQL\DATA");
+                    Xafology.Utils.Data.MSSqlClientHelper.DropAndCreateDatabase(server, database, @"D:\Program Files\Microsoft SQL Server\MSSQL10.SQLEXPRESS\MSSQL\DATA");
                     return MSSqlConnectionProvider.GetConnectionString(server, database);
                 case DbType.PostgreSQL:
                     server = "localhost";

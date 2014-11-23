@@ -36,7 +36,7 @@ namespace CTMS.Module.BusinessObjects.Artf
             System = Session.FindObject<ArtfSystem>(CriteriaOperator.Parse("Name = 'Payment Central'"));
             GlCode = Session.FindObject<ArtfGlCode>(CriteriaOperator.Parse("Name = 'ANZ Operating'"));
 
-            SecuritySystemUser currentUser = D2NXAF.ExpressApp.StaticHelpers.GetCurrentUser(Session);
+            SecuritySystemUser currentUser = Xafology.ExpressApp.StaticHelpers.GetCurrentUser(Session);
             if (currentUser != null)
                 this.CreatedBy = currentUser;
         }

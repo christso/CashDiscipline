@@ -1,5 +1,5 @@
 ﻿using CTMS.Module.ControllerHelpers.Cash;
-using D2NXAF.ExpressApp.PivotGridLayout.Web.Controllers;
+using Xafology.ExpressApp.PivotGridLayout.Web.Controllers;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.PivotGrid.Web;
 using DevExpress.Utils;
@@ -37,7 +37,7 @@ namespace CTMS.Module.Web.Controllers.Cash
             PivotGridControl.Width = Unit.Pixel(200);
         }
 
-        private void CashFlow_PivotGridFieldsMapped(object sender, D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutEventArgs e)
+        private void CashFlow_PivotGridFieldsMapped(object sender, Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutEventArgs e)
         {
  
             PivotGridControl.OptionsCustomization.CustomizationFormStyle

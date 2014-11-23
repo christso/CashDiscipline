@@ -1,7 +1,7 @@
 ﻿using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.ParamObjects.Cash;
-using D2NXAF.ExpressApp.MsoExcel.Attributes;
-using D2NXAF.ExpressApp.MsoExcel.Reports;
+using Xafology.ExpressApp.MsoExcel.Attributes;
+using Xafology.ExpressApp.MsoExcel.Reports;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Xpo;
@@ -30,7 +30,7 @@ namespace CTMS.Module.ExcelReportCreators
         {
             var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
             _ParamObj = CashReportParam.GetInstance(objSpace);
-            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+            var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
             dialog.Accepting += dialog_Accepting;
             dialog.ShowView(objSpace, _ParamObj);
         }

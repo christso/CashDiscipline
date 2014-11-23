@@ -5,7 +5,7 @@ using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Web;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.ExpressApp.Security;
-using D2NXAF.ExpressApp.Xpo;
+using Xafology.ExpressApp.Xpo;
 
 namespace CTMS.Web
 {
@@ -29,17 +29,17 @@ namespace CTMS.Web
         private DevExpress.ExpressApp.Reports.ReportsModule reportsModule1;
         private DevExpress.ExpressApp.Reports.Web.ReportsAspNetModule reportsAspNetModule1;
         private DevExpress.ExpressApp.PivotGrid.Web.PivotGridAspNetModule pivotGridAspNetModule1;
-        private D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule D2NXAFSystemModule1;
-        private D2NXAF.ExpressApp.PivotGrid.Web.D2NXAFPivotGridWebModule D2NXAFPivotGridWebModule1;
+        private Xafology.ExpressApp.SystemModule.XafologySystemModule XafologySystemModule1;
+        private Xafology.ExpressApp.PivotGrid.Web.XafologyPivotGridWebModule XafologyPivotGridWebModule1;
         private DevExpress.ExpressApp.FileAttachments.Web.FileAttachmentsAspNetModule fileAttachmentsAspNetModule1;
-        private D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule pivotGridLayoutModule1;
+        private Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule pivotGridLayoutModule1;
         private XpoModule xpoModule1;
-        private D2NXAF.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule pivotGridLayoutAspNetModule1;
-        private D2NXAF.ExpressApp.Concurrency.ConcurrencyModule concurrencyModule1;
-        private D2NXAF.ExpressApp.Layout.LayoutModule layoutModule1;
-        private D2NXAF.ExpressApp.Layout.Web.LayoutAspNetModule layoutAspNetModule1;
-        private D2NXAF.ExpressApp.Web.SystemModule.D2NXAFSystemAspNetModule d2NXAFSystemAspNetModule1;
-        private D2NXAF.ExpressApp.MsoExcel.MsoExcelModule msoExcelModule1;
+        private Xafology.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule pivotGridLayoutAspNetModule1;
+        private Xafology.ExpressApp.Concurrency.ConcurrencyModule concurrencyModule1;
+        private Xafology.ExpressApp.Layout.LayoutModule layoutModule1;
+        private Xafology.ExpressApp.Layout.Web.LayoutAspNetModule layoutAspNetModule1;
+        private Xafology.ExpressApp.Web.SystemModule.XafologySystemAspNetModule XafologySystemAspNetModule1;
+        private Xafology.ExpressApp.MsoExcel.MsoExcelModule msoExcelModule1;
         private System.Data.SqlClient.SqlConnection sqlConnection1;
 
         public CTMSAspNetApplication()
@@ -116,17 +116,17 @@ namespace CTMS.Web
             this.reportsModule1 = new DevExpress.ExpressApp.Reports.ReportsModule();
             this.reportsAspNetModule1 = new DevExpress.ExpressApp.Reports.Web.ReportsAspNetModule();
             this.pivotGridAspNetModule1 = new DevExpress.ExpressApp.PivotGrid.Web.PivotGridAspNetModule();
-            this.D2NXAFSystemModule1 = new D2NXAF.ExpressApp.SystemModule.D2NXAFSystemModule();
-            this.D2NXAFPivotGridWebModule1 = new D2NXAF.ExpressApp.PivotGrid.Web.D2NXAFPivotGridWebModule();
+            this.XafologySystemModule1 = new Xafology.ExpressApp.SystemModule.XafologySystemModule();
+            this.XafologyPivotGridWebModule1 = new Xafology.ExpressApp.PivotGrid.Web.XafologyPivotGridWebModule();
             this.fileAttachmentsAspNetModule1 = new DevExpress.ExpressApp.FileAttachments.Web.FileAttachmentsAspNetModule();
-            this.pivotGridLayoutModule1 = new D2NXAF.ExpressApp.PivotGridLayout.PivotGridLayoutModule();
-            this.xpoModule1 = new D2NXAF.ExpressApp.Xpo.XpoModule();
-            this.pivotGridLayoutAspNetModule1 = new D2NXAF.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule();
-            this.concurrencyModule1 = new D2NXAF.ExpressApp.Concurrency.ConcurrencyModule();
-            this.layoutModule1 = new D2NXAF.ExpressApp.Layout.LayoutModule();
-            this.layoutAspNetModule1 = new D2NXAF.ExpressApp.Layout.Web.LayoutAspNetModule();
-            this.d2NXAFSystemAspNetModule1 = new D2NXAF.ExpressApp.Web.SystemModule.D2NXAFSystemAspNetModule();
-            this.msoExcelModule1 = new D2NXAF.ExpressApp.MsoExcel.MsoExcelModule();
+            this.pivotGridLayoutModule1 = new Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule();
+            this.xpoModule1 = new Xafology.ExpressApp.Xpo.XpoModule();
+            this.pivotGridLayoutAspNetModule1 = new Xafology.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule();
+            this.concurrencyModule1 = new Xafology.ExpressApp.Concurrency.ConcurrencyModule();
+            this.layoutModule1 = new Xafology.ExpressApp.Layout.LayoutModule();
+            this.layoutAspNetModule1 = new Xafology.ExpressApp.Layout.Web.LayoutAspNetModule();
+            this.XafologySystemAspNetModule1 = new Xafology.ExpressApp.Web.SystemModule.XafologySystemAspNetModule();
+            this.msoExcelModule1 = new Xafology.ExpressApp.MsoExcel.MsoExcelModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlConnection1
@@ -169,7 +169,7 @@ namespace CTMS.Web
             this.Modules.Add(this.pivotGridModule1);
             this.Modules.Add(this.securityModule1);
             this.Modules.Add(this.pivotGridLayoutModule1);
-            this.Modules.Add(this.D2NXAFSystemModule1);
+            this.Modules.Add(this.XafologySystemModule1);
             this.Modules.Add(this.concurrencyModule1);
             this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.layoutModule1);
@@ -180,11 +180,11 @@ namespace CTMS.Web
             this.Modules.Add(this.reportsModule1);
             this.Modules.Add(this.reportsAspNetModule1);
             this.Modules.Add(this.pivotGridAspNetModule1);
-            this.Modules.Add(this.D2NXAFPivotGridWebModule1);
+            this.Modules.Add(this.XafologyPivotGridWebModule1);
             this.Modules.Add(this.fileAttachmentsAspNetModule1);
             this.Modules.Add(this.pivotGridLayoutAspNetModule1);
             this.Modules.Add(this.layoutAspNetModule1);
-            this.Modules.Add(this.d2NXAFSystemAspNetModule1);
+            this.Modules.Add(this.XafologySystemAspNetModule1);
             this.Modules.Add(this.module4);
             this.Security = this.securityStrategyComplex1;
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CTMSAspNetApplication_DatabaseVersionMismatch);

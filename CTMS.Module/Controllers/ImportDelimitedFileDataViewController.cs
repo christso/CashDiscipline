@@ -13,7 +13,7 @@ using System.IO;
 using LumenWorks.Framework.IO.Csv;
 using DevExpress.Xpo;
 using DevExpress.ExpressApp.Xpo;
-using D2NXAF.Utils;
+using Xafology.Utils;
 using DevExpress.ExpressApp.DC;
 using DevExpress.ExpressApp.Model.NodeGenerators;
 using DevExpress.Data.Filtering;
@@ -21,8 +21,8 @@ using DevExpress.ExpressApp.Actions;
 using OfficeOpenXml;
 
 using CTMS.Module.BusinessObjects;
-using D2NXAF.ExpressApp.IO;
-using D2NXAF.ExpressApp.Concurrency;
+using Xafology.ExpressApp.IO;
+using Xafology.ExpressApp.Concurrency;
 
 namespace CTMS.Module.Controllers
 {
@@ -66,7 +66,7 @@ namespace CTMS.Module.Controllers
 
         private void FastCsvImport()
         {
-            var request = new D2NXAF.ExpressApp.Concurrency.RequestManager(Application);
+            var request = new Xafology.ExpressApp.Concurrency.RequestManager(Application);
 
             var paramObj = (ImportDelimitedFileDataParam)View.CurrentObject;
             if (paramObj.File.Content == null)
@@ -79,7 +79,7 @@ namespace CTMS.Module.Controllers
 
             Action job = new Action(() =>
             {
-                var engine = new D2NXAF.ExpressApp.Xpo.CsvXpoEngine(Application);
+                var engine = new Xafology.ExpressApp.Xpo.CsvXpoEngine(Application);
                 bool userTriggersEnabled = AppSettings.UserTriggersEnabled;
                 try
                 {
@@ -106,7 +106,7 @@ namespace CTMS.Module.Controllers
                         }
                     }
                 }
-                catch (D2NXAF.Utils.Data.ConvertException)
+                catch (Xafology.Utils.Data.ConvertException)
                 {
                     request.CustomRequestExitStatus = RequestStatus.Error;
 

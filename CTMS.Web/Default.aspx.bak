@@ -1,7 +1,7 @@
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="Default" EnableViewState="false"
     ValidateRequest="false" CodeBehind="Default.aspx.cs" %>
 
-<%@ Register Assembly="DevExpress.Web.v14.1, Version=14.1.3.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxGlobalEvents" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.Web.v14.1, Version=14.1.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxGlobalEvents" TagPrefix="dx" %>
 <%@ Register Assembly="DevExpress.ExpressApp.Web.v14.1" Namespace="DevExpress.ExpressApp.Web.Templates"
     TagPrefix="cc3" %>
 <%@ Register Assembly="DevExpress.ExpressApp.Web.v14.1" Namespace="DevExpress.ExpressApp.Web.Controls"

@@ -77,7 +77,7 @@ namespace CTMS.Module.Controllers
                     MoveToBottom(selectedMapping);
                     break;
                 case "Custom":
-                    var popupView = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+                    var popupView = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
                     popupView.Accepting += DialogController_Accepting;
                     popupView.ShowNonPersistentView(typeof(MoveToIndexParam));
                     break;

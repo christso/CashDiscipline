@@ -40,7 +40,7 @@ namespace CTMS.Module.Controllers.FinAccounting
             var objSpace = Application.CreateObjectSpace();
             var paramObj = FinGenJournalParam.GetInstance(objSpace);
             _ParamObj = paramObj;
-            var dialog = new D2NXAF.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
+            var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
             dialog.Accepting += dialog_Accepting;
             dialog.ShowView(objSpace, paramObj);
         }

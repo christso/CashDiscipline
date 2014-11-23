@@ -25,8 +25,8 @@ namespace CTMS.Module.DatabaseUpdate
         public override void UpdateDatabaseBeforeUpdateSchema()
         {
             base.UpdateDatabaseBeforeUpdateSchema();
-            //D2NXAF.ExpressApp.Xpo.Updater.SetupIdentityColumn(((XPObjectSpace)ObjectSpace).Session, typeof(CashFlow));
-            //D2NXAF.ExpressApp.Xpo.Updater.SetupIdentityColumn(((XPObjectSpace)ObjectSpace).Session, typeof(ForexTrade));
+            //Xafology.ExpressApp.Xpo.Updater.SetupIdentityColumn(((XPObjectSpace)ObjectSpace).Session, typeof(CashFlow));
+            //Xafology.ExpressApp.Xpo.Updater.SetupIdentityColumn(((XPObjectSpace)ObjectSpace).Session, typeof(ForexTrade));
         }
 
 
@@ -47,14 +47,14 @@ namespace CTMS.Module.DatabaseUpdate
             InitSetOfBooks(objSpace);
             CreateFinAccountingDefaults(objSpace);
             CreateCashFlowDefaults(objSpace);
-            D2NXAF.ExpressApp.StaticHelpers.GetInstance<CTMS.Module.ParamObjects.Cash.CashFlowFixParam>(objSpace);
+            Xafology.ExpressApp.StaticHelpers.GetInstance<CTMS.Module.ParamObjects.Cash.CashFlowFixParam>(objSpace);
 
         }
 
         public static void CreateFinAccountingDefaults(IObjectSpace objSpace)
         {
-            D2NXAF.ExpressApp.StaticHelpers.GetInstance<FinGenJournalParam>(objSpace);
-            D2NXAF.ExpressApp.StaticHelpers.GetInstance<FinAccountingDefaults>(objSpace);
+            Xafology.ExpressApp.StaticHelpers.GetInstance<FinGenJournalParam>(objSpace);
+            Xafology.ExpressApp.StaticHelpers.GetInstance<FinAccountingDefaults>(objSpace);
         }
 
         public static void InitSetOfBooks(IObjectSpace objSpace)
@@ -152,7 +152,7 @@ namespace CTMS.Module.DatabaseUpdate
                 account.Currency = objSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
             }
 
-            var cfDef = D2NXAF.ExpressApp.StaticHelpers.GetInstance<CashFlowDefaults>(objSpace);
+            var cfDef = Xafology.ExpressApp.StaticHelpers.GetInstance<CashFlowDefaults>(objSpace);
             if (cfDef.Counterparty == null)
                 cfDef.Counterparty = counterparty;
             if (cfDef.Activity == null)

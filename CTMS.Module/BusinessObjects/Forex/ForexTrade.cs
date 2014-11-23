@@ -144,7 +144,7 @@ namespace CTMS.Module.BusinessObjects.Forex
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
         [ImmediatePostData(true)]
-        [EditorAlias("D2NXAF_DecimalActionPropertyEditor")]
+        [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         public decimal PrimaryCcyAmt
         {
             get
@@ -167,7 +167,7 @@ namespace CTMS.Module.BusinessObjects.Forex
         [ModelDefault("DisplayFormat", "n5")]
         [DbType("decimal(19, 6)")]
         [ImmediatePostData(true)]
-        [EditorAlias("D2NXAF_DecimalActionPropertyEditor")]
+        [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         public decimal Rate
         {
             get
@@ -239,7 +239,7 @@ namespace CTMS.Module.BusinessObjects.Forex
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
         [ImmediatePostData(true)]
-        [EditorAlias("D2NXAF_DecimalActionPropertyEditor")]
+        [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         public decimal CounterCcyAmt
         {
             get

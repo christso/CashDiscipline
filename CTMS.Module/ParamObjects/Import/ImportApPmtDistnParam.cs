@@ -6,12 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using D2NXAF.ExpressApp.SystemModule;
+using Xafology.ExpressApp.SystemModule;
 
 namespace CTMS.Module.ParamObjects.Import
 {
     [NonPersistent]
-    [D2NXAF.ExpressApp.Attributes.AutoCreatableObjectAttribute]
+    [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [FileAttachment("File")]
     public class ImportApPmtDistnParam
     {

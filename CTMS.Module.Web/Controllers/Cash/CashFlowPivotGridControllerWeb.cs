@@ -11,13 +11,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CTMS.Module.Controllers.Cash;
-using D2NXAF.PivotGrid;
+using Xafology.PivotGrid;
 using System.IO;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Utils;
 using DevExpress.ExpressApp.Actions;
 using CTMS.Module.ControllerHelpers.Cash;
-using D2NXAF.ExpressApp.PivotGridLayout.Web.Controllers;
+using Xafology.ExpressApp.PivotGridLayout.Web.Controllers;
 using System.Web.UI.WebControls;
 
 namespace CTMS.Module.Web.Controllers.Cash

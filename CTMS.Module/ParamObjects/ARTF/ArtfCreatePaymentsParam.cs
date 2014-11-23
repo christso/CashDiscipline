@@ -14,7 +14,7 @@ using DevExpress.Persistent.Validation;
 namespace CTMS.Module.ParamObjects.Artf
 {
     [NonPersistent]
-    [D2NXAF.ExpressApp.Attributes.AutoCreatableObjectAttribute]
+    [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     public class ArtfCreatePaymentsParam
     {
         private DateTime _ValueDate;

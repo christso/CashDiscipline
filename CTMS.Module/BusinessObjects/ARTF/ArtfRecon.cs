@@ -42,7 +42,7 @@ namespace CTMS.Module.BusinessObjects.Artf
             base.AfterConstruction();
             // Place here your initialization code.
             ReconDate = DateTime.Now;
-            SecuritySystemUser currentUser = D2NXAF.ExpressApp.StaticHelpers.GetCurrentUser(Session);
+            SecuritySystemUser currentUser = Xafology.ExpressApp.StaticHelpers.GetCurrentUser(Session);
             if (currentUser != null)
                     this.CreatedBy = currentUser;
         }

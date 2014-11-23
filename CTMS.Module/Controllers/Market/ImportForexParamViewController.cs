@@ -1,8 +1,8 @@
 ﻿using CTMS.Module.BusinessObjects;
 using CTMS.Module.BusinessObjects.Market;
 using CTMS.Module.ParamObjects.Import;
-using D2NXAF.ExpressApp.Concurrency;
-using D2NXAF.Utils;
+using Xafology.ExpressApp.Concurrency;
+using Xafology.Utils;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.SystemModule;
