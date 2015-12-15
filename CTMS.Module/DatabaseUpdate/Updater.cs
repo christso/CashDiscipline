@@ -9,7 +9,6 @@ using DevExpress.ExpressApp.Security.Strategy;
 using DevExpress.ExpressApp.Updating;
 using DevExpress.Persistent.Base;
 using System;
-using Artf = CTMS.Module.BusinessObjects.Artf;
 using Cash = CTMS.Module.BusinessObjects.Cash;
 
 
@@ -204,13 +203,6 @@ namespace CTMS.Module.DatabaseUpdate
 
             // BankStmt
             GrantFullAcccess(typeof(Cash.BankStmt), arRole);
-            GrantFullAcccess(typeof(Artf.ArtfRecon), arRole);
-            GrantFullAcccess(typeof(Artf.ArtfCustomerType), arRole);
-            GrantFullAcccess(typeof(Artf.ArtfGlCode), arRole);
-            GrantFullAcccess(typeof(Artf.ArtfLedger), arRole);
-            GrantFullAcccess(typeof(Artf.ArtfReceipt), arRole);
-            GrantFullAcccess(typeof(Artf.ArtfSystem), arRole);
-            GrantFullAcccess(typeof(Artf.ArtfTask), arRole);
             #endregion
         }
 

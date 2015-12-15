@@ -6,7 +6,6 @@ using DevExpress.ExpressApp;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
-using CTMS.Module.BusinessObjects.Artf;
 using DevExpress.ExpressApp.Model;
 using CTMS.Module.BusinessObjects.FinAccounting;
 using CTMS.Module.BusinessObjects.Forex;
@@ -22,7 +21,7 @@ namespace CTMS.Module.BusinessObjects.Cash
     [VisibleInReports(true)]
     [ModelDefault("DefaultListViewAllowEdit", "True")]
     [DefaultProperty("BankStmtId")]
-    public class BankStmt : BaseObject, IReconMaster
+    public class BankStmt : BaseObject
     {
         public BankStmt(Session session)
             : base(session)
@@ -87,14 +86,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Association("BankStmt-ArtfRecons")]
-        public XPCollection<ArtfRecon> ArtfRecons
-        {
-            get
-            {
-                return GetCollection<ArtfRecon>("ArtfRecons");
-            }
-        }
         [Association("BankStmt-GenLedgers")]
         public XPCollection<GenLedger> GenLedgers
         {
@@ -395,47 +386,9 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
         private void Reset()
         {
-            _ArtfReconTotal = null;
             _GenLedgerTotal = null;
-            ArtfRecons.Reload();
             GenLedgers.Reload();
         }
-        #endregion
-
-        #region Artf Recon Master
-
-        [Persistent("ArtfReconTotal")]
-        private decimal? _ArtfReconTotal = null;
-
-        [VisibleInLookupListView(false)]
-        [PersistentAlias("_ArtfReconTotal")]
-        [ModelDefault("DisplayFormat", "n2")]
-        [ModelDefault("EditMask", "n2")]
-        [ModelDefault("AllowEdit", "false")]
-        public decimal? ArtfReconTotal
-        {
-            get
-            {
-                if (!IsLoading && !IsSaving && _ArtfReconTotal == null)
-                    UpdateReconTotal(false);
-                return _ArtfReconTotal;
-            }
-        }
-
-        //Define a way to calculate and update the OrdersTotal;
-        public void UpdateReconTotal(bool forceChangeEvents)
-        {
-            //Put your complex business logic here. Just for demo purposes, we calculate a sum here.
-            decimal? oldReconTotal = _ArtfReconTotal;
-            decimal tempTotal = 0;
-            //Manually iterate through the Orders collection if your calculated property requires a complex business logic which cannot be expressed via criteria language.
-            foreach (ArtfRecon detail in ArtfRecons)
-                tempTotal += detail.Amount;
-            _ArtfReconTotal = tempTotal;
-            if (forceChangeEvents)
-                OnChanged("ReconTotal", oldReconTotal, _ArtfReconTotal);
-        }
-
         #endregion
 
         #region GenLedger Master

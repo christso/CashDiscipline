@@ -231,12 +231,6 @@
     <Compile Include="Controllers\FinAccounting\GenLedgerListViewControllerWin.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ReconMaster\ReconMasterDetailViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\ReconMaster\ReconMasterListViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\Cash\BankStmtFilterViewController.cs">
       <SubType>Component</SubType>
     </Compile>

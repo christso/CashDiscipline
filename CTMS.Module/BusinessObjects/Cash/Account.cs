@@ -1,6 +1,4 @@
-﻿using CTMS.Module.BusinessObjects.Artf;
-using CTMS.Module.BusinessObjects.Payments;
-using DevExpress.Data.Filtering;
+﻿using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
@@ -30,9 +28,6 @@ namespace CTMS.Module.BusinessObjects.Cash
         private Currency _Currency;
         private Bank _Bank;
         private bool _IsBankAccount;
-        private bool _IsArtfDefault;
-        private ArtfGlCode _GlCode;
-        private ArtfCustomerType _ArtfCustomerType;
         private string _BankAccountNumber;
         private int _Id;
         private string _Name;
@@ -82,31 +77,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        public ArtfGlCode GlCode
-        {
-            get
-            {
-                return _GlCode;
-            }
-            set
-            {
-                SetPropertyValue("GlCode", ref _GlCode, value);
-            }
-        }
-
-        [Association("ArtfCustomerType-Cash_Accounts")]
-        public ArtfCustomerType ArtfCustomerType
-        {
-            get
-            {
-                return _ArtfCustomerType;
-            }
-            set
-            {
-                SetPropertyValue("ArtfCustomerType", ref _ArtfCustomerType, value);
-            }
-        }
-
         [Association(@"Account-BankStmt", typeof(BankStmt))]
         public XPCollection<BankStmt> BankStmt { get { return GetCollection<BankStmt>("BankStmt"); } }
 
@@ -119,28 +89,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Association("BankAccount-ArtfRecons")]
-        public XPCollection<ArtfRecon> ArtfRecon
-        {
-            get
-            {
-                return GetCollection<ArtfRecon>("ArtfRecon");
-            }
-        }
-
-        public bool IsArtfDefault
-        {
-            get
-            {
-                return _IsArtfDefault;
-            }
-            set
-            {
-                SetPropertyValue("IsArtfDefault", ref _IsArtfDefault, value);
-            }
-        }
-
-
         public bool IsBankAccount
         {
             get
@@ -150,23 +98,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("IsBankAccount", ref _IsBankAccount, value);
-                if (!IsLoading && !IsSaving)
-                {
-                    var creditAccount = Session.FindObject<CreditAccount>(new OperandProperty("LinkedAccount") == this);
-                    if (value)
-                    {
-                        if (creditAccount == null)
-                            creditAccount = new CreditAccount(Session);
-                        creditAccount.ShortName = this.Name;
-                        creditAccount.LinkedAccount = this;
-                        creditAccount.BankAccountNumber = this.BankAccountNumber;
-                    }
-                    else
-                    {
-                        if (creditAccount != null)
-                            creditAccount.LinkedAccount = null;
-                    }
-                }
             }
         }
 
@@ -215,14 +146,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             public static OperandProperty Name
             {
                 get { return new OperandProperty("Name"); }
-            }
-            public static OperandProperty IsArtfDefault
-            {
-                get { return new OperandProperty("IsArtfDefault"); }
-            }
-            public static OperandProperty ArtfCustomerType
-            {
-                get { return new OperandProperty("ArtfCustomerType"); }
             }
             public static OperandProperty GlCode
             {

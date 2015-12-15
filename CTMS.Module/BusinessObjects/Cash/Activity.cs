@@ -25,8 +25,6 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
      
         private CashFlowSource _FixSource;
-        private bool _IsArtfDefault;
-        private Artf.ArtfCustomerType _ArtfCustomerType;
         private ActivityTag _Dim_1_3;
         private ActivityTag _Dim_1_2;
         private ActivityTag _Dim_1_1;
@@ -103,18 +101,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        public bool IsArtfDefault
-        {
-            get
-            {
-                return _IsArtfDefault;
-            }
-            set
-            {
-                SetPropertyValue("IsArtfDefault", ref _IsArtfDefault, value);
-            }
-        }
-
         public CashFlowSource FixSource
         {
             get
@@ -138,43 +124,6 @@ namespace CTMS.Module.BusinessObjects.Cash
                 return GetCollection<CashFlow>("CashFlows");
             }
         }
-
-        [Association("ArtfCustomerType-Activities")]
-        public Artf.ArtfCustomerType ArtfCustomerType
-        {
-            get
-            {
-                return _ArtfCustomerType;
-            }
-            set
-            {
-                SetPropertyValue("ArtfCustomerType", ref _ArtfCustomerType, value);
-            }
-        }
-
-
-
-        public new class Fields
-        {
-            public static OperandProperty IsArtfDefault
-            {
-                get
-                {
-                    return new OperandProperty("IsArtfDefault");
-                }
-            }
-            public static OperandProperty ArtfCustomerType
-            {
-                get
-                {
-                    return new OperandProperty("ArtfCustomerType");
-                }
-            }
-        }
-
-        //[Association(@"Activity-ArtfTasks", typeof(Artf.ArtfTask))]
-        //public XPCollection<Artf.ArtfTask> ArtfTask { get { return GetCollection<Artf.ArtfTask>("ArtfTask"); } }
-
 
         //public Account AccountMap
         //{
