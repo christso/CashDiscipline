@@ -2,7 +2,7 @@
 using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.Web.Editors;
 using DevExpress.ExpressApp.Web.Editors.ASPx;
-using DevExpress.Web.ASPxClasses;
+using DevExpress.Web;
 using System;
 
 namespace CTMS.Module.Web.Controllers
@@ -41,7 +41,7 @@ namespace CTMS.Module.Web.Controllers
                 && ((ASPxLookupPropertyEditor)element).FindEdit != null)
                 {
                     AddClientSideFunctionalityCore(((ASPxLookupPropertyEditor)element).DropDownEdit.DropDown);
-                    AddClientSideFunctionalityCore(((ASPxLookupPropertyEditor)element).FindEdit.TextBox);
+                    AddClientSideFunctionalityCore(((ASPxLookupPropertyEditor)element).FindEdit.Editor);
                 }
             }
             else if (element is WebPropertyEditor)

@@ -19,7 +19,7 @@ namespace CTMS.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxGlobalEvents.ASPxGlobalEvents GE;
+        protected global::DevExpress.Web.ASPxGlobalEvents GE;
         
         /// <summary>
         /// LogoLink control.
@@ -118,7 +118,7 @@ namespace CTMS.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxRoundPanel.ASPxRoundPanel TRP;
+        protected global::DevExpress.Web.ASPxRoundPanel TRP;
         
         /// <summary>
         /// PanelContent1 control.
@@ -127,7 +127,7 @@ namespace CTMS.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.Web.ASPxPanel.PanelContent PanelContent1;
+        protected global::DevExpress.Web.PanelContent PanelContent1;
         
         /// <summary>
         /// VTC control.

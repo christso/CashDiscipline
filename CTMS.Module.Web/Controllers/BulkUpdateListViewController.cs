@@ -1,5 +1,5 @@
 ﻿using DevExpress.ExpressApp;
-using DevExpress.Web.ASPxGridView;
+using DevExpress.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;

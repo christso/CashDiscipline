@@ -6,8 +6,8 @@ using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
-using OfficeOpenXml;
 using System.IO;
+using Xafology.Spreadsheet;
 
 namespace CTMS.Module.ExcelReportCreators
 {
@@ -20,7 +20,7 @@ namespace CTMS.Module.ExcelReportCreators
         {
             FileName = "Cash Report.xlsx";
         }
-        public CashReportCreator(XafApplication app, ExcelPackage package)
+        public CashReportCreator(XafApplication app, IWorkbook package)
             : base(app, package)
         {
 
@@ -45,11 +45,11 @@ namespace CTMS.Module.ExcelReportCreators
             var cashFlows = session.GetObjects(session.GetClassInfo(typeof(CashFlow)),
                 cop, sortProps, 0, false, true);
 
-            ExcelWorksheet ws = Package.Workbook.Worksheets["Data"];
+            IWorksheet ws = Package.GetWorksheet("Data");
             if (ws == null)
                 throw new UserFriendlyException("Worksheet 'Data' not found in workbook.");
 
-            ExcelReportHelper.CopyObjectsToWorksheet(session, cashFlows, ws);
+            ws.CopyObjectsToWorksheet(session, cashFlows);
 
             session.CommitTransaction();
         }

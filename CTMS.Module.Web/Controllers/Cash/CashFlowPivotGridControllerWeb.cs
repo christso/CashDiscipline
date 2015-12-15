@@ -3,7 +3,7 @@ using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.PivotGrid.Web;
 using DevExpress.Web.ASPxPivotGrid;
 using DevExpress.ExpressApp.Web.Editors.ASPx;
-using DevExpress.Web.ASPxGridView;
+using DevExpress.Web;
 using DevExpress.XtraPivotGrid;
 using System;
 using System.Collections.Generic;

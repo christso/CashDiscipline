@@ -5,9 +5,11 @@ using Xafology.ExpressApp.MsoExcel.Reports;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
-using OfficeOpenXml;
 using System.Linq;
 using DevExpress.ExpressApp;
+using Xafology.ExpressApp.MsoExcel;
+using Xafology.Spreadsheet;
+
 
 namespace CTMS.Module.ExcelReportCreators
 {
@@ -20,7 +22,7 @@ namespace CTMS.Module.ExcelReportCreators
         {
             FileName = "Gen Ledger Report.xlsx";
         }
-        public GenLedgerReportCreator(DevExpress.ExpressApp.XafApplication app, ExcelPackage package)
+        public GenLedgerReportCreator(DevExpress.ExpressApp.XafApplication app, IWorkbook package)
             : base(app, package)
         {
             
@@ -50,8 +52,9 @@ namespace CTMS.Module.ExcelReportCreators
             cop = GroupOperator.And(cop, copGenLedgerInJnlGroups);
             var genLedgers = session.GetObjects(session.GetClassInfo(typeof(GenLedger)),
                 cop, sortProps, 0, false, true);
-            ExcelWorksheet ws = Package.Workbook.Worksheets["Data"];
-            ExcelReportHelper.CopyObjectsToWorksheet(session, genLedgers, ws);
+            
+            IWorksheet ws = Package.GetWorksheet("Data");
+            ws.CopyObjectsToWorksheet(session, genLedgers);
             session.CommitTransaction();
         }
 

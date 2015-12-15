@@ -1,10 +1,10 @@
 <%@ Page Language="C#" AutoEventWireup="true" Inherits="Default" EnableViewState="false"
     ValidateRequest="false" CodeBehind="Default.aspx.cs" %>
 
-<%@ Register Assembly="DevExpress.Web.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxGlobalEvents" TagPrefix="dx" %>
-<%@ Register Assembly="DevExpress.ExpressApp.Web.v14.1" Namespace="DevExpress.ExpressApp.Web.Templates"
+<%@ Register Assembly="DevExpress.Web.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.ExpressApp.Web.v15.2" Namespace="DevExpress.ExpressApp.Web.Templates"
     TagPrefix="cc3" %>
-<%@ Register Assembly="DevExpress.ExpressApp.Web.v14.1" Namespace="DevExpress.ExpressApp.Web.Controls"
+<%@ Register Assembly="DevExpress.ExpressApp.Web.v15.2" Namespace="DevExpress.ExpressApp.Web.Controls"
     TagPrefix="cc4" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

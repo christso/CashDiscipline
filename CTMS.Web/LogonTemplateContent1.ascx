@@ -1,16 +1,16 @@
 ﻿<%@ Control Language="C#" CodeBehind="LogonTemplateContent1.ascx.cs" ClassName="LogonTemplateContent1"
     CompilationMode="Auto" Inherits="CTMS.Web.LogonTemplateContent1" AutoEventWireup="True" %>
-<%@ Register Assembly="DevExpress.Web.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxEditors" TagPrefix="dx" %>
-<%@ Register Assembly="DevExpress.ExpressApp.Web.v14.1" Namespace="DevExpress.ExpressApp.Web.Templates.ActionContainers"
+<%@ Register Assembly="DevExpress.Web.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web" TagPrefix="dx" %>
+<%@ Register Assembly="DevExpress.ExpressApp.Web.v15.2" Namespace="DevExpress.ExpressApp.Web.Templates.ActionContainers"
     TagPrefix="cc2" %>
-<%@ Register Assembly="DevExpress.ExpressApp.Web.v14.1" Namespace="DevExpress.ExpressApp.Web.Templates.Controls"
+<%@ Register Assembly="DevExpress.ExpressApp.Web.v15.2" Namespace="DevExpress.ExpressApp.Web.Templates.Controls"
     TagPrefix="tc" %>
-<%@ Register Assembly="DevExpress.ExpressApp.Web.v14.1" Namespace="DevExpress.ExpressApp.Web.Controls"
+<%@ Register Assembly="DevExpress.ExpressApp.Web.v15.2" Namespace="DevExpress.ExpressApp.Web.Controls"
     TagPrefix="cc4" %>
-<%@ Register Assembly="DevExpress.ExpressApp.Web.v14.1" Namespace="DevExpress.ExpressApp.Web.Templates"
+<%@ Register Assembly="DevExpress.ExpressApp.Web.v15.2" Namespace="DevExpress.ExpressApp.Web.Templates"
     TagPrefix="cc3" %>
-<%@ Register Assembly="DevExpress.Web.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxCallbackPanel" TagPrefix="dx" %>
-<%@ Register Assembly="DevExpress.Web.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" Namespace="DevExpress.Web.ASPxPanel" TagPrefix="dx" %>
+
+
 <cc3:XafUpdatePanel ID="UPPopupWindowControl" runat="server">
     <cc4:XafPopupWindowControl runat="server" ID="PopupWindowControl" />
 </cc3:XafUpdatePanel>

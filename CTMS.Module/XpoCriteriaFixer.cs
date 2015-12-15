@@ -10,7 +10,7 @@ namespace CTMS.Module
 {
     class XpoCriteriaFixer : ClientCriteriaVisitorBase
     {
-        protected override object Visit(OperandValue theOperand)
+        protected override CriteriaOperator Visit(OperandValue theOperand)
         {
             if (theOperand.Value is DevExpress.Xpo.IXPSimpleObject)
             {
@@ -19,7 +19,7 @@ namespace CTMS.Module
             }
             return base.Visit(theOperand);
         }
-        protected override object Visit(OperandProperty theOperand)
+        protected override CriteriaOperator Visit(OperandProperty theOperand)
         {
             if (theOperand.PropertyName.EndsWith("!"))
             {

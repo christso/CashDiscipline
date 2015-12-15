@@ -63,5 +63,5 @@ public partial class Default {
     /// Auto-generated field.
     /// To modify move field declaration from designer file to code-behind file.
     /// </remarks>
-    protected global::DevExpress.Web.ASPxGlobalEvents.ASPxGlobalEvents ASPxGlobalEvents1;
+    protected global::DevExpress.Web.ASPxGlobalEvents ASPxGlobalEvents1;
 }

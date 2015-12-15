@@ -70,123 +70,119 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AutoMapper, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.dll</HintPath>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
     </Reference>
-    <Reference Include="AutoMapper.Net4, Version=3.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\AutoMapper.3.2.1\lib\net40\AutoMapper.Net4.dll</HintPath>
+    <Reference Include="GenerateUserFriendlyId.Module, Version=1.2.5826.39144, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GenerateUserFriendlyId.Module.1.2.5826.39144\lib\net45\GenerateUserFriendlyId.Module.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp, Version=1.2.0.2, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Xafology\Xafology.ExpressApp.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp, Version=1.2.5826.39144, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.1.2.5826.39144\lib\net45\Xafology.ExpressApp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout">
-      <HintPath>..\..\..\..\Packages\Xafology\Xafology.ExpressApp.Layout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Layout, Version=1.2.5826.39144, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Layout.1.2.5826.39144\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout.Win">
-      <HintPath>..\..\..\..\Packages\Xafology\Xafology.ExpressApp.Layout.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Layout.Win, Version=1.2.5826.39149, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Layout.Win.1.2.5826.39149\lib\net45\Xafology.ExpressApp.Layout.Win.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=1.0.5257.28963, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Xafology\Xafology.ExpressApp.PivotGrid.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=1.2.5826.39145, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.1.2.5826.39145\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Xafology\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Version=1.2.5826.39150, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.Win.1.2.5826.39150\lib\net45\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=1.0.5236.16884, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Xafology\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=1.2.5826.39146, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.1.2.5826.39146\lib\net40\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win">
-      <HintPath>..\..\..\..\Packages\Xafology\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Version=1.2.5826.39150, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.Win.1.2.5826.39150\lib\net40\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Win">
-      <HintPath>..\..\..\..\Packages\Xafology\Xafology.ExpressApp.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Win, Version=1.2.5826.39147, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Win.1.2.5826.39147\lib\net45\Xafology.ExpressApp.Win.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Xafology\Xafology.ExpressApp.Xpo.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.2.5826.39152, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.2.5826.39152\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.PivotGrid">
-      <HintPath>D:\Visual_Studio\Packages\Xafology\Xafology.PivotGrid.dll</HintPath>
-    </Reference>
-    <Reference Include="DevExpress.ExpressApp.FileAttachment.Win.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.PivotChart.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.ExpressApp.PivotChart.Win.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.PivotGrid.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.PivotGrid.Win.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.Reports.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.Reports.Win.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.ScriptRecorder.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.ExpressApp.ScriptRecorder.Win.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.Xpo.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="DevExpress.PivotGrid.v14.1.Core, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v14.1">
+    <Reference Include="DevExpress.ExpressApp.FileAttachment.Win.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.PivotChart.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.ExpressApp.PivotChart.Win.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.PivotGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.PivotGrid.Win.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Reports.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Reports.Win.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.ScriptRecorder.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.ExpressApp.ScriptRecorder.Win.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.ExpressApp.Xpo.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Printing.v14.1.Core">
+    <Reference Include="DevExpress.PivotGrid.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Data.v14.1">
+    <Reference Include="DevExpress.Printing.v15.2.Core">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.v14.1">
+    <Reference Include="DevExpress.Data.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.Win.v14.1">
+    <Reference Include="DevExpress.ExpressApp.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Persistent.Base.v14.1">
+    <Reference Include="DevExpress.ExpressApp.Win.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Persistent.BaseImpl.v14.1">
+    <Reference Include="DevExpress.Persistent.Base.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Xpo.v14.1">
+    <Reference Include="DevExpress.Persistent.BaseImpl.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Charts.v14.1.Core, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraCharts.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraCharts.v14.1.UI, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraCharts.v14.1.Wizard, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraPivotGrid.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraPrinting.v14.1">
+    <Reference Include="DevExpress.Xpo.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraGrid.v14.1">
+    <Reference Include="DevExpress.Charts.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v15.2.UI, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v15.2.Wizard, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPivotGrid.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraPrinting.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraEditors.v14.1">
+    <Reference Include="DevExpress.XtraGrid.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraLayout.v14.1">
+    <Reference Include="DevExpress.XtraEditors.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraNavBar.v14.1">
+    <Reference Include="DevExpress.XtraLayout.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraBars.v14.1">
+    <Reference Include="DevExpress.XtraNavBar.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Sparkline.v14.1.Core, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Utils.v14.1.UI, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraReports.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.DataAccess.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.DataAccess.v14.1.UI, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraReports.v14.1.Extensions, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Docs.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Office.v14.1.Core, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.RichEdit.v14.1.Core, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraRichEdit.v14.1, Version=14.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="GenerateUserFriendlyId.Module, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.XtraBars.v15.2">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Packages\Xafology\GenerateUserFriendlyId.Module.dll</HintPath>
     </Reference>
+    <Reference Include="DevExpress.Sparkline.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Utils.v15.2.UI, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v15.2.UI, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v15.2.Extensions, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Docs.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Office.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.RichEdit.v15.2.Core, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraRichEdit.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="System">
       <Name>System</Name>
       <Private>False</Private>
@@ -210,6 +206,10 @@
     <Reference Include="System.Xml">
       <Name>System.XML</Name>
       <Private>False</Private>
+    </Reference>
+    <Reference Include="Xafology.PivotGrid, Version=1.0.5826.41748, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.PivotGrid.1.0.5826.41748\lib\net40\Xafology.PivotGrid.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -271,6 +271,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Controllers\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -295,6 +296,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\Market\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FunctionalTests\Config.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />

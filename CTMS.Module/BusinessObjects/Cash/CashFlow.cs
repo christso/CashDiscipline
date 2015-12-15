@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Xafology.Spreadsheet.Attributes;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CTMS.Module.BusinessObjects.Cash
@@ -150,7 +151,7 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         #region Main Properties
 
-        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [ExcelReportField]
         [PersistentAlias("concat('CF', ToStr(SequentialNumber))")]
         public string CashFlowId
         {
@@ -201,7 +202,7 @@ namespace CTMS.Module.BusinessObjects.Cash
 
 
 
-        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [ExcelReportField]
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         [RuleRequiredField("CashFlow.TranDate_RuleRequiredField", DefaultContexts.Save)]
         public DateTime TranDate
@@ -217,7 +218,7 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
 
         [MemberDesignTimeVisibility(false)]
-        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [ExcelReportField]
         [DevExpress.Xpo.DisplayName("Account")]
         public string AccountName
         {
@@ -251,7 +252,7 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
 
         [MemberDesignTimeVisibility(false)]
-        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [ExcelReportField]
         [DevExpress.Xpo.DisplayName("Activity")]
         public string ActivityName
         {
@@ -289,7 +290,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [ExcelReportField]
         [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
@@ -314,7 +315,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [ExcelReportField]
         [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
@@ -336,7 +337,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [ExcelReportField]
         [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
@@ -360,7 +361,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Xafology.ExpressApp.MsoExcel.Reports.ExcelReportFieldAttribute]
+        [ExcelReportField]
         [MemberDesignTimeVisibility(false)]
         [DevExpress.Xpo.DisplayName("Counter Ccy")]
         public string CounterCcyName
