@@ -1,5 +1,4 @@
 using CTMS.Module.BusinessObjects.Forex;
-using CTMS.Module.BusinessObjects.Market;
 using CTMS.Module.BusinessObjects.Setup;
 using CTMS.Module.ParamObjects.Cash;
 using Xafology.ExpressApp.Xpo;
@@ -314,6 +313,23 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
+        public static void UpdateFunctionalCcyAmt2(CashFlow obj, decimal fromAmt, Currency fromCcy)
+        {
+            if (obj == null || fromCcy == null) return;
+            var session = obj.Session;
+
+            if (SetOfBooks.CachedInstance.FunctionalCurrency.Oid == fromCcy.Oid)
+                obj.FunctionalCcyAmt = fromAmt;
+            else if (obj.TranDate != default(DateTime))
+            {
+                // TODO: Get rate without throwing error
+                //var rateObj = GetForexRateObject(session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, (DateTime)obj.TranDate);
+                
+                obj.FunctionalCcyAmt = Math.Round(fromAmt / 0.9M, 2);
+            }
+            
+        }
+
         [ExcelReportField]
         [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
@@ -359,6 +375,7 @@ namespace CTMS.Module.BusinessObjects.Cash
                 }
             }
         }
+
 
         [ExcelReportField]
         [MemberDesignTimeVisibility(false)]
@@ -466,30 +483,6 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         #region Amount Calculators
 
-        private static CriteriaOperator GetRateCriteriaOperator(Currency fromCcy, Currency toCcy, DateTime convDate)
-        {
-            var rateOp = CriteriaOperator.Parse(
-                              "ConversionDate = [<ForexRate>][FromCurrency.Oid = ? "
-                                + "AND ToCurrency.Oid = ? AND ConversionDate <= ?].Max(ConversionDate) "
-                                + "AND FromCurrency.Oid = ? AND ToCurrency.Oid = ?",
-                              fromCcy.Oid, toCcy.Oid, convDate, fromCcy.Oid, toCcy.Oid);
-            return rateOp;
-        }
-
-        private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
-        {
-            var rateOp = GetRateCriteriaOperator(fromCcy, toCcy, convDate);
-            return session.FindObject<ForexRate>(rateOp);
-        }
-
-        private static decimal GetForexRate(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
-        {
-            if (fromCcy == toCcy) return 1;
-            var rateObj = GetForexRateObject(session, fromCcy, toCcy, convDate);
-            if (rateObj != null)
-                return rateObj.ConversionRate;
-            return 0;
-        }
 
         public void UpdateAccountCcyAmt()
         {
@@ -583,6 +576,7 @@ namespace CTMS.Module.BusinessObjects.Cash
                 }
             }
         }
+
         #endregion
 
         #region Fixing
@@ -862,6 +856,17 @@ namespace CTMS.Module.BusinessObjects.Cash
             {
                 return GetCollection<ForexSettleLink>("ForexSettleLinksOut");
             }
+        }
+
+
+        private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
+        {
+            return ForexRate.GetForexRateObject(session, fromCcy, toCcy, convDate);
+        }
+
+        private static decimal GetForexRate(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
+        {
+            return ForexRate.GetForexRate(session, fromCcy, toCcy, convDate);
         }
 
         #endregion

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
-using CTMS.Module.BusinessObjects.Market;
+
 using CTMS.Module.BusinessObjects.Setup;
 using DevExpress.ExpressApp.Xpo;
 using CTMS.Module.ParamObjects.Cash;

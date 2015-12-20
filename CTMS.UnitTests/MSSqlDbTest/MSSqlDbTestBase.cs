@@ -35,7 +35,7 @@ using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.Controllers;
 using CTMS.Module.DatabaseUpdate;
 using CTMS.Module.ParamObjects.Cash;
-using CTMS.Module.BusinessObjects.Market;
+
 using gufi = GenerateUserFriendlyId.Module;
 using Xafology.Utils.Data;
 

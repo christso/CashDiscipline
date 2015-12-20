@@ -37,7 +37,7 @@ using CTMS.Module.DatabaseUpdate;
 namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class FinAccountingTests : MSSqlDbTestBase
+    public class FinAccountingDbTests : MSSqlDbTestBase
     {
         [Test]
         [Category("Coverage_3")]

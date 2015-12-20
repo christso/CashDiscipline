@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using CTMS.Module.BusinessObjects;
 using CTMS.Module.BusinessObjects.Cash;
-using CTMS.Module.BusinessObjects.Market;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 
@@ -18,7 +17,7 @@ using CTMS.Module.Controllers.Forex;
 namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class BankStmtTests : MSSqlDbTestBase
+    public class BankStmtDbTests : MSSqlDbTestBase
     {
 
         [Test]

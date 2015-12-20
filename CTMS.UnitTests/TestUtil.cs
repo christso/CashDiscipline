@@ -13,7 +13,6 @@ using CTMS.Module.ParamObjects.FinAccounting;
 using CTMS.Module.BusinessObjects.ChartOfAccounts;
 using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.ParamObjects.Cash;
-using CTMS.Module.BusinessObjects.Market;
 
 namespace CTMS.UnitTests
 {

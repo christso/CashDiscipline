@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using CTMS.Module.BusinessObjects;
 using CTMS.Module.BusinessObjects.Cash;
-using CTMS.Module.BusinessObjects.Market;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 
@@ -16,16 +15,24 @@ using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.Controllers.Forex;
 using CTMS.Module.ParamObjects.Cash;
 using CTMS.UnitTests.InMemoryDbTest;
+using DevExpress.Xpo;
+using DevExpress.ExpressApp.Xpo;
 
 namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class CashFlowTests : MSSqlDbTestBase
+    /*  TODO: move into InMemoryDataStore
+     CashFlow_SaveSnapshot_Success has failed:
+  System.NotSupportedException : Command 'DevExpress.Xpo.Helpers.CommandChannelHelper.ExplicitBeginTransaction' is not supported by DevExpress.Xpo.DB.DataSetDataStore.
+  d:\CTSO\Data\Visual_Studio\Active_Projects\CTMS\Repo\CTMS.Module\BusinessObjects\Cash\CashFlow.cs(83, 0) : CTMS.Module.BusinessObjects.Cash.CashFlow.OnSaving()
+  d:\CTSO\Data\Visual_Studio\Active_Projects\CTMS\Repo\CTMS.UnitTests\InMemoryDbTest\CashFlowMemTests.cs(301, 0) : CTMS.UnitTests.InMemoryDbTest.CashFlowMemTests.CashFlow_SaveSnapshot_Success()
+     * */
+    public class CashFlowDbTests : MSSqlDbTestBase
     {
         [Test]
         public void CashFlow_AccountSummary_IsCorrect()
         {
-            #region Prepare
+            #region Arrange
             var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
 
             var account = ObjectSpace.CreateObject<Account>();
@@ -123,7 +130,7 @@ namespace CTMS.UnitTests.MSSqlDbTest
         [Category("Coverage_3")]
         public void CashFlow_SaveSnapshot_Success()
         {
-            #region Prepare
+            #region Arrange
             var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
             
             var account = ObjectSpace.CreateObject<Account>();
@@ -158,58 +165,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
             var sCfs = snapshot.CashFlows;
             Assert.AreEqual(amount * loops, sCfs.Sum(x => x.AccountCcyAmt));
             #endregion
-        }
-
-        [Test]
-        public void CashFlow_NoDate_FunctionalCcyAmtIsCalculated()
-        {
-            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
-            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
-            var account = ObjectSpace.CreateObject<Account>();
-            account.Name = "VHA ANZ USD";
-            account.Currency = ccyUSD;
-            
-            var rate = ObjectSpace.CreateObject<ForexRate>();
-            rate.FromCurrency = ccyAUD;
-            rate.ToCurrency = ccyUSD;
-            rate.ConversionDate = new DateTime(2013, 12, 31);
-            rate.ConversionRate = 0.9M;
-            ObjectSpace.CommitChanges();
-
-            // no date
-            var cf = ObjectSpace.CreateObject<CashFlow>();
-            cf.Account = account;
-            cf.AccountCcyAmt = 1000;
-            Assert.AreEqual(1111.11, Math.Round(cf.FunctionalCcyAmt,2));
-            
-            // add date later
-            cf.TranDate = new DateTime(2013, 12, 31);
-            Assert.AreEqual(1111.11, Math.Round(cf.FunctionalCcyAmt, 2));
-        }
-
-        [Test]
-        public void CashFlow_AllParams_AmountsCalculated()
-        {
-            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
-            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
-            var account = ObjectSpace.CreateObject<Account>();
-            account.Name = "VHA ANZ USD";
-            account.Currency = ccyUSD;
-
-            var rate = ObjectSpace.CreateObject<ForexRate>();
-            rate.FromCurrency = ccyAUD;
-            rate.ToCurrency = ccyUSD;
-            rate.ConversionDate = new DateTime(2013, 12, 31);
-            rate.ConversionRate = 0.9M;
-            ObjectSpace.CommitChanges();
-
-            var cf = ObjectSpace.CreateObject<CashFlow>();
-            cf.TranDate = new DateTime(2013, 12, 31);
-            cf.Account = account;
-            cf.AccountCcyAmt = 1000;
-            
-            Assert.AreEqual(Math.Round(cf.AccountCcyAmt / rate.ConversionRate, 2),
-                Math.Round(cf.FunctionalCcyAmt, 2));
         }
 
         protected override void SetupObjects()

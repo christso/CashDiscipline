@@ -106,11 +106,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InMemoryDbTest\CashFlowMemTests.cs" />
-    <Compile Include="MSSqlDbTest\BankStmtTests.cs" />
-    <Compile Include="MSSqlDbTest\CashFlowTests.cs" />
-    <Compile Include="MSSqlDbTest\ForexRateTests.cs" />
-    <Compile Include="MSSqlDbTest\FunctionalTests.cs" />
+    <Compile Include="InMemoryDbTest\CashFlowTests.cs" />
+    <Compile Include="MSSqlDbTest\BankStmtDbTests.cs" />
+    <Compile Include="MSSqlDbTest\CashFlowDbTests.cs" />
+    <Compile Include="MSSqlDbTest\ForexRateDbTests.cs" />
+    <Compile Include="MSSqlDbTest\IntegrationTests.cs" />
     <Compile Include="MSSqlDbTest\ForexTradeTests.cs" />
     <Compile Include="InMemoryDbTest\InMemoryDbTestBase.cs" />
     <Compile Include="MSSqlDbTest\MSSqlDbTestBase.cs" />
@@ -118,7 +118,7 @@
     <Compile Include="Mock.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MSSqlDbTest\FinAccountingTests.cs" />
+    <Compile Include="MSSqlDbTest\FinAccountingDbTests.cs" />
     <Compile Include="TestUtil.cs" />
   </ItemGroup>
   <ItemGroup>

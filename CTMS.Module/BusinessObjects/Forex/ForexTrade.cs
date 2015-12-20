@@ -1,5 +1,5 @@
 using CTMS.Module.BusinessObjects.Cash;
-using CTMS.Module.BusinessObjects.Market;
+
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Xpo;
@@ -903,10 +903,10 @@ namespace CTMS.Module.BusinessObjects.Forex
             return rateOp;
         }
 
-        private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
+        private static CTMS.Module.BusinessObjects.Forex.ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
             var rateOp = GetRateCriteriaOperator(fromCcy, toCcy, convDate);
-            return session.FindObject<ForexRate>(rateOp);
+            return session.FindObject<CTMS.Module.BusinessObjects.Forex.ForexRate>(rateOp);
         }
         #endregion
 

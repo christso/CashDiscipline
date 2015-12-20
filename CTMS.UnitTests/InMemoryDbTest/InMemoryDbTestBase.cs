@@ -33,7 +33,7 @@ using DevExpress.Xpo.DB;
 using CTMS.Module.ControllerHelpers;
 using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.ParamObjects.Cash;
-using CTMS.Module.BusinessObjects.Market;
+
 using gufi = GenerateUserFriendlyId.Module;
 
 namespace CTMS.UnitTests.InMemoryDbTest

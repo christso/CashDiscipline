@@ -282,7 +282,7 @@
     <Compile Include="BusinessObjects\ChartOfAccounts\GlProduct.cs" />
     <Compile Include="BusinessObjects\ChartOfAccounts\GlProject.cs" />
     <Compile Include="BusinessObjects\ChartOfAccounts\GlSalesChannel.cs" />
-    <Compile Include="BusinessObjects\Market\ForexRate.cs" />
+    <Compile Include="BusinessObjects\Forex\ForexRate.cs" />
     <Compile Include="BusinessObjects\SetOfBooks.cs" />
     <Compile Include="BusinessObjects\Setup\DateDim.cs" />
     <Compile Include="BusinessObjects\Setup\SqlScript.cs" />

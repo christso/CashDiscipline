@@ -12,7 +12,6 @@ using CTMS.Module.BusinessObjects.Cash;
 using DevExpress.Data.Filtering;
 using CTMS.Module.Controllers.Forex;
 using DevExpress.ExpressApp;
-using CTMS.Module.BusinessObjects.Market;
 using Xafology.ExpressApp.Xpo;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
@@ -22,7 +21,7 @@ using CTMS.Module.DatabaseUpdate;
 namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class FunctionalTests : MSSqlDbTestBase
+    public class IntegrationTests : MSSqlDbTestBase
     {
         protected override void SetupObjects()
         {

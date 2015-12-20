@@ -1,5 +1,5 @@
 ﻿using CTMS.Module.BusinessObjects;
-using CTMS.Module.BusinessObjects.Market;
+
 using CTMS.Module.ParamObjects.Import;
 using Xafology.ExpressApp.Concurrency;
 using Xafology.Utils;
@@ -65,7 +65,7 @@ namespace CTMS.Module.Controllers.Market
 
                     var currency = objSpace.FindObject<Currency>(Currency.Fields.Name == parser.CcyCode);
                     if (currency == null) continue;
-                    var forexRate = objSpace.CreateObject<ForexRate>();
+                    var forexRate = objSpace.CreateObject<CTMS.Module.BusinessObjects.Forex.ForexRate>();
                     forexRate.ToCurrency = currency;
                     forexRate.ConversionDate = convDate;
                     forexRate.ConversionRate = parser.TtMidAmt;

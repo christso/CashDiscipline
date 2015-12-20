@@ -1,11 +1,13 @@
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Model;
+using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 using System;
+using System.Linq;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
-namespace CTMS.Module.BusinessObjects.Market
+namespace CTMS.Module.BusinessObjects.Forex
 {
     // Specify various UI options for your persistent class and its properties using a declarative approach via built-in attributes (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
     //[ImageName("BO_Contact")]
@@ -97,12 +99,12 @@ namespace CTMS.Module.BusinessObjects.Market
             if (!_IsReversedStatus && !IsDeleted)
             {
 
-                var revForexRate = Session.FindObject<ForexRate>(CriteriaOperator.Parse(
+                var revForexRate = Session.FindObject<CTMS.Module.BusinessObjects.Forex.ForexRate>(CriteriaOperator.Parse(
                     "ConversionDate = ? And FromCurrency = ? And ToCurrency = ?",
                     ConversionDate, ToCurrency, FromCurrency));
                 if (revForexRate == null)
                 {
-                    revForexRate = new ForexRate(Session)
+                    revForexRate = new CTMS.Module.BusinessObjects.Forex.ForexRate(Session)
                     {
                         ConversionDate = this.ConversionDate,
                         FromCurrency = this.ToCurrency,
@@ -114,5 +116,42 @@ namespace CTMS.Module.BusinessObjects.Market
                 }
             }
         }
+
+        #region Rate Utilities
+
+        public static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
+        {
+            XPQuery<ForexRate> ratesQuery = new XPQuery<ForexRate>(session);
+            var maxDate = ratesQuery.Where(r => r.FromCurrency == fromCcy
+                && r.ToCurrency == toCcy
+                && r.ConversionDate <= convDate
+                ).Max(x => x.ConversionDate);
+
+            var rateObj = ratesQuery.Where(r => r.ConversionDate == maxDate
+                && r.FromCurrency == fromCcy
+                && r.ToCurrency == toCcy).FirstOrDefault();
+
+            return rateObj;
+        }
+
+        public static decimal GetForexRate(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
+        {
+            if (fromCcy == toCcy) return 1;
+            var rateObj = GetForexRateObject(session, fromCcy, toCcy, convDate);
+            if (rateObj != null)
+                return rateObj.ConversionRate;
+            return 0;
+        }
+
+        private static CriteriaOperator GetRateCriteriaOperator(Currency fromCcy, Currency toCcy, DateTime convDate)
+        {
+            var rateOp = CriteriaOperator.Parse(
+                              "ConversionDate = [<ForexRate>][FromCurrency.Oid = ? "
+                                + "AND ToCurrency.Oid = ? AND ConversionDate <= ?].Max(ConversionDate) "
+                                + "AND FromCurrency.Oid = ? AND ToCurrency.Oid = ?",
+                              fromCcy.Oid, toCcy.Oid, convDate, fromCcy.Oid, toCcy.Oid);
+            return rateOp;
+        }
+        #endregion
     }
 }
