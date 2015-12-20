@@ -20,15 +20,11 @@ using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
 using DevExpress.Persistent.Base;
 
-namespace CTMS.UnitTests
+namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class ForexTradeTests : XafTestBase
+    public class ForexTradeTests : MSSqlDbTestBase
     {
-        public ForexTradeTests()
-        {
-            TargetDbType = DbType.SQLServer;
-        }
 
         private class ForexTradeTestInclude
         {

@@ -15,10 +15,10 @@ using System.Diagnostics;
 using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.Controllers.Forex;
 
-namespace CTMS.UnitTests
+namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class BankStmtTests : XafTestBase
+    public class BankStmtTests : MSSqlDbTestBase
     {
 
         [Test]

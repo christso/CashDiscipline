@@ -19,10 +19,10 @@ using DevExpress.Xpo;
 using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
 
-namespace CTMS.UnitTests
+namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class FunctionalTests : XafTestBase
+    public class FunctionalTests : MSSqlDbTestBase
     {
         protected override void SetupObjects()
         {

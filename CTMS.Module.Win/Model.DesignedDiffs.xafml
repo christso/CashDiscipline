@@ -16,7 +16,6 @@
   </SchemaModules>
   <Views>
     <ListView Id="AccountSummary_PivotGridView" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
-    <ListView Id="ArtfRecon_ListView_Pivot" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
     <ListView Id="CashFlow_PivotGridView" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
     <ListView Id="CashFlow_PivotGridViewTest" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
   </Views>

@@ -20,10 +20,10 @@ using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
 
 
-namespace CTMS.UnitTests
+namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class ForexRateTests : XafTestBase
+    public class ForexRateTests : MSSqlDbTestBase
     {
         [Test]
         [Category("Coverage_1")]

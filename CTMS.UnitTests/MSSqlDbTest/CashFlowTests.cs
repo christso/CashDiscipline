@@ -15,17 +15,13 @@ using System.Diagnostics;
 using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.Controllers.Forex;
 using CTMS.Module.ParamObjects.Cash;
+using CTMS.UnitTests.InMemoryDbTest;
 
-namespace CTMS.UnitTests
+namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class CashFlowTests : XafTestBase
+    public class CashFlowTests : MSSqlDbTestBase
     {
-        public CashFlowTests()
-        {
-            TargetDbType = DbType.SQLServer;
-        }
-
         [Test]
         public void CashFlow_AccountSummary_IsCorrect()
         {
@@ -214,23 +210,6 @@ namespace CTMS.UnitTests
             
             Assert.AreEqual(Math.Round(cf.AccountCcyAmt / rate.ConversionRate, 2),
                 Math.Round(cf.FunctionalCcyAmt, 2));
-        }
-
-        // CounterCcy will change when the Account is changed
-        [Test]
-        public void CashFlow_AccountChanged_CounterCcyChanged()
-        {
-            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
-            var account = ObjectSpace.CreateObject<Account>();
-            account.Name = "VHA ANZ USD";
-            account.Currency = ccyUSD;
-            var rate = ObjectSpace.CreateObject<ForexRate>();
-            rate.ConversionDate = new DateTime(2013, 12, 31);
-            rate.ConversionRate = 0.9M;
-
-            var cf = ObjectSpace.CreateObject<CashFlow>();
-            cf.Account = account;
-            Assert.AreEqual(ccyUSD, cf.CounterCcy);
         }
 
         protected override void SetupObjects()

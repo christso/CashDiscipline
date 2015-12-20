@@ -1,40 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application Title="Corporate Treasury Management System" Logo="vodafone_banner" Company="Vodafone Hutchison Australia Pty Limited" Copyright="Copyright (C) 2013 {0:Company}" WebSite="VHA.Treasury@vodafone.com.au">
   <BOModel>
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfCustomerType" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True" />
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfGlCode" DefaultListViewImage="BO_List" DefaultDetailViewImage="BO_List" IsCloneable="True" />
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfGlJournal" ImageName="BO_List" />
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfLedger" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True">
-      <OwnMembers>
-        <Member Name="FromUnreconTotal" Caption="Unrecon Total" />
-        <Member Name="LedgerDate" DisplayFormat="dd-MMM-yy" EditMask="dd-MMM-yy" />
-      </OwnMembers>
-    </Class>
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfReceipt" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True">
-      <OwnMembers>
-        <Member Name="ReceiptDate" EditMask="dd-MMM-yy" DisplayFormat="dd-MMM-yy" />
-      </OwnMembers>
-    </Class>
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfRecon" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True">
-      <OwnMembers>
-        <Member Name="Amount" EditMask="n2" />
-        <Member Name="BankStmt" LookupProperty="Id" DisplayFormat="" Caption="Bank Stmt" />
-        <Member Name="ReconDate" DisplayFormat="dd-MMM-yy" EditMask="dd-MMM-yy" />
-      </OwnMembers>
-    </Class>
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfReconTaskMap" DefaultDetailViewImage="BO_List" DefaultListViewAllowEdit="True" />
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfSystem" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True" />
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfTask" DefaultDetailViewImage="BO_List" ImageName="BO_List" IsCloneable="True">
-      <OwnMembers>
-        <Member Name="ArtfRecon" LookupProperty="ReconId" />
-      </OwnMembers>
-    </Class>
-    <Class Name="CTMS.Module.BusinessObjects.Artf.ArtfTaskOwnerDefaults" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" ImageName="BO_List" />
     <Class Name="CTMS.Module.BusinessObjects.Cash.Account" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
     <Class Name="CTMS.Module.BusinessObjects.Cash.Activity" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
     <Class Name="CTMS.Module.BusinessObjects.Cash.BankStmt" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" DefaultListViewShowAutoFilterRow="True" />
     <Class Name="CTMS.Module.BusinessObjects.Cash.Counterparty" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
-    <Class Name="CTMS.Module.ParamObjects.Artf.ArtfCreateGlJournalsParam" ImageName="Action_SimpleAction" />
   </BOModel>
   <NavigationItems DefaultChildItemsDisplayStyle="List" DefaultLeafImageName="BO_List" GenerateRelatedViewVariantsGroup="True" NavigationStyle="NavBar" StartupNavigationItem="BankStmt">
     <Items>
@@ -52,40 +22,6 @@
           <Item Id="GlSalesChannel_ListView" IsNewNode="True" Removed="True" />
           <Item Id="PivotGridLoadedLayout_ListView" ViewId="PivotGridLoadedLayout_ListView" IsNewNode="True" />
           <Item Id="PivotGridSavedLayout_ListView" ViewId="PivotGridSavedLayout_ListView" IsNewNode="True" />
-        </Items>
-      </Item>
-      <Item Id="ArTransfers" Caption="AR Transfers" Index="1" IsNewNode="True">
-        <Items IsNewNode="True">
-          <Item Id="ArtfCreateGlJournals" Caption="Create GL Journals" ViewId="CTMS.Module.BusinessObjects.Artf.ArtfCreateGlJournals_DetailView" ImageName="Action_SimpleAction" IsNewNode="True" />
-          <Item Id="ArtfGlJournal" ViewId="ArtfGlJournal_ListView" Caption="Gl Journal" IsNewNode="True" />
-          <Item Id="ArtfLedger" ViewId="ArtfLedger_ListView" Caption="Ledger" IsNewNode="True" />
-          <Item Id="ArtfReceipt" ViewId="ArtfReceipt_ListView" Caption="Receipt" IsNewNode="True" />
-          <Item Id="ArtfRecon" Caption="Recon" ViewId="ArtfRecon_ListView_Varied" IsNewNode="True" />
-          <Item Id="BankStmt" ViewId="BankStmt_ListView_Artf" Caption="Bank Stmt" IsNewNode="True" />
-          <Item Id="Reports" IsNewNode="True">
-            <Items IsNewNode="True">
-              <Item Id="Recon Pivot" ViewId="ArtfRecon_ListView_Pivot" Caption="Recon Pivot" IsNewNode="True" />
-            </Items>
-          </Item>
-          <Item Id="Setup" IsNewNode="True">
-            <Items IsNewNode="True">
-              <Item Id="ArtfCustomerType" ViewId="ArtfCustomerType_ListView" Caption="Customer Type" IsNewNode="True" />
-              <Item Id="ArtfReconTaskMap" ViewId="ArtfReconTaskMap_ListView" Caption="Recon Task Map" ImageName="" IsNewNode="True" />
-              <Item Id="ArtfSystem" ViewId="ArtfSystem_ListView" Caption="System" IsNewNode="True" />
-              <Item Id="ArtfTaskOwnerDefaults" Caption="Task Owner Defaults" ViewId="ArtfTaskOwnerDefaults_ListView" IsNewNode="True" />
-              <Item Id="CashAccount" Caption="Cash Account" ViewId="Account_ListView" IsNewNode="True" />
-              <Item Id="GlCode" ViewId="ArtfGlCode_ListView" Caption="Gl Code" IsNewNode="True" />
-            </Items>
-          </Item>
-          <Item Id="Tasks" ViewId="ArtfTask_ListView" Caption="Tasks" IsNewNode="True">
-            <Items IsNewNode="True">
-              <Item Id="ActivityReclass" ViewId="ArtfActivityReclassTask_ListView" Caption="Activity Reclass" Index="0" IsNewNode="True" />
-              <Item Id="FundsTransfer" ViewId="ArtfFundsTransferTask_ListView" Caption="Funds Transfer" Index="1" IsNewNode="True" />
-              <Item Id="GlJournal" ViewId="ArtfGlJournalTask_ListView" Caption="GL Journal" IsNewNode="True" />
-              <Item Id="Ledger" ViewId="ArtfLedgerTask_ListView" Caption="Ledger" IsNewNode="True" />
-              <Item Id="Receipt" ViewId="ArtfReceiptTask_ListView" Caption="Receipt" IsNewNode="True" />
-            </Items>
-          </Item>
         </Items>
       </Item>
       <Item Id="Banking" Index="2" IsNewNode="True">
@@ -194,8 +130,8 @@
     </Items>
   </NavigationItems>
   <SchemaModules>
-    <SchemaModule Name="CloneObjectModule" Version="13.2.9.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="13.2.9.0" IsNewNode="True" />
+    <SchemaModule Name="CloneObjectModule" Version="15.2.4.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="15.2.4.0" IsNewNode="True" />
     <SchemaModule Name="SystemWindowsFormsModule" Version="12.2.7.0" IsNewNode="True" />
   </SchemaModules>
   <Templates>
@@ -245,309 +181,7 @@
         </LayoutGroup>
       </Layout>
     </DashboardView>
-    <ListView Id="ApPmtDistn_ListView" UseServerMode="True" />
-    <DetailView Id="ArtfCustomerType_DetailView" ImageName="" />
-    <ListView Id="ArtfFromReceipt_LookupListView" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfReceipt" DetailViewID="ArtfReceipt_DetailView" IsNewNode="True">
-      <Columns IsNewNode="True">
-        <ColumnInfo Id="ReceiptAlias" PropertyName="ReceiptAlias" Width="70" Index="0" IsNewNode="True" />
-        <ColumnInfo Id="ReceiptDate" PropertyName="ReceiptDate" Width="70" Index="1" IsNewNode="True" />
-        <ColumnInfo Id="ReceiptBatchNumber" PropertyName="ReceiptBatchNumber" Width="70" Index="2" IsNewNode="True" />
-        <ColumnInfo Id="ReceiptNumber" PropertyName="ReceiptNumber" Width="70" Index="3" IsNewNode="True" />
-        <ColumnInfo Id="Amount" PropertyName="Amount" Width="50" Index="4" IsNewNode="True" />
-        <ColumnInfo Id="System" PropertyName="System" Width="70" Index="5" IsNewNode="True" />
-        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Width="70" Index="6" IsNewNode="True" />
-        <ColumnInfo Id="RemittanceAccount" PropertyName="RemittanceAccount" Width="70" Index="7" IsNewNode="True" />
-        <ColumnInfo Id="IsReversed" PropertyName="IsReversed" Width="50" Index="8" IsNewNode="True" />
-        <ColumnInfo Id="ToUnreconTotal" PropertyName="ToUnreconTotal" Width="70" Index="9" IsNewNode="True" />
-        <ColumnInfo Id="FromUnreconTotal" PropertyName="FromUnreconTotal" Width="70" Index="10" IsNewNode="True" />
-        <ColumnInfo Id="FromReconTotal" PropertyName="FromReconTotal" Width="70" Index="11" IsNewNode="True" />
-        <ColumnInfo Id="ToReconTotal" PropertyName="ToReconTotal" Width="70" Index="12" IsNewNode="True" />
-      </Columns>
-    </ListView>
-    <DetailView Id="ArtfGlCode_DetailView" ImageName="" />
-    <DetailView Id="ArtfLedger_DetailView" ImageName="">
-      <Items>
-        <PropertyEditor Id="Amount" Index="0" />
-        <PropertyEditor Id="Description" Index="2" />
-        <PropertyEditor Id="LedgerDate" Index="4" />
-        <PropertyEditor Id="LedgerId" Index="5" />
-        <PropertyEditor Id="System" Index="7" />
-      </Items>
-      <Layout>
-        <LayoutGroup Id="Main">
-          <LayoutGroup Id="SimpleEditors">
-            <LayoutGroup Id="ArtfLedger">
-              <LayoutGroup Id="ArtfLedger_col1">
-                <LayoutItem Id="LedgerId" ViewItem="LedgerId" />
-                <LayoutItem Id="LedgerDate" ViewItem="LedgerDate" />
-                <LayoutItem Id="Amount" ViewItem="Amount" />
-              </LayoutGroup>
-            </LayoutGroup>
-          </LayoutGroup>
-          <LayoutGroup Id="SizeableEditors">
-            <LayoutItem Id="Description" ViewItem="Description" />
-          </LayoutGroup>
-        </LayoutGroup>
-      </Layout>
-    </DetailView>
-    <ListView Id="ArtfLedger_ListView" NewItemRowPosition="Top" />
-    <DetailView Id="ArtfReceipt_DetailView">
-      <Items>
-        <PropertyEditor Id="Amount" Index="0" />
-        <PropertyEditor Id="ReceiptAlias" Index="2" />
-        <PropertyEditor Id="ReceiptBatchNumber" Index="3" />
-        <PropertyEditor Id="ReceiptDate" Index="4" />
-        <PropertyEditor Id="ReceiptNumber" Index="5" />
-      </Items>
-    </DetailView>
-    <ListView Id="ArtfReceipt_ListView">
-      <Columns>
-        <ColumnInfo Id="System" Index="5" />
-      </Columns>
-    </ListView>
-    <ListView Id="ArtfRecon_ArtfTasks_ListView">
-      <Columns>
-        <ColumnInfo Id="ArtfRecon" Caption="Recon Id" />
-      </Columns>
-    </ListView>
-    <DetailView Id="ArtfRecon_DetailView" Caption="Reconciliation" FreezeLayout="True" DefaultFocusedItem="CustomerType">
-      <Items>
-        <PropertyEditor Id="Amount" Index="0" />
-        <PropertyEditor Id="ArtfTasks" Index="1" />
-        <PropertyEditor Id="BankStmt" Caption="Id" Index="2" />
-        <PropertyEditor Id="BankStmtTranAmount" PropertyName="BankStmt.TranAmount" Caption="Amount" Index="3" IsNewNode="True" />
-        <PropertyEditor Id="BankStmtDate" PropertyName="BankStmt.TranDate" Index="4" IsNewNode="True" />
-        <PropertyEditor Id="BankStmtAccount" PropertyName="BankStmt.Account" Index="5" IsNewNode="True" />
-        <PropertyEditor Id="Comments" Index="6" />
-        <PropertyEditor Id="CreatedBy" Index="7" />
-        <PropertyEditor Id="CustomerAccount" Index="8" />
-        <PropertyEditor Id="CustomerInvoice" Index="9" />
-        <PropertyEditor Id="CustomerType" Index="10" />
-        <PropertyEditor Id="FromLedger" Caption="Id" Index="11" />
-        <PropertyEditor Id="FromLedgerDate" PropertyName="FromLedger.LedgerDate" Index="12" IsNewNode="True" />
-        <PropertyEditor Id="FromLedgerAmount" PropertyName="FromLedger.Amount" Index="13" IsNewNode="True" />
-        <PropertyEditor Id="FromLedgerUnreconTotal" PropertyName="FromLedger.FromUnreconTotal" Index="14" IsNewNode="True" />
-        <PropertyEditor Id="FromReceipt" Caption="Id" Index="15" View="" />
-        <PropertyEditor Id="FromReceiptAmount" PropertyName="FromReceipt.Amount" Index="16" IsNewNode="True" />
-        <PropertyEditor Id="FromReceiptDate" PropertyName="FromReceipt.ReceiptDate" Caption="Date" Index="17" IsNewNode="True" />
-        <PropertyEditor Id="FromReceiptUnreconTotal" PropertyName="FromReceipt.FromUnreconTotal" Caption="Unreconciled" Index="18" IsNewNode="True" />
-        <PropertyEditor Id="ReconDate" Index="19" />
-        <PropertyEditor Id="ToLedger" Caption="Id" Index="20" />
-        <PropertyEditor Id="ToLedgerDate" PropertyName="ToLedger.LedgerDate" Caption="Date" Index="21" IsNewNode="True" />
-        <PropertyEditor Id="ToLedgerAmount" PropertyName="ToLedger.Amount" Index="22" IsNewNode="True" />
-        <PropertyEditor Id="ToLedgerUnreconTotal" PropertyName="ToLedger.ToUnreconTotal" Caption="Unreconciled" Index="23" IsNewNode="True" />
-        <PropertyEditor Id="ReconId" Index="24" />
-        <PropertyEditor Id="TfrToBankAccount" Index="25" />
-        <PropertyEditor Id="ToReceipt" Caption="Id" Index="26" View="" />
-        <PropertyEditor Id="ToReceiptDate" PropertyName="ToReceipt.ReceiptDate" Index="27" IsNewNode="True" />
-        <PropertyEditor Id="ToReceiptAmount" PropertyName="ToReceipt.Amount" Index="28" IsNewNode="True" />
-        <PropertyEditor Id="ToReceiptUnreconTotal" PropertyName="ToReceipt.ToUnreconTotal" Caption="Unreconciled" Index="29" IsNewNode="True" />
-      </Items>
-      <Layout IsNewNode="True" Removed="True">
-        <LayoutGroup Id="Main" Index="0" ShowCaption="False" RelativeSize="100" IsNewNode="True">
-          <LayoutGroup Id="SimpleEditors" Index="0" ShowCaption="False" RelativeSize="54" IsNewNode="True">
-            <LayoutGroup Id="ArtfRecon" Index="0" Direction="Vertical" ShowCaption="True" Caption="Reconcliation" RelativeSize="0" IsNewNode="True">
-              <LayoutGroup Id="ArtfRecon_row1" Direction="Horizontal" Index="1" IsNewNode="True">
-                <LayoutItem Id="ReconId" ViewItem="ReconId" Index="0" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
-                <LayoutItem Id="ReconDate" ViewItem="ReconDate" Index="1" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
-                <LayoutItem Id="Amount" ViewItem="Amount" Index="2" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
-              </LayoutGroup>
-              <LayoutGroup Id="ArtfRecon_row2" Index="2" Direction="Horizontal" IsNewNode="True">
-                <LayoutItem Id="Comments" ViewItem="Comments" Index="-1" SizeConstraintsType="Default" RelativeSize="47" IsNewNode="True" />
-                <LayoutItem Id="CreatedBy" ViewItem="CreatedBy" Index="-1" SizeConstraintsType="Default" RelativeSize="52" IsNewNode="True" />
-              </LayoutGroup>
-            </LayoutGroup>
-            <LayoutGroup Id="ReconFrom" Index="1" Direction="Vertical" ShowCaption="True" RelativeSize="37" Caption="From" IsNewNode="True">
-              <LayoutGroup Id="ReconFromBankStmt" Index="0" ShowCaption="True" RelativeSize="0" Caption="Bank Stmt" Direction="Horizontal" IsNewNode="True">
-                <LayoutGroup Id="BankStmt_col1" Index="3" Direction="Vertical" IsNewNode="True">
-                  <LayoutItem Id="BankStmt" Index="0" ViewItem="BankStmt" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
-                  <LayoutItem Id="BankStmtAccount" ViewItem="BankStmtAccount" Index="1" IsNewNode="True" />
-                </LayoutGroup>
-                <LayoutGroup Id="BankStmt_col2" Direction="Vertical" IsNewNode="True">
-                  <LayoutItem Id="BankStmtDate" ViewItem="BankStmtDate" Index="2" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
-                  <LayoutItem Id="BankStmtTranAmount" ViewItem="BankStmtTranAmount" Index="4" SizeConstraintsType="Default" RelativeSize="0" IsNewNode="True" />
-                </LayoutGroup>
-              </LayoutGroup>
-              <LayoutGroup Id="ReconFromRequest" Direction="Horizontal" IsNewNode="True">
-                <LayoutGroup Id="Receipt" Index="1" ShowCaption="True" RelativeSize="0" IsNewNode="True">
-                  <LayoutItem Id="FromReceipt" ViewItem="FromReceipt" Index="0" SizeConstraintsType="Default" RelativeSize="24" IsNewNode="True" />
-                  <LayoutItem Id="FromReceiptAmount" ViewItem="FromReceiptAmount" Index="1" SizeConstraintsType="Default" RelativeSize="18" IsNewNode="True" />
-                  <LayoutItem Id="FromReceiptUnreconTotal" ViewItem="FromReceiptUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="24" IsNewNode="True" />
-                </LayoutGroup>
-                <LayoutGroup Id="Ledger" Index="2" ShowCaption="True" RelativeSize="0" IsNewNode="True">
-                  <LayoutItem Id="FromLedger" ViewItem="FromLedger" Index="0" SizeConstraintsType="Default" RelativeSize="24" IsNewNode="True" />
-                  <LayoutItem Id="FromLedgerAmount" ViewItem="FromLedgerAmount" Index="1" SizeConstraintsType="Default" RelativeSize="18" IsNewNode="True" />
-                  <LayoutItem Id="FromLedgerUnreconTotal" ViewItem="FromLedgerUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="24" IsNewNode="True" />
-                </LayoutGroup>
-              </LayoutGroup>
-            </LayoutGroup>
-            <LayoutGroup Id="ReconTo" Direction="Vertical" ShowCaption="True" Index="2" RelativeSize="44" Caption="To" IsNewNode="True">
-              <LayoutGroup Id="ReconToTarget" Index="0" ShowCaption="True" RelativeSize="31" Caption="Target" Direction="Horizontal" IsNewNode="True">
-                <LayoutGroup Id="ReconToTarget_col1" Index="3" IsNewNode="True">
-                  <LayoutItem Id="CustomerType" Index="0" ViewItem="CustomerType" IsNewNode="True" />
-                  <LayoutItem Id="TfrToBankAccount" ViewItem="TfrToBankAccount" Index="1" SizeConstraintsType="Default" RelativeSize="0" ToolTipIconType="None" ToolTip="ToolTip" ToolTipTitle="" IsNewNode="True" />
-                </LayoutGroup>
-                <LayoutGroup Id="ReconToTarget_col2" IsNewNode="True">
-                  <LayoutItem Id="CustomerAccount" ViewItem="CustomerAccount" Index="2" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
-                  <LayoutItem Id="CustomerInvoice" ViewItem="CustomerInvoice" Index="4" SizeConstraintsType="Default" RelativeSize="20" IsNewNode="True" />
-                </LayoutGroup>
-              </LayoutGroup>
-              <LayoutGroup Id="ReconToRequest" Direction="Horizontal" IsNewNode="True">
-                <LayoutGroup Id="ReconToReceipt" Index="1" ShowCaption="True" RelativeSize="0" Caption="Receipt" IsNewNode="True">
-                  <LayoutItem Id="ToReceipt" ViewItem="ToReceipt" Index="0" SizeConstraintsType="Default" RelativeSize="20" IsNewNode="True" />
-                  <LayoutItem Id="ToReceiptAmount" ViewItem="ToReceiptAmount" Index="1" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
-                  <LayoutItem Id="ToReceiptUnreconTotal" ViewItem="ToReceiptUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="36" IsNewNode="True" />
-                </LayoutGroup>
-                <LayoutGroup Id="ReconToLedger" Index="2" ShowCaption="True" RelativeSize="0" Caption="Ledger" IsNewNode="True">
-                  <LayoutItem Id="ToLedger" ViewItem="ToLedger" Index="0" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
-                  <LayoutItem Id="ToLedgerAmount" ViewItem="ToLedgerAmount" Index="1" SizeConstraintsType="Default" RelativeSize="36" IsNewNode="True" />
-                  <LayoutItem Id="ToLedgerUnreconTotal" ViewItem="ToLedgerUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="20" IsNewNode="True" />
-                </LayoutGroup>
-              </LayoutGroup>
-            </LayoutGroup>
-          </LayoutGroup>
-          <LayoutGroup Id="ArtfTasks_Group" Index="2" ShowCaption="True" RelativeSize="38" Caption="ArtfTasks" IsNewNode="True">
-            <LayoutItem Id="ArtfTasks" ViewItem="ArtfTasks" Index="0" SizeConstraintsType="Default" RelativeSize="86" IsNewNode="True" />
-          </LayoutGroup>
-        </LayoutGroup>
-      </Layout>
-    </DetailView>
-    <ListView Id="ArtfRecon_ListView_Grouped" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfRecon" Caption="Reconciliations" IsGroupPanelVisible="True" AllowEdit="True" NewItemRowPosition="Top" AutoExpandAllGroups="True" IsFooterVisible="True" IsNewNode="True">
-      <Columns IsNewNode="True">
-        <ColumnInfo Id="Comments" PropertyName="Comments" Width="70" Index="-1" IsNewNode="True" />
-        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Width="70" Index="-1" IsNewNode="True" />
-        <ColumnInfo Id="CustomerAccount" PropertyName="CustomerAccount" Width="70" Index="-1" IsNewNode="True" />
-        <ColumnInfo Id="CustomerInvoice" PropertyName="CustomerInvoice" Width="70" Index="-1" IsNewNode="True" />
-        <ColumnInfo Id="FromReceipt" PropertyName="FromReceipt" Width="70" Index="-1" IsNewNode="True" />
-        <ColumnInfo Id="ReconId" PropertyName="ReconId" Width="70" Index="-1" SortOrder="Descending" IsNewNode="True" />
-        <ColumnInfo Id="TfrToBankAccount" PropertyName="TfrToBankAccount" Width="70" Index="-1" IsNewNode="True" />
-        <ColumnInfo Id="ToReceipt" PropertyName="ToReceipt" Width="70" Index="-1" IsNewNode="True" />
-        <ColumnInfo Id="ReconDate" PropertyName="ReconDate" Width="70" Index="0" IsNewNode="True" />
-        <ColumnInfo Id="Amount" PropertyName="Amount" Width="50" Index="1" IsNewNode="True" />
-        <ColumnInfo Id="FromCustomerType" PropertyName="BankStmt" Width="70" Index="2" LookupProperty="Account.ArtfCustomerType" Caption="From Customer Type" GroupIndex="1" IsNewNode="True" />
-        <ColumnInfo Id="BankStmt" PropertyName="BankStmt" Width="70" Index="3" LookupProperty="Id" IsNewNode="True" />
-        <ColumnInfo Id="FromBankStmtDate" PropertyName="BankStmt.TranDate" Caption="Stmt Date" Index="4" IsNewNode="True" />
-        <ColumnInfo Id="FromBankAccount" PropertyName="BankStmt.Account.BankAccountNumber" Caption="From Bank Acc" Index="5" IsNewNode="True" />
-        <ColumnInfo Id="FromLedger" PropertyName="FromLedger" Width="70" Index="6" IsNewNode="True" />
-        <ColumnInfo Id="ToCustomerType" PropertyName="CustomerType" Width="70" Index="7" GroupIndex="0" Caption="To Customer Type" IsNewNode="True" />
-        <ColumnInfo Id="ToLedger" PropertyName="ToLedger" Width="70" Index="8" IsNewNode="True" />
-        <ColumnInfo Id="TfrToBankAccountFinal" PropertyName="TfrToBankAccountFinal" Width="70" Index="9" Caption="To Bank Acc" IsNewNode="True" />
-      </Columns>
-    </ListView>
-    <ListView Id="ArtfRecon_ListView_Pivot" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfRecon" Caption="Pivot Grid" AllowEdit="True" IsNewNode="True">
-      <Columns IsNewNode="True">
-        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Index="-1" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="CustomerAccount" PropertyName="CustomerAccount" Index="-1" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="CustomerInvoice" PropertyName="CustomerInvoice" Index="-1" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="TfrToBankAccount" PropertyName="TfrToBankAccount" Index="-1" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="ReconId" PropertyName="ReconId" Index="0" Width="70" SortOrder="Descending" IsNewNode="True" />
-        <ColumnInfo Id="ReconDate" PropertyName="ReconDate" Index="1" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="Amount" PropertyName="Amount" Index="2" Width="50" IsNewNode="True" />
-        <ColumnInfo Id="CustomerType" PropertyName="CustomerType" Index="3" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="BankStmt" PropertyName="BankStmt" Index="4" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="FromLedger" PropertyName="FromLedger" Index="6" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="FromReceipt" PropertyName="FromReceipt" Index="7" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="ToLedger" PropertyName="ToLedger" Index="8" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="ToReceipt" PropertyName="ToReceipt" Index="9" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="Comments" PropertyName="Comments" Index="10" Width="70" IsNewNode="True" />
-      </Columns>
-    </ListView>
-    <ListView Id="ArtfRecon_ListView_Varied" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfRecon" IsNewNode="True">
-      <Variants Current="Default" IsNewNode="True">
-        <Variant Id="Default" ViewID="ArtfRecon_ListView" Caption="Default" IsNewNode="True" />
-        <Variant Id="Grouped" ViewID="ArtfRecon_ListView_Grouped" Caption="Grouped" IsNewNode="True" />
-      </Variants>
-    </ListView>
-    <ListView Id="ArtfRecon_LookupListView" AllowEdit="True" DetailViewID="ArtfRecon_DetailView" />
-    <DetailView Id="ArtfReconTaskMap_DetailView">
-      <Layout>
-        <LayoutGroup Id="Main" RelativeSize="100" ImageName="" Caption="Main" CaptionLocation="Default" CaptionWordWrap="Default" CaptionHorizontalAlignment="Default" CaptionVerticalAlignment="Default">
-          <LayoutGroup Id="SimpleEditors" RelativeSize="100" ImageName="">
-            <LayoutGroup Id="Item2" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="19" Caption="Task" Direction="Horizontal" IsNewNode="True">
-              <LayoutGroup Id="ArtfReconTaskMap_col1" ShowCaption="False" Index="0" RelativeSize="45" IsNewNode="True">
-                <LayoutItem Id="FromCustomerType" ViewItem="FromCustomerType" SizeConstraintsType="Default" Index="0" RelativeSize="28" IsNewNode="True" />
-                <LayoutItem Id="ToCustomerType" ViewItem="ToCustomerType" SizeConstraintsType="Default" Index="1" RelativeSize="21" IsNewNode="True" />
-                <LayoutItem Id="CanFromLedger" ViewItem="CanFromLedger" Index="2" IsNewNode="True" />
-                <LayoutItem Id="CanToLedger" ViewItem="CanToLedger" IsNewNode="True" />
-                <LayoutItem Id="LedgerFromGlCode" ViewItem="LedgerFromGlCode" IsNewNode="True" />
-                <LayoutItem Id="LedgerToGlCode" ViewItem="LedgerToGlCode" IsNewNode="True" />
-              </LayoutGroup>
-              <LayoutGroup Id="ArtfReconTaskMap_col2" ShowCaption="False" Index="1" RelativeSize="49" IsNewNode="True">
-                <LayoutItem Id="IsBankTfr" ViewItem="IsBankTfr" SizeConstraintsType="Default" Index="0" RelativeSize="28" IsNewNode="True" />
-                <LayoutItem Id="TfrFromBankAccount" ViewItem="TfrFromBankAccount" SizeConstraintsType="Default" Index="1" RelativeSize="21" IsNewNode="True" />
-                <LayoutItem Id="TfrToBankAccount" ViewItem="TfrToBankAccount" SizeConstraintsType="Default" Index="2" RelativeSize="21" IsNewNode="True" />
-                <LayoutItem Id="IsReclassedToActivity" ViewItem="IsReclassedToActivity" SizeConstraintsType="Default" Index="3" RelativeSize="28" IsNewNode="True" />
-              </LayoutGroup>
-            </LayoutGroup>
-            <LayoutGroup Id="Item1" ShowCaption="True" Caption="General Ledger" CaptionLocation="Top" Direction="Horizontal" Index="1" RelativeSize="11" IsNewNode="True">
-              <LayoutGroup Id="ArtfReconTaskMap_col1" ShowCaption="False" Caption="" Index="0" RelativeSize="45" IsNewNode="True">
-                <LayoutItem Id="GlDebitGlCode" ViewItem="GlDebitGlCode" SizeConstraintsType="Default" Index="0" RelativeSize="50" IsNewNode="True" />
-                <LayoutItem Id="GlCreditGlCode" ViewItem="GlCreditGlCode" SizeConstraintsType="Default" Index="1" RelativeSize="50" IsNewNode="True" />
-              </LayoutGroup>
-              <LayoutGroup Id="ArtfReconTaskMap_col2" ShowCaption="False" Caption="" Index="1" RelativeSize="49" IsNewNode="True">
-                <LayoutItem Id="GlDebitBaccountCustType" ViewItem="GlDebitBaccountCustType" SizeConstraintsType="Default" Index="0" RelativeSize="50" IsNewNode="True" />
-                <LayoutItem Id="GlCreditBaccountCustType" ViewItem="GlCreditBaccountCustType" SizeConstraintsType="Default" Index="1" RelativeSize="50" IsNewNode="True" />
-              </LayoutGroup>
-            </LayoutGroup>
-            <LayoutGroup Id="AdditionalInformation" ShowCaption="True" Caption="Additional Information" IsNewNode="True">
-              <LayoutItem Id="Description" ViewItem="Description" SizeConstraintsType="Default" Index="2" RelativeSize="3" IsNewNode="True" />
-              <LayoutItem Id="Comments" ViewItem="Comments" SizeConstraintsType="Default" Index="3" RelativeSize="65" IsNewNode="True" />
-            </LayoutGroup>
-            <LayoutGroup Id="ArtfReconTaskMap" RelativeSize="19" ImageName="" Removed="True">
-              <LayoutGroup Id="ArtfReconTaskMap_col1" ShowCaption="False" Index="0" RelativeSize="45" IsNewNode="True" Removed="True">
-                <LayoutItem Id="FromCustomerType" ViewItem="FromCustomerType" SizeConstraintsType="Default" Index="0" RelativeSize="28" IsNewNode="True" />
-                <LayoutItem Id="ToCustomerType" ViewItem="ToCustomerType" SizeConstraintsType="Default" Index="1" RelativeSize="21" IsNewNode="True" />
-                <LayoutItem Id="LedgerGlCode" ViewItem="LedgerGlCode" SizeConstraintsType="Default" Index="2" RelativeSize="50" IsNewNode="True" />
-              </LayoutGroup>
-              <LayoutGroup Id="ArtfReconTaskMap_col2" RelativeSize="49" ImageName="">
-                <LayoutItem Id="IsBankTfr" SizeConstraintsType="Default" RelativeSize="28" Index="0" ViewItem="IsBankTfr" />
-                <LayoutItem Id="TfrFromBankAccount" SizeConstraintsType="Default" RelativeSize="21" Index="1" ViewItem="TfrFromBankAccount" />
-                <LayoutItem Id="TfrToBankAccount" SizeConstraintsType="Default" RelativeSize="21" Index="2" ViewItem="TfrToBankAccount" />
-                <LayoutItem Id="IsReclassedToActivity" SizeConstraintsType="Default" RelativeSize="28" Index="3" ViewItem="IsReclassedToActivity" />
-                <LayoutItem Id="GlDebitBaccountCustType" SizeConstraintsType="Default" RelativeSize="23" ViewItem="GlDebitBaccountCustType" Removed="True" />
-              </LayoutGroup>
-            </LayoutGroup>
-          </LayoutGroup>
-          <LayoutGroup Id="SizeableEditors" RelativeSize="70" ImageName="" Removed="True">
-            <LayoutItem Id="Comments" SizeConstraintsType="Default" RelativeSize="100" ViewItem="Comments" />
-          </LayoutGroup>
-        </LayoutGroup>
-      </Layout>
-    </DetailView>
-    <DetailView Id="ArtfTask_DetailView" Caption="Tasks">
-      <Layout>
-        <LayoutGroup Id="Main">
-          <LayoutGroup Id="SimpleEditors">
-            <LayoutItem Id="Comments" ViewItem="Comments" Index="2" IsNewNode="True" />
-          </LayoutGroup>
-          <LayoutGroup Id="SizeableEditors">
-            <LayoutItem Id="Comments" Removed="True" />
-          </LayoutGroup>
-        </LayoutGroup>
-      </Layout>
-    </DetailView>
-    <ListView Id="ArtfTask_ListView" Caption="Tasks" AllowEdit="True">
-      <Columns>
-        <ColumnInfo Id="ArtfRecon" Caption="Recon Id" />
-      </Columns>
-    </ListView>
-    <ListView Id="ArtfToReceipt_LookupListView" ClassName="CTMS.Module.BusinessObjects.Artf.ArtfReceipt" DetailViewID="ArtfReceipt_DetailView" IsNewNode="True">
-      <Columns IsNewNode="True">
-        <ColumnInfo Id="ReceiptAlias" PropertyName="ReceiptAlias" Width="70" Index="0" IsNewNode="True" />
-        <ColumnInfo Id="ReceiptDate" PropertyName="ReceiptDate" Width="70" Index="1" IsNewNode="True" />
-        <ColumnInfo Id="ReceiptBatchNumber" PropertyName="ReceiptBatchNumber" Width="70" Index="2" IsNewNode="True" />
-        <ColumnInfo Id="ReceiptNumber" PropertyName="ReceiptNumber" Width="70" Index="3" IsNewNode="True" />
-        <ColumnInfo Id="Amount" PropertyName="Amount" Width="50" Index="4" IsNewNode="True" />
-        <ColumnInfo Id="System" PropertyName="System" Width="70" Index="5" IsNewNode="True" />
-        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Width="70" Index="6" IsNewNode="True" />
-        <ColumnInfo Id="RemittanceAccount" PropertyName="RemittanceAccount" Width="70" Index="7" IsNewNode="True" />
-        <ColumnInfo Id="IsReversed" PropertyName="IsReversed" Width="50" Index="8" IsNewNode="True" />
-        <ColumnInfo Id="ToUnreconTotal" PropertyName="ToUnreconTotal" Width="70" Index="9" IsNewNode="True" />
-        <ColumnInfo Id="FromUnreconTotal" PropertyName="FromUnreconTotal" Width="70" Index="10" IsNewNode="True" />
-        <ColumnInfo Id="FromReconTotal" PropertyName="FromReconTotal" Width="70" Index="11" IsNewNode="True" />
-        <ColumnInfo Id="ToReconTotal" PropertyName="ToReconTotal" Width="70" Index="12" IsNewNode="True" />
-      </Columns>
-    </ListView>
+    <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server" />
     <DetailView Id="BankStmt_DetailView" AllowEdit="True" AllowNew="True" AllowDelete="True" ImageName="">
       <Items>
         <PropertyEditor Id="OraTrxNum" AllowEdit="False" />
@@ -591,12 +225,12 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
-    <ListView Id="BankStmt_ListView" AllowEdit="True" NewItemRowPosition="Top" UseServerMode="True">
+    <ListView Id="BankStmt_ListView" AllowEdit="True" NewItemRowPosition="Top" DataAccessMode="Server">
       <Columns>
         <ColumnInfo Id="TranDate" SortOrder="Descending" />
       </Columns>
     </ListView>
-    <ListView Id="BankStmt_ListView_Artf" UseServerMode="True" AllowNew="False" AllowDelete="False" ShowAutoFilterRow="True" ClassName="CTMS.Module.BusinessObjects.Cash.BankStmt" IsNewNode="True">
+    <ListView Id="BankStmt_ListView_Artf" AllowNew="False" AllowDelete="False" ShowAutoFilterRow="True" ClassName="CTMS.Module.BusinessObjects.Cash.BankStmt" DataAccessMode="Server" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="SummaryDescription" PropertyName="SummaryDescription" Width="70" Index="-1" IsNewNode="True" />
         <ColumnInfo Id="BankStmtId" PropertyName="BankStmtId" Width="41" Index="0" IsNewNode="True" />
@@ -608,10 +242,9 @@
         <ColumnInfo Id="TranDescription" PropertyName="TranDescription" Width="120" Index="6" IsNewNode="True" />
         <ColumnInfo Id="Activity" PropertyName="Activity" Width="90" Index="7" IsNewNode="True" />
         <ColumnInfo Id="Counterparty" PropertyName="Counterparty" Width="71" Index="8" IsNewNode="True" />
-        <ColumnInfo Id="ArtfReconTotal" PropertyName="ArtfReconTotal" IsNewNode="True" />
       </Columns>
     </ListView>
-    <ListView Id="BankStmt_ListView_FCA" UseServerMode="True" ShowAutoFilterRow="True" AllowDelete="False" AllowNew="False" ClassName="CTMS.Module.BusinessObjects.Cash.BankStmt" IsNewNode="True">
+    <ListView Id="BankStmt_ListView_FCA" ShowAutoFilterRow="True" AllowDelete="False" AllowNew="False" ClassName="CTMS.Module.BusinessObjects.Cash.BankStmt" DataAccessMode="Server" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="Id" PropertyName="Id" Index="0" Width="50" IsNewNode="True" />
         <ColumnInfo Id="TranDate" PropertyName="TranDate" Index="1" Width="70" SortIndex="0" SortOrder="Ascending" IsNewNode="True" />
@@ -629,7 +262,7 @@
         <Filter Id="AR_FCA_Filter" Criteria="[Account.Name] In ('VHA ANZ USD', 'VHA ANZ EUR', 'VHA ANZ NZD', 'VHA ANZ GBP') And Not [Activity.Name] In ('Pymt', 'Rcpt', 'TSY Rcpt') And [Activity.Dim_1_1] = 'Receipts'" Caption="AR FCA Filter" IsNewNode="True" />
       </Filters>
     </ListView>
-    <ListView Id="BankStmt_LookupListView" UseServerMode="True">
+    <ListView Id="BankStmt_LookupListView" DataAccessMode="Server">
       <Columns>
         <ColumnInfo Id="Id" PropertyName="Id" Index="0" IsNewNode="True" />
         <ColumnInfo Id="OraTrxNum" Index="1" Removed="True" />
@@ -754,7 +387,7 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
-    <ListView Id="CashFlow_ListView" UseServerMode="True" DetailViewID="" />
+    <ListView Id="CashFlow_ListView" DataAccessMode="Server" DetailViewID="" />
     <ListView Id="CashFlow_LookupListView">
       <Columns>
         <ColumnInfo Id="TranDate" PropertyName="TranDate" Width="70" Index="1" IsNewNode="True" />

@@ -34,16 +34,11 @@ using DevExpress.Xpo.DB;
 using CTMS.Module.ControllerHelpers;
 using CTMS.Module.DatabaseUpdate;
 
-namespace CTMS.UnitTests
+namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class FinAccountingTests : XafTestBase
+    public class FinAccountingTests : MSSqlDbTestBase
     {
-        public FinAccountingTests()
-        {
-            TargetDbType = DbType.SQLServer;
-        }
-
         [Test]
         [Category("Coverage_3")]
         public void GenerateJournals_CashFlowReclass_MappedToJournals()

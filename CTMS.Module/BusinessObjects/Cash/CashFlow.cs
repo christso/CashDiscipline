@@ -243,8 +243,7 @@ namespace CTMS.Module.BusinessObjects.Cash
                 {
                     if (!IsLoading && !IsSaving && value != null)
                     {
-                        if (CounterCcy == null)
-                            SetPropertyValue("CounterCcy", ref _CounterCcy, value.Currency);
+                        SetPropertyValue("CounterCcy", ref _CounterCcy, value.Currency);
                     }
                 }
 

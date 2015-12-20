@@ -25,14 +25,14 @@ namespace CTMS.Module.Controllers.Cash
         {
             TargetViewType = ViewType.ListView;
             //TargetViewId = "CashFlow_PivotGridView";
-            paramAction = new SimpleAction(this, "CashReportParamAction", DevExpress.Persistent.Base.PredefinedCategory.View);
-            paramAction.Caption = "Parameters";
-            paramAction.Execute += paramAction_Execute;
+            //paramAction = new SimpleAction(this, "CashReportParamAction", DevExpress.Persistent.Base.PredefinedCategory.View);
+            //paramAction.Caption = "Parameters";
+            //paramAction.Execute += paramAction_Execute;
         }
 
         public CashReportParam ReportParam;
 
-        private SimpleAction paramAction;
+        //private SimpleAction paramAction;
 
         protected override void OnActivated()
         {

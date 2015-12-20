@@ -53,18 +53,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GenerateUserFriendlyId.Module, Version=1.2.5826.39144, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GenerateUserFriendlyId.Module.1.2.5826.39144\lib\net45\GenerateUserFriendlyId.Module.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xafology.ExpressApp, Version=1.2.5826.39144, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.1.2.5826.39144\lib\net45\Xafology.ExpressApp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.2.5826.39152, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.2.5826.39152\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="DevExpress.Data.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -89,9 +77,13 @@
     <Reference Include="DevExpress.Xpo.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\NUnit 2.6.3\bin\framework\nunit.framework.dll</HintPath>
+    <Reference Include="GenerateUserFriendlyId.Module, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GenerateUserFriendlyId.Module.1.3.0.1\lib\net45\GenerateUserFriendlyId.Module.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -100,25 +92,34 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xafology.Utils, Version=1.2.5826.39144, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.Utils.1.2.5826.39144\lib\net45\Xafology.Utils.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.1.3.0.1\lib\net45\Xafology.ExpressApp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.1\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xafology.Utils, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.Utils.1.3.0.1\lib\net45\Xafology.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AdHocTests.cs" />
-    <Compile Include="BankStmtTests.cs" />
-    <Compile Include="CashFlowTests.cs" />
-    <Compile Include="ForexRateTests.cs" />
-    <Compile Include="FunctionalTests.cs" />
-    <Compile Include="ForexTradeTests.cs" />
-    <Compile Include="DatabaseTests.cs" />
+    <Compile Include="InMemoryDbTest\CashFlowMemTests.cs" />
+    <Compile Include="MSSqlDbTest\BankStmtTests.cs" />
+    <Compile Include="MSSqlDbTest\CashFlowTests.cs" />
+    <Compile Include="MSSqlDbTest\ForexRateTests.cs" />
+    <Compile Include="MSSqlDbTest\FunctionalTests.cs" />
+    <Compile Include="MSSqlDbTest\ForexTradeTests.cs" />
+    <Compile Include="InMemoryDbTest\InMemoryDbTestBase.cs" />
+    <Compile Include="MSSqlDbTest\MSSqlDbTestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="XafTestBase.cs" />
-    <Compile Include="TestHelpers.cs">
+    <Compile Include="Mock.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="FinAccountingTests.cs" />
+    <Compile Include="MSSqlDbTest\FinAccountingTests.cs" />
+    <Compile Include="TestUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CTMS.Module\CTMS.Module.csproj">
@@ -128,8 +129,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="CTMS.UnitTests.docx" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
