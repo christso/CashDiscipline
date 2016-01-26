@@ -41,33 +41,13 @@ namespace CTMS.Module.Controllers.Forex
 
             var maxActualDate = GetMaxActualTranDate();
 
-            IEnumerable<CashFlowBuilder> ftPriQuery = GroupPrimaryForexTrades(maxActualDate);
-            IEnumerable<CashFlowBuilder> ftCouQuery = GroupCounterForexTrades(maxActualDate);
-
-            MapPrimaryForexTradesIntoCashFlow(ftPriQuery);
-            MapCounterForexTradesIntoCashFlow(ftCouQuery);
-
+            IEnumerable<CashFlow> ftPriQuery = GroupPrimaryForexTrades(maxActualDate);
+            IEnumerable<CashFlow> ftCouQuery = GroupCounterForexTrades(maxActualDate);
+    
             objectSpace.CommitChanges();
         }
 
-        public void MapPrimaryForexTradesIntoCashFlow(IEnumerable<CashFlowBuilder> builders)
-        {
-            foreach (var b in builders)
-            {
-                var c = objectSpace.CreateObject<CashFlow>();
-                b.LinkPrimaryCashFlow(c);
-            }
-        }
-
-        public void MapCounterForexTradesIntoCashFlow(IEnumerable<CashFlowBuilder> builders)
-        {
-            foreach (var b in builders)
-            {
-                var c = objectSpace.CreateObject<CashFlow>();
-                b.LinkCounterCashFlow(c);
-            }
-        }
-        public IEnumerable<CashFlowBuilder> GroupPrimaryForexTrades(DateTime maxActualDate)
+        public IEnumerable<CashFlow> GroupPrimaryForexTrades(DateTime maxActualDate)
         {
             var criteria = CriteriaOperator.Parse("PrimarySettleDate > ?", maxActualDate);
 
@@ -82,21 +62,26 @@ namespace CTMS.Module.Controllers.Forex
                     SettleGroupId = ft.SettleGroupId,
                     CashFlowCounterparty = ft.Counterparty.CashFlowCounterparty
                 })
-                .Select(grouped => new CashFlowBuilder()
+                .Select(grouped =>
                 {
-                    ForexTrades = grouped.AsEnumerable<ForexTrade>(),
-                    TranDate = grouped.Key.PrimarySettleDate,
-                    CounterCcy = grouped.Key.PrimaryCcy,
-                    Account = grouped.Key.PrimarySettleAccount,
-                    Counterparty = grouped.Key.CashFlowCounterparty,
-                    CounterCcyAmt = -grouped.Sum(s => s.CounterCcyAmt),
-                    AccountCcyAmt = -grouped.Sum(s => s.PrimaryCcyAmt),
-                    FunctionalCcyAmt = -grouped.Sum(s => s.PrimaryCcyAmt)
-                });
+                    var cf = new CashFlow(((XPObjectSpace)objectSpace).Session)
+                    {
+                        TranDate = grouped.Key.PrimarySettleDate,
+                        CounterCcy = grouped.Key.PrimaryCcy,
+                        Account = grouped.Key.PrimarySettleAccount,
+                        Counterparty = grouped.Key.CashFlowCounterparty,
+                        CounterCcyAmt = -grouped.Sum(s => s.CounterCcyAmt),
+                        AccountCcyAmt = -grouped.Sum(s => s.PrimaryCcyAmt),
+                        FunctionalCcyAmt = -grouped.Sum(s => s.PrimaryCcyAmt)
+                    };
+                    cf.PrimaryCashFlowForexTrades.AddRange(grouped.AsEnumerable<ForexTrade>());
+                    return cf;
+                })
+                .ToArray(); // ToArray is required, otherwise the XPO association is not updated
         }
 
 
-        public IEnumerable<CashFlowBuilder> GroupCounterForexTrades(DateTime maxActualDate)
+        public IEnumerable<CashFlow> GroupCounterForexTrades(DateTime maxActualDate)
         {
             var criteria = CriteriaOperator.Parse("CounterSettleDate > ?", maxActualDate);
 
@@ -110,17 +95,22 @@ namespace CTMS.Module.Controllers.Forex
                     ft.SettleGroupId,
                     ft.Counterparty.CashFlowCounterparty
                 })
-                .Select(grouped => new CashFlowBuilder()
+                .Select(grouped =>
                 {
-                    ForexTrades = grouped.AsEnumerable<ForexTrade>(),
-                    TranDate = grouped.Key.CounterSettleDate,
-                    CounterCcy = grouped.Key.CounterCcy,
-                    Account = grouped.Key.CounterSettleAccount,
-                    Counterparty = grouped.Key.CashFlowCounterparty,
-                    CounterCcyAmt = grouped.Sum(s => s.CounterCcyAmt),
-                    AccountCcyAmt = grouped.Sum(s => s.CounterCcyAmt),
-                    FunctionalCcyAmt = grouped.Sum(s => s.PrimaryCcyAmt)
-                });
+                    var cf = new CashFlow(((XPObjectSpace)objectSpace).Session)
+                    {
+                        TranDate = grouped.Key.CounterSettleDate,
+                        CounterCcy = grouped.Key.CounterCcy,
+                        Account = grouped.Key.CounterSettleAccount,
+                        Counterparty = grouped.Key.CashFlowCounterparty,
+                        CounterCcyAmt = grouped.Sum(s => s.CounterCcyAmt),
+                        AccountCcyAmt = grouped.Sum(s => s.CounterCcyAmt),
+                        FunctionalCcyAmt = grouped.Sum(s => s.PrimaryCcyAmt)
+                    };
+                    cf.CounterCashFlowForexTrades.AddRange(grouped.AsEnumerable<ForexTrade>());
+                    return cf;
+                })
+                .ToArray(); // ToArray is required, otherwise the XPO association is not updated
         }
 
         public void DeleteCashFlowForecasts()
@@ -131,5 +121,6 @@ namespace CTMS.Module.Controllers.Forex
             var cashFlows = objectSpace.GetObjects<CashFlow>(criteria);
             objectSpace.Delete(cashFlows);
         }
+
     }
 }

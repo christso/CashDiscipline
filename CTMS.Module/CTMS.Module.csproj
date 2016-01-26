@@ -239,7 +239,6 @@
     <Compile Include="BusinessObjects\Cash\CashForecastFixTag.cs" />
     <Compile Include="BusinessObjects\IMappingObject.cs" />
     <Compile Include="BusinessObjects\TestObject.cs" />
-    <Compile Include="Interfaces\CashFlowBuilder.cs" />
     <Compile Include="ControllerHelpers\Cash\CashFlowPivotGridSetup.cs" />
     <Compile Include="Controllers\CalculateToggleViewController.cs">
       <SubType>Component</SubType>
