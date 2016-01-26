@@ -36,7 +36,6 @@ using CTMS.Module.Controllers;
 using CTMS.Module.DatabaseUpdate;
 using CTMS.Module.ParamObjects.Cash;
 
-using gufi = GenerateUserFriendlyId.Module;
 using Xafology.Utils.Data;
 
 namespace CTMS.UnitTests.MSSqlDbTest
@@ -65,10 +64,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
             ModuleBase module = new ModuleBase();
             TestUtil.AddExportedTypes(module);
             Application.Modules.Add(module);
-
-            // add other modules
-            gufi.GenerateUserFriendlyIdModule generateUserFriendlyIdModule1 = new gufi.GenerateUserFriendlyIdModule();
-            Application.Modules.Add(generateUserFriendlyIdModule1);
 
             Application.Setup(ApplicationName, ObjectSpaceProvider);
             Application.CheckCompatibility();

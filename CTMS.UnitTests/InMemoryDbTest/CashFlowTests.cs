@@ -42,14 +42,7 @@ namespace CTMS.UnitTests.InMemoryDbTest
             // assert
             Assert.AreEqual(ccyUSD, cf.CounterCcy);
         }
-
-        // TODO: Assert.Throws DivideByZeroException if Forex Rate is Zero.
-        [Test]
-        public void ForexRate_ZeroRate_DividedByZero()
-        {
-            //Assert.Throws
-        }
-
+        
         [Test]
         public void ForexRate_GetRate_LastRateForCurrency()
         {
@@ -171,6 +164,31 @@ namespace CTMS.UnitTests.InMemoryDbTest
             // add date later
             cf.TranDate = new DateTime(2013, 12, 31);
             Assert.AreEqual(1111.11, Math.Round(cf.FunctionalCcyAmt, 2));
+        }
+
+        [Test]
+        public void GetMaxActualDate()
+        {
+            // arrange
+            var cf1 = ObjectSpace.CreateObject<CashFlow>();
+            cf1.Status = CashFlowStatus.Actual;
+            cf1.TranDate = new DateTime(2015, 12, 03);
+
+            var cf2 = ObjectSpace.CreateObject<CashFlow>();
+            cf2.Status = CashFlowStatus.Actual;
+            cf2.TranDate = new DateTime(2015, 12, 04);
+
+            var cf3 = ObjectSpace.CreateObject<CashFlow>();
+            cf3.Status = CashFlowStatus.Forecast;
+            cf3.TranDate = new DateTime(2015, 12, 05);
+
+            ObjectSpace.CommitChanges();
+
+            // act
+            var maxActualDate = CashFlow.GetMaxActualTranDate(ObjectSpace.Session);
+
+            // assert
+            Assert.AreEqual(new DateTime(2015, 12, 04), maxActualDate);
         }
 
         protected override void SetupObjects()

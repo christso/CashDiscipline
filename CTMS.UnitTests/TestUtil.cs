@@ -49,6 +49,7 @@ namespace CTMS.UnitTests
             module.AdditionalExportedTypes.Add(typeof(AustPostSettle));
             module.AdditionalExportedTypes.Add(typeof(CashReportParam));
             module.AdditionalExportedTypes.Add(typeof(AccountSummary));
+            module.AdditionalExportedTypes.Add(typeof(TestObject));
         }
     }
 }

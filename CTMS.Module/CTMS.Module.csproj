@@ -137,15 +137,13 @@
     <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.DataAccess.v15.2.UI, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraReports.v15.2.Extensions, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="GenerateUserFriendlyId.Module, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GenerateUserFriendlyId.Module.1.3.0.1\lib\net45\GenerateUserFriendlyId.Module.dll</HintPath>
+    <Reference Include="LumenWorks.Framework.IO, Version=3.9.0.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
+      <HintPath>..\packages\LumenWorksCsvReader.3.9\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="LumenWorks.Framework.IO">
-      <HintPath>..\Lib\LumenWorks.Framework.IO.dll</HintPath>
-    </Reference>
-    <Reference Include="ParserUtils">
-      <HintPath>..\Lib\ParserUtils.dll</HintPath>
+    <Reference Include="SDP.ParserUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SDP.ParserUtils.1.1.0.0\lib\net45\SDP.ParserUtils.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System">
       <Name>System</Name>
@@ -160,12 +158,8 @@
       <Name>System.XML</Name>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.1.3.0.1\lib\net45\Xafology.ExpressApp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xafology.ExpressApp.Concurrency, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Concurrency.1.3.0.1\lib\net45\Xafology.ExpressApp.Concurrency.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.1.3.0.3\lib\net45\Xafology.ExpressApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Layout, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
@@ -184,20 +178,24 @@
       <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.1.3.0.1\lib\net40\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.1\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.3\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.Spreadsheet, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.Spreadsheet.1.3.0.1\lib\net45\Xafology.Spreadsheet.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Xpo.Import, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Xpo.Import.1.3.0.3\lib\net45\Xafology.ExpressApp.Xpo.Import.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xafology.Spreadsheet, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.Spreadsheet.1.3.0.3\lib\net45\Xafology.Spreadsheet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.StringEvaluators, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xafology.StringEvaluators.1.3.0.1\lib\net45\Xafology.StringEvaluators.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.Utils, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.Utils.1.3.0.1\lib\net45\Xafology.Utils.dll</HintPath>
+    <Reference Include="Xafology.Utils, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.Utils.1.3.0.3\lib\net45\Xafology.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
@@ -222,6 +220,8 @@
     <Compile Include="BusinessObjects\Forex\ForexTrade.cs" />
     <Compile Include="BusinessObjects\Forex\ForexTradePredelivery.cs" />
     <Compile Include="BusinessObjects\ICalculateToggleObject.cs" />
+    <Compile Include="Controllers\Forex\ForexTradeBatchUploaderImpl.cs" />
+    <Compile Include="Interfaces\ICashFlow.cs" />
     <Compile Include="BusinessObjects\IImportObject.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowFixDetail.cs" />
     <Compile Include="BusinessObjects\Cash\AccountsPayable\ApInvSource.cs" />
@@ -238,6 +238,8 @@
     <Compile Include="BusinessObjects\Cash\CashFlowSource.cs" />
     <Compile Include="BusinessObjects\Cash\CashForecastFixTag.cs" />
     <Compile Include="BusinessObjects\IMappingObject.cs" />
+    <Compile Include="BusinessObjects\TestObject.cs" />
+    <Compile Include="Interfaces\CashFlowBuilder.cs" />
     <Compile Include="ControllerHelpers\Cash\CashFlowPivotGridSetup.cs" />
     <Compile Include="Controllers\CalculateToggleViewController.cs">
       <SubType>Component</SubType>
@@ -248,10 +250,8 @@
     <Compile Include="Controllers\Cash\CashReportParamDetailViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\Forex\ForexTradeBatchUploader.cs" />
     <Compile Include="Controllers\Cash\ICashReportController.cs" />
-    <Compile Include="Controllers\Cash\ImportApPmtDistnViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\ImportListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -321,9 +321,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Cash\DailyCashUpdateViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\Cash\ImportBankStmtViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\BatchDeleteListViewControllerBase.cs">

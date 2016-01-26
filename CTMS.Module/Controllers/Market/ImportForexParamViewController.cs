@@ -1,7 +1,6 @@
 ﻿using CTMS.Module.BusinessObjects;
 
 using CTMS.Module.ParamObjects.Import;
-using Xafology.ExpressApp.Concurrency;
 using Xafology.Utils;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Editors;
@@ -32,8 +31,6 @@ namespace CTMS.Module.Controllers.Market
 
         void AcceptAction_Execute(object sender, DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs e)
         {
-            var request = new RequestManager(Application);
-
             var paramObj = View.CurrentObject as ImportForexRatesParam;
             var byteArray = paramObj.File.Content;
             var stream = new MemoryStream(byteArray);
@@ -43,37 +40,32 @@ namespace CTMS.Module.Controllers.Market
             var reader = new FlatFileReader(stream, Encoding.GetEncoding("iso-8859-1"));
             var parser = new WbcFxRateParser();
 
-            Action job = new Action(() =>
+            string dateText;
+            DateTime convDate = new DateTime();
+            while (reader.ParseLine())
             {
-                string dateText;
-                DateTime convDate = new DateTime();
-                while (reader.ParseLine())
+                //get dates
+                if (reader.CurrentLineNumber == 3)
                 {
-                    //get dates
-                    if (reader.CurrentLineNumber == 3)
-                    {
-                        //ensure that length argument does not exceed the line length
-                        dateText = reader.CurrentLine.Substring(60, 20 + reader.CurrentLine.Length - 80);
-                        if (!DateTime.TryParse(dateText, out convDate))
-                            throw new InvalidDataException(string.Format("Invalid date format '{0}'", dateText));
-                    }
-
-                    if (reader.CurrentLineNumber < 11) continue;
-                    if (reader.CurrentLineNumber > 55) break;
-                    parser.Parse(reader.CurrentLine);
-                    if (!parser.IsValid()) continue;
-
-                    var currency = objSpace.FindObject<Currency>(Currency.Fields.Name == parser.CcyCode);
-                    if (currency == null) continue;
-                    var forexRate = objSpace.CreateObject<CTMS.Module.BusinessObjects.Forex.ForexRate>();
-                    forexRate.ToCurrency = currency;
-                    forexRate.ConversionDate = convDate;
-                    forexRate.ConversionRate = parser.TtMidAmt;
+                    //ensure that length argument does not exceed the line length
+                    dateText = reader.CurrentLine.Substring(60, 20 + reader.CurrentLine.Length - 80);
+                    if (!DateTime.TryParse(dateText, out convDate))
+                        throw new InvalidDataException(string.Format("Invalid date format '{0}'", dateText));
                 }
-                objSpace.CommitChanges();
-            });
 
-            request.SubmitRequest("Import Forex Rates", job);
+                if (reader.CurrentLineNumber < 11) continue;
+                if (reader.CurrentLineNumber > 55) break;
+                parser.Parse(reader.CurrentLine);
+                if (!parser.IsValid()) continue;
+
+                var currency = objSpace.FindObject<Currency>(Currency.Fields.Name == parser.CcyCode);
+                if (currency == null) continue;
+                var forexRate = objSpace.CreateObject<CTMS.Module.BusinessObjects.Forex.ForexRate>();
+                forexRate.ToCurrency = currency;
+                forexRate.ConversionDate = convDate;
+                forexRate.ConversionRate = parser.TtMidAmt;
+            }
+            objSpace.CommitChanges();
             View.Close();
         }
 

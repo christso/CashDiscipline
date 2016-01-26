@@ -51,8 +51,8 @@ namespace CTMS.Module.Controllers.Forex
             // get unlinked forex settles for foreign currency accounts
 
             var sortProps = new SortingCollection(null);
-            sortProps.Add(new SortProperty("SequentialNumber", DevExpress.Xpo.DB.SortingDirection.Ascending));
-
+            //sortProps.Add(new SortProperty("TranDate", DevExpress.Xpo.DB.SortingDirection.Ascending));
+            
             var cfOutCop = CriteriaOperator.Parse(
                 "ForexLinkIsClosed = ? And ForexSettleType = ? And CounterCcy.Oid <> ?",
                 false, CashFlowForexSettleType.Out, SetOfBooks.CachedInstance.FunctionalCurrency.Oid);

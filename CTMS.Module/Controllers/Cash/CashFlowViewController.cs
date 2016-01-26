@@ -1,5 +1,6 @@
 ﻿using CTMS.Module.BusinessObjects.Cash;
 using CTMS.Module.BusinessObjects.Forex;
+using CTMS.Module.Controllers.Forex;
 using CTMS.Module.ParamObjects.Cash;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
@@ -58,12 +59,12 @@ namespace CTMS.Module.Controllers.Cash
                     ExecuteMapping();
                     break;
                 case "Reload Forex Forecast":
-                    ForexTrade.UploadToCashFlowForecast(((XPObjectSpace)ObjectSpace).Session);
+                    var uploader = new ForexTradeBatchUploaderImpl(ObjectSpace);
+                    uploader.UploadToCashFlowForecast();
                     ObjectSpace.CommitChanges();
                     break;
                 case "Save Forecast":
-                    var requestManager = new Xafology.ExpressApp.Concurrency.RequestManager(Application);
-                    requestManager.SubmitRequest("Save Forecast", SaveForecast);
+                    SaveForecast();
                     break;
             }
         }

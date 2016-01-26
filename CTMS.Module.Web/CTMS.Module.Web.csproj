@@ -148,8 +148,8 @@
     <Reference Include="EPPlus">
       <HintPath>..\Lib\EPPlus.dll</HintPath>
     </Reference>
-    <Reference Include="GenerateUserFriendlyId.Module, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GenerateUserFriendlyId.Module.1.3.0.1\lib\net45\GenerateUserFriendlyId.Module.dll</HintPath>
+    <Reference Include="SDP.ParserUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SDP.ParserUtils.1.1.0.0\lib\net45\SDP.ParserUtils.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System">
@@ -163,8 +163,8 @@
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.1.3.0.1\lib\net45\Xafology.ExpressApp.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.1.3.0.3\lib\net45\Xafology.ExpressApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Layout, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
@@ -195,8 +195,8 @@
       <HintPath>..\packages\Xafology.ExpressApp.Web.1.3.0.1\lib\net45\Xafology.ExpressApp.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.1\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.3\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.PivotGrid, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">

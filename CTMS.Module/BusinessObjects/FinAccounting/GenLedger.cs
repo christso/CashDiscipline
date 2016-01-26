@@ -90,19 +90,22 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
             }
         }
 
+
+
         [VisibleInListView(false)]
         [VisibleInDetailView(false)]
         [VisibleInLookupListView(false)]
         [ExcelReportField]
-        public string SrcId
+        public Guid SrcOid
         {
             get
             {
                 if (string.IsNullOrEmpty(SrcBankStmt.BankStmtId))
-                    return SrcCashFlow.CashFlowId;
-                return SrcBankStmt.BankStmtId;
+                    return SrcCashFlow.Oid;
+                return SrcBankStmt.Oid;
             }
         }
+
         [ExcelReportField]
         public DateTime? SrcDate
         {

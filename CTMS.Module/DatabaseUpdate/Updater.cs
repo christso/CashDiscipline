@@ -165,8 +165,11 @@ namespace CTMS.Module.DatabaseUpdate
             base.UpdateDatabaseAfterUpdateSchema();
 
             SetupObjects(ObjectSpace);
+            SetupSecurity();
+        }
 
-            #region Security System
+        private void SetupSecurity()
+        {
             // Administrative role
             SecuritySystemRole adminRole = ObjectSpace.FindObject<SecuritySystemRole>(
                new BinaryOperator("Name", SecurityStrategy.AdministratorRoleName));
@@ -203,7 +206,6 @@ namespace CTMS.Module.DatabaseUpdate
 
             // BankStmt
             GrantFullAcccess(typeof(Cash.BankStmt), arRole);
-            #endregion
         }
 
         // Grant full access if permission object not found for the owner

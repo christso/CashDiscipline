@@ -37,14 +37,12 @@ namespace CTMS.Module
             this.AdditionalExportedTypes.Add(typeof(DevExpress.Xpo.XPBaseObject));
             this.AdditionalExportedTypes.Add(typeof(DevExpress.Xpo.PersistentBase));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.SystemModule.SystemModule));
-            this.RequiredModuleTypes.Add(typeof(GenerateUserFriendlyId.Module.GenerateUserFriendlyIdModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.CloneObject.CloneObjectModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.ViewVariantsModule.ViewVariantsModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotGrid.PivotGridModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Validation.ValidationModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Xpo.XpoModule));
-            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Concurrency.ConcurrencyModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.SystemModule.XafologySystemModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.LayoutModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.MsoExcel.MsoExcelModule));

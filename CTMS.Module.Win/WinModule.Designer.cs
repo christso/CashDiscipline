@@ -37,7 +37,6 @@ namespace CTMS.Module.Win
             this.AdditionalExportedTypes.Add(typeof(DevExpress.Xpo.PersistentBase));
             this.RequiredModuleTypes.Add(typeof(CTMS.Module.CTMSModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Win.SystemModule.SystemWindowsFormsModule));
-            this.RequiredModuleTypes.Add(typeof(GenerateUserFriendlyId.Module.GenerateUserFriendlyIdModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.ScriptRecorder.Win.ScriptRecorderWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Reports.Win.ReportsWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule));

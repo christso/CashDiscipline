@@ -4,9 +4,9 @@ using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
-using GenerateUserFriendlyId.Module.BusinessObjects;
 using System;
 using System.ComponentModel;
 
@@ -15,13 +15,12 @@ namespace CTMS.Module.BusinessObjects.Forex
     [ModelDefault("IsCloneable", "True")]
     [DefaultProperty("TradeId")]
     [ModelDefault("IsFooterVisible", "True")]
-    public class ForexTrade : UserFriendlyIdPersistentObject, ICalculateToggleObject
+    public class ForexTrade : BaseObject, ICalculateToggleObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ForexTrade(Session session)
             : base(session)
         {
             _CalculateEnabled = true;
-            _SyncEnabled = true;
         }
         public override void AfterConstruction()
         {
@@ -53,11 +52,8 @@ namespace CTMS.Module.BusinessObjects.Forex
         private DateTime _CreationDate;
         private CashFlow _PrimaryCashFlow;
         private CashFlow _CounterCashFlow;
-        private CashFlow _OldPrimaryCashFlow;
-        private CashFlow _OldCounterCashFlow;
         private ForexTrade _OrigTrade;
         private bool _CalculateEnabled;
-        private bool _SyncEnabled;
 
         // Whether Real Time calculation is enabled. If not, then calculation will occur on saving.
         [MemberDesignTimeVisibility(false), Browsable(false), NonPersistent]
@@ -67,30 +63,6 @@ namespace CTMS.Module.BusinessObjects.Forex
             set
             {
                 _CalculateEnabled = value;
-            }
-        }
-
-        /// <summary>
-        /// Forex Trade To Cash Flow Link
-        /// </summary>
-        public bool SyncEnabled
-        {
-            get
-            {
-                return _SyncEnabled;
-            }
-            set
-            {
-                _SyncEnabled = value;
-            }
-        }
-
-        [PersistentAlias("concat('FT', ToStr(SequentialNumber))")]
-        public string TradeId
-        {
-            get
-            {
-                return Convert.ToString(EvaluateAlias("TradeId"));
             }
         }
 
@@ -114,9 +86,7 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
             set
             {
-                if (SetPropertyValue("EventType", ref _EventType, value))
-                {
-                }
+                SetPropertyValue("EventType", ref _EventType, value);
             }
         }
 
@@ -135,7 +105,6 @@ namespace CTMS.Module.BusinessObjects.Forex
                     if (!IsLoading && !IsSaving && CalculateEnabled)
                     {
                         UpdatePrimarySettleAccount();
-                        UpdateCashFlowForecast();
                     }
                 }
             }
@@ -228,9 +197,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                         {
                             CalculatePrimaryCcyAmt(fromCcy, fromAmt);
                         }
-
                         UpdateCounterSettleAccount();
-                        UpdateCashFlowForecast();
                     }
                 }
             }
@@ -318,7 +285,6 @@ namespace CTMS.Module.BusinessObjects.Forex
                     {
                         UpdateCounterSettleAccount();
                         UpdatePrimarySettleAccount();
-                        UpdateCashFlowForecast();
                     }
                 }
             }
@@ -381,8 +347,6 @@ namespace CTMS.Module.BusinessObjects.Forex
             set
             {
                 SetPropertyValue("PrimarySettleDate", ref _PrimarySettleDate, value);
-                if (!IsLoading && !IsSaving && CalculateEnabled)
-                    UpdateCashFlowForecast();
             }
         }
         [ModelDefault("EditMask", "dd-MMM-yy")]
@@ -396,8 +360,6 @@ namespace CTMS.Module.BusinessObjects.Forex
             set
             {
                 SetPropertyValue("CounterSettleDate", ref _CounterSettleDate, value);
-                if (!IsLoading && !IsSaving && CalculateEnabled)
-                    UpdateCashFlowForecast();
             }
         }
         public Account PrimarySettleAccount
@@ -408,14 +370,7 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
             set
             {
-                if (SetPropertyValue("PrimarySettleAccount", ref _PrimarySettleAccount, value))
-                {
-                    if (!IsLoading && !IsSaving && CalculateEnabled)
-                    {
-                        UpdatePrimaryCashFlowAccount();
-                        UpdateCashFlowForecast();
-                    }
-                }
+                SetPropertyValue("PrimarySettleAccount", ref _PrimarySettleAccount, value);
             }
         }
         public Account CounterSettleAccount
@@ -426,14 +381,7 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
             set
             {
-                if (SetPropertyValue("CounterSettleAccount", ref _CounterSettleAccount, value))
-                {
-                    if (!IsLoading && !IsSaving && CalculateEnabled)
-                    {
-                        UpdateCounterCashFlowAccount();
-                        UpdateCashFlowForecast();
-                    }
-                }
+                SetPropertyValue("CounterSettleAccount", ref _CounterSettleAccount, value);
             }
         }
         [ModelDefault("EditMask", "dd-MMM-yy HH:mm:ss")]
@@ -458,11 +406,7 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
             set
             {
-                if (SetPropertyValue("SettleGroupId", ref _SettleGroupId, value))
-                {
-                    if (!IsLoading && !IsSaving && CalculateEnabled)
-                        UpdateCashFlowForecast();
-                }
+                SetPropertyValue("SettleGroupId", ref _SettleGroupId, value);
             }
         }
         public string MtmDealNum
@@ -486,17 +430,7 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
             set
             {
-                if (IsDeleted)
-                {
-                    PrimaryCashFlow.UpdatePrimaryForexTradeAmounts();
-                }
-                if (SetPropertyValue("PrimaryCashFlow", ref _PrimaryCashFlow, value))
-                {
-                    if (!IsLoading && !IsSaving && !IsDeleted && CalculateEnabled)
-                    {
-                        UpdateCashFlowForecast();
-                    }
-                }
+                SetPropertyValue("PrimaryCashFlow", ref _PrimaryCashFlow, value);
             }
         }
 
@@ -509,17 +443,7 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
             set
             {
-                if (IsDeleted)
-                {
-                    CounterCashFlow.UpdateCounterForexTradeAmounts();
-                }
-                if (SetPropertyValue("CounterCashFlow", ref _CounterCashFlow, value))
-                {
-                    if (!IsLoading && !IsSaving && !IsDeleted && CalculateEnabled)
-                    {
-                        UpdateCashFlowForecast();
-                    }
-                }
+                SetPropertyValue("CounterCashFlow", ref _CounterCashFlow, value);
             }
         }
 
@@ -590,7 +514,7 @@ namespace CTMS.Module.BusinessObjects.Forex
 
         #region Cash Flow Link Logic
 
-        private void UpdateCashFlowForecast()
+        public void UpdateCashFlowForecast()
         {
             // if no date specified, then it's not worth query the database
             // for the Max Actual Date
@@ -598,12 +522,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                 || CounterSettleDate == default(DateTime))
                 return;
 
-            if (Counterparty == null
-                || CounterCcy == null || PrimaryCcy == null
-                || CounterSettleAccount == null || PrimarySettleAccount == null) return;
-
-            // do not update if settle date is after forecast date
-            // TODO: cache max Actual Date
+            // TODO: optimisation: cache max Actual Date
             var maxActualDate = CashFlow.GetMaxActualTranDate(Session);
 
             if (PrimarySettleDate <= maxActualDate
@@ -612,60 +531,10 @@ namespace CTMS.Module.BusinessObjects.Forex
                 || CounterSettleAccount == null)
                 return;
 
-            UpdatePrimaryCashFlow();
-            UpdateCounterCashFlow();
-        }
-
-        private void UpdatePrimaryCashFlow()
-        {
             if (!IsForexTradeValid) return;
 
-            _OldPrimaryCashFlow = PrimaryCashFlow;
-
-            if (SettleGroupId == 0)
-            {
-                CreatePrimaryCashFlow();
-            }
-            else if (_PrimaryCashFlow == null)
-            {
-                FindOrCreatePrimaryCashFlow();
-            }
-            else if (_PrimaryCashFlow.TranDate != PrimarySettleDate
-                    || _PrimaryCashFlow.Account != PrimarySettleAccount
-                    || IsForexTradeCashFlowBaseDiff(_PrimaryCashFlow))
-            {
-                // use different cash flow if descriptive fields are different
-                FindOrCreatePrimaryCashFlow();
-            }
-            _PrimaryCashFlow.UpdatePrimaryForexTradeAmounts();
-            if (_OldPrimaryCashFlow != null)
-                _OldPrimaryCashFlow.UpdatePrimaryForexTradeAmounts();
-        }
-
-        private void UpdateCounterCashFlow()
-        {
-            if (!IsForexTradeValid) return;
-
-            _OldCounterCashFlow = CounterCashFlow;
-
-            if (SettleGroupId == 0)
-            {
-                CreateCounterCashFlow();
-            }
-            else if (_CounterCashFlow == null)
-            {
-                FindOrCreateCounterCashFlow();
-            }
-            else if (_CounterCashFlow.TranDate != CounterSettleDate
-                    || _CounterCashFlow.Account != CounterSettleAccount
-                    || IsForexTradeCashFlowBaseDiff(_CounterCashFlow))
-            {
-                // use different cash flow if descriptive fields are different
-                FindOrCreateCounterCashFlow();
-            }
-            _CounterCashFlow.UpdateCounterForexTradeAmounts();
-            if (_OldCounterCashFlow != null)
-                _OldCounterCashFlow.UpdateCounterForexTradeAmounts();
+            CreatePrimaryCashFlow();
+            CreateCounterCashFlow();
         }
 
         private bool IsForexTradeValid
@@ -679,97 +548,53 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
         }
 
-        private bool IsForexTradeCashFlowBaseDiff(CashFlow cashFlow)
-        {
-            if (cashFlow.CounterCcy != CounterCcy
-                || cashFlow.Counterparty != Counterparty.CashFlowCounterparty
-                || cashFlow.ForexSettleGroupId != SettleGroupId) return true;
-            return false;
-        }
-
-        private void FindOrCreatePrimaryCashFlow()
-        {
-            SetPropertyValue("PrimaryCashFlow", ref _PrimaryCashFlow, FindPrimaryCashFlow());
-            if (_PrimaryCashFlow == null)
-                CreatePrimaryCashFlow();
-        }
-        private void FindOrCreateCounterCashFlow()
-        {
-            // use different cash flow if descriptive fields are different
-            SetPropertyValue("CounterCashFlow", ref _CounterCashFlow, FindCounterCashFlow());
-            // create cash flow if different cash flow does not exist
-            if (_CounterCashFlow == null)
-                CreateCounterCashFlow();
-        }
         private void CreatePrimaryCashFlow()
         {
-            // Create Cash Flow if one does not exist
-            SetPropertyValue("PrimaryCashFlow", ref _PrimaryCashFlow, new CashFlow(Session));
-            SetPrimaryCashFlowAttrs(_PrimaryCashFlow);
+            var cashFlow = new CashFlow(Session);
+            SetPropertyValue("PrimaryCashFlow", ref _PrimaryCashFlow, cashFlow);
+            SetPrimaryCashFlowAttrs(cashFlow);
+            cashFlow.CalculateAmounts();
         }
         private void CreateCounterCashFlow()
         {
-            SetPropertyValue("CounterCashFlow", ref _CounterCashFlow, new CashFlow(Session));
-            SetCounterCashFlowAttrs(_CounterCashFlow);
+            var cashFlow = new CashFlow(Session);
+            SetPropertyValue("CounterCashFlow", ref _CounterCashFlow, cashFlow);
+            SetCounterCashFlowAttrs(cashFlow);
+            cashFlow.CalculateAmounts();
         }
-
-        // Find matching CashFlow
-        public CashFlow FindPrimaryCashFlow()
-        {
-            var forexActivity = Session.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
-            var source = Session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.ForexSettleCashFlowSource.Oid);
-            var snapshot = Session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
-
-            var criteria = CriteriaOperator.Parse(
-                       "Account.Currency = ? And TranDate = ? And Account = ? And Activity = ? And Source = ?"
-                       + " And ForexSettleGroupId = ? And Counterparty = ?"
-                       + " And Snapshot = ?",
-                       PrimaryCcy, PrimarySettleDate, PrimarySettleAccount, forexActivity, source,
-                       SettleGroupId, Counterparty.CashFlowCounterparty, snapshot);
-            return Session.FindObject<CashFlow>(PersistentCriteriaEvaluationBehavior.InTransaction, criteria);
-        }
-        public CashFlow FindCounterCashFlow()
-        {
-
-            var forexActivity = Session.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
-            var source = Session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.ForexSettleCashFlowSource.Oid);
-            var snapshot = Session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
-
-            var criteria = CriteriaOperator.Parse(
-                       "Account.Currency = ? And TranDate = ? And Account = ? And Activity = ? And Source = ?"
-                        + " And ForexSettleGroupId = ? And Counterparty = ?"
-                        + " And Snapshot = ?",
-                       CounterCcy, CounterSettleDate, CounterSettleAccount, forexActivity, source,
-                       SettleGroupId, Counterparty.CashFlowCounterparty,
-                       snapshot);
-            return Session.FindObject<CashFlow>(PersistentCriteriaEvaluationBehavior.InTransaction, criteria);
-        }
-
+        
         public void SetPrimaryCashFlowAttrs(CashFlow cashFlow)
         {
             cashFlow.Description = string.Format("{0}-{1} {2}-Leg", PrimaryCcy.Name, CounterCcy.Name, PrimaryCcy.Name);
             cashFlow.CounterCcy = CounterCcy;
             cashFlow.TranDate = PrimarySettleDate;
-            cashFlow.Counterparty = Counterparty.CashFlowCounterparty;
+            if (Counterparty != null)
+                cashFlow.Counterparty = Counterparty.CashFlowCounterparty;
             cashFlow.Status = CashFlowStatus.Forecast;
             cashFlow.ForexSettleType = CashFlowForexSettleType.In;
             cashFlow.Account = PrimarySettleAccount; // TODO: ensure this does not change the currency
             cashFlow.Activity = cashFlow.Session.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
             cashFlow.Source = cashFlow.Session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.ForexSettleCashFlowSource.Oid);
             cashFlow.ForexSettleGroupId = SettleGroupId;
+            cashFlow.CounterCcyAmt = -this.CounterCcyAmt;
+            cashFlow.AccountCcyAmt = -this.PrimaryCcyAmt;
         }
         public void SetCounterCashFlowAttrs(CashFlow cashFlow)
         {
             cashFlow.Description = string.Format("{0}-{1} {2}-Leg", PrimaryCcy.Name, CounterCcy.Name, CounterCcy.Name);
             cashFlow.CounterCcy = CounterCcy;
             cashFlow.TranDate = CounterSettleDate;
-            cashFlow.Counterparty = Counterparty.CashFlowCounterparty;
+            if (Counterparty != null)
+                cashFlow.Counterparty = Counterparty.CashFlowCounterparty;
             cashFlow.Status = CashFlowStatus.Forecast;
             cashFlow.ForexSettleType = CashFlowForexSettleType.In;
             cashFlow.Account = CounterSettleAccount;
             cashFlow.Activity = cashFlow.Session.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
             cashFlow.Source = cashFlow.Session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.ForexSettleCashFlowSource.Oid);
             cashFlow.ForexSettleGroupId = SettleGroupId;
+            cashFlow.CounterCcyAmt = this.CounterCcyAmt;
+            cashFlow.AccountCcyAmt = this.CounterCcyAmt;
+            cashFlow.FunctionalCcyAmt = this.PrimaryCcyAmt;
         }
 
         public void UpdatePrimaryCashFlowAccount()
@@ -781,23 +606,6 @@ namespace CTMS.Module.BusinessObjects.Forex
         {
             if (CounterSettleAccount == null || CounterCashFlow == null) return;
             CounterCashFlow.Account = CounterSettleAccount;
-        }
-
-        // TODO: use same pattern as Fix Forecast? Or specify date?
-        public static void BatchUpdateCashFlow(XPObjectSpace objSpace)
-        {
-            throw new NotImplementedException();
-        }
-
-        private long SequentialNumberToSettleGroupId
-        {
-            get
-            {
-                // since the first SequentialNumber is zero, 
-                // but zero is already used to determine whether to have a
-                // unique SettleGroupId
-                return SequentialNumber + 1;
-            }
         }
         #endregion
 
@@ -844,7 +652,6 @@ namespace CTMS.Module.BusinessObjects.Forex
             {
                 CalculatePrimaryCcyAmt(fromCcy, fromAmt);
             }
-            UpdateCashFlowForecast();
         }
 
         public void CalculatePrimaryCcyAmt(Currency fromCcy, decimal fromAmt)
@@ -893,21 +700,11 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
         }
 
-        private static CriteriaOperator GetRateCriteriaOperator(Currency fromCcy, Currency toCcy, DateTime convDate)
+        private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
-            var rateOp = CriteriaOperator.Parse(
-                              "ConversionDate = [<ForexRate>][FromCurrency.Oid = ? "
-                                + "AND ToCurrency.Oid = ? AND ConversionDate <= ?].Max(ConversionDate) "
-                                + "AND FromCurrency.Oid = ? AND ToCurrency.Oid = ?",
-                              fromCcy.Oid, toCcy.Oid, convDate, fromCcy.Oid, toCcy.Oid);
-            return rateOp;
+            return ForexRate.GetForexRateObject(session, fromCcy, toCcy, convDate);
         }
 
-        private static CTMS.Module.BusinessObjects.Forex.ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
-        {
-            var rateOp = GetRateCriteriaOperator(fromCcy, toCcy, convDate);
-            return session.FindObject<CTMS.Module.BusinessObjects.Forex.ForexRate>(rateOp);
-        }
         #endregion
 
         #region Trade Predelivery Logic
@@ -941,49 +738,9 @@ namespace CTMS.Module.BusinessObjects.Forex
             //PrimarySettleAccount = GetDefaultSettleAccount(PrimaryCcy, Counterparty);
         }
 
-        public static void UploadToCashFlowForecast(Session session)
-        {
-            var maxActualDate = CashFlow.GetMaxActualTranDate(session);
-            DeleteCashFlowForecasts(session);
-            session.CommitTransaction();
-
-            CriteriaOperator criteria;
-            if (maxActualDate != default(DateTime))
-                criteria = CriteriaOperator.Parse("PrimarySettleDate > ? Or CounterSettleDate > ?",
-                    maxActualDate, maxActualDate);
-            else
-                criteria = null;
-            var fts = session.GetObjects(session.GetClassInfo(typeof(ForexTrade)),
-                            criteria, new SortingCollection(null), 0, false, true);
-            foreach (ForexTrade ft in fts)
-            {
-                ft.UpdateCashFlowForecast();
-            }
-            session.CommitTransaction();
-        }
-
-        private static void DeleteCashFlowForecasts(Session session)
-        {
-            var source = session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.ForexSettleCashFlowSource.Oid);
-            var criteria = CriteriaOperator.Parse("Source = ? And Status = ?",
-                source, CashFlowStatus.Forecast);
-            var cashFlows = session.GetObjects(session.GetClassInfo(typeof(CashFlow)),
-                criteria, new SortingCollection(null), 0, false, true);
-            session.Delete(cashFlows);
-        }
-
         protected override void OnSaving()
         {
             base.OnSaving();
-            if (SettleGroupId == 0)
-            {
-                SettleGroupId = SequentialNumberToSettleGroupId;
-                if (_PrimaryCashFlow != null && _CounterCashFlow != null)
-                {
-                    _PrimaryCashFlow.ForexSettleGroupId = SettleGroupId;
-                    _CounterCashFlow.ForexSettleGroupId = SettleGroupId;
-                }
-            }
         }
 
         public class FieldNames

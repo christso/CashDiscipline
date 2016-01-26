@@ -34,7 +34,6 @@ namespace CTMS.Win
             this.module4 = new CTMS.Module.Win.CTMSWindowsFormsModule();
             this.sqlConnection1 = new System.Data.SqlClient.SqlConnection();
             this.businessClassLibraryCustomizationModule1 = new DevExpress.ExpressApp.Objects.BusinessClassLibraryCustomizationModule();
-            this.generateUserFriendlyIdModule1 = new GenerateUserFriendlyId.Module.GenerateUserFriendlyIdModule();
             this.cloneObjectModule1 = new DevExpress.ExpressApp.CloneObject.CloneObjectModule();
             this.securityStrategyComplex1 = new DevExpress.ExpressApp.Security.SecurityStrategyComplex();
             this.authenticationStandard1 = new DevExpress.ExpressApp.Security.AuthenticationStandard();
@@ -54,7 +53,6 @@ namespace CTMS.Win
             this.fileAttachmentsWindowsFormsModule1 = new DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule();
             this.pivotGridLayoutModule1 = new Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule();
             this.xpoModule1 = new Xafology.ExpressApp.Xpo.XpoModule();
-            this.concurrencyModule1 = new Xafology.ExpressApp.Concurrency.ConcurrencyModule();
             this.pivotGridLayoutWindowsFormsModule1 = new Xafology.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule();
             this.layoutModule1 = new Xafology.ExpressApp.Layout.LayoutModule();
             this.layoutWindowsFormsModule1 = new Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule();
@@ -103,7 +101,6 @@ namespace CTMS.Win
             this.Modules.Add(this.module1);
             this.Modules.Add(this.module2);
             this.Modules.Add(this.businessClassLibraryCustomizationModule1);
-            this.Modules.Add(this.generateUserFriendlyIdModule1);
             this.Modules.Add(this.cloneObjectModule1);
             this.Modules.Add(this.viewVariantsModule1);
             this.Modules.Add(this.validationModule1);
@@ -112,7 +109,6 @@ namespace CTMS.Win
             this.Modules.Add(this.securityModule1);
             this.Modules.Add(this.pivotGridLayoutModule1);
             this.Modules.Add(this.XafologySystemModule1);
-            this.Modules.Add(this.concurrencyModule1);
             this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.layoutModule1);
             this.Modules.Add(this.msoExcelModule1);
@@ -144,7 +140,6 @@ namespace CTMS.Win
         private CTMS.Module.Win.CTMSWindowsFormsModule module4;
         private System.Data.SqlClient.SqlConnection sqlConnection1;
         private DevExpress.ExpressApp.Objects.BusinessClassLibraryCustomizationModule businessClassLibraryCustomizationModule1;
-        private GenerateUserFriendlyId.Module.GenerateUserFriendlyIdModule generateUserFriendlyIdModule1;
         private DevExpress.ExpressApp.CloneObject.CloneObjectModule cloneObjectModule1;
         private DevExpress.ExpressApp.Security.SecurityStrategyComplex securityStrategyComplex1;
         private DevExpress.ExpressApp.Security.AuthenticationStandard authenticationStandard1;
@@ -164,7 +159,6 @@ namespace CTMS.Win
         private DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule fileAttachmentsWindowsFormsModule1;
         private Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule pivotGridLayoutModule1;
         private Xafology.ExpressApp.Xpo.XpoModule xpoModule1;
-        private Xafology.ExpressApp.Concurrency.ConcurrencyModule concurrencyModule1;
         private Xafology.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule pivotGridLayoutWindowsFormsModule1;
         private Xafology.ExpressApp.Layout.LayoutModule layoutModule1;
         private Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule layoutWindowsFormsModule1;

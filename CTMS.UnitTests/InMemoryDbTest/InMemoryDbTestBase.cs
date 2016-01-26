@@ -34,8 +34,6 @@ using CTMS.Module.ControllerHelpers;
 using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.ParamObjects.Cash;
 
-using gufi = GenerateUserFriendlyId.Module;
-
 namespace CTMS.UnitTests.InMemoryDbTest
 {
     public class InMemoryDbTestBase
@@ -59,10 +57,7 @@ namespace CTMS.UnitTests.InMemoryDbTest
             ModuleBase module = new ModuleBase();
             TestUtil.AddExportedTypes(module);
             Application.Modules.Add(module);
-
-            // add other modules
-            gufi.GenerateUserFriendlyIdModule generateUserFriendlyIdModule1 = new gufi.GenerateUserFriendlyIdModule();
-            Application.Modules.Add(generateUserFriendlyIdModule1);
+            AddExportedTypes(module);
 
             Application.Setup(ApplicationName, ObjectSpaceProvider);
             Application.CheckCompatibility();
@@ -87,6 +82,11 @@ namespace CTMS.UnitTests.InMemoryDbTest
 
         protected virtual void SetupObjects()
         {
+        }
+
+        protected virtual void AddExportedTypes(ModuleBase module)
+        {
+            // module.AdditionalExportedTypes.Add(typeof(SetOfBooks));
         }
 
         [TearDown]

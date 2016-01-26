@@ -9,12 +9,12 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
-using GenerateUserFriendlyId.Module.BusinessObjects;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Xafology.Spreadsheet.Attributes;
+using DevExpress.Persistent.BaseImpl;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CTMS.Module.BusinessObjects.Cash
@@ -24,31 +24,20 @@ namespace CTMS.Module.BusinessObjects.Cash
     [ModelDefault("IsFooterVisible", "True")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("CashFlowId")]
-    public class CashFlow : UserFriendlyIdPersistentObject, ICalculateToggleObject
+    public class CashFlow : BaseObject, ICalculateToggleObject, CTMS.Module.Interfaces.ICashFlow
     {
+
+        public CashFlow()
+        {
+
+        }
 
         public CashFlow(Session session)
             : base(session)
         {
-            // This constructor is used when an object is loaded from a persistent storage.
-            // Do not place any code here or place it only when the IsLoading property is false.
-            Changed += CashFlow_Changed;
+
         }
 
-
-        void CashFlow_Changed(object sender, ObjectChangeEventArgs e)
-        {
-            // This does not execute when IdentityBaseObject is used since
-            // XAF is not aware of changes to SequentialNumber that is computed by the database server
-            if (e.PropertyName == "SequentialNumber")
-            {
-                if (Snapshot != null && !IsDeleted &&
-                    Snapshot.Oid == SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid)
-                {
-                    OrigSequentialNumber = (long)e.NewValue;
-                }
-            }
-        }
 
         public override void AfterConstruction()
         {
@@ -133,7 +122,7 @@ namespace CTMS.Module.BusinessObjects.Cash
         private decimal? _ForexLinkedInAccountCcyAmt;
         private decimal? _ForexLinkedOutAccountCcyAmt;
         private bool? _ForexLinkIsClosed;
-        private long _OrigSequentialNumber;
+        private CashFlow origCashFlow;
         private long _ForexSettleGroupId;
         private bool _CalculateEnabled;
 
@@ -150,13 +139,15 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         #region Main Properties
 
-        [ExcelReportField]
-        [PersistentAlias("concat('CF', ToStr(SequentialNumber))")]
-        public string CashFlowId
+        public CashFlow OrigCashFlow
         {
             get
             {
-                return Convert.ToString(EvaluateAlias("CashFlowId"));
+                return origCashFlow;
+            }
+            set
+            {
+                SetPropertyValue("OrigCashFlow", ref origCashFlow, value);
             }
         }
 
@@ -173,32 +164,6 @@ namespace CTMS.Module.BusinessObjects.Cash
                 SetPropertyValue("Snapshot", ref _Snapshot, value);
             }
         }
-
-        [PersistentAlias("concat('CF', ToStr(OrigSequentialNumber))")]
-        public string OrigCashFlowId
-        {
-            get
-            {
-                return Convert.ToString(EvaluateAlias("OrigCashFlowId"));
-            }
-        }
-
-        [ModelDefault("AllowEdit", "false")]
-        [VisibleInLookupListView(false)]
-        [VisibleInListView(false)]
-        [VisibleInDetailView(false)]
-        public long OrigSequentialNumber
-        {
-            get
-            {
-                return _OrigSequentialNumber;
-            }
-            set
-            {
-                SetPropertyValue("OrigSequentialNumber", ref _OrigSequentialNumber, value);
-            }
-        }
-
 
 
         [ExcelReportField]
@@ -311,23 +276,6 @@ namespace CTMS.Module.BusinessObjects.Cash
                     }
                 }
             }
-        }
-
-        public static void UpdateFunctionalCcyAmt2(CashFlow obj, decimal fromAmt, Currency fromCcy)
-        {
-            if (obj == null || fromCcy == null) return;
-            var session = obj.Session;
-
-            if (SetOfBooks.CachedInstance.FunctionalCurrency.Oid == fromCcy.Oid)
-                obj.FunctionalCcyAmt = fromAmt;
-            else if (obj.TranDate != default(DateTime))
-            {
-                // TODO: Get rate without throwing error
-                //var rateObj = GetForexRateObject(session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, (DateTime)obj.TranDate);
-                
-                obj.FunctionalCcyAmt = Math.Round(fromAmt / 0.9M, 2);
-            }
-            
         }
 
         [ExcelReportField]
@@ -483,6 +431,12 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         #region Amount Calculators
 
+        public void CalculateAmounts()
+        {
+            UpdateFunctionalCcyAmt();
+            UpdateAccountCcyAmt();
+            UpdateCounterCcyAmt();
+        }
 
         public void UpdateAccountCcyAmt()
         {
@@ -514,6 +468,7 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         public void UpdateFunctionalCcyAmt()
         {
+            UpdateFunctionalCcyAmt(this, CounterCcyAmt, CounterCcy);
             if (CounterCcyAmt != 0 && CounterCcy != null && TranDate != default(DateTime))
             {
                 UpdateFunctionalCcyAmt(this, CounterCcyAmt, CounterCcy);
@@ -872,163 +827,7 @@ namespace CTMS.Module.BusinessObjects.Cash
         #endregion
 
         #region Forex Trade Calculators
-
-        // This assumes that the CounterCcy and value date is the same for all ForexTrade
-        private decimal GetForexTradeToCashFlowRate()
-        {
-            decimal forexRate = 0;
-            ForexRate forexRateObj = null;
-            Currency counterCcy = null;
-            if (PrimaryCashFlowForexTrades.Count > 0)
-            {
-                var ft = PrimaryCashFlowForexTrades[0];
-                counterCcy = ft.CounterCcy;
-                if (Account.Currency != counterCcy)
-                {
-                    forexRateObj = GetForexRateObject(Session, ft.CounterCcy, Account.Currency, ft.PrimarySettleDate);
-                    if (forexRateObj == null)
-                        throw new ApplicationException(string.Format(
-                            "Forex Rate to convert {0} to {1} does not exist for date {2}.",
-                            counterCcy.Name, Account.Currency.Name, ft.PrimarySettleDate));
-                    forexRate = forexRateObj.ConversionRate;
-                }
-                else
-                    forexRate = 1;
-            }
-            else if (CounterCashFlowForexTrades.Count > 0)
-            {
-                var ft = CounterCashFlowForexTrades[0];
-                counterCcy = ft.CounterCcy;
-                if (ft.PrimaryCcy != Account.Currency)
-                {
-                    forexRateObj = GetForexRateObject(Session, ft.PrimaryCcy, Account.Currency, ft.CounterSettleDate);
-                    if (forexRateObj == null)
-                        throw new ApplicationException(string.Format(
-                            "Forex Rate to convert {0} to {1} does not exist for date {2}.",
-                            ft.PrimaryCcy.Name, Account.Currency.Name, ft.CounterSettleDate));
-                    forexRate = forexRateObj.ConversionRate;
-                }
-                else
-                    forexRate = 1;
-            }
-            return forexRate;
-        }
-
-        public void UpdatePrimaryForexTradeAmounts()
-        {
-            if (Account == null) return;
-
-            bool oldCalculateEnabled = _CalculateEnabled;
-            _CalculateEnabled = false;
-
-            decimal oldCounterCcyAmt = _CounterCcyAmt;
-            decimal oldAccountCcyAmt = _AccountCcyAmt;
-            _AccountCcyAmt = 0;
-            _CounterCcyAmt = 0;
-            _FunctionalCcyAmt = 0;
-
-            try
-            {
-                if (PrimaryCashFlowForexTrades.Count == 0)
-                {
-                    this.Delete();
-                    return;
-                }
-
-                var ft1 = PrimaryCashFlowForexTrades[0];
-                decimal accRate = GetForexRate(Session, ft1.PrimaryCcy, Account.Currency, ft1.PrimarySettleDate);
-                decimal couRate = GetForexRate(Session, ft1.CounterCcy, CounterCcy, ft1.CounterSettleDate);
-
-                if (ft1.PrimaryCcy.Oid == SetOfBooks.CachedInstance.FunctionalCurrency.Oid)
-                {
-                    foreach (var ft in PrimaryCashFlowForexTrades)
-                    {
-                        _FunctionalCcyAmt -= ft.PrimaryCcyAmt;
-                    }
-                }
-                foreach (var ft in PrimaryCashFlowForexTrades)
-                {
-                    _AccountCcyAmt -= ft.PrimaryCcyAmt * accRate;
-                    _CounterCcyAmt -= ft.CounterCcyAmt * couRate;
-                }
-
-                _FunctionalCcyAmt = Math.Round(_FunctionalCcyAmt, 2);
-                _AccountCcyAmt = Math.Round(_AccountCcyAmt, 2);
-                _CounterCcyAmt = Math.Round(_CounterCcyAmt, 2);
-
-                //if (_FunctionalCcyAmt == 0 && _AccountCcyAmt == 0 && _CounterCcyAmt == 0)
-                //{
-                //    this.Delete();
-                //    return;
-                //}
-
-                OnChanged("CounterCcyAmt", oldCounterCcyAmt, _CounterCcyAmt);
-                OnChanged("AccountCcyAmt", oldAccountCcyAmt, _AccountCcyAmt);
-            }
-            finally
-            {
-                _CalculateEnabled = oldCalculateEnabled;
-            }
-        }
-
-        public void UpdateCounterForexTradeAmounts()
-        {
-            if (Account == null) return;
-
-            bool oldCalculateEnabled = _CalculateEnabled;
-            _CalculateEnabled = false;
-
-            decimal oldCounterCcyAmt = _CounterCcyAmt;
-            decimal oldAccountCcyAmt = _AccountCcyAmt;
-            _AccountCcyAmt = 0;
-            _CounterCcyAmt = 0;
-            _FunctionalCcyAmt = 0;
-
-            try
-            {
-                if (CounterCashFlowForexTrades.Count == 0)
-                {
-                    this.Delete();
-                    return;
-                }
-
-                var ft1 = CounterCashFlowForexTrades[0];
-                decimal accRate = GetForexRate(Session, ft1.CounterCcy, Account.Currency, ft1.CounterSettleDate);
-                decimal couRate = GetForexRate(Session, ft1.CounterCcy, CounterCcy, ft1.CounterSettleDate);
-
-                if (ft1.PrimaryCcy.Oid == SetOfBooks.CachedInstance.FunctionalCurrency.Oid)
-                {
-                    foreach (var ft in CounterCashFlowForexTrades)
-                    {
-                        _FunctionalCcyAmt += ft.PrimaryCcyAmt;
-                    }
-                }
-                foreach (var ft in CounterCashFlowForexTrades)
-                {
-                    _AccountCcyAmt += ft.CounterCcyAmt * accRate;
-                    _CounterCcyAmt += ft.CounterCcyAmt * couRate;
-                }
-
-                _FunctionalCcyAmt = Math.Round(_FunctionalCcyAmt, 2);
-                _AccountCcyAmt = Math.Round(_AccountCcyAmt, 2);
-                _CounterCcyAmt = Math.Round(_CounterCcyAmt, 2);
-
-                //if (_FunctionalCcyAmt == 0 && _AccountCcyAmt == 0 && _CounterCcyAmt == 0)
-                //{
-                //    this.Delete();
-                //    return;
-                //}
-
-                OnChanged("CounterCcyAmt", oldCounterCcyAmt, _CounterCcyAmt);
-                OnChanged("AccountCcyAmt", oldAccountCcyAmt, _AccountCcyAmt);
-
-            }
-            finally
-            {
-                _CalculateEnabled = oldCalculateEnabled;
-            }
-        }
-
+        
         public long ForexSettleGroupId
         {
             get
@@ -1417,7 +1216,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             {
                 var cfShot = (CashFlow)CloneIXPSimpleObjectHelper.CloneLocal(cf);
                 cfShot.Snapshot = snapshot;
-                cfShot.OrigSequentialNumber = cf.SequentialNumber;
+                cfShot.origCashFlow = cf;
             }
 
             return snapshot;

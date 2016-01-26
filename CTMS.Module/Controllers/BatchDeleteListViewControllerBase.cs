@@ -15,6 +15,9 @@ using DevExpress.Xpo.Metadata;
 
 namespace CTMS.Module.Controllers
 {
+    /// <summary>
+    /// Faster way to delete a large number of items
+    /// </summary>
     public class BatchDeleteListViewControllerBase : ViewController
     {
         public BatchDeleteListViewControllerBase()

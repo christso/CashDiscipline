@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C36BDE28-0653-4082-93FB-016F739DD23C}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CTMS.UnitTests</RootNamespace>
     <AssemblyName>CTMS.UnitTests</AssemblyName>
@@ -52,6 +52,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="DevExpress.Data.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -77,12 +80,12 @@
     <Reference Include="DevExpress.Xpo.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="GenerateUserFriendlyId.Module, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\GenerateUserFriendlyId.Module.1.3.0.1\lib\net45\GenerateUserFriendlyId.Module.dll</HintPath>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.0.5813.39031, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.0.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="SDP.ParserUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SDP.ParserUtils.1.1.0.0\lib\net45\SDP.ParserUtils.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -92,33 +95,35 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xafology.ExpressApp, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.1.3.0.1\lib\net45\Xafology.ExpressApp.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.1.3.0.3\lib\net45\Xafology.ExpressApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.1\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Xpo, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.3\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.Utils, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.Utils.1.3.0.1\lib\net45\Xafology.Utils.dll</HintPath>
+    <Reference Include="Xafology.Utils, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.Utils.1.3.0.3\lib\net45\Xafology.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InMemoryDbTest\CashFlowTests.cs" />
+    <Compile Include="InMemoryDbTest\ForexTradeTests.cs" />
     <Compile Include="MSSqlDbTest\BankStmtDbTests.cs" />
     <Compile Include="MSSqlDbTest\CashFlowDbTests.cs" />
     <Compile Include="MSSqlDbTest\ForexRateDbTests.cs" />
     <Compile Include="MSSqlDbTest\IntegrationTests.cs" />
-    <Compile Include="MSSqlDbTest\ForexTradeTests.cs" />
     <Compile Include="InMemoryDbTest\InMemoryDbTestBase.cs" />
     <Compile Include="MSSqlDbTest\MSSqlDbTestBase.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Mock.cs">
+    <Compile Include="TestListEditor.cs" />
+    <Compile Include="MSSqlDbTest\FinAccountingDbTests.cs" />
+    <Compile Include="TestApplication.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MSSqlDbTest\FinAccountingDbTests.cs" />
     <Compile Include="TestUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -131,6 +136,7 @@
     <None Include="App.config" />
     <None Include="CTMS.UnitTests.docx" />
     <None Include="packages.config" />
+    <EmbeddedResource Include="TestFiles\ApPmtDistn_150104.csv" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -2,21 +2,18 @@
 using CTMS.Module.BusinessObjects.Cash.AccountsPayable;
 
 using CTMS.Module.ParamObjects.Import;
+using DevExpress.ExpressApp;
 using d2import = Xafology.ExpressApp.Xpo.Import;
 
 namespace CTMS.Module.Controllers
 {
-    public class ImportListViewController : d2import.Controllers.ImportListViewController
+    public class ImportListViewController : ViewController
     {
-        private bool IsHandled = false;
-
-        protected override void ImportDataActionExecute(object sender, DevExpress.ExpressApp.Actions.SingleChoiceActionExecuteEventArgs e)
+        protected void ImportDataActionExecute(object sender, DevExpress.ExpressApp.Actions.SingleChoiceActionExecuteEventArgs e)
         {
-            IsHandled = false;
             if (e.SelectedChoiceActionItem.Caption == "Default")
                 DefaultImportDataActionExecute();
-            if (!IsHandled)
-                base.ImportDataActionExecute(sender, e);
+
         }
 
         #region Default Import
@@ -41,10 +38,7 @@ namespace CTMS.Module.Controllers
 
         private void ShowParamView(object paramObj)
         {
-            var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
-            dialog.CanCloseWindow = false;
-            dialog.ShowNonPersistentView(paramObj);
-            IsHandled = true;
+            //show view
         }
         #endregion
     }

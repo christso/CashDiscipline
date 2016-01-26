@@ -20,17 +20,8 @@ namespace CTMS.Module.Controllers.Forex
         protected override void OnActivated()
         {
             base.OnActivated();
-            View.ControlsCreated += View_ControlsCreated;
         }
 
-        void View_ControlsCreated(object sender, EventArgs e)
-        {
-            var objs = View.SelectedObjects;
-            foreach (ForexTrade obj in objs)
-            {
-                obj.SyncEnabled = true;
-            }
-        }
 
         public static void LinkCashFlowsToForexTrades(IObjectSpace objSpace)
         {

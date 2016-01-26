@@ -16,7 +16,6 @@ namespace CTMS.Web
         private CTMS.Module.CTMSModule module3;
         private CTMS.Module.Web.CTMSAspNetModule module4;
         private DevExpress.ExpressApp.Objects.BusinessClassLibraryCustomizationModule businessClassLibraryCustomizationModule1;
-        private GenerateUserFriendlyId.Module.GenerateUserFriendlyIdModule generateUserFriendlyIdModule1;
         private DevExpress.ExpressApp.CloneObject.CloneObjectModule cloneObjectModule1;
         private DevExpress.ExpressApp.Security.SecurityStrategyComplex securityStrategyComplex1;
         private DevExpress.ExpressApp.Security.AuthenticationStandard authenticationStandard1;
@@ -35,7 +34,6 @@ namespace CTMS.Web
         private Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule pivotGridLayoutModule1;
         private XpoModule xpoModule1;
         private Xafology.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule pivotGridLayoutAspNetModule1;
-        private Xafology.ExpressApp.Concurrency.ConcurrencyModule concurrencyModule1;
         private Xafology.ExpressApp.Layout.LayoutModule layoutModule1;
         private Xafology.ExpressApp.Layout.Web.LayoutAspNetModule layoutAspNetModule1;
         private Xafology.ExpressApp.Web.SystemModule.XafologySystemAspNetModule XafologySystemAspNetModule1;
@@ -58,7 +56,7 @@ namespace CTMS.Web
 
         protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)
         {
-            args.ObjectSpaceProvider = new D2NObjectSpaceProvider(args.ConnectionString, args.Connection, true);
+            args.ObjectSpaceProvider = new ExtObjectSpaceProvider(args.ConnectionString, args.Connection, true);
         }
 
         private void CTMSAspNetApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e)
@@ -103,7 +101,6 @@ namespace CTMS.Web
             this.module4 = new CTMS.Module.Web.CTMSAspNetModule();
             this.sqlConnection1 = new System.Data.SqlClient.SqlConnection();
             this.businessClassLibraryCustomizationModule1 = new DevExpress.ExpressApp.Objects.BusinessClassLibraryCustomizationModule();
-            this.generateUserFriendlyIdModule1 = new GenerateUserFriendlyId.Module.GenerateUserFriendlyIdModule();
             this.cloneObjectModule1 = new DevExpress.ExpressApp.CloneObject.CloneObjectModule();
             this.securityStrategyComplex1 = new DevExpress.ExpressApp.Security.SecurityStrategyComplex();
             this.authenticationStandard1 = new DevExpress.ExpressApp.Security.AuthenticationStandard();
@@ -122,7 +119,6 @@ namespace CTMS.Web
             this.pivotGridLayoutModule1 = new Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule();
             this.xpoModule1 = new Xafology.ExpressApp.Xpo.XpoModule();
             this.pivotGridLayoutAspNetModule1 = new Xafology.ExpressApp.PivotGridLayout.Web.PivotGridLayoutAspNetModule();
-            this.concurrencyModule1 = new Xafology.ExpressApp.Concurrency.ConcurrencyModule();
             this.layoutModule1 = new Xafology.ExpressApp.Layout.LayoutModule();
             this.layoutAspNetModule1 = new Xafology.ExpressApp.Layout.Web.LayoutAspNetModule();
             this.XafologySystemAspNetModule1 = new Xafology.ExpressApp.Web.SystemModule.XafologySystemAspNetModule();
@@ -162,7 +158,6 @@ namespace CTMS.Web
             this.Modules.Add(this.module1);
             this.Modules.Add(this.module2);
             this.Modules.Add(this.businessClassLibraryCustomizationModule1);
-            this.Modules.Add(this.generateUserFriendlyIdModule1);
             this.Modules.Add(this.cloneObjectModule1);
             this.Modules.Add(this.viewVariantsModule1);
             this.Modules.Add(this.validationModule1);
@@ -170,7 +165,6 @@ namespace CTMS.Web
             this.Modules.Add(this.securityModule1);
             this.Modules.Add(this.pivotGridLayoutModule1);
             this.Modules.Add(this.XafologySystemModule1);
-            this.Modules.Add(this.concurrencyModule1);
             this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.layoutModule1);
             this.Modules.Add(this.msoExcelModule1);

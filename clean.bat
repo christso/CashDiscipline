@@ -9,7 +9,6 @@ rmdir /S /Q CTMS.Module.Web\bin
 rmdir /S /Q CTMS.Module.Win\bin
 rmdir /S /Q CTMS.Web\bin
 rmdir /S /Q CTMS.Win\bin
-rmdir /S /Q GenerateUserFriendlyId.Module\bin
 rmdir /S /Q Xafology.ExpressApp\bin
 rmdir /S /Q Xafology.ExpressApp.PivotGrid\bin
 rmdir /S /Q Xafology.ExpressApp.PivotGrid.Web\bin
@@ -25,7 +24,6 @@ rmdir /S /Q CTMS.Module.Web\obj
 rmdir /S /Q CTMS.Module.Win\obj
 rmdir /S /Q CTMS.Web\obj
 rmdir /S /Q CTMS.Win\obj
-rmdir /S /Q GenerateUserFriendlyId.Module\obj
 rmdir /S /Q Xafology.ExpressApp\obj
 rmdir /S /Q Xafology.ExpressApp.PivotGrid\obj
 rmdir /S /Q Xafology.ExpressApp.PivotGrid.Web\obj

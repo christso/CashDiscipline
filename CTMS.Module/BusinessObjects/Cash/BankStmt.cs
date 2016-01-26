@@ -442,6 +442,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             UploadToCashFlow(objSpace, dateParam, dateParam);
         }
 
+        // TODO: avoid using SQL
         public static void UploadToCashFlow(IObjectSpace objSpace, DateTime fromDate, DateTime toDate)
         {
             var session = ((XPObjectSpace)objSpace).Session;

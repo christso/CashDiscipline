@@ -33,8 +33,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
         [Category("Coverage_3")]
         public void ForexTradeToCashFlowToBankStmt_Integrated_SumAreEqual()
         {
-            string debugOutput = "";
-
             #region Create Forex objects
             // Currencies
             var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
@@ -115,7 +113,7 @@ namespace CTMS.UnitTests.MSSqlDbTest
             #endregion
 
             #region Test Cash Flows created by Forex Trades
-            var fCashFlows = ObjectSpace.GetObjects<CashFlow>().OrderBy(x => x.CashFlowId);
+            var fCashFlows = ObjectSpace.GetObjects<CashFlow>();
             Assert.AreEqual(6, fCashFlows.Count());
             Assert.AreEqual(0, Math.Round(fCashFlows.Sum(x => x.FunctionalCcyAmt), 2));
             #endregion
@@ -285,18 +283,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
             Assert.AreEqual(-194.69m, bankStmts.Sum(x => x.FunctionalCcyAmt));
             #endregion
 
-            #region BankStmt Pre-reconcile Debug Output
-            debugOutput = "BankStmt Pre-Reconcile:---\r\n"
-                + "Tran Date|Account.Currency|Activity|Tran Amount|Functional Ccy Amt|Counter Ccy Amt|"
-                + "CounterCCy|SettleType|CashFlowId";
-            foreach (BankStmt bankStmt in bankStmts)
-            {
-                debugOutput += "\r\n" + string.Format("{0}|{1}|{4}|{2}|{3}|{5}|{6}|{7}|{8}", bankStmt.TranDate, bankStmt.Account.Currency.Name,
-                    bankStmt.TranAmount, bankStmt.FunctionalCcyAmt, bankStmt.Activity.Name, bankStmt.CounterCcyAmt, bankStmt.CounterCcy.Name,
-                    bankStmt.ForexSettleType, bankStmt.CashFlow != null ? bankStmt.CashFlow.SequentialNumber : -1);
-            }
-            Debug.Print(debugOutput);
-            #endregion
 
             #region Test Bank Stmt objects after Auto-reconcile
             BankStmtViewController.AutoreconcileForexTrades(bankStmts);
@@ -316,73 +302,13 @@ namespace CTMS.UnitTests.MSSqlDbTest
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
             bankStmts = ObjectSpace.GetObjects<BankStmt>();
 
-            #region BankStmt After-Upload Debug Output
-            debugOutput = "BankStmt After-Upload:---\r\n"
-                + "Tran Date|Account.Currency|Activity|Tran Amount|Functional Ccy Amt|Counter Ccy Amt|CounterCCy|SettleType|CashFlowId"
-                + "|CffId|SummaryDescription";
-            foreach (BankStmt bankStmt in bankStmts.OrderBy(x => x.TranDate))
-            {
-                var bsCff = bsCffs.FirstOrDefault(x => x.BankStmt.Oid == bankStmt.Oid);
-                debugOutput += "\r\n" + string.Format("{0}|{1}|{4}|{2}|{3}|{5}|{6}|{7}|{8}|{9}|{10}|{11}",
-                    bankStmt.TranDate, bankStmt.Account.Currency.Name,
-                    bankStmt.TranAmount, bankStmt.FunctionalCcyAmt, bankStmt.Activity.Name, bankStmt.CounterCcyAmt, bankStmt.CounterCcy.Name,
-                    bankStmt.ForexSettleType, bankStmt.CashFlow != null ? bankStmt.CashFlow.SequentialNumber : -1,
-                    bsCff != null ? bsCff.CashFlow.SequentialNumber : -1, bankStmt.SummaryDescription,
-                    bankStmt.Counterparty.Name);
-            }
-            Debug.Print(debugOutput);
-            #endregion
-
             ForexSettleLinkViewController.ForexLinkFifo(ObjectSpace);
 
             ObjectSpace.Refresh();
             bankStmts = ObjectSpace.GetObjects<BankStmt>();
             cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
-            var fsls = ObjectSpace.GetObjects<ForexSettleLink>()
-                           .OrderBy(c => c.CashFlowIn.SequentialNumber)
-                           .ThenBy(c => c.CashFlowOut.SequentialNumber);
-
-            #region BankStmt Debug Output
-            debugOutput = "BankStmt:---\r\n"
-             + "Tran Date|Account.Currency|Activity|Tran Amount|Functional Ccy Amt|Counter Ccy Amt|CounterCCy|SettleType|CashFlowId"
-             + "|CffId|SummaryDescription";
-            foreach (BankStmt bankStmt in bankStmts.OrderBy(x => x.TranDate))
-            {
-                var bsCff = bsCffs.FirstOrDefault(x => x.BankStmt.Oid == bankStmt.Oid);
-                debugOutput += "\r\n" + string.Format("{0}|{1}|{4}|{2}|{3}|{5}|{6}|{7}|{8}|{9}|{10}|{11}",
-                    bankStmt.TranDate, bankStmt.Account.Currency.Name,
-                    bankStmt.TranAmount, bankStmt.FunctionalCcyAmt, bankStmt.Activity.Name, bankStmt.CounterCcyAmt, bankStmt.CounterCcy.Name,
-                    bankStmt.ForexSettleType, bankStmt.CashFlow != null ? bankStmt.CashFlow.SequentialNumber : -1,
-                    bsCff != null ? bsCff.CashFlow.SequentialNumber : -1, bankStmt.SummaryDescription,
-                    bankStmt.Counterparty.Name);
-            }
-            Debug.Print(debugOutput);
-            #endregion
-
-            #region Cash Flow Debug Output
-            debugOutput = "CashFlow:---\r\nCashFlowId|TranDate|AccountCcy|AccountCcyAmt|FunctionalCcyAmt|CounterCcyAmt|CounterCcy|Description"
-               + "|Status|SettleType|PrimaryForexTradesCount|CounterForexTradesCount|BankStmtCount";
-            foreach (CashFlow cf in cashFlows.OrderBy(x => x.SequentialNumber))
-            {
-                debugOutput += "\r\n" + string.Format("{5}|{0}|{9}|{1}|{2}|{3}|{4}|{6}|{11}|{10}|{7}|{8}|{12}", cf.TranDate, cf.AccountCcyAmt,
-                    cf.FunctionalCcyAmt, cf.CounterCcyAmt, cf.CounterCcy.Name, cf.SequentialNumber, cf.Description,
-                    cf.PrimaryCashFlowForexTrades.Count, cf.CounterCashFlowForexTrades.Count, cf.Account.Currency.Name,
-                    cf.ForexSettleType, cf.Status, cf.BankStmts.Count);
-            }
-            Debug.Print(debugOutput);
-            #endregion
-
-            #region ForexSettleLink Debug Output
-            debugOutput = "ForexSettleLink:---\r\n"
-                + "CashFlowIn|InAmount|CashFlowOut|OutAmount|Linked|Step|FunctionalCcyAmt";
-            foreach (var fsl in fsls)
-            {
-                debugOutput += "\r\n" + string.Format("{0}|{3}|{1}|{4}|{2}|{5}|{6}", fsl.CashFlowIn.SequentialNumber, fsl.CashFlowOut.SequentialNumber,
-                    fsl.AccountCcyAmt, fsl.CashFlowIn.AccountCcyAmt, fsl.CashFlowOut.AccountCcyAmt, fsl.Step, fsl.FunctionalCcyAmt);
-            }
-            Debug.Print(debugOutput);
-            #endregion
+            var fsls = ObjectSpace.GetObjects<ForexSettleLink>();
 
             #region Final Tests
             var aCashFlows = cashFlows.Where(x => x.Status == CashFlowStatus.Actual);
@@ -405,8 +331,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
         [Category("Coverage_2")]
         public void BankStmtToCashFlow_Upload_SumAreEqual()
         {
-            string debugOutput = "";
-
             #region Create Forex objects
             // Currencies
             var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
@@ -601,30 +525,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
             var bankStmts = ObjectSpace.GetObjects<BankStmt>();
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
-            #region BankStmt Debug Output
-            debugOutput = "BankStmt:---\r\nTran Date|Account.Currency|Activity|Tran Amount|Functional Ccy Amt|Counter Ccy Amt|CounterCCy|SettleType|CashFlowId";
-            foreach (BankStmt bankStmt in bankStmts)
-            {
-                debugOutput += "\r\n" + string.Format("{0}|{1}|{4}|{2}|{3}|{5}|{6}|{7}|{8}", bankStmt.TranDate, bankStmt.Account.Currency.Name,
-                    bankStmt.TranAmount, bankStmt.FunctionalCcyAmt, bankStmt.Activity.Name, bankStmt.CounterCcyAmt, bankStmt.CounterCcy.Name,
-                    bankStmt.ForexSettleType, bankStmt.CashFlow != null ? bankStmt.CashFlow.SequentialNumber : -1);
-            }
-            Debug.Print(debugOutput);
-            #endregion
-
-            #region Cash Flow Debug Output
-            debugOutput = "CashFlow:---\r\nCashFlowId|TranDate|AccountCcy|AccountCcyAmt|FunctionalCcyAmt|CounterCcyAmt|CounterCcy|Description"
-               + "|Status|SettleType|PrimaryForexTradesCount|CounterForexTradesCount|BankStmtCount";
-            foreach (CashFlow cf in cashFlows)
-            {
-                debugOutput += "\r\n" + string.Format("{5}|{0}|{9}|{1}|{2}|{3}|{4}|{6}|{11}|{10}|{7}|{8}|{12}", cf.TranDate, cf.AccountCcyAmt,
-                    cf.FunctionalCcyAmt, cf.CounterCcyAmt, cf.CounterCcy.Name, cf.SequentialNumber, cf.Description,
-                    cf.PrimaryCashFlowForexTrades.Count, cf.CounterCashFlowForexTrades.Count, cf.Account.Currency.Name,
-                    cf.ForexSettleType, cf.Status, cf.BankStmts.Count);
-            }
-            Debug.Print(debugOutput);
-            #endregion
-
             Assert.AreEqual(bankStmts.Sum(x => x.TranAmount), cashFlows.Sum(x => x.AccountCcyAmt));
         }
 
@@ -691,18 +591,7 @@ namespace CTMS.UnitTests.MSSqlDbTest
 
             ForexSettleLinkViewController.ForexLinkFifo(ObjectSpace, 20);
 
-            var fsls = ObjectSpace.GetObjects<ForexSettleLink>()
-                           .OrderBy(c => c.CashFlowIn.SequentialNumber)
-                           .ThenBy(c => c.CashFlowOut.SequentialNumber);
-            #region Debug Output
-            string debugOutput = "Cash Flow In|In Amount|Cash Flow Out|Out Amount|Linked|Step";
-            foreach (var fsl in fsls)
-            {
-                debugOutput += "\r\n" + string.Format("{0}|{3}|{1}|{4}|{2}|{5}", fsl.CashFlowIn.SequentialNumber, fsl.CashFlowOut.SequentialNumber,
-                    fsl.AccountCcyAmt, fsl.CashFlowIn.AccountCcyAmt, fsl.CashFlowOut.AccountCcyAmt, fsl.Step);
-            }
-            Debug.Print(debugOutput);
-            #endregion
+            var fsls = ObjectSpace.GetObjects<ForexSettleLink>();
 
             Assert.AreEqual(6, fsls.Count());
             Assert.AreEqual(150, fsls.Sum(x => x.AccountCcyAmt));
@@ -855,20 +744,8 @@ namespace CTMS.UnitTests.MSSqlDbTest
 
             ForexSettleLinkViewController.ForexLinkFifo(objSpace);
 
-            var fsls = objSpace.GetObjects<ForexSettleLink>()
-                           .OrderBy(c => c.CashFlowIn.SequentialNumber)
-                           .ThenBy(c => c.CashFlowOut.SequentialNumber);
-
-            #region ForexSettleLink Debug Output
-            string debugOutput = "Cash Flow In | In Amount | Cash Flow Out | Out Amount | Linked | Step | Functional Ccy Amt";
-            foreach (var fsl in fsls)
-            {
-                debugOutput += "\r\n" + string.Format("{0}|{3}|{1}|{4}|{2}|{5}|{6}", fsl.CashFlowIn.SequentialNumber, fsl.CashFlowOut.SequentialNumber,
-                    fsl.AccountCcyAmt, fsl.CashFlowIn.AccountCcyAmt, fsl.CashFlowOut.AccountCcyAmt, fsl.Step, fsl.FunctionalCcyAmt);
-            }
-            Debug.Print(debugOutput);
-            #endregion
-
+            var fsls = objSpace.GetObjects<ForexSettleLink>();
+     
             Assert.AreEqual(14, fsls.Count());
             Assert.AreEqual(180, fsls.Sum(x => x.AccountCcyAmt));
             Assert.AreEqual(190.25, Math.Round(fsls.Sum(x => x.FunctionalCcyAmt), 2));
