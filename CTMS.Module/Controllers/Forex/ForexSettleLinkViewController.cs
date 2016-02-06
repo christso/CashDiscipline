@@ -48,11 +48,13 @@ namespace CTMS.Module.Controllers.Forex
         public static void ForexLinkFifo(IObjectSpace objSpace, int maxSteps = 0)
         {
             var session = ((XPObjectSpace)objSpace).Session;
+            
+            // sort cash flow by date so that the earliest inflows are linked first
+            var sortProps = new SortingCollection(null);
+            sortProps.Add(new SortProperty("TranDate", DevExpress.Xpo.DB.SortingDirection.Ascending));
+
             // get unlinked forex settles for foreign currency accounts
 
-            var sortProps = new SortingCollection(null);
-            //sortProps.Add(new SortProperty("TranDate", DevExpress.Xpo.DB.SortingDirection.Ascending));
-            
             var cfOutCop = CriteriaOperator.Parse(
                 "ForexLinkIsClosed = ? And ForexSettleType = ? And CounterCcy.Oid <> ?",
                 false, CashFlowForexSettleType.Out, SetOfBooks.CachedInstance.FunctionalCurrency.Oid);

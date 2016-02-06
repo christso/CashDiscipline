@@ -533,74 +533,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
         }
 
         [Test]
-        public void CashFlow_ForexLinkFifo_AmountsAreEqual()
-        {
-            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
-
-            var account = ObjectSpace.CreateObject<Account>();
-            account.Name = "VHA ANZ USD";
-            account.Currency = ccyUSD;
-
-            var cfIn1 = ObjectSpace.CreateObject<CashFlow>();
-            cfIn1.TranDate = new DateTime(2013, 11, 16);
-            cfIn1.Account = account;
-            cfIn1.AccountCcyAmt = 100;
-            cfIn1.ForexSettleType = CashFlowForexSettleType.In;
-            cfIn1.Save();
-
-            var cfIn2 = ObjectSpace.CreateObject<CashFlow>();
-            cfIn2.TranDate = new DateTime(2013, 11, 30);
-            cfIn2.Account = account;
-            cfIn2.AccountCcyAmt = 50;
-            cfIn2.ForexSettleType = CashFlowForexSettleType.In;
-            cfIn2.Save();
-
-            var cfOut1 = ObjectSpace.CreateObject<CashFlow>();
-            cfOut1.TranDate = new DateTime(2013, 12, 17);
-            cfOut1.Account = account;
-            cfOut1.AccountCcyAmt = -90;
-            cfOut1.ForexSettleType = CashFlowForexSettleType.Out;
-            cfOut1.Save();
-
-            var cfOut2 = ObjectSpace.CreateObject<CashFlow>();
-            cfOut2.TranDate = new DateTime(2013, 12, 17);
-            cfOut2.Account = account;
-            cfOut2.AccountCcyAmt = 20;
-            cfOut2.ForexSettleType = CashFlowForexSettleType.Out;
-            cfOut2.Save();
-
-            var cfOut3 = ObjectSpace.CreateObject<CashFlow>();
-            cfOut3.TranDate = new DateTime(2013, 12, 17);
-            cfOut3.Account = account;
-            cfOut3.AccountCcyAmt = -20;
-            cfOut3.ForexSettleType = CashFlowForexSettleType.Out;
-            cfOut3.Save();
-
-            var cfOut4 = ObjectSpace.CreateObject<CashFlow>();
-            cfOut4.TranDate = new DateTime(2013, 12, 17);
-            cfOut4.Account = account;
-            cfOut4.AccountCcyAmt = -40;
-            cfOut4.ForexSettleType = CashFlowForexSettleType.Out;
-            cfOut4.Save();
-
-            var cfOut6 = ObjectSpace.CreateObject<CashFlow>();
-            cfOut6.TranDate = new DateTime(2013, 12, 17);
-            cfOut6.Account = account;
-            cfOut6.AccountCcyAmt = -30;
-            cfOut6.ForexSettleType = CashFlowForexSettleType.Out;
-            cfOut6.Save();
-
-            ObjectSpace.CommitChanges();
-
-            ForexSettleLinkViewController.ForexLinkFifo(ObjectSpace, 20);
-
-            var fsls = ObjectSpace.GetObjects<ForexSettleLink>();
-
-            Assert.AreEqual(6, fsls.Count());
-            Assert.AreEqual(150, fsls.Sum(x => x.AccountCcyAmt));
-        }
-
-        [Test]
         public void BankStmt_UploadToCashFlowAndForexSettleLinkFifo_SumAreEqual()
         {
             // Currencies
@@ -759,58 +691,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
         }
 
 
-        // check total amounts
-        [Test]
-        public void CashFlow_ForexSettleLinkAsParam_Equals()
-        {
-            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
-
-            var account = ObjectSpace.CreateObject<Account>();
-            account.Name = "VHA ANZ USD";
-            account.Currency = ccyUSD;
-
-            var cfIn1 = ObjectSpace.CreateObject<CashFlow>();
-            cfIn1.TranDate = new DateTime(2012, 06, 01);
-            cfIn1.Account = account;
-            cfIn1.AccountCcyAmt = 2000000;
-            cfIn1.Save();
-
-            var cfOut1 = ObjectSpace.CreateObject<CashFlow>();
-            cfOut1.TranDate = new DateTime(2012, 07, 01);
-            cfOut1.Account = account;
-            cfOut1.AccountCcyAmt = -1500000;
-            cfOut1.Save();
-
-            var fsl1 = ObjectSpace.CreateObject<ForexSettleLink>();
-            fsl1.CashFlowIn = cfIn1;
-            fsl1.CashFlowOut = cfOut1;
-            fsl1.AccountCcyAmt = 1000000;
-            fsl1.Save();
-
-            ObjectSpace.CommitChanges();
-
-            Assert.AreEqual(1000000, cfIn1.ForexLinkedInAccountCcyAmt);
-            Assert.AreEqual(-1000000, cfOut1.ForexLinkedOutAccountCcyAmt);
-
-            var fsl2 = ObjectSpace.CreateObject<ForexSettleLink>();
-            fsl2.CashFlowIn = cfIn1;
-            fsl2.CashFlowOut = cfOut1;
-            fsl2.AccountCcyAmt = 500000;
-            fsl2.Save();
-            ObjectSpace.CommitChanges();
-
-            var forexLinkedAmt = fsl1.AccountCcyAmt + fsl2.AccountCcyAmt;
-
-            Assert.AreEqual(forexLinkedAmt, cfIn1.ForexLinkedInAccountCcyAmt);
-            Assert.AreEqual(cfIn1.ForexLinkedInAccountCcyAmt, cfIn1.ForexLinkedAccountCcyAmt);
-            Assert.AreEqual(cfIn1.AccountCcyAmt - forexLinkedAmt, cfIn1.ForexUnlinkedAccountCcyAmt);
-            Assert.AreEqual(false, cfIn1.ForexLinkIsClosed);
-
-            Assert.AreEqual(-forexLinkedAmt, cfOut1.ForexLinkedOutAccountCcyAmt);
-            Assert.AreEqual(cfOut1.ForexLinkedOutAccountCcyAmt, cfOut1.ForexLinkedAccountCcyAmt);
-            Assert.AreEqual(cfOut1.AccountCcyAmt + forexLinkedAmt, cfOut1.ForexUnlinkedAccountCcyAmt);
-            Assert.AreEqual(true, cfOut1.ForexLinkIsClosed);
-        }
 
 
     }
