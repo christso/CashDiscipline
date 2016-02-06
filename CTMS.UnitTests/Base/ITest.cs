@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DevExpress.ExpressApp.Xpo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,11 @@ namespace CTMS.UnitTests.Base
 {
     public interface ITest
     {
-        void SetupObjects();
+        void SetUpFixture();
+        void Setup();
+        void TearDown();
+        void TearDownFixture();
+        event EventHandler<EventArgs> OnSetupObjects;
+        XPObjectSpace ObjectSpace { get; set; }
     }
 }

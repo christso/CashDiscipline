@@ -39,7 +39,7 @@ using CTMS.UnitTests.Base;
 namespace CTMS.UnitTests.InMemoryDbTest
 {
     [TestFixture]
-    public class FinAccountingTests : InMemoryDbTestBase
+    public class FinAccountingTests : TestBase
     {
 
         [Test]

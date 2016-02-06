@@ -49,10 +49,12 @@ namespace CTMS.UnitTests.Base
         private const string ApplicationName = "CTMS";
 
         private XPObjectSpaceProvider ObjectSpaceProvider;
-        protected XPObjectSpace ObjectSpace;
+        public XPObjectSpace ObjectSpace { get; set; }
         protected TestApplication Application;
 
         private readonly ModuleBase module;
+
+        public event EventHandler<EventArgs> OnSetupObjects;
 
         public MSSqlDbTestBase()
         {
@@ -79,11 +81,8 @@ namespace CTMS.UnitTests.Base
         [SetUp]
         public void Setup()
         {
-            SetupObjects();
-        }
-        public virtual void SetupObjects()
-        {
-
+            if (OnSetupObjects != null)
+                OnSetupObjects(this, EventArgs.Empty);
         }
 
         private void InitializeImageLoader()

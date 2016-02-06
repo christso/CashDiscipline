@@ -34,12 +34,18 @@ using DevExpress.Xpo.DB;
 using CTMS.Module.ControllerHelpers;
 using CTMS.Module.DatabaseUpdate;
 using CTMS.Module.ControllerHelpers.FinAccounting;
+using CTMS.UnitTests.Base;
 
 namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class FinAccountingDbTests : CTMS.UnitTests.Base.MSSqlDbTestBase
+    public class FinAccountingDbTests : TestBase
     {
+        public FinAccountingDbTests()
+        {
+            SetTesterDbType(TesterDbType.MsSql);
+        }
+
         [Test]
         public void DeleteJournals()
         {

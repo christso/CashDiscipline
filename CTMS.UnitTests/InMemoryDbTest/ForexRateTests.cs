@@ -19,10 +19,11 @@ using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
 using DevExpress.ExpressApp.Utils;
 using CTMS.Module.ParamObjects.Cash;
+using CTMS.UnitTests.Base;
 
 namespace CTMS.UnitTests.InMemoryDbTest
 {
-    public class ForexRateTests : CTMS.UnitTests.Base.InMemoryDbTestBase
+    public class ForexRateTests : TestBase
     {
         [Test]
         public void ForexRate_Create_PairCreated()

@@ -11,10 +11,11 @@ using DevExpress.Persistent.Base;
 using CTMS.Module.Controllers.Forex;
 using DevExpress.ExpressApp.Xpo;
 using System.Diagnostics;
+using CTMS.UnitTests.Base;
 
 namespace CTMS.UnitTests.InMemoryDbTest
 {
-    public class ForexTradeTests : CTMS.UnitTests.Base.InMemoryDbTestBase
+    public class ForexTradeTests : TestBase
     {
 
         /// <summary>

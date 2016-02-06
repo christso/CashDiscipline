@@ -111,6 +111,8 @@
   <ItemGroup>
     <Compile Include="Base\ITest.cs" />
     <Compile Include="Base\MSSqlDbTestBase.cs" />
+    <Compile Include="Base\TestBase.cs" />
+    <Compile Include="Base\TesterDbType.cs" />
     <Compile Include="TestObjects\MockJournalDeleter.cs" />
     <Compile Include="InMemoryDbTest\BankStmtTests.cs" />
     <Compile Include="InMemoryDbTest\CashFlowTests.cs" />

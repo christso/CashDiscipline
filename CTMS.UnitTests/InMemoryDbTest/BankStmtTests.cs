@@ -19,12 +19,18 @@ using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
 using DevExpress.ExpressApp.Utils;
 using CTMS.Module.ParamObjects.Cash;
+using CTMS.UnitTests.Base;
 
 namespace CTMS.UnitTests.InMemoryDbTest
 {
     [TestFixture]
-    public class BankStmtTests : CTMS.UnitTests.Base.InMemoryDbTestBase
+    public class BankStmtTests : TestBase
     {
+        public BankStmtTests()
+        {
+            
+        }
+
         [Test]
         public void FunctionalCcyAmtIsCalculatedIfChangeTranAmount()
         {

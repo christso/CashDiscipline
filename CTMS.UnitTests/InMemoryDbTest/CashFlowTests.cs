@@ -19,11 +19,12 @@ using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
 using DevExpress.ExpressApp.Utils;
 using CTMS.Module.ParamObjects.Cash;
+using CTMS.UnitTests.Base;
 
 namespace CTMS.UnitTests.InMemoryDbTest
 {
     [TestFixture]
-    public class CashFlowTests : CTMS.UnitTests.Base.InMemoryDbTestBase
+    public class CashFlowTests : TestBase
     {
         // CounterCcy will change to USD when Account changed to USD Account
         [Test]

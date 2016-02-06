@@ -41,9 +41,11 @@ namespace CTMS.UnitTests.Base
         private const string ApplicationName = "CTMS";
 
         private XPObjectSpaceProvider ObjectSpaceProvider;
-        protected XPObjectSpace ObjectSpace;
+        public XPObjectSpace ObjectSpace { get; set; }
         protected TestApplication Application;
         private readonly ModuleBase module;
+
+        public event EventHandler<EventArgs> OnSetupObjects;
 
         public InMemoryDbTestBase()
         {
@@ -71,7 +73,8 @@ namespace CTMS.UnitTests.Base
         [SetUp]
         public void Setup()
         {
-            SetupObjects();
+            if (OnSetupObjects != null)
+                OnSetupObjects(this, EventArgs.Empty);
         }
 
         private void InitializeImageLoader()
@@ -88,10 +91,6 @@ namespace CTMS.UnitTests.Base
             return new XPObjectSpaceProvider(new MemoryDataStoreProvider());
         }
 
-        public virtual void SetupObjects()
-        {
-        }
-
         protected virtual void AddExportedTypes(ModuleBase module)
         {
             TestUtil.AddExportedTypes(module);
@@ -101,6 +100,11 @@ namespace CTMS.UnitTests.Base
         public void TearDown()
         {
             TestUtil.DeleteExportedObjects(module, ObjectSpace.Session);
+        }
+
+        [TestFixtureTearDown]
+        public void TearDownFixture()
+        {
         }
 
         public virtual void DeleteExportedObjects(ModuleBase module, Session session)

@@ -22,8 +22,13 @@ using CTMS.UnitTests.Base;
 namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
-    public class IntegrationTests : MSSqlDbTestBase
+    public class IntegrationTests : TestBase
     {
+        public IntegrationTests()
+        {
+            SetTesterDbType(TesterDbType.MsSql);
+        }
+
         public override void SetupObjects()
         {
             CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
