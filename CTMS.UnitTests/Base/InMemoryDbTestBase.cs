@@ -34,18 +34,24 @@ using CTMS.Module.ControllerHelpers;
 using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.ParamObjects.Cash;
 
-namespace CTMS.UnitTests.InMemoryDbTest
+namespace CTMS.UnitTests.Base
 {
-    public class InMemoryDbTestBase
+    public class InMemoryDbTestBase : ITest
     {
         private const string ApplicationName = "CTMS";
 
         private XPObjectSpaceProvider ObjectSpaceProvider;
         protected XPObjectSpace ObjectSpace;
         protected TestApplication Application;
+        private readonly ModuleBase module;
 
-        [SetUp]
-        public void Setup()
+        public InMemoryDbTestBase()
+        {
+            module = new ModuleBase();
+        }
+
+        [TestFixtureSetUp]
+        public void SetUpFixture()
         {
             InitializeImageLoader();
 
@@ -54,15 +60,17 @@ namespace CTMS.UnitTests.InMemoryDbTest
             Application = new TestApplication();
 
             // add base module
-            ModuleBase module = new ModuleBase();
-            TestUtil.AddExportedTypes(module);
-            Application.Modules.Add(module);
             AddExportedTypes(module);
+            Application.Modules.Add(module);
 
             Application.Setup(ApplicationName, ObjectSpaceProvider);
             Application.CheckCompatibility();
             ObjectSpace = (XPObjectSpace)ObjectSpaceProvider.CreateObjectSpace();
+        }
 
+        [SetUp]
+        public void Setup()
+        {
             SetupObjects();
         }
 
@@ -80,19 +88,31 @@ namespace CTMS.UnitTests.InMemoryDbTest
             return new XPObjectSpaceProvider(new MemoryDataStoreProvider());
         }
 
-        protected virtual void SetupObjects()
+        public virtual void SetupObjects()
         {
         }
 
         protected virtual void AddExportedTypes(ModuleBase module)
         {
-            // module.AdditionalExportedTypes.Add(typeof(SetOfBooks));
+            TestUtil.AddExportedTypes(module);
         }
 
         [TearDown]
         public void TearDown()
         {
-            Application = null;
+            TestUtil.DeleteExportedObjects(module, ObjectSpace.Session);
         }
+
+        public virtual void DeleteExportedObjects(ModuleBase module, Session session)
+        {
+            if (module == null)
+                throw new InvalidOperationException("module cannot be null");
+
+            foreach (var type in module.AdditionalExportedTypes)
+            {
+                TestUtil.DeleteObjects(ObjectSpace.Session, type);
+            }
+        }
+
     }
 }

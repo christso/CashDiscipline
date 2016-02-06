@@ -1,27 +1,32 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
+using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.BusinessObjects;
+using DevExpress.Persistent.Validation;
+using System.Diagnostics;
 using CTMS.Module.BusinessObjects.Cash;
 using DevExpress.Data.Filtering;
-using DevExpress.ExpressApp;
-
-using CTMS.Module.DatabaseUpdate;
-using System.Diagnostics;
-using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.Controllers.Forex;
+using DevExpress.ExpressApp;
+using Xafology.ExpressApp.Xpo;
+using DevExpress.ExpressApp.Xpo;
+using DevExpress.Xpo;
+using CTMS.Module.Controllers.Cash;
+using CTMS.Module.DatabaseUpdate;
+using DevExpress.ExpressApp.Utils;
+using CTMS.Module.ParamObjects.Cash;
 
-namespace CTMS.UnitTests.MSSqlDbTest
+namespace CTMS.UnitTests.InMemoryDbTest
 {
     [TestFixture]
-    public class BankStmtDbTests : MSSqlDbTestBase
+    public class BankStmtTests : CTMS.UnitTests.Base.InMemoryDbTestBase
     {
-
         [Test]
-        public void BankStmt_TranAmountAsParam_FunctionalCcyAmtIsCalculated()
+        public void FunctionalCcyAmtIsCalculatedIfChangeTranAmount()
         {
             var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
             var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
@@ -48,7 +53,7 @@ namespace CTMS.UnitTests.MSSqlDbTest
 
         [Test]
         // CounterCcy will change when the Account is changed
-        public void BankStmt_AccountChanged_CounterCcyChanged()
+        public void CounterCcyChangedIfAccountChanged()
         {
             var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
             var account = ObjectSpace.CreateObject<Account>();
@@ -63,11 +68,11 @@ namespace CTMS.UnitTests.MSSqlDbTest
             Assert.AreEqual(ccyUSD, bs.CounterCcy);
         }
 
-        protected override void SetupObjects()
+        public override void SetupObjects()
         {
-            Updater.CreateCurrencies(ObjectSpace);
+            CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
-            Updater.InitSetOfBooks(ObjectSpace);
+            CTMS.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
         }
     }
 }

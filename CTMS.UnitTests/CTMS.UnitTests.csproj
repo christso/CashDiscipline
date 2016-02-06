@@ -109,14 +109,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\ITest.cs" />
+    <Compile Include="Base\MSSqlDbTestBase.cs" />
+    <Compile Include="TestObjects\MockJournalDeleter.cs" />
+    <Compile Include="InMemoryDbTest\BankStmtTests.cs" />
     <Compile Include="InMemoryDbTest\CashFlowTests.cs" />
+    <Compile Include="InMemoryDbTest\FinAccountingTests.cs" />
+    <Compile Include="InMemoryDbTest\ForexRateTests.cs" />
     <Compile Include="InMemoryDbTest\ForexTradeTests.cs" />
-    <Compile Include="MSSqlDbTest\BankStmtDbTests.cs" />
-    <Compile Include="MSSqlDbTest\CashFlowDbTests.cs" />
-    <Compile Include="MSSqlDbTest\ForexRateDbTests.cs" />
     <Compile Include="MSSqlDbTest\IntegrationTests.cs" />
-    <Compile Include="InMemoryDbTest\InMemoryDbTestBase.cs" />
-    <Compile Include="MSSqlDbTest\MSSqlDbTestBase.cs" />
+    <Compile Include="Base\InMemoryDbTestBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestListEditor.cs" />

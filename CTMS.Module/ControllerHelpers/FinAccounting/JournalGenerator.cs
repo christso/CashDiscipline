@@ -9,18 +9,27 @@ using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xafology.Utils.Data;
 
 namespace CTMS.Module.ControllerHelpers.FinAccounting
 {
     public class JournalGenerator
     {
+        private readonly FinGenJournalParam paramObj;
+        private List<GenLedgerFinActivityJoin> genLedgerFinActivityJoin;
+        private readonly CTMS.Module.Interfaces.IJournalDeleter deleter;
+
         public JournalGenerator(FinGenJournalParam paramObj)
         {
-            _ParamObj = paramObj;
+            this.paramObj = paramObj;
+            this.deleter = new JournalDeleter(paramObj);
         }
 
-        private FinGenJournalParam _ParamObj;
-        private List<GenLedgerFinActivityJoin> _GenLedgerFinActivityJoin;
+        public JournalGenerator(FinGenJournalParam paramObj, CTMS.Module.Interfaces.IJournalDeleter deleter)
+        {
+            this.paramObj = paramObj;
+            this.deleter = deleter;
+        }
 
         #region Journal Item
         private static GenLedger CreateActivityJournalItem(Session session, BankStmt bsi, FinActivity activityMap)
@@ -124,7 +133,7 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
             ParserDelegate TokenFAmountHandler = delegate(FunctionParseDelegateArgs e)
             {
                 // e.FunctionArgs[0] will have value like, for example, 'A'
-                var result = from j in _GenLedgerFinActivityJoin
+                var result = from j in genLedgerFinActivityJoin
                              where j.FinActivity.Token == e.FunctionArgs[0]
                              select j.GenLedger.FunctionalCcyAmt;
                 return result.Sum();
@@ -148,7 +157,7 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
             ParserDelegate TokenFAmountHandler = delegate(FunctionParseDelegateArgs e)
             {
                 // e.FunctionArgs[0] will have value like, for example, 'A'
-                var result = from j in _GenLedgerFinActivityJoin
+                var result = from j in genLedgerFinActivityJoin
                              where j.FinActivity.Token == e.FunctionArgs[0]
                              select j.GenLedger.FunctionalCcyAmt;
                 return result.Sum();
@@ -164,34 +173,18 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
             }
             return 0.00M;
         }
-        #endregion
 
-        /// <summary>
-        ///  Delete existing items in GenLedger excluding Manual Entries that matches a CashFlow or BankStmt
-        /// </summary>
-        /// <param name="session"></param>
-        /// <param name="paramObj"></param>
-        private static void DeleteAutoGenLedgerItems(Session session, FinGenJournalParam paramObj)
+
+        #endregion
+        public void DeleteAutoGenLedgerItems()
         {
-            // Delete Bank Stmts and Cash Flows
-            string sqlDelete = string.Format("DELETE FROM GenLedger WHERE GenLedger.EntryType = @EntryType"
-                                + " AND ("
-                                + "GenLedger.SrcBankStmt IN"
-                                    + " (SELECT BankStmt.Oid FROM BankStmt WHERE BankStmt.TranDate BETWEEN @FromDate AND @ToDate)"
-                                + " OR GenLedger.SrcCashFlow IN"
-                                    + " (SELECT CashFlow.Oid FROM CashFlow WHERE CashFlow.TranDate BETWEEN @FromDate AND @ToDate"
-                                    + " AND CashFlow.Snapshot = @SnapshotOid)"
-                                + ")");
-            var sqlParamNames = new string[] { "FromDate", "ToDate", "EntryType", "SnapshotOid" };
-            var sqlParamValues = new object[] { paramObj.FromDate, paramObj.ToDate,
-                                    GenLedgerEntryType.Auto, SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid};
-            session.ExecuteNonQuery(sqlDelete, sqlParamNames, sqlParamValues);
+            this.deleter.DeleteAutoGenLedgerItems();
         }
 
         private IList<BankStmt> GetBankStmts(IEnumerable<Activity> activitiesToMap,
             IEnumerable<Account> accountsToMap)
         {
-            var paramObj = _ParamObj;
+            var paramObj = this.paramObj;
             var session = paramObj.Session;
             var cop = CriteriaOperator.Parse("TranDate Between(?, ?)", paramObj.FromDate, paramObj.ToDate);
             cop = GroupOperator.And(cop, new InOperator("Activity", activitiesToMap));
@@ -205,15 +198,17 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
         private IList<CashFlow> GetCashFlows(IEnumerable<Activity> activitiesToMap,
             IEnumerable<Account> accountsToMap)
         {
-            var paramObj = _ParamObj;
+            var paramObj = this.paramObj;
             var session = paramObj.Session;
             var excludeSource = session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.BankStmtCashFlowSource.Oid);
+            var currentSnapshot = session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
+
             var cop = CriteriaOperator.Parse(
                     string.Format("{0} Between(?, ?) And {1} <> ? And {2} = ?",
                     CashFlow.FieldNames.TranDate,
                     CashFlow.FieldNames.Source,
                     CashFlow.FieldNames.Snapshot),
-                paramObj.FromDate, paramObj.ToDate, excludeSource, SetOfBooks.CachedInstance.CurrentCashFlowSnapshot);
+                paramObj.FromDate, paramObj.ToDate, excludeSource, currentSnapshot);
             cop = GroupOperator.And(cop, new InOperator("Activity", activitiesToMap));
             cop = GroupOperator.And(cop, new InOperator("Account", accountsToMap));
             return GetObjects<CashFlow>(session, cop);
@@ -221,12 +216,12 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
 
         public void Execute()
         {
-            var paramObj = _ParamObj;
+            var paramObj = this.paramObj;
             var session = paramObj.Session;
             if (paramObj == null) throw new UserFriendlyException("Param Object cannot be null.");
 
             #region Get Objects
-            _GenLedgerFinActivityJoin = new List<GenLedgerFinActivityJoin>();
+            genLedgerFinActivityJoin = new List<GenLedgerFinActivityJoin>();
 
             var jnlGroupKeysInParams = paramObj.JournalGroupParams.Select(p => p.JournalGroup.Oid);
             var jnlGroupsInParams = GetObjects<FinJournalGroup>(session,
@@ -247,7 +242,7 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
             var accountsToMap = accountMaps.Select(k => k.Account); // TODO: investigate why nothing selected
             #endregion
 
-            DeleteAutoGenLedgerItems(session, paramObj);
+            DeleteAutoGenLedgerItems();
 
             #region Bank Stmt
             // Add items to GenLedger
@@ -256,7 +251,7 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
             {
                 // use the same Account Map for each Bank Statement Item
                 var accountMap = accountMaps.FirstOrDefault(m => m.Account == bsi.Account);
-                _GenLedgerFinActivityJoin.Clear();
+                genLedgerFinActivityJoin.Clear();
                 foreach (var activityMap in activityMaps)
                 {
                     if (activityMap.FromActivity != bsi.Activity
@@ -275,7 +270,7 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
 
                     // Join GenLedger with FinActivity so you can get the sum of all previous GenLedger.FinActivity.Token
                     // we use accountGli as the FunctionCcyAmt's sign is not reversed like in actvitiyGli
-                    _GenLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedger = accountGli });
+                    genLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedger = accountGli });
                 }
             }
             #endregion
@@ -283,11 +278,12 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
             #region Cash Flows
 
             var cashFlows = GetCashFlows(activitiesToMap, accountsToMap);
+            // TODO: fix error "The 'CTMS.Module.BusinessObjects.Cash.CashFlowSnapshot' object belongs to a different session."
             foreach (CashFlow cf in cashFlows)
             {
                 // use the same Account Map for each Bank Statement Item
                 var accountMap = accountMaps.FirstOrDefault(m => m.Account == cf.Account);
-                _GenLedgerFinActivityJoin.Clear();
+                genLedgerFinActivityJoin.Clear();
                 foreach (var activityMap in activityMaps)
                 {
                     if (activityMap.FromActivity != cf.Activity
@@ -306,7 +302,7 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
 
                     // Join GenLedger with FinActivity so you can get the sum of all previous GenLedger.FinActivity.Token
                     // we use accountGli as the FunctionCcyAmt's sign is not reversed like in actvitiyGli
-                    _GenLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedger = accountGli });
+                    genLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedger = accountGli });
                 }
             }
             #endregion

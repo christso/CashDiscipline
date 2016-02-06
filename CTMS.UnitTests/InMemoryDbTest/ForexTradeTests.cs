@@ -14,7 +14,7 @@ using System.Diagnostics;
 
 namespace CTMS.UnitTests.InMemoryDbTest
 {
-    public class ForexTradeTests : InMemoryDbTestBase
+    public class ForexTradeTests : CTMS.UnitTests.Base.InMemoryDbTestBase
     {
 
         /// <summary>
@@ -338,7 +338,7 @@ namespace CTMS.UnitTests.InMemoryDbTest
         }
 
 
-        protected override void SetupObjects()
+        public override void SetupObjects()
         {
             CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);

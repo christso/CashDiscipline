@@ -175,40 +175,40 @@
       <HintPath>..\packages\Xafology.ExpressApp.1.3.0.3\lib\net45\Xafology.ExpressApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.1.3.0.1\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Layout, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Layout.1.3.0.3\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout.Win, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.Win.1.3.0.1\lib\net45\Xafology.ExpressApp.Layout.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Layout.Win, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Layout.Win.1.3.0.3\lib\net45\Xafology.ExpressApp.Layout.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.1.3.0.1\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.1.3.0.3\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.Win.1.3.0.1\lib\net45\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.Win.1.3.0.3\lib\net45\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.1.3.0.1\lib\net40\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.1.3.0.3\lib\net40\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.Win.1.3.0.1\lib\net40\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.Win.1.3.0.3\lib\net40\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Win, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Win.1.3.0.1\lib\net45\Xafology.ExpressApp.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Win, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Win.1.3.0.3\lib\net45\Xafology.ExpressApp.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Xpo, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.3\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.PivotGrid, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.PivotGrid.1.3.0.1\lib\net40\Xafology.PivotGrid.dll</HintPath>
+    <Reference Include="Xafology.PivotGrid, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.PivotGrid.1.3.0.3\lib\net40\Xafology.PivotGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

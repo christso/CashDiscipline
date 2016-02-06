@@ -38,9 +38,10 @@ using CTMS.Module.ParamObjects.Cash;
 
 using Xafology.Utils.Data;
 
-namespace CTMS.UnitTests.MSSqlDbTest
+namespace CTMS.UnitTests.Base
 {
-    public class MSSqlDbTestBase
+    [TestFixture]
+    public class MSSqlDbTestBase : ITest
     {
         private const string DataPath = @"D:\CTSO\Data\MSSQL12\Data";
         private const string ServerName = @"(localdb)\ProjectsV12";
@@ -51,8 +52,15 @@ namespace CTMS.UnitTests.MSSqlDbTest
         protected XPObjectSpace ObjectSpace;
         protected TestApplication Application;
 
-        [SetUp]
-        public void Setup()
+        private readonly ModuleBase module;
+
+        public MSSqlDbTestBase()
+        {
+            module = new ModuleBase();
+        }
+
+        [TestFixtureSetUp]
+        public void SetUpFixture()
         {
             InitializeImageLoader();
 
@@ -60,16 +68,22 @@ namespace CTMS.UnitTests.MSSqlDbTest
 
             Application = new TestApplication();
 
-            // add base module
-            ModuleBase module = new ModuleBase();
-            TestUtil.AddExportedTypes(module);
+            AddExportedTypes(module);
             Application.Modules.Add(module);
 
             Application.Setup(ApplicationName, ObjectSpaceProvider);
             Application.CheckCompatibility();
             ObjectSpace = (XPObjectSpace)ObjectSpaceProvider.CreateObjectSpace();
+        }
 
+        [SetUp]
+        public void Setup()
+        {
             SetupObjects();
+        }
+        public virtual void SetupObjects()
+        {
+
         }
 
         private void InitializeImageLoader()
@@ -89,15 +103,21 @@ namespace CTMS.UnitTests.MSSqlDbTest
             return new XPObjectSpaceProvider(connectionString, null);
         }
 
-        protected virtual void SetupObjects()
-        {
-        }
-
         [TearDown]
         public void TearDown()
         {
-            Application = null;
+            TestUtil.DeleteExportedObjects(module, ObjectSpace.Session);
+        }
+
+        [TestFixtureTearDown]
+        public void TearDownFixture()
+        {
             MSSqlClientHelper.DropDatabase(ServerName, DatabaseName);
+        }
+
+        public virtual void AddExportedTypes(ModuleBase module)
+        {
+            TestUtil.AddExportedTypes(module);
         }
     }
 }

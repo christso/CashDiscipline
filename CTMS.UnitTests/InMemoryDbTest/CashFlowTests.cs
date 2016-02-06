@@ -23,7 +23,7 @@ using CTMS.Module.ParamObjects.Cash;
 namespace CTMS.UnitTests.InMemoryDbTest
 {
     [TestFixture]
-    public class CashFlowTests : InMemoryDbTestBase
+    public class CashFlowTests : CTMS.UnitTests.Base.InMemoryDbTestBase
     {
         // CounterCcy will change to USD when Account changed to USD Account
         [Test]
@@ -191,7 +191,144 @@ namespace CTMS.UnitTests.InMemoryDbTest
             Assert.AreEqual(new DateTime(2015, 12, 04), maxActualDate);
         }
 
-        protected override void SetupObjects()
+        [Test]
+        public void SaveSnapshot()
+        {
+            #region Arrange
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ AUD";
+            account.Currency = ccyAUD;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "AR Rcpt";
+            #endregion
+
+            #region Actions
+            var tranDate = new DateTime(2014, 03, 31);
+            decimal amount = 1000;
+            int loops = 2;
+
+            for (int i = 0; i < loops; i++)
+            {
+                var cf1 = ObjectSpace.CreateObject<CashFlow>();
+                cf1.TranDate = tranDate;
+                cf1.Account = account;
+                cf1.Activity = activity;
+                cf1.AccountCcyAmt = amount;
+            }
+
+            ObjectSpace.CommitChanges();
+
+            var snapshot = CashFlow.SaveSnapshot(ObjectSpace.Session, tranDate);
+            ObjectSpace.CommitChanges();
+            #endregion
+
+            #region Asserts
+            var sCfs = snapshot.CashFlows;
+            Assert.AreEqual(amount * loops, sCfs.Sum(x => x.AccountCcyAmt));
+            #endregion
+        }
+
+        [Test]
+        public void CalculateAccountSummary()
+        {
+            #region Arrange
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ AUD";
+            account.Currency = ccyAUD;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "AR Rcpt";
+            #endregion
+
+            #region Transactions
+            var prevSnapshot = ObjectSpace.CreateObject<CashFlowSnapshot>();
+            prevSnapshot.Name = "Forecast";
+
+            var actualDate = new DateTime(2014, 03, 20);
+
+            #region Current Snapshot
+            var cf5 = ObjectSpace.CreateObject<CashFlow>();
+            cf5.TranDate = actualDate;
+            cf5.Account = account;
+            cf5.Activity = activity;
+            cf5.AccountCcyAmt = 200;
+            cf5.Status = CashFlowStatus.Actual;
+
+            var cf6 = ObjectSpace.CreateObject<CashFlow>();
+            cf6.TranDate = actualDate.AddDays(1);
+            cf6.Account = account;
+            cf6.Activity = activity;
+            cf6.AccountCcyAmt = 300;
+            cf6.Status = CashFlowStatus.Actual;
+
+            var cf1 = ObjectSpace.CreateObject<CashFlow>();
+            cf1.TranDate = new DateTime(2014, 03, 31);
+            cf1.Account = account;
+            cf1.Activity = activity;
+            cf1.AccountCcyAmt = 1000;
+
+            var cf2 = ObjectSpace.CreateObject<CashFlow>();
+            cf2.TranDate = new DateTime(2014, 04, 10);
+            cf2.Account = account;
+            cf2.Activity = activity;
+            cf2.AccountCcyAmt = 1000;
+            #endregion
+
+            #region Forecast Snapshot
+            var cf3 = ObjectSpace.CreateObject<CashFlow>();
+            cf3.TranDate = new DateTime(2014, 03, 25);
+            cf3.Account = account;
+            cf3.Activity = activity;
+            cf3.AccountCcyAmt = 1000;
+            cf3.Snapshot = prevSnapshot;
+
+            var cf4 = ObjectSpace.CreateObject<CashFlow>();
+            cf4.TranDate = new DateTime(2014, 04, 12);
+            cf4.Account = account;
+            cf4.Activity = activity;
+            cf4.AccountCcyAmt = 1000;
+            cf4.Snapshot = prevSnapshot;
+            #endregion
+
+            ObjectSpace.CommitChanges();
+            #endregion
+
+            #region Report Parameter
+            var currSnapshot = ObjectSpace.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
+            var reportParam = CashReportParam.GetInstance(ObjectSpace);
+            reportParam.Snapshot1 = currSnapshot;
+            reportParam.Snapshot1 = prevSnapshot;
+            reportParam.FromDate = new DateTime(2014, 3, 1);
+            reportParam.ToDate = new DateTime(2014, 6, 30);
+
+            var snapshots = new List<CashFlowSnapshot>() { currSnapshot, prevSnapshot };
+            #endregion
+
+            #region Asserts
+            AccountSummary.CalculateCashFlow(ObjectSpace, reportParam.FromDate.Date, reportParam.ToDate, snapshots);
+            var startDate = AccountSummary.GetUniqueBalanceDate(ObjectSpace.Session, reportParam.FromDate);
+            AccountSummary.CalculateBalance(ObjectSpace, startDate, snapshots);
+
+            // start date is new DateTime(2014, 03, 20) if report FromDate is before
+            var ass = ObjectSpace.GetObjects<AccountSummary>();
+            // assert that cash balance in current snapshot exists in Account Summary
+            Assert.AreEqual(1, ass.Where(x => x.LineType == AccountSummaryLineType.Balance && x.Snapshot == currSnapshot
+                && x.AccountCcyAmt == cf5.AccountCcyAmt && x.TranDate == actualDate).Count());
+            // Assert that actual cash balance in current snapshot is included in previous snapshot
+            Assert.AreEqual(1, ass.Where(x => x.LineType == AccountSummaryLineType.Balance && x.Snapshot == prevSnapshot
+                            && x.AccountCcyAmt == cf5.AccountCcyAmt && x.TranDate == actualDate).Count());
+            // Assert that actual cash flow in current snapshot is included in previous snapshot
+            Assert.AreEqual(1, ass.Where(x => x.LineType == AccountSummaryLineType.Flow && x.Snapshot == prevSnapshot
+                            && x.AccountCcyAmt == cf6.AccountCcyAmt && x.TranDate == actualDate.AddDays(1)).Count());
+            #endregion
+        }
+
+        public override void SetupObjects()
         {
             CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);

@@ -17,15 +17,14 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
 using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
+using DevExpress.ExpressApp.Utils;
+using CTMS.Module.ParamObjects.Cash;
 
-
-namespace CTMS.UnitTests.MSSqlDbTest
+namespace CTMS.UnitTests.InMemoryDbTest
 {
-    [TestFixture]
-    public class ForexRateDbTests : MSSqlDbTestBase
+    public class ForexRateTests : CTMS.UnitTests.Base.InMemoryDbTestBase
     {
         [Test]
-        [Category("Coverage_1")]
         public void ForexRate_Create_PairCreated()
         {
             // Currencies
@@ -44,6 +43,5 @@ namespace CTMS.UnitTests.MSSqlDbTest
             var rates = ObjectSpace.GetObjects<ForexRate>();
             Assert.AreEqual(2, rates.Count);
         }
-
     }
 }

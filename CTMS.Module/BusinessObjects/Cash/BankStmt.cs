@@ -318,8 +318,7 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
-            var rateOp = GetRateCriteriaOperator(fromCcy, toCcy, convDate);
-            return session.FindObject<ForexRate>(rateOp);
+            return ForexRate.GetForexRateObject(session, fromCcy, toCcy, convDate);
         }
 
         public static void UpdateFunctionalCcyAmt(BankStmt obj, decimal fromAmt, Currency fromCcy)

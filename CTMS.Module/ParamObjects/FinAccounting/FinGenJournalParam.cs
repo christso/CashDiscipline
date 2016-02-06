@@ -15,11 +15,9 @@ using DevExpress.ExpressApp.Xpo;
 
 namespace CTMS.Module.ParamObjects.FinAccounting
 {
-    //[ImageName("BO_Contact")]
     [DefaultProperty("Oid")]
-    //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
-    //[Persistent("DatabaseTableName")]
-    // Specify more UI options using a declarative approach (http://documentation.devexpress.com/#Xaf/CustomDocument2701).
+    [RuleCriteria("FinGenJournalParam_CannotDeleteSingleton", DefaultContexts.Delete, "False",
+    CustomMessageTemplate = "Cannot delete Singleton.")]
     public class FinGenJournalParam : BaseObject
     {
         public FinGenJournalParam(Session session)
@@ -76,11 +74,6 @@ namespace CTMS.Module.ParamObjects.FinAccounting
             {
                 return GetCollection<FinJournalGroupParam>("JournalGroupParams");
             }
-        }
-
-        protected override void OnDeleting()
-        {
-            throw new UserFriendlyException("This object cannot be deleted.");
         }
     }
 }

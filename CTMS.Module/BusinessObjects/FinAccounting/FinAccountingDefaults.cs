@@ -17,6 +17,8 @@ using DevExpress.ExpressApp.Xpo;
 
 namespace CTMS.Module.BusinessObjects.FinAccounting
 {
+    [RuleCriteria("FinAccountingDefaults_CannotDeleteSingleton", DefaultContexts.Delete, "False",
+    CustomMessageTemplate = "Cannot delete Singleton.")]
     public class FinAccountingDefaults : BaseObject
     {
         public FinAccountingDefaults(Session session) : base(session) { }
@@ -102,10 +104,5 @@ namespace CTMS.Module.BusinessObjects.FinAccounting
             return result;
 
         }
-        protected override void OnDeleting()
-        {
-            throw new UserFriendlyException("This object cannot be deleted.");
-        }
-
     }
 }

@@ -162,20 +162,20 @@
       <HintPath>..\packages\Xafology.ExpressApp.1.3.0.3\lib\net45\Xafology.ExpressApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.1.3.0.1\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Layout, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Layout.1.3.0.3\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.MsoExcel, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.MsoExcel.1.3.0.1\lib\net45\Xafology.ExpressApp.MsoExcel.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.MsoExcel, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.MsoExcel.1.3.0.3\lib\net45\Xafology.ExpressApp.MsoExcel.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.1.3.0.1\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.1.3.0.3\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.1.3.0.1\lib\net40\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.1.3.0.3\lib\net40\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Xpo, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
@@ -190,8 +190,8 @@
       <HintPath>..\packages\Xafology.Spreadsheet.1.3.0.3\lib\net45\Xafology.Spreadsheet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.StringEvaluators, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.StringEvaluators.1.3.0.1\lib\net45\Xafology.StringEvaluators.dll</HintPath>
+    <Reference Include="Xafology.StringEvaluators, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.StringEvaluators.1.3.0.3\lib\net45\Xafology.StringEvaluators.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.Utils, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
@@ -220,6 +220,8 @@
     <Compile Include="BusinessObjects\Forex\ForexTrade.cs" />
     <Compile Include="BusinessObjects\Forex\ForexTradePredelivery.cs" />
     <Compile Include="BusinessObjects\ICalculateToggleObject.cs" />
+    <Compile Include="Interfaces\IJournalDeleter.cs" />
+    <Compile Include="ControllerHelpers\FinAccounting\JournalDeleter.cs" />
     <Compile Include="Controllers\Forex\ForexTradeBatchUploaderImpl.cs" />
     <Compile Include="Interfaces\ICashFlow.cs" />
     <Compile Include="BusinessObjects\IImportObject.cs" />
@@ -407,6 +409,10 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="UnusableNodes1.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UnusableNodes.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>

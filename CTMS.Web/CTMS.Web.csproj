@@ -202,24 +202,24 @@
       <HintPath>..\packages\Xafology.ExpressApp.1.3.0.3\lib\net45\Xafology.ExpressApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.1.3.0.1\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Layout, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Layout.1.3.0.3\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Layout.Web, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xafology.ExpressApp.Layout.Web.1.3.0.1\lib\net45\Xafology.ExpressApp.Layout.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.MsoExcel, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.MsoExcel.1.3.0.1\lib\net45\Xafology.ExpressApp.MsoExcel.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.MsoExcel, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.MsoExcel.1.3.0.3\lib\net45\Xafology.ExpressApp.MsoExcel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGrid.Web, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.Web.1.3.0.1\lib\net45\Xafology.ExpressApp.PivotGrid.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.1.3.0.1\lib\net40\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.1.3.0.3\lib\net40\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGridLayout.Web, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
@@ -234,8 +234,8 @@
       <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.3\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.PivotGrid, Version=1.3.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.PivotGrid.1.3.0.1\lib\net40\Xafology.PivotGrid.dll</HintPath>
+    <Reference Include="Xafology.PivotGrid, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.PivotGrid.1.3.0.3\lib\net40\Xafology.PivotGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

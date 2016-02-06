@@ -17,20 +17,20 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
 using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
+using CTMS.UnitTests.Base;
 
 namespace CTMS.UnitTests.MSSqlDbTest
 {
     [TestFixture]
     public class IntegrationTests : MSSqlDbTestBase
     {
-        protected override void SetupObjects()
+        public override void SetupObjects()
         {
             CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             CTMS.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
         }
 
         [Test]
-        [Category("Coverage_3")]
         public void ForexTradeToCashFlowToBankStmt_Integrated_SumAreEqual()
         {
             #region Create Forex objects
@@ -328,7 +328,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
         }
 
         [Test]
-        [Category("Coverage_2")]
         public void BankStmtToCashFlow_Upload_SumAreEqual()
         {
             #region Create Forex objects
@@ -529,7 +528,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
         }
 
         [Test]
-        [Category("Coverage_2")]
         public void CashFlow_ForexLinkFifo_AmountsAreEqual()
         {
             var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
@@ -598,7 +596,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
         }
 
         [Test]
-        [Category("Coverage_2")]
         public void BankStmt_UploadToCashFlowAndForexSettleLinkFifo_SumAreEqual()
         {
             // Currencies
@@ -759,7 +756,6 @@ namespace CTMS.UnitTests.MSSqlDbTest
 
         // check total amounts
         [Test]
-        [Category("Coverage_2")]
         public void CashFlow_ForexSettleLinkAsParam_Equals()
         {
             var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
@@ -810,5 +806,7 @@ namespace CTMS.UnitTests.MSSqlDbTest
             Assert.AreEqual(cfOut1.AccountCcyAmt + forexLinkedAmt, cfOut1.ForexUnlinkedAccountCcyAmt);
             Assert.AreEqual(true, cfOut1.ForexLinkIsClosed);
         }
+
+
     }
 }
