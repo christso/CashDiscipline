@@ -26,6 +26,23 @@ namespace CTMS.UnitTests.InMemoryDbTest
     [TestFixture]
     public class CashFlowTests : TestBase
     {
+        [Test]
+        public void CashFlow_ForexLinkFifo_AmountsAreEqual()
+        {
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ USD";
+            account.Currency = ccyUSD;
+
+            var cfIn1 = ObjectSpace.CreateObject<CashFlow>();
+            cfIn1.TranDate = new DateTime(2013, 11, 16);
+            cfIn1.Account = account;
+            cfIn1.AccountCcyAmt = 100;
+            cfIn1.ForexSettleType = CashFlowForexSettleType.In;
+            cfIn1.Save();
+        }
+
         // CounterCcy will change to USD when Account changed to USD Account
         [Test]
         public void CashFlow_AccountIsUSD_CounterCcyIsUSD()

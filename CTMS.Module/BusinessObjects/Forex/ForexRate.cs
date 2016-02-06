@@ -127,6 +127,9 @@ namespace CTMS.Module.BusinessObjects.Forex
                 && r.ConversionDate <= convDate
                 ).Max(x => x.ConversionDate);
 
+            if (maxDate == default(DateTime))
+                return null;
+
             var rateObj = ratesQuery.Where(r => r.ConversionDate == maxDate
                 && r.FromCurrency == fromCcy
                 && r.ToCurrency == toCcy).FirstOrDefault();
