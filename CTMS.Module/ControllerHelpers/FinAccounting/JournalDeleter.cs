@@ -26,19 +26,17 @@ namespace CTMS.Module.ControllerHelpers.FinAccounting
 
         private static void DeleteAutoGenLedgerItems(Session session, FinGenJournalParam paramObj)
         {
-            // Delete Bank Stmts and Cash Flows
-            string sqlDelete = string.Format("DELETE FROM GenLedger WHERE GenLedger.EntryType = @EntryType"
-                                + " AND ("
-                                + "GenLedger.SrcBankStmt IN"
-                                    + " (SELECT BankStmt.Oid FROM BankStmt WHERE BankStmt.TranDate BETWEEN @FromDate AND @ToDate)"
-                                + " OR GenLedger.SrcCashFlow IN"
-                                    + " (SELECT CashFlow.Oid FROM CashFlow WHERE CashFlow.TranDate BETWEEN @FromDate AND @ToDate"
-                                    + " AND CashFlow.Snapshot = @SnapshotOid)"
-                                + ")");
-            var sqlParamNames = new string[] { "FromDate", "ToDate", "EntryType", "SnapshotOid" };
-            var sqlParamValues = new object[] { paramObj.FromDate, paramObj.ToDate,
-                                    GenLedgerEntryType.Auto, SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid};
-            session.ExecuteNonQuery(sqlDelete, sqlParamNames, sqlParamValues);
+            var query = (new XPQuery<GenLedger>(session))
+                .Where(x => x.EntryType == GenLedgerEntryType.Auto
+                    && x.SrcBankStmt.TranDate >= paramObj.FromDate
+                    && x.SrcBankStmt.TranDate <= paramObj.ToDate
+                    || x.SrcCashFlow.TranDate >= paramObj.FromDate
+                    && x.SrcCashFlow.TranDate <= paramObj.ToDate
+                    && x.SrcCashFlow.Snapshot.Oid == SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
+            foreach (var gls in query)
+            {
+                gls.Delete();
+            }
         }
     }
 }
