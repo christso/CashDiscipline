@@ -67,15 +67,16 @@ namespace CTMS.Module.Controllers.Forex
                 })
                 .Select(grouped =>
                 {
-                    var cf = new CashFlow(((XPObjectSpace)objectSpace).Session)
+                    var cf = new CashFlow(((XPObjectSpace)objectSpace).Session,
+                        false)
                     {
                         TranDate = grouped.Key.PrimarySettleDate,
                         CounterCcy = grouped.Key.CounterCcy,
                         Account = grouped.Key.PrimarySettleAccount,
                         Counterparty = grouped.Key.CashFlowCounterparty,
-                        CounterCcyAmt = -grouped.Sum(s => s.CounterCcyAmt),
                         AccountCcyAmt = -grouped.Sum(s => s.PrimaryCcyAmt),
-                        FunctionalCcyAmt = -grouped.Sum(s => s.PrimaryCcyAmt)
+                        FunctionalCcyAmt = -grouped.Sum(s => s.PrimaryCcyAmt),
+                        CounterCcyAmt = -grouped.Sum(s => s.CounterCcyAmt)
                     };
                     cf.PrimaryCashFlowForexTrades.AddRange(grouped.AsEnumerable<ForexTrade>());
                     return cf;
@@ -102,7 +103,8 @@ namespace CTMS.Module.Controllers.Forex
                 })
                 .Select(grouped =>
                 {
-                    var cf = new CashFlow(((XPObjectSpace)objectSpace).Session)
+                    var cf = new CashFlow(((XPObjectSpace)objectSpace).Session,
+                        false)
                     {
                         TranDate = grouped.Key.CounterSettleDate,
                         CounterCcy = grouped.Key.CounterCcy,

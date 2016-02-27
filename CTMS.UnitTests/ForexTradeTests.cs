@@ -376,8 +376,6 @@ namespace CTMS.UnitTests
             couAccount.Name = "VHA ANZ USD";
             couAccount.Currency = ccyUSD;
 
-            var forexActivity = ObjectSpace.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
-
             var outActivity = ObjectSpace.CreateObject<Activity>();
             outActivity.Name = "AP Pymt";
 
@@ -403,6 +401,7 @@ namespace CTMS.UnitTests
             ft1.CounterCcy = ccyUSD;
             ft1.Rate = 0.95M;
             ft1.CounterCcyAmt = 100;
+            ft1.SettleGroupId = 1;
 
             var ft2 = ObjectSpace.CreateObject<ForexTrade>();
             ft2.ValueDate = new DateTime(2013, 11, 30);
@@ -413,6 +412,7 @@ namespace CTMS.UnitTests
             ft2.CounterCcy = ccyUSD;
             ft2.Rate = 0.99M;
             ft2.CounterCcyAmt = 50;
+            ft2.SettleGroupId = 2;
 
             var ft3 = ObjectSpace.CreateObject<ForexTrade>();
             ft3.ValueDate = new DateTime(2013, 11, 30);
@@ -423,6 +423,7 @@ namespace CTMS.UnitTests
             ft3.CounterCcy = ccyUSD;
             ft3.Rate = 0.87M;
             ft3.CounterCcyAmt = 30;
+            ft3.SettleGroupId = 3;
 
             ObjectSpace.CommitChanges();
             #endregion
@@ -438,14 +439,14 @@ namespace CTMS.UnitTests
 
             var fts = ObjectSpace.GetObjects<ForexTrade>();
 
-
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
+            Assert.AreEqual(6, cashFlows.Count);
             Assert.AreEqual(0, Math.Round(cashFlows.Sum(x => x.FunctionalCcyAmt), 2));
 
-            var cfAUD = cashFlows.Where(c => c.CounterCcy.Name == "AUD");
+            var cfAUD = cashFlows.Where(c => c.Account.Name == priAccount.Name);
             Assert.AreEqual(fts.Sum(f => f.PrimaryCcyAmt), -cfAUD.Sum(c => c.FunctionalCcyAmt));
 
-            var cfUSD = cashFlows.Where(c => c.CounterCcy.Name == "USD");
+            var cfUSD = cashFlows.Where(c => c.Account.Name == couAccount.Name);
             Assert.AreEqual(fts.Sum(f => f.CounterCcyAmt), cfUSD.Sum(c => c.CounterCcyAmt));
             #endregion
         }

@@ -23,7 +23,7 @@ namespace CTMS.Module.BusinessObjects.Cash
     [ModelDefault("IsCloneable", "True")]
     [ModelDefault("IsFooterVisible", "True")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
-    [DefaultProperty("CashFlowId")]
+    [DefaultProperty("ShortUID")]
     public class CashFlow : BaseObject, ICalculateToggleObject, CTMS.Module.Interfaces.ICashFlow
     {
 
@@ -33,66 +33,15 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
 
         public CashFlow(Session session)
+            : this(session, true)
+        {
+
+        }
+
+        public CashFlow(Session session, bool calculateEnabled)
             : base(session)
         {
-
-        }
-
-
-        public override void AfterConstruction()
-        {
-            base.AfterConstruction();
-            _CalculateEnabled = true;
-            if (AppSettings.UserTriggersEnabled)
-                InitDefaultValues();
-        }
-        public void InitDefaultValues()
-        {
-            Snapshot = GetCurrentSnapshot(Session);
-
-            TranDate = DateTime.Now.Date;
-
-            CounterCcy = Session.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
-
-            var defObj = Session.FindObject<CashFlowDefaults>(null);
-            if (defObj == null) return;
-
-            Counterparty = defObj.Counterparty;
-            Account = defObj.Account;
-            Activity = defObj.Activity;
-        }
-
-        private static CashFlowSnapshot GetCurrentSnapshot(Session session)
-        {
-            return session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
-        }
-
-        protected override void OnSaving()
-        {
-            base.OnSaving();
-
-            if (IsFixUpdated)
-                IsFixUpdated = false;
-        }
-
-        protected override void OnSaved()
-        {
-            base.OnSaved();
-        }
-
-        protected override void OnDeleting()
-        {
-            while (Fixees.Count != 0)
-                Fixees[0].Fixer = null;
-
-            ParentCashFlow = null;
-
-            while (ChildCashFlows.Count != 0)
-            {
-                ChildCashFlows[0].Delete();
-            }
-
-            base.OnDeleting();
+            this.calculateEnabled = calculateEnabled;
         }
 
         // Fields...
@@ -124,20 +73,30 @@ namespace CTMS.Module.BusinessObjects.Cash
         private bool? _ForexLinkIsClosed;
         private CashFlow origCashFlow;
         private long _ForexSettleGroupId;
-        private bool _CalculateEnabled;
+        private bool calculateEnabled;
+        private DateTime timeEntered;
 
         // Whether Real Time calculation is enabled. If not, then calculation will occur on saving.
         [MemberDesignTimeVisibility(false), Browsable(false), NonPersistent]
         public bool CalculateEnabled
         {
-            get { return _CalculateEnabled; }
+            get { return calculateEnabled; }
             set
             {
-                _CalculateEnabled = value;
+                calculateEnabled = value;
             }
         }
 
         #region Main Properties
+
+        [NonPersistent]
+        public string ShortUID
+        {
+            get
+            {
+                return Convert.ToString(Oid).Substring(0, 6);
+            }
+        }
 
         public CashFlow OrigCashFlow
         {
@@ -203,14 +162,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
             set
             {
-                if (SetPropertyValue("Account", ref _Account, value))
-                {
-                    if (!IsLoading && !IsSaving && value != null)
-                    {
-                        SetPropertyValue("CounterCcy", ref _CounterCcy, value.Currency);
-                    }
-                }
-
+                SetPropertyValue("Account", ref _Account, value);
             }
         }
 
@@ -387,6 +339,18 @@ namespace CTMS.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("Status", ref _Status, value);
+            }
+        }
+
+        public DateTime TimeEntered
+        {
+            get
+            {
+                return timeEntered;
+            }
+            set
+            {
+                SetPropertyValue("TimeEntered", ref timeEntered, value);
             }
         }
 
@@ -942,6 +906,63 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         #endregion
 
+
+        #region Class Methods
+
+        public override void AfterConstruction()
+        {
+            base.AfterConstruction();
+            calculateEnabled = true;
+            if (AppSettings.UserTriggersEnabled)
+                InitDefaultValues();
+        }
+
+        public void InitDefaultValues()
+        {
+            Snapshot = GetCurrentSnapshot(Session);
+
+            TranDate = DateTime.Now.Date;
+
+            CounterCcy = Session.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
+
+            var defObj = Session.FindObject<CashFlowDefaults>(null);
+            if (defObj == null) return;
+
+            Counterparty = defObj.Counterparty;
+            Account = defObj.Account;
+            Activity = defObj.Activity;
+        }
+
+        protected override void OnSaving()
+        {
+            TimeEntered = DateTime.Now;
+
+            base.OnSaving();
+
+            if (IsFixUpdated)
+                IsFixUpdated = false;
+        }
+
+        protected override void OnSaved()
+        {
+            base.OnSaved();
+        }
+
+        protected override void OnDeleting()
+        {
+            while (Fixees.Count != 0)
+                Fixees[0].Fixer = null;
+
+            ParentCashFlow = null;
+
+            while (ChildCashFlows.Count != 0)
+            {
+                ChildCashFlows[0].Delete();
+            }
+
+            base.OnDeleting();
+        }
+
         protected override void OnLoaded()
         {
             Reset();
@@ -957,6 +978,10 @@ namespace CTMS.Module.BusinessObjects.Cash
             ForexSettleLinksOut.Reload();
         }
 
+        #endregion
+
+        #region Helpers
+
         public static DateTime GetMaxActualTranDate(Session session)
         {
             DateTime? res = (DateTime?)session.Evaluate<CashFlow>(CriteriaOperator.Parse("Max(TranDate)"),
@@ -965,6 +990,8 @@ namespace CTMS.Module.BusinessObjects.Cash
                 return default(DateTime);
             return (DateTime)res;
         }
+
+        #endregion
 
         #region Fix Cash Flow Algorithm
 
@@ -1199,6 +1226,12 @@ namespace CTMS.Module.BusinessObjects.Cash
         #endregion
 
         #region Snapshot
+
+        private static CashFlowSnapshot GetCurrentSnapshot(Session session)
+        {
+            return session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
+        }
+
         public static CashFlowSnapshot SaveSnapshot(Session session, DateTime fromTranDate)
         {
             var snapshot = new CashFlowSnapshot(session);

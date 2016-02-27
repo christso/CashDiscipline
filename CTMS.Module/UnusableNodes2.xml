@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DashboardView Id="BankStmtPivotGridView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutItem Id="PivotGridViewItem" ViewItem="PivotGridViewItem" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+    <DashboardView Id="AnalysisServicesTutorialPivotGridView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutItem Id="AnalysisServicesTutorialPivotGridViewItem" ViewItem="AnalysisServicesTutorialPivotGridViewItem" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+    <DetailView Id="BankStmt_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="BankStmt">
+            <LayoutGroup Id="SimpleEditors">
+              <LayoutGroup Id="BankStmt_col2">
+                <LayoutItem Id="ArtfReconTotal" ViewItem="ArtfReconTotal" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+  <NavigationItems Id="NavigationItems">
+    <Items Id="Items">
+      <Item Id="CashManagement">
+        <Items Id="Items">
+          <Item Id="Setup">
+            <Items Id="Items">
+              <Item Id="CashForecastFixTagType" ViewId="CashForecastFixTagType_ListView" />
+            </Items>
+          </Item>
+        </Items>
+      </Item>
+      <Item Id="Banking">
+        <Items Id="Items">
+          <Item Id="PaymentBatch" ViewId="PaymentBatch_ListView" />
+          <Item Id="CreditAccount" ViewId="CreditAccount_ListView" />
+        </Items>
+      </Item>
+      <Item Id="Default">
+        <Items Id="Items">
+          <Item Id="ActionRequest" ViewId="ActionRequest_ListView" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+</Application>

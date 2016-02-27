@@ -16,7 +16,7 @@ namespace CTMS.UnitTests
             var tests = new CTMS.UnitTests.IntegrationTests();
             tests.SetUpFixture();
             tests.Setup();
-            tests.ForexTradeToCashFlowToBankStmt_Integrated_SumAreEqual();
+            tests.ForexLinkFifo();
             tests.TearDown();
             tests.TearDownFixture();
             Console.WriteLine("Test Passed");

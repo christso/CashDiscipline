@@ -50,12 +50,12 @@ namespace CTMS.Module.BusinessObjects.Forex
             {
                 var oldCashFlow = _CashFlowIn;
                 SetPropertyValue("CashFlowIn", ref _CashFlowIn, value);
-                if (!IsLoading && !IsSaving && oldCashFlow != _CashFlowIn)
-                {
-                    oldCashFlow = oldCashFlow ?? _CashFlowIn;
-                    oldCashFlow.UpdateForexLinkedInAmt(true);
-                    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
-                }
+                //if (!IsLoading && !IsSaving && oldCashFlow != _CashFlowIn)
+                //{
+                //    oldCashFlow = oldCashFlow ?? _CashFlowIn;
+                //    oldCashFlow.UpdateForexLinkedInAmt(true);
+                //    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
+                //}
             }
         }
         [Association("CashFlowOut-ForexSettleLinks")]
@@ -69,15 +69,17 @@ namespace CTMS.Module.BusinessObjects.Forex
             {
                 var oldCashFlow = _CashFlowOut;
                 SetPropertyValue("CashFlowOut", ref _CashFlowOut, value);
-                if (!IsLoading && !IsSaving && oldCashFlow != _CashFlowOut)
-                {
-                    oldCashFlow = oldCashFlow ?? _CashFlowOut;
-                    oldCashFlow.UpdateForexLinkedOutAmt(true);
-                    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
-                }
+                //if (!IsLoading && !IsSaving && oldCashFlow != _CashFlowOut)
+                //{
+                //    oldCashFlow = oldCashFlow ?? _CashFlowOut;
+                //    oldCashFlow.UpdateForexLinkedOutAmt(true);
+                //    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
+                //}
             }
         }
 
+        [ModelDefault("EditMask", "n2")]
+        [ModelDefault("DisplayFormat", "n2")]
         public decimal AccountCcyAmt
         {
             get
@@ -88,23 +90,24 @@ namespace CTMS.Module.BusinessObjects.Forex
             {
                 if (SetPropertyValue("AccountCcyAmt", ref _AccountCcyAmt, value))
                 {
-                    if (!IsLoading && !IsSaving)
-                    {
-                        if (_CashFlowOut != null)
-                        {
-                            _CashFlowOut.UpdateForexLinkedOutAmt(true);
-                            _CashFlowOut.UpdateForexFunctionalCcyAmt(true);
-                        }
-                        if (_CashFlowIn != null)
-                        {
-                            _CashFlowIn.UpdateForexLinkedInAmt(true);
-                            _CashFlowIn.UpdateForexFunctionalCcyAmt(true);
-                        }
-                    }
+                    //if (!IsLoading && !IsSaving)
+                    //{
+                    //    if (_CashFlowOut != null)
+                    //    {
+                    //        _CashFlowOut.UpdateForexLinkedOutAmt(true);
+                    //        _CashFlowOut.UpdateForexFunctionalCcyAmt(true);
+                    //    }
+                    //    if (_CashFlowIn != null)
+                    //    {
+                    //        _CashFlowIn.UpdateForexLinkedInAmt(true);
+                    //        _CashFlowIn.UpdateForexFunctionalCcyAmt(true);
+                    //    }
+                    //}
                 }
             }
         }
 
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime InDate
         {
             get
@@ -113,6 +116,7 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
         }
 
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime OutDate
         {
             get
@@ -130,6 +134,8 @@ namespace CTMS.Module.BusinessObjects.Forex
         }
 
         [DbType("decimal(19, 6)")]
+        [ModelDefault("EditMask", "n6")]
+        [ModelDefault("DisplayFormat", "n6")]
         public decimal ForexSettleRate
         {
             get
@@ -139,6 +145,8 @@ namespace CTMS.Module.BusinessObjects.Forex
             }
         }
 
+        [ModelDefault("EditMask", "n2")]
+        [ModelDefault("DisplayFormat", "n2")]
         public decimal FunctionalCcyAmt
         {
             get

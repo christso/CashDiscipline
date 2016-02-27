@@ -118,6 +118,7 @@
       <Item Id="Forex" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ForexCounterparty" ViewId="ForexCounterparty_ListView" Caption="Counterparty" IsNewNode="True" />
+          <Item Id="ForexSettleLink" ViewId="ForexSettleLink_ListView" IsNewNode="True" />
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
           <Item Id="ForexTrade" ViewId="ForexTrade_ListView" Caption="Trades" IsNewNode="True" />
           <Item Id="ForexTradePredeliveries" ViewId="ForexTradePredelivery_ListView" Caption="Predeliveries" IsNewNode="True" />
