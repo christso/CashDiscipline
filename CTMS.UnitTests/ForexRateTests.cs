@@ -27,7 +27,7 @@ namespace CTMS.UnitTests
     {
         public ForexRateTests()
         {
-            SetTesterDbType(TesterDbType.InMemory);
+            SetTesterDbType(TesterDbType.MsSql);
         }
 
         [Test]

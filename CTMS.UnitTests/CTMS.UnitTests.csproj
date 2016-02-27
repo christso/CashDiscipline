@@ -119,7 +119,7 @@
     <Compile Include="FinAccountingTests.cs" />
     <Compile Include="ForexRateTests.cs" />
     <Compile Include="ForexTradeTests.cs" />
-    <Compile Include="IntegrationTests.cs" />
+    <Compile Include="ForexLinkTests.cs" />
     <Compile Include="Base\InMemoryDbTestBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

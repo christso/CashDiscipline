@@ -13,7 +13,7 @@ namespace CTMS.UnitTests
         [STAThread]
         static void Main(string[] args)
         {
-            var tests = new CTMS.UnitTests.IntegrationTests();
+            var tests = new CTMS.UnitTests.ForexLinkTests();
             tests.SetUpFixture();
             tests.Setup();
             tests.ForexLinkFifo();

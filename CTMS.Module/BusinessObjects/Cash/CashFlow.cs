@@ -94,7 +94,7 @@ namespace CTMS.Module.BusinessObjects.Cash
         {
             get
             {
-                return Convert.ToString(Oid).Substring(0, 6);
+                return Convert.ToString(Oid).Substring(0, 8);
             }
         }
 
@@ -162,7 +162,13 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
             set
             {
-                SetPropertyValue("Account", ref _Account, value);
+                if (SetPropertyValue("Account", ref _Account, value))
+                {
+                    if (calculateEnabled && !IsLoading && !IsSaving && value != null)
+                    {
+                        SetPropertyValue("CounterCcy", ref _CounterCcy, value.Currency);
+                    }
+                }
             }
         }
 
@@ -901,8 +907,6 @@ namespace CTMS.Module.BusinessObjects.Cash
                 detail.FunctionalCcyAmt = detail.TranAmount * FunctionalCcyAmt / AccountCcyAmt;
             }
         }
-
-
 
         #endregion
 

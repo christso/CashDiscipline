@@ -25,6 +25,7 @@ namespace CTMS.Module.BusinessObjects.Forex
         public ForexSettleLink(Session session)
             : base(session)
         {
+            calculateEnabled = true;
         }
         public override void AfterConstruction()
         {
@@ -38,6 +39,17 @@ namespace CTMS.Module.BusinessObjects.Forex
         private decimal _AccountCcyAmt;
         private DateTime _TimeCreated;
         private int _Step;
+        private bool calculateEnabled;
+
+        [MemberDesignTimeVisibility(false), Browsable(false), NonPersistent]
+        public bool CalculateEnabled
+        {
+            get { return calculateEnabled; }
+            set
+            {
+                calculateEnabled = value;
+            }
+        }
   
         [Association("CashFlowIn-ForexSettleLinks")]
         public CashFlow CashFlowIn
@@ -50,12 +62,12 @@ namespace CTMS.Module.BusinessObjects.Forex
             {
                 var oldCashFlow = _CashFlowIn;
                 SetPropertyValue("CashFlowIn", ref _CashFlowIn, value);
-                //if (!IsLoading && !IsSaving && oldCashFlow != _CashFlowIn)
-                //{
-                //    oldCashFlow = oldCashFlow ?? _CashFlowIn;
-                //    oldCashFlow.UpdateForexLinkedInAmt(true);
-                //    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
-                //}
+                if (!IsLoading && !IsSaving && calculateEnabled && oldCashFlow != _CashFlowIn)
+                {
+                    oldCashFlow = oldCashFlow ?? _CashFlowIn;
+                    oldCashFlow.UpdateForexLinkedInAmt(true);
+                    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
+                }
             }
         }
         [Association("CashFlowOut-ForexSettleLinks")]
@@ -69,12 +81,12 @@ namespace CTMS.Module.BusinessObjects.Forex
             {
                 var oldCashFlow = _CashFlowOut;
                 SetPropertyValue("CashFlowOut", ref _CashFlowOut, value);
-                //if (!IsLoading && !IsSaving && oldCashFlow != _CashFlowOut)
-                //{
-                //    oldCashFlow = oldCashFlow ?? _CashFlowOut;
-                //    oldCashFlow.UpdateForexLinkedOutAmt(true);
-                //    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
-                //}
+                if (!IsLoading && !IsSaving && calculateEnabled && oldCashFlow != _CashFlowOut)
+                {
+                    oldCashFlow = oldCashFlow ?? _CashFlowOut;
+                    oldCashFlow.UpdateForexLinkedOutAmt(true);
+                    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
+                }
             }
         }
 
@@ -90,19 +102,19 @@ namespace CTMS.Module.BusinessObjects.Forex
             {
                 if (SetPropertyValue("AccountCcyAmt", ref _AccountCcyAmt, value))
                 {
-                    //if (!IsLoading && !IsSaving)
-                    //{
-                    //    if (_CashFlowOut != null)
-                    //    {
-                    //        _CashFlowOut.UpdateForexLinkedOutAmt(true);
-                    //        _CashFlowOut.UpdateForexFunctionalCcyAmt(true);
-                    //    }
-                    //    if (_CashFlowIn != null)
-                    //    {
-                    //        _CashFlowIn.UpdateForexLinkedInAmt(true);
-                    //        _CashFlowIn.UpdateForexFunctionalCcyAmt(true);
-                    //    }
-                    //}
+                    if (!IsLoading && !IsSaving && calculateEnabled)
+                    {
+                        if (_CashFlowOut != null)
+                        {
+                            _CashFlowOut.UpdateForexLinkedOutAmt(true);
+                            _CashFlowOut.UpdateForexFunctionalCcyAmt(true);
+                        }
+                        if (_CashFlowIn != null)
+                        {
+                            _CashFlowIn.UpdateForexLinkedInAmt(true);
+                            _CashFlowIn.UpdateForexFunctionalCcyAmt(true);
+                        }
+                    }
                 }
             }
         }

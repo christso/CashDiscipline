@@ -27,6 +27,11 @@ namespace CTMS.UnitTests
     [TestFixture]
     public class CashFlowTests : TestBase
     {
+        public CashFlowTests()
+        {
+            SetTesterDbType(TesterDbType.MsSql);
+        }
+
         // CounterCcy will change to USD when Account changed to USD Account
         [Test]
         public void CashFlow_AccountIsUSD_CounterCcyIsUSD()
