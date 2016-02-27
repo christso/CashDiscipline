@@ -13,10 +13,10 @@ namespace CTMS.UnitTests
         [STAThread]
         static void Main(string[] args)
         {
-            var tests = new CTMS.UnitTests.FinAccountingDbTests();
+            var tests = new CTMS.UnitTests.IntegrationTests();
             tests.SetUpFixture();
             tests.Setup();
-            tests.DeleteJournals();
+            tests.ForexTradeToCashFlowToBankStmt_Integrated_SumAreEqual();
             tests.TearDown();
             tests.TearDownFixture();
             Console.WriteLine("Test Passed");

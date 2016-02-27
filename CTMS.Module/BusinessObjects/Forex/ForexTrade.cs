@@ -160,7 +160,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                         {
                             var toAmt = Math.Round(fromAmt / _Rate, 2);
                             obj.SetPropertyValue("PrimaryCcyAmt", ref obj._PrimaryCcyAmt, toAmt);
-                            UpdateCashFlowForecast();
+                            //UpdateCashFlowForecast();
                         }
                     }
                 }
@@ -264,7 +264,7 @@ namespace CTMS.Module.BusinessObjects.Forex
                     {
                         SetPropertyValue("CounterSettleDate", ref _CounterSettleDate, _ValueDate);
                         SetPropertyValue("PrimarySettleDate", ref _PrimarySettleDate, _ValueDate);
-                        UpdateCashFlowForecast();
+                        //UpdateCashFlowForecast();
                     }
                 }
             }
@@ -686,7 +686,7 @@ namespace CTMS.Module.BusinessObjects.Forex
             {
                 CalculateCounterCcyAmt(fromCcy, fromAmt);
             }
-            UpdateCashFlowForecast();
+            //UpdateCashFlowForecast();
         }
 
         public void CalculateCounterCcyAmt(Currency fromCcy, decimal fromAmt)

@@ -60,7 +60,7 @@ namespace CTMS.Module.Controllers.Forex
                 .GroupBy(ft => new
                 {
                     PrimarySettleDate = ft.PrimarySettleDate,
-                    PrimaryCcy = ft.PrimaryCcy,
+                    CounterCcy = ft.CounterCcy,
                     PrimarySettleAccount = ft.PrimarySettleAccount,
                     SettleGroupId = ft.SettleGroupId,
                     CashFlowCounterparty = ft.Counterparty.CashFlowCounterparty
@@ -70,7 +70,7 @@ namespace CTMS.Module.Controllers.Forex
                     var cf = new CashFlow(((XPObjectSpace)objectSpace).Session)
                     {
                         TranDate = grouped.Key.PrimarySettleDate,
-                        CounterCcy = grouped.Key.PrimaryCcy,
+                        CounterCcy = grouped.Key.CounterCcy,
                         Account = grouped.Key.PrimarySettleAccount,
                         Counterparty = grouped.Key.CashFlowCounterparty,
                         CounterCcyAmt = -grouped.Sum(s => s.CounterCcyAmt),

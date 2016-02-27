@@ -19,7 +19,7 @@ namespace CTMS.UnitTests
     {
         public ForexTradeTests()
         {
-            SetTesterDbType(TesterDbType.InMemory);
+            SetTesterDbType(TesterDbType.MsSql);
         }
 
         /// <summary>
@@ -164,8 +164,8 @@ namespace CTMS.UnitTests
             #endregion
 
             #region Assert
-            Assert.AreEqual(ft1.PrimaryCashFlow, ft2.PrimaryCashFlow); // TODO: cashflow should not be null
-            Assert.AreEqual(ft1.CounterCashFlow, ft2.CounterCashFlow); // TODO: cashflow should not be null
+            Assert.AreEqual(ft1.PrimaryCashFlow, ft2.PrimaryCashFlow);
+            Assert.AreEqual(ft1.CounterCashFlow, ft2.CounterCashFlow);
 
             Assert.AreEqual(audAccount, ft1.PrimarySettleAccount);
             Assert.AreEqual(usdAccount, ft1.CounterSettleAccount);
@@ -174,12 +174,18 @@ namespace CTMS.UnitTests
             Assert.AreEqual(targetPrimaryCcyAmt, ft1.PrimaryCcyAmt);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
-            var couCf1 = cashFlows.FirstOrDefault(x => x.Oid == ft1.CounterCashFlow.Oid);
+
             var priCf1 = cashFlows.FirstOrDefault(x => x.Oid == ft1.PrimaryCashFlow.Oid);
             Assert.AreEqual(-ft1.PrimaryCcyAmt - ft2.PrimaryCcyAmt, priCf1.AccountCcyAmt);
             Assert.AreEqual(-ft1.PrimaryCcyAmt - ft2.PrimaryCcyAmt, priCf1.FunctionalCcyAmt);
+            Assert.AreEqual(-ft1.CounterCcyAmt - ft2.CounterCcyAmt, priCf1.CounterCcyAmt);
+            Assert.AreEqual("USD", priCf1.CounterCcy.Name);
+
+            var couCf1 = cashFlows.FirstOrDefault(x => x.Oid == ft1.CounterCashFlow.Oid);
             Assert.AreEqual(ft1.CounterCcyAmt + ft2.CounterCcyAmt, couCf1.CounterCcyAmt);
             Assert.AreEqual(ft1.PrimaryCcyAmt + ft2.PrimaryCcyAmt, couCf1.FunctionalCcyAmt);
+            Assert.AreEqual(ft1.CounterCcyAmt + ft2.CounterCcyAmt, couCf1.CounterCcyAmt);
+            Assert.AreEqual("USD", couCf1.CounterCcy.Name);
 
             #endregion
         }
@@ -342,6 +348,107 @@ namespace CTMS.UnitTests
             #endregion
         }
 
+        [Test]
+        public void UploadForexTradeToCashFlow2()
+        {
+            #region Create Forex objects
+            // Currencies
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+
+            // Forex Rates
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.ConversionDate = new DateTime(2013, 11, 01);
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionRate = 0.9M;
+            rate.Save();
+            ObjectSpace.CommitChanges();
+            #endregion
+
+            #region Create Lookup Objects
+
+            var priAccount = ObjectSpace.CreateObject<Account>();
+            priAccount.Name = "VHA ANZ 70086";
+            priAccount.Currency = ccyAUD;
+
+            var couAccount = ObjectSpace.CreateObject<Account>();
+            couAccount.Name = "VHA ANZ USD";
+            couAccount.Currency = ccyUSD;
+
+            var forexActivity = ObjectSpace.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
+
+            var outActivity = ObjectSpace.CreateObject<Activity>();
+            outActivity.Name = "AP Pymt";
+
+            var outCounterparty = ObjectSpace.CreateObject<Counterparty>();
+            outCounterparty.Name = "UNDEFINED";
+
+            var inCounterparty = ObjectSpace.CreateObject<Counterparty>();
+            inCounterparty.Name = "ANZ";
+
+            var forexCounterparty = ObjectSpace.CreateObject<ForexCounterparty>();
+            forexCounterparty.Name = "ANZ";
+            forexCounterparty.CashFlowCounterparty = inCounterparty;
+            #endregion
+
+            #region Create Forex Trades
+
+            var ft1 = ObjectSpace.CreateObject<ForexTrade>();
+            ft1.ValueDate = new DateTime(2013, 11, 16);
+            ft1.Counterparty = forexCounterparty;
+            ft1.PrimarySettleAccount = priAccount;
+            ft1.CounterSettleAccount = couAccount;
+            ft1.PrimaryCcy = ccyAUD;
+            ft1.CounterCcy = ccyUSD;
+            ft1.Rate = 0.95M;
+            ft1.CounterCcyAmt = 100;
+
+            var ft2 = ObjectSpace.CreateObject<ForexTrade>();
+            ft2.ValueDate = new DateTime(2013, 11, 30);
+            ft2.Counterparty = forexCounterparty;
+            ft2.PrimarySettleAccount = priAccount;
+            ft2.CounterSettleAccount = couAccount;
+            ft2.PrimaryCcy = ccyAUD;
+            ft2.CounterCcy = ccyUSD;
+            ft2.Rate = 0.99M;
+            ft2.CounterCcyAmt = 50;
+
+            var ft3 = ObjectSpace.CreateObject<ForexTrade>();
+            ft3.ValueDate = new DateTime(2013, 11, 30);
+            ft3.Counterparty = forexCounterparty;
+            ft3.PrimarySettleAccount = priAccount;
+            ft3.CounterSettleAccount = couAccount;
+            ft3.PrimaryCcy = ccyAUD;
+            ft3.CounterCcy = ccyUSD;
+            ft3.Rate = 0.87M;
+            ft3.CounterCcyAmt = 30;
+
+            ObjectSpace.CommitChanges();
+            #endregion
+
+            #region Act
+
+            var uploader = new ForexTradeBatchUploaderImpl(ObjectSpace);
+            uploader.UploadToCashFlowForecast();
+
+            #endregion
+
+            #region Assert
+
+            var fts = ObjectSpace.GetObjects<ForexTrade>();
+
+
+            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
+            Assert.AreEqual(0, Math.Round(cashFlows.Sum(x => x.FunctionalCcyAmt), 2));
+
+            var cfAUD = cashFlows.Where(c => c.CounterCcy.Name == "AUD");
+            Assert.AreEqual(fts.Sum(f => f.PrimaryCcyAmt), -cfAUD.Sum(c => c.FunctionalCcyAmt));
+
+            var cfUSD = cashFlows.Where(c => c.CounterCcy.Name == "USD");
+            Assert.AreEqual(fts.Sum(f => f.CounterCcyAmt), cfUSD.Sum(c => c.CounterCcyAmt));
+            #endregion
+        }
 
         public override void SetupObjects()
         {

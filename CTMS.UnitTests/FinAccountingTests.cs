@@ -41,6 +41,10 @@ namespace CTMS.UnitTests
     [TestFixture]
     public class FinAccountingTests : TestBase
     {
+        public FinAccountingTests()
+        {
+            SetTesterDbType(TesterDbType.MsSql);
+        }
 
         [Test]
         public void GenerateJournals_CashFlowReclass_MappedToJournals()
@@ -696,18 +700,14 @@ namespace CTMS.UnitTests
 
             var jg = new JournalGenerator(glParam);
             jg.Execute();
+            jg.Execute();
 
-            jg.DeleteAutoGenLedgerItems();
-            ObjectSpace.CommitChanges();
             #endregion
 
             #region Assert
-
             var gls = ObjectSpace.GetObjects<GenLedger>();
-            Assert.AreEqual(0, gls.Count);
-
+            Assert.AreEqual(4, gls.Count);
             #endregion
-
         }
 
         public override void SetupObjects()

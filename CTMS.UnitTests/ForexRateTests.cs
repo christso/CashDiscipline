@@ -25,6 +25,11 @@ namespace CTMS.UnitTests
 {
     public class ForexRateTests : TestBase
     {
+        public ForexRateTests()
+        {
+            SetTesterDbType(TesterDbType.InMemory);
+        }
+
         [Test]
         public void CreateForexRatePair()
         {
