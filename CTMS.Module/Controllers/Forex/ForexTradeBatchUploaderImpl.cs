@@ -49,11 +49,14 @@ namespace CTMS.Module.Controllers.Forex
 
         public IEnumerable<CashFlow> GroupPrimaryForexTrades(DateTime maxActualDate)
         {
-            var criteria = CriteriaOperator.Parse("PrimarySettleDate > ?", maxActualDate);
+
+            CriteriaOperator criteria = null;
+            if (maxActualDate != null && maxActualDate != default(DateTime))
+                criteria = CriteriaOperator.Parse("PrimarySettleDate > ?", maxActualDate);
 
             var ftQuery = objectSpace.GetObjects<ForexTrade>(criteria);
 
-            return ftQuery.Where(ft => ft.PrimarySettleDate >= maxActualDate)
+            return ftQuery
                 .GroupBy(ft => new
                 {
                     PrimarySettleDate = ft.PrimarySettleDate,
@@ -83,10 +86,12 @@ namespace CTMS.Module.Controllers.Forex
 
         public IEnumerable<CashFlow> GroupCounterForexTrades(DateTime maxActualDate)
         {
-            var criteria = CriteriaOperator.Parse("CounterSettleDate > ?", maxActualDate);
+            CriteriaOperator criteria = null;
+            if (maxActualDate != null && maxActualDate != default(DateTime))
+                criteria = CriteriaOperator.Parse("CounterSettleDate > ?", maxActualDate);
 
             var ftQuery = objectSpace.GetObjects<ForexTrade>(criteria);
-            return ftQuery.Where(ft => ft.CounterSettleDate >= maxActualDate)
+            return ftQuery
                 .GroupBy(ft => new
                 {
                     ft.CounterSettleDate,

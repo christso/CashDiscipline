@@ -220,6 +220,9 @@
     <Compile Include="BusinessObjects\Forex\ForexTrade.cs" />
     <Compile Include="BusinessObjects\Forex\ForexTradePredelivery.cs" />
     <Compile Include="BusinessObjects\ICalculateToggleObject.cs" />
+    <Compile Include="Controllers\Cash\BankStmtToCashFlow.cs" />
+    <Compile Include="Controllers\Cash\ICashFlowDeleter.cs" />
+    <Compile Include="Controllers\Cash\CashFlowDeleter.cs" />
     <Compile Include="Interfaces\IJournalDeleter.cs" />
     <Compile Include="ControllerHelpers\FinAccounting\JournalDeleter.cs" />
     <Compile Include="Controllers\Forex\ForexTradeBatchUploaderImpl.cs" />

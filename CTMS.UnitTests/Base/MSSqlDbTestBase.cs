@@ -44,7 +44,7 @@ namespace CTMS.UnitTests.Base
     public class MSSqlDbTestBase : ITest
     {
         private const string DataPath = @"D:\CTSO\Data\MSSQL12\Data";
-        private const string ServerName = @"(localdb)\ProjectsV12";
+        private const string ServerName = @"(localdb)\mssqllocaldb";
         private const string DatabaseName = "CTMS_Test";
         private const string ApplicationName = "CTMS";
 
@@ -111,7 +111,7 @@ namespace CTMS.UnitTests.Base
         [TestFixtureTearDown]
         public void TearDownFixture()
         {
-            MSSqlClientHelper.DropDatabase(ServerName, DatabaseName);
+            //MSSqlClientHelper.DropDatabase(ServerName, DatabaseName);
         }
 
         public virtual void AddExportedTypes(ModuleBase module)

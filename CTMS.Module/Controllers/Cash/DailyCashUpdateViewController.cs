@@ -34,8 +34,12 @@ namespace CTMS.Module.Controllers.Cash
         private void AcceptAction_Execute(object sender, DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs e)
         {
             var paramObj = (DailyCashUpdateParam)View.CurrentObject;
-            var objSpace = Application.CreateObjectSpace();
-            BankStmt.UploadToCashFlow(objSpace, paramObj.TranDate);
+            var objSpace = (XPObjectSpace) Application.CreateObjectSpace();
+
+            var deleter = new CashFlowDeleter(objSpace.Session, paramObj.TranDate, paramObj.TranDate);
+            var uploader = new BankStmtToCashFlow(objSpace, paramObj.TranDate, paramObj.TranDate, deleter);
+            uploader.Process();
+            //BankStmt.UploadToCashFlow(objSpace, paramObj.TranDate);
         }
     }
 }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CTMS.UnitTests.InMemoryDbTest;
-using CTMS.UnitTests.MSSqlDbTest;
+
+
 
 namespace CTMS.UnitTests
 {
@@ -13,12 +13,13 @@ namespace CTMS.UnitTests
         [STAThread]
         static void Main(string[] args)
         {
-            var tests = new CashFlowTests();
+            var tests = new CTMS.UnitTests.FinAccountingDbTests();
             tests.SetUpFixture();
             tests.Setup();
-            tests.AccountCcyAmtIsCorrectIfForexLinkFifo();
+            tests.DeleteJournals();
             tests.TearDown();
             tests.TearDownFixture();
+            Console.WriteLine("Test Passed");
             Console.ReadKey();
         }
     }

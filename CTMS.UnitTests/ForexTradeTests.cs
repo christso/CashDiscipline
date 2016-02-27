@@ -13,10 +13,14 @@ using DevExpress.ExpressApp.Xpo;
 using System.Diagnostics;
 using CTMS.UnitTests.Base;
 
-namespace CTMS.UnitTests.InMemoryDbTest
+namespace CTMS.UnitTests
 {
     public class ForexTradeTests : TestBase
     {
+        public ForexTradeTests()
+        {
+            SetTesterDbType(TesterDbType.InMemory);
+        }
 
         /// <summary>
         /// Cash Flows with an Account.Currency that equals the Functional Currency 

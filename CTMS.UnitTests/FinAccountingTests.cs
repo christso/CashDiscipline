@@ -36,7 +36,7 @@ using CTMS.Module.DatabaseUpdate;
 using CTMS.Module.ControllerHelpers.FinAccounting;
 using CTMS.UnitTests.Base;
 
-namespace CTMS.UnitTests.InMemoryDbTest
+namespace CTMS.UnitTests
 {
     [TestFixture]
     public class FinAccountingTests : TestBase

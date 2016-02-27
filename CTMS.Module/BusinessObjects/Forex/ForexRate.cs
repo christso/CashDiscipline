@@ -4,6 +4,7 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
@@ -122,10 +123,18 @@ namespace CTMS.Module.BusinessObjects.Forex
         public static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
             XPQuery<ForexRate> ratesQuery = new XPQuery<ForexRate>(session);
-            var maxDate = ratesQuery.Where(r => r.FromCurrency == fromCcy
+
+            // TODO: why do I get object disposed?
+            var rates = ratesQuery.Where(r => r.FromCurrency == fromCcy
                 && r.ToCurrency == toCcy
                 && r.ConversionDate <= convDate
-                ).Max(x => x.ConversionDate);
+                );
+
+            Console.WriteLine("Rate Count = {0}", rates.Count());
+            foreach (var rate in rates)
+                Console.WriteLine("{0} | {1} | {2}", rate.FromCurrency.Name, rate.ToCurrency.Name, rate.ConversionRate);
+
+            var maxDate = rates.Max(x => x.ConversionDate);
 
             if (maxDate == default(DateTime))
                 return null;
