@@ -29,7 +29,7 @@ namespace CTMS.UnitTests
     {
         public CashFlowTests()
         {
-            SetTesterDbType(TesterDbType.MsSql);
+            SetTesterDbType(TesterDbType.InMemory);
         }
 
         // CounterCcy will change to USD when Account changed to USD Account
@@ -820,13 +820,17 @@ namespace CTMS.UnitTests
             #endregion
         }
 
-        public override void SetupObjects()
+        public override void OnSetup()
         {
             CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
             CTMS.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
         }
 
+        public override void OnAddExportedTypes(ModuleBase module)
+        {
+            CTMSTestHelper.AddExportedTypes(module);
+        }
     }
 
 }

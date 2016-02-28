@@ -710,11 +710,15 @@ namespace CTMS.UnitTests
             #endregion
         }
 
-        public override void SetupObjects()
+        public override void OnSetup()
         {
             Updater.CreateCurrencies(ObjectSpace);
             Updater.CreateFinAccountingDefaults(ObjectSpace);
             Updater.InitSetOfBooks(ObjectSpace);
+        }
+        public override void OnAddExportedTypes(ModuleBase module)
+        {
+            CTMSTestHelper.AddExportedTypes(module);
         }
     }
 }

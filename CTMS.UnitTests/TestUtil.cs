@@ -17,7 +17,7 @@ using DevExpress.Xpo;
 
 namespace CTMS.UnitTests
 {
-    public class TestUtil
+    public class CTMSTestHelper
     {
         public static void AddExportedTypes(ModuleBase module)
         {
@@ -52,22 +52,6 @@ namespace CTMS.UnitTests
             module.AdditionalExportedTypes.Add(typeof(AccountSummary));
             module.AdditionalExportedTypes.Add(typeof(TestObject));
             module.AdditionalExportedTypes.Add(typeof(ForexSettleLink));
-        }
-
-        public static void DeleteObjects(Session session, Type type)
-        {
-            session.Delete(new XPCollection(session, type));
-        }
-
-        public static void DeleteExportedObjects(ModuleBase module, Session session)
-        {
-            if (module == null)
-                throw new InvalidOperationException("module cannot be null");
-
-            foreach (var type in module.AdditionalExportedTypes)
-            {
-                DeleteObjects(session, type);
-            }
         }
     }
 }

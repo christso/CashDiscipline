@@ -29,7 +29,7 @@ namespace CTMS.UnitTests
             SetTesterDbType(TesterDbType.MsSql);
         }
 
-        public override void SetupObjects()
+        public override void OnSetup()
         {
             CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             CTMS.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
@@ -406,8 +406,11 @@ namespace CTMS.UnitTests
 
             #endregion
         }
-        
 
 
+        public override void OnAddExportedTypes(ModuleBase module)
+        {
+            CTMSTestHelper.AddExportedTypes(module);
+        }
     }
 }

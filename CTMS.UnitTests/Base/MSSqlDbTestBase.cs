@@ -16,25 +16,8 @@ using DevExpress.ExpressApp.SystemModule;
 using DevExpress.Xpo;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Utils;
-
-using CTMS.Module.BusinessObjects.Cash;
-using CTMS.Module.BusinessObjects.FinAccounting;
-using CTMS.Module.BusinessObjects.ChartOfAccounts;
-using CTMS.Module.ParamObjects.FinAccounting;
-using CTMS.Module.BusinessObjects;
-using DevExpress.Persistent.Validation;
-using CTMS.Module;
-using CTMS.Module.Controllers.Cash;
-
-using System.Diagnostics;
-using System.Data.SqlClient;
-using CTMS.Module.Controllers.FinAccounting;
 using DevExpress.Xpo.DB;
-using CTMS.Module.ControllerHelpers;
-using CTMS.Module.BusinessObjects.Forex;
-using CTMS.Module.Controllers;
-using CTMS.Module.DatabaseUpdate;
-using CTMS.Module.ParamObjects.Cash;
+
 
 using Xafology.Utils.Data;
 
@@ -43,10 +26,10 @@ namespace CTMS.UnitTests.Base
     [TestFixture]
     public class MSSqlDbTestBase : ITest
     {
-        private const string DataPath = @"D:\CTSO\Data\MSSQL12\Data";
-        private const string ServerName = @"(localdb)\mssqllocaldb";
-        private const string DatabaseName = "CTMS_Test";
-        private const string ApplicationName = "CTMS";
+        public string DataPath = @"D:\CTSO\Data\MSSQL12\Data";
+        public string ServerName = @"(localdb)\mssqllocaldb";
+        public string DatabaseName = "CTMS_Test";
+        public bool TearDownFixtureEnabled = false;
 
         private XPObjectSpaceProvider ObjectSpaceProvider;
         public XPObjectSpace ObjectSpace { get; set; }
@@ -54,7 +37,8 @@ namespace CTMS.UnitTests.Base
 
         private readonly ModuleBase module;
 
-        public event EventHandler<EventArgs> OnSetupObjects;
+        public event EventHandler<EventArgs> SetupEvent;
+        public event EventHandler<AddExportedTypesEventArgs> AddExportedTypesEvent;
 
         public MSSqlDbTestBase()
         {
@@ -73,7 +57,7 @@ namespace CTMS.UnitTests.Base
             AddExportedTypes(module);
             Application.Modules.Add(module);
 
-            Application.Setup(ApplicationName, ObjectSpaceProvider);
+            Application.Setup("", ObjectSpaceProvider);
             Application.CheckCompatibility();
             ObjectSpace = (XPObjectSpace)ObjectSpaceProvider.CreateObjectSpace();
         }
@@ -81,8 +65,8 @@ namespace CTMS.UnitTests.Base
         [SetUp]
         public void Setup()
         {
-            if (OnSetupObjects != null)
-                OnSetupObjects(this, EventArgs.Empty);
+            if (SetupEvent != null)
+                SetupEvent(this, EventArgs.Empty);
         }
 
         private void InitializeImageLoader()
@@ -105,18 +89,36 @@ namespace CTMS.UnitTests.Base
         [TearDown]
         public void TearDown()
         {
-            TestUtil.DeleteExportedObjects(module, ObjectSpace.Session);
+            DeleteExportedObjects(module, ObjectSpace.Session);
         }
 
         [TestFixtureTearDown]
         public void TearDownFixture()
         {
-            //MSSqlClientHelper.DropDatabase(ServerName, DatabaseName);
+            if (TearDownFixtureEnabled)
+                MSSqlClientHelper.DropDatabase(ServerName, DatabaseName);
         }
 
         public virtual void AddExportedTypes(ModuleBase module)
         {
-            TestUtil.AddExportedTypes(module);
+            if (AddExportedTypesEvent != null)
+                AddExportedTypesEvent(this, new AddExportedTypesEventArgs(module));
+        }
+
+        public static void DeleteExportedObjects(ModuleBase module, Session session)
+        {
+            if (module == null)
+                throw new InvalidOperationException("module cannot be null");
+
+            foreach (var type in module.AdditionalExportedTypes)
+            {
+                DeleteObjects(session, type);
+            }
+        }
+
+        public static void DeleteObjects(Session session, Type type)
+        {
+            session.Delete(new XPCollection(session, type));
         }
     }
 }

@@ -12,6 +12,7 @@ using CTMS.Module.Controllers.Forex;
 using DevExpress.ExpressApp.Xpo;
 using System.Diagnostics;
 using CTMS.UnitTests.Base;
+using DevExpress.ExpressApp;
 
 namespace CTMS.UnitTests
 {
@@ -451,11 +452,16 @@ namespace CTMS.UnitTests
             #endregion
         }
 
-        public override void SetupObjects()
+        public override void OnSetup()
         {
             CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
             CTMS.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
+        }
+
+        public override void OnAddExportedTypes(ModuleBase module)
+        {
+            CTMSTestHelper.AddExportedTypes(module);
         }
     }
 }

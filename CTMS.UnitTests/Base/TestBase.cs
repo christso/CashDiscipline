@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DevExpress.ExpressApp.Xpo;
+using DevExpress.ExpressApp;
 
 namespace CTMS.UnitTests.Base
 {
@@ -30,9 +31,13 @@ namespace CTMS.UnitTests.Base
         public TestBase()
         {
             memTestBase = new InMemoryDbTestBase();
+            memTestBase.SetupEvent += Tester_OnSetup;
+            memTestBase.AddExportedTypesEvent += Tester_OnAddExportedTypes;
+
             mssqlTestBase = new MSSqlDbTestBase();
-            memTestBase.OnSetupObjects += Tester_OnSetupObjects;
-            mssqlTestBase.OnSetupObjects += Tester_OnSetupObjects;
+            mssqlTestBase.SetupEvent += Tester_OnSetup;
+            mssqlTestBase.AddExportedTypesEvent += Tester_OnAddExportedTypes;
+
             this.tester = memTestBase; // default is inmemory
         }
 
@@ -61,12 +66,22 @@ namespace CTMS.UnitTests.Base
             tester.SetUpFixture();
         }
 
-        private void Tester_OnSetupObjects(object sender, EventArgs e)
+        private void Tester_OnSetup(object sender, EventArgs e)
         {
-            SetupObjects();
+            OnSetup();
         }
 
-        public virtual void SetupObjects()
+        private void Tester_OnAddExportedTypes(object sender, AddExportedTypesEventArgs e)
+        {
+            OnAddExportedTypes(e.Module);
+        }
+
+        public virtual void OnAddExportedTypes(ModuleBase module)
+        {
+
+        }
+
+        public virtual void OnSetup()
         {
             
         }

@@ -78,5 +78,10 @@ namespace CTMS.UnitTests
         {
             return ForexRate.GetForexRate(session, fromCcy, toCcy, convDate);
         }
+
+        public override void OnAddExportedTypes(ModuleBase module)
+        {
+            CTMSTestHelper.AddExportedTypes(module);
+        }
     }
 }

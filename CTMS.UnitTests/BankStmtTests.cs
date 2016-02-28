@@ -29,7 +29,7 @@ namespace CTMS.UnitTests
     {
         public BankStmtTests()
         {
-            SetTesterDbType(TesterDbType.MsSql);
+            SetTesterDbType(TesterDbType.InMemory);
         }
 
         [Test]
@@ -500,11 +500,15 @@ namespace CTMS.UnitTests
             #endregion
         }
 
-        public override void SetupObjects()
+        public override void OnSetup()
         {
             CTMS.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
             CTMS.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
+        }
+        public override void OnAddExportedTypes(ModuleBase module)
+        {
+            CTMSTestHelper.AddExportedTypes(module);
         }
     }
 }
