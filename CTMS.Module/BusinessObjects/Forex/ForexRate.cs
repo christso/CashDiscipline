@@ -130,9 +130,9 @@ namespace CTMS.Module.BusinessObjects.Forex
                 && r.ConversionDate <= convDate
                 );
 
-            Console.WriteLine("Rate Count = {0}", rates.Count());
-            foreach (var rate in rates)
-                Console.WriteLine("{0} | {1} | {2}", rate.FromCurrency.Name, rate.ToCurrency.Name, rate.ConversionRate);
+            //Console.WriteLine("Rate Count = {0}", rates.Count());
+            //foreach (var rate in rates)
+            //    Console.WriteLine("{0} | {1} | {2}", rate.FromCurrency.Name, rate.ToCurrency.Name, rate.ConversionRate);
 
             var maxDate = rates.Max(x => x.ConversionDate);
 

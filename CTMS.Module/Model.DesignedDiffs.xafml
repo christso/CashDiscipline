@@ -20,6 +20,9 @@
           <Item Id="GlProduct_ListView" IsNewNode="True" Removed="True" />
           <Item Id="GlProject_ListView" IsNewNode="True" Removed="True" />
           <Item Id="GlSalesChannel_ListView" IsNewNode="True" Removed="True" />
+          <Item Id="ImportHeadersParam" ViewId="ImportHeadersParam_ListView" IsNewNode="True" />
+          <Item Id="ImportOrdinalsParam" ViewId="ImportOrdinalsParam_ListView" IsNewNode="True" />
+          <Item Id="ImportParamBase" ViewId="ImportParamBase_ListView" IsNewNode="True" />
           <Item Id="PivotGridLoadedLayout_ListView" ViewId="PivotGridLoadedLayout_ListView" IsNewNode="True" />
           <Item Id="PivotGridSavedLayout_ListView" ViewId="PivotGridSavedLayout_ListView" IsNewNode="True" />
         </Items>
@@ -286,8 +289,8 @@
           <LayoutGroup Id="SimpleEditors" RelativeSize="47.6" CaptionWordWrap="Wrap">
             <LayoutGroup Id="CashFlow" RelativeSize="54.061624649859944">
               <LayoutGroup Id="CashFlow_col1" RelativeSize="48.533333333333331">
-                <LayoutItem Id="TranDate" SizeConstraintsType="Default" RelativeSize="15" />
                 <LayoutItem Id="AccountCcyAmt" SizeConstraintsType="Default" Index="2" RelativeSize="15" />
+                <LayoutItem Id="TranDate" SizeConstraintsType="Default" RelativeSize="15" />
                 <LayoutItem Id="FunctionalCcyAmt" SizeConstraintsType="Default" Index="3" RelativeSize="15" />
                 <LayoutItem Id="CounterCcyAmt" SizeConstraintsType="Default" Index="4" RelativeSize="15" />
                 <LayoutItem Id="CounterCcy" SizeConstraintsType="Default" Index="5" RelativeSize="20" />

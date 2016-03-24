@@ -17,7 +17,7 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
 using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
-using CTMS.UnitTests.Base;
+using Xafology.TestUtils;
 
 namespace CTMS.UnitTests
 {
@@ -26,7 +26,7 @@ namespace CTMS.UnitTests
     {
         public ForexLinkTests()
         {
-            SetTesterDbType(TesterDbType.MsSql);
+            SetTesterDbType(TesterDbType.InMemory);
         }
 
         public override void OnSetup()

@@ -15,6 +15,7 @@ using System.ComponentModel;
 using System.Linq;
 using Xafology.Spreadsheet.Attributes;
 using DevExpress.Persistent.BaseImpl;
+using Xafology.ExpressApp.Xpo.Import;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CTMS.Module.BusinessObjects.Cash
@@ -24,7 +25,7 @@ namespace CTMS.Module.BusinessObjects.Cash
     [ModelDefault("IsFooterVisible", "True")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("ShortUID")]
-    public class CashFlow : BaseObject, ICalculateToggleObject, CTMS.Module.Interfaces.ICashFlow
+    public class CashFlow : BaseObject, ICalculateToggleObject, CTMS.Module.Interfaces.ICashFlow, IXpoImportable
     {
 
         public CashFlow()

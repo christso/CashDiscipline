@@ -12,12 +12,13 @@ using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using CTMS.Module.BusinessObjects.ChartOfAccounts;
+using Xafology.ExpressApp.Xpo.Import;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CTMS.Module.BusinessObjects.Cash.AccountsPayable
 {
     [ModelDefault("IsFooterVisible", "True")]
-    public class ApPmtDistn : BaseObject
+    public class ApPmtDistn : BaseObject, IXpoImportable
     { // You can use a different base persistent class based on your requirements (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ApPmtDistn(Session session)
             : base(session)

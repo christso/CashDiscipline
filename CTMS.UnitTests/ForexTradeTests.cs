@@ -11,7 +11,7 @@ using DevExpress.Persistent.Base;
 using CTMS.Module.Controllers.Forex;
 using DevExpress.ExpressApp.Xpo;
 using System.Diagnostics;
-using CTMS.UnitTests.Base;
+using Xafology.TestUtils;
 using DevExpress.ExpressApp;
 
 namespace CTMS.UnitTests
@@ -20,7 +20,7 @@ namespace CTMS.UnitTests
     {
         public ForexTradeTests()
         {
-            SetTesterDbType(TesterDbType.MsSql);
+            SetTesterDbType(TesterDbType.InMemory);
         }
 
         /// <summary>

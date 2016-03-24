@@ -19,7 +19,7 @@ using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
 using DevExpress.ExpressApp.Utils;
 using CTMS.Module.ParamObjects.Cash;
-using CTMS.UnitTests.Base;
+using Xafology.TestUtils;
 using CTMS.UnitTests.TestObjects;
 
 namespace CTMS.UnitTests

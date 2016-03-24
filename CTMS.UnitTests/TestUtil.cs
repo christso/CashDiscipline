@@ -14,6 +14,8 @@ using CTMS.Module.BusinessObjects.ChartOfAccounts;
 using CTMS.Module.BusinessObjects.Forex;
 using CTMS.Module.ParamObjects.Cash;
 using DevExpress.Xpo;
+using CTMS.UnitTests.TestObjects;
+using Xafology.ExpressApp.Xpo.Import.Parameters;
 
 namespace CTMS.UnitTests
 {
@@ -52,6 +54,10 @@ namespace CTMS.UnitTests
             module.AdditionalExportedTypes.Add(typeof(AccountSummary));
             module.AdditionalExportedTypes.Add(typeof(TestObject));
             module.AdditionalExportedTypes.Add(typeof(ForexSettleLink));
+            module.AdditionalExportedTypes.Add(typeof(MockLookupObject1));
+            module.AdditionalExportedTypes.Add(typeof(MockLookupObject2));
+            module.AdditionalExportedTypes.Add(typeof(MockFactObject));
+            module.AdditionalExportedTypes.Add(typeof(ImportParamBase));
         }
     }
 }

@@ -19,7 +19,7 @@ using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
 using DevExpress.ExpressApp.Utils;
 using CTMS.Module.ParamObjects.Cash;
-using CTMS.UnitTests.Base;
+using Xafology.TestUtils;
 using CTMS.UnitTests.TestObjects;
 
 namespace CTMS.UnitTests
@@ -30,6 +30,10 @@ namespace CTMS.UnitTests
         public CashFlowTests()
         {
             SetTesterDbType(TesterDbType.InMemory);
+
+            var tester = Tester as MSSqlDbTestBase;
+            if (tester != null)
+                tester.DatabaseName = "CTMS_Test";
         }
 
         // CounterCcy will change to USD when Account changed to USD Account
@@ -453,6 +457,7 @@ namespace CTMS.UnitTests
             ObjectSpace.CommitChanges();
 
             ForexSettleLinkViewController.ForexLinkFifo(ObjectSpace, 20);
+            ObjectSpace.CommitChanges();
 
             var fsls = ObjectSpace.GetObjects<ForexSettleLink>();
 

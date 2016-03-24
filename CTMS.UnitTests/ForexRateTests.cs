@@ -19,7 +19,7 @@ using CTMS.Module.Controllers.Cash;
 using CTMS.Module.DatabaseUpdate;
 using DevExpress.ExpressApp.Utils;
 using CTMS.Module.ParamObjects.Cash;
-using CTMS.UnitTests.Base;
+using Xafology.TestUtils;
 
 namespace CTMS.UnitTests
 {
@@ -27,7 +27,7 @@ namespace CTMS.UnitTests
     {
         public ForexRateTests()
         {
-            SetTesterDbType(TesterDbType.MsSql);
+            SetTesterDbType(TesterDbType.InMemory);
         }
 
         [Test]

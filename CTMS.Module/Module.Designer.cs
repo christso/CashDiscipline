@@ -46,6 +46,7 @@ namespace CTMS.Module
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.SystemModule.XafologySystemModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.LayoutModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.MsoExcel.MsoExcelModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Xpo.Import.ImportModule));
         }
 
         #endregion

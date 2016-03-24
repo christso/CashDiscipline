@@ -80,6 +80,10 @@
     <Reference Include="DevExpress.Xpo.v15.2, Version=15.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="LumenWorks.Framework.IO, Version=3.9.0.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
+      <HintPath>..\packages\LumenWorksCsvReader.3.9\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
       <Private>True</Private>
@@ -103,17 +107,22 @@
       <HintPath>..\packages\Xafology.ExpressApp.Xpo.1.3.0.3\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Xafology.ExpressApp.Xpo.Import, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Xpo.Import.1.3.0.3\lib\net45\Xafology.ExpressApp.Xpo.Import.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xafology.TestUtils, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.TestUtils.1.3.0.3\lib\net45\Xafology.TestUtils.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Xafology.Utils, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xafology.Utils.1.3.0.3\lib\net45\Xafology.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Base\AddExportedTypesEventArgs.cs" />
-    <Compile Include="Base\ITest.cs" />
-    <Compile Include="Base\MSSqlDbTestBase.cs" />
-    <Compile Include="Base\TestBase.cs" />
-    <Compile Include="Base\TesterDbType.cs" />
+    <Compile Include="ImportTests.cs" />
+    <Compile Include="TestObjects\MockFactObject.cs" />
     <Compile Include="TestObjects\MockJournalDeleter.cs" />
     <Compile Include="BankStmtTests.cs" />
     <Compile Include="CashFlowTests.cs" />
@@ -121,13 +130,13 @@
     <Compile Include="ForexRateTests.cs" />
     <Compile Include="ForexTradeTests.cs" />
     <Compile Include="ForexLinkTests.cs" />
-    <Compile Include="Base\InMemoryDbTestBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestListEditor.cs" />
     <Compile Include="TestApplication.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TestObjects\MockLookupObject1.cs" />
+    <Compile Include="TestObjects\MockLookupObject2.cs" />
     <Compile Include="TestUtil.cs" />
   </ItemGroup>
   <ItemGroup>

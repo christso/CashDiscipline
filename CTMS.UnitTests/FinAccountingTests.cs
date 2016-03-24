@@ -34,7 +34,7 @@ using DevExpress.Xpo.DB;
 using CTMS.Module.ControllerHelpers;
 using CTMS.Module.DatabaseUpdate;
 using CTMS.Module.ControllerHelpers.FinAccounting;
-using CTMS.UnitTests.Base;
+using Xafology.TestUtils;
 
 namespace CTMS.UnitTests
 {
@@ -43,7 +43,7 @@ namespace CTMS.UnitTests
     {
         public FinAccountingTests()
         {
-            SetTesterDbType(TesterDbType.MsSql);
+            SetTesterDbType(TesterDbType.InMemory);
         }
 
         [Test]

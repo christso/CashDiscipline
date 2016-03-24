@@ -15,13 +15,15 @@ using System.Linq;
 using System.Collections.Generic;
 
 using System.Diagnostics;
+using Xafology.ExpressApp.Xpo.Import;
 
 namespace CTMS.Module.BusinessObjects.Cash
 {
     [VisibleInReports(true)]
     [ModelDefault("DefaultListViewAllowEdit", "True")]
     [DefaultProperty("BankStmtId")]
-    public class BankStmt : BaseObject
+    [ModelDefault("IsFooterVisible", "True")]
+    public class BankStmt : BaseObject, IXpoImportable
     {
         public BankStmt(Session session)
             : base(session)
