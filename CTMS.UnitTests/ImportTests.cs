@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Xafology.ExpressApp.Xpo.Import;
 using Xafology.ExpressApp.Xpo.Import.Logic;
 using Xafology.ExpressApp.Xpo.Import.Parameters;
+using Xafology.ExpressApp.Xpo.ValueMap;
 using Xafology.TestUtils;
 
 namespace CTMS.UnitTests
@@ -103,7 +104,7 @@ namespace CTMS.UnitTests
             #region Act
 
             var csvStream = ConvertToCsvStream(csvText);
-            var xpoMapper = new XpoFieldMapper(Application);
+            var xpoMapper = new XpoFieldMapper();
             ICsvToXpoLoader loader = new HeadCsvToXpoInserter(param, csvStream, xpoMapper, null);
             loader.Execute();
             ObjectSpace.CommitChanges();
@@ -178,7 +179,7 @@ Hello 4,13,Parent 4,Parent B4
             #region Act
 
             var csvStream = ConvertToCsvStream(csvText);
-            var xpoMapper = new XpoFieldMapper(Application);
+            var xpoMapper = new XpoFieldMapper();
             ICsvToXpoLoader loader = new HeadCsvToXpoInserter(param, csvStream, xpoMapper, null);
             loader.Execute();
             ObjectSpace.CommitChanges();
