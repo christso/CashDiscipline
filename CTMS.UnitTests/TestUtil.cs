@@ -58,6 +58,8 @@ namespace CTMS.UnitTests
             module.AdditionalExportedTypes.Add(typeof(MockLookupObject2));
             module.AdditionalExportedTypes.Add(typeof(MockFactObject));
             module.AdditionalExportedTypes.Add(typeof(ImportParamBase));
+            module.AdditionalExportedTypes.Add(typeof(ImportHeadersParam));
+            module.AdditionalExportedTypes.Add(typeof(ImportOrdinalsParam));
         }
     }
 }

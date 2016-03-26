@@ -11,11 +11,15 @@ using System.Threading.Tasks;
 using System.Collections;
 using CTMS.Module.BusinessObjects;
 using DevExpress.Data.Filtering;
+using Xafology.ExpressApp.Xpo.Import.Parameters;
 
 namespace CTMS.Module.Test
 {
     public class TestViewController : ViewController
     {
+        private const string cashFlowChoiceCaption = "Cash Flow";
+        private const string importParamChoiceCaption = "Import Param";
+
         public TestViewController()
         {
             var testDataAction = new SingleChoiceAction(this, "TestDataAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
@@ -27,12 +31,29 @@ namespace CTMS.Module.Test
             var cashFlowChoice = new ChoiceActionItem();
             cashFlowChoice.Caption = "Cash Flow";
             testDataAction.Items.Add(cashFlowChoice);
+
+            var importParamChoice = new ChoiceActionItem();
+            importParamChoice.Caption = "Import Param";
+            testDataAction.Items.Add(importParamChoice);
         }
 
-        void testAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
+        private void testAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
+        {
+            switch (e.SelectedChoiceActionItem.Caption)
+            {
+                case cashFlowChoiceCaption:
+                    CreateCashFlows();
+                    break;
+                case importParamChoiceCaption:
+                    CreateCashFlowImportParams();
+                    break;
+            }
+        }
+
+        public void CreateCashFlows()
         {
             var activity1 = ObjectSpace.FindObject<Activity>(CriteriaOperator.Parse(
-                "Name = ?", "ANZ Bank Fee"));
+            "Name = ?", "ANZ Bank Fee"));
             if (activity1 == null)
             {
                 activity1 = ObjectSpace.CreateObject<Activity>();
@@ -86,6 +107,61 @@ namespace CTMS.Module.Test
 
             ObjectSpace.CommitChanges();
             var shot = CashFlow.SaveForecast((XPObjectSpace)ObjectSpace);
+        }
+
+        public void CreateCashFlowImportParams()
+        {
+            var map1 = ObjectSpace.CreateObject<HeaderToFieldMap>();
+            map1.SourceName = "TranDate";
+            map1.TargetName = map1.SourceName;
+
+            var map2 = ObjectSpace.CreateObject<HeaderToFieldMap>();
+            map2.SourceName = "Account";
+            map2.TargetName = map2.SourceName;
+            map2.CreateMember = true;
+
+            var map3 = ObjectSpace.CreateObject<HeaderToFieldMap>();
+            map3.SourceName = "Activity";
+            map3.TargetName = map3.SourceName;
+            map3.CreateMember = true;
+
+            var map4 = ObjectSpace.CreateObject<HeaderToFieldMap>();
+            map4.SourceName = "Counterparty";
+            map4.TargetName = map4.SourceName;
+            map4.CreateMember = true;
+
+            var map5 = ObjectSpace.CreateObject<HeaderToFieldMap>();
+            map5.SourceName = "CounterCcyAmt";
+            map5.TargetName = map5.SourceName;
+
+            var map6 = ObjectSpace.CreateObject<HeaderToFieldMap>();
+            map6.SourceName = "CounterCcy";
+            map6.TargetName = map6.SourceName;
+            map6.CreateMember = true;
+
+            var map7 = ObjectSpace.CreateObject<HeaderToFieldMap>();
+            map7.SourceName = "Description";
+            map7.TargetName = map7.SourceName;
+
+            var map8 = ObjectSpace.CreateObject<HeaderToFieldMap>();
+            map8.SourceName = "Source";
+            map8.TargetName = map8.SourceName;
+            map8.CreateMember = true;
+
+            var param = ObjectSpace.CreateObject<ImportHeadersParam>();
+
+            param.HeaderToFieldMaps.Add(map1);
+            param.HeaderToFieldMaps.Add(map2);
+            param.HeaderToFieldMaps.Add(map3);
+            param.HeaderToFieldMaps.Add(map4);
+            param.HeaderToFieldMaps.Add(map5);
+            param.HeaderToFieldMaps.Add(map6);
+            param.HeaderToFieldMaps.Add(map7);
+            param.HeaderToFieldMaps.Add(map8);
+
+            param.ObjectTypeName = "CashFlow";
+
+            ObjectSpace.CommitChanges();
         }
     }
 }

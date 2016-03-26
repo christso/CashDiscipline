@@ -151,9 +151,8 @@
         <ColumnInfo Id="Id" Index="0" />
         <ColumnInfo Id="Name" Index="1" />
       </Columns>
-      <Filters CurrentFilterId="ArAccounts">
+      <Filters CurrentFilterId="AllAccounts">
         <Filter Id="AllAccounts" Caption="All Accounts" IsNewNode="True" />
-        <Filter Id="ArAccounts" Criteria="[ArtfCustomerType] Is Not Null" Caption="AR Accounts" IsNewNode="True" />
       </Filters>
     </ListView>
     <ListView Id="AccountActivityMap_ListView" AllowEdit="True" NewItemRowPosition="Top" />

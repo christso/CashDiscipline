@@ -49,16 +49,19 @@ namespace CTMS.UnitTests
             var map2 = ObjectSpace.CreateObject<HeaderToFieldMap>();
             map2.SourceName = "Account";
             map2.TargetName = map2.SourceName;
+            map2.CreateMember = true;
 
             var map3 = ObjectSpace.CreateObject<HeaderToFieldMap>();
             map3.SourceName = "Activity";
             map3.TargetName = map3.SourceName;
             map3.CreateMember = true;
+            map3.CacheObject = true;
 
             var map4 = ObjectSpace.CreateObject<HeaderToFieldMap>();
             map4.SourceName = "Counterparty";
             map4.TargetName = map4.SourceName;
             map4.CreateMember = true;
+            map4.CacheObject = true;
 
             var map5 = ObjectSpace.CreateObject<HeaderToFieldMap>();
             map5.SourceName = "CounterCcyAmt";
@@ -68,6 +71,7 @@ namespace CTMS.UnitTests
             map6.SourceName = "CounterCcy";
             map6.TargetName = map6.SourceName;
             map6.CreateMember = true;
+            //map6.CacheObject = true;
 
             var map7 = ObjectSpace.CreateObject<HeaderToFieldMap>();
             map7.SourceName = "Description";
@@ -77,6 +81,7 @@ namespace CTMS.UnitTests
             map8.SourceName = "Source";
             map8.TargetName = map8.SourceName;
             map8.CreateMember = true;
+            map8.CacheObject = true;
 
             var param = ObjectSpace.CreateObject<ImportHeadersParam>();
 
@@ -102,7 +107,7 @@ namespace CTMS.UnitTests
             ICsvToXpoLoader loader = new HeadCsvToXpoInserter(param, csvStream, xpoMapper, null);
             loader.Execute();
             ObjectSpace.CommitChanges();
-
+            
             #endregion
 
             #region Assert
@@ -112,6 +117,9 @@ namespace CTMS.UnitTests
             var obj1 = inserted.FirstOrDefault();
             Assert.NotNull(obj1.Account);
             Assert.NotNull(obj1.Activity);
+            Assert.NotNull(obj1.Counterparty);
+            Assert.NotNull(obj1.Source);
+            Assert.NotNull(obj1.CounterCcy);
 
             #endregion
         }
@@ -146,11 +154,13 @@ Hello 4,13,Parent 4,Parent B4
             map3.SourceName = "MockLookupObject1";
             map3.TargetName = map3.SourceName;
             map3.CreateMember = true;
+            map3.CacheObject = true;
 
             var map4 = ObjectSpace.CreateObject<HeaderToFieldMap>();
             map4.SourceName = "MockLookupObject2";
             map4.TargetName = map4.SourceName;
             map4.CreateMember = true;
+            map4.CacheObject = true;
 
             var param = ObjectSpace.CreateObject<ImportHeadersParam>();
 
