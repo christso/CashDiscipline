@@ -120,10 +120,10 @@
                                                                                 ContainerId="ViewsHistoryNavigation" Delimiter=" / " />
                                                                         </td>
                                                                         <td align="right">
-                                                                            <cc2:ActionContainerHolder runat="server" ID="RNC" ContainerStyle="Links" Orientation="Horizontal"
+                                                                            <cc2:WebActionContainer runat="server" ID="RNC" ContainerStyle="Links" Orientation="Horizontal"
                                                                                 Categories="RecordsNavigation" UseLargeImage="True" PaintStyle="Image" CssClass="RecordsNavigationContainer">
                                                                                 <Menu Width="100%" ItemAutoWidth="False" HorizontalAlign="Right" />
-                                                                            </cc2:ActionContainerHolder>
+                                                                            </cc2:WebActionContainer>
                                                                         </td>
                                                                     </tr>
                                                                 </table>

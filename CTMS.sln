@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTMS.Module", "CTMS.Module\CTMS.Module.csproj", "{5F15837D-D1E5-44DC-92F0-4F2EBE9C3F8D}"
 EndProject
@@ -22,11 +22,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0713632F-651C-4553-831D-2A94C38F6044}"
 	ProjectSection(SolutionItems) = preProject
 		clean.bat = clean.bat
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTMS.UnitTests", "CTMS.UnitTests\CTMS.UnitTests.csproj", "{C36BDE28-0653-4082-93FB-016F739DD23C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebTester", "WebTester\WebTester.csproj", "{4990AC44-3204-4C5A-A297-9AE0390E6EF8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CTMS.Web", "CTMS.Web\CTMS.Web.csproj", "{82A6DBC9-B1B4-44E4-9718-55DF930CD349}"
 EndProject
@@ -138,21 +137,6 @@ Global
 		{C36BDE28-0653-4082-93FB-016F739DD23C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C36BDE28-0653-4082-93FB-016F739DD23C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C36BDE28-0653-4082-93FB-016F739DD23C}.Release|x86.ActiveCfg = Release|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.EasyTest|Any CPU.ActiveCfg = Debug|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.EasyTest|Any CPU.Build.0 = Debug|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.EasyTest|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.EasyTest|Mixed Platforms.Build.0 = Release|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.EasyTest|x86.ActiveCfg = Release|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4990AC44-3204-4C5A-A297-9AE0390E6EF8}.Release|x86.ActiveCfg = Release|Any CPU
 		{82A6DBC9-B1B4-44E4-9718-55DF930CD349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{82A6DBC9-B1B4-44E4-9718-55DF930CD349}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82A6DBC9-B1B4-44E4-9718-55DF930CD349}.Debug|Mixed Platforms.ActiveCfg = Debug|x86

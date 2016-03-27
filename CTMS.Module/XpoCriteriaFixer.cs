@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CTMS.Module
 {
-    class XpoCriteriaFixer : ClientCriteriaVisitorBase
+    public class XpoCriteriaFixer : ClientCriteriaVisitorBase
     {
         protected override CriteriaOperator Visit(OperandValue theOperand)
         {

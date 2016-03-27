@@ -208,7 +208,7 @@ namespace CTMS.Web {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::DevExpress.ExpressApp.Web.Templates.ActionContainers.ActionContainerHolder RNC;
+        protected global::DevExpress.ExpressApp.Web.Templates.ActionContainers.WebActionContainer RNC;
         
         /// <summary>
         /// UPEMA control.

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CTMS.Web")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("-")]
+[assembly: AssemblyCompany("DG2NTT Pty Ltd")]
 [assembly: AssemblyProduct("CTMS.Web")]
 [assembly: AssemblyCopyright("Copyright © - 2008")]
 [assembly: AssemblyTrademark("")]
