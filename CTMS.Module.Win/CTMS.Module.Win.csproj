@@ -177,6 +177,14 @@
       <HintPath>..\packages\Xafology.ExpressApp.1.3.0.3\lib\net45\Xafology.ExpressApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Xafology.ExpressApp.BatchDelete, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.1.0.0.0\lib\net45\Xafology.ExpressApp.BatchDelete.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xafology.ExpressApp.BatchDelete.Win, Version=1.0.5930.27931, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.Win.1.0.5930.27931\lib\net45\Xafology.ExpressApp.BatchDelete.Win.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Xafology.ExpressApp.Layout, Version=1.3.0.3, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Xafology.ExpressApp.Layout.1.3.0.3\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
       <Private>True</Private>
@@ -219,9 +227,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\BulkUpdateListViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\Cash\CashFlowTestController.cs" />
     <Compile Include="Controllers\Cash\CustomizeGridViewController.cs">
       <SubType>Component</SubType>

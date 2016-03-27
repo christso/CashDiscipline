@@ -329,9 +329,6 @@
     <Compile Include="Controllers\Cash\DailyCashUpdateViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\BatchDeleteListViewControllerBase.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\Market\ImportForexParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -354,7 +351,6 @@
     </Compile>
     <Compile Include="Validation\ForexTradeRule.cs" />
     <Compile Include="Validation\GenLedgerRule.cs" />
-    <Compile Include="XpoCriteriaFixer.cs" />
     <Compile Include="BusinessObjects\Cash\Account.cs" />
     <Compile Include="BusinessObjects\Cash\AccountActivityMap.cs" />
     <Compile Include="BusinessObjects\Cash\Activity.cs" />

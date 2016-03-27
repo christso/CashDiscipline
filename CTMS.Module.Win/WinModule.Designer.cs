@@ -48,6 +48,7 @@ namespace CTMS.Module.Win
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.SystemModule.XafologySystemModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Win.SystemModule.XafologySystemWindowsFormsModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.BatchDelete.Win.BatchDeleteWinModule));
         }
 
         #endregion

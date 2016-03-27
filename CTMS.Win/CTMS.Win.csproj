@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CTMS.Win</RootNamespace>
     <AssemblyName>CTMS.Win</AssemblyName>
-    <ApplicationIcon>ctms_logo.ico</ApplicationIcon>
+    <ApplicationIcon>ExpressApp.ico</ApplicationIcon>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <SccProjectName>SAK</SccProjectName>
@@ -317,7 +317,7 @@
       <DependentUpon>Model.xafml</DependentUpon>
       <SubType>Designer</SubType>
     </None>
-    <Content Include="ctms_logo.ico" />
+    <Content Include="ExpressApp.ico" />
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

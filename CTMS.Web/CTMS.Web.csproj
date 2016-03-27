@@ -251,7 +251,7 @@
     </Content>
     <Content Include="Login.aspx" />
     <Content Include="LogonTemplateContent1.ascx" />
-    <Content Include="ctms_logo.ico" />
+    <Content Include="ExpressApp.ico" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -345,7 +345,7 @@
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ctms_logo.ico</ApplicationIcon>
+    <ApplicationIcon>ExpressApp.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>

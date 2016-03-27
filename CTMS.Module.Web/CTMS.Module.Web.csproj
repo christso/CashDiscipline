@@ -207,9 +207,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\BulkUpdateListViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\Cash\CashFlowPivotGridControllerWeb.cs">
       <SubType>Component</SubType>
     </Compile>
