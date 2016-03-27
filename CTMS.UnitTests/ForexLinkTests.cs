@@ -407,7 +407,6 @@ namespace CTMS.UnitTests
             #endregion
         }
 
-
         public override void OnAddExportedTypes(ModuleBase module)
         {
             CTMSTestHelper.AddExportedTypes(module);

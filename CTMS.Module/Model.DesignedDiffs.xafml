@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Title="Corporate Treasury Management System" Logo="vodafone_banner" Company="Vodafone Hutchison Australia Pty Limited" Copyright="Copyright (C) 2013 {0:Company}" WebSite="dg2ntt.com">
+<Application Title="Corporate Treasury Management System" Logo="vodafone_banner" Company="DG2NTT Pty Ltd" Copyright="Copyright (C) 2013 {0:Company}" WebSite="http://dg2ntt.com">
   <BOModel>
     <Class Name="CTMS.Module.BusinessObjects.Cash.Account" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
     <Class Name="CTMS.Module.BusinessObjects.Cash.Activity" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />

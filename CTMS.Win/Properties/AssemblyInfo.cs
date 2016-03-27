@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DG2NTT Pty Ltd")]
-[assembly: AssemblyProduct("CTMS.Win")]
-[assembly: AssemblyCopyright("Copyright © - 2007")]
+[assembly: AssemblyProduct("CTMS")]
+[assembly: AssemblyCopyright("Copyright (c) 2013-2016 DG2NTT Pty Ltd")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -28,5 +28,4 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("1.3.0.2")]
-
+[assembly: AssemblyVersion(CTMS.Module.AssemblyInfo.Version)]

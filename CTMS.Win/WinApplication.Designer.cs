@@ -58,6 +58,9 @@ namespace CTMS.Win
             this.layoutWindowsFormsModule1 = new Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule();
             this.XafologySystemWindowsFormsModule1 = new Xafology.ExpressApp.Win.SystemModule.XafologySystemWindowsFormsModule();
             this.msoExcelModule1 = new Xafology.ExpressApp.MsoExcel.MsoExcelModule();
+            this.importModule1 = new Xafology.ExpressApp.Xpo.Import.ImportModule();
+            this.batchDeleteWinModule1 = new Xafology.ExpressApp.BatchDelete.Win.BatchDeleteWinModule();
+            this.pasteWinModule1 = new Xafology.ExpressApp.Paste.Win.PasteWinModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlConnection1
@@ -75,10 +78,6 @@ namespace CTMS.Win
             // authenticationStandard1
             // 
             this.authenticationStandard1.LogonParametersType = typeof(DevExpress.ExpressApp.Security.AuthenticationStandardLogonParameters);
-            // 
-            // securityModule1
-            // 
-            this.securityModule1.UserType = typeof(DevExpress.ExpressApp.Security.Strategy.SecuritySystemUser);
             // 
             // validationModule1
             // 
@@ -112,6 +111,7 @@ namespace CTMS.Win
             this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.layoutModule1);
             this.Modules.Add(this.msoExcelModule1);
+            this.Modules.Add(this.importModule1);
             this.Modules.Add(this.module3);
             this.Modules.Add(this.scriptRecorderModuleBase1);
             this.Modules.Add(this.scriptRecorderWindowsFormsModule1);
@@ -124,6 +124,8 @@ namespace CTMS.Win
             this.Modules.Add(this.pivotGridLayoutWindowsFormsModule1);
             this.Modules.Add(this.layoutWindowsFormsModule1);
             this.Modules.Add(this.XafologySystemWindowsFormsModule1);
+            this.Modules.Add(this.batchDeleteWinModule1);
+            this.Modules.Add(this.pasteWinModule1);
             this.Modules.Add(this.module4);
             this.Security = this.securityStrategyComplex1;
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CTMSWindowsFormsApplication_DatabaseVersionMismatch);
@@ -164,5 +166,8 @@ namespace CTMS.Win
         private Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule layoutWindowsFormsModule1;
         private Xafology.ExpressApp.Win.SystemModule.XafologySystemWindowsFormsModule XafologySystemWindowsFormsModule1;
         private Xafology.ExpressApp.MsoExcel.MsoExcelModule msoExcelModule1;
+        private Xafology.ExpressApp.Xpo.Import.ImportModule importModule1;
+        private Xafology.ExpressApp.BatchDelete.Win.BatchDeleteWinModule batchDeleteWinModule1;
+        private Xafology.ExpressApp.Paste.Win.PasteWinModule pasteWinModule1;
     }
 }
