@@ -35,7 +35,7 @@ namespace CTMS.Module.Win
             this.AdditionalExportedTypes.Add(typeof(DevExpress.Xpo.XPCustomObject));
             this.AdditionalExportedTypes.Add(typeof(DevExpress.Xpo.XPBaseObject));
             this.AdditionalExportedTypes.Add(typeof(DevExpress.Xpo.PersistentBase));
-            this.RequiredModuleTypes.Add(typeof(CTMS.Module.CTMSModule));
+            
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Win.SystemModule.SystemWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.ScriptRecorder.Win.ScriptRecorderWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Reports.Win.ReportsWindowsFormsModule));
@@ -49,6 +49,7 @@ namespace CTMS.Module.Win
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.SystemModule.XafologySystemModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Win.SystemModule.XafologySystemWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.BatchDelete.Win.BatchDeleteWinModule));
+            this.RequiredModuleTypes.Add(typeof(CTMS.Module.CTMSModule));
         }
 
         #endregion

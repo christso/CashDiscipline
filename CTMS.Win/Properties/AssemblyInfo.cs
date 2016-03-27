@@ -8,11 +8,12 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CTMS.Win")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("DG2NTT Pty Ltd")]
+[assembly: AssemblyCompany(CTMS.Module.AssemblyInfo.AssemblyCompany)]
 [assembly: AssemblyProduct("CTMS")]
-[assembly: AssemblyCopyright("Copyright (c) 2013-2016 DG2NTT Pty Ltd")]
+[assembly: AssemblyCopyright(CTMS.Module.AssemblyInfo.AssemblyCopyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

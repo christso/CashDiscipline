@@ -427,8 +427,8 @@
     <EmbeddedResource Include="Images\vodafone_banner.png" />
     <Content Include="FunctionalTests\Counterparty_Create.inc" />
     <Content Include="FunctionalTests\ForexCounterparty_Create.inc" />
-    <Content Include="Images\vodafone_logo.png" />
-    <Content Include="Images\vodafone_logo_32x32.png" />
+    <EmbeddedResource Include="Images\vodafone_logo.png" />
+    <EmbeddedResource Include="Images\vodafone_logo_32x32.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
