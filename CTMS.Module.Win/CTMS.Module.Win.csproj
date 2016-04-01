@@ -149,8 +149,8 @@
     <Reference Include="DevExpress.RichEdit.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.XtraRichEdit.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="SDP.ParserUtils, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\SDP.ParserUtils.1.1.0.0\lib\net45\SDP.ParserUtils.dll</HintPath>
+    <Reference Include="SDP.ParserUtils, Version=1.1.2.0, Culture=neutral, PublicKeyToken=4ee1200acbd59010, processorArchitecture=MSIL">
+      <HintPath>..\packages\SDP.ParserUtils.1.1.2.0\lib\net45\SDP.ParserUtils.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System">
@@ -177,56 +177,56 @@
       <Name>System.XML</Name>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.15.2.4.1\lib\net45\Xafology.ExpressApp.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.15.2.7.0\lib\net45\Xafology.ExpressApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.BatchDelete, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.15.2.4.1\lib\net45\Xafology.ExpressApp.BatchDelete.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.BatchDelete, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.15.2.7.0\lib\net45\Xafology.ExpressApp.BatchDelete.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.BatchDelete.Win, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.Win.15.2.4.1\lib\net45\Xafology.ExpressApp.BatchDelete.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.BatchDelete.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.BatchDelete.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.15.2.4.1\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Layout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Layout.15.2.7.0\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout.Win, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.Win.15.2.4.1\lib\net45\Xafology.ExpressApp.Layout.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Layout.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Layout.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.Layout.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Paste.Win, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Paste.Win.15.2.4.1\lib\net45\Xafology.ExpressApp.Paste.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Paste.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Paste.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.Paste.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.15.2.4.1\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.Win.15.2.4.1\lib\net45\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.15.2.4.1\lib\net45\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.Win.15.2.4.1\lib\net45\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Win, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Win.15.2.4.1\lib\net45\Xafology.ExpressApp.Win.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.15.2.4.1\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
+    <Reference Include="Xafology.ExpressApp.Xpo, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.ExpressApp.Xpo.15.2.7.0\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.PivotGrid, Version=15.2.4.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.PivotGrid.15.2.4.1\lib\net45\Xafology.PivotGrid.dll</HintPath>
+    <Reference Include="Xafology.PivotGrid, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Xafology.PivotGrid.15.2.7.0\lib\net45\Xafology.PivotGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>

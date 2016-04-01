@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Application>
-  <Views Id="Views">
-    <ListView Id="AccountSummaryRpt_PivotGridView" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Web.ASPxPivotGridListEditor" />
-  </Views>
-</Application>

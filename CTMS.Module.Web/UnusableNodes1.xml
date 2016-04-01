@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Application>
-  <Views Id="Views">
-    <ListView Id="CTMS.Module.BusinessObjects.Artf.ArtfReceipt_LookupListView_2" DetailViewID="ArtfReceipt_DetailView2" />
-  </Views>
-</Application>
