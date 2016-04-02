@@ -72,6 +72,12 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\CTMS.Key\CTMS.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
       <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
@@ -178,76 +184,56 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.15.2.7.0\lib\net45\Xafology.ExpressApp.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.BatchDelete, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.15.2.7.0\lib\net45\Xafology.ExpressApp.BatchDelete.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.BatchDelete.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.BatchDelete.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.BatchDelete.Win.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.BatchDelete.Win.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Layout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.15.2.7.0\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Layout.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Layout.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.Layout.Win.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Layout.Win.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Paste.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Paste.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.Paste.Win.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Paste.Win.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGrid, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.Win.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Win.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Xpo, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.15.2.7.0\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.PivotGrid, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.PivotGrid.15.2.7.0\lib\net45\Xafology.PivotGrid.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\assemblies\Xafology.PivotGrid.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Cash\CashFlowTestController.cs" />
+    <Compile Include="Controllers\Cash\BankStmtFilterViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Cash\CustomizeGridViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\Cash\CashFlowPivotGridControllerWin.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\Cash\CashFlowPivotGridLayoutControllerWin.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\CTMSPivotGridDrillDownController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\FinAccounting\GenLedgerListViewControllerWin.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\Cash\BankStmtFilterViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\ToolbarViewController.cs">

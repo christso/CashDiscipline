@@ -56,6 +56,12 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\CTMS.Key\CTMS.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>  
   <ItemGroup>
     <Reference Include="DevExpress.Data.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -100,25 +106,20 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Xafology.ExpressApp, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.15.2.7.0\lib\net45\Xafology.ExpressApp.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp">
+      <HintPath>..\assemblies\Xafology.ExpressApp.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.15.2.7.0\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp.Xpo">
+      <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo.Import, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.Import.15.2.7.0\lib\net45\Xafology.ExpressApp.Xpo.Import.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp.Xpo.Import">
+      <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.Import.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.TestUtils, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.TestUtils.15.2.7.0\lib\net45\Xafology.TestUtils.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.TestUtils">
+      <HintPath>..\assemblies\Xafology.TestUtils.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.Utils, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.Utils.15.2.7.0\lib\net45\Xafology.Utils.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.Utils">
+      <HintPath>..\assemblies\Xafology.Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

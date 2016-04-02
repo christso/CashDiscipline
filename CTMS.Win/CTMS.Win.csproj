@@ -18,7 +18,10 @@
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
     <TargetFrameworkProfile />
-    <PublishUrl>D:\Visual_Studio\Active_Projects\CTMS\Distribution\</PublishUrl>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>D:\CTSO\Data\Visual Studio\Active Projects\CTMS\Distribution\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -28,15 +31,11 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>4</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -95,7 +94,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>45E651B1A7B6C01FC930D7F1A4020B50D7E21AAE</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>2E7AAEE4DA018E4DF0E8010BB1A6CA60DEA08745</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>CTMS.Win_TemporaryKey.pfx</ManifestKeyFile>
@@ -104,7 +103,13 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\CTMS.Key\CTMS.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -250,77 +255,78 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.15.2.7.0\lib\net45\Xafology.ExpressApp.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.BatchDelete, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.15.2.7.0\lib\net45\Xafology.ExpressApp.BatchDelete.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.BatchDelete.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.BatchDelete.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.BatchDelete.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.BatchDelete.Win.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.BatchDelete.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Layout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.15.2.7.0\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Layout.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Layout.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.Layout.Win.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Layout.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.MsoExcel, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.MsoExcel.15.2.7.0\lib\net45\Xafology.ExpressApp.MsoExcel.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.MsoExcel.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Paste.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Paste.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.Paste.Win.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Paste.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGrid, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Win.15.2.7.0\lib\net45\Xafology.ExpressApp.Win.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Xpo, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.15.2.7.0\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Xpo.Import, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.Import.15.2.7.0\lib\net45\Xafology.ExpressApp.Xpo.Import.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.Import.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.PivotGrid, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.PivotGrid.15.2.7.0\lib\net45\Xafology.PivotGrid.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.PivotGrid.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.Spreadsheet, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.Spreadsheet.15.2.7.0\lib\net45\Xafology.Spreadsheet.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.Spreadsheet.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.Utils, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.Utils.15.2.7.0\lib\net45\Xafology.Utils.dll</HintPath>
+      <HintPath>..\assemblies\Xafology.Utils.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="CTMS.Win_TemporaryKey.pfx" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

@@ -71,11 +71,10 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\CTMS.Key\CTMS.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AutoMapper, Version=4.2.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
@@ -169,45 +168,35 @@
       <Name>System.XML</Name>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.15.2.7.0\lib\net45\Xafology.ExpressApp.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp">
+      <HintPath>..\assemblies\Xafology.ExpressApp.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Layout.15.2.7.0\lib\net45\Xafology.ExpressApp.Layout.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp.Layout">
+      <HintPath>..\assemblies\Xafology.ExpressApp.Layout.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.MsoExcel, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.MsoExcel.15.2.7.0\lib\net45\Xafology.ExpressApp.MsoExcel.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp.MsoExcel">
+      <HintPath>..\assemblies\Xafology.ExpressApp.MsoExcel.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGrid.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGrid.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp.PivotGrid">
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.PivotGridLayout.15.2.7.0\lib\net45\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout">
+      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.15.2.7.0\lib\net45\Xafology.ExpressApp.Xpo.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp.Xpo">
+      <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo.Import, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.ExpressApp.Xpo.Import.15.2.7.0\lib\net45\Xafology.ExpressApp.Xpo.Import.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.ExpressApp.Xpo.Import">
+      <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.Import.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.Spreadsheet, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.Spreadsheet.15.2.7.0\lib\net45\Xafology.Spreadsheet.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.Spreadsheet">
+      <HintPath>..\assemblies\Xafology.Spreadsheet.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.StringEvaluators, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.StringEvaluators.15.2.7.0\lib\net45\Xafology.StringEvaluators.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.StringEvaluators">
+      <HintPath>..\assemblies\Xafology.StringEvaluators.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.Utils, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Xafology.Utils.15.2.7.0\lib\net45\Xafology.Utils.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Xafology.Utils">
+      <HintPath>..\assemblies\Xafology.Utils.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -440,11 +429,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
 </Project>
