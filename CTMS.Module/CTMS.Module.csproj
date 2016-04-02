@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG;TESTDATA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -30,7 +30,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -346,7 +346,9 @@
     <Compile Include="ParamObjects\FinAccounting\FinJournalGroupParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParam.cs" />
     <Compile Include="ParamObjects\MoveToIndexParam.cs" />
-    <Compile Include="Test\TestViewController.cs" />
+    <Compile Include="Test\TestViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Validation\ForexTradeRule.cs" />
     <Compile Include="Validation\GenLedgerRule.cs" />
     <Compile Include="BusinessObjects\Cash\Account.cs" />
