@@ -8,17 +8,19 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CTMS.UnitTests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany(CTMS.Module.AssemblyInfo.AssemblyCompany)]
-[assembly: AssemblyProduct("CTMS")]
-[assembly: AssemblyCopyright(CTMS.Module.AssemblyInfo.AssemblyCopyright)]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("CTMS.UnitTests")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
+
+// The following GUID is for the ID of the typelib if this project is exposed to COM
+[assembly: Guid("fb0988bd-a1b4-4ca3-a8b7-d0078cf23501")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -27,6 +29,8 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Revision and Build Numbers 
+// You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
-[assembly: AssemblyVersion(CTMS.Module.AssemblyInfo.Version)]
+// [assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
