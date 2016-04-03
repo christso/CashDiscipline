@@ -135,8 +135,8 @@
     </Items>
   </NavigationItems>
   <SchemaModules>
-    <SchemaModule Name="CloneObjectModule" Version="15.2.4.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="15.2.4.0" IsNewNode="True" />
+    <SchemaModule Name="CloneObjectModule" Version="15.2.7.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="15.2.7.0" IsNewNode="True" />
     <SchemaModule Name="SystemWindowsFormsModule" Version="12.2.7.0" IsNewNode="True" />
   </SchemaModules>
   <Templates>
@@ -378,7 +378,38 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
-    <ListView Id="CashFlow_ListView" DataAccessMode="Server" DetailViewID="" />
+    <ListView Id="CashFlow_ListView" DataAccessMode="Server" DetailViewID="">
+      <Columns>
+        <ColumnInfo Id="OrigCashFlow" Index="-1" />
+        <ColumnInfo Id="Snapshot" Index="1" />
+        <ColumnInfo Id="TranDate" Index="2" />
+        <ColumnInfo Id="Account" Index="3" />
+        <ColumnInfo Id="Activity" Index="4" />
+        <ColumnInfo Id="Counterparty" Index="5" />
+        <ColumnInfo Id="AccountCcyAmt" Index="6" />
+        <ColumnInfo Id="Description" Index="7" />
+        <ColumnInfo Id="Source" Index="8" />
+        <ColumnInfo Id="FunctionalCcyAmt" Index="9" />
+        <ColumnInfo Id="CounterCcyAmt" Index="10" />
+        <ColumnInfo Id="CounterCcy" Index="11" />
+        <ColumnInfo Id="Status" Index="12" />
+        <ColumnInfo Id="Fix" Index="13" />
+        <ColumnInfo Id="IsReclass" Index="14" />
+        <ColumnInfo Id="DateUnFix" Index="15" />
+        <ColumnInfo Id="FixFromDate" Index="16" />
+        <ColumnInfo Id="FixToDate" Index="17" />
+        <ColumnInfo Id="FixActivity" Index="18" />
+        <ColumnInfo Id="TimeEntered" Index="19" />
+        <ColumnInfo Id="ForexSettleType" Index="20" />
+        <ColumnInfo Id="FixRank" Index="21" />
+        <ColumnInfo Id="Fixer" Index="22" />
+        <ColumnInfo Id="ParentCashFlow" Index="23" />
+        <ColumnInfo Id="ForexLinkedAccountCcyAmt" Index="24" />
+        <ColumnInfo Id="ForexUnlinkedAccountCcyAmt" Index="25" />
+        <ColumnInfo Id="ForexLinkIsClosed" Index="26" />
+        <ColumnInfo Id="ForexSettleGroupId" Index="27" />
+      </Columns>
+    </ListView>
     <ListView Id="CashFlow_LookupListView">
       <Columns>
         <ColumnInfo Id="TranDate" PropertyName="TranDate" Width="70" Index="1" IsNewNode="True" />
