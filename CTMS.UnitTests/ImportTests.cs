@@ -24,8 +24,8 @@ namespace CTMS.UnitTests
 
         public ImportTests()
         {
-            SetTesterDbType(TesterDbType.MsSql);
-
+            SetTesterDbType(TesterDbType.InMemory);
+            
             var tester = Tester as MSSqlDbTestBase;
             if (tester != null)
                 tester.DatabaseName = "CTMS_Test";

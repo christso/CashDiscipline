@@ -349,6 +349,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
+        [ModelDefault("DisplayFormat", "dd-MMM-yy hh:mm:ss")]
         public DateTime TimeEntered
         {
             get
