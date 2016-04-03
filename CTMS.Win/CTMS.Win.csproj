@@ -94,7 +94,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>2E7AAEE4DA018E4DF0E8010BB1A6CA60DEA08745</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>25DC3167BFBBBA8AEA4B01F8C59735A6824E6350</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>CTMS.Win_TemporaryKey.pfx</ManifestKeyFile>
@@ -326,6 +326,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="CTMS.Win_TemporaryKey.pfx" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
