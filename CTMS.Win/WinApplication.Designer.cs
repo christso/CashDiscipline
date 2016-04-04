@@ -35,9 +35,6 @@ namespace CTMS.Win
             this.sqlConnection1 = new System.Data.SqlClient.SqlConnection();
             this.businessClassLibraryCustomizationModule1 = new DevExpress.ExpressApp.Objects.BusinessClassLibraryCustomizationModule();
             this.cloneObjectModule1 = new DevExpress.ExpressApp.CloneObject.CloneObjectModule();
-            this.securityStrategyComplex1 = new DevExpress.ExpressApp.Security.SecurityStrategyComplex();
-            this.authenticationStandard1 = new DevExpress.ExpressApp.Security.AuthenticationStandard();
-            this.securityModule1 = new DevExpress.ExpressApp.Security.SecurityModule();
             this.viewVariantsModule1 = new DevExpress.ExpressApp.ViewVariantsModule.ViewVariantsModule();
             this.validationModule1 = new DevExpress.ExpressApp.Validation.ValidationModule();
             this.pivotGridModule1 = new DevExpress.ExpressApp.PivotGrid.PivotGridModule();
@@ -69,16 +66,6 @@ namespace CTMS.Win
     "TMS";
             this.sqlConnection1.FireInfoMessageEventOnUserErrors = false;
             // 
-            // securityStrategyComplex1
-            // 
-            this.securityStrategyComplex1.Authentication = this.authenticationStandard1;
-            this.securityStrategyComplex1.RoleType = typeof(DevExpress.ExpressApp.Security.Strategy.SecuritySystemRole);
-            this.securityStrategyComplex1.UserType = typeof(DevExpress.ExpressApp.Security.Strategy.SecuritySystemUser);
-            // 
-            // authenticationStandard1
-            // 
-            this.authenticationStandard1.LogonParametersType = typeof(DevExpress.ExpressApp.Security.AuthenticationStandardLogonParameters);
-            // 
             // validationModule1
             // 
             this.validationModule1.AllowValidationDetailsAccess = true;
@@ -105,7 +92,6 @@ namespace CTMS.Win
             this.Modules.Add(this.validationModule1);
             this.Modules.Add(this.pivotGridModule1);
             this.Modules.Add(this.reportsModule1);
-            this.Modules.Add(this.securityModule1);
             this.Modules.Add(this.pivotGridLayoutModule1);
             this.Modules.Add(this.XafologySystemModule1);
             this.Modules.Add(this.xpoModule1);
@@ -127,7 +113,6 @@ namespace CTMS.Win
             this.Modules.Add(this.batchDeleteWinModule1);
             this.Modules.Add(this.pasteWinModule1);
             this.Modules.Add(this.module4);
-            this.Security = this.securityStrategyComplex1;
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CTMSWindowsFormsApplication_DatabaseVersionMismatch);
             this.CustomizeLanguagesList += new System.EventHandler<DevExpress.ExpressApp.CustomizeLanguagesListEventArgs>(this.CTMSWindowsFormsApplication_CustomizeLanguagesList);
             ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
@@ -143,9 +128,6 @@ namespace CTMS.Win
         private System.Data.SqlClient.SqlConnection sqlConnection1;
         private DevExpress.ExpressApp.Objects.BusinessClassLibraryCustomizationModule businessClassLibraryCustomizationModule1;
         private DevExpress.ExpressApp.CloneObject.CloneObjectModule cloneObjectModule1;
-        private DevExpress.ExpressApp.Security.SecurityStrategyComplex securityStrategyComplex1;
-        private DevExpress.ExpressApp.Security.AuthenticationStandard authenticationStandard1;
-        private DevExpress.ExpressApp.Security.SecurityModule securityModule1;
         private DevExpress.ExpressApp.ViewVariantsModule.ViewVariantsModule viewVariantsModule1;
         private DevExpress.ExpressApp.Validation.ValidationModule validationModule1;
         private DevExpress.ExpressApp.PivotGrid.PivotGridModule pivotGridModule1;

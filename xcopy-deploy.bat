@@ -1,0 +1,1 @@
+"C:\Program Files\FastCopy\FastCopy.exe" /cmd=sync "E:\Models\CTMS\CTMS.Win\bin\Release" /to="\\finserv01\Apps\CTMS_XCOPY"
