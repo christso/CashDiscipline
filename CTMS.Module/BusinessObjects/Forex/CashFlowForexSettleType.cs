@@ -24,6 +24,7 @@ namespace CTMS.Module.BusinessObjects.Forex
     {
         Exclude,
         In,
-        Out
+        Out,
+        Auto
     }
 }

@@ -17,9 +17,9 @@ namespace CTMS.Module.BusinessObjects.Cash
     [DefaultProperty("Text")]
     [ImageName("BO_List")]
     [NavigationItem("Cash Setup")]
-    public class ActivityTag : BaseObject
+    public class CounterpartyTag : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
-        public ActivityTag(Session session)
+        public CounterpartyTag(Session session)
             : base(session)
         {
         }

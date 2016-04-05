@@ -7,7 +7,7 @@ using DevExpress.Xpo;
 
 namespace CTMS.Module.BusinessObjects
 {
-    [DefaultClassOptions]
+    [NavigationItem("Cash Setup")]
     public class Currency : BaseObject
     {
         public Currency(Session session)

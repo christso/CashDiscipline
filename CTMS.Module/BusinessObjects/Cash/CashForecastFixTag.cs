@@ -14,11 +14,10 @@ using DevExpress.Persistent.Validation;
 
 namespace CTMS.Module.BusinessObjects.Cash
 {
-    //[ImageName("BO_Contact")]
-    //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
-    //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
-    //[Persistent("DatabaseTableName")]
-    // Specify more UI options using a declarative approach (http://documentation.devexpress.com/#Xaf/CustomDocument2701).
+    [ImageName("BO_List")]
+    [NavigationItem("Cash Setup")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [ModelDefault("IsFooterVisible", "True")]
     public class CashForecastFixTag : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public CashForecastFixTag(Session session)

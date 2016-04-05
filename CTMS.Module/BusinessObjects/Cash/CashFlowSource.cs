@@ -14,7 +14,11 @@ using DevExpress.Persistent.Validation;
 
 namespace CTMS.Module.BusinessObjects.Cash
 {
-
+    [ImageName("BO_List")]
+    [ModelDefault("IsCloneable", "True")]
+    [NavigationItem("Cash Setup")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [ModelDefault("IsFooterVisible", "True")]
     public class CashFlowSource : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public CashFlowSource(Session session)

@@ -23,6 +23,7 @@ namespace CTMS.Module.BusinessObjects.Cash
     [VisibleInReports(true)]
     [ModelDefault("IsCloneable", "True")]
     [ModelDefault("IsFooterVisible", "True")]
+    [ModelDefault("ImageName","BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("ShortUID")]
     public class CashFlow : BaseObject, ICalculateToggleObject, CTMS.Module.Interfaces.ICashFlow, IXpoImportable
@@ -152,7 +153,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Association("Account-CashFlows")]
         [RuleRequiredField("CashFlow.Account_RuleRequiredField", DefaultContexts.Save)]
         [ImmediatePostData(true)]
         public Account Account
@@ -184,7 +184,7 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Association("Activity-CashFlows")]
+        //[Association("Activity-CashFlows")]
         [RuleRequiredField("CashFlow.Activity_RuleRequiredField", DefaultContexts.Save)]
         public Activity Activity
         {
@@ -198,7 +198,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Association("Counterparty-CashFlows")]
         [RuleRequiredField("CashFlow.Counterparty_RuleRequiredField", DefaultContexts.Save)]
         public Counterparty Counterparty
         {

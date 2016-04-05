@@ -170,7 +170,6 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
         Account _Account;
         [VisibleInLookupListView(true)]
-        [Association(@"Account-BankStmt")]
         public Account Account
         {
             get { return _Account; }
@@ -187,7 +186,6 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
         Activity _Activity;
         [VisibleInLookupListView(false)]
-        [Association(@"Activity-BankStmt")]
         public Activity Activity
         {
             get { return _Activity; }
@@ -195,7 +193,6 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
         Counterparty _Counterparty;
         [VisibleInLookupListView(false)]
-        [Association(@"Counterparty-BankStmt")]
         public Counterparty Counterparty
         {
             get { return _Counterparty; }

@@ -3,9 +3,15 @@ using DevExpress.Xpo;
 using DevExpress.Data.Filtering;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Model;
 
 namespace CTMS.Module.BusinessObjects.Cash
 {
+    [ImageName("BO_List")]
+    [NavigationItem("Cash Setup")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [ModelDefault("IsFooterVisible", "True")]
     public class Counterparty : BaseObject
     {
         public Counterparty(Session session)
@@ -30,7 +36,6 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         // Fields...
         private string _Name;
-        // [Indexed(Name = @"IX_Counterparty", Unique = true)]
         public string Name
         {
             get
@@ -56,18 +61,32 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [Association(@"Counterparty-BankStmt", typeof(BankStmt))]
-        public XPCollection<BankStmt> BankStmt { get { return GetCollection<BankStmt>("BankStmt"); } }
-
-        [Association("Counterparty-CashFlows")]
-        public XPCollection<CashFlow> CashFlows
+        private CounterpartyTag _CounterpartyL1;
+        public CounterpartyTag CounterpartyL1
         {
             get
             {
-                return GetCollection<CashFlow>("CashFlows");
+                return _CounterpartyL1;
+            }
+            set
+            {
+                SetPropertyValue("CounterpartyL1", ref _CounterpartyL1, value);
             }
         }
 
+        private CounterpartyTag _CounterpartyL2;
+
+        public CounterpartyTag CounterpartyL2
+        {
+            get
+            {
+                return _CounterpartyL2;
+            }
+            set
+            {
+                SetPropertyValue("CounterpartyL2", ref _CounterpartyL2, value);
+            }
+        }
     }
 
 }

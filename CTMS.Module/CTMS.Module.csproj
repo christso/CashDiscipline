@@ -201,6 +201,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="BusinessObjects\Cash\CounterpartyTag.cs" />
+    <Compile Include="BusinessObjects\Owner.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="BusinessObjects\BankStmtCashFlowForecast.cs" />
     <Compile Include="BusinessObjects\Cash\ActivityTag.cs" />
@@ -237,7 +239,6 @@
     <Compile Include="BusinessObjects\Cash\AccountsPayable\ApBankAccount.cs" />
     <Compile Include="BusinessObjects\Cash\AccountsPayable\ApSource.cs" />
     <Compile Include="BusinessObjects\Cash\AccountsPayable\ApPmtDistn.cs" />
-    <Compile Include="BusinessObjects\Bank.cs" />
     <Compile Include="BusinessObjects\Cash\BankStmtAccountImportMapping.cs" />
     <Compile Include="BusinessObjects\Cash\BankStmtMapping.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlow.cs" />
@@ -408,6 +409,14 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="UnusableNodes4.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes3.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UnusableNodes2.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>

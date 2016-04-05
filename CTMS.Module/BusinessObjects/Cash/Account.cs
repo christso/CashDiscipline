@@ -1,4 +1,5 @@
 ﻿using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
@@ -8,6 +9,10 @@ using DevExpress.Xpo;
 namespace CTMS.Module.BusinessObjects.Cash
 {
     [ModelDefault("IsCloneable", "True")]
+    [ImageName("BO_List")]
+    [NavigationItem("Cash Setup")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [ModelDefault("IsFooterVisible", "True")]
     public class Account : BaseObject
     {
         public Account(Session session)
@@ -26,8 +31,6 @@ namespace CTMS.Module.BusinessObjects.Cash
 
         private Account _FixAccount;
         private Currency _Currency;
-        private Bank _Bank;
-        private bool _IsBankAccount;
         private string _BankAccountNumber;
         private int _Id;
         private string _Name;
@@ -65,52 +68,56 @@ namespace CTMS.Module.BusinessObjects.Cash
                 SetPropertyValue("BankAccountNumber", ref _BankAccountNumber, value);
             }
         }
-        public bool IsActive
+
+        private string _UltimateOwner;
+        public string UltimateOwner
         {
             get
             {
-                return _IsActive;
+                return _UltimateOwner;
             }
             set
             {
-                SetPropertyValue("IsActive", ref _IsActive, value);
+                SetPropertyValue("UltimateOwner", ref _UltimateOwner, value);
             }
         }
 
-        [Association(@"Account-BankStmt", typeof(BankStmt))]
-        public XPCollection<BankStmt> BankStmt { get { return GetCollection<BankStmt>("BankStmt"); } }
-
-        [Association("Account-CashFlows")]
-        public XPCollection<CashFlow> CashFlows
+        private string _Owner;
+        public string Owner
         {
             get
             {
-                return GetCollection<CashFlow>("CashFlows");
-            }
-        }
-
-        public bool IsBankAccount
-        {
-            get
-            {
-                return _IsBankAccount;
+                return _Owner;
             }
             set
             {
-                SetPropertyValue("IsBankAccount", ref _IsBankAccount, value);
+                SetPropertyValue("Owner", ref _Owner, value);
             }
         }
 
-        [ModelDefault("LookupProperty", "ShortName")]
-        public Bank Bank
+        private string _BankNickName;
+        public string BankNickName
         {
             get
             {
-                return _Bank;
+                return _BankNickName;
             }
             set
             {
-                SetPropertyValue("Bank", ref _Bank, value);
+                SetPropertyValue("BankNickName", ref _BankNickName, value);
+            }
+        }
+
+        private string _BankGroup;
+        public string BankGroup
+        {
+            get
+            {
+                return _BankGroup;
+            }
+            set
+            {
+                SetPropertyValue("BankGroup", ref _BankGroup, value);
             }
         }
 
@@ -128,7 +135,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-
         public Account FixAccount
         {
             get
@@ -138,6 +144,45 @@ namespace CTMS.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("FixAccount", ref _FixAccount, value);
+            }
+        }
+
+        public bool IsActive
+        {
+            get
+            {
+                return _IsActive;
+            }
+            set
+            {
+                SetPropertyValue("IsActive", ref _IsActive, value);
+            }
+        }
+
+        private bool _IsCash;
+        public bool IsCash
+        {
+            get
+            {
+                return _IsCash;
+            }
+            set
+            {
+                SetPropertyValue("IsCash", ref _IsCash, value);
+            }
+        }
+
+
+        private bool _IsAtCall;
+        public bool IsAtCall
+        {
+            get
+            {
+                return _IsAtCall;
+            }
+            set
+            {
+                SetPropertyValue("IsAtCall", ref _IsAtCall, value);
             }
         }
 

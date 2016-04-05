@@ -5,10 +5,15 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.ExpressApp.Model;
 using CTMS.Module.BusinessObjects.Forex;
+using DevExpress.ExpressApp;
 
 namespace CTMS.Module.BusinessObjects.Cash
 {
     [ModelDefault("IsCloneable", "True")]
+    [ImageName("BO_List")]
+    [NavigationItem("Cash Setup")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [ModelDefault("IsFooterVisible", "True")]
     public class Activity : BaseObject
     {
         public Activity(Session session)
@@ -25,17 +30,9 @@ namespace CTMS.Module.BusinessObjects.Cash
         }
      
         private CashFlowSource _FixSource;
-        private ActivityTag _Dim_1_3;
-        private ActivityTag _Dim_1_2;
-        private ActivityTag _Dim_1_1;
-        private string _Name;
-        private int _Id;
 
-        public int Id
-        {
-            get { return _Id; }
-            set { SetPropertyValue<int>("Id", ref _Id, value); }
-        }
+        private string _Name;
+
 
         // Fields...
 
@@ -51,40 +48,150 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        [ImmediatePostData(true)]
-        public ActivityTag Dim_1_1
+        private ActivityTag _ActivityL1;
+        public ActivityTag ActivityL1
         {
             get
             {
-                return _Dim_1_1;
+                return _ActivityL1;
             }
             set
             {
-                SetPropertyValue("Dim_1_1", ref _Dim_1_1, value);
+                SetPropertyValue("ActivityL1", ref _ActivityL1, value);
             }
         }
-        [ImmediatePostData(true)]
-        public ActivityTag Dim_1_2
+
+        private ActivityTag _ActivityL2;
+
+        public ActivityTag ActivityL2
         {
             get
             {
-                return _Dim_1_2;
+                return _ActivityL2;
             }
             set
             {
-                SetPropertyValue("Dim_1_2", ref _Dim_1_2, value);
+                SetPropertyValue("ActivityL2", ref _ActivityL2, value);
             }
         }
-        [ImmediatePostData(true)]
-        public ActivityTag Dim_1_3
+
+        private ActivityTag _ActivityL3;
+
+        public ActivityTag ActivityL3
         {
             get
             {
-                return _Dim_1_3;
+                return _ActivityL3;
             }
             set
             {
-                SetPropertyValue("Dim_1_3", ref _Dim_1_3, value);
+                SetPropertyValue("ActivityL3", ref _ActivityL3, value);
+            }
+        }
+
+        private ActivityTag _ActivityL4;
+        public ActivityTag ActivityL4
+        {
+            get
+            {
+                return _ActivityL4;
+            }
+            set
+            {
+                SetPropertyValue("ActivityL4", ref _ActivityL4, value);
+            }
+        }
+
+        private ActivityTag _OpActivityL1;
+        public ActivityTag OpActivityL1
+        {
+            get
+            {
+                return _OpActivityL1;
+            }
+            set
+            {
+                SetPropertyValue("OpActivityL1", ref _OpActivityL1, value);
+            }
+        }
+
+        private ActivityTag _OpActivityL2;
+
+        public ActivityTag OpActivityL2
+        {
+            get
+            {
+                return _OpActivityL2;
+            }
+            set
+            {
+                SetPropertyValue("OpActivityL2", ref _OpActivityL2, value);
+            }
+        }
+
+        private ActivityTag _OpActivityL3;
+
+        public ActivityTag OpActivityL3
+        {
+            get
+            {
+                return _OpActivityL3;
+            }
+            set
+            {
+                SetPropertyValue("OpActivityL3", ref _OpActivityL3, value);
+            }
+        }
+
+        private ActivityTag _OpActivityL4;
+        public ActivityTag OpActivityL4
+        {
+            get
+            {
+                return _OpActivityL4;
+            }
+            set
+            {
+                SetPropertyValue("OpActivityL4", ref _OpActivityL4, value);
+            }
+        }
+
+
+        private ActivityTag _HedgeActivity;
+        public ActivityTag HedgeActivity
+        {
+            get
+            {
+                return _HedgeActivity;
+            }
+            set
+            {
+                SetPropertyValue("HedgeActivity", ref _HedgeActivity, value);
+            }
+        }
+
+        private Activity _FixActivity;
+        public Activity FixActivity
+        {
+            get
+            {
+                return _FixActivity;
+            }
+            set
+            {
+                SetPropertyValue("FixActivity", ref _FixActivity, value);
+            }
+        }
+
+        public CashFlowSource FixSource
+        {
+            get
+            {
+                return _FixSource;
+            }
+            set
+            {
+                SetPropertyValue("FixSource", ref _FixSource, value);
             }
         }
 
@@ -101,53 +208,13 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
-        public CashFlowSource FixSource
+        private int _Id;
+        public int Id
         {
-            get
-            {
-                return _FixSource;
-            }
-            set
-            {
-                SetPropertyValue("FixSource", ref _FixSource, value);
-            }
+            get { return _Id; }
+            set { SetPropertyValue<int>("Id", ref _Id, value); }
         }
 
-        [Association(@"Activity-BankStmt", typeof(BankStmt))]
-        public XPCollection<BankStmt> BankStmt { get { return GetCollection<BankStmt>("BankStmt"); } }
-
-        [Association("Activity-CashFlows")]
-        public XPCollection<CashFlow> CashFlows
-        {
-            get
-            {
-                return GetCollection<CashFlow>("CashFlows");
-            }
-        }
-
-        //public Account AccountMap
-        //{
-        //    get
-        //    {
-        //        return _AccountMap;
-        //    }
-        //    set
-        //    {
-        //        if (_AccountMap == value)
-        //            return;
-
-        //        Account prevAccountMap = _AccountMap;
-        //        prevAccountMap = value;
-
-        //        if (IsLoading) return;
-
-        //        if (prevAccountMap != null && prevAccountMap.ActivityMap == this)
-        //            prevAccountMap.ActivityMap = null;
-        //        if (_AccountMap != null)
-        //            _AccountMap.ActivityMap = this;
-        //        OnChanged("AccountMap");
-        //    }
-        //}
     }
 
 }

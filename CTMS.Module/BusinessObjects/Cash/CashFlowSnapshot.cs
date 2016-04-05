@@ -1,4 +1,7 @@
 using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Model;
+using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
@@ -8,6 +11,11 @@ using System.ComponentModel;
 namespace CTMS.Module.BusinessObjects.Cash
 {
     [DefaultProperty("Name")]
+    [ImageName("BO_List")]
+    [ModelDefault("IsCloneable", "True")]
+    [NavigationItem("Cash Setup")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [ModelDefault("IsFooterVisible", "True")]
     public class CashFlowSnapshot : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public CashFlowSnapshot(Session session)
