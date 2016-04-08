@@ -46,6 +46,20 @@ namespace CTMS.Module.BusinessObjects
             }
         }
 
+        // Fields...
+        private bool _IsFunctional;
+        public bool IsFunctional
+        {
+            get
+            {
+                return _IsFunctional;
+            }
+            set
+            {
+                SetPropertyValue("IsFunctional", ref _IsFunctional, value);
+            }
+        }
+
         [Association(@"CounterCcy-BankStmt", typeof(BankStmt))]
         [MemberDesignTimeVisibility(false)]
         public XPCollection<BankStmt> BankStmt { get { return GetCollection<BankStmt>("BankStmt"); } }

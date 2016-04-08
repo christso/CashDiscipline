@@ -58,6 +58,20 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
+        private int _SequentialNumber;
+        [RuleUniqueValue("CashFlowSnapshot_SequentialNumber_RuleUniqueValue", DefaultContexts.Save)]
+        public int SequentialNumber
+        {
+            get
+            {
+                return _SequentialNumber;
+            }
+            set
+            {
+                SetPropertyValue("Name", ref _SequentialNumber, value);
+            }
+        }
+
         public DateTime FromDate
         {
             get
