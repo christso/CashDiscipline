@@ -61,7 +61,6 @@ namespace CTMS.UnitTests
             
             var funcCcy = SetOfBooks.CachedInstance.FunctionalCurrency;
             var fromCcy = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
-            var session = ObjectSpace.Session;
             var tranDate = new DateTime(2015, 12, 21);
 
             var rate = ObjectSpace.CreateObject<ForexRate>();
@@ -823,6 +822,58 @@ namespace CTMS.UnitTests
             Assert.AreEqual(bankStmts.Sum(x => x.TranAmount), cashFlows.Sum(x => x.AccountCcyAmt));
 
             #endregion
+        }
+
+        [Test]
+        public void FixForecastByActivity()
+        {
+            #region Arrange
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ USD";
+            account.Currency = ccyUSD;
+
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionDate = new DateTime(2013, 12, 31);
+            rate.ConversionRate = 0.9M;
+            
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "Device Purchase";
+            activity.FixActivity = activity;
+
+            var fix = ObjectSpace.CreateObject<CashForecastFixTag>();
+            fix.Name = "S2";
+            var fixType = ObjectSpace.CreateObject<CashForecastFixTagType>();
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Act
+
+            // act
+            var cf = ObjectSpace.CreateObject<CashFlow>();
+            cf.TranDate = new DateTime(2013, 12, 31);
+            cf.Account = account;
+            cf.AccountCcyAmt = 1000;
+            cf.Activity = activity;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region
+
+            //var fixForecast = new CTMS.Module.FixCashFlowsAlgorithm(Application, ObjectSpace, paramObj);
+
+            Assert.AreEqual(0, 1);
+
+            #endregion
+
         }
 
         public override void OnSetup()
