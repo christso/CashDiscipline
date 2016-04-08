@@ -868,6 +868,8 @@ namespace CTMS.UnitTests
 
             #region
 
+            var fixForecast = new CTMS.Module.FixCashFlowsAlgorithm(Application, ObjectSpace, paramObj);
+
             Assert.AreEqual(0, 1);
 
             #endregion
