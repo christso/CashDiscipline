@@ -202,6 +202,7 @@
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
     <Compile Include="BusinessObjects\Cash\CounterpartyTag.cs" />
+    <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\Owner.cs" />
     <Compile Include="ControllerHelpers\Cash\FixForecast.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
@@ -348,7 +349,9 @@
     <Compile Include="ParamObjects\FinAccounting\FinJournalGroupParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParam.cs" />
     <Compile Include="ParamObjects\MoveToIndexParam.cs" />
-    <Compile Include="Test\TestViewController.cs" />
+    <Compile Include="Test\TestViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Validation\ForexTradeRule.cs" />
     <Compile Include="Validation\GenLedgerRule.cs" />
     <Compile Include="BusinessObjects\Cash\Account.cs" />

@@ -28,36 +28,6 @@ namespace CTMS.Module.BusinessObjects.Cash
             TimeCreated = DateTime.Now;
         }
 
-        private DateTime _TimeCreated;
-        private DateTime _FromDate;
-
-        private string _Name;
-
-        public DateTime TimeCreated
-        {
-            get
-            {
-                return _TimeCreated;
-            }
-            set
-            {
-                SetPropertyValue("TimeCreated", ref _TimeCreated, value);
-            }
-        }
-
-        [RuleUniqueValue("CashFlowSnapshot_Name_RuleUniqueValue", DefaultContexts.Save)]
-        public string Name
-        {
-            get
-            {
-                return _Name;
-            }
-            set
-            {
-                SetPropertyValue("Name", ref _Name, value);
-            }
-        }
-
         private int _SequentialNumber;
         [RuleUniqueValue("CashFlowSnapshot_SequentialNumber_RuleUniqueValue", DefaultContexts.Save)]
         public int SequentialNumber
@@ -72,6 +42,49 @@ namespace CTMS.Module.BusinessObjects.Cash
             }
         }
 
+        private DateTime _TimeCreated;
+        public DateTime TimeCreated
+        {
+            get
+            {
+                return _TimeCreated;
+            }
+            set
+            {
+                SetPropertyValue("TimeCreated", ref _TimeCreated, value);
+            }
+        }
+
+        private string _Name;
+        [RuleUniqueValue("CashFlowSnapshot_Name_RuleUniqueValue", DefaultContexts.Save)]
+        public string Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                SetPropertyValue("Name", ref _Name, value);
+            }
+        }
+
+        private string _Description;
+
+        [Size(SizeAttribute.Unlimited)]
+        public string Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                SetPropertyValue("Description", ref _Description, value);
+            }
+        }
+
+        private DateTime _FromDate;
         public DateTime FromDate
         {
             get
