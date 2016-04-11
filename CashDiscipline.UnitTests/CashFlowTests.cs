@@ -866,7 +866,7 @@ namespace CashDiscipline.UnitTests
 
             #endregion
 
-            #region
+            #region Assert
 
             //var fixForecast = new CashDiscipline.Module.FixCashFlowsAlgorithm(Application, ObjectSpace, paramObj);
 

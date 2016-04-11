@@ -114,7 +114,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="CashDiscipline.UnitTests.docx" />
     <None Include="packages.config" />
     <EmbeddedResource Include="TestFiles\ApPmtDistn_150104.csv" />
   </ItemGroup>
