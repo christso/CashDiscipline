@@ -1,2 +1,2 @@
-xcopy "E:\Models\Xafology\Xafology.DLL" "E:\Models\CTMS\assemblies" /i /d /y
+xcopy "E:\Models\Xafology\Xafology.DLL" "E:\Models\CashDiscipline\assemblies" /i /d /y
 pause

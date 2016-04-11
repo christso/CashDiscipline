@@ -1,0 +1,422 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DetailView Id="ArtfCustomerType_DetailView" ImageName="" />
+    <DetailView Id="ArtfGlCode_DetailView" ImageName="" />
+    <DetailView Id="ArtfLedger_DetailView" ImageName="">
+      <Items Id="Items">
+        <PropertyEditor Id="Amount" Index="0" />
+        <PropertyEditor Id="Description" Index="2" />
+        <PropertyEditor Id="LedgerDate" Index="4" />
+        <PropertyEditor Id="LedgerId" Index="5" />
+        <PropertyEditor Id="System" Index="7" />
+      </Items>
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="ArtfLedger">
+              <LayoutGroup Id="ArtfLedger_col1">
+                <LayoutItem Id="LedgerId" ViewItem="LedgerId" />
+                <LayoutItem Id="LedgerDate" ViewItem="LedgerDate" />
+                <LayoutItem Id="Amount" ViewItem="Amount" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors">
+            <LayoutItem Id="Description" ViewItem="Description" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ArtfLedger_ListView" NewItemRowPosition="Top" />
+    <DetailView Id="ArtfReceipt_DetailView">
+      <Items Id="Items">
+        <PropertyEditor Id="Amount" Index="0" />
+        <PropertyEditor Id="ReceiptAlias" Index="2" />
+        <PropertyEditor Id="ReceiptBatchNumber" Index="3" />
+        <PropertyEditor Id="ReceiptDate" Index="4" />
+        <PropertyEditor Id="ReceiptNumber" Index="5" />
+      </Items>
+    </DetailView>
+    <ListView Id="ArtfReceipt_ListView">
+      <Columns Id="Columns">
+        <ColumnInfo Id="System" Index="5" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArtfRecon_ArtfTasks_ListView">
+      <Columns Id="Columns">
+        <ColumnInfo Id="ArtfRecon" Caption="Recon Id" />
+      </Columns>
+    </ListView>
+    <DetailView Id="ArtfRecon_DetailView" Caption="Reconciliation" FreezeLayout="True" DefaultFocusedItem="CustomerType">
+      <Items Id="Items">
+        <PropertyEditor Id="Amount" Index="0" />
+        <PropertyEditor Id="ArtfTasks" Index="1" />
+        <PropertyEditor Id="BankStmt" Caption="Id" Index="2" />
+        <PropertyEditor Id="BankStmtTranAmount" PropertyName="BankStmt.TranAmount" Caption="Amount" Index="3" />
+        <PropertyEditor Id="BankStmtDate" PropertyName="BankStmt.TranDate" Index="4" />
+        <PropertyEditor Id="BankStmtAccount" PropertyName="BankStmt.Account" Index="5" />
+        <PropertyEditor Id="Comments" Index="6" />
+        <PropertyEditor Id="CreatedBy" Index="7" />
+        <PropertyEditor Id="CustomerAccount" Index="8" />
+        <PropertyEditor Id="CustomerInvoice" Index="9" />
+        <PropertyEditor Id="CustomerType" Index="10" />
+        <PropertyEditor Id="FromLedger" Caption="Id" Index="11" />
+        <PropertyEditor Id="FromLedgerDate" PropertyName="FromLedger.LedgerDate" Index="12" />
+        <PropertyEditor Id="FromLedgerAmount" PropertyName="FromLedger.Amount" Index="13" />
+        <PropertyEditor Id="FromLedgerUnreconTotal" PropertyName="FromLedger.FromUnreconTotal" Index="14" />
+        <PropertyEditor Id="FromReceipt" Caption="Id" Index="15" View="" />
+        <PropertyEditor Id="FromReceiptAmount" PropertyName="FromReceipt.Amount" Index="16" />
+        <PropertyEditor Id="FromReceiptDate" PropertyName="FromReceipt.ReceiptDate" Caption="Date" Index="17" />
+        <PropertyEditor Id="FromReceiptUnreconTotal" PropertyName="FromReceipt.FromUnreconTotal" Caption="Unreconciled" Index="18" />
+        <PropertyEditor Id="ReconDate" Index="19" />
+        <PropertyEditor Id="ToLedger" Caption="Id" Index="20" />
+        <PropertyEditor Id="ToLedgerDate" PropertyName="ToLedger.LedgerDate" Caption="Date" Index="21" />
+        <PropertyEditor Id="ToLedgerAmount" PropertyName="ToLedger.Amount" Index="22" />
+        <PropertyEditor Id="ToLedgerUnreconTotal" PropertyName="ToLedger.ToUnreconTotal" Caption="Unreconciled" Index="23" />
+        <PropertyEditor Id="ReconId" Index="24" />
+        <PropertyEditor Id="TfrToBankAccount" Index="25" />
+        <PropertyEditor Id="ToReceipt" Caption="Id" Index="26" View="" />
+        <PropertyEditor Id="ToReceiptDate" PropertyName="ToReceipt.ReceiptDate" Index="27" />
+        <PropertyEditor Id="ToReceiptAmount" PropertyName="ToReceipt.Amount" Index="28" />
+        <PropertyEditor Id="ToReceiptUnreconTotal" PropertyName="ToReceipt.ToUnreconTotal" Caption="Unreconciled" Index="29" />
+      </Items>
+      <Layout Id="Layout" Removed="True">
+        <LayoutGroup Id="Main" Index="0" ShowCaption="False" RelativeSize="100">
+          <LayoutGroup Id="SimpleEditors" Index="0" ShowCaption="False" RelativeSize="54">
+            <LayoutGroup Id="ArtfRecon" Index="0" Direction="Vertical" ShowCaption="True" Caption="Reconcliation" RelativeSize="0">
+              <LayoutGroup Id="ArtfRecon_row1" Direction="Horizontal" Index="1">
+                <LayoutItem Id="ReconId" ViewItem="ReconId" Index="0" SizeConstraintsType="Default" RelativeSize="0" />
+                <LayoutItem Id="ReconDate" ViewItem="ReconDate" Index="1" SizeConstraintsType="Default" RelativeSize="0" />
+                <LayoutItem Id="Amount" ViewItem="Amount" Index="2" SizeConstraintsType="Default" RelativeSize="0" />
+              </LayoutGroup>
+              <LayoutGroup Id="ArtfRecon_row2" Index="2" Direction="Horizontal">
+                <LayoutItem Id="Comments" ViewItem="Comments" Index="-1" SizeConstraintsType="Default" RelativeSize="47" />
+                <LayoutItem Id="CreatedBy" ViewItem="CreatedBy" Index="-1" SizeConstraintsType="Default" RelativeSize="52" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="ReconFrom" Index="1" Direction="Vertical" ShowCaption="True" RelativeSize="37" Caption="From">
+              <LayoutGroup Id="ReconFromBankStmt" Index="0" ShowCaption="True" RelativeSize="0" Caption="Bank Stmt" Direction="Horizontal">
+                <LayoutGroup Id="BankStmt_col1" Index="3" Direction="Vertical">
+                  <LayoutItem Id="BankStmt" Index="0" ViewItem="BankStmt" SizeConstraintsType="Default" RelativeSize="0" />
+                  <LayoutItem Id="BankStmtAccount" ViewItem="BankStmtAccount" Index="1" />
+                </LayoutGroup>
+                <LayoutGroup Id="BankStmt_col2" Direction="Vertical">
+                  <LayoutItem Id="BankStmtDate" ViewItem="BankStmtDate" Index="2" SizeConstraintsType="Default" RelativeSize="0" />
+                  <LayoutItem Id="BankStmtTranAmount" ViewItem="BankStmtTranAmount" Index="4" SizeConstraintsType="Default" RelativeSize="0" />
+                </LayoutGroup>
+              </LayoutGroup>
+              <LayoutGroup Id="ReconFromRequest" Direction="Horizontal">
+                <LayoutGroup Id="Receipt" Index="1" ShowCaption="True" RelativeSize="0">
+                  <LayoutItem Id="FromReceipt" ViewItem="FromReceipt" Index="0" SizeConstraintsType="Default" RelativeSize="24" />
+                  <LayoutItem Id="FromReceiptAmount" ViewItem="FromReceiptAmount" Index="1" SizeConstraintsType="Default" RelativeSize="18" />
+                  <LayoutItem Id="FromReceiptUnreconTotal" ViewItem="FromReceiptUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="24" />
+                </LayoutGroup>
+                <LayoutGroup Id="Ledger" Index="2" ShowCaption="True" RelativeSize="0">
+                  <LayoutItem Id="FromLedger" ViewItem="FromLedger" Index="0" SizeConstraintsType="Default" RelativeSize="24" />
+                  <LayoutItem Id="FromLedgerAmount" ViewItem="FromLedgerAmount" Index="1" SizeConstraintsType="Default" RelativeSize="18" />
+                  <LayoutItem Id="FromLedgerUnreconTotal" ViewItem="FromLedgerUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="24" />
+                </LayoutGroup>
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="ReconTo" Direction="Vertical" ShowCaption="True" Index="2" RelativeSize="44" Caption="To">
+              <LayoutGroup Id="ReconToTarget" Index="0" ShowCaption="True" RelativeSize="31" Caption="Target" Direction="Horizontal">
+                <LayoutGroup Id="ReconToTarget_col1" Index="3">
+                  <LayoutItem Id="CustomerType" Index="0" ViewItem="CustomerType" />
+                  <LayoutItem Id="TfrToBankAccount" ViewItem="TfrToBankAccount" Index="1" SizeConstraintsType="Default" RelativeSize="0" ToolTipIconType="None" ToolTip="ToolTip" ToolTipTitle="" />
+                </LayoutGroup>
+                <LayoutGroup Id="ReconToTarget_col2">
+                  <LayoutItem Id="CustomerAccount" ViewItem="CustomerAccount" Index="2" SizeConstraintsType="Default" RelativeSize="15" />
+                  <LayoutItem Id="CustomerInvoice" ViewItem="CustomerInvoice" Index="4" SizeConstraintsType="Default" RelativeSize="20" />
+                </LayoutGroup>
+              </LayoutGroup>
+              <LayoutGroup Id="ReconToRequest" Direction="Horizontal">
+                <LayoutGroup Id="ReconToReceipt" Index="1" ShowCaption="True" RelativeSize="0" Caption="Receipt">
+                  <LayoutItem Id="ToReceipt" ViewItem="ToReceipt" Index="0" SizeConstraintsType="Default" RelativeSize="20" />
+                  <LayoutItem Id="ToReceiptAmount" ViewItem="ToReceiptAmount" Index="1" SizeConstraintsType="Default" RelativeSize="15" />
+                  <LayoutItem Id="ToReceiptUnreconTotal" ViewItem="ToReceiptUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="36" />
+                </LayoutGroup>
+                <LayoutGroup Id="ReconToLedger" Index="2" ShowCaption="True" RelativeSize="0" Caption="Ledger">
+                  <LayoutItem Id="ToLedger" ViewItem="ToLedger" Index="0" SizeConstraintsType="Default" RelativeSize="15" />
+                  <LayoutItem Id="ToLedgerAmount" ViewItem="ToLedgerAmount" Index="1" SizeConstraintsType="Default" RelativeSize="36" />
+                  <LayoutItem Id="ToLedgerUnreconTotal" ViewItem="ToLedgerUnreconTotal" Index="2" SizeConstraintsType="Default" RelativeSize="20" />
+                </LayoutGroup>
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="ArtfTasks_Group" Index="2" ShowCaption="True" RelativeSize="38" Caption="ArtfTasks">
+            <LayoutItem Id="ArtfTasks" ViewItem="ArtfTasks" Index="0" SizeConstraintsType="Default" RelativeSize="86" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ArtfRecon_LookupListView" AllowEdit="True" DetailViewID="ArtfRecon_DetailView" />
+    <DetailView Id="ArtfReconTaskMap_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main" RelativeSize="100" ImageName="" Caption="Main" CaptionLocation="Default" CaptionWordWrap="Default" CaptionHorizontalAlignment="Default" CaptionVerticalAlignment="Default">
+          <LayoutGroup Id="SimpleEditors" RelativeSize="100" ImageName="">
+            <LayoutGroup Id="Item2" ShowCaption="True" CaptionLocation="Top" Index="0" RelativeSize="19" Caption="Task" Direction="Horizontal">
+              <LayoutGroup Id="ArtfReconTaskMap_col1" ShowCaption="False" Index="0" RelativeSize="45">
+                <LayoutItem Id="FromCustomerType" ViewItem="FromCustomerType" SizeConstraintsType="Default" Index="0" RelativeSize="28" />
+                <LayoutItem Id="ToCustomerType" ViewItem="ToCustomerType" SizeConstraintsType="Default" Index="1" RelativeSize="21" />
+                <LayoutItem Id="CanFromLedger" ViewItem="CanFromLedger" Index="2" />
+                <LayoutItem Id="CanToLedger" ViewItem="CanToLedger" />
+                <LayoutItem Id="LedgerFromGlCode" ViewItem="LedgerFromGlCode" />
+                <LayoutItem Id="LedgerToGlCode" ViewItem="LedgerToGlCode" />
+              </LayoutGroup>
+              <LayoutGroup Id="ArtfReconTaskMap_col2" ShowCaption="False" Index="1" RelativeSize="49">
+                <LayoutItem Id="IsBankTfr" ViewItem="IsBankTfr" SizeConstraintsType="Default" Index="0" RelativeSize="28" />
+                <LayoutItem Id="TfrFromBankAccount" ViewItem="TfrFromBankAccount" SizeConstraintsType="Default" Index="1" RelativeSize="21" />
+                <LayoutItem Id="TfrToBankAccount" ViewItem="TfrToBankAccount" SizeConstraintsType="Default" Index="2" RelativeSize="21" />
+                <LayoutItem Id="IsReclassedToActivity" ViewItem="IsReclassedToActivity" SizeConstraintsType="Default" Index="3" RelativeSize="28" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="Item1" ShowCaption="True" Caption="General Ledger" CaptionLocation="Top" Direction="Horizontal" Index="1" RelativeSize="11">
+              <LayoutGroup Id="ArtfReconTaskMap_col1" ShowCaption="False" Caption="" Index="0" RelativeSize="45">
+                <LayoutItem Id="GlDebitGlCode" ViewItem="GlDebitGlCode" SizeConstraintsType="Default" Index="0" RelativeSize="50" />
+                <LayoutItem Id="GlCreditGlCode" ViewItem="GlCreditGlCode" SizeConstraintsType="Default" Index="1" RelativeSize="50" />
+              </LayoutGroup>
+              <LayoutGroup Id="ArtfReconTaskMap_col2" ShowCaption="False" Caption="" Index="1" RelativeSize="49">
+                <LayoutItem Id="GlDebitBaccountCustType" ViewItem="GlDebitBaccountCustType" SizeConstraintsType="Default" Index="0" RelativeSize="50" />
+                <LayoutItem Id="GlCreditBaccountCustType" ViewItem="GlCreditBaccountCustType" SizeConstraintsType="Default" Index="1" RelativeSize="50" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="AdditionalInformation" ShowCaption="True" Caption="Additional Information">
+              <LayoutItem Id="Description" ViewItem="Description" SizeConstraintsType="Default" Index="2" RelativeSize="3" />
+              <LayoutItem Id="Comments" ViewItem="Comments" SizeConstraintsType="Default" Index="3" RelativeSize="65" />
+            </LayoutGroup>
+            <LayoutGroup Id="ArtfReconTaskMap" RelativeSize="19" ImageName="" Removed="True">
+              <LayoutGroup Id="ArtfReconTaskMap_col1" ShowCaption="False" Index="0" RelativeSize="45" Removed="True">
+                <LayoutItem Id="FromCustomerType" ViewItem="FromCustomerType" SizeConstraintsType="Default" Index="0" RelativeSize="28" />
+                <LayoutItem Id="ToCustomerType" ViewItem="ToCustomerType" SizeConstraintsType="Default" Index="1" RelativeSize="21" />
+                <LayoutItem Id="LedgerGlCode" ViewItem="LedgerGlCode" SizeConstraintsType="Default" Index="2" RelativeSize="50" />
+              </LayoutGroup>
+              <LayoutGroup Id="ArtfReconTaskMap_col2" RelativeSize="49" ImageName="">
+                <LayoutItem Id="IsBankTfr" SizeConstraintsType="Default" RelativeSize="28" Index="0" ViewItem="IsBankTfr" />
+                <LayoutItem Id="TfrFromBankAccount" SizeConstraintsType="Default" RelativeSize="21" Index="1" ViewItem="TfrFromBankAccount" />
+                <LayoutItem Id="TfrToBankAccount" SizeConstraintsType="Default" RelativeSize="21" Index="2" ViewItem="TfrToBankAccount" />
+                <LayoutItem Id="IsReclassedToActivity" SizeConstraintsType="Default" RelativeSize="28" Index="3" ViewItem="IsReclassedToActivity" />
+                <LayoutItem Id="GlDebitBaccountCustType" SizeConstraintsType="Default" RelativeSize="23" ViewItem="GlDebitBaccountCustType" Removed="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors" RelativeSize="70" ImageName="" Removed="True">
+            <LayoutItem Id="Comments" SizeConstraintsType="Default" RelativeSize="100" ViewItem="Comments" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="ArtfTask_DetailView" Caption="Tasks">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutItem Id="Comments" ViewItem="Comments" Index="2" />
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors">
+            <LayoutItem Id="Comments" Removed="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ArtfTask_ListView" Caption="Tasks" AllowEdit="True">
+      <Columns Id="Columns">
+        <ColumnInfo Id="ArtfRecon" Caption="Recon Id" />
+      </Columns>
+    </ListView>
+    <DashboardView Id="BankStmtPivotGridView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutItem Id="PivotGridViewItem" ViewItem="PivotGridViewItem" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+    <ListView Id="BankStmt_ListView_Artf">
+      <Columns Id="Columns">
+        <ColumnInfo Id="ArtfReconTotal" PropertyName="ArtfReconTotal" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArtfToReceipt_LookupListView" ClassName="CashDiscipline.Module.BusinessObjects.Artf.ArtfReceipt" DetailViewID="ArtfReceipt_DetailView">
+      <Columns Id="Columns">
+        <ColumnInfo Id="ReceiptAlias" PropertyName="ReceiptAlias" Width="70" Index="0" />
+        <ColumnInfo Id="ReceiptDate" PropertyName="ReceiptDate" Width="70" Index="1" />
+        <ColumnInfo Id="ReceiptBatchNumber" PropertyName="ReceiptBatchNumber" Width="70" Index="2" />
+        <ColumnInfo Id="ReceiptNumber" PropertyName="ReceiptNumber" Width="70" Index="3" />
+        <ColumnInfo Id="Amount" PropertyName="Amount" Width="50" Index="4" />
+        <ColumnInfo Id="System" PropertyName="System" Width="70" Index="5" />
+        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Width="70" Index="6" />
+        <ColumnInfo Id="RemittanceAccount" PropertyName="RemittanceAccount" Width="70" Index="7" />
+        <ColumnInfo Id="IsReversed" PropertyName="IsReversed" Width="50" Index="8" />
+        <ColumnInfo Id="ToUnreconTotal" PropertyName="ToUnreconTotal" Width="70" Index="9" />
+        <ColumnInfo Id="FromUnreconTotal" PropertyName="FromUnreconTotal" Width="70" Index="10" />
+        <ColumnInfo Id="FromReconTotal" PropertyName="FromReconTotal" Width="70" Index="11" />
+        <ColumnInfo Id="ToReconTotal" PropertyName="ToReconTotal" Width="70" Index="12" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArtfRecon_ListView_Varied" ClassName="CashDiscipline.Module.BusinessObjects.Artf.ArtfRecon">
+      <Variants Id="Variants" Current="Default">
+        <Variant Id="Default" ViewID="ArtfRecon_ListView" Caption="Default" />
+        <Variant Id="Grouped" ViewID="ArtfRecon_ListView_Grouped" Caption="Grouped" />
+      </Variants>
+    </ListView>
+    <ListView Id="ArtfRecon_ListView_Pivot" ClassName="CashDiscipline.Module.BusinessObjects.Artf.ArtfRecon" Caption="Pivot Grid" AllowEdit="True">
+      <Columns Id="Columns">
+        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Index="-1" Width="70" />
+        <ColumnInfo Id="CustomerAccount" PropertyName="CustomerAccount" Index="-1" Width="70" />
+        <ColumnInfo Id="CustomerInvoice" PropertyName="CustomerInvoice" Index="-1" Width="70" />
+        <ColumnInfo Id="TfrToBankAccount" PropertyName="TfrToBankAccount" Index="-1" Width="70" />
+        <ColumnInfo Id="ReconId" PropertyName="ReconId" Index="0" Width="70" SortOrder="Descending" />
+        <ColumnInfo Id="ReconDate" PropertyName="ReconDate" Index="1" Width="70" />
+        <ColumnInfo Id="Amount" PropertyName="Amount" Index="2" Width="50" />
+        <ColumnInfo Id="CustomerType" PropertyName="CustomerType" Index="3" Width="70" />
+        <ColumnInfo Id="BankStmt" PropertyName="BankStmt" Index="4" Width="70" />
+        <ColumnInfo Id="FromLedger" PropertyName="FromLedger" Index="6" Width="70" />
+        <ColumnInfo Id="FromReceipt" PropertyName="FromReceipt" Index="7" Width="70" />
+        <ColumnInfo Id="ToLedger" PropertyName="ToLedger" Index="8" Width="70" />
+        <ColumnInfo Id="ToReceipt" PropertyName="ToReceipt" Index="9" Width="70" />
+        <ColumnInfo Id="Comments" PropertyName="Comments" Index="10" Width="70" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArtfRecon_ListView_Grouped" ClassName="CashDiscipline.Module.BusinessObjects.Artf.ArtfRecon" Caption="Reconciliations" IsGroupPanelVisible="True" AllowEdit="True" NewItemRowPosition="Top" AutoExpandAllGroups="True" IsFooterVisible="True">
+      <Columns Id="Columns">
+        <ColumnInfo Id="Comments" PropertyName="Comments" Width="70" Index="-1" />
+        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Width="70" Index="-1" />
+        <ColumnInfo Id="CustomerAccount" PropertyName="CustomerAccount" Width="70" Index="-1" />
+        <ColumnInfo Id="CustomerInvoice" PropertyName="CustomerInvoice" Width="70" Index="-1" />
+        <ColumnInfo Id="FromReceipt" PropertyName="FromReceipt" Width="70" Index="-1" />
+        <ColumnInfo Id="ReconId" PropertyName="ReconId" Width="70" Index="-1" SortOrder="Descending" />
+        <ColumnInfo Id="TfrToBankAccount" PropertyName="TfrToBankAccount" Width="70" Index="-1" />
+        <ColumnInfo Id="ToReceipt" PropertyName="ToReceipt" Width="70" Index="-1" />
+        <ColumnInfo Id="ReconDate" PropertyName="ReconDate" Width="70" Index="0" />
+        <ColumnInfo Id="Amount" PropertyName="Amount" Width="50" Index="1" />
+        <ColumnInfo Id="FromCustomerType" PropertyName="BankStmt" Width="70" Index="2" LookupProperty="Account.ArtfCustomerType" Caption="From Customer Type" GroupIndex="1" />
+        <ColumnInfo Id="BankStmt" PropertyName="BankStmt" Width="70" Index="3" LookupProperty="Id" />
+        <ColumnInfo Id="FromBankStmtDate" PropertyName="BankStmt.TranDate" Caption="Stmt Date" Index="4" />
+        <ColumnInfo Id="FromBankAccount" PropertyName="BankStmt.Account.BankAccountNumber" Caption="From Bank Acc" Index="5" />
+        <ColumnInfo Id="FromLedger" PropertyName="FromLedger" Width="70" Index="6" />
+        <ColumnInfo Id="ToCustomerType" PropertyName="CustomerType" Width="70" Index="7" GroupIndex="0" Caption="To Customer Type" />
+        <ColumnInfo Id="ToLedger" PropertyName="ToLedger" Width="70" Index="8" />
+        <ColumnInfo Id="TfrToBankAccountFinal" PropertyName="TfrToBankAccountFinal" Width="70" Index="9" Caption="To Bank Acc" />
+      </Columns>
+    </ListView>
+    <ListView Id="ArtfFromReceipt_LookupListView" ClassName="CashDiscipline.Module.BusinessObjects.Artf.ArtfReceipt" DetailViewID="ArtfReceipt_DetailView">
+      <Columns Id="Columns">
+        <ColumnInfo Id="ReceiptAlias" PropertyName="ReceiptAlias" Width="70" Index="0" />
+        <ColumnInfo Id="ReceiptDate" PropertyName="ReceiptDate" Width="70" Index="1" />
+        <ColumnInfo Id="ReceiptBatchNumber" PropertyName="ReceiptBatchNumber" Width="70" Index="2" />
+        <ColumnInfo Id="ReceiptNumber" PropertyName="ReceiptNumber" Width="70" Index="3" />
+        <ColumnInfo Id="Amount" PropertyName="Amount" Width="50" Index="4" />
+        <ColumnInfo Id="System" PropertyName="System" Width="70" Index="5" />
+        <ColumnInfo Id="CreatedBy" PropertyName="CreatedBy" Width="70" Index="6" />
+        <ColumnInfo Id="RemittanceAccount" PropertyName="RemittanceAccount" Width="70" Index="7" />
+        <ColumnInfo Id="IsReversed" PropertyName="IsReversed" Width="50" Index="8" />
+        <ColumnInfo Id="ToUnreconTotal" PropertyName="ToUnreconTotal" Width="70" Index="9" />
+        <ColumnInfo Id="FromUnreconTotal" PropertyName="FromUnreconTotal" Width="70" Index="10" />
+        <ColumnInfo Id="FromReconTotal" PropertyName="FromReconTotal" Width="70" Index="11" />
+        <ColumnInfo Id="ToReconTotal" PropertyName="ToReconTotal" Width="70" Index="12" />
+      </Columns>
+    </ListView>
+    <DashboardView Id="AnalysisServicesTutorialPivotGridView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutItem Id="AnalysisServicesTutorialPivotGridViewItem" ViewItem="AnalysisServicesTutorialPivotGridViewItem" />
+        </LayoutGroup>
+      </Layout>
+    </DashboardView>
+    <DetailView Id="BankStmt_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="BankStmt">
+            <LayoutGroup Id="SimpleEditors">
+              <LayoutGroup Id="BankStmt_col2">
+                <LayoutItem Id="ArtfReconTotal" ViewItem="ArtfReconTotal" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+  <BOModel Id="BOModel">
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfCustomerType" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True" />
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfGlCode" DefaultListViewImage="BO_List" DefaultDetailViewImage="BO_List" IsCloneable="True" />
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfGlJournal" ImageName="BO_List" />
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfLedger" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True">
+      <OwnMembers Id="OwnMembers">
+        <Member Name="FromUnreconTotal" Caption="Unrecon Total" />
+        <Member Name="LedgerDate" DisplayFormat="dd-MMM-yy" EditMask="dd-MMM-yy" />
+      </OwnMembers>
+    </Class>
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfReceipt" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True">
+      <OwnMembers Id="OwnMembers">
+        <Member Name="ReceiptDate" EditMask="dd-MMM-yy" DisplayFormat="dd-MMM-yy" />
+      </OwnMembers>
+    </Class>
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfRecon" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True">
+      <OwnMembers Id="OwnMembers">
+        <Member Name="Amount" EditMask="n2" />
+        <Member Name="BankStmt" LookupProperty="Id" DisplayFormat="" Caption="Bank Stmt" />
+        <Member Name="ReconDate" DisplayFormat="dd-MMM-yy" EditMask="dd-MMM-yy" />
+      </OwnMembers>
+    </Class>
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfReconTaskMap" DefaultDetailViewImage="BO_List" DefaultListViewAllowEdit="True" />
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfSystem" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" IsCloneable="True" />
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfTask" DefaultDetailViewImage="BO_List" ImageName="BO_List" IsCloneable="True">
+      <OwnMembers Id="OwnMembers">
+        <Member Name="ArtfRecon" LookupProperty="ReconId" />
+      </OwnMembers>
+    </Class>
+    <Class Name="CashDiscipline.Module.BusinessObjects.Artf.ArtfTaskOwnerDefaults" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" ImageName="BO_List" />
+    <Class Name="CashDiscipline.Module.ParamObjects.Artf.ArtfCreateGlJournalsParam" ImageName="Action_SimpleAction" />
+  </BOModel>
+  <NavigationItems Id="NavigationItems">
+    <Items Id="Items">
+      <Item Id="CashManagement">
+        <Items Id="Items">
+          <Item Id="Setup">
+            <Items Id="Items">
+              <Item Id="CashForecastFixTagType" ViewId="CashForecastFixTagType_ListView" />
+            </Items>
+          </Item>
+        </Items>
+      </Item>
+      <Item Id="Banking">
+        <Items Id="Items">
+          <Item Id="PaymentBatch" ViewId="PaymentBatch_ListView" />
+          <Item Id="CreditAccount" ViewId="CreditAccount_ListView" />
+        </Items>
+      </Item>
+      <Item Id="ArTransfers">
+        <Items Id="Items">
+          <Item Id="Tasks" ViewId="ArtfTask_ListView">
+            <Items Id="Items">
+              <Item Id="Receipt" ViewId="ArtfReceiptTask_ListView" />
+              <Item Id="Ledger" ViewId="ArtfLedgerTask_ListView" />
+              <Item Id="GlJournal" ViewId="ArtfGlJournalTask_ListView" />
+              <Item Id="FundsTransfer" ViewId="ArtfFundsTransferTask_ListView" />
+              <Item Id="ActivityReclass" ViewId="ArtfActivityReclassTask_ListView" />
+            </Items>
+          </Item>
+          <Item Id="Setup">
+            <Items Id="Items">
+              <Item Id="GlCode" ViewId="ArtfGlCode_ListView" />
+              <Item Id="ArtfTaskOwnerDefaults" ViewId="ArtfTaskOwnerDefaults_ListView" />
+              <Item Id="ArtfSystem" ViewId="ArtfSystem_ListView" />
+              <Item Id="ArtfReconTaskMap" ViewId="ArtfReconTaskMap_ListView" />
+              <Item Id="ArtfCustomerType" ViewId="ArtfCustomerType_ListView" />
+            </Items>
+          </Item>
+          <Item Id="Reports">
+            <Items Id="Items">
+              <Item Id="Recon Pivot" ViewId="ArtfRecon_ListView_Pivot" />
+            </Items>
+          </Item>
+          <Item Id="ArtfRecon" ViewId="ArtfRecon_ListView_Varied" />
+          <Item Id="ArtfReceipt" ViewId="ArtfReceipt_ListView" />
+          <Item Id="ArtfLedger" ViewId="ArtfLedger_ListView" />
+          <Item Id="ArtfGlJournal" ViewId="ArtfGlJournal_ListView" />
+          <Item Id="ArtfCreateGlJournals" ViewId="CashDiscipline.Module.BusinessObjects.Artf.ArtfCreateGlJournals_DetailView" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+</Application>
