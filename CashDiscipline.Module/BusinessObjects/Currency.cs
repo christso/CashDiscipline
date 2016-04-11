@@ -1,5 +1,7 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
 using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
@@ -8,6 +10,8 @@ using DevExpress.Xpo;
 namespace CashDiscipline.Module.BusinessObjects
 {
     [NavigationItem("Cash Setup")]
+    [ImageName("BO_List")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     public class Currency : BaseObject
     {
         public Currency(Session session)
@@ -23,16 +27,8 @@ namespace CashDiscipline.Module.BusinessObjects
             // Place here your initialization code.
         }
 
-        int fId;
-        public int Id
-        {
-            get { return fId; }
-            set { SetPropertyValue<int>("Id", ref fId, value); }
-        }
-
         // Fields...
         private string _Name;
-        // [Indexed(Name = @"IX_Currency", Unique = true)]
         [RuleUniqueValue("Curency_Name_RuleUniqueValue", DefaultContexts.Save)]
         public string Name
         {
@@ -43,6 +39,20 @@ namespace CashDiscipline.Module.BusinessObjects
             set
             {
                 SetPropertyValue<string>("Name", ref _Name, value);
+            }
+        }
+
+        // Fields...
+        private string _CurrencyL1;
+        public string CurrencyL1
+        {
+            get
+            {
+                return _CurrencyL1;
+            }
+            set
+            {
+                SetPropertyValue<string>("CurrencyL1", ref _CurrencyL1, value);
             }
         }
 
