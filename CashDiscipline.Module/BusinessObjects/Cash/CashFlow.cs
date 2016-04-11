@@ -1004,7 +1004,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         public static void FixCashFlows(XafApplication application, XPObjectSpace objSpace, CashFlowFixParam paramObj)
         {
             var algo = new FixCashFlowsAlgorithm(objSpace, paramObj);
-            algo.FixCashFlows();
+            algo.ProcessCashFlows();
         }
 
   

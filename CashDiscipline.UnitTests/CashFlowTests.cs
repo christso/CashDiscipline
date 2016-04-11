@@ -21,6 +21,7 @@ using DevExpress.ExpressApp.Utils;
 using CashDiscipline.Module.ParamObjects.Cash;
 using Xafology.TestUtils;
 using CashDiscipline.UnitTests.TestObjects;
+using CashDiscipline.Module.ControllerHelpers.Cash;
 
 namespace CashDiscipline.UnitTests
 {
@@ -29,7 +30,7 @@ namespace CashDiscipline.UnitTests
     {
         public CashFlowTests()
         {
-            SetTesterDbType(TesterDbType.InMemory);
+            SetTesterDbType(TesterDbType.MsSql);
 
             var tester = Tester as MSSqlDbTestBase;
             if (tester != null)
@@ -827,7 +828,7 @@ namespace CashDiscipline.UnitTests
         [Test]
         public void FixForecastByActivity()
         {
-            #region Arrange
+            #region Arrange Dimensions
 
             var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
             var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
@@ -845,9 +846,41 @@ namespace CashDiscipline.UnitTests
             activity.Name = "Device Purchase";
             activity.FixActivity = activity;
 
-            var fix = ObjectSpace.CreateObject<CashForecastFixTag>();
-            fix.Name = "S2";
-            var fixType = ObjectSpace.CreateObject<CashForecastFixTagType>();
+            var fix1 = ObjectSpace.CreateObject<CashForecastFixTag>();
+            fix1.Name = "S2";
+            fix1.FixTagType = CashForecastFixTagType.ScheduleOut;
+
+            var fixActivity = ObjectSpace.CreateObject<Activity>();
+            fixActivity.Name = "AP Pymt";
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Transactions
+
+            // act
+            var cf1 = ObjectSpace.CreateObject<CashFlow>();
+            cf1.TranDate = new DateTime(2016, 03, 03);
+            cf1.Account = account;
+            cf1.AccountCcyAmt = 1000;
+            cf1.Activity = activity;
+            cf1.FixRank = 2;
+            cf1.Fix = fix1;
+            cf1.DateUnFix = cf1.TranDate;
+            cf1.FixActivity = cf1.Activity;
+
+            var cf2 = ObjectSpace.CreateObject<CashFlow>();
+            cf2.TranDate = new DateTime(2016, 03, 31);
+            cf2.Account = account;
+            cf2.AccountCcyAmt = 1400;
+            cf2.Activity = activity;
+            cf2.FixRank = 3;
+            cf2.FixFromDate = new DateTime(2016, 03, 1);
+            cf2.FixToDate = new DateTime(2016, 03, 31);
+            cf2.Fix = fix1;
+            cf2.DateUnFix = cf2.TranDate;
+            cf2.FixActivity = cf2.Activity;
 
             ObjectSpace.CommitChanges();
 
@@ -855,23 +888,28 @@ namespace CashDiscipline.UnitTests
 
             #region Act
 
-            // act
-            var cf = ObjectSpace.CreateObject<CashFlow>();
-            cf.TranDate = new DateTime(2013, 12, 31);
-            cf.Account = account;
-            cf.AccountCcyAmt = 1000;
-            cf.Activity = activity;
+            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+            paramObj.FromDate = new DateTime(2016, 01, 01);
+            paramObj.ToDate = new DateTime(2016, 12, 31);
+            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
+            paramObj.ApReclassActivity = fixActivity;
+            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            ObjectSpace.CommitChanges();
+            var fixForecast = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            fixForecast.ProcessCashFlows();
 
             #endregion
 
             #region Assert
 
-            //var fixForecast = new CashDiscipline.Module.FixCashFlowsAlgorithm(Application, ObjectSpace, paramObj);
-
-            Assert.AreEqual(0, 1);
-
+            // TODO: why does this fail in debug mode?
+            var cashFlows = new XPQuery<CashFlow>(ObjectSpace.Session);
+            Assert.AreEqual(1400 - 1000,
+                    cashFlows.Where(x => 
+                        x.TranDate == new DateTime(2016, 03, 31))
+                    .Sum(x => x.AccountCcyAmt));
             #endregion
 
         }

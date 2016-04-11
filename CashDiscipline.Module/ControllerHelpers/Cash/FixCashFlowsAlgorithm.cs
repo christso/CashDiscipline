@@ -56,7 +56,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             return CashFlow.GetCurrentSnapshot(session);
         }
 
-        public void FixCashFlows()
+        public void ProcessCashFlows()
         {
             bool bTriggersEnabled = AppSettings.UserTriggersEnabled;
 
