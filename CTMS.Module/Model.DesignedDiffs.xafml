@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Title="Corporate Treasury Management System" Logo="vodafone_banner" Company="DG2NTT Pty Ltd" Copyright="" WebSite="http://dg2ntt.com" Description="">
+<Application Title="Cash Discipline App" Logo="banner" Company="DG2NTT Pty Ltd" Copyright="Copyright (c) 2016 DG2NTT Pty Ltd" WebSite="http://dg2ntt.com" Description="http://cashdiscipline.com">
   <BOModel>
     <Class Name="CTMS.Module.BusinessObjects.Cash.Account" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
     <Class Name="CTMS.Module.BusinessObjects.Cash.Activity" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
