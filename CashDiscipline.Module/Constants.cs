@@ -22,5 +22,6 @@ namespace CashDiscipline.Module
         public const string CashFlowPivotLayoutMonthly = "Monthly";
         public const string CashFlowPivotLayoutMonthlyVariance = "MonthlyVariance";
         public const string CashFlowPivotLayoutFixForecast = "FixForecast";
+
     }
 }

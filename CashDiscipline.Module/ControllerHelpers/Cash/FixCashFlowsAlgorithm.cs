@@ -31,6 +31,9 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         private CashForecastFixTag resRevRecFixTag;
         private CashForecastFixTag payrollFixTag;
 
+
+        private List<CashFlow> cashFlowsToDelete = new List<CashFlow>();
+
         public FixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj)
         {
             this.objSpace = objSpace;
@@ -53,7 +56,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
         private CashFlowSnapshot GetCurrentSnapshot(Session session)
         {
-            return CashFlow.GetCurrentSnapshot(session);
+            return CashFlowHelper.GetCurrentSnapshot(session);
         }
 
         public void ProcessCashFlows()
@@ -64,23 +67,25 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
             try
             {
+                
+                CashFlowSnapshot currentSnapshot = GetCurrentSnapshot(objSpace.Session);
                 AppSettings.UserTriggersEnabled = false;
 
                 // delete existing fixes that are not valid due to potential application bug, i.e. orphans.
                 var cashFlowFixes = objSpace.GetObjects<CashFlow>(
                     CriteriaOperator.Parse(
                     "Snapshot = ? And Fix In (?,?,?) And ParentCashFlow Is Null",
-                    GetCurrentSnapshot(objSpace.Session), reversalFixTag, revRecFixTag, resRevRecFixTag));
+                    currentSnapshot, reversalFixTag, revRecFixTag, resRevRecFixTag));
                 objSpace.Delete(cashFlowFixes);
 
                 var cashFlows = objSpace.GetObjects<CashFlow>(CriteriaOperator.Parse(
                 "TranDate >= ? And TranDate <= ? And Fix.FixTagType != ?"
-                + " And (Not IsFixUpdated Or IsFixUpdated Is Null)"
+                + " And (Not IsFixerUpdated Or IsFixerUpdated Is Null)"
                 + " And Snapshot = ?",
                 paramObj.FromDate,
                 paramObj.ToDate,
                 CashForecastFixTagType.Ignore,
-                GetCurrentSnapshot(objSpace.Session)));
+                currentSnapshot));
 
                 // The fixee may require updating even if IsFixUpdated == True,
                 // if a new fixer is entered with a criteria that fits the fixee.
@@ -95,16 +100,16 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                     {
                         // since one fixee can have many fixers, we avoid
                         // running the algorithm twice on the same fixee
-                        if (fixee.IsFixUpdated) continue;
+                        if (fixee.IsFixerUpdated) continue;
                         FixFixee(cashFlows, fixee);
                     }
-                    fixer.IsFixUpdated = true;
+                    //fixer.IsFixUpdated = true;
                     fixer.Save();
                 }
 
                 foreach (var fixee in cashFlows)
                 {
-                    if (fixee.IsFixUpdated) continue;
+                    if (fixee.IsFixerUpdated) continue;
                     FixFixee(cashFlows, fixee);
                 }
 
@@ -117,9 +122,6 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 AppSettings.UserTriggersEnabled = bTriggersEnabled;
             }
         }
-
-
-        private List<CashFlow> cashFlowsToDelete = new List<CashFlow>();
 
         // TODO: get session from fixee instead of objspace
         private void FixFixee(IList<CashFlow> cashFlows, CashFlow fixee)
@@ -213,7 +215,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 resRevRecFix.Save();
             }
             revFix.Save();
-            fixee.IsFixUpdated = true;
+            fixee.IsFixerUpdated = true;
             fixee.Save();
         }
 

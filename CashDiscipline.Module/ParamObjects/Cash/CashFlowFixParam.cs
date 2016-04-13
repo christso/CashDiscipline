@@ -134,9 +134,9 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             }
         }
 
-        protected override void OnDeleting()
-        {
-            throw new UserFriendlyException("This object cannot be deleted.");
-        }
+        //protected override void OnDeleting()
+        //{
+        //    throw new UserFriendlyException("This object cannot be deleted.");
+        //}
     }
 }

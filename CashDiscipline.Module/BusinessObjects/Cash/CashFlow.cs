@@ -48,7 +48,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         // Fields...
-        private bool _IsFixUpdated;
         private CashFlowSnapshot _Snapshot;
         private CashFlow _ParentCashFlow;
         private CashFlow _Fixer;
@@ -678,18 +677,35 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private bool _IsFixerUpdated;
         //[VisibleInDetailView(false)]
         [VisibleInListView(false)]
         [VisibleInLookupListView(false)]
-        public bool IsFixUpdated
+        public bool IsFixerUpdated
         {
             get
             {
-                return _IsFixUpdated;
+                return _IsFixerUpdated;
             }
             set
             {
-                SetPropertyValue("IsFixUpdated", ref _IsFixUpdated, value);
+                SetPropertyValue("IsFixerUpdated", ref _IsFixerUpdated, value);
+            }
+        }
+
+        private bool _IsFixeeUpdated;
+        //[VisibleInDetailView(false)]
+        [VisibleInListView(false)]
+        [VisibleInLookupListView(false)]
+        public bool IsFixeeUpdated
+        {
+            get
+            {
+                return _IsFixeeUpdated;
+            }
+            set
+            {
+                SetPropertyValue("IsFixeeUpdated", ref _IsFixeeUpdated, value);
             }
         }
 
@@ -945,8 +961,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
             base.OnSaving();
 
-            if (IsFixUpdated)
-                IsFixUpdated = false;
+            if (IsFixerUpdated)
+                IsFixerUpdated = false;
         }
 
         protected override void OnSaved()
@@ -1012,7 +1028,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         #region Snapshot
 
-        public static CashFlowSnapshot GetCurrentSnapshot(Session session)
+        private static CashFlowSnapshot GetCurrentSnapshot(Session session)
         {
             return session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
         }

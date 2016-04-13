@@ -96,7 +96,9 @@
   <ItemGroup>
     <Compile Include="BankStmtTests.cs" />
     <Compile Include="CashFlowTests.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="FinAccountingTests.cs" />
+    <Compile Include="FixCashFlowTests.cs" />
     <Compile Include="ForexLinkTests.cs" />
     <Compile Include="ForexRateTests.cs" />
     <Compile Include="ForexTradeTests.cs" />

@@ -34,7 +34,7 @@ namespace CashDiscipline.UnitTests
 
             var tester = Tester as MSSqlDbTestBase;
             if (tester != null)
-                tester.DatabaseName = "CashDiscipline_Test";
+                tester.DatabaseName = Constants.TestDbName;
         }
 
         // CounterCcy will change to USD when Account changed to USD Account
@@ -823,95 +823,6 @@ namespace CashDiscipline.UnitTests
             Assert.AreEqual(bankStmts.Sum(x => x.TranAmount), cashFlows.Sum(x => x.AccountCcyAmt));
 
             #endregion
-        }
-
-        [Test]
-        public void FixForecastByActivity()
-        {
-            #region Arrange Dimensions
-
-            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
-            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
-            var account = ObjectSpace.CreateObject<Account>();
-            account.Name = "VHA ANZ USD";
-            account.Currency = ccyUSD;
-
-            var rate = ObjectSpace.CreateObject<ForexRate>();
-            rate.FromCurrency = ccyAUD;
-            rate.ToCurrency = ccyUSD;
-            rate.ConversionDate = new DateTime(2013, 12, 31);
-            rate.ConversionRate = 0.9M;
-            
-            var activity = ObjectSpace.CreateObject<Activity>();
-            activity.Name = "Device Purchase";
-            activity.FixActivity = activity;
-
-            var fix1 = ObjectSpace.CreateObject<CashForecastFixTag>();
-            fix1.Name = "S2";
-            fix1.FixTagType = CashForecastFixTagType.ScheduleOut;
-
-            var fixActivity = ObjectSpace.CreateObject<Activity>();
-            fixActivity.Name = "AP Pymt";
-
-            ObjectSpace.CommitChanges();
-
-            #endregion
-
-            #region Arrange Transactions
-
-            // act
-            var cf1 = ObjectSpace.CreateObject<CashFlow>();
-            cf1.TranDate = new DateTime(2016, 03, 03);
-            cf1.Account = account;
-            cf1.AccountCcyAmt = 1000;
-            cf1.Activity = activity;
-            cf1.FixRank = 2;
-            cf1.Fix = fix1;
-            cf1.DateUnFix = cf1.TranDate;
-            cf1.FixActivity = cf1.Activity;
-
-            var cf2 = ObjectSpace.CreateObject<CashFlow>();
-            cf2.TranDate = new DateTime(2016, 03, 31);
-            cf2.Account = account;
-            cf2.AccountCcyAmt = 1400;
-            cf2.Activity = activity;
-            cf2.FixRank = 3;
-            cf2.FixFromDate = new DateTime(2016, 03, 1);
-            cf2.FixToDate = new DateTime(2016, 03, 31);
-            cf2.Fix = fix1;
-            cf2.DateUnFix = cf2.TranDate;
-            cf2.FixActivity = cf2.Activity;
-
-            ObjectSpace.CommitChanges();
-
-            #endregion
-
-            #region Act
-
-            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
-            paramObj.FromDate = new DateTime(2016, 01, 01);
-            paramObj.ToDate = new DateTime(2016, 12, 31);
-            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
-            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
-            paramObj.ApReclassActivity = fixActivity;
-            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
-            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
-
-            var fixForecast = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
-            fixForecast.ProcessCashFlows();
-
-            #endregion
-
-            #region Assert
-
-            // TODO: why does this fail in debug mode?
-            var cashFlows = new XPQuery<CashFlow>(ObjectSpace.Session);
-            Assert.AreEqual(1400 - 1000,
-                    cashFlows.Where(x => 
-                        x.TranDate == new DateTime(2016, 03, 31))
-                    .Sum(x => x.AccountCcyAmt));
-            #endregion
-
         }
 
         public override void OnSetup()
