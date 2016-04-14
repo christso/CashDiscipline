@@ -12,6 +12,9 @@ namespace CashDiscipline.Module.Controllers.Cash
 {
     public class CashFlowViewController : ViewController
     {
+
+        public SingleChoiceAction RunProgramAction;
+
         public CashFlowViewController()
         {
             TargetObjectType = typeof(CashFlow);
@@ -52,10 +55,12 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         private void ObjectSpace_ObjectSaving(object sender, ObjectManipulatingEventArgs e)
         {
-            //if (IsFixerUpdated)
-            //    IsFixerUpdated = false;
-            //if (IsFixeeUpdated)
-            //    IsFixeeUpdated = false;
+            var cashFlow = e.Object as CashFlow;
+            if (cashFlow != null && !cashFlow.IsDeleted)
+            {
+                cashFlow.IsFixeeUpdated = false;
+                cashFlow.IsFixerUpdated = false;
+            }
         }
 
         void runProgramAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -67,14 +72,7 @@ namespace CashDiscipline.Module.Controllers.Cash
                     dialog1.ShowNonPersistentView(typeof(DailyCashUpdateParam));
                     break;
                 case "Fix Forecast":
-                    {
-                        var os = Application.CreateObjectSpace();
-                        var paramObj = CashFlowFixParam.GetInstance(os);
-                        var detailView = Application.CreateDetailView(os, paramObj);
-                        var svp = e.ShowViewParameters;
-                        svp.TargetWindow = TargetWindow.NewModalWindow;
-                        svp.CreatedView = detailView;
-                    }
+                    ShowFixForecastForm(e.ShowViewParameters);
                     break;
                 case "Map":
                     ExecuteMapping();
@@ -91,7 +89,14 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
         }
 
-        public SingleChoiceAction RunProgramAction;
+        private void ShowFixForecastForm(ShowViewParameters svp)
+        {
+            var os = Application.CreateObjectSpace();
+            var paramObj = CashFlowFixParam.GetInstance(os);
+            var detailView = Application.CreateDetailView(os, paramObj);
+            svp.TargetWindow = TargetWindow.NewModalWindow;
+            svp.CreatedView = detailView;
+        }
 
         private void SaveForecast()
         {

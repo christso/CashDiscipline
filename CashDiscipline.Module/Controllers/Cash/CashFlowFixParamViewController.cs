@@ -1,4 +1,5 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
+using CashDiscipline.Module.ControllerHelpers.Cash;
 using CashDiscipline.Module.ParamObjects.Cash;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
@@ -34,22 +35,24 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         private void ResetAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var os = Application.CreateObjectSpace();
-            var cashFlows = os.GetObjects<CashFlow>();
-            foreach (var cashFlow in cashFlows)
+            var os = (XPObjectSpace)Application.CreateObjectSpace();
+            var paramObj = View.CurrentObject as CashFlowFixParam;
+            if (paramObj != null)
             {
-                cashFlow.IsFixeeUpdated = false;
-                cashFlow.IsFixerUpdated = false;
+                var algo = new FixCashFlowsAlgorithm2(os, paramObj);
+                algo.Reset();
             }
-            os.CommitChanges();
         }
 
         private void RunAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var os = Application.CreateObjectSpace();
+            var os = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = View.CurrentObject as CashFlowFixParam;
             if (paramObj != null)
-                CashFlow.FixCashFlows((XPObjectSpace)os, paramObj);
+            {
+                var algo = new FixCashFlowsAlgorithm2(os, paramObj);
+                algo.ProcessCashFlows();
+            }
         }
 
         protected override void OnActivated()

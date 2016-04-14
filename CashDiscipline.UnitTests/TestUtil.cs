@@ -59,6 +59,8 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(ImportParamBase));
             module.AdditionalExportedTypes.Add(typeof(ImportHeadersParam));
             module.AdditionalExportedTypes.Add(typeof(ImportOrdinalsParam));
+            module.AdditionalExportedTypes.Add(typeof(CashForecastFixTag));
+
         }
     }
 }

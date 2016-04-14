@@ -447,21 +447,10 @@ namespace CashDiscipline.UnitTests
 
             CashFlowSnapshot currentSnapshot = CashFlowHelper.GetCurrentSnapshot(ObjectSpace.Session);
 
-            var unfixed = new XPQuery<CashFlow>(ObjectSpace.Session)
-                .Where(cf =>
-                (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore)
-                && !cf.IsFixerUpdated && !cf.IsFixeeUpdated);
-
-            Assert.AreEqual(0, unfixed.Count());
-
-            var unfixed2 = fixAlgo.GetCashFlowsToFix();
-            Assert.AreEqual(0, unfixed2.Count());
-
-            Assert.AreEqual(0, fixAlgo.GetCashFlowsToFix().Count());
-
             #endregion
 
             #region Assert 2nd run
+            fixAlgo.Reset();
 
             fixAlgo.ProcessCashFlows();
 
@@ -567,41 +556,43 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo1 = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
-            Assert.AreEqual(3, fixAlgo.GetCashFlowsToFix().Count()); // assert test data
+            Assert.AreEqual(3, fixAlgo1.GetCashFlowsToFix().Count()); // assert test data
 
             #endregion
 
             #region Assert 1st run
 
-            fixAlgo.ProcessCashFlows();
-            {
-                var unfixed = fixAlgo.GetCashFlowsToFix();
-                Assert.AreEqual(0, unfixed.Count());
-            }
+            fixAlgo1.ProcessCashFlows();
+
+            Assert.AreEqual(5, cashFlows.Count());
+            Assert.AreEqual(300,
+                    cashFlows.Where(x =>
+                        x.TranDate == new DateTime(2016, 03, 31))
+                    .Sum(x => x.AccountCcyAmt));
+
             #endregion
 
             #region Assert 2nd run
 
             // change Tran Date and simulate setting flag to false
             cfFixee1.TranDate = new DateTime(2016, 03, 05);
+            cfFixee1.AccountCcyAmt = 700;
             cfFixee1.IsFixeeUpdated = false;
             cfFixee1.IsFixerUpdated = false;
             ObjectSpace.CommitChanges();
-            {
-                var unfixed = fixAlgo.GetCashFlowsToFix();
-                Assert.AreEqual(1, unfixed.Count());
-            }
 
-            fixAlgo.ProcessCashFlows();
+            fixAlgo1.Reset();
+            fixAlgo1.ProcessCashFlows();
 
-            Assert.AreEqual(5, cashFlows.Count());
+            var cashFlows2 = ObjectSpace.GetObjects<CashFlow>();
 
-            Assert.AreEqual(300,
-                    cashFlows.Where(x =>
+            Assert.AreEqual(5, cashFlows2.Count());
+            Assert.AreEqual(200,
+                    cashFlows2.Where(x =>
                         x.TranDate == new DateTime(2016, 03, 31))
                     .Sum(x => x.AccountCcyAmt));
 

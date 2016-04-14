@@ -251,6 +251,7 @@
                 <LayoutItem Id="Account" Removed="True" />
                 <LayoutItem Id="Activity" Removed="True" />
                 <LayoutItem Id="Counterparty" Removed="True" />
+                <LayoutItem Id="Fix" Removed="True" />
                 <LayoutItem Id="FixRank" Removed="True" />
                 <LayoutItem Id="Source" Removed="True" />
                 <LayoutItem Id="Status" Removed="True" />
@@ -271,7 +272,6 @@
                 <LayoutItem Id="ForexSettleGroupId" Removed="True" />
                 <LayoutItem Id="ForexSettleType" Removed="True" />
                 <LayoutItem Id="ForexUnlinkedAccountCcyAmt" Removed="True" />
-                <LayoutItem Id="IsFixUpdated" Removed="True" />
                 <LayoutItem Id="IsReclass" Removed="True" />
                 <LayoutItem Id="ParentCashFlow" Removed="True" />
               </LayoutGroup>
@@ -289,11 +289,11 @@
             </LayoutGroup>
             <LayoutGroup Id="Forecast" Direction="Horizontal" ShowCaption="True" Index="3" RelativeSize="19.333333333333332" IsNewNode="True">
               <LayoutGroup Id="Forecast_col1" Index="0" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
-                <LayoutItem Id="Fix" ViewItem="Fix" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
                 <LayoutItem Id="DateUnFix" ViewItem="DateUnFix" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="FixFromDate" ViewItem="FixFromDate" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="FixRank" ViewItem="FixRank" Index="2" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="FixToDate" ViewItem="FixToDate" Index="2" SizeConstraintsType="Default" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="Fix" ViewItem="Fix" ShowCaption="" Index="14" IsNewNode="True" />
               </LayoutGroup>
               <LayoutGroup Id="Forecast_col2" Index="2" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
                 <LayoutItem Id="FixActivity" ViewItem="FixActivity" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />

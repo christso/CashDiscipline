@@ -31,7 +31,6 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         private CashForecastFixTag resRevRecFixTag;
         private CashForecastFixTag payrollFixTag;
 
-
         public FixCashFlowsAlgorithm2(XPObjectSpace objSpace, CashFlowFixParam paramObj)
         {
             this.objSpace = objSpace;
@@ -52,40 +51,63 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 CriteriaOperator.Parse("Name = 'PY'"));
         }
 
-        public void ProcessCashFlows()
+        #region Reset
+
+        // delete existing fixes
+        public void Reset()
+        {
+            DeleteOrphans();
+            ResetFixStatus();
+        }
+
+        // delete existing fixes that are not valid due to potential application bug
+        public void DeleteOrphans()
         {
             CashFlowSnapshot currentSnapshot = GetCurrentSnapshot(objSpace.Session);
+
+            var cashFlowFixes = new XPQuery<CashFlow>(objSpace.Session)
+                .Where(cf =>
+                cf.Snapshot.Oid == currentSnapshot.Oid
+                && cf.Fix != null
+                && (cf.Fix == reversalFixTag
+                    || cf.Fix == revRecFixTag
+                    || cf.Fix == resRevRecFixTag)
+                && cf.ParentCashFlow == null);
+
+            foreach (var cashFlowFix in cashFlowFixes)
+                cashFlowFix.Delete();
+
+            objSpace.CommitChanges();
+        }
+
+        public void ResetFixStatus()
+        {
+            CashFlowSnapshot currentSnapshot = GetCurrentSnapshot(objSpace.Session);
+
+            var cashFlows = new XPQuery<CashFlow>(objSpace.Session)
+                .Where(cf =>
+                cf.Snapshot.Oid == currentSnapshot.Oid);
+            foreach (var cashFlow in cashFlows)
+            {
+                cashFlow.IsFixeeUpdated = false;
+            }
+            objSpace.CommitChanges();
+        }
+        #endregion
+
+        public void ProcessCashFlows()
+        {
+            DeleteOrphans();
 
             var cashFlows = GetCashFlowsToFix().OrderBy(x => x.TranDate);
 
             foreach (var cashFlow in cashFlows)
             {
                 ProcessCashFlowsFromFixer(cashFlows, cashFlow);
-                ProcessCashFlowsFromFixee(cashFlows, cashFlow);
                 cashFlow.IsFixerUpdated = true;
-                cashFlow.IsFixeeUpdated = true;
             }
 
             objSpace.CommitChanges();
-
-            // TODO: delete this once done with testing
-            #region Test
-
-            //var cashFlowsQuery1 = new XPQuery<CashFlow>(objSpace.Session)
-            //    .Where(cf =>
-            //    cf.Snapshot == currentSnapshot
-            //    && cf.TranDate >= paramObj.FromDate && cf.TranDate <= paramObj.ToDate
-            //    && !cf.IsFixerUpdated && !cf.IsFixeeUpdated
-            //    && cf.Fix.FixTagType != CashForecastFixTagType.Ignore);
-
-            //foreach (var cf in cashFlowsQuery1)
-            //{
-            //    cf.IsFixeeUpdated = true;
-            //    cf.IsFixerUpdated = true;
-            //}
-            //objSpace.CommitChanges();
-            #endregion
-
         }
 
         private void ProcessCashFlowsFromFixer(IEnumerable<CashFlow> cashFlows, CashFlow fixer)
@@ -95,18 +117,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             foreach (var fixee in fixees)
             {
                 CreateFixes(fixer, fixee);
+                fixee.IsFixeeUpdated = true;
             }
-            fixer.IsFixerUpdated = true;
-        }
-
-        private void ProcessCashFlowsFromFixee(IEnumerable<CashFlow> cashFlows, CashFlow fixee)
-        {
-            var fixer = GetFixers(cashFlows, fixee).FirstOrDefault();
-            if (fixer != null)
-            {
-                CreateFixes(fixer, fixee);
-            }
-            fixee.IsFixeeUpdated = true;
         }
 
         public void CreateFixes(CashFlow fixer, CashFlow fixee)
@@ -125,8 +137,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 .Where(cf =>
                 cf.TranDate >= paramObj.FromDate && cf.TranDate <= paramObj.ToDate
                 && cf.Snapshot.Oid == currentSnapshot.Oid
-                && (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore)
-                && !cf.IsFixerUpdated && !cf.IsFixeeUpdated);
+                && (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore));
 
             return cashFlows;
         }
@@ -137,13 +148,6 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             // since one fixee can have many fixers, we avoid
             // running the algorithm twice on the same fixee
             return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && fixee.IsFixeeUpdated == false);
-        }
-
-        public IEnumerable<CashFlow> GetFixers(IEnumerable<CashFlow> cashFlows, CashFlow fixee)
-        {
-            // we don't use IsFixerUpdated condition because a fixee must reference the fixer 
-            // regardless of whether the fixer was updated
-            return cashFlows.Where((fixer) => GetFixCriteria(fixee, fixer));
         }
 
         public bool GetFixCriteria(CashFlow fixee, CashFlow fixer)
