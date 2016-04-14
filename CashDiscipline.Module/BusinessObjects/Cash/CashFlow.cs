@@ -18,7 +18,8 @@ using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.ControllerHelpers.Cash;
 
-// With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
+// Please note that calling Save() will set IsFixeeUpdated and IsFixerUpdated to false;
+// Therefore, avoid calling Save() if you need to update those properties.
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
     [VisibleInReports(true)]
@@ -677,6 +678,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        // returns true if cashflow is fixed with no further changes
         private bool _IsFixerUpdated;
         //[VisibleInDetailView(false)]
         [VisibleInListView(false)]

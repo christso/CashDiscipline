@@ -62,10 +62,30 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             {
                 ProcessCashFlowsFromFixer(cashFlows, cashFlow);
                 ProcessCashFlowsFromFixee(cashFlows, cashFlow);
-                cashFlow.IsFixerUpdated = true; 
+                cashFlow.IsFixerUpdated = true;
+                cashFlow.IsFixeeUpdated = true;
             }
 
             objSpace.CommitChanges();
+
+            // TODO: delete this once done with testing
+            #region Test
+
+            //var cashFlowsQuery1 = new XPQuery<CashFlow>(objSpace.Session)
+            //    .Where(cf =>
+            //    cf.Snapshot == currentSnapshot
+            //    && cf.TranDate >= paramObj.FromDate && cf.TranDate <= paramObj.ToDate
+            //    && !cf.IsFixerUpdated && !cf.IsFixeeUpdated
+            //    && cf.Fix.FixTagType != CashForecastFixTagType.Ignore);
+
+            //foreach (var cf in cashFlowsQuery1)
+            //{
+            //    cf.IsFixeeUpdated = true;
+            //    cf.IsFixerUpdated = true;
+            //}
+            //objSpace.CommitChanges();
+            #endregion
+
         }
 
         private void ProcessCashFlowsFromFixer(IEnumerable<CashFlow> cashFlows, CashFlow fixer)
@@ -76,8 +96,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             {
                 CreateFixes(fixer, fixee);
             }
+            fixer.IsFixerUpdated = true;
         }
-
 
         private void ProcessCashFlowsFromFixee(IEnumerable<CashFlow> cashFlows, CashFlow fixee)
         {
@@ -86,6 +106,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             {
                 CreateFixes(fixer, fixee);
             }
+            fixee.IsFixeeUpdated = true;
         }
 
         public void CreateFixes(CashFlow fixer, CashFlow fixee)
@@ -93,23 +114,19 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             var rev = objSpace.CreateObject<CashFlow>();
             rev.TranDate = fixer.TranDate;
             rev.AccountCcyAmt = -fixee.AccountCcyAmt;
-            fixee.IsFixeeUpdated = true;
+            rev.Fix = reversalFixTag;
         }
 
         // This will return all cash flows which have changed after it was fixed
         public IEnumerable<CashFlow> GetCashFlowsToFix()
         {
             CashFlowSnapshot currentSnapshot = GetCurrentSnapshot(objSpace.Session);
-
-            var cashFlows = objSpace.GetObjects<CashFlow>(CriteriaOperator.Parse(
-            "TranDate >= ? And TranDate <= ? And Fix.FixTagType != ?"
-            + " And (Not IsFixerUpdated Or IsFixerUpdated Is Null"
-            + " Or Not IsFixeeUpdated Or IsFixeeUpdated Is Null)"
-            + " And Snapshot = ?",
-            paramObj.FromDate,
-            paramObj.ToDate,
-            CashForecastFixTagType.Ignore,
-            currentSnapshot));
+            var cashFlows = new XPQuery<CashFlow>(objSpace.Session)
+                .Where(cf =>
+                cf.TranDate >= paramObj.FromDate && cf.TranDate <= paramObj.ToDate
+                && cf.Snapshot.Oid == currentSnapshot.Oid
+                && (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore)
+                && !cf.IsFixerUpdated && !cf.IsFixeeUpdated);
 
             return cashFlows;
         }
