@@ -1018,7 +1018,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         #region Fix Cash Flow Algorithm
 
-        public static void FixCashFlows(XafApplication application, XPObjectSpace objSpace, CashFlowFixParam paramObj)
+        public static void FixCashFlows(XPObjectSpace objSpace, CashFlowFixParam paramObj)
         {
             var algo = new FixCashFlowsAlgorithm2(objSpace, paramObj);
             algo.ProcessCashFlows();

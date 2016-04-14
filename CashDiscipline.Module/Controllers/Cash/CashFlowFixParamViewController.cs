@@ -2,9 +2,11 @@
 using CashDiscipline.Module.ParamObjects.Cash;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Editors;
 using DevExpress.ExpressApp.SystemModule;
 using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.Base;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
@@ -20,22 +22,40 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             TargetObjectType = typeof(CashFlowFixParam);
             TargetViewType = ViewType.DetailView;
+
+            var runAction = new SimpleAction(this, "CashFlowFixRunAction", PredefinedCategory.ObjectsCreation);
+            runAction.Caption = "Run";
+            runAction.Execute += RunAction_Execute;
+
+            var resetAction = new SimpleAction(this, "CashFlowFixResetAction", PredefinedCategory.ObjectsCreation);
+            resetAction.Caption = "Reset";
+            resetAction.Execute += ResetAction_Execute;
+        }
+
+        private void ResetAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            var os = Application.CreateObjectSpace();
+            var cashFlows = os.GetObjects<CashFlow>();
+            foreach (var cashFlow in cashFlows)
+            {
+                cashFlow.IsFixeeUpdated = false;
+                cashFlow.IsFixerUpdated = false;
+            }
+            os.CommitChanges();
+        }
+
+        private void RunAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            var os = Application.CreateObjectSpace();
+            var paramObj = View.CurrentObject as CashFlowFixParam;
+            if (paramObj != null)
+                CashFlow.FixCashFlows((XPObjectSpace)os, paramObj);
         }
 
         protected override void OnActivated()
         {
             base.OnActivated();
             ((DetailView)View).ViewEditMode = ViewEditMode.Edit;
-            var dc = Frame.GetController<DialogController>();
-            if (dc != null)
-                dc.AcceptAction.Execute += AcceptAction_Execute;
-        }
-
-        private void AcceptAction_Execute(object sender, DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs e)
-        {
-            var paramObj = (CashFlowFixParam)View.CurrentObject;
-            var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
-            CashFlow.FixCashFlows(Application, objSpace, paramObj);
         }
     }
 }

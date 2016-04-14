@@ -67,8 +67,14 @@ namespace CashDiscipline.Module.Controllers.Cash
                     dialog1.ShowNonPersistentView(typeof(DailyCashUpdateParam));
                     break;
                 case "Fix Forecast":
-                    var dialog2 = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
-                    dialog2.ShowSingletonView<CashFlowFixParam>((IObjectSpace)Application.CreateObjectSpace());
+                    {
+                        var os = Application.CreateObjectSpace();
+                        var paramObj = CashFlowFixParam.GetInstance(os);
+                        var detailView = Application.CreateDetailView(os, paramObj);
+                        var svp = e.ShowViewParameters;
+                        svp.TargetWindow = TargetWindow.NewModalWindow;
+                        svp.CreatedView = detailView;
+                    }
                     break;
                 case "Map":
                     ExecuteMapping();
