@@ -395,7 +395,7 @@ namespace CashDiscipline.UnitTests
 
             decimal cashFlowSum = Math.Round(cashFlows.Sum(x => x.FunctionalCcyAmt), 2);
             Assert.LessOrEqual(cashFlowSum, -4.43M);
-            Assert.GreaterOrEqual(cashFlowSum,- 4.45M);
+            Assert.GreaterOrEqual(cashFlowSum,-4.46M);
             Assert.AreEqual(0, Math.Round(cashFlows.Sum(x => x.ForexLinkedAccountCcyAmt)));
             Assert.AreEqual(Math.Round(cashFlows.Sum(x => x.CounterCcyAmt), 2), 
                 Math.Round(cashFlows.Sum(x => x.ForexUnlinkedAccountCcyAmt), 2));

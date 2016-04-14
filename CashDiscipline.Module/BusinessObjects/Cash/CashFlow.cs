@@ -838,6 +838,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             get
             {
                 if (SetOfBooks.CachedInstance == null || this.Account == null) return false;
+                if (this.Account == null) return false;
+                if (this.Account.Currency == null) return false;
                 if (SetOfBooks.CachedInstance.FunctionalCurrency.Oid != this.Account.Currency.Oid) return true;
                 return false;
             }
