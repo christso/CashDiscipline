@@ -133,10 +133,5 @@ namespace CashDiscipline.Module.ParamObjects.Cash
                 SetPropertyValue("ApReclassActivity", ref _ApReclassActivity, value);
             }
         }
-
-        //protected override void OnDeleting()
-        //{
-        //    throw new UserFriendlyException("This object cannot be deleted.");
-        //}
     }
 }

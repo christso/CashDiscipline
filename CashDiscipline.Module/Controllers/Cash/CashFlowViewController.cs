@@ -41,6 +41,21 @@ namespace CashDiscipline.Module.Controllers.Cash
             var saveForecastAction = new ChoiceActionItem();
             saveForecastAction.Caption = "Save Forecast";
             RunProgramAction.Items.Add(saveForecastAction);
+
+        }
+
+        protected override void OnActivated()
+        {
+            base.OnActivated();
+            ObjectSpace.ObjectSaving += ObjectSpace_ObjectSaving;
+        }
+
+        private void ObjectSpace_ObjectSaving(object sender, ObjectManipulatingEventArgs e)
+        {
+            //if (IsFixerUpdated)
+            //    IsFixerUpdated = false;
+            //if (IsFixeeUpdated)
+            //    IsFixeeUpdated = false;
         }
 
         void runProgramAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -66,6 +81,7 @@ namespace CashDiscipline.Module.Controllers.Cash
                 case "Save Forecast":
                     SaveForecast();
                     break;
+
             }
         }
 

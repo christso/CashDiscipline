@@ -124,7 +124,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         {
             XPQuery<ForexRate> ratesQuery = new XPQuery<ForexRate>(session);
 
-            // TODO: why do I get object disposed?
             var rates = ratesQuery.Where(r => r.FromCurrency == fromCcy
                 && r.ToCurrency == toCcy
                 && r.ConversionDate <= convDate

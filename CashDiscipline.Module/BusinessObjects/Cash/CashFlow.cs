@@ -462,13 +462,13 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             if (obj == null || fromCcy == null) return;
             var session = obj.Session;
 
-            //if (obj.Account != null && obj.Account.Currency.Oid == SetOfBooks.CachedInstance.FunctionalCurrency.Oid)
-            //    obj.FunctionalCcyAmt = fromAmt;
+            var funcCcy = session.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
+
             if (SetOfBooks.CachedInstance.FunctionalCurrency.Oid == fromCcy.Oid)
                 obj.FunctionalCcyAmt = fromAmt;
             else if (obj.TranDate != default(DateTime))
             {
-                var rateObj = GetForexRateObject(session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, (DateTime)obj.TranDate);
+                var rateObj = GetForexRateObject(session, fromCcy, funcCcy, (DateTime)obj.TranDate);
                 if (rateObj != null)
                 {
                     var value = fromAmt * (decimal)rateObj.ConversionRate;
@@ -964,9 +964,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             TimeEntered = DateTime.Now;
 
             base.OnSaving();
-
-            if (IsFixerUpdated)
-                IsFixerUpdated = false;
         }
 
         protected override void OnSaved()
@@ -1023,7 +1020,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         public static void FixCashFlows(XafApplication application, XPObjectSpace objSpace, CashFlowFixParam paramObj)
         {
-            var algo = new FixCashFlowsAlgorithm(objSpace, paramObj);
+            var algo = new FixCashFlowsAlgorithm2(objSpace, paramObj);
             algo.ProcessCashFlows();
         }
 

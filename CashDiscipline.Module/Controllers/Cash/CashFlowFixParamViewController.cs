@@ -35,8 +35,6 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             var paramObj = (CashFlowFixParam)View.CurrentObject;
             var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
-            
-            
             CashFlow.FixCashFlows(Application, objSpace, paramObj);
         }
     }

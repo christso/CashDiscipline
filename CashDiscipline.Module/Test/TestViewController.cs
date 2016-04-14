@@ -12,6 +12,7 @@ using System.Collections;
 using CashDiscipline.Module.BusinessObjects;
 using DevExpress.Data.Filtering;
 using Xafology.ExpressApp.Xpo.Import.Parameters;
+using CashDiscipline.Module.BusinessObjects.Forex;
 
 namespace CashDiscipline.Module.Test
 {
@@ -19,22 +20,27 @@ namespace CashDiscipline.Module.Test
     {
         private const string cashFlowChoiceCaption = "Cash Flow";
         private const string importParamChoiceCaption = "Import Param";
+        private const string forexChoiceCaption = "Convert Currency";
 
         public TestViewController()
         {
             var testDataAction = new SingleChoiceAction(this, "TestDataAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             testDataAction.ShowItemsOnClick = false;
-            testDataAction.Caption = "Test Data";
+            testDataAction.Caption = "Test";
             testDataAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             testDataAction.Execute += testAction_Execute;
 
             var cashFlowChoice = new ChoiceActionItem();
-            cashFlowChoice.Caption = "Cash Flow";
+            cashFlowChoice.Caption = "Create Cash Flow Test Data";
             testDataAction.Items.Add(cashFlowChoice);
 
             var importParamChoice = new ChoiceActionItem();
-            importParamChoice.Caption = "Import Param";
+            importParamChoice.Caption = "Create Import Param Test Data";
             testDataAction.Items.Add(importParamChoice);
+
+            var forexChoice = new ChoiceActionItem();
+            forexChoice.Caption = "Convert Currency";
+            testDataAction.Items.Add(forexChoice);
         }
 
         private void testAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -47,7 +53,26 @@ namespace CashDiscipline.Module.Test
                 case importParamChoiceCaption:
                     CreateCashFlowImportParams();
                     break;
+                case forexChoiceCaption:
+                    ConvertCurrency();
+                    break;
             }
+        }
+
+        private void ConvertCurrency()
+        {
+            var cf = (CashFlow)View.CurrentObject;
+            if (cf.Account == null)
+                throw new UserFriendlyException("Account must be specified");
+
+            var functionalCurrency = ObjectSpace.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
+
+            var rateObj = ForexRate.GetForexRateObject(((XPObjectSpace)ObjectSpace).Session, 
+                cf.Account.Currency, functionalCurrency, (DateTime)cf.TranDate);
+
+            string message = string.Format("rate = {0}", rateObj.ConversionRate);
+
+            var messageBox = new Xafology.ExpressApp.SystemModule.GenericMessageBox(message);
         }
 
         public void CreateCashFlows()
