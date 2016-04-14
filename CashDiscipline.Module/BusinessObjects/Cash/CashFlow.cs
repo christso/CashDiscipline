@@ -46,6 +46,16 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             : base(session)
         {
             this.calculateEnabled = calculateEnabled;
+            this.Changed += CashFlow_Changed;
+        }
+
+        private void CashFlow_Changed(object sender, ObjectChangeEventArgs e)
+        {
+            if (!this.IsSaving && !this.IsLoading)
+            {
+
+            }
+
         }
 
         // Fields...
@@ -939,8 +949,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         {
             base.AfterConstruction();
             calculateEnabled = true;
-            if (AppSettings.UserTriggersEnabled)
-                InitDefaultValues();
+            InitDefaultValues();
         }
 
         public void InitDefaultValues()
@@ -951,7 +960,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
             CounterCcy = Session.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
 
-            var defObj = Session.FindObject<CashFlowDefaults>(null);
+            var defObj = CashFlowDefaults.GetInstance(Session);
             if (defObj == null) return;
 
             Counterparty = defObj.Counterparty;
@@ -1024,7 +1033,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             algo.ProcessCashFlows();
         }
 
-  
         #endregion
 
         #region Snapshot

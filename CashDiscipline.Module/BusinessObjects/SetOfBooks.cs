@@ -140,6 +140,20 @@ namespace CashDiscipline.Module.BusinessObjects
 
         public static SetOfBooks GetInstance(DevExpress.Xpo.Session session)
         {
+            // return previous instance if session matches
+            try
+            {
+                if (CachedInstance != null
+                    && CachedInstance.Session == session)
+                {
+                    return CachedInstance;
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+
+            // return instance from new session
             var setOfBooks = session.FindObject<SetOfBooks>(PersistentCriteriaEvaluationBehavior.InTransaction, null);
             if (setOfBooks == null)
             {
@@ -151,6 +165,7 @@ namespace CashDiscipline.Module.BusinessObjects
             SetOfBooks.CachedInstance = setOfBooks;
             return setOfBooks;
         }
+
         public static SetOfBooks GetInstance(DevExpress.ExpressApp.IObjectSpace objectSpace)
         {
             var setOfBooks = GetInstance(((XPObjectSpace)objectSpace).Session);

@@ -90,6 +90,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             foreach (var cashFlow in cashFlows)
             {
                 cashFlow.IsFixeeUpdated = false;
+                cashFlow.IsFixerUpdated = false;
             }
             objSpace.CommitChanges();
         }
@@ -112,7 +113,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
         private void ProcessCashFlowsFromFixer(IEnumerable<CashFlow> cashFlows, CashFlow fixer)
         {
-            // process from fixer
+            // process from fixer. Note that the number of Fixees will reduce during the process.
             var fixees = GetFixees(cashFlows, fixer);
             foreach (var fixee in fixees)
             {
@@ -137,7 +138,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 .Where(cf =>
                 cf.TranDate >= paramObj.FromDate && cf.TranDate <= paramObj.ToDate
                 && cf.Snapshot.Oid == currentSnapshot.Oid
-                && (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore));
+                && (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore)
+                && !cf.IsFixeeUpdated && !cf.IsFixerUpdated);
 
             return cashFlows;
         }
@@ -147,7 +149,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             // we add "fixee.IsFixeeUpdated == false"
             // since one fixee can have many fixers, we avoid
             // running the algorithm twice on the same fixee
-            return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && fixee.IsFixeeUpdated == false);
+            return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && !fixee.IsFixeeUpdated);
         }
 
         public bool GetFixCriteria(CashFlow fixee, CashFlow fixer)

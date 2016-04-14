@@ -25,10 +25,21 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         {
             base.AfterConstruction();
         }
-        private Account _Account;
-        private Activity _Activity;
-        private Counterparty _Counterparty;
 
+        private static CashFlowDefaults _CachedInstance;
+        public static CashFlowDefaults CachedInstance
+        {
+            get
+            {
+                return _CachedInstance;
+            }
+            set
+            {
+                _CachedInstance = value;
+            }
+        }
+
+        private Account _Account;
         public Account Account
         {
             get
@@ -41,6 +52,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private Activity _Activity;
+
         public Activity Activity
         {
             get
@@ -52,6 +65,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 SetPropertyValue("Activity", ref _Activity, value);
             }
         }
+
+        private Counterparty _Counterparty;
         public Counterparty Counterparty
         {
             get
@@ -65,17 +80,43 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
         public static CashFlowDefaults GetInstance(IObjectSpace objectSpace)
         {
-            CashFlowDefaults result = objectSpace.FindObject<CashFlowDefaults>(null);
+            return CashFlowDefaults.GetInstance(((XPObjectSpace)objectSpace).Session);
+        }
+
+        public static CashFlowDefaults GetInstance(Session session)
+        {
+            // return previous instance if session matches
+            try
+            {
+                if (CashFlowDefaults.CachedInstance != null
+                    && CashFlowDefaults.CachedInstance.Session == session)
+                {
+                    return CashFlowDefaults.CachedInstance;
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+
+            // return instance from new session
+            var result = session.FindObject<CashFlowDefaults>(PersistentCriteriaEvaluationBehavior.InTransaction, null);
+
             if (result == null)
             {
-                result = new CashFlowDefaults(((XPObjectSpace)objectSpace).Session);
+                result = new CashFlowDefaults(session);
                 result.Save();
             }
+            CashFlowDefaults.CachedInstance = result;
+
             return result;
         }
-        protected override void OnDeleting()
+
+        protected override void OnSaving()
         {
-            throw new UserFriendlyException("This object cannot be deleted.");
+            var objs = new XPCollection<SetOfBooks>(PersistentCriteriaEvaluationBehavior.InTransaction, Session, null);
+            if (objs.Count > 1)
+                throw new InvalidOperationException("You cannot create more than one CashFlowDefaults instance");
+            base.OnSaving();
         }
     }
 }

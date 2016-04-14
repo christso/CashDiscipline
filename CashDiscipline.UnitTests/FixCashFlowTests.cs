@@ -450,7 +450,7 @@ namespace CashDiscipline.UnitTests
             #endregion
 
             #region Assert 2nd run
-            fixAlgo.Reset();
+            //fixAlgo.Reset();
 
             fixAlgo.ProcessCashFlows();
 
@@ -604,6 +604,16 @@ namespace CashDiscipline.UnitTests
         {
             var cf = ObjectSpace.CreateObject<CashFlow>();
             cf.AccountCcyAmt = 100;
+
+            var defObj1 = CashFlowDefaults.GetInstance(ObjectSpace);
+            for (int i = 0; i < 100; i++)
+            {
+                defObj1 = CashFlowDefaults.GetInstance(ObjectSpace);
+            }
+
+            var os = Application.CreateObjectSpace();
+            defObj1 = CashFlowDefaults.GetInstance(os);
+
             ObjectSpace.CommitChanges();
         }
 
