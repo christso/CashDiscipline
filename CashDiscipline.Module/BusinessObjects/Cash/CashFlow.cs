@@ -77,11 +77,12 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         private void CashFlow_Changed(object sender, ObjectChangeEventArgs e)
         {
-            if (!this.IsSaving && !this.IsLoading)
+            if (!this.IsLoading)
             {
                 // reset fix status for current and fixer cashflows
                 if (e.PropertyName != Fields.IsFixeeSynced.PropertyName
                     && e.PropertyName != Fields.IsFixerSynced.PropertyName
+                    && e.PropertyName != Fields.IsFixerFixeesSynced.PropertyName
                     && e.PropertyName != Fields.TimeEntered.PropertyName)
                 {
                     this.IsFixeeSynced = false;
@@ -90,9 +91,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                     if (Fixer != null)
                         Fixer.IsFixerFixeesSynced = false;
                 }
-
             }
-
         }
 
         // Whether Real Time calculation is enabled. If not, then calculation will occur on saving.

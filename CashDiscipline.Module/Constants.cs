@@ -23,5 +23,11 @@ namespace CashDiscipline.Module
         public const string CashFlowPivotLayoutMonthlyVariance = "MonthlyVariance";
         public const string CashFlowPivotLayoutFixForecast = "FixForecast";
 
+        // Fix Tags
+        public const string ReversalFixTag = "R";
+        public const string RevRecFixTag = "RR";
+        public const string ResRevRecFixTag = "RRR";
+        public const string PayrollFixTag = "PY";
+
     }
 }

@@ -43,14 +43,20 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             paramApReclassActivity = objSpace.GetObjectByKey<Activity>(objSpace.GetKeyValue(paramObj.ApReclassActivity));
             defaultCounterparty = objSpace.FindObject<Counterparty>(
              CriteriaOperator.Parse("Name LIKE ?", "UNDEFINED"));
-            reversalFixTag = objSpace.FindObject<CashForecastFixTag>(
-                CriteriaOperator.Parse("Name = 'R'"));
-            revRecFixTag = objSpace.FindObject<CashForecastFixTag>(
-                CriteriaOperator.Parse("Name = 'RR'"));
-            resRevRecFixTag = objSpace.FindObject<CashForecastFixTag>(
-                CriteriaOperator.Parse("Name = 'RRR'"));
-            payrollFixTag = objSpace.FindObject<CashForecastFixTag>(
-                CriteriaOperator.Parse("Name = 'PY'"));
+
+            var query = new XPQuery<CashForecastFixTag>(objSpace.Session);
+
+            reversalFixTag = query
+                .Where(x => x.Name == Constants.ReversalFixTag).FirstOrDefault();
+
+            revRecFixTag = query
+                .Where(x => x.Name == Constants.RevRecFixTag).FirstOrDefault();
+
+            resRevRecFixTag = query
+                .Where(x => x.Name == Constants.ResRevRecFixTag).FirstOrDefault();
+
+            payrollFixTag = query
+                .Where(x => x.Name == Constants.PayrollFixTag).FirstOrDefault();
 
             this.cashFlowsToDelete = new List<CashFlow>();
         }
@@ -113,7 +119,11 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
             foreach (var cashFlow in cashFlows)
             {
+                ProcessLockdown(cashFlow);
+
+                // process fixees from fixer
                 ProcessCashFlowsFromFixer(cashFlows, cashFlow);
+
                 cashFlow.IsFixerSynced = true;
                 cashFlow.IsFixerFixeesSynced = true;
             }
@@ -124,28 +134,35 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             objSpace.CommitChanges();
         }
 
+        private void ProcessLockdown(CashFlow cashFlow)
+        {
+            // adjust date of outflows
+            if (cashFlow.Fix.FixTagType == CashForecastFixTagType.ScheduleOut
+                && cashFlow.FixRank > 2
+                && cashFlow.TranDate <= paramObj.ApayableLockdownDate)
+            {
+                // TODO: exclude Payroll, Progen, Bank Fee, Tax by specifying Fix in Activity
+                cashFlow.TranDate = paramObj.ApayableNextLockdownDate;
+            }
+        }
+
         private void ProcessCashFlowsFromFixer(IEnumerable<CashFlow> cashFlows, CashFlow fixer)
         {
             // process from fixer. Note that the number of Fixees will reduce during the process.
             var fixees = GetFixees(cashFlows, fixer);
             foreach (var fixee in fixees)
             {
+                // mark cash flows for deletion
                 foreach (var child in fixee.ChildCashFlows)
                 {
                     cashFlowsToDelete.Add(child);
                 }
+
                 CreateFixes(fixer, fixee);
+
+                fixee.Fixer = fixer;
                 fixee.IsFixeeSynced = true;
             }
-        }
-
-        public void CreateFixes(CashFlow fixer, CashFlow fixee)
-        {
-            var rev = objSpace.CreateObject<CashFlow>();
-            rev.TranDate = fixer.TranDate;
-            rev.AccountCcyAmt = -fixee.AccountCcyAmt;
-            rev.Fix = reversalFixTag;
-            rev.ParentCashFlow = fixee;
         }
 
         // This will return all cash flows which have changed after it was fixed
@@ -167,7 +184,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             // we add "fixee.IsFixeeSynced == false"
             // since one fixee can have many fixers, we avoid
             // running the algorithm twice on the same fixee
-            return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && !fixee.IsFixeeSynced);
+            return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && !fixee.IsFixeeSynced)
+                .OrderBy((fixee) => fixee.TranDate);
         }
 
         public bool GetFixCriteria(CashFlow fixee, CashFlow fixer)
@@ -185,6 +203,100 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                         && fixee.Account != null && fixee.Account.FixAccount == fixer.Account.FixAccount;
         }
 
+        #endregion
+
+        #region Fix Creator
+
+        public void CreateFixes(CashFlow fixer, CashFlow fixee)
+        {
+            // base reversal
+            var revFix = objSpace.CreateObject<CashFlow>();
+            revFix.ParentCashFlow = fixee;
+            revFix.Account = fixee.Account.FixAccount;
+            revFix.Activity = fixee.FixActivity;
+            revFix.TranDate = fixer.TranDate;
+            revFix.AccountCcyAmt = -fixee.AccountCcyAmt;
+            revFix.FunctionalCcyAmt = -fixee.FunctionalCcyAmt;
+            revFix.CounterCcyAmt = -fixee.CounterCcyAmt;
+            revFix.CounterCcy = fixer.CounterCcy;
+            revFix.Source = fixee.FixActivity.FixSource;
+            revFix.Fix = reversalFixTag;
+
+            
+            // Reversal logic for AP Lockdown (i.e. payroll is excluded)
+            // for Allocate FixTagType
+            if (fixee.TranDate <= paramObj.ApayableLockdownDate
+                && fixer.Fix.FixTagType == CashForecastFixTagType.Allocate
+               && fixee.Fix != payrollFixTag)
+            {
+                revFix.IsReclass = true;
+
+                #region Accounts Payable
+                
+                var revRecFixee = objSpace.CreateObject<CashFlow>();
+                revRecFixee.ParentCashFlow = fixee;
+                revRecFixee.TranDate = revFix.TranDate;
+                revRecFixee.Activity = revFix.Activity;
+                revRecFixee.Account = revFix.Account;
+                revRecFixee.AccountCcyAmt = -1 * revFix.AccountCcyAmt;
+                revRecFixee.FunctionalCcyAmt = -1 * revFix.FunctionalCcyAmt;
+                revRecFixee.CounterCcyAmt = -1 * revFix.CounterCcyAmt;
+                revRecFixee.Source = revFix.Source;
+                revRecFixee.CounterCcy = revFix.CounterCcy;
+                revRecFixee.Activity = paramApReclassActivity;
+                revRecFixee.Fix = revRecFixTag;
+                revRecFixee.IsReclass = true;
+                revRecFixee.Save();
+
+                var resRevRecFixee = objSpace.CreateObject<CashFlow>();
+                resRevRecFixee.Activity = revRecFixee.Activity;
+                resRevRecFixee.Account = revRecFixee.Account;
+                resRevRecFixee.AccountCcyAmt = -1 * revRecFixee.AccountCcyAmt;
+                resRevRecFixee.FunctionalCcyAmt = -1 * revRecFixee.FunctionalCcyAmt;
+                resRevRecFixee.CounterCcyAmt = -1 * revRecFixee.CounterCcyAmt;
+                resRevRecFixee.Source = revRecFixee.Source;
+                resRevRecFixee.CounterCcy = revRecFixee.CounterCcy;
+                resRevRecFixee.TranDate = paramObj.ApayableNextLockdownDate;
+                resRevRecFixee.Fix = resRevRecFixTag;
+                resRevRecFixee.IsReclass = false;
+                resRevRecFixee.Save();
+
+                #endregion
+
+                #region Allocate
+                // Reverse 'Allocate' To Reclass where <= 2 week 
+                var revRecFixer = objSpace.CreateObject<CashFlow>();
+                revRecFixer.Account = fixer.Account;
+                revRecFixer.AccountCcyAmt = -1 * fixer.AccountCcyAmt;
+                revRecFixer.FunctionalCcyAmt = -1 * fixer.FunctionalCcyAmt;
+                revRecFixer.CounterCcyAmt = -1 * fixer.CounterCcyAmt;
+                revRecFixer.Source = fixer.Source;
+                revRecFixer.CounterCcy = fixer.CounterCcy;
+                revRecFixer.Fix = revRecFixTag;
+                revRecFixer.TranDate = fixer.TranDate;
+                revRecFixer.Activity = paramApReclassActivity;
+                revRecFixer.IsReclass = true;
+                revRecFixer.Save();
+
+                // Reverse "Reverse Allocate To Reclass" back into week 3
+                var resRevRecFixer = objSpace.CreateObject<CashFlow>();
+                resRevRecFixer.Activity = revRecFixer.Activity;
+                resRevRecFixer.Account = revRecFixer.Account;
+                resRevRecFixer.AccountCcyAmt = -1 * revRecFixer.AccountCcyAmt;
+                resRevRecFixer.FunctionalCcyAmt = -1 * revRecFixer.FunctionalCcyAmt;
+                resRevRecFixer.CounterCcyAmt = -1 * revRecFixer.CounterCcyAmt;
+                resRevRecFixer.Source = revRecFixer.Source;
+                resRevRecFixer.CounterCcy = revRecFixer.CounterCcy;
+                resRevRecFixer.Fix = resRevRecFixTag;
+                resRevRecFixer.TranDate = paramObj.ApayableNextLockdownDate;
+                resRevRecFixer.IsReclass = false;
+                resRevRecFixer.Save();
+                #endregion
+            }
+            revFix.Save();
+            fixee.Save();
+        }
+      
         #endregion
 
         #region Helpers
