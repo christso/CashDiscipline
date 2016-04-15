@@ -37,15 +37,9 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             base.AfterConstruction();
         }
 
-        // Fields...
-        private Activity _ApReclassActivity;
-        private DateTime _PayrollNextLockdownDate;
-        private DateTime _PayrollLockdownDate;
-        private DateTime _ApayableNextLockdownDate;
-        private DateTime _ApayableLockdownDate;
-        private DateTime _ToDate;
-        private DateTime _FromDate;
 
+
+        private DateTime _FromDate;
         public DateTime FromDate
         {
             get
@@ -58,6 +52,7 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             }
         }
 
+        private DateTime _ToDate;
         public DateTime ToDate
         {
             get
@@ -70,6 +65,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             }
         }
 
+
+        private DateTime _ApayableLockdownDate;
         [DisplayName("AP Lockdown Date")]
         public DateTime ApayableLockdownDate
         {
@@ -83,7 +80,7 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             }
         }
 
-
+        private DateTime _ApayableNextLockdownDate;
         public DateTime ApayableNextLockdownDate
         {
             get
@@ -96,7 +93,7 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             }
         }
 
-
+        private DateTime _PayrollLockdownDate;
         public DateTime PayrollLockdownDate
         {
             get
@@ -109,7 +106,7 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             }
         }
 
-
+        private DateTime _PayrollNextLockdownDate;
         public DateTime PayrollNextLockdownDate
         {
             get
@@ -122,6 +119,7 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             }
         }
 
+        private Activity _ApReclassActivity;
         public Activity ApReclassActivity
         {
             get

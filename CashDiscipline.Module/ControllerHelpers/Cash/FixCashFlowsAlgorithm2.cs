@@ -17,6 +17,7 @@ using Xafology.Spreadsheet.Attributes;
 using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.Cash;
+using CashDiscipline.Module.BusinessObjects;
 
 namespace CashDiscipline.Module.ControllerHelpers.Cash
 {
@@ -30,6 +31,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         private CashForecastFixTag revRecFixTag;
         private CashForecastFixTag resRevRecFixTag;
         private CashForecastFixTag payrollFixTag;
+        private SetOfBooks setOfBooks;
 
         private List<CashFlow> cashFlowsToDelete;
 
@@ -59,6 +61,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 .Where(x => x.Name == Constants.PayrollFixTag).FirstOrDefault();
 
             this.cashFlowsToDelete = new List<CashFlow>();
+
+            setOfBooks = SetOfBooks.GetInstance(objSpace);
         }
 
         #region Reset
@@ -119,13 +123,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
             foreach (var cashFlow in cashFlows)
             {
-                ProcessLockdown(cashFlow);
-
-                // process fixees from fixer
-                ProcessCashFlowsFromFixer(cashFlows, cashFlow);
-
-                cashFlow.IsFixerSynced = true;
-                cashFlow.IsFixerFixeesSynced = true;
+                ProcessCashFlowsFromFixee(cashFlows, cashFlow);
             }
 
             objSpace.Delete(cashFlowsToDelete);
@@ -134,7 +132,26 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             objSpace.CommitChanges();
         }
 
-        private void ProcessLockdown(CashFlow cashFlow)
+        private void ProcessCashFlowsFromFixee(IEnumerable<CashFlow> cashFlows, CashFlow fixee)
+        {      
+            // mark cash flows for deletion
+            foreach (var child in fixee.ChildCashFlows)
+            {
+                cashFlowsToDelete.Add(child);
+            }
+
+            var fixers = GetFixers(cashFlows, fixee);
+            var fixer = fixers.FirstOrDefault();
+            if (fixer != null)
+            {
+                RephaseFixer(fixer);
+                CreateFixes(fixer, fixee);
+                fixee.Fixer = fixer;
+            }
+            fixee.IsFixeeSynced = true;
+        }
+
+        private void RephaseFixer(CashFlow cashFlow)
         {
             // adjust date of outflows
             if (cashFlow.Fix.FixTagType == CashForecastFixTagType.ScheduleOut
@@ -143,25 +160,6 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             {
                 // TODO: exclude Payroll, Progen, Bank Fee, Tax by specifying Fix in Activity
                 cashFlow.TranDate = paramObj.ApayableNextLockdownDate;
-            }
-        }
-
-        private void ProcessCashFlowsFromFixer(IEnumerable<CashFlow> cashFlows, CashFlow fixer)
-        {
-            // process from fixer. Note that the number of Fixees will reduce during the process.
-            var fixees = GetFixees(cashFlows, fixer);
-            foreach (var fixee in fixees)
-            {
-                // mark cash flows for deletion
-                foreach (var child in fixee.ChildCashFlows)
-                {
-                    cashFlowsToDelete.Add(child);
-                }
-
-                CreateFixes(fixer, fixee);
-
-                fixee.Fixer = fixer;
-                fixee.IsFixeeSynced = true;
             }
         }
 
@@ -179,13 +177,10 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             return cashFlows;
         }
 
-        public IEnumerable<CashFlow> GetFixees(IEnumerable<CashFlow> cashFlows, CashFlow fixer)
+        public IEnumerable<CashFlow> GetFixers(IEnumerable<CashFlow> cashFlows, CashFlow fixee)
         {
-            // we add "fixee.IsFixeeSynced == false"
-            // since one fixee can have many fixers, we avoid
-            // running the algorithm twice on the same fixee
-            return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && !fixee.IsFixeeSynced)
-                .OrderBy((fixee) => fixee.TranDate);
+            return cashFlows.Where((fixer) => GetFixCriteria(fixee, fixer) && !fixer.IsFixerSynced)
+                .OrderBy((fixer) => fixee.TranDate);
         }
 
         public bool GetFixCriteria(CashFlow fixee, CashFlow fixer)
@@ -210,19 +205,26 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         public void CreateFixes(CashFlow fixer, CashFlow fixee)
         {
             // base reversal
+
             var revFix = objSpace.CreateObject<CashFlow>();
             revFix.ParentCashFlow = fixee;
             revFix.Account = fixee.Account.FixAccount;
             revFix.Activity = fixee.FixActivity;
             revFix.TranDate = fixer.TranDate;
+            revFix.CounterCcy = fixer.CounterCcy;
             revFix.AccountCcyAmt = -fixee.AccountCcyAmt;
             revFix.FunctionalCcyAmt = -fixee.FunctionalCcyAmt;
             revFix.CounterCcyAmt = -fixee.CounterCcyAmt;
-            revFix.CounterCcy = fixer.CounterCcy;
             revFix.Source = fixee.FixActivity.FixSource;
             revFix.Fix = reversalFixTag;
 
-            
+            // if the currencies do not match
+            if (fixee.CounterCcy != fixer.CounterCcy)
+            {
+                revFix.CounterCcy = setOfBooks.FunctionalCurrency;
+                revFix.CounterCcyAmt = -fixee.FunctionalCcyAmt;
+            }
+
             // Reversal logic for AP Lockdown (i.e. payroll is excluded)
             // for Allocate FixTagType
             if (fixee.TranDate <= paramObj.ApayableLockdownDate
@@ -232,7 +234,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 revFix.IsReclass = true;
 
                 #region Accounts Payable
-                
+
                 var revRecFixee = objSpace.CreateObject<CashFlow>();
                 revRecFixee.ParentCashFlow = fixee;
                 revRecFixee.TranDate = revFix.TranDate;
@@ -262,7 +264,12 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 resRevRecFixee.Save();
 
                 #endregion
+            }
 
+            if (fixee.TranDate <= paramObj.ApayableLockdownDate
+                && fixer.Fix.FixTagType == CashForecastFixTagType.Allocate
+               && fixee.Fix != payrollFixTag)
+            {
                 #region Allocate
                 // Reverse 'Allocate' To Reclass where <= 2 week 
                 var revRecFixer = objSpace.CreateObject<CashFlow>();
