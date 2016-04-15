@@ -7,7 +7,7 @@ using CashDiscipline.Module;
 [assembly: AssemblyDescription("CashDiscipline core components")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany(CashDiscipline.Module.AssemblyInfo.AssemblyCompany)]
-[assembly: AssemblyProduct("CashDiscipline")]
+[assembly: AssemblyProduct("Cash Discipline")]
 [assembly: AssemblyCopyright(CashDiscipline.Module.AssemblyInfo.AssemblyCopyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

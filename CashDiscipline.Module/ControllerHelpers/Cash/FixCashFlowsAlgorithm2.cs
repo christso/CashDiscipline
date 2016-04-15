@@ -141,7 +141,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             }
 
             var fixers = GetFixers(cashFlows, fixee);
-            var fixer = fixers.FirstOrDefault();
+            var fixer = ChooseFixer(fixers, fixee);
+
             if (fixer != null)
             {
                 RephaseFixer(fixer);
@@ -175,6 +176,15 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 && (!cf.IsFixeeSynced && !cf.IsFixerSynced) || !cf.IsFixerFixeesSynced);
 
             return cashFlows;
+        }
+
+        public CashFlow ChooseFixer(IEnumerable<CashFlow> fixers, CashFlow fixee)
+        {
+            var fixer = fixers.Where(cf => cf.CounterCcy == fixee.CounterCcy).FirstOrDefault();
+            if (fixer == null)
+                fixer = fixers.FirstOrDefault();
+
+            return fixer;
         }
 
         public IEnumerable<CashFlow> GetFixers(IEnumerable<CashFlow> cashFlows, CashFlow fixee)
@@ -258,7 +268,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 resRevRecFixee.CounterCcyAmt = -1 * revRecFixee.CounterCcyAmt;
                 resRevRecFixee.Source = revRecFixee.Source;
                 resRevRecFixee.CounterCcy = revRecFixee.CounterCcy;
-                resRevRecFixee.TranDate = paramObj.ApayableNextLockdownDate;
+                resRevRecFixee.TranDate = paramObj.ApayableNextLockdownDate < revFix.TranDate
+                    ? revFix.TranDate : paramObj.ApayableNextLockdownDate;
                 resRevRecFixee.Fix = resRevRecFixTag;
                 resRevRecFixee.IsReclass = false;
                 resRevRecFixee.Save();
@@ -295,7 +306,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 resRevRecFixer.Source = revRecFixer.Source;
                 resRevRecFixer.CounterCcy = revRecFixer.CounterCcy;
                 resRevRecFixer.Fix = resRevRecFixTag;
-                resRevRecFixer.TranDate = paramObj.ApayableNextLockdownDate;
+                resRevRecFixer.TranDate = paramObj.ApayableNextLockdownDate < revFix.TranDate
+                    ? revFix.TranDate : paramObj.ApayableNextLockdownDate;
                 resRevRecFixer.IsReclass = false;
                 resRevRecFixer.Save();
                 #endregion

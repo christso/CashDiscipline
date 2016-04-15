@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Title="Cash Discipline App" Logo="banner" Company="DG2NTT Pty Ltd" Copyright="Copyright (c) 2016 DG2NTT Pty Ltd" WebSite="http://dg2ntt.com" Description="http://cashdiscipline.com">
+<Application Title="CASH DISCIPLINE" Logo="banner" Company="DG2NTT Pty Ltd" Copyright="Copyright (c) 2016 DG2NTT Pty Ltd" WebSite="http://dg2ntt.com" Description="Software for Flexible and Disciplined Cash Flow Forecasting (http://cashdiscipline.com)">
   <BOModel>
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Account" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Activity" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
@@ -293,7 +293,7 @@
                 <LayoutItem Id="FixFromDate" ViewItem="FixFromDate" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="FixRank" ViewItem="FixRank" Index="2" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="FixToDate" ViewItem="FixToDate" Index="2" SizeConstraintsType="Default" RelativeSize="50" IsNewNode="True" />
-                <LayoutItem Id="Fix" ViewItem="Fix" ShowCaption="" Index="14" IsNewNode="True" />
+                <LayoutItem Id="Fix" ViewItem="Fix" Index="14" IsNewNode="True" />
               </LayoutGroup>
               <LayoutGroup Id="Forecast_col2" Index="2" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
                 <LayoutItem Id="FixActivity" ViewItem="FixActivity" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />

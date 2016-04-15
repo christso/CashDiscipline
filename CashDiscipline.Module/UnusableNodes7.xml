@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DetailView Id="BankStmt_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="BankStmt">
+            <LayoutGroup Id="SimpleEditors">
+              <LayoutGroup Id="BankStmt_col2">
+                <LayoutItem Id="ArtfReconTotal" ViewItem="ArtfReconTotal" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="CashFlow_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="Forecast">
+              <LayoutGroup Id="Forecast_col2">
+                <LayoutItem Id="IsFixUpdated" ViewItem="IsFixUpdated" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+  <NavigationItems Id="NavigationItems">
+    <Items Id="Items">
+      <Item Id="Cash Setup">
+        <Items Id="Items">
+          <Item Id="CashForecastFixTagType" ViewId="CashForecastFixTagType_ListView" />
+        </Items>
+      </Item>
+      <Item Id="Default">
+        <Items Id="Items">
+          <Item Id="ActionRequest" ViewId="ActionRequest_ListView" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+</Application>
