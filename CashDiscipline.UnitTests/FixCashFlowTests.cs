@@ -868,9 +868,17 @@ namespace CashDiscipline.UnitTests
                 .Where(cf => cf.TranDate == new DateTime(2016, 03, 11))
                 .Sum(cf => cf.AccountCcyAmt));
 
-            Assert.AreEqual(600 - 500, cashFlows
+            Assert.AreEqual(-666.67, Math.Round(cashFlows
+                .Where(cf => cf.TranDate == new DateTime(2016, 03, 11))
+                .Sum(cf => cf.FunctionalCcyAmt),2));
+
+            Assert.AreEqual(100, cashFlows
                 .Where(cf => cf.TranDate == paramObj.ApayableNextLockdownDate)
                 .Sum(cf => cf.AccountCcyAmt));
+
+            Assert.AreEqual(111.11, Math.Round(cashFlows
+                .Where(cf => cf.TranDate == paramObj.ApayableNextLockdownDate)
+                .Sum(cf => cf.FunctionalCcyAmt),2));
             #endregion
         }
 
