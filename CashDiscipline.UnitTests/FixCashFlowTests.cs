@@ -125,7 +125,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -229,7 +229,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -341,7 +341,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -463,7 +463,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo1 = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo1 = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -595,7 +595,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo1 = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo1 = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -720,7 +720,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -840,7 +840,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -952,7 +952,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlowsPre = ObjectSpace.GetObjects<CashFlow>();
 
@@ -1072,7 +1072,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -1213,7 +1213,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new FixCashFlowsAlgorithm2(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 

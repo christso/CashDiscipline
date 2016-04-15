@@ -39,7 +39,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             var paramObj = View.CurrentObject as CashFlowFixParam;
             if (paramObj != null)
             {
-                var algo = new FixCashFlowsAlgorithm2(os, paramObj);
+                var algo = new FixCashFlowsAlgorithm(os, paramObj);
                 algo.Reset();
             }
         }
@@ -50,7 +50,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             var paramObj = View.CurrentObject as CashFlowFixParam;
             if (paramObj != null)
             {
-                var algo = new FixCashFlowsAlgorithm2(os, paramObj);
+                var algo = new FixCashFlowsAlgorithm(os, paramObj);
                 algo.ProcessCashFlows();
             }
         }
