@@ -44,7 +44,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 throw new InvalidOperationException("AP Reclass Activity must be defined.");
             paramApReclassActivity = objSpace.GetObjectByKey<Activity>(objSpace.GetKeyValue(paramObj.ApReclassActivity));
             defaultCounterparty = objSpace.FindObject<Counterparty>(
-             CriteriaOperator.Parse("Name LIKE ?", "UNDEFINED"));
+             CriteriaOperator.Parse("Name LIKE ?", Constants.DefaultFixCounterparty));
 
             var query = new XPQuery<CashForecastFixTag>(objSpace.Session);
 
@@ -106,6 +106,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             {
                 cashFlow.IsFixeeSynced = false;
                 cashFlow.IsFixerSynced = false;
+                cashFlow.IsFixerFixeesSynced = false;
             }
             objSpace.CommitChanges();
         }
@@ -129,7 +130,21 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             objSpace.Delete(cashFlowsToDelete);
             cashFlowsToDelete.Clear();
 
+            FinalizeStatus(cashFlows);
+
             objSpace.CommitChanges();
+        }
+
+        public void FinalizeStatus(IEnumerable<CashFlow> cashFlows)
+        {
+            // update Fixer status
+            foreach (var cf in cashFlows)
+            {
+                cf.IsFixeeSynced = true;
+                cf.IsFixerSynced = true;
+                cf.IsFixerFixeesSynced = true;
+                cf.Save();
+            }
         }
 
         private void ProcessCashFlowsFromFixee(IEnumerable<CashFlow> cashFlows, CashFlow fixee)
@@ -138,6 +153,11 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             foreach (var child in fixee.ChildCashFlows)
             {
                 cashFlowsToDelete.Add(child);
+            }
+
+            if (fixee.CounterCcyAmt == -350)
+            {
+                // TODO: why does GetFixers return null?
             }
 
             var fixers = GetFixers(cashFlows, fixee);
@@ -149,7 +169,6 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 CreateFixes(fixer, fixee);
                 fixee.Fixer = fixer;
             }
-            fixee.IsFixeeSynced = true;
         }
 
         private void RephaseFixer(CashFlow cashFlow)
@@ -189,7 +208,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
         public IEnumerable<CashFlow> GetFixers(IEnumerable<CashFlow> cashFlows, CashFlow fixee)
         {
-            return cashFlows.Where((fixer) => GetFixCriteria(fixee, fixer) && !fixer.IsFixerSynced)
+            return cashFlows.Where((fixer) => GetFixCriteria(fixee, fixer) && 
+                (!fixer.IsFixerSynced || !fixer.IsFixerFixeesSynced))
                 .OrderBy((fixer) => fixee.TranDate);
         }
 
@@ -324,6 +344,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             resRevRecFixer.Save();
 
             #endregion
+
         }
 
         #endregion

@@ -253,6 +253,7 @@
                 <LayoutItem Id="Counterparty" Removed="True" />
                 <LayoutItem Id="Fix" Removed="True" />
                 <LayoutItem Id="FixRank" Removed="True" />
+                <LayoutItem Id="IsReclass" Removed="True" />
                 <LayoutItem Id="Source" Removed="True" />
                 <LayoutItem Id="Status" Removed="True" />
               </LayoutGroup>
@@ -272,7 +273,10 @@
                 <LayoutItem Id="ForexSettleGroupId" Removed="True" />
                 <LayoutItem Id="ForexSettleType" Removed="True" />
                 <LayoutItem Id="ForexUnlinkedAccountCcyAmt" Removed="True" />
-                <LayoutItem Id="IsReclass" Removed="True" />
+                <LayoutItem Id="IsFixeeSynced" Removed="True" />
+                <LayoutItem Id="IsFixerFixeesSynced" Removed="True" />
+                <LayoutItem Id="IsFixerSynced" Removed="True" />
+                <LayoutItem Id="IsFixSynced" Removed="True" />
                 <LayoutItem Id="ParentCashFlow" Removed="True" />
               </LayoutGroup>
             </LayoutGroup>
@@ -289,18 +293,21 @@
             </LayoutGroup>
             <LayoutGroup Id="Forecast" Direction="Horizontal" ShowCaption="True" Index="3" RelativeSize="19.333333333333332" IsNewNode="True">
               <LayoutGroup Id="Forecast_col1" Index="0" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
+                <LayoutItem Id="Fix" ViewItem="Fix" Index="0" IsNewNode="True" />
+                <LayoutItem Id="FixActivity" ViewItem="FixActivity" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
                 <LayoutItem Id="DateUnFix" ViewItem="DateUnFix" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="FixFromDate" ViewItem="FixFromDate" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="FixRank" ViewItem="FixRank" Index="2" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="FixToDate" ViewItem="FixToDate" Index="2" SizeConstraintsType="Default" RelativeSize="50" IsNewNode="True" />
-                <LayoutItem Id="Fix" ViewItem="Fix" Index="14" IsNewNode="True" />
               </LayoutGroup>
               <LayoutGroup Id="Forecast_col2" Index="2" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
-                <LayoutItem Id="FixActivity" ViewItem="FixActivity" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
-                <LayoutItem Id="IsReclass" ViewItem="IsReclass" Index="1" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
-                <LayoutItem Id="Fixer" ViewItem="Fixer" Index="2" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
-                <LayoutItem Id="ParentCashFlow" ViewItem="ParentCashFlow" Index="3" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
-                <LayoutItem Id="IsFixUpdated" ViewItem="IsFixUpdated" Index="4" SizeConstraintsType="Default" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="Fixer" ViewItem="Fixer" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
+                <LayoutItem Id="ParentCashFlow" ViewItem="ParentCashFlow" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="IsReclass" ViewItem="IsReclass" ShowCaption="" Index="2" IsNewNode="True" />
+                <LayoutItem Id="IsFixerSynced" ViewItem="IsFixerSynced" ShowCaption="" Index="3" IsNewNode="True" />
+                <LayoutItem Id="IsFixeeSynced" ViewItem="IsFixeeSynced" ShowCaption="" Index="4" IsNewNode="True" />
+                <LayoutItem Id="IsFixerFixeesSynced" ViewItem="IsFixerFixeesSynced" ShowCaption="" Index="5" IsNewNode="True" />
+                <LayoutItem Id="IsFixSynced" ViewItem="IsFixSynced" ShowCaption="" Index="6" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
           </LayoutGroup>
@@ -358,11 +365,15 @@
         <ColumnInfo Id="ForexSettleType" Index="20" />
         <ColumnInfo Id="FixRank" Index="21" />
         <ColumnInfo Id="Fixer" Index="22" />
-        <ColumnInfo Id="ParentCashFlow" Index="23" />
-        <ColumnInfo Id="ForexLinkedAccountCcyAmt" Index="24" />
-        <ColumnInfo Id="ForexUnlinkedAccountCcyAmt" Index="25" />
-        <ColumnInfo Id="ForexLinkIsClosed" Index="26" />
-        <ColumnInfo Id="ForexSettleGroupId" Index="27" />
+        <ColumnInfo Id="IsFixSynced" Index="23" />
+        <ColumnInfo Id="IsFixerSynced" Index="24" />
+        <ColumnInfo Id="IsFixeeSynced" Index="25" />
+        <ColumnInfo Id="IsFixerFixeesSynced" Index="26" />
+        <ColumnInfo Id="ParentCashFlow" Index="27" />
+        <ColumnInfo Id="ForexLinkedAccountCcyAmt" Index="28" />
+        <ColumnInfo Id="ForexUnlinkedAccountCcyAmt" Index="29" />
+        <ColumnInfo Id="ForexLinkIsClosed" Index="30" />
+        <ColumnInfo Id="ForexSettleGroupId" Index="31" />
       </Columns>
     </ListView>
     <ListView Id="CashFlow_LookupListView">

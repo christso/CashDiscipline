@@ -29,5 +29,7 @@ namespace CashDiscipline.Module
         public const string ResRevRecFixTag = "RRR";
         public const string PayrollFixTag = "PY";
 
+        // Defaults
+        public const string DefaultFixCounterparty = "UNDEFINED";
     }
 }

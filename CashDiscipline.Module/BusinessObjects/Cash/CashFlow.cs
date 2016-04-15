@@ -75,14 +75,17 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             this.Changed += CashFlow_Changed;
         }
 
+        // TODO: move logic to view controller
         private void CashFlow_Changed(object sender, ObjectChangeEventArgs e)
         {
             if (!this.IsLoading)
             {
                 // reset fix status for current and fixer cashflows
-                if (e.PropertyName != Fields.IsFixeeSynced.PropertyName
+                if (e.PropertyName != null
+                    && e.PropertyName != Fields.IsFixeeSynced.PropertyName
                     && e.PropertyName != Fields.IsFixerSynced.PropertyName
                     && e.PropertyName != Fields.IsFixerFixeesSynced.PropertyName
+                    && e.PropertyName != Fields.IsFixSynced.PropertyName
                     && e.PropertyName != Fields.TimeEntered.PropertyName)
                 {
                     this.IsFixeeSynced = false;
@@ -698,7 +701,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         // returns true if cashflow is fixed with no further changes
         private bool _IsFixerSynced;
-        [VisibleInListView(false)]
+        //[VisibleInListView(false)]
         [VisibleInLookupListView(false)]
         public bool IsFixerSynced
         {
@@ -713,7 +716,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         private bool _IsFixeeSynced;
-        [VisibleInListView(false)]
+        //[VisibleInListView(false)]
         [VisibleInLookupListView(false)]
         public bool IsFixeeSynced
         {
@@ -728,7 +731,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         private bool _IsFixerFixeesSynced;
-        [VisibleInListView(false)]
+        //[VisibleInListView(false)]
         [VisibleInLookupListView(false)]
         public bool IsFixerFixeesSynced
         {
@@ -739,6 +742,21 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("IsFixerFixeesSynced", ref _IsFixerFixeesSynced, value);
+            }
+        }
+
+        [VisibleInLookupListView(false)]
+        [PersistentAlias(
+            "IsFixerSynced And IsFixeeSynced And IsFixerFixeesSynced")]
+        public bool IsFixSynced
+        {
+            get
+            {
+                object tempObject = EvaluateAlias("IsFixSynced");
+                if (tempObject != null)
+                    return (bool)tempObject;
+                else
+                    return false;
             }
         }
 
@@ -1176,6 +1194,12 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             {
                 get { return new OperandProperty("IsFixerFixeesSynced"); }
             }
+
+            public static OperandProperty IsFixSynced
+            {
+                get { return new OperandProperty("IsFixSynced"); }
+            }
+
 
             public static OperandProperty TimeEntered
             {

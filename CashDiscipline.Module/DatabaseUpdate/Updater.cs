@@ -56,6 +56,21 @@ namespace CashDiscipline.Module.DatabaseUpdate
             Xafology.ExpressApp.StaticHelpers.GetInstance<FinAccountingDefaults>(objSpace);
         }
 
+        public static void InitFixTags(IObjectSpace objSpace)
+        {
+            var reversalFixTag = objSpace.CreateObject<CashForecastFixTag>();
+            reversalFixTag.Name = CashDiscipline.Module.Constants.ReversalFixTag;
+            reversalFixTag.FixTagType = CashForecastFixTagType.Ignore;
+
+            var revRecFixTag = objSpace.CreateObject<CashForecastFixTag>();
+            revRecFixTag.Name = CashDiscipline.Module.Constants.RevRecFixTag;
+            revRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
+
+            var resRevRecFixTag = objSpace.CreateObject<CashForecastFixTag>();
+            resRevRecFixTag.Name = CashDiscipline.Module.Constants.ResRevRecFixTag;
+            resRevRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
+        }
+
         public static void InitSetOfBooks(IObjectSpace objSpace)
         {
             var setOfBooks = SetOfBooks.GetInstance(objSpace);
