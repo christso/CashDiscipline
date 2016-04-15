@@ -205,9 +205,9 @@ namespace CashDiscipline.Module.ControllerHelpers.FinAccounting
 
             var cop = CriteriaOperator.Parse(
                     string.Format("{0} Between(?, ?) And {1} <> ? And {2} = ?",
-                    CashFlow.FieldNames.TranDate,
-                    CashFlow.FieldNames.Source,
-                    CashFlow.FieldNames.Snapshot),
+                    CashFlow.Fields.TranDate.PropertyName,
+                    CashFlow.Fields.Source.PropertyName,
+                    CashFlow.Fields.Snapshot.PropertyName),
                 paramObj.FromDate, paramObj.ToDate, excludeSource, currentSnapshot);
             cop = GroupOperator.And(cop, new InOperator("Activity", activitiesToMap));
             cop = GroupOperator.And(cop, new InOperator("Account", accountsToMap));

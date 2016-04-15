@@ -80,7 +80,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
                 var cashFlows = objSpace.GetObjects<CashFlow>(CriteriaOperator.Parse(
                 "TranDate >= ? And TranDate <= ? And Fix.FixTagType != ?"
-                + " And (Not IsFixerUpdated Or IsFixerUpdated Is Null)"
+                + " And (Not IsFixerProcessed Or IsFixerProcessed Is Null)"
                 + " And Snapshot = ?",
                 paramObj.FromDate,
                 paramObj.ToDate,
@@ -100,7 +100,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                     {
                         // since one fixee can have many fixers, we avoid
                         // running the algorithm twice on the same fixee
-                        if (fixee.IsFixerUpdated) continue;
+                        if (fixee.IsFixerProcessed) continue;
                         FixFixee(cashFlows, fixee);
                     }
                     //fixer.IsFixUpdated = true;
@@ -109,7 +109,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
                 foreach (var fixee in cashFlows)
                 {
-                    if (fixee.IsFixerUpdated) continue;
+                    if (fixee.IsFixerProcessed) continue;
                     FixFixee(cashFlows, fixee);
                 }
 
@@ -215,7 +215,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 resRevRecFix.Save();
             }
             revFix.Save();
-            fixee.IsFixerUpdated = true;
+            fixee.IsFixerProcessed = true;
             fixee.Save();
         }
 

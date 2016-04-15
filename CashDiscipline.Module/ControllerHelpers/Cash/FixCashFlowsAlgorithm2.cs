@@ -89,8 +89,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 cf.Snapshot.Oid == currentSnapshot.Oid);
             foreach (var cashFlow in cashFlows)
             {
-                cashFlow.IsFixeeUpdated = false;
-                cashFlow.IsFixerUpdated = false;
+                cashFlow.IsFixeeProcessed = false;
+                cashFlow.IsFixerProcessed = false;
             }
             objSpace.CommitChanges();
         }
@@ -105,7 +105,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             foreach (var cashFlow in cashFlows)
             {
                 ProcessCashFlowsFromFixer(cashFlows, cashFlow);
-                cashFlow.IsFixerUpdated = true;
+                cashFlow.IsFixerProcessed = true;
             }
 
             objSpace.CommitChanges();
@@ -118,7 +118,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             foreach (var fixee in fixees)
             {
                 CreateFixes(fixer, fixee);
-                fixee.IsFixeeUpdated = true;
+                fixee.IsFixeeProcessed = true;
             }
         }
 
@@ -139,17 +139,17 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 cf.TranDate >= paramObj.FromDate && cf.TranDate <= paramObj.ToDate
                 && cf.Snapshot.Oid == currentSnapshot.Oid
                 && (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore)
-                && !cf.IsFixeeUpdated && !cf.IsFixerUpdated);
+                && !cf.IsFixeeProcessed && !cf.IsFixerProcessed);
 
             return cashFlows;
         }
 
         public IEnumerable<CashFlow> GetFixees(IEnumerable<CashFlow> cashFlows, CashFlow fixer)
         {
-            // we add "fixee.IsFixeeUpdated == false"
+            // we add "fixee.IsFixeeProcessed == false"
             // since one fixee can have many fixers, we avoid
             // running the algorithm twice on the same fixee
-            return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && !fixee.IsFixeeUpdated);
+            return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && !fixee.IsFixeeProcessed);
         }
 
         public bool GetFixCriteria(CashFlow fixee, CashFlow fixer)

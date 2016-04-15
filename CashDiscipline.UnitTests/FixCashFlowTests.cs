@@ -581,8 +581,8 @@ namespace CashDiscipline.UnitTests
             // change Tran Date and simulate setting flag to false
             cfFixee1.TranDate = new DateTime(2016, 03, 05);
             cfFixee1.AccountCcyAmt = 700;
-            cfFixee1.IsFixeeUpdated = false;
-            cfFixee1.IsFixerUpdated = false;
+            cfFixee1.IsFixeeProcessed = false;
+            cfFixee1.IsFixerProcessed = false;
             ObjectSpace.CommitChanges();
 
             fixAlgo1.Reset();
@@ -622,7 +622,7 @@ namespace CashDiscipline.UnitTests
         public void FixSchedOutsTwiceAfterFixerChange()
         {
             //fixer.TranDate = new Date()
-            //fixer.IsFixerUpdated = false;
+            //fixer.IsFixerProcessed = false;
         }
     }
 }

@@ -35,8 +35,14 @@ namespace CashDiscipline.UnitTests
             CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
         }
 
-        [Test]
-        public void ForexLinkFifo()
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
+        [TestCase(5)]
+        [TestCase(6)]
+        [TestCase(7)]
+        public void ForexLinkFifo(int caseNumber)
         {
 
             #region Arrange Forex Objects
@@ -379,7 +385,7 @@ namespace CashDiscipline.UnitTests
             #region Act
 
             ObjectSpace.CommitChanges();
-            ForexSettleLinkViewController.ForexLinkFifo(ObjectSpace);
+            ForexSettleLinkViewController.ForexLinkFifo(ObjectSpace, 100);
 
             #endregion
 

@@ -18,7 +18,7 @@ using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.ControllerHelpers.Cash;
 
-// Please note that calling Save() will set IsFixeeUpdated and IsFixerUpdated to false;
+// Please note that calling Save() will set IsFixeeProcessed and IsFixerProcessed to false;
 // Therefore, avoid calling Save() if you need to update those properties.
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -31,38 +31,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     public class CashFlow : BaseObject, ICalculateToggleObject, CashDiscipline.Module.Interfaces.ICashFlow, IXpoImportable
     {
 
-        public CashFlow()
-        {
-
-        }
-
-        public CashFlow(Session session)
-            : this(session, true)
-        {
-
-        }
-
-        public CashFlow(Session session, bool calculateEnabled)
-            : base(session)
-        {
-            this.calculateEnabled = calculateEnabled;
-            this.Changed += CashFlow_Changed;
-        }
-
-        private void CashFlow_Changed(object sender, ObjectChangeEventArgs e)
-        {
-            if (!this.IsSaving && !this.IsLoading)
-            {
-
-            }
-
-        }
-
-        // Fields...
-        private CashFlowSnapshot _Snapshot;
-        private CashFlow _ParentCashFlow;
-        private CashFlow _Fixer;
-        private CashFlowSource _Source;
         private Activity _FixActivity;
         private DateTime _FixToDate;
         private DateTime _FixFromDate;
@@ -88,6 +56,46 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         private long _ForexSettleGroupId;
         private bool calculateEnabled;
         private DateTime timeEntered;
+
+        public CashFlow()
+        {
+
+        }
+
+        public CashFlow(Session session)
+            : this(session, true)
+        {
+
+        }
+
+        public CashFlow(Session session, bool calculateEnabled)
+            : base(session)
+        {
+            this.calculateEnabled = calculateEnabled;
+            this.Changed += CashFlow_Changed;
+        }
+
+        private void CashFlow_Changed(object sender, ObjectChangeEventArgs e)
+        {
+            if (!this.IsSaving && !this.IsLoading)
+            {
+                // reset fix status for current and fixer cashflows
+                if (e.PropertyName != Fields.IsFixeeProcessed.PropertyName
+                    && e.PropertyName != Fields.IsFixerProcessed.PropertyName
+                    && e.PropertyName != Fields.TimeEntered.PropertyName)
+                {
+                    this.IsFixeeProcessed = false;
+                    this.IsFixerProcessed = false;
+
+                    if (Fixer != null)
+                        Fixer.IsFixerProcessed = false;
+
+
+                }
+
+            }
+
+        }
 
         // Whether Real Time calculation is enabled. If not, then calculation will occur on saving.
         [MemberDesignTimeVisibility(false), Browsable(false), NonPersistent]
@@ -123,6 +131,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private CashFlowSnapshot _Snapshot;
         [Association("CashFlowSnapshot-CashFlows")]
         [ModelDefault("AllowEdit", "false")]
         public CashFlowSnapshot Snapshot
@@ -333,7 +342,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-
+        private CashFlowSource _Source;
         [Association("CashFlowSource-CashFlows")]
         public CashFlowSource Source
         {
@@ -605,6 +614,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private CashFlow _Fixer;
         [Association("CashFlowFixer-CashFlows")]
         public CashFlow Fixer
         {
@@ -627,6 +637,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private CashFlow _ParentCashFlow;
         [Association("ParentCashFlow-ChildCashFlows")]
         public CashFlow ParentCashFlow
         {
@@ -689,35 +700,35 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         // returns true if cashflow is fixed with no further changes
-        private bool _IsFixerUpdated;
+        private bool _IsFixerProcessed;
         //[VisibleInDetailView(false)]
         [VisibleInListView(false)]
         [VisibleInLookupListView(false)]
-        public bool IsFixerUpdated
+        public bool IsFixerProcessed
         {
             get
             {
-                return _IsFixerUpdated;
+                return _IsFixerProcessed;
             }
             set
             {
-                SetPropertyValue("IsFixerUpdated", ref _IsFixerUpdated, value);
+                SetPropertyValue("IsFixerProcessed", ref _IsFixerProcessed, value);
             }
         }
 
-        private bool _IsFixeeUpdated;
+        private bool _IsFixeeProcessed;
         //[VisibleInDetailView(false)]
         [VisibleInListView(false)]
         [VisibleInLookupListView(false)]
-        public bool IsFixeeUpdated
+        public bool IsFixeeProcessed
         {
             get
             {
-                return _IsFixeeUpdated;
+                return _IsFixeeProcessed;
             }
             set
             {
-                SetPropertyValue("IsFixeeUpdated", ref _IsFixeeUpdated, value);
+                SetPropertyValue("IsFixeeProcessed", ref _IsFixeeProcessed, value);
             }
         }
 
@@ -1140,26 +1151,23 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                     return new OperandProperty("Status");
                 }
             }
-        }
 
-        public class FieldNames
-        {
-            public static string SnapshotOid
+            public static OperandProperty IsFixeeProcessed
             {
-                get
-                {
-                    return Snapshot + "." + CashFlowSnapshot.Fields.Oid.PropertyName;
-                }
+                get { return new OperandProperty("IsFixeeProcessed"); }
             }
-            public static string TranDate { get { return Fields.TranDate.PropertyName; } }
-            public static string Snapshot { get { return Fields.Snapshot.PropertyName; } }
-            public static string Source { get { return Fields.Source.PropertyName; } }
-            public static string AccountCcyAmt { get { return Fields.AccountCcyAmt.PropertyName; } }
-            public static string FunctionalCcyAmt { get { return Fields.FunctionalCcyAmt.PropertyName; } }
-            public static string CounterCcyAmt { get { return Fields.CounterCcyAmt.PropertyName; } }
-        }
 
+            public static OperandProperty IsFixerProcessed
+            {
+                get { return new OperandProperty("IsFixerProcessed"); }
+            }
+            public static OperandProperty TimeEntered
+            {
+                get { return new OperandProperty("TimeEntered"); }
+            }
+        }
         #endregion
+
     }
     public enum CashFlowStatus
     {

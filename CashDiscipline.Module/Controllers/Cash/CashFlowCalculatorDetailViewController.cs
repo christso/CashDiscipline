@@ -19,11 +19,11 @@ namespace CashDiscipline.Module.Controllers.Cash
             foreach (var viewItem in viewItems)
             {
                 var editor = ((PropertyEditor)viewItem);
-                if (editor.Id == CashFlow.FieldNames.AccountCcyAmt)
+                if (editor.Id == CashFlow.Fields.AccountCcyAmt.PropertyName)
                     viewItem.ButtonClick += accountCcyAmtCalculator;
-                else if (editor.Id == CashFlow.FieldNames.CounterCcyAmt)
+                else if (editor.Id == CashFlow.Fields.CounterCcyAmt.PropertyName)
                     viewItem.ButtonClick += counterCcyAmtCalculator;
-                else if (editor.Id == CashFlow.FieldNames.FunctionalCcyAmt)
+                else if (editor.Id == CashFlow.Fields.FunctionalCcyAmt.PropertyName)
                     viewItem.ButtonClick += functionalCcyAmtCalculator;
             }
         }

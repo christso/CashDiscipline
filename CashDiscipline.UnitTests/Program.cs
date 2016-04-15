@@ -16,7 +16,7 @@ namespace CashDiscipline.UnitTests
             var tests = new CashDiscipline.UnitTests.ForexLinkTests();
             tests.SetUpFixture();
             tests.Setup();
-            tests.ForexLinkFifo();
+            //tests.ForexLinkFifo();
             tests.TearDown();
             tests.TearDownFixture();
             Console.WriteLine("Test Passed");
