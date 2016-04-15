@@ -1236,5 +1236,6 @@ namespace CashDiscipline.UnitTests
             #endregion
 
         }
+
     }
 }
