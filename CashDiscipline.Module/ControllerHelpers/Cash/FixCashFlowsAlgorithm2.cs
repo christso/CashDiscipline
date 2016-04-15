@@ -31,6 +31,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         private CashForecastFixTag resRevRecFixTag;
         private CashForecastFixTag payrollFixTag;
 
+        private List<CashFlow> cashFlowsToDelete;
+
         public FixCashFlowsAlgorithm2(XPObjectSpace objSpace, CashFlowFixParam paramObj)
         {
             this.objSpace = objSpace;
@@ -49,6 +51,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 CriteriaOperator.Parse("Name = 'RRR'"));
             payrollFixTag = objSpace.FindObject<CashForecastFixTag>(
                 CriteriaOperator.Parse("Name = 'PY'"));
+
+            this.cashFlowsToDelete = new List<CashFlow>();
         }
 
         #region Reset
@@ -60,7 +64,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             ResetFixStatus();
         }
 
-        // delete existing fixes that are not valid due to potential application bug
+        // delete fixes that are not linked to any cash flow
+        // because they have been unlinked
         public void DeleteOrphans()
         {
             CashFlowSnapshot currentSnapshot = GetCurrentSnapshot(objSpace.Session);
@@ -89,15 +94,19 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 cf.Snapshot.Oid == currentSnapshot.Oid);
             foreach (var cashFlow in cashFlows)
             {
-                cashFlow.IsFixeeProcessed = false;
-                cashFlow.IsFixerProcessed = false;
+                cashFlow.IsFixeeSynced = false;
+                cashFlow.IsFixerSynced = false;
             }
             objSpace.CommitChanges();
         }
         #endregion
 
+        #region Process
+
         public void ProcessCashFlows()
         {
+            cashFlowsToDelete.Clear();
+
             DeleteOrphans();
 
             var cashFlows = GetCashFlowsToFix().OrderBy(x => x.TranDate);
@@ -105,8 +114,12 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             foreach (var cashFlow in cashFlows)
             {
                 ProcessCashFlowsFromFixer(cashFlows, cashFlow);
-                cashFlow.IsFixerProcessed = true;
+                cashFlow.IsFixerSynced = true;
+                cashFlow.IsFixerFixeesSynced = true;
             }
+
+            objSpace.Delete(cashFlowsToDelete);
+            cashFlowsToDelete.Clear();
 
             objSpace.CommitChanges();
         }
@@ -117,8 +130,12 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             var fixees = GetFixees(cashFlows, fixer);
             foreach (var fixee in fixees)
             {
+                foreach (var child in fixee.ChildCashFlows)
+                {
+                    cashFlowsToDelete.Add(child);
+                }
                 CreateFixes(fixer, fixee);
-                fixee.IsFixeeProcessed = true;
+                fixee.IsFixeeSynced = true;
             }
         }
 
@@ -128,6 +145,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             rev.TranDate = fixer.TranDate;
             rev.AccountCcyAmt = -fixee.AccountCcyAmt;
             rev.Fix = reversalFixTag;
+            rev.ParentCashFlow = fixee;
         }
 
         // This will return all cash flows which have changed after it was fixed
@@ -139,17 +157,17 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 cf.TranDate >= paramObj.FromDate && cf.TranDate <= paramObj.ToDate
                 && cf.Snapshot.Oid == currentSnapshot.Oid
                 && (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore)
-                && !cf.IsFixeeProcessed && !cf.IsFixerProcessed);
+                && (!cf.IsFixeeSynced && !cf.IsFixerSynced) || !cf.IsFixerFixeesSynced);
 
             return cashFlows;
         }
 
         public IEnumerable<CashFlow> GetFixees(IEnumerable<CashFlow> cashFlows, CashFlow fixer)
         {
-            // we add "fixee.IsFixeeProcessed == false"
+            // we add "fixee.IsFixeeSynced == false"
             // since one fixee can have many fixers, we avoid
             // running the algorithm twice on the same fixee
-            return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && !fixee.IsFixeeProcessed);
+            return cashFlows.Where((fixee) => GetFixCriteria(fixee, fixer) && !fixee.IsFixeeSynced);
         }
 
         public bool GetFixCriteria(CashFlow fixee, CashFlow fixer)
@@ -167,10 +185,16 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                         && fixee.Account != null && fixee.Account.FixAccount == fixer.Account.FixAccount;
         }
 
+        #endregion
+
+        #region Helpers
+
         private CashFlowSnapshot GetCurrentSnapshot(Session session)
         {
             return CashFlowHelper.GetCurrentSnapshot(session);
         }
+
+        #endregion
 
     }
 }

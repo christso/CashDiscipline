@@ -18,7 +18,7 @@ using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.ControllerHelpers.Cash;
 
-// Please note that calling Save() will set IsFixeeProcessed and IsFixerProcessed to false;
+// Please note that calling Save() will set IsFixeeSynced and IsFixerSynced to false;
 // Therefore, avoid calling Save() if you need to update those properties.
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -80,17 +80,15 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             if (!this.IsSaving && !this.IsLoading)
             {
                 // reset fix status for current and fixer cashflows
-                if (e.PropertyName != Fields.IsFixeeProcessed.PropertyName
-                    && e.PropertyName != Fields.IsFixerProcessed.PropertyName
+                if (e.PropertyName != Fields.IsFixeeSynced.PropertyName
+                    && e.PropertyName != Fields.IsFixerSynced.PropertyName
                     && e.PropertyName != Fields.TimeEntered.PropertyName)
                 {
-                    this.IsFixeeProcessed = false;
-                    this.IsFixerProcessed = false;
+                    this.IsFixeeSynced = false;
+                    this.IsFixerSynced = false;
 
                     if (Fixer != null)
-                        Fixer.IsFixerProcessed = false;
-
-
+                        Fixer.IsFixerFixeesSynced = false;
                 }
 
             }
@@ -700,35 +698,48 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         // returns true if cashflow is fixed with no further changes
-        private bool _IsFixerProcessed;
-        //[VisibleInDetailView(false)]
+        private bool _IsFixerSynced;
         [VisibleInListView(false)]
         [VisibleInLookupListView(false)]
-        public bool IsFixerProcessed
+        public bool IsFixerSynced
         {
             get
             {
-                return _IsFixerProcessed;
+                return _IsFixerSynced;
             }
             set
             {
-                SetPropertyValue("IsFixerProcessed", ref _IsFixerProcessed, value);
+                SetPropertyValue("IsFixerSynced", ref _IsFixerSynced, value);
             }
         }
 
-        private bool _IsFixeeProcessed;
-        //[VisibleInDetailView(false)]
+        private bool _IsFixeeSynced;
         [VisibleInListView(false)]
         [VisibleInLookupListView(false)]
-        public bool IsFixeeProcessed
+        public bool IsFixeeSynced
         {
             get
             {
-                return _IsFixeeProcessed;
+                return _IsFixeeSynced;
             }
             set
             {
-                SetPropertyValue("IsFixeeProcessed", ref _IsFixeeProcessed, value);
+                SetPropertyValue("IsFixeeSynced", ref _IsFixeeSynced, value);
+            }
+        }
+
+        private bool _IsFixerFixeesSynced;
+        [VisibleInListView(false)]
+        [VisibleInLookupListView(false)]
+        public bool IsFixerFixeesSynced
+        {
+            get
+            {
+                return _IsFixerFixeesSynced;
+            }
+            set
+            {
+                SetPropertyValue("IsFixerFixeesSynced", ref _IsFixerFixeesSynced, value);
             }
         }
 
@@ -1152,15 +1163,21 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 }
             }
 
-            public static OperandProperty IsFixeeProcessed
+            public static OperandProperty IsFixeeSynced
             {
-                get { return new OperandProperty("IsFixeeProcessed"); }
+                get { return new OperandProperty("IsFixeeSynced"); }
             }
 
-            public static OperandProperty IsFixerProcessed
+            public static OperandProperty IsFixerSynced
             {
-                get { return new OperandProperty("IsFixerProcessed"); }
+                get { return new OperandProperty("IsFixerSynced"); }
             }
+
+            public static OperandProperty IsFixerFixeesSynced
+            {
+                get { return new OperandProperty("IsFixerFixeesSynced"); }
+            }
+
             public static OperandProperty TimeEntered
             {
                 get { return new OperandProperty("TimeEntered"); }

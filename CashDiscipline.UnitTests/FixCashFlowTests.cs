@@ -450,7 +450,6 @@ namespace CashDiscipline.UnitTests
             #endregion
 
             #region Assert 2nd run
-            //fixAlgo.Reset();
 
             fixAlgo.ProcessCashFlows();
 
@@ -581,11 +580,9 @@ namespace CashDiscipline.UnitTests
             // change Tran Date and simulate setting flag to false
             cfFixee1.TranDate = new DateTime(2016, 03, 05);
             cfFixee1.AccountCcyAmt = 700;
-            cfFixee1.IsFixeeProcessed = false;
-            cfFixee1.IsFixerProcessed = false;
             ObjectSpace.CommitChanges();
 
-            fixAlgo1.Reset();
+            //fixAlgo1.Reset();
             fixAlgo1.ProcessCashFlows();
 
             var cashFlows2 = ObjectSpace.GetObjects<CashFlow>();
@@ -622,7 +619,7 @@ namespace CashDiscipline.UnitTests
         public void FixSchedOutsTwiceAfterFixerChange()
         {
             //fixer.TranDate = new Date()
-            //fixer.IsFixerProcessed = false;
+            //fixer.IsFixerSynced = false;
         }
     }
 }
