@@ -13,7 +13,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
     {
         public static CashFlowSnapshot GetCurrentSnapshot(Session session)
         {
-            return session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
+            var setOfBooks = SetOfBooks.GetInstance(session);
+            return session.GetObjectByKey<CashFlowSnapshot>(setOfBooks.CurrentCashFlowSnapshot.Oid);
         }
 
     }

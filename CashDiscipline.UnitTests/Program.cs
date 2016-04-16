@@ -13,10 +13,10 @@ namespace CashDiscipline.UnitTests
         [STAThread]
         static void Main(string[] args)
         {
-            var tests = new CashDiscipline.UnitTests.ForexLinkTests();
+            var tests = new CashDiscipline.UnitTests.FixCashFlowTests();
             tests.SetUpFixture();
             tests.Setup();
-            //tests.ForexLinkFifo();
+            //tests.FixAllocLockdownReview();
             tests.TearDown();
             tests.TearDownFixture();
             Console.WriteLine("Test Passed");

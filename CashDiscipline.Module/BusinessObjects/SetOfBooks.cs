@@ -144,7 +144,8 @@ namespace CashDiscipline.Module.BusinessObjects
             try
             {
                 if (CachedInstance != null
-                    && CachedInstance.Session == session)
+                    && CachedInstance.Session == session
+                    && !CachedInstance.IsDeleted)
                 {
                     return CachedInstance;
                 }

@@ -155,11 +155,6 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 cashFlowsToDelete.Add(child);
             }
 
-            if (fixee.CounterCcyAmt == -350)
-            {
-                // TODO: why does GetFixers return null?
-            }
-
             var fixers = GetFixers(cashFlows, fixee);
             var fixer = ChooseFixer(fixers, fixee);
 
@@ -192,7 +187,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 cf.TranDate >= paramObj.FromDate && cf.TranDate <= paramObj.ToDate
                 && cf.Snapshot.Oid == currentSnapshot.Oid
                 && (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore)
-                && (!cf.IsFixeeSynced && !cf.IsFixerSynced) || !cf.IsFixerFixeesSynced);
+                && !cf.IsFixeeSynced || !cf.IsFixerSynced || !cf.IsFixerFixeesSynced);
 
             return cashFlows;
         }

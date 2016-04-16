@@ -89,7 +89,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             try
             {
                 if (CashFlowDefaults.CachedInstance != null
-                    && CashFlowDefaults.CachedInstance.Session == session)
+                    && CashFlowDefaults.CachedInstance.Session == session
+                    && !CachedInstance.IsDeleted)
                 {
                     return CashFlowDefaults.CachedInstance;
                 }

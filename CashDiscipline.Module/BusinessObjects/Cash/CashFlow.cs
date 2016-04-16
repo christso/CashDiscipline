@@ -93,6 +93,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
                     if (Fixer != null)
                         Fixer.IsFixerFixeesSynced = false;
+
+                    foreach (var fixee in Fixees)
+                        fixee.IsFixeeSynced = false;
                 }
             }
         }

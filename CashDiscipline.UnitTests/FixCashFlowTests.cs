@@ -595,17 +595,18 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo1 = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var algoObjSpace = (XPObjectSpace)Application.CreateObjectSpace();
+            var fixAlgo1 = new FixCashFlowsAlgorithm(algoObjSpace, paramObj);
 
-            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
-
-            Assert.AreEqual(3, fixAlgo1.GetCashFlowsToFix().Count()); // assert test data
 
             #endregion
 
             #region Assert Intermediate
 
             fixAlgo1.ProcessCashFlows();
+
+            ObjectSpace.Refresh();
+            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
             Assert.AreEqual(5, cashFlows.Count());
             Assert.AreEqual(300,
@@ -618,21 +619,27 @@ namespace CashDiscipline.UnitTests
 
             #region Assert Final
 
+            cfFixer1 = cashFlows.Where(cf => cf.Oid == cfFixer1.Oid).FirstOrDefault();
             cfFixer1.TranDate = new DateTime(2016, 03, 28);
+            cfFixer1.Save();
             ObjectSpace.CommitChanges();
 
             fixAlgo1.ProcessCashFlows();
+            ObjectSpace.Refresh();
 
             var cashFlows2 = ObjectSpace.GetObjects<CashFlow>();
 
             Assert.AreEqual(5, cashFlows2.Count());
-            Assert.AreEqual(0,
-                    cashFlows2.Where(x =>
-                        x.TranDate == new DateTime(2016, 03, 31))
-                    .Sum(x => x.AccountCcyAmt));
+
+            // $500+$600 should move from 31st to 28th
             Assert.AreEqual(300,
                     cashFlows2.Where(x =>
                         x.TranDate == new DateTime(2016, 03, 28))
+                    .Sum(x => x.AccountCcyAmt));
+
+            Assert.AreEqual(0,
+                    cashFlows2.Where(x =>
+                        x.TranDate == new DateTime(2016, 03, 31))
                     .Sum(x => x.AccountCcyAmt));
             #endregion
 
@@ -1233,6 +1240,7 @@ namespace CashDiscipline.UnitTests
         [Test]
         public void FixerSyncedIfFixeesSynced()
         {
+
             #region Arrange Dimensions
 
             var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
@@ -1428,5 +1436,6 @@ namespace CashDiscipline.UnitTests
 
             #endregion
         }
+       
     }
 }

@@ -37,6 +37,18 @@ namespace CashDiscipline.UnitTests
                 tester.DatabaseName = Constants.TestDbName;
         }
 
+        public override void OnSetup()
+        {
+            CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
+            SetOfBooks.GetInstance(ObjectSpace);
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
+        }
+
+        public override void OnAddExportedTypes(ModuleBase module)
+        {
+            CashDisciplineTestHelper.AddExportedTypes(module);
+        }
+
         // CounterCcy will change to USD when Account changed to USD Account
         [Test]
         public void CashFlow_AccountIsUSD_CounterCcyIsUSD()
@@ -825,16 +837,57 @@ namespace CashDiscipline.UnitTests
             #endregion
         }
 
-        public override void OnSetup()
+
+        [Test]
+        public void GetSetOfBooksInstance()
         {
-            CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
-            SetOfBooks.GetInstance(ObjectSpace);
-            CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
+            #region Arrange
+
+            ObjectSpace.Session.Delete(new XPCollection(ObjectSpace.Session, typeof(SetOfBooks)));
+            ObjectSpace.CommitChanges();
+
+            var setOfBooks = SetOfBooks.GetInstance(ObjectSpace.Session);
+            ObjectSpace.CommitChanges();
+
+            var os = (XPObjectSpace)Application.CreateObjectSpace();
+
+            #endregion
+
+            #region Assert that SetOfBooks is not null
+
+            var setOfBooks1 = ObjectSpace.GetObjects<SetOfBooks>();
+            Assert.AreEqual(1, setOfBooks1.Count);
+
+            var setOfBooks2 = os.Session.FindObject<SetOfBooks>(PersistentCriteriaEvaluationBehavior.InTransaction, null);
+            Assert.NotNull(setOfBooks2);
+
+            #endregion
         }
 
-        public override void OnAddExportedTypes(ModuleBase module)
+        [Test]
+        public void GetCashFlowDefaultsInstance()
         {
-            CashDisciplineTestHelper.AddExportedTypes(module);
+            #region Arrange
+
+            ObjectSpace.Session.Delete(new XPCollection(ObjectSpace.Session, typeof(CashFlowDefaults)));
+            ObjectSpace.CommitChanges();
+
+            var instance = CashFlowDefaults.GetInstance(ObjectSpace.Session);
+            ObjectSpace.CommitChanges();
+
+            var os = (XPObjectSpace)Application.CreateObjectSpace();
+
+            #endregion
+
+            #region Assert that SetOfBooks is not null
+
+            var instance1 = ObjectSpace.GetObjects<CashFlowDefaults>();
+            Assert.AreEqual(1, instance1.Count);
+
+            var instance2 = os.Session.FindObject<CashFlowDefaults>(PersistentCriteriaEvaluationBehavior.InTransaction, null);
+            Assert.NotNull(instance2);
+
+            #endregion
         }
     }
 
