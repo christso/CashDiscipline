@@ -1558,7 +1558,7 @@ namespace CashDiscipline.UnitTests
             #region Assert
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
-            Assert.AreEqual(-12000, cashFlows.Where(cf =>
+            Assert.AreEqual(-42000, cashFlows.Where(cf =>
             cf.TranDate == new DateTime(2016, 03, 25))
             .Sum(cf => cf.AccountCcyAmt));
 
