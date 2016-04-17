@@ -208,6 +208,19 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private string forecastFixTag;
+        public string ForecastFixTag
+        {
+            get
+            {
+                return forecastFixTag;
+            }
+            set
+            {
+                SetPropertyValue("ForecastFixTag", ref forecastFixTag, value);
+            }
+        }
+
         private int _Id;
         public int Id
         {

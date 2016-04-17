@@ -1058,11 +1058,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         public static DateTime GetMaxActualTranDate(Session session)
         {
-            DateTime? res = (DateTime?)session.Evaluate<CashFlow>(CriteriaOperator.Parse("Max(TranDate)"),
-                CriteriaOperator.Parse("Status = ?", CashFlowStatus.Actual));
-            if (res == null)
-                return default(DateTime);
-            return (DateTime)res;
+            return CashFlowHelper.GetMaxActualTranDate(session);
         }
 
         #endregion

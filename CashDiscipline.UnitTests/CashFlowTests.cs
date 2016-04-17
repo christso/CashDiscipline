@@ -254,7 +254,7 @@ namespace CashDiscipline.UnitTests
             #endregion
         }
 
-        [Test]
+        //[Test]
         public void CalculateAccountSummary()
         {
             #region Arrange

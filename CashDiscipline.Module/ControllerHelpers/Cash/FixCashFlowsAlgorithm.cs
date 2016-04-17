@@ -121,6 +121,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             DeleteOrphans();
 
             var cashFlows = GetCashFlowsToFix().OrderBy(x => x.TranDate);
+            
 
             foreach (var cashFlow in cashFlows)
             {
@@ -148,7 +149,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         }
 
         private void ProcessCashFlowsFromFixee(IEnumerable<CashFlow> cashFlows, CashFlow fixee)
-        {      
+        {
             // mark cash flows for deletion
             foreach (var child in fixee.ChildCashFlows)
             {
@@ -166,16 +167,34 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             }
         }
 
+        // adjust date of outflows
         private void RephaseFixer(CashFlow cashFlow)
         {
-            // adjust date of outflows
+            var maxActualDate = CashFlowHelper.GetMaxActualTranDate(objSpace.Session);
+
+            // adjust date of payroll payments
             if (cashFlow.Fix.FixTagType == CashForecastFixTagType.ScheduleOut
                 && cashFlow.FixRank > 2
-                && cashFlow.TranDate <= paramObj.ApayableLockdownDate)
+                && cashFlow.TranDate <= paramObj.PayrollLockdownDate
+                && cashFlow.Activity.ForecastFixTag != Constants.PayrollFixTag
+                )
             {
-                // TODO: exclude Payroll, Progen, Bank Fee, Tax by specifying Fix in Activity
+                cashFlow.TranDate = paramObj.PayrollNextLockdownDate;
+            }
+
+            if (cashFlow.Fix.FixTagType == CashForecastFixTagType.ScheduleOut
+                && cashFlow.FixRank > 2
+                && cashFlow.TranDate <= paramObj.ApayableLockdownDate
+                && cashFlow.Activity.ForecastFixTag != Constants.PayrollFixTag
+                && cashFlow.Activity.ForecastFixTag != Constants.BankFeeFixTag
+                && cashFlow.Activity.ForecastFixTag != Constants.ProgenFixTag
+                && cashFlow.Activity.ForecastFixTag != Constants.TaxFixTag
+                )
+            {
+                // AP payments (exclude Payroll, Progen, Bank Fee, Tax)
                 cashFlow.TranDate = paramObj.ApayableNextLockdownDate;
             }
+
         }
 
         // This will return all cash flows which have changed after it was fixed

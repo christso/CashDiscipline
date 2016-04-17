@@ -28,6 +28,12 @@ namespace CashDiscipline.Module
         public const string RevRecFixTag = "RR";
         public const string ResRevRecFixTag = "RRR";
         public const string PayrollFixTag = "PY";
+        public const string BankFeeFixTag = "BFEE";
+        public const string ProgenFixTag = "PRGN";
+        public const string ScheduleOutFixTag = "S";
+        public const string AllocateFixTag = "A";
+        public const string ScheduleInFixTag = "C";
+        public const string TaxFixTag = "TAX";
 
         // Defaults
         public const string DefaultFixCounterparty = "UNDEFINED";
