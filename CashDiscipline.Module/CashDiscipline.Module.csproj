@@ -219,7 +219,6 @@
     <Compile Include="ControllerHelpers\Cash\CashFlowHelper.cs" />
     <Compile Include="ControllerHelpers\Cash\CashFlowFixMapper.cs" />
     <Compile Include="ControllerHelpers\Cash\FixCashFlowsAlgorithm.cs" />
-    <Compile Include="ControllerHelpers\Cash\FixCashFlowsPrefiller.cs" />
     <Compile Include="ControllerHelpers\Cash\FixCashFlowsRephaser.cs" />
     <Compile Include="ControllerHelpers\Cash\IFixCashFlows.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
