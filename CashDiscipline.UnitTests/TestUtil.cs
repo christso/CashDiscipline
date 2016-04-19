@@ -16,11 +16,20 @@ using CashDiscipline.Module.ParamObjects.Cash;
 using DevExpress.Xpo;
 using CashDiscipline.UnitTests.TestObjects;
 using Xafology.ExpressApp.Xpo.Import.Parameters;
+using DevExpress.Data.Filtering;
 
 namespace CashDiscipline.UnitTests
 {
     public class CashDisciplineTestHelper
     {
+        public static void RegisterCustomFunctions()
+        {
+            CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.MultiConcatFunction());
+            CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.RegexMatchFunction());
+            CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.BoMonthFunction());
+            CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.EoMonthFunction());
+        }
+
         public static void AddExportedTypes(ModuleBase module)
         {
             module.AdditionalExportedTypes.Add(typeof(SetOfBooks));

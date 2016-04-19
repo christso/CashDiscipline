@@ -417,7 +417,7 @@ namespace CashDiscipline.UnitTests
             finActivity1.FunctionalCcyAmtExpr = "SubString(TranDescription, 71, 9)";
             finActivity1.GlDescription = "SUMMARY POSTING - AMEX";
             finActivity1.Token = "A";
-            finActivity1.Index = 1;
+            finActivity1.RowIndex = 1;
             finActivity1.GlDescDateFormat = glDescDateFormat;
             finActivity1.GlAccount = grossGlAccount;
             finActivity1.JournalGroup = journalGroup;
@@ -438,7 +438,7 @@ namespace CashDiscipline.UnitTests
             finActivity2.Token = "B";
             finActivity2.GlDescDateFormat = glDescDateFormat;
             finActivity2.GlAccount = commGlAccount;
-            finActivity2.Index = 2;
+            finActivity2.RowIndex = 2;
             finActivity2.JournalGroup = journalGroup;
             finActivity2.TargetObject = FinJournalTargetObject.BankStmt;
             #endregion
@@ -455,7 +455,7 @@ namespace CashDiscipline.UnitTests
             finActivity3.FunctionalCcyAmtExpr = "{FA(B)} * 0.1";
             finActivity3.GlDescription = "GST ON AMEX COMMISSION CHARGES";
             finActivity3.Token = "C";
-            finActivity3.Index = 3;
+            finActivity3.RowIndex = 3;
             finActivity3.GlDescDateFormat = glDescDateFormat;
             finActivity3.GlAccount = gstGlAccount;
             finActivity3.JournalGroup = journalGroup;
@@ -572,7 +572,7 @@ namespace CashDiscipline.UnitTests
             finActivity1.GlDescDateFormat = "dd-mmm-yy";
             finActivity1.GlAccount = commGlAccount;
             finActivity1.JournalGroup = journalGroup;
-            finActivity1.Index = 1;
+            finActivity1.RowIndex = 1;
 
             // commission GST
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
@@ -584,7 +584,7 @@ namespace CashDiscipline.UnitTests
             finActivity2.GlDescDateFormat = "dd-mmm-yy";
             finActivity2.GlAccount = gstGlAccount;
             finActivity2.JournalGroup = journalGroup;
-            finActivity2.Index = 2;
+            finActivity2.RowIndex = 2;
 
             // Params
             var glParam = ObjectSpace.CreateObject<FinGenJournalParam>();
@@ -669,7 +669,7 @@ namespace CashDiscipline.UnitTests
             finActivity1.GlDescDateFormat = "dd-mmm-yy";
             finActivity1.GlAccount = commGlAccount;
             finActivity1.JournalGroup = journalGroup;
-            finActivity1.Index = 1;
+            finActivity1.RowIndex = 1;
 
             // commission GST
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
@@ -681,7 +681,7 @@ namespace CashDiscipline.UnitTests
             finActivity2.GlDescDateFormat = "dd-mmm-yy";
             finActivity2.GlAccount = gstGlAccount;
             finActivity2.JournalGroup = journalGroup;
-            finActivity2.Index = 2;
+            finActivity2.RowIndex = 2;
 
             #endregion
 

@@ -43,6 +43,7 @@ namespace CashDiscipline.Win
                 CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.RegexMatchFunction());
                 CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.BoMonthFunction());
                 CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.EoMonthFunction());
+
                 winApplication.Setup();
                 winApplication.Start();
             }

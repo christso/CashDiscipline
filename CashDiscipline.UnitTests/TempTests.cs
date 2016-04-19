@@ -82,5 +82,15 @@ namespace CashDiscipline.UnitTests
 
             Assert.AreEqual(2, cfs.Count);
         }
+
+        //[Test]
+        public void EvaluateEndOfMonth()
+        {
+            var cf = ObjectSpace.CreateObject<CashFlow>();
+            cf.TranDate = new DateTime(2016, 3, 28);
+            cf.FixToDate = new DateTime(2016, 3, 31);
+            var result = cf.Evaluate(CriteriaOperator.Parse("LocalDateTimeNextMonth(TranDate)"));
+            var objType = result.GetType();
+        }
     }
 }

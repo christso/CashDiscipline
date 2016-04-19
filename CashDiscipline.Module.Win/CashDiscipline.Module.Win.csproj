@@ -183,43 +183,43 @@
       <Name>System.XML</Name>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.BatchDelete, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.BatchDelete, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.BatchDelete.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.BatchDelete.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.BatchDelete.Win, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.BatchDelete.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.Layout, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.Layout.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Layout.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.Layout.Win, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.Layout.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Paste.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.Paste.Win, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.Paste.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.PivotGrid, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Win, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.Win, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Xpo, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.Xpo, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.PivotGrid, Version=15.2.7.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.PivotGrid, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.PivotGrid.dll</HintPath>
     </Reference>
   </ItemGroup>
