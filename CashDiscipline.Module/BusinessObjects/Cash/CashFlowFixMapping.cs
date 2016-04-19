@@ -23,7 +23,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
+
             object maxIndex = Session.Evaluate<CashFlowFixMapping>(CriteriaOperator.Parse("Max(Index)"), null);
             if (maxIndex != null)
             {

@@ -13,7 +13,7 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using CashDiscipline.Module.BusinessObjects.Cash;
 
-namespace CashDiscipline.Module.BusinessObjects.Cash.AccountsPayable
+namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
 
     public class ApBankAccount : BaseObject

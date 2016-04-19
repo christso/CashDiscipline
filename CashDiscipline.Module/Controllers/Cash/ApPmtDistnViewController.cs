@@ -1,4 +1,4 @@
-﻿using CashDiscipline.Module.BusinessObjects.Cash.AccountsPayable;
+﻿using CashDiscipline.Module.BusinessObjects.AccountsPayable;
 using DevExpress.ExpressApp;
 using System;
 using System.Collections.Generic;

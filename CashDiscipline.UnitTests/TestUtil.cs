@@ -60,6 +60,7 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(ImportHeadersParam));
             module.AdditionalExportedTypes.Add(typeof(ImportOrdinalsParam));
             module.AdditionalExportedTypes.Add(typeof(CashForecastFixTag));
+            module.AdditionalExportedTypes.Add(typeof(CashFlowFixMapping));
 
         }
     }

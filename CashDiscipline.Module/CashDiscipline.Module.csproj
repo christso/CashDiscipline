@@ -213,16 +213,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
-    <Compile Include="BusinessObjects\Cash\CounterpartyTag.cs" />
+    <Compile Include="BusinessObjects\CashLookup\CounterpartyTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\Owner.cs" />
     <Compile Include="ControllerHelpers\Cash\CashFlowHelper.cs" />
+    <Compile Include="ControllerHelpers\Cash\CashFlowMapper.cs" />
     <Compile Include="ControllerHelpers\Cash\FixCashFlowsAlgorithm.cs" />
+    <Compile Include="ControllerHelpers\Cash\FixCashFlowsPrefiller.cs" />
     <Compile Include="ControllerHelpers\Cash\FixCashFlowsRephaser.cs" />
     <Compile Include="ControllerHelpers\Cash\IFixCashFlows.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
-    <Compile Include="BusinessObjects\BankStmtCashFlowForecast.cs" />
-    <Compile Include="BusinessObjects\Cash\ActivityTag.cs" />
+    <Compile Include="BusinessObjects\BankStmt\BankStmtCashFlowForecast.cs" />
+    <Compile Include="BusinessObjects\CashLookup\ActivityTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowDefaults.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowSnapshot.cs" />
     <Compile Include="BusinessObjects\FinAccounting\AustPostSettle.cs" />
@@ -249,15 +251,15 @@
     <Compile Include="Interfaces\ICashFlow.cs" />
     <Compile Include="BusinessObjects\IImportObject.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowFixDetail.cs" />
-    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApInvSource.cs" />
-    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApPayGroup.cs" />
-    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApVendor.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApInvSource.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApPayGroup.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApVendor.cs" />
     <Compile Include="BusinessObjects\Cash\AccountSummary.cs" />
-    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApBankAccount.cs" />
-    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApSource.cs" />
-    <Compile Include="BusinessObjects\Cash\AccountsPayable\ApPmtDistn.cs" />
-    <Compile Include="BusinessObjects\Cash\BankStmtAccountImportMapping.cs" />
-    <Compile Include="BusinessObjects\Cash\BankStmtMapping.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApBankAccount.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApSource.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistn.cs" />
+    <Compile Include="BusinessObjects\BankStmt\BankStmtAccountImportMapping.cs" />
+    <Compile Include="BusinessObjects\BankStmt\BankStmtMapping.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlow.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowSource.cs" />
     <Compile Include="BusinessObjects\Cash\CashForecastFixTag.cs" />
@@ -368,12 +370,11 @@
     </Compile>
     <Compile Include="Validation\ForexTradeRule.cs" />
     <Compile Include="Validation\GenLedgerRule.cs" />
-    <Compile Include="BusinessObjects\Cash\Account.cs" />
-    <Compile Include="BusinessObjects\Cash\AccountActivityMap.cs" />
-    <Compile Include="BusinessObjects\Cash\Activity.cs" />
-    <Compile Include="BusinessObjects\Cash\BankStmt.cs" />
-    <Compile Include="BusinessObjects\Cash\Counterparty.cs" />
-    <Compile Include="BusinessObjects\Currency.cs" />
+    <Compile Include="BusinessObjects\CashLookup\Account.cs" />
+    <Compile Include="BusinessObjects\CashLookup\Activity.cs" />
+    <Compile Include="BusinessObjects\BankStmt\BankStmt.cs" />
+    <Compile Include="BusinessObjects\CashLookup\Counterparty.cs" />
+    <Compile Include="BusinessObjects\CashLookup\Currency.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Controllers\CustomizeValidationMessageController.cs">
       <SubType>Component</SubType>
@@ -427,43 +428,7 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="UnusableNodes8.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes7.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes6.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes5.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
     <EmbeddedResource Include="Images\banner.png" />
-    <None Include="UnusableNodes4.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes3.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes2.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes1.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="FunctionalTests\Counterparty_Create.inc" />
     <Content Include="FunctionalTests\ForexCounterparty_Create.inc" />
   </ItemGroup>

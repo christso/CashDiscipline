@@ -12,16 +12,16 @@ using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 
-namespace CashDiscipline.Module.BusinessObjects.Cash.AccountsPayable
+namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
     //[ImageName("BO_Contact")]
     //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
     //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
     //[Persistent("DatabaseTableName")]
     // Specify more UI options using a declarative approach (http://documentation.devexpress.com/#Xaf/CustomDocument2701).
-    public class ApVendor : BaseObject
+    public class ApPayGroup : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
-        public ApVendor(Session session)
+        public ApPayGroup(Session session)
             : base(session)
         {
         }

@@ -13,6 +13,7 @@ using CashDiscipline.Module.BusinessObjects;
 
 namespace CashDiscipline.Module.Controllers
 {
+    // This class allows re-ordering of rows using a Move function
     public class MappingViewController : ViewController
     {
         public MappingViewController()

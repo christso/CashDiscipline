@@ -13,9 +13,10 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using CashDiscipline.Module.BusinessObjects.ChartOfAccounts;
 using Xafology.ExpressApp.Xpo.Import;
+using CashDiscipline.Module.BusinessObjects.Cash;
 
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
-namespace CashDiscipline.Module.BusinessObjects.Cash.AccountsPayable
+namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
     [ModelDefault("IsFooterVisible", "True")]
     public class ApPmtDistn : BaseObject, IXpoImportable

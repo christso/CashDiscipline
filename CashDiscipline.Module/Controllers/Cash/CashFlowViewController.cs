@@ -1,5 +1,4 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
-using CashDiscipline.Module.BusinessObjects.Forex;
 using CashDiscipline.Module.Controllers.Forex;
 using CashDiscipline.Module.ParamObjects.Cash;
 using DevExpress.Data.Filtering;

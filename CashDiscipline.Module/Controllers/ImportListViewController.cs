@@ -1,5 +1,5 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
-using CashDiscipline.Module.BusinessObjects.Cash.AccountsPayable;
+using CashDiscipline.Module.BusinessObjects.AccountsPayable;
 
 using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp;

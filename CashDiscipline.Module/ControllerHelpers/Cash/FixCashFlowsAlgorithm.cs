@@ -33,6 +33,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         private CashForecastFixTag payrollFixTag;
         private SetOfBooks setOfBooks;
         private FixCashFlowsRephaser rephaser;
+        private FixCashFlowsPrefiller prefiller;
 
         private List<CashFlow> cashFlowsToDelete;
 
@@ -66,6 +67,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             setOfBooks = SetOfBooks.GetInstance(objSpace);
 
             this.rephaser = new FixCashFlowsRephaser(objSpace, paramObj);
+            this.prefiller = new FixCashFlowsPrefiller(objSpace, paramObj);
         }
 
         #region Reset
@@ -164,6 +166,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
             if (fixer != null)
             {
+                prefiller.Process(fixer);
                 rephaser.Process(fixer);
                 CreateFixes(fixer, fixee);
                 fixee.Fixer = fixer;

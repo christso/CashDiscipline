@@ -2,7 +2,7 @@
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 
-namespace CashDiscipline.Module.BusinessObjects.Cash.AccountsPayable
+namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
     public class ApSource : BaseObject
     {
