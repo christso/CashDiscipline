@@ -43,8 +43,8 @@ namespace CashDiscipline.Module.Controllers.Cash
             var saveForecastAction = new ChoiceActionItem();
             saveForecastAction.Caption = "Save Forecast";
             RunProgramAction.Items.Add(saveForecastAction);
-
         }
+
 
         protected override void OnActivated()
         {
