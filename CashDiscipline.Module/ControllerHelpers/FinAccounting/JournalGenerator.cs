@@ -230,7 +230,7 @@ namespace CashDiscipline.Module.ControllerHelpers.FinAccounting
             var activityMaps = new Func<List<FinActivity>>(() =>
             {
                 var sortProps = new SortingCollection(null);
-                sortProps.Add(new SortProperty("Index", DevExpress.Xpo.DB.SortingDirection.Ascending));
+                sortProps.Add(new SortProperty("RowIndex", DevExpress.Xpo.DB.SortingDirection.Ascending));
                 var result = session.GetObjects(session.GetClassInfo(typeof(FinActivity)),
                                 new InOperator("JournalGroup", jnlGroupsInParams),
                                 sortProps, 0, false, true).Cast<FinActivity>().ToList();

@@ -11,10 +11,11 @@ using System.Collections.Generic;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
+using Xafology.ExpressApp.RowMover;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
-    public class BankStmtMapping : BaseObject, IMappingObject
+    public class BankStmtMapping : BaseObject, IRowMoverObject
     {
         public BankStmtMapping(Session session)
             : base(session)
@@ -23,14 +24,13 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
-            object maxIndex = Session.Evaluate<BankStmtMapping>(CriteriaOperator.Parse("Max(Index)"), null);
+            object maxIndex = Session.Evaluate<BankStmtMapping>(CriteriaOperator.Parse("Max(RowIndex)"), null);
             if (maxIndex != null)
             {
                 if ((int)maxIndex >= NextIndex)
                     NextIndex = (int)maxIndex + 1;
             }
-            this.Index = NextIndex;
+            this.RowIndex = NextIndex;
         }
 
         // singleton
@@ -40,19 +40,19 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         private Account _Account;
         private Activity _Activity;
         private string _CriteriaExpression;
-        private int _Index;
+        private int _RowIndex;
 
         [ModelDefault("DisplayFormat","f0")]
         [ModelDefault("SortOrder","Ascending")]
-        public int Index
+        public int RowIndex
         {
             get
             {
-                return _Index;
+                return _RowIndex;
             }
             set
             {
-                SetPropertyValue("Index", ref _Index, value);
+                SetPropertyValue("RowIndex", ref _RowIndex, value);
             }
         }
 

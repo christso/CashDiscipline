@@ -18,7 +18,9 @@ namespace CashDiscipline.Module.Win.Controllers.Cash
             get
             {
                 return (View.ObjectTypeInfo.Type == typeof(CashFlow)
-                || View.ObjectTypeInfo.Type == typeof(ForexTrade));
+                || View.ObjectTypeInfo.Type == typeof(ForexTrade)
+                || View.ObjectTypeInfo.Type == typeof(CashFlowFixMapping)
+                );
             }
         }
 

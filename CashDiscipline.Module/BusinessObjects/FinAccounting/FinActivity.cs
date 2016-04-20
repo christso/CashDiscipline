@@ -14,6 +14,7 @@ using DevExpress.Persistent.Validation;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.BusinessObjects.ChartOfAccounts;
 using DevExpress.ExpressApp.Xpo;
+using Xafology.ExpressApp.RowMover;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
@@ -22,7 +23,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
     //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
     //[Persistent("DatabaseTableName")]
     // Specify more UI options using a declarative approach (http://documentation.devexpress.com/#Xaf/CustomDocument2701).
-    public class FinActivity : BaseObject, IMappingObject
+    public class FinActivity : BaseObject, IRowMoverObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public FinActivity(Session session)
             : base(session)
@@ -35,7 +36,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             if (AppSettings.UserTriggersEnabled)
                 InitDefaultValues();
         }
-        private int _Index;
+        private int _RowIndex;
         private string _FunctionalCcyAmtExpr;
         private string _GlDescription;
         private Activity _FromActivity;
@@ -60,15 +61,15 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 
         [ModelDefault("DisplayFormat", "f0")]
         [RuleRequiredField("FinActivity.Index_RuleRequiredField", DefaultContexts.Save)]
-        public int Index
+        public int RowIndex
         {
             get
             {
-                return _Index;
+                return _RowIndex;
             }
             set
             {
-                SetPropertyValue("Index", ref _Index, value);
+                SetPropertyValue("RowIndex", ref _RowIndex, value);
             }
         }
 

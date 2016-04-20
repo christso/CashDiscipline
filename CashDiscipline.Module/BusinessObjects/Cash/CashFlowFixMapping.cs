@@ -11,55 +11,56 @@ using System.Collections.Generic;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
+using Xafology.ExpressApp.RowMover;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
-    public class CashFlowFixMapping : BaseObject, IMappingObject
+    [ModelDefault("IsCloneable", "True")]
+    [ModelDefault("IsFooterVisible", "True")]
+    [ModelDefault("ImageName", "BO_List")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    public class CashFlowFixMapping : BaseObject, IRowMoverObject
     {
+        private static int NextIndex = 1;
+
         public CashFlowFixMapping(Session session)
             : base(session)
         {
         }
+
         public override void AfterConstruction()
         {
             base.AfterConstruction();
 
-            object maxIndex = Session.Evaluate<CashFlowFixMapping>(CriteriaOperator.Parse("Max(Index)"), null);
-            if (maxIndex != null)
+            object maxIndex = Session.Evaluate<CashFlowFixMapping>(CriteriaOperator.Parse("Max(RowIndex)"), null);
+            if (maxIndex != null && maxIndex.GetType() == typeof(int))
             {
                 if ((int)maxIndex >= NextIndex)
                     NextIndex = (int)maxIndex + 1;
             }
-            this.Index = NextIndex;
+            this.RowIndex = NextIndex;
+            this.MapStep = 1;
         }
 
-        // singleton
-        private string _FixToDateExpr;
-        private string _FixFromDateExpr;
-        private CashFlowStatus _CriteriaStatus;
-        private CashForecastFixTag _Fix;
-        private static int NextIndex = 1;
-
         // Fields...
-        private Activity _FixActivity;
-        private string _CriteriaExpression;
-        private int _Index;
+
+        private int _RowIndex;
 
         [ModelDefault("DisplayFormat", "f0")]
         [ModelDefault("SortOrder", "Ascending")]
-        public int Index
+        public int RowIndex
         {
             get
             {
-                return _Index;
+                return _RowIndex;
             }
             set
             {
-                SetPropertyValue("Index", ref _Index, value);
+                SetPropertyValue("RowIndex", ref _RowIndex, value);
             }
         }
 
-
+        private string _CriteriaExpression;
         public string CriteriaExpression
         {
             get
@@ -72,6 +73,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private CashFlowStatus _CriteriaStatus;
         public CashFlowStatus CriteriaStatus
         {
             get
@@ -84,6 +86,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private Activity _FixActivity;
         public Activity FixActivity
         {
             get
@@ -96,7 +99,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-
+        private CashForecastFixTag _Fix;
         public CashForecastFixTag Fix
         {
             get
@@ -109,7 +112,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-
+        private string _FixFromDateExpr;
         public string FixFromDateExpr
         {
             get
@@ -122,7 +125,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-
+        private string _FixToDateExpr;
         public string FixToDateExpr
         {
             get
@@ -134,5 +137,33 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 SetPropertyValue("FixToDateExpr", ref _FixToDateExpr, value);
             }
         }
+
+        private int _MapStep;
+        public int MapStep
+        {
+            get
+            {
+                return _MapStep;
+            }
+            set
+            {
+                SetPropertyValue("MapStep", ref _MapStep, value);
+            }
+        }
+
+        private string _Description;
+        [Size(SizeAttribute.Unlimited)]
+        public string Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                SetPropertyValue("Description", ref _Description, value);
+            }
+        }
+
     }
 }

@@ -16,11 +16,20 @@ using CashDiscipline.Module.ParamObjects.Cash;
 using DevExpress.Xpo;
 using CashDiscipline.UnitTests.TestObjects;
 using Xafology.ExpressApp.Xpo.Import.Parameters;
+using DevExpress.Data.Filtering;
 
 namespace CashDiscipline.UnitTests
 {
     public class CashDisciplineTestHelper
     {
+        public static void RegisterCustomFunctions()
+        {
+            CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.MultiConcatFunction());
+            CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.RegexMatchFunction());
+            CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.BoMonthFunction());
+            CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.EoMonthFunction());
+        }
+
         public static void AddExportedTypes(ModuleBase module)
         {
             module.AdditionalExportedTypes.Add(typeof(SetOfBooks));
@@ -44,6 +53,7 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(FinAccountingDefaults));
             module.AdditionalExportedTypes.Add(typeof(ForexTrade));
             module.AdditionalExportedTypes.Add(typeof(ForexCounterparty));
+            module.AdditionalExportedTypes.Add(typeof(Counterparty));
             module.AdditionalExportedTypes.Add(typeof(CashFlowFixParam));
             module.AdditionalExportedTypes.Add(typeof(ForexRate));
             module.AdditionalExportedTypes.Add(typeof(BankStmtCashFlowForecast));
@@ -61,6 +71,7 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(ImportOrdinalsParam));
             module.AdditionalExportedTypes.Add(typeof(CashForecastFixTag));
             module.AdditionalExportedTypes.Add(typeof(CashFlowFixMapping));
+            module.AdditionalExportedTypes.Add(typeof(CashFlowSnapshot));
 
         }
     }

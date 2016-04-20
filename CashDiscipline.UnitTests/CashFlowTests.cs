@@ -22,6 +22,7 @@ using CashDiscipline.Module.ParamObjects.Cash;
 using Xafology.TestUtils;
 using CashDiscipline.UnitTests.TestObjects;
 using CashDiscipline.Module.ControllerHelpers.Cash;
+using System.Collections;
 
 namespace CashDiscipline.UnitTests
 {
@@ -30,7 +31,7 @@ namespace CashDiscipline.UnitTests
     {
         public CashFlowTests()
         {
-            SetTesterDbType(TesterDbType.InMemory);
+            SetTesterDbType(TesterDbType.MsSql);
 
             var tester = Tester as MSSqlDbTestBase;
             if (tester != null)
@@ -39,6 +40,8 @@ namespace CashDiscipline.UnitTests
 
         public override void OnSetup()
         {
+            CashDisciplineTestHelper.RegisterCustomFunctions();
+
             CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
             CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
@@ -182,6 +185,7 @@ namespace CashDiscipline.UnitTests
             var cf = ObjectSpace.CreateObject<CashFlow>();
             cf.Account = account;
             cf.AccountCcyAmt = 1000;
+            ObjectSpace.CommitChanges();
             Assert.AreEqual(1111.11, Math.Round(cf.FunctionalCcyAmt, 2));
 
             // add date later
@@ -252,6 +256,133 @@ namespace CashDiscipline.UnitTests
             var sCfs = snapshot.CashFlows;
             Assert.AreEqual(amount * loops, sCfs.Sum(x => x.AccountCcyAmt));
             #endregion
+        }
+
+        [Test]
+        public void DeleteSnapshot()
+        {
+            #region Arrange
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ AUD";
+            account.Currency = ccyAUD;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "AR Rcpt";
+            #endregion
+
+            #region Create Snapshot
+
+            var snapshot = ObjectSpace.CreateObject<CashFlowSnapshot>();
+            snapshot.Name = "Snapshot 1";
+
+            var tranDate = new DateTime(2014, 03, 31);
+            decimal amount = 1000;
+            int loops = 2;
+
+            for (int i = 0; i < loops; i++)
+            {
+                var cf1 = ObjectSpace.CreateObject<CashFlow>();
+                cf1.Snapshot = snapshot;
+                cf1.TranDate = tranDate;
+                cf1.Account = account;
+                cf1.Activity = activity;
+                cf1.AccountCcyAmt = amount;
+            }
+            ObjectSpace.CommitChanges();
+            Assert.AreEqual(loops, ObjectSpace.GetObjects<CashFlow>().Count);
+            Assert.AreEqual(2, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+
+            #endregion
+
+            #region Delete Snapshot
+
+            var controller = Application.CreateController<CashFlowSnapshotViewController>();
+            var view = Application.CreateDetailView(ObjectSpace, snapshot);
+            controller.SetView(view);
+
+            controller.DeleteSnapshot(snapshot);
+
+            #endregion
+
+            #region Assert
+
+            Assert.AreEqual(0, ObjectSpace.GetObjects<CashFlow>().Count);
+            Assert.AreEqual(1, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+
+            #endregion
+
+        }
+
+        [Test]
+        public void DeleteSnapshots()
+        {
+            #region Arrange
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ AUD";
+            account.Currency = ccyAUD;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "AR Rcpt";
+            #endregion
+
+            #region Create Snapshot
+
+            for (int i = 0; i < 3; i++)
+            {
+                // create snapshot
+                var snapshot = ObjectSpace.CreateObject<CashFlowSnapshot>();
+                snapshot.Name = string.Format("Snapshot {0}", i);
+
+                // create cash flows
+                for (int j = 0; j < 2; j++)
+                {
+                    var cf1 = ObjectSpace.CreateObject<CashFlow>();
+                    cf1.Snapshot = snapshot;
+                    cf1.TranDate = new DateTime(2014, 03, 31);
+                    cf1.Account = account;
+                    cf1.Activity = activity;
+                    cf1.AccountCcyAmt = 1000;
+                }
+            }
+
+            ObjectSpace.CommitChanges();
+            Assert.AreEqual(3*2, ObjectSpace.GetObjects<CashFlow>().Count);
+            Assert.AreEqual(4, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+
+            #endregion
+
+            #region Delete Snapshot
+
+            var controller = Application.CreateController<CashFlowSnapshotViewController>();
+            var view = Application.CreateDetailView(ObjectSpace, ObjectSpace.FindObject<CashFlowSnapshot>(null));
+            controller.SetView(view);
+
+            var snapshots = ObjectSpace.GetObjects<CashFlowSnapshot>();
+            controller.DeleteSnapshots(snapshots);
+
+            ObjectSpace.Session.PurgeDeletedObjects();
+
+            #endregion
+
+            #region Assert
+
+            Assert.AreEqual(0, ObjectSpace.GetObjects<CashFlow>().Count);
+            Assert.AreEqual(0, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+
+            #endregion
+        }
+
+        [Test]
+        public void FindForeignKey()
+        {
+            var cf = ObjectSpace.CreateObject<CashFlow>();
+
         }
 
         //[Test]
@@ -998,7 +1129,7 @@ namespace CashDiscipline.UnitTests
             var mapping = ObjectSpace.GetObjects<CashFlowFixMapping>();
             Assert.AreEqual(2, mapping.Count);
 
-            var mapper = new CashFlowMapper(ObjectSpace);
+            var mapper = new CashFlowFixMapper(ObjectSpace);
             mapper.Process(cashFlows);
 
             #endregion
@@ -1021,9 +1152,42 @@ namespace CashDiscipline.UnitTests
 
         }
 
+        //Requires EOMONTH custom function to be registered
         [Test]
-        public void CreateMappings()
+        public void StepMapCashFlows()
         {
+            #region Arrange Dimensions
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+
+            var audAccount = ObjectSpace.CreateObject<Account>();
+            audAccount.Name = "VHA ANZ AUD";
+            audAccount.Currency = ccyAUD;
+
+            var apActivity = ObjectSpace.CreateObject<Activity>();
+            apActivity.Name = "AP Pymt";
+            apActivity.FixActivity = apActivity;
+
+            var mktActivity = ObjectSpace.CreateObject<Activity>();
+            mktActivity.Name = "Marketing Pymt";
+            mktActivity.FixActivity = mktActivity;
+
+            var advActivity = ObjectSpace.CreateObject<Activity>();
+            advActivity.Name = "Advertising Pymt";
+            advActivity.FixActivity = mktActivity;
+
+            var mktSource = ObjectSpace.CreateObject<CashFlowSource>();
+            mktSource.Name = "Marketing Budget";
+            mktSource.Team = "Marketing";
+
+            var apSource = ObjectSpace.CreateObject<CashFlowSource>();
+            apSource.Name = "AP CT";
+            apSource.Team = "AP";
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
             #region Arrange Fix Tags
 
             var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
@@ -1038,26 +1202,113 @@ namespace CashDiscipline.UnitTests
 
             #endregion
 
-            #region Create Maps
+            #region Arrange Transactions
+
+            // act
+            var cf1 = ObjectSpace.CreateObject<CashFlow>();
+            cf1.TranDate = new DateTime(2016, 03, 11);
+            cf1.Account = audAccount;
+            cf1.CounterCcy = ccyAUD;
+            cf1.AccountCcyAmt = -600;
+            cf1.CounterCcyAmt = -600;
+            cf1.Activity = apActivity;
+            cf1.FixRank = 2;
+            cf1.Fix = schedOutFixTag;
+            cf1.DateUnFix = cf1.TranDate;
+            cf1.Source = apSource;
+
+            var cf2 = ObjectSpace.CreateObject<CashFlow>();
+            cf2.TranDate = new DateTime(2016, 03, 25);
+            cf2.Account = audAccount;
+            cf2.CounterCcy = ccyAUD;
+            cf2.CounterCcyAmt = -200;
+            cf2.AccountCcyAmt = -200;
+            cf2.Activity = advActivity;
+            cf2.FixRank = 3;
+            cf2.Fix = allocFixTag;
+            cf2.FixFromDate = new DateTime(2016, 03, 11);
+            cf2.DateUnFix = cf2.TranDate;
+            cf2.Source = mktSource;
+
+            #endregion
+
+            #region Arrange Mapper
 
             var map1 = ObjectSpace.CreateObject<CashFlowFixMapping>();
-            map1.CriteriaExpression = "Source.TeamName LIKE 'AP'";
+            map1.CriteriaExpression = "Source.Team LIKE 'AP'";
+            map1.Fix = ObjectSpace.FindObject<CashForecastFixTag>(CriteriaOperator.Parse(
+                "Name = ?", "S2"));
+            map1.FixActivity = apActivity;
+            map1.Save();
 
             var map2 = ObjectSpace.CreateObject<CashFlowFixMapping>();
-            map2.CriteriaExpression = "Source.TeamName LIKE 'Marketing'";
+            map2.CriteriaExpression = "Source.Team LIKE 'Marketing'";
+            map2.Fix = ObjectSpace.FindObject<CashForecastFixTag>(CriteriaOperator.Parse(
+                "Name = ?", "B3"));
+            map2.FixActivity = mktActivity;
+            map2.Save();
+
+            var map3 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map3.CriteriaExpression = "DATEDIFFDAY(TranDate, EOMONTH(TranDate)) < 7";
+            map3.FixToDateExpr = "EOMONTH(TranDate)";
+            map3.MapStep = 2;
+            map3.Save();
 
             ObjectSpace.CommitChanges();
-            ObjectSpace.Refresh();
+
+            #endregion
+
+            #region Act
+
+            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
+            Assert.AreEqual(2, cashFlows.Count);
+
+            var mapping = ObjectSpace.GetObjects<CashFlowFixMapping>();
+            Assert.AreEqual(3, mapping.Count);
+
+            var mapper = new CashFlowFixMapper(ObjectSpace);
+            mapper.Process(cashFlows);
 
             #endregion
 
             #region Assert
 
-            var maps = ObjectSpace.GetObjects<CashFlowFixMapping>();
-            Assert.AreEqual(2, maps.Count);
+            Assert.NotNull(cf1.FixActivity);
+            Assert.AreEqual("AP Pymt", cf1.FixActivity.Name);
 
+            Assert.NotNull(cf1.Fix);
+            Assert.AreEqual("S2", cf1.Fix.Name);
+
+            Assert.NotNull(cf2.FixActivity);
+            Assert.AreEqual("Marketing Pymt", cf2.FixActivity.Name);
+
+            Assert.NotNull(cf2.Fix);
+            Assert.AreEqual("B3", cf2.Fix.Name);
+
+            Assert.AreEqual(new DateTime(2016, 03, 31), cf2.FixToDate);
+            
             #endregion
+
         }
+
+        [Test]
+        public void EvaluateEoMonthCustomFunction()
+        {
+            {
+                var cf = ObjectSpace.CreateObject<CashFlow>();
+                cf.TranDate = new DateTime(2016, 3, 28);
+                var result = cf.Evaluate(CriteriaOperator.Parse("DATEDIFFDAY(TranDate, EOMONTH(TranDate)) < 7"));
+                Assert.IsTrue((bool)result);
+            }
+
+            {
+                var cf = ObjectSpace.CreateObject<CashFlow>();
+                cf.TranDate = new DateTime(2016, 3, 15);
+                var result = cf.Evaluate(CriteriaOperator.Parse("DATEDIFFDAY(TranDate, EOMONTH(TranDate)) < 7"));
+                Assert.IsFalse((bool)result);
+            }
+        }
+
     }
 
 }
