@@ -53,6 +53,7 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(FinAccountingDefaults));
             module.AdditionalExportedTypes.Add(typeof(ForexTrade));
             module.AdditionalExportedTypes.Add(typeof(ForexCounterparty));
+            module.AdditionalExportedTypes.Add(typeof(Counterparty));
             module.AdditionalExportedTypes.Add(typeof(CashFlowFixParam));
             module.AdditionalExportedTypes.Add(typeof(ForexRate));
             module.AdditionalExportedTypes.Add(typeof(BankStmtCashFlowForecast));

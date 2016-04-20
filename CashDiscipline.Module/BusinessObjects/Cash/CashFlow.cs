@@ -1024,15 +1024,15 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         protected override void OnDeleting()
         {
-            while (Fixees.Count != 0)
-                Fixees[0].Fixer = null;
+            //while (Fixees.Count != 0)
+            //    Fixees[0].Fixer = null;
 
-            ParentCashFlow = null;
+            //ParentCashFlow = null;
 
-            while (ChildCashFlows.Count != 0)
-            {
-                ChildCashFlows[0].Delete();
-            }
+            //while (ChildCashFlows.Count != 0)
+            //{
+            //    ChildCashFlows[0].Delete();
+            //}
 
             base.OnDeleting();
         }
@@ -1095,7 +1095,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                             new SortingCollection(null), 0, false, true);
             foreach (CashFlow cf in cashFlows)
             {
-                var cfShot = (CashFlow)CloneIXPSimpleObjectHelper.CloneLocal(cf);
+                var cfShot = new CashFlow(session);
+                cfShot.CalculateEnabled = false;
+                CloneIXPSimpleObjectHelper.CloneLocal(cf, cfShot);
                 cfShot.Snapshot = snapshot;
                 cfShot.origCashFlow = cf;
             }
@@ -1106,8 +1108,10 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         public static CashFlowSnapshot SaveForecast(XPObjectSpace objSpace, bool commit = true)
         {
             var session = ((XPObjectSpace)objSpace).Session;
-            var minDate = (DateTime)(session.Evaluate<CashFlow>(CriteriaOperator.Parse("Min(TranDate)"),
-                CriteriaOperator.Parse("Status = ?", CashFlowStatus.Forecast)) ?? default(DateTime));
+            DateTime minDate = new XPQuery<CashFlow>(objSpace.Session)
+                            .Where(cf => cf.Status == CashFlowStatus.Forecast
+                                && cf.Snapshot == GetCurrentSnapshot(objSpace.Session))
+                            .Min(cf => cf.TranDate);
             var result = CashFlow.SaveSnapshot(session, minDate);
             if (commit)
                 objSpace.CommitChanges();
