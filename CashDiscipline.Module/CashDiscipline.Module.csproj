@@ -218,9 +218,11 @@
     <Compile Include="BusinessObjects\Owner.cs" />
     <Compile Include="ControllerHelpers\Cash\CashFlowHelper.cs" />
     <Compile Include="ControllerHelpers\Cash\CashFlowMapper.cs" />
+    <Compile Include="ControllerHelpers\Cash\MemFixCashFlowsAlgorithm.cs" />
     <Compile Include="ControllerHelpers\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="ControllerHelpers\Cash\FixCashFlowsPrefiller.cs" />
     <Compile Include="ControllerHelpers\Cash\FixCashFlowsRephaser.cs" />
+    <Compile Include="ControllerHelpers\Cash\SqlFixCashFlowsAlgorithm.cs" />
     <Compile Include="ControllerHelpers\Cash\IFixCashFlows.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="BusinessObjects\BankStmt\BankStmtCashFlowForecast.cs" />

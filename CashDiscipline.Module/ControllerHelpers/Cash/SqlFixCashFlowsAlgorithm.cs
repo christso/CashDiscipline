@@ -21,36 +21,26 @@ using CashDiscipline.Module.BusinessObjects;
 
 namespace CashDiscipline.Module.ControllerHelpers.Cash
 {
-    public class FixCashFlowsAlgorithm : IFixCashFlows
+    public class SqlFixCashFlowsAlgorithm : IFixCashFlows
     {
-        private XPObjectSpace objSpace;
-        private CashFlowFixParam paramObj;
-        private IFixCashFlows algorithm;
-
-        public FixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj)
+        public SqlFixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj)
         {
-            this.objSpace = objSpace;
-            this.paramObj = paramObj;
 
-            if (objSpace.Session.Connection == null)
-                this.algorithm = new MemFixCashFlowsAlgorithm(objSpace, paramObj);
-            else
-                this.algorithm = new SqlFixCashFlowsAlgorithm(objSpace, paramObj);
-        }
-
-        public void Reset()
-        {
-            algorithm.Reset();
-        }
-
-        public void ProcessCashFlows()
-        {
-            algorithm.ProcessCashFlows();
         }
 
         public IEnumerable<CashFlow> GetCashFlowsToFix()
         {
-            return algorithm.GetCashFlowsToFix();
+            return null;
+        }
+
+        public void ProcessCashFlows()
+        {
+
+        }
+
+        public void Reset()
+        {
+
         }
     }
 }

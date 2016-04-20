@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CashDiscipline.Module.BusinessObjects.Cash;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,9 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
     public interface IFixCashFlows
     {
         void ProcessCashFlows();
+        // delete existing fixes
+        void Reset();
+        // This will return all cash flows which have changed after it was fixed
+        IEnumerable<CashFlow> GetCashFlowsToFix();
     }
 }
