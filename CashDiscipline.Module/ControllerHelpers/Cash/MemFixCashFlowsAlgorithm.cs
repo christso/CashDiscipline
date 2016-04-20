@@ -34,7 +34,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         private SetOfBooks setOfBooks;
         private FixCashFlowsRephaser rephaser;
         private IEnumerable<CashFlowFixMapping> cashFlowMappings;
-        private CashFlowMapper cashFlowMapper;
+        private CashFlowFixMapper cashFlowMapper;
+        private CashFlowSnapshot currentSnapshot;
 
         private List<CashFlow> cashFlowsToDelete;
 
@@ -42,9 +43,16 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         {
             this.objSpace = objSpace;
             this.paramObj = paramObj;
+
             // default values and parameters
+
+            if (paramObj.Snapshot == null)
+                currentSnapshot = GetCurrentSnapshot(objSpace.Session);
+            else
+                currentSnapshot = paramObj.Snapshot;
+
             if (paramObj.ApReclassActivity == null)
-                throw new InvalidOperationException("AP Reclass Activity must be defined.");
+                throw new ArgumentNullException("ApReclassActivity");
             paramApReclassActivity = objSpace.GetObjectByKey<Activity>(objSpace.GetKeyValue(paramObj.ApReclassActivity));
             defaultCounterparty = objSpace.FindObject<Counterparty>(
              CriteriaOperator.Parse("Name LIKE ?", Constants.DefaultFixCounterparty));
@@ -70,7 +78,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             this.rephaser = new FixCashFlowsRephaser(objSpace, paramObj);
 
             this.cashFlowMappings = objSpace.GetObjects<CashFlowFixMapping>();
-            this.cashFlowMapper = new CashFlowMapper(objSpace);
+            this.cashFlowMapper = new CashFlowFixMapper(objSpace);
         }
 
         #region Reset
@@ -86,8 +94,6 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
         // because they have been unlinked
         public void DeleteOrphans()
         {
-            CashFlowSnapshot currentSnapshot = GetCurrentSnapshot(objSpace.Session);
-
             var cashFlowFixes = new XPQuery<CashFlow>(objSpace.Session)
                 .Where(cf =>
                 cf.Snapshot.Oid == currentSnapshot.Oid
@@ -95,7 +101,10 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 && (cf.Fix == reversalFixTag
                     || cf.Fix == revRecFixTag
                     || cf.Fix == resRevRecFixTag)
-                && cf.ParentCashFlow == null);
+                && (
+                    (cf.ParentCashFlow == null)
+                    || cf.ParentCashFlow.IsDeleted
+                ));
 
             foreach (var cashFlowFix in cashFlowFixes)
                 cashFlowFix.Delete();
@@ -105,8 +114,6 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
 
         public void ResetFixStatus()
         {
-            CashFlowSnapshot currentSnapshot = GetCurrentSnapshot(objSpace.Session);
-
             var cashFlows = new XPQuery<CashFlow>(objSpace.Session)
                 .Where(cf =>
                 cf.Snapshot.Oid == currentSnapshot.Oid);
@@ -129,6 +136,7 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
             DeleteOrphans();
 
             var cashFlows = GetCashFlowsToFix().OrderBy(x => x.TranDate);
+
 
             foreach (var cashFlow in cashFlows)
             {
@@ -184,7 +192,8 @@ namespace CashDiscipline.Module.ControllerHelpers.Cash
                 cf.TranDate >= paramObj.FromDate && cf.TranDate <= paramObj.ToDate
                 && cf.Snapshot.Oid == currentSnapshot.Oid
                 && (cf.Fix == null || cf.Fix.FixTagType != CashForecastFixTagType.Ignore)
-                && !cf.IsFixeeSynced || !cf.IsFixerSynced || !cf.IsFixerFixeesSynced);
+                && (!cf.IsFixeeSynced || !cf.IsFixerSynced || !cf.IsFixerFixeesSynced
+                    || cf.Fixer != null && cf.Fixer.IsDeleted));
 
             return cashFlows;
         }

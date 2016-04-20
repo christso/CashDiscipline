@@ -65,6 +65,7 @@ namespace CashDiscipline.UnitTests
             // act
             var cf = ObjectSpace.CreateObject<CashFlow>();
             cf.Account = account;
+            ObjectSpace.CommitChanges();
 
             // assert
             Assert.AreEqual(ccyUSD, cf.CounterCcy);
@@ -130,6 +131,7 @@ namespace CashDiscipline.UnitTests
             cf.TranDate = new DateTime(2013, 12, 31);
             cf.Account = account;
             cf.AccountCcyAmt = 1000;
+            ObjectSpace.CommitChanges();
 
             // assert
             Assert.AreEqual(Math.Round(cf.AccountCcyAmt / rate.ConversionRate, 2),
@@ -159,6 +161,7 @@ namespace CashDiscipline.UnitTests
             cf.TranDate = new DateTime(2013, 12, 31);
             cf.Account = account;
             cf.AccountCcyAmt = 1000;
+            ObjectSpace.CommitChanges();
 
             // asset
             Assert.AreEqual(Math.Round(cf.CounterCcyAmt, 2),

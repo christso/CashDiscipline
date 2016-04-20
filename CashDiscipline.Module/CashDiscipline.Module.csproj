@@ -224,6 +224,8 @@
     <Compile Include="ControllerHelpers\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="ControllerHelpers\Cash\FixCashFlowsRephaser.cs" />
     <Compile Include="ControllerHelpers\Cash\IFixCashFlows.cs" />
+    <Compile Include="ControllerHelpers\Cash\MemFixCashFlowsAlgorithm.cs" />
+    <Compile Include="ControllerHelpers\Cash\SqlFixCashFlowsAlgorithm.cs" />
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
       <SubType>Component</SubType>
     </Compile>
