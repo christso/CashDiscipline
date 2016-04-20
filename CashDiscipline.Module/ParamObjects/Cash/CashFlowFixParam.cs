@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CashDiscipline.Module.BusinessObjects.Cash;
+using DevExpress.ExpressApp.Model;
 
 namespace CashDiscipline.Module.ParamObjects.Cash
 {
@@ -19,8 +20,6 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             session.LockingOption = LockingOption.None;
         }
 
-        public CashFlowFixParam() { }
-             
         // TODO: create generic method
         public static CashFlowFixParam GetInstance(IObjectSpace objectSpace)
         {
@@ -64,7 +63,6 @@ namespace CashDiscipline.Module.ParamObjects.Cash
                 SetPropertyValue("ToDate", ref _ToDate, value);
             }
         }
-
 
         private DateTime _ApayableLockdownDate;
         [DisplayName("AP Lockdown Date")]
@@ -131,5 +129,19 @@ namespace CashDiscipline.Module.ParamObjects.Cash
                 SetPropertyValue("ApReclassActivity", ref _ApReclassActivity, value);
             }
         }
+
+        private CashFlowSnapshot _Snapshot;
+        public CashFlowSnapshot Snapshot
+        {
+            get
+            {
+                return _Snapshot;
+            }
+            set
+            {
+                SetPropertyValue("Snapshot", ref _Snapshot, value);
+            }
+        }
+
     }
 }

@@ -22,6 +22,7 @@ using CashDiscipline.Module.ParamObjects.Cash;
 using Xafology.TestUtils;
 using CashDiscipline.UnitTests.TestObjects;
 using CashDiscipline.Module.ControllerHelpers.Cash;
+using System.Collections;
 
 namespace CashDiscipline.UnitTests
 {
@@ -184,6 +185,7 @@ namespace CashDiscipline.UnitTests
             var cf = ObjectSpace.CreateObject<CashFlow>();
             cf.Account = account;
             cf.AccountCcyAmt = 1000;
+            ObjectSpace.CommitChanges();
             Assert.AreEqual(1111.11, Math.Round(cf.FunctionalCcyAmt, 2));
 
             // add date later
@@ -253,6 +255,123 @@ namespace CashDiscipline.UnitTests
             #region Asserts
             var sCfs = snapshot.CashFlows;
             Assert.AreEqual(amount * loops, sCfs.Sum(x => x.AccountCcyAmt));
+            #endregion
+        }
+
+        [Test]
+        public void DeleteSnapshot()
+        {
+            #region Arrange
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ AUD";
+            account.Currency = ccyAUD;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "AR Rcpt";
+            #endregion
+
+            #region Create Snapshot
+
+            var snapshot = ObjectSpace.CreateObject<CashFlowSnapshot>();
+            snapshot.Name = "Snapshot 1";
+
+            var tranDate = new DateTime(2014, 03, 31);
+            decimal amount = 1000;
+            int loops = 2;
+
+            for (int i = 0; i < loops; i++)
+            {
+                var cf1 = ObjectSpace.CreateObject<CashFlow>();
+                cf1.Snapshot = snapshot;
+                cf1.TranDate = tranDate;
+                cf1.Account = account;
+                cf1.Activity = activity;
+                cf1.AccountCcyAmt = amount;
+            }
+            ObjectSpace.CommitChanges();
+            Assert.AreEqual(loops, ObjectSpace.GetObjects<CashFlow>().Count);
+            Assert.AreEqual(2, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+
+            #endregion
+
+            #region Delete Snapshot
+
+            var controller = Application.CreateController<CashFlowSnapshotViewController>();
+            var view = Application.CreateDetailView(ObjectSpace, snapshot);
+            controller.SetView(view);
+            controller.DeleteSnapshot(snapshot);
+
+            #endregion
+
+            #region Assert
+
+            Assert.AreEqual(0, ObjectSpace.GetObjects<CashFlow>().Count);
+            Assert.AreEqual(1, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+
+            #endregion
+
+        }
+
+        [Test]
+        public void DeleteSnapshots()
+        {
+            #region Arrange
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ AUD";
+            account.Currency = ccyAUD;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "AR Rcpt";
+            #endregion
+
+            #region Create Snapshot
+
+            for (int i = 0; i < 3; i++)
+            {
+                // create snapshot
+                var snapshot = ObjectSpace.CreateObject<CashFlowSnapshot>();
+                snapshot.Name = string.Format("Snapshot {0}", i);
+
+                // create cash flows
+                for (int j = 0; i < 2; i++)
+                {
+                    var cf1 = ObjectSpace.CreateObject<CashFlow>();
+                    cf1.Snapshot = snapshot;
+                    cf1.TranDate = new DateTime(2014, 03, 31);
+                    cf1.Account = account;
+                    cf1.Activity = activity;
+                    cf1.AccountCcyAmt = 1000;
+                }
+            }
+
+
+            ObjectSpace.CommitChanges();
+            Assert.AreEqual(3*2, ObjectSpace.GetObjects<CashFlow>().Count);
+            Assert.AreEqual(2, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+
+            #endregion
+
+            #region Delete Snapshot
+
+            var controller = Application.CreateController<CashFlowSnapshotViewController>();
+            var view = Application.CreateListView(ObjectSpace, typeof(CashFlowSnapshot), true);
+            
+            controller.SetView(view);
+
+
+            #endregion
+
+            #region Assert
+
+            Assert.AreEqual(0, ObjectSpace.GetObjects<CashFlow>().Count);
+            Assert.AreEqual(1, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+
             #endregion
         }
 
