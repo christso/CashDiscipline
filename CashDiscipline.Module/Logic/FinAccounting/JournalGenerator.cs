@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xafology.Utils.Data;
 
-namespace CashDiscipline.Module.ControllerHelpers.FinAccounting
+namespace CashDiscipline.Module.Logic.FinAccounting
 {
     public class JournalGenerator
     {

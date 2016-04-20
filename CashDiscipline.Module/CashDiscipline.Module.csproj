@@ -219,13 +219,13 @@
     <Compile Include="BusinessObjects\CashLookup\CounterpartyTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\Owner.cs" />
-    <Compile Include="ControllerHelpers\Cash\CashFlowHelper.cs" />
-    <Compile Include="ControllerHelpers\Cash\CashFlowFixMapper.cs" />
-    <Compile Include="ControllerHelpers\Cash\FixCashFlowsAlgorithm.cs" />
-    <Compile Include="ControllerHelpers\Cash\FixCashFlowsRephaser.cs" />
-    <Compile Include="ControllerHelpers\Cash\IFixCashFlows.cs" />
-    <Compile Include="ControllerHelpers\Cash\MemFixCashFlowsAlgorithm.cs" />
-    <Compile Include="ControllerHelpers\Cash\SqlFixCashFlowsAlgorithm.cs" />
+    <Compile Include="Logic\Cash\CashFlowHelper.cs" />
+    <Compile Include="Logic\Cash\CashFlowFixMapper.cs" />
+    <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
+    <Compile Include="Logic\Cash\FixCashFlowsRephaser.cs" />
+    <Compile Include="Logic\Cash\IFixCashFlows.cs" />
+    <Compile Include="Logic\Cash\MemFixCashFlowsAlgorithm.cs" />
+    <Compile Include="Logic\Cash\SqlFixCashFlowsAlgorithm.cs" />
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -253,7 +253,7 @@
     <Compile Include="Controllers\Cash\ICashFlowDeleter.cs" />
     <Compile Include="Controllers\Cash\CashFlowDeleter.cs" />
     <Compile Include="Interfaces\IJournalDeleter.cs" />
-    <Compile Include="ControllerHelpers\FinAccounting\JournalDeleter.cs" />
+    <Compile Include="Logic\FinAccounting\JournalDeleter.cs" />
     <Compile Include="Controllers\Forex\ForexTradeBatchUploaderImpl.cs" />
     <Compile Include="Interfaces\ICashFlow.cs" />
     <Compile Include="BusinessObjects\IImportObject.cs" />
@@ -270,7 +270,7 @@
     <Compile Include="BusinessObjects\Cash\CashFlow.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowSource.cs" />
     <Compile Include="BusinessObjects\Cash\CashForecastFixTag.cs" />
-    <Compile Include="ControllerHelpers\Cash\CashFlowPivotGridSetup.cs" />
+    <Compile Include="Logic\Cash\CashFlowPivotGridSetup.cs" />
     <Compile Include="Controllers\CalculateToggleViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -318,7 +318,7 @@
     <Compile Include="BusinessObjects\Setup\DateDim.cs" />
     <Compile Include="BusinessObjects\Setup\SqlScript.cs" />
     <Compile Include="BusinessObjects\Setup\SqlScriptFolder.cs" />
-    <Compile Include="ControllerHelpers\FinAccounting\JournalGenerator.cs" />
+    <Compile Include="Logic\FinAccounting\JournalGenerator.cs" />
     <Compile Include="Controllers\Cash\CashBalanceReportViewController.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -21,7 +21,7 @@ using DevExpress.ExpressApp.Utils;
 using CashDiscipline.Module.ParamObjects.Cash;
 using Xafology.TestUtils;
 using CashDiscipline.UnitTests.TestObjects;
-using CashDiscipline.Module.ControllerHelpers.Cash;
+using CashDiscipline.Module.Logic.Cash;
 using System.Collections;
 
 namespace CashDiscipline.UnitTests

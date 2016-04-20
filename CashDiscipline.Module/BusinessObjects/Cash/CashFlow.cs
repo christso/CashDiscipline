@@ -16,7 +16,7 @@ using System.Linq;
 using Xafology.Spreadsheet.Attributes;
 using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
-using CashDiscipline.Module.ControllerHelpers.Cash;
+using CashDiscipline.Module.Logic.Cash;
 
 // Please note that calling Save() will set IsFixeeSynced and IsFixerSynced to false;
 // Therefore, avoid calling Save() if you need to update those properties.

@@ -1,5 +1,5 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
-using CashDiscipline.Module.ControllerHelpers;
+using CashDiscipline.Module.Logic;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Xpo;

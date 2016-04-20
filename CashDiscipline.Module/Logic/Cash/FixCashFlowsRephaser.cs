@@ -19,7 +19,7 @@ using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.BusinessObjects;
 
-namespace CashDiscipline.Module.ControllerHelpers.Cash
+namespace CashDiscipline.Module.Logic.Cash
 {
     public class FixCashFlowsRephaser
     {

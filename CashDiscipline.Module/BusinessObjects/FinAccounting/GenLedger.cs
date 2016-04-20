@@ -13,7 +13,7 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using CashDiscipline.Module.BusinessObjects.ChartOfAccounts;
 using CashDiscipline.Module.BusinessObjects.Cash;
-using CashDiscipline.Module.ControllerHelpers.FinAccounting;
+using CashDiscipline.Module.Logic.FinAccounting;
 using CashDiscipline.Module.ParamObjects.FinAccounting;
 using Xafology.Spreadsheet.Attributes;
 

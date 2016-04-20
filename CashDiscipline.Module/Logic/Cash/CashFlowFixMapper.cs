@@ -11,7 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CashDiscipline.Module.ControllerHelpers.Cash
+namespace CashDiscipline.Module.Logic.Cash
 {
     public class CashFlowFixMapper
     {

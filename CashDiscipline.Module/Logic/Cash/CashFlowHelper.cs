@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashDiscipline.Module.ControllerHelpers.Cash
+namespace CashDiscipline.Module.Logic.Cash
 {
     public class CashFlowHelper
     {

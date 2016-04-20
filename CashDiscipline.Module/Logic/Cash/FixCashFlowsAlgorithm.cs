@@ -19,28 +19,38 @@ using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.BusinessObjects;
 
-namespace CashDiscipline.Module.ControllerHelpers.Cash
+namespace CashDiscipline.Module.Logic.Cash
 {
-    public class SqlFixCashFlowsAlgorithm : IFixCashFlows
+    public class FixCashFlowsAlgorithm : IFixCashFlows
     {
-        public SqlFixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj)
+        private XPObjectSpace objSpace;
+        private CashFlowFixParam paramObj;
+        private IFixCashFlows algorithm;
+
+        public FixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj)
         {
+            this.objSpace = objSpace;
+            this.paramObj = paramObj;
 
-        }
-
-        public IEnumerable<CashFlow> GetCashFlowsToFix()
-        {
-            return null;
-        }
-
-        public void ProcessCashFlows()
-        {
-
+            if (objSpace.Session.Connection == null)
+                this.algorithm = new MemFixCashFlowsAlgorithm(objSpace, paramObj);
+            else
+                this.algorithm = new SqlFixCashFlowsAlgorithm(objSpace, paramObj);
         }
 
         public void Reset()
         {
+            algorithm.Reset();
+        }
 
+        public void ProcessCashFlows()
+        {
+            algorithm.ProcessCashFlows();
+        }
+
+        public IEnumerable<CashFlow> GetCashFlowsToFix()
+        {
+            return algorithm.GetCashFlowsToFix();
         }
     }
 }

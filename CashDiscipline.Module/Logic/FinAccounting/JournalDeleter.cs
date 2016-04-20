@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashDiscipline.Module.ControllerHelpers.FinAccounting
+namespace CashDiscipline.Module.Logic.FinAccounting
 {
     public class JournalDeleter : CashDiscipline.Module.Interfaces.IJournalDeleter
     {

@@ -31,9 +31,9 @@ using System.Diagnostics;
 using System.Data.SqlClient;
 using CashDiscipline.Module.Controllers.FinAccounting;
 using DevExpress.Xpo.DB;
-using CashDiscipline.Module.ControllerHelpers;
+using CashDiscipline.Module.Logic;
 using CashDiscipline.Module.DatabaseUpdate;
-using CashDiscipline.Module.ControllerHelpers.FinAccounting;
+using CashDiscipline.Module.Logic.FinAccounting;
 using Xafology.TestUtils;
 
 namespace CashDiscipline.UnitTests

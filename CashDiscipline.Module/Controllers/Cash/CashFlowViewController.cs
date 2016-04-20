@@ -1,5 +1,5 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
-using CashDiscipline.Module.ControllerHelpers.Cash;
+using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.Controllers.Forex;
 using CashDiscipline.Module.ParamObjects.Cash;
 using DevExpress.Data.Filtering;
@@ -8,12 +8,13 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Xpo;
 using System;
 using System.Collections.Generic;
+using DG2NTT.AnalysisServicesHelpers;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
     public class CashFlowViewController : ViewController
     {
-
+        private const string processCubeCaption = "Process Cube";
         public SingleChoiceAction RunProgramAction;
 
         public CashFlowViewController()
@@ -25,6 +26,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             RunProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             RunProgramAction.Execute += runProgramAction_Execute;
             RunProgramAction.ShowItemsOnClick = true;
+            RunProgramAction.ExecuteCompleted += RunProgramAction_ExecuteCompleted;
 
             var dailyUpdateAction = new ChoiceActionItem();
             dailyUpdateAction.Caption = "Daily Update";
@@ -45,8 +47,19 @@ namespace CashDiscipline.Module.Controllers.Cash
             var saveForecastAction = new ChoiceActionItem();
             saveForecastAction.Caption = "Save Forecast";
             RunProgramAction.Items.Add(saveForecastAction);
+
+            var processCubeAction = new ChoiceActionItem();
+            processCubeAction.Caption = processCubeCaption;
+            RunProgramAction.Items.Add(processCubeAction);
         }
 
+        private void RunProgramAction_ExecuteCompleted(object sender, ActionBaseEventArgs e)
+        {
+            var es = (SingleChoiceActionExecuteEventArgs)e;
+            var msgbox = new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                Application, 
+                es.SelectedChoiceActionItem.Caption + " completed.", e.Action.Caption);
+        }
 
         protected override void OnActivated()
         {
@@ -86,8 +99,16 @@ namespace CashDiscipline.Module.Controllers.Cash
                 case "Save Forecast":
                     SaveForecast();
                     break;
-
+                case processCubeCaption:
+                    ProcessCube();
+                    break;
             }
+        }
+
+        public void ProcessCube()
+        {
+            var ssas = new ServerProcessor("FINSERV01", "CashFlow");
+            ssas.ProcessDatabase();
         }
 
         private void ShowFixForecastForm(ShowViewParameters svp)
