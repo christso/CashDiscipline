@@ -31,7 +31,7 @@ namespace CashDiscipline.UnitTests
     {
         public CashFlowTests()
         {
-            SetTesterDbType(TesterDbType.InMemory);
+            SetTesterDbType(TesterDbType.MsSql);
 
             var tester = Tester as MSSqlDbTestBase;
             if (tester != null)
@@ -302,6 +302,7 @@ namespace CashDiscipline.UnitTests
             var controller = Application.CreateController<CashFlowSnapshotViewController>();
             var view = Application.CreateDetailView(ObjectSpace, snapshot);
             controller.SetView(view);
+
             controller.DeleteSnapshot(snapshot);
 
             #endregion
@@ -339,7 +340,7 @@ namespace CashDiscipline.UnitTests
                 snapshot.Name = string.Format("Snapshot {0}", i);
 
                 // create cash flows
-                for (int j = 0; i < 2; i++)
+                for (int j = 0; j < 2; j++)
                 {
                     var cf1 = ObjectSpace.CreateObject<CashFlow>();
                     cf1.Snapshot = snapshot;
@@ -350,29 +351,38 @@ namespace CashDiscipline.UnitTests
                 }
             }
 
-
             ObjectSpace.CommitChanges();
             Assert.AreEqual(3*2, ObjectSpace.GetObjects<CashFlow>().Count);
-            Assert.AreEqual(2, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+            Assert.AreEqual(4, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
 
             #endregion
 
             #region Delete Snapshot
 
             var controller = Application.CreateController<CashFlowSnapshotViewController>();
-            var view = Application.CreateListView(ObjectSpace, typeof(CashFlowSnapshot), true);
-            
+            var view = Application.CreateDetailView(ObjectSpace, ObjectSpace.FindObject<CashFlowSnapshot>(null));
             controller.SetView(view);
 
+            var snapshots = ObjectSpace.GetObjects<CashFlowSnapshot>();
+            controller.DeleteSnapshots(snapshots);
+
+            ObjectSpace.Session.PurgeDeletedObjects();
 
             #endregion
 
             #region Assert
 
             Assert.AreEqual(0, ObjectSpace.GetObjects<CashFlow>().Count);
-            Assert.AreEqual(1, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
+            Assert.AreEqual(0, ObjectSpace.GetObjects<CashFlowSnapshot>().Count);
 
             #endregion
+        }
+
+        [Test]
+        public void FindForeignKey()
+        {
+            var cf = ObjectSpace.CreateObject<CashFlow>();
+
         }
 
         //[Test]
