@@ -92,5 +92,17 @@ namespace CashDiscipline.UnitTests
             var result = cf.Evaluate(CriteriaOperator.Parse("LocalDateTimeNextMonth(TranDate)"));
             var objType = result.GetType();
         }
+
+        public void EvaluateSql()
+        {
+
+            string sql1 =
+@"IF OBJECT_ID('tempdb..#Fixee') IS NOT NULL
+DROP TABLE #Fixee
+
+SELECT * INTO #Fixee
+FROM CashFlow
+WHERE TranDate BETWEEN '2016-03-01' AND '2016-04-30'";
+        }
     }
 }
