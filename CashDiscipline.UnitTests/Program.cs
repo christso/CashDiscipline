@@ -13,14 +13,26 @@ namespace CashDiscipline.UnitTests
         [STAThread]
         static void Main(string[] args)
         {
-            var tests = new CashDiscipline.UnitTests.FixCashFlowTests();
+            RunTestMetheod();
+
+            Console.ReadKey();
+        }
+
+        static void RunTestMetheod()
+        {
+            var tests = new CashDiscipline.UnitTests.TempTests();
+            tests.TempTest();
+        }
+
+        static void RunTest()
+        {
+            var tests = new CashDiscipline.UnitTests.TempTests();
             tests.SetUpFixture();
             tests.Setup();
-            //tests.FixAllocLockdownReview();
+            tests.TempTest();
             tests.TearDown();
             tests.TearDownFixture();
             Console.WriteLine("Test Passed");
-            Console.ReadKey();
         }
     }
 }

@@ -18,6 +18,7 @@ using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.BusinessObjects;
+using System.Data.SqlClient;
 
 namespace CashDiscipline.Module.Logic.Cash
 {
@@ -36,7 +37,6 @@ namespace CashDiscipline.Module.Logic.Cash
         private IEnumerable<CashFlowFixMapping> cashFlowMappings;
         private CashFlowFixMapper cashFlowMapper;
         private CashFlowSnapshot currentSnapshot;
-        private FixCashFlowsSqlBuilder sqlBuilder;
 
         public SqlFixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj)
         {
@@ -69,11 +69,7 @@ namespace CashDiscipline.Module.Logic.Cash
                 .Where(x => x.Name == Constants.PayrollFixTag).FirstOrDefault();
 
             //this.cashFlowsToDelete = new List<CashFlow>();
-
             setOfBooks = SetOfBooks.GetInstance(objSpace);
-
-            sqlBuilder = new FixCashFlowsSqlBuilder();
-
         }
 
         public IEnumerable<CashFlow> GetCashFlowsToFix()
@@ -83,24 +79,23 @@ namespace CashDiscipline.Module.Logic.Cash
 
         public void ProcessCashFlows()
         {
-            var sqlParamNames = new string[]
-            {
-                "FromDate",
-                "ToDate",
-                "Snapshot",
-                "Fix"
-            };
-            var sqlParamValues = new object[]
-            {
-                paramObj.FromDate,
-                paramObj.ToDate,
-                currentSnapshot.Oid,
-                reversalFixTag.Oid
-            };
-            
-            objSpace.Session.ExecuteNonQuery(sqlBuilder.FixeeSql, sqlParamNames, sqlParamValues);
 
-            objSpace.CommitChanges();
+            var conn = (SqlConnection)objSpace.Session.Connection;
+            var command = conn.CreateCommand();
+            command.CommandText = SqlCommandText;
+
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("FromDate", paramObj.FromDate),
+                new SqlParameter("ToDate", paramObj.ToDate),
+                new SqlParameter("Snapshot", currentSnapshot.Oid),
+                new SqlParameter("Fix", reversalFixTag.Oid),
+                new SqlParameter("IgnoreFixTagType", Convert.ToInt32(CashForecastFixTagType.Ignore)),
+            };
+
+            command.Parameters.AddRange(parameters.ToArray());
+
+            command.ExecuteNonQuery();
         }
 
         public void Reset()
@@ -115,44 +110,52 @@ namespace CashDiscipline.Module.Logic.Cash
 
         #region Sql
 
+        public string SqlCommandText
+        {
+            get
+            {
+                return
+@"-- CashFlowsToFix
+
+IF OBJECT_ID('temp_CashFlowsToFix') IS NOT NULL DROP TABLE temp_CashFlowsToFix;
+
+SELECT cf.* INTO temp_CashFlowsToFix
+FROM CashFlow cf
+LEFT JOIN CashForecastFixTag tag ON tag.Oid = cf.Fix
+LEFT JOIN CashFlow fixer ON fixer.Oid = cf.Oid
+WHERE
+    cf.GCRecord IS NULL
+    AND tag.GCRecord IS NULL
+    AND cf.TranDate BETWEEN @FromDate AND @ToDate
+	AND cf.[Snapshot] = @Snapshot
+    AND (cf.Fix = NULL OR tag.FixTagType != @IgnoreFixTagType)
+    AND (cf.IsFixeeSynced=0 OR cf.IsFixerSynced=0 OR NOT cf.IsFixerFixeesSynced=0)
+    OR fixer.GCRecord IS NOT NULL
+    ;
+
+-- FixeeFixer
+
+IF OBJECT_ID('temp_FixeeFixer') IS NOT NULL DROP TABLE temp_FixeeFixer;
+
+SELECT 
+	fixee.Oid AS Fixee,
+	(
+	SELECT TOP 1 fixer.Oid
+	FROM temp_CashFlowsToFix fixer
+	WHERE 
+		fixee.TranDate BETWEEN fixer.FixFromDate AND fixer.FixToDate
+		AND fixee.FixActivity = fixer.FixActivity
+		AND fixer.[Status] = @ForecastStatus
+		AND fixer.FixRank > fixee.FixRank
+		AND fixer.Counterparty IS NULL OR fixer.Counterparty = @DefaultCounterparty
+	) AS Fixer
+INTO temp_FixeeFixer
+FROM temp_CashFlowsToFix fixee;
+";
+            }
+        }
 
         #endregion
     }
 
-    public class FixCashFlowsSqlBuilder
-    {
-        public string FixeeTableName
-        {
-            get
-            {
-                return "tempdb..#Fixee";
-            }
-        }
-
-        // params = @snapshot, @source
-        public string FixeeSql
-        {
-            get
-            {
-                return string.Format(
-@"
---Create Temp Table
-SELECT * INTO [{0}]
-FROM CashFlow
-WHERE TranDate BETWEEN @FromDate AND @ToDate;
-
---Set new values
-UPDATE [{0}] SET 
-Snapshot = @Snapshot,
-Oid = NEWID(),
-Fix = @Fix
-
---insert back into Cash Flow table
-INSERT INTO CashFlow
-SELECT * FROM [{0}]", 
-FixeeTableName);
-            }
-        }
-
-    }
 }

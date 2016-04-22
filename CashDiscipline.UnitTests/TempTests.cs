@@ -87,22 +87,19 @@ namespace CashDiscipline.UnitTests
         public void EvaluateEndOfMonth()
         {
             var cf = ObjectSpace.CreateObject<CashFlow>();
-            cf.TranDate = new DateTime(2016, 3, 28);
+            cf.TranDate = new DateTime(2016,  3, 28);
             cf.FixToDate = new DateTime(2016, 3, 31);
             var result = cf.Evaluate(CriteriaOperator.Parse("LocalDateTimeNextMonth(TranDate)"));
             var objType = result.GetType();
         }
 
-        public void EvaluateSql()
+
+        [Test]
+        public void TempTest()
         {
-
-            string sql1 =
-@"IF OBJECT_ID('tempdb..#Fixee') IS NOT NULL
-DROP TABLE #Fixee
-
-SELECT * INTO #Fixee
-FROM CashFlow
-WHERE TranDate BETWEEN '2016-03-01' AND '2016-04-30'";
+            var session = ObjectSpace.Session;
+            session.ExecuteNonQuery(@"SELECT cf.* INTO tempdb..#CashFlowsToFix
+FROM CashFlow cf");
         }
     }
 }
