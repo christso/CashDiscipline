@@ -56,9 +56,16 @@ namespace CashDiscipline.Module.Controllers.Cash
         private void RunProgramAction_ExecuteCompleted(object sender, ActionBaseEventArgs e)
         {
             var es = (SingleChoiceActionExecuteEventArgs)e;
-            var msgbox = new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                Application, 
-                es.SelectedChoiceActionItem.Caption + " completed.", e.Action.Caption);
+            switch (es.SelectedChoiceActionItem.Caption)
+            {
+                case processCubeCaption:
+                case "Save Forecast":
+                    new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                        Application,
+                        es.SelectedChoiceActionItem.Caption + " completed.", e.Action.Caption);
+                    break;
+            }
+
         }
 
         protected override void OnActivated()

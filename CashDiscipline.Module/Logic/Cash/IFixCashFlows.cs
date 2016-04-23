@@ -12,7 +12,5 @@ namespace CashDiscipline.Module.Logic.Cash
         void ProcessCashFlows();
         // delete existing fixes
         void Reset();
-        // This will return all cash flows which have changed after it was fixed
-        IEnumerable<CashFlow> GetCashFlowsToFix();
     }
 }

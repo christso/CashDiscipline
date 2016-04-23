@@ -68,10 +68,12 @@ namespace CashDiscipline.UnitTests
             var audAccount = ObjectSpace.CreateObject<Account>();
             audAccount.Name = "VHA ANZ AUD";
             audAccount.Currency = ccyAUD;
+            audAccount.FixAccount = audAccount;
 
             var usdAccount = ObjectSpace.CreateObject<Account>();
             usdAccount.Name = "VHA ANZ USD";
             usdAccount.Currency = ccyUSD;
+            usdAccount.FixAccount = audAccount;
 
             var rate = ObjectSpace.CreateObject<ForexRate>();
             rate.FromCurrency = ccyAUD;
@@ -158,12 +160,11 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = fixActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            ObjectSpace.CommitChanges();
 
-            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
-
-            //Assert.AreEqual(2, fixAlgo.GetCashFlowsToFix().Count()); // assert test data
 
             fixAlgo.ProcessCashFlows();
 
@@ -266,18 +267,19 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = fixActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            ObjectSpace.CommitChanges();
 
             var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
-            Assert.AreEqual(2, fixAlgo.GetCashFlowsToFix().Count()); // assert test data
             Assert.AreEqual(500, cashFlows
                  .Where(cf => cf.TranDate == new DateTime(2016, 03, 12))
                  .Sum(cf => cf.AccountCcyAmt));
 
             fixAlgo.ProcessCashFlows();
-
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
             #endregion
 
             #region Assert Arrange
@@ -296,7 +298,7 @@ namespace CashDiscipline.UnitTests
             #endregion
 
             #region Assert Delete Cash Flow
-
+            cfFixer1 = ObjectSpace.FindObject<CashFlow>(CriteriaOperator.Parse("Oid = ?", cfFixer1.Oid));
             cfFixer1.Delete();
             ObjectSpace.CommitChanges();
 

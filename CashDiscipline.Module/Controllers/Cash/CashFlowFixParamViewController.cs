@@ -46,6 +46,8 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         private void RunAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
+            ObjectSpace.CommitChanges();
+
             var os = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = View.CurrentObject as CashFlowFixParam;
             if (paramObj != null)

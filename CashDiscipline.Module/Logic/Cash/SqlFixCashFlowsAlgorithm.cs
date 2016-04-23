@@ -24,6 +24,7 @@ using System.Data.SqlClient;
 DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam)
 DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM CashFlowFixParam)
 DECLARE @ApayableLockdownDate date = (SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam)
+DECLARE @ApayableNextLockdownDate date = (SELECT TOP 1 ApayableNextLockdownDate FROM CashFlowFixParam)
 DECLARE @IgnoreFixTagType int = 0
 DECLARE @ForecastStatus int = 0
 DECLARE @Snapshot uniqueidentifier = COALESCE(
@@ -36,6 +37,7 @@ DECLARE @ReversalFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFi
 DECLARE @RevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR')
 DECLARE @ResRevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR')
 DECLARE @PayrollFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR')
+DECLARE @ScheduleOutFixTagType int = 3
 */
 
 namespace CashDiscipline.Module.Logic.Cash
@@ -52,14 +54,11 @@ namespace CashDiscipline.Module.Logic.Cash
             else
                 currentSnapshot = paramObj.Snapshot;
 
-            if (paramObj.ApReclassActivity == null)
-                throw new ArgumentNullException("ApReclassActivity");
-            paramApReclassActivity = objSpace.GetObjectByKey<Activity>(objSpace.GetKeyValue(paramObj.ApReclassActivity));
+            if (paramObj.ApReclassActivity != null)
+                paramApReclassActivity = objSpace.GetObjectByKey<Activity>(objSpace.GetKeyValue(paramObj.ApReclassActivity));
 
             defaultCounterparty = objSpace.FindObject<Counterparty>(
              CriteriaOperator.Parse("Name LIKE ?", Constants.DefaultFixCounterparty));
-            if (defaultCounterparty == null)
-                throw new ArgumentException("DefaultCounterparty");
 
             var query = new XPQuery<CashForecastFixTag>(objSpace.Session);
 
@@ -93,18 +92,14 @@ namespace CashDiscipline.Module.Logic.Cash
         private CashFlowFixMapper cashFlowMapper;
         private CashFlowSnapshot currentSnapshot;
 
-        public IEnumerable<CashFlow> GetCashFlowsToFix()
-        {
-            return null;
-        }
-
         public void ProcessCashFlows()
         {
+            Rephase(CreateParameters());
+            ApplyFix(CreateParameters());
+        }
 
-            var conn = (SqlConnection)objSpace.Session.Connection;
-            var command = conn.CreateCommand();
-            command.CommandText = ProcessCommandText;
-
+        public List<SqlParameter> CreateParameters()
+        {
             var parameters = new List<SqlParameter>()
             {
                 new SqlParameter("FromDate", paramObj.FromDate),
@@ -118,17 +113,54 @@ namespace CashDiscipline.Module.Logic.Cash
                 new SqlParameter("ReversalFixTag", reversalFixTag.Oid),
                 new SqlParameter("RevRecFixTag", revRecFixTag.Oid),
                 new SqlParameter("ResRevRecFixTag", resRevRecFixTag.Oid),
+                new SqlParameter("ScheduleOutFixTagType", Convert.ToInt32(CashForecastFixTagType.ScheduleOut)),
+                new SqlParameter("ApayableLockdownDate", paramObj.ApayableLockdownDate),
+                new SqlParameter("ApayableNextLockdownDate", paramObj.ApayableNextLockdownDate)
             };
+            return parameters;
+        }
 
+        public void ApplyFix(List<SqlParameter> parameters)
+        {
+            if (defaultCounterparty == null)
+                throw new ArgumentException("DefaultCounterparty");
+            if (paramApReclassActivity == null)
+                throw new ArgumentNullException("ApReclassActivity");
+
+            var conn = (SqlConnection)objSpace.Session.Connection;
+            var command = conn.CreateCommand();
 
             command.Parameters.AddRange(parameters.ToArray());
 
+            command.CommandText = ProcessCommandText;
+            command.ExecuteNonQuery();
+        }
+
+        public void Rephase(List<SqlParameter> parameters)
+        {
+
+            var conn = (SqlConnection)objSpace.Session.Connection;
+            var command = conn.CreateCommand();
+            
+            command.Parameters.AddRange(parameters.ToArray());
+
+            command.CommandText = RephaseCommandText;
             command.ExecuteNonQuery();
         }
 
         public void Reset()
         {
+            var conn = (SqlConnection)objSpace.Session.Connection;
+            var command = conn.CreateCommand();
+            command.CommandText = ResetCommandText;
 
+            var parameters = new List<SqlParameter>()
+            {
+                new SqlParameter("Snapshot", currentSnapshot.Oid),
+            };
+
+            command.Parameters.AddRange(parameters.ToArray());
+            command.ExecuteNonQuery();
         }
         
         private CashFlowSnapshot GetCurrentSnapshot(Session session)
@@ -137,6 +169,23 @@ namespace CashDiscipline.Module.Logic.Cash
         }
 
         #region Sql
+
+        public string MapCommandText
+        {
+            get
+            {
+                return
+@"UPDATE CashFlow SET 
+FixActivity = CASE
+WHEN Source.Name LIKE 'Treasury' THEN (SELECT Activity.Oid FROM Activity WHERE Activity.Name LIKE 'Handset')
+END
+FROM CashFlow 
+LEFT JOIN CashFlowSource Source ON Source.Oid = CashFlow.Source
+AND [Snapshot] = @Snapshot
+AND FixActivity IS NULL
+WHERE CashFLow.GCRecord IS NULL";
+            }
+        }
 
         public string ResetCommandText
         {
@@ -175,9 +224,12 @@ WHERE
     AND cf.TranDate BETWEEN @FromDate AND @ToDate
 	AND cf.[Snapshot] = @Snapshot
     AND (cf.Fix = NULL OR tag.FixTagType != @IgnoreFixTagType)
-    AND (cf.IsFixeeSynced=0 OR cf.IsFixerSynced=0 OR NOT cf.IsFixerFixeesSynced=0)
-    OR fixer.GCRecord IS NOT NULL
-    ;
+    AND 
+	(
+		cf.IsFixeeSynced=0 OR cf.IsFixerSynced=0 OR NOT cf.IsFixerFixeesSynced=0
+		OR fixer.GCRecord IS NOT NULL
+	)
+;
 
 -- Delete Existing Fixes
 
@@ -223,8 +275,8 @@ FROM
 			(
 				fixer.Counterparty IS NULL OR fixer.Counterparty = @DefaultCounterparty
 				OR fixee.Counterparty IS NULL AND fixer.Counterparty IS NULL
-				OR fixee.Counterparty IS NOT NULL 
-					AND fixer.Counterparty = fixeeCparty.FixCounterparty
+				OR fixer.Counterparty = fixeeCparty.FixCounterparty
+				OR fixer.Counterparty = fixee.Counterparty
 			)
 	LEFT JOIN Account fixerAccount 
 		ON fixerAccount.Oid = fixer.Account
@@ -297,7 +349,37 @@ SELECT * FROM temp_FixReversal
             }
         }
 
+        public string RephaseCommandText
+        {
+            get
+            {
+                return
+@"DECLARE @MaxActualDate date = (
+    SELECT Max(TranDate) FROM CashFlow
+    WHERE CashFlow.[Snapshot] = @Snapshot
+    AND CashFlow.Status != @ForecastStatus
+);
+
+UPDATE cf SET TranDate = CASE
+WHEN FixTag.FixTagType = @ScheduleOutFixTagType
+	AND cf.FixRank > 2 AND cf.TranDate <= @ApayableLockdownDate
+THEN @ApayableNextLockdownDate 
+ELSE cf.TranDate
+END
+FROM CashFlow cf
+LEFT JOIN CashForecastFixTag FixTag ON FixTag.Oid = cf.Fix
+WHERE cf.[Status] = @ForecastStatus
+AND cf.[Snapshot] = @Snapshot
+
+UPDATE CashFlow SET TranDate = DATEADD(d, 1, @MaxActualDate)
+FROM CashFlow cf
+WHERE cf.[Status] = @ForecastStatus
+AND cf.[Snapshot] = @Snapshot
+AND cf.TranDate <= @MaxActualDate
+";
+            }
+        }
+
         #endregion
     }
-
 }

@@ -47,10 +47,5 @@ namespace CashDiscipline.Module.Logic.Cash
         {
             algorithm.ProcessCashFlows();
         }
-
-        public IEnumerable<CashFlow> GetCashFlowsToFix()
-        {
-            return algorithm.GetCashFlowsToFix();
-        }
     }
 }
