@@ -58,6 +58,8 @@ namespace CashDiscipline.Module.Logic.Cash
 
             defaultCounterparty = objSpace.FindObject<Counterparty>(
              CriteriaOperator.Parse("Name LIKE ?", Constants.DefaultFixCounterparty));
+            if (defaultCounterparty == null)
+                throw new ArgumentException("DefaultCounterparty");
 
             var query = new XPQuery<CashForecastFixTag>(objSpace.Session);
 
