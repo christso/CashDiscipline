@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <ListView Id="AccountActivityMap_ListView" AllowEdit="True" NewItemRowPosition="Top" />
+    <DetailView Id="BankStmt_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="BankStmt">
+            <LayoutGroup Id="SimpleEditors">
+              <LayoutGroup Id="BankStmt_col2">
+                <LayoutItem Id="ArtfReconTotal" ViewItem="ArtfReconTotal" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+  <NavigationItems Id="NavigationItems">
+    <Items Id="Items">
+      <Item Id="Default">
+        <Items Id="Items">
+          <Item Id="ActionRequest" ViewId="ActionRequest_ListView" />
+        </Items>
+      </Item>
+      <Item Id="Cash Setup">
+        <Items Id="Items">
+          <Item Id="CashForecastFixTagType" ViewId="CashForecastFixTagType_ListView" />
+          <Item Id="AccountActivityMap" ViewId="AccountActivityMap_ListView" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+</Application>

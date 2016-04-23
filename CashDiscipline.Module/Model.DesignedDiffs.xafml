@@ -18,7 +18,55 @@
           <Item Id="PivotGridSavedLayout_ListView" ViewId="PivotGridSavedLayout_ListView" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Cash Setup" Index="1" IsNewNode="True">
+      <Item Id="Accounting" Index="1" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="AustPostSettle" ViewId="AustPostSettle_ListView" IsNewNode="True" />
+          <Item Id="Fin Journal Group" ViewId="FinJournalGroup_ListView" IsNewNode="True" />
+          <Item Id="FinAccountingDefaults" Caption="Default Accounting" ViewId="FinAccountingDefaults_ListView" IsNewNode="True" />
+          <Item Id="FinGenJournalParam" ViewId="FinGenJournalParam_ListView" IsNewNode="True" />
+          <Item Id="General Ledger" ViewId="GenLedger_ListView" Caption="General Ledger" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Accounting Mapping" Index="2" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="FinAccount" ViewId="FinAccount_ListView" IsNewNode="True" />
+          <Item Id="FinActivity" ViewId="FinActivity_ListView" IsNewNode="True" />
+          <Item Id="Gl Account" ViewId="GlAccount_ListView" ObjectKey="" IsNewNode="True" />
+          <Item Id="Gl Company" ViewId="GlCompany_ListView" ObjectKey="" IsNewNode="True" />
+          <Item Id="Gl Cost Centre" ViewId="GlCostCentre_ListView" ObjectKey="" IsNewNode="True" />
+          <Item Id="Gl Country" ViewId="GlCountry_ListView" ObjectKey="" IsNewNode="True" />
+          <Item Id="Gl Intercompany" ViewId="GlIntercompany_ListView" ObjectKey="" IsNewNode="True" />
+          <Item Id="Gl Location" ViewId="GlLocation_ListView" ObjectKey="" IsNewNode="True" />
+          <Item Id="Gl Product" ViewId="GlProduct_ListView" ObjectKey="" IsNewNode="True" />
+          <Item Id="Gl Project" ViewId="GlProject_ListView" ObjectKey="" IsNewNode="True" />
+          <Item Id="Gl Sales Channel" ViewId="GlSalesChannel_ListView" ObjectKey="" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Accounting Setup" Index="3" IsNewNode="True" />
+      <Item Id="Cash Data" Caption="Cash Data" Index="4" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="0" IsNewNode="True" />
+          <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="1" IsNewNode="True" />
+          <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="3" IsNewNode="True" />
+          <Item Id="CashFlowSnapshot" ViewId="CashFlowSnapshot_ListView" Index="4" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Custom" Index="4" Removed="True" />
+      <Item Id="Cash Report" Index="5" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="CashBalanceReport" Caption="Cash Balance Report" ViewId="AccountSummary_PivotGridView" Index="13" IsNewNode="True" />
+          <Item Id="CashFlowReport" ViewId="CashFlow_PivotGridView" Caption="Cash Flow Report" Index="16" IsNewNode="True" />
+          <Item Id="CashReportParam" ViewId="CashReportParam_ListView" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Cash Report Internal" Index="6" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="AccountSummary" Index="0" ViewId="AccountSummary_ListView" IsNewNode="True" />
+          <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
+          <Item Id="CashFlowNote" ViewId="CashFlowNote_ListView" Caption="Note" Index="3" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="Cash Setup" Index="7" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="AccountActivityMap" ViewId="AccountActivityMap_ListView" Index="1" IsNewNode="True" />
           <Item Id="BankStmtAccountImportMapping" ViewId="BankStmtAccountImportMapping_ListView" Index="7" IsNewNode="True" />
@@ -28,63 +76,9 @@
           <Item Id="CashFlowFixMapping" ViewId="CashFlowFixMapping_ListView" Index="14" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Cash Reports" Index="2" IsNewNode="True">
+      <Item Id="Forex" Index="8" IsNewNode="True">
         <Items IsNewNode="True">
-          <Item Id="CashBalanceReport" Caption="Cash Balance Report" ViewId="AccountSummary_PivotGridView" Index="13" IsNewNode="True" />
-          <Item Id="CashFlowReport" ViewId="CashFlow_PivotGridView" Caption="Cash Flow Report" Index="16" IsNewNode="True" />
-          <Item Id="Report Params" IsNewNode="True">
-            <Items IsNewNode="True">
-              <Item Id="CashReportParam" ViewId="CashReportParam_ListView" IsNewNode="True" />
-            </Items>
-          </Item>
-          <Item Id="System" IsNewNode="True">
-            <Items IsNewNode="True">
-              <Item Id="AccountSummary" Index="0" ViewId="AccountSummary_ListView" IsNewNode="True" />
-              <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
-              <Item Id="CashFlowNote" ViewId="CashFlowNote_ListView" Caption="Note" Index="3" IsNewNode="True" />
-            </Items>
-          </Item>
-        </Items>
-      </Item>
-      <Item Id="Cash Transactions" Caption="Cash Transactions" Index="3" IsNewNode="True">
-        <Items IsNewNode="True">
-          <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="0" IsNewNode="True" />
-          <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="1" IsNewNode="True" />
-          <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="3" IsNewNode="True" />
-          <Item Id="CashFlowSnapshot" ViewId="CashFlowSnapshot_ListView" Index="4" IsNewNode="True" />
-        </Items>
-      </Item>
-      <Item Id="Custom" Index="4" Removed="True" />
-      <Item Id="Financial Accounting" Index="4" IsNewNode="True">
-        <Items IsNewNode="True">
-          <Item Id="AustPostSettle" ViewId="AustPostSettle_ListView" IsNewNode="True" />
-          <Item Id="Cash Flow Mapping" IsNewNode="True">
-            <Items IsNewNode="True">
-              <Item Id="FinAccount" ViewId="FinAccount_ListView" IsNewNode="True" />
-              <Item Id="FinActivity" ViewId="FinActivity_ListView" IsNewNode="True" />
-            </Items>
-          </Item>
-          <Item Id="Chart of Accounts" IsNewNode="True">
-            <Items IsNewNode="True">
-              <Item Id="Gl Account" ViewId="GlAccount_ListView" ObjectKey="" IsNewNode="True" />
-              <Item Id="Gl Company" ViewId="GlCompany_ListView" ObjectKey="" IsNewNode="True" />
-              <Item Id="Gl Cost Centre" ViewId="GlCostCentre_ListView" ObjectKey="" IsNewNode="True" />
-              <Item Id="Gl Country" ViewId="GlCountry_ListView" ObjectKey="" IsNewNode="True" />
-              <Item Id="Gl Intercompany" ViewId="GlIntercompany_ListView" ObjectKey="" IsNewNode="True" />
-              <Item Id="Gl Location" ViewId="GlLocation_ListView" ObjectKey="" IsNewNode="True" />
-              <Item Id="Gl Product" ViewId="GlProduct_ListView" ObjectKey="" IsNewNode="True" />
-              <Item Id="Gl Project" ViewId="GlProject_ListView" ObjectKey="" IsNewNode="True" />
-              <Item Id="Gl Sales Channel" ViewId="GlSalesChannel_ListView" ObjectKey="" IsNewNode="True" />
-            </Items>
-          </Item>
-          <Item Id="Fin Journal Group" ViewId="FinJournalGroup_ListView" IsNewNode="True" />
-          <Item Id="FinAccountingDefaults" Caption="Default Accounting" ViewId="FinAccountingDefaults_ListView" IsNewNode="True" />
-          <Item Id="FinGenJournalParam" ViewId="FinGenJournalParam_ListView" IsNewNode="True" />
-          <Item Id="General Ledger" ViewId="GenLedger_ListView" Caption="General Ledger" IsNewNode="True" />
-        </Items>
-      </Item>
-      <Item Id="Forex" Index="5" IsNewNode="True">
-        <Items IsNewNode="True">
+          <Item Id="Forex Rates" ViewId="ForexRate_ListView" IsNewNode="True" />
           <Item Id="ForexCounterparty" ViewId="ForexCounterparty_ListView" Caption="Forex Counterparty" IsNewNode="True" />
           <Item Id="ForexSettleLink" ViewId="ForexSettleLink_ListView" IsNewNode="True" />
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
@@ -92,12 +86,7 @@
           <Item Id="ForexTradePredeliveries" ViewId="ForexTradePredelivery_ListView" Caption="Predeliveries" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Market Data" Caption="Market Data" ViewId="" Index="6" IsNewNode="True">
-        <Items IsNewNode="True">
-          <Item Id="Forex Rates" ViewId="ForexRate_ListView" IsNewNode="True" />
-        </Items>
-      </Item>
-      <Item Id="Reports" Index="7">
+      <Item Id="Reports" Index="9">
         <Items>
           <Item Id="ExcelReport" ViewId="ExcelReport_ListView" IsNewNode="True" />
         </Items>
@@ -124,7 +113,6 @@
         <Filter Id="AllAccounts" Caption="All Accounts" IsNewNode="True" />
       </Filters>
     </ListView>
-    <ListView Id="AccountActivityMap_ListView" AllowEdit="True" NewItemRowPosition="Top" />
     <ListView Id="AccountSummary_PivotGridView" ClassName="CashDiscipline.Module.BusinessObjects.Cash.AccountSummary" IsNewNode="True">
       <Columns IsNewNode="True">
         <ColumnInfo Id="TranDate" PropertyName="TranDate" Width="70" Index="0" IsNewNode="True" />
@@ -303,11 +291,11 @@
               <LayoutGroup Id="Forecast_col2" Index="2" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
                 <LayoutItem Id="Fixer" ViewItem="Fixer" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
                 <LayoutItem Id="ParentCashFlow" ViewItem="ParentCashFlow" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
-                <LayoutItem Id="IsReclass" ViewItem="IsReclass" ShowCaption="" Index="2" IsNewNode="True" />
-                <LayoutItem Id="IsFixerSynced" ViewItem="IsFixerSynced" ShowCaption="" Index="3" IsNewNode="True" />
-                <LayoutItem Id="IsFixeeSynced" ViewItem="IsFixeeSynced" ShowCaption="" Index="4" IsNewNode="True" />
-                <LayoutItem Id="IsFixerFixeesSynced" ViewItem="IsFixerFixeesSynced" ShowCaption="" Index="5" IsNewNode="True" />
-                <LayoutItem Id="IsFixSynced" ViewItem="IsFixSynced" ShowCaption="" Index="6" IsNewNode="True" />
+                <LayoutItem Id="IsReclass" ViewItem="IsReclass" Index="2" IsNewNode="True" />
+                <LayoutItem Id="IsFixerSynced" ViewItem="IsFixerSynced" Index="3" IsNewNode="True" />
+                <LayoutItem Id="IsFixeeSynced" ViewItem="IsFixeeSynced" Index="4" IsNewNode="True" />
+                <LayoutItem Id="IsFixerFixeesSynced" ViewItem="IsFixerFixeesSynced" Index="5" IsNewNode="True" />
+                <LayoutItem Id="IsFixSynced" ViewItem="IsFixSynced" Index="6" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
           </LayoutGroup>
