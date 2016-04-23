@@ -47,13 +47,14 @@ namespace CashDiscipline.UnitTests
             CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
             CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
+            CashDiscipline.Module.DatabaseUpdate.Updater.CreateCashFlowDefaults(ObjectSpace);
         }
 
         public override void OnAddExportedTypes(ModuleBase module)
         {
             CashDisciplineTestHelper.AddExportedTypes(module);
         }
-
+        
         #endregion
 
         [Test]
@@ -164,15 +165,6 @@ namespace CashDiscipline.UnitTests
             paramObj.Save();
             ObjectSpace.CommitChanges();
 
-            /*
-DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam)
-DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM CashFlowFixParam)
-DECLARE @ApayableLockdownDate date = (SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam)
-DECLARE @IgnoreFixTagType int = 0
-DECLARE @ForecastStatus int = 0
-DECLARE @Snapshot uniqueidentifier = (SELECT TOP 1 [Snapshot] FROM CashFlowFixParam)
-             */
-
             var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
             fixAlgo.ProcessCashFlows();
 
@@ -180,10 +172,18 @@ DECLARE @Snapshot uniqueidentifier = (SELECT TOP 1 [Snapshot] FROM CashFlowFixPa
 
             #region Assert
 
+
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
-            #endregion
+            Assert.AreEqual(100, cashFlows
+                .Where(cf => cf.TranDate == new DateTime(2016, 03, 26)
+                && cf.CounterCcy == ccyUSD).Sum(cf => cf.CounterCcyAmt));
 
+            Assert.AreEqual(-500, cashFlows
+                .Where(cf => cf.TranDate == new DateTime(2016, 03, 25)
+                && cf.CounterCcy == ccyAUD).Sum(cf => cf.CounterCcyAmt));
+
+            #endregion
         }
 
     }
