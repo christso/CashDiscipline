@@ -87,13 +87,11 @@ namespace CashDiscipline.Module.Logic.Cash
         private CashForecastFixTag resRevRecFixTag;
         private CashForecastFixTag payrollFixTag;
         private SetOfBooks setOfBooks;
-        private FixCashFlowsRephaser rephaser;
-        private IEnumerable<CashFlowFixMapping> cashFlowMappings;
-        private CashFlowFixMapper cashFlowMapper;
         private CashFlowSnapshot currentSnapshot;
 
         public void ProcessCashFlows()
         {
+            Map(CreateParameters());
             Rephase(CreateParameters());
             ApplyFix(CreateParameters());
         }
@@ -141,7 +139,7 @@ namespace CashDiscipline.Module.Logic.Cash
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
-            
+
             command.Parameters.AddRange(parameters.ToArray());
 
             command.CommandText = RephaseCommandText;
@@ -162,36 +160,86 @@ namespace CashDiscipline.Module.Logic.Cash
             command.Parameters.AddRange(parameters.ToArray());
             command.ExecuteNonQuery();
         }
-        
+
         private CashFlowSnapshot GetCurrentSnapshot(Session session)
         {
             return CashFlowHelper.GetCurrentSnapshot(session);
         }
 
-        #region Sql
-
-        public string MapCommandText
+        public void Map(List<SqlParameter> parameters)
         {
-            get
-            {
-                return
-@"UPDATE CashFlow SET 
-FixActivity = CASE
-WHEN Source.Name LIKE 'Treasury' THEN (SELECT Activity.Oid FROM Activity WHERE Activity.Name LIKE 'Handset')
-END
-FROM CashFlow 
-LEFT JOIN CashFlowSource Source ON Source.Oid = CashFlow.Source
-AND [Snapshot] = @Snapshot
-AND FixActivity IS NULL
-WHERE CashFLow.GCRecord IS NULL";
-            }
+            var conn = (SqlConnection)objSpace.Session.Connection;
+            var command = conn.CreateCommand();
+
+            command.CommandText = GetFixActivityMapPropertyCommandText();
+            command.Parameters.AddRange(parameters.ToArray());
+            command.ExecuteNonQuery();
         }
+
+        #region Map SQL
+
+        public string GetFixActivityMapPropertyCommandText()
+        {
+            return GetMapPropertyCommandText("FixActivity", (m) => 
+                string.Format("'{0}'", m.FixActivity.Oid));
+        }
+
+        public string GetFixFromDateMapPropertyCommandText()
+        {
+            return GetMapPropertyCommandText("FixFromDate", (m) => m.FixFromDateExpr);
+        }
+
+        private string GetMapPropertyCommandText(string mapPropertyName, Func<CashFlowFixMapping, string> mapPropertyValue)
+        {
+            var maps = objSpace.GetObjects<CashFlowFixMapping>();
+            var mapsCmdList = new List<string>();
+
+            string elseValue = string.Empty;
+            foreach (var map in maps.Where(m =>
+                m.FixActivity != null))
+            {
+                if (map.CriteriaExpression.ToLower().Trim() == "else")
+                {
+                    elseValue = mapPropertyValue(map);
+                }
+                else
+                {
+                    mapsCmdList.Add(string.Format(
+                        @"WHEN {0} THEN {1}",
+                        map.CriteriaExpression, mapPropertyValue(map)));
+                }
+            }
+
+            if (!string.IsNullOrEmpty(elseValue))
+                mapsCmdList.Add("ELSE " + elseValue);
+
+            var mapsCmdText = string.Join("\n", mapsCmdList);
+
+            string result = string.Format(
+@"UPDATE CashFlow SET
+    {1} = CASE
+    {0}
+    END
+    FROM CashFlow
+    LEFT JOIN CashFlowSource Source ON Source.Oid = CashFlow.Source
+    LEFT JOIN Activity ON Activity.Oid = CashFlow.Activity
+    WHERE CashFLow.GCRecord IS NULL
+    AND CashFlow.[Snapshot] = @Snapshot
+    AND CashFlow.{1} IS NULL",
+mapsCmdText,
+mapPropertyName);
+            return result;
+        }
+
+        #endregion
+
+        #region Core Sql
 
         public string ResetCommandText
         {
             get
             {
-         
+
                 return
 @"UPDATE CashFlow SET 
 IsFixeeSynced = 0,

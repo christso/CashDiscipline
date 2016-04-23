@@ -438,5 +438,168 @@ namespace CashDiscipline.UnitTests
             #endregion
         }
 
+        [Test]
+        public void MapCashFlows()
+        {
+            #region Arrange Dimensions
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+
+            var audAccount = ObjectSpace.CreateObject<Account>();
+            audAccount.Name = "VHA ANZ AUD";
+            audAccount.Currency = ccyAUD;
+
+            var usdAccount = ObjectSpace.CreateObject<Account>();
+            usdAccount.Name = "VHA ANZ USD";
+            usdAccount.Currency = ccyUSD;
+
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionDate = new DateTime(2013, 12, 31);
+            rate.ConversionRate = 0.9M;
+
+            var techActivity = ObjectSpace.CreateObject<Activity>();
+            techActivity.Name = "Tech Cost";
+            techActivity.FixActivity = techActivity;
+
+            var handsetActivity = ObjectSpace.CreateObject<Activity>();
+            handsetActivity.Name = "Handset Pchse";
+            handsetActivity.FixActivity = handsetActivity;
+            
+            var fixActivity = ObjectSpace.CreateObject<Activity>();
+            fixActivity.Name = "AP Pymt";
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Fix Tags
+
+            var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            schedOutFixTag.Name = "S2";
+            schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
+
+            var allocFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            allocFixTag.Name = "B3";
+            allocFixTag.FixTagType = CashForecastFixTagType.Allocate;
+
+            var ignoreFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            ignoreFixTag.Name = "IG1";
+            ignoreFixTag.FixTagType = CashForecastFixTagType.Ignore;
+
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
+
+            #endregion
+
+            #region Arrange Transactions
+
+
+            // act
+            var cf1 = ObjectSpace.CreateObject<CashFlow>();
+            cf1.TranDate = new DateTime(2016, 03, 11);
+            cf1.Account = usdAccount;
+            cf1.CounterCcy = ccyUSD;
+            cf1.AccountCcyAmt = -600;
+            cf1.CounterCcyAmt = -600;
+            cf1.Activity = handsetActivity;
+            cf1.FixRank = 2;
+            cf1.DateUnFix = cf1.TranDate;
+            cf1.FixActivity = cf1.Activity;
+
+            var cf2 = ObjectSpace.CreateObject<CashFlow>();
+            cf2.TranDate = new DateTime(2016, 03, 25);
+            cf2.Account = audAccount;
+            cf2.CounterCcy = ccyAUD;
+            cf2.CounterCcyAmt = -500;
+            cf2.AccountCcyAmt = -500;
+            cf2.Activity = techActivity;
+            cf2.FixRank = 3;
+            cf2.FixFromDate = new DateTime(2016, 03, 01);
+            cf2.FixToDate = new DateTime(2016, 03, 31);
+            cf2.DateUnFix = cf2.TranDate;
+            cf2.FixActivity = cf2.Activity;
+
+            var cf3 = ObjectSpace.CreateObject<CashFlow>();
+            cf3.TranDate = new DateTime(2016, 03, 26);
+            cf3.Account = usdAccount;
+            cf3.CounterCcy = ccyUSD;
+            cf3.CounterCcyAmt = -500;
+            cf3.AccountCcyAmt = -500;
+            cf3.Activity = techActivity;
+            cf3.FixRank = 3;
+            cf3.FixFromDate = new DateTime(2016, 03, 01);
+            cf3.FixToDate = new DateTime(2016, 03, 31);
+            cf3.DateUnFix = cf3.TranDate;
+            cf3.FixActivity = cf3.Activity;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+            
+            #region Arrange Mapping
+
+            var map1 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map1.CriteriaExpression = "Source.Team LIKE 'Treasury'";
+            map1.CriteriaStatus = CashFlowStatus.Forecast;
+            map1.Fix = ignoreFixTag;
+            map1.FixFromDateExpr = "TranDate";
+            map1.MapStep = 1;
+
+            var map2 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map2.CriteriaExpression = "DATEDIFFDAY(TranDate,EOMONTH(TranDate,1)) < 7";
+            map2.CriteriaStatus = CashFlowStatus.Forecast;
+            map2.FixFromDateExpr = "EOMONTH(TranDate, 1)";
+            map2.MapStep = 2;
+
+            var map3 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map3.CriteriaExpression = "Source.Team LIKE 'AP' AND Activity.Name LIKE 'Handset Pchse'";
+            map3.CriteriaStatus = CashFlowStatus.Forecast;
+            map3.FixActivity = handsetActivity;
+            map3.Fix = schedOutFixTag;
+            map3.FixFromDateExpr = "TranDate";
+            map3.MapStep = 1;
+
+            var map4 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map4.CriteriaExpression = "Else";
+            map4.CriteriaStatus = CashFlowStatus.Forecast;
+            map4.Fix = schedOutFixTag;
+            map4.FixFromDateExpr = "TranDate";
+            map4.MapStep = 2;
+
+            #endregion
+
+            #region Arrange Algorithm
+
+            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+            paramObj.FromDate = new DateTime(2016, 01, 01);
+            paramObj.ToDate = new DateTime(2016, 12, 31);
+            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
+            paramObj.ApReclassActivity = fixActivity;
+            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            paramObj.Snapshot = SetOfBooks.GetInstance(ObjectSpace).CurrentCashFlowSnapshot;
+            paramObj.Save();
+            ObjectSpace.CommitChanges();
+
+            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            fixAlgo.ProcessCashFlows();
+
+            #endregion
+
+            #region Assert SQL
+
+            // TODO
+         
+            #endregion
+
+            #region Assert Result
+
+            // TODO
+
+            #endregion
+        }
     }
 }
