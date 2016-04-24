@@ -7,8 +7,10 @@ using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Security;
 using DevExpress.ExpressApp.Security.Strategy;
 using DevExpress.ExpressApp.Updating;
+using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using System;
+using System.Data.SqlClient;
 using Cash = CashDiscipline.Module.BusinessObjects.Cash;
 
 
@@ -24,10 +26,8 @@ namespace CashDiscipline.Module.DatabaseUpdate
         public override void UpdateDatabaseBeforeUpdateSchema()
         {
             base.UpdateDatabaseBeforeUpdateSchema();
-            //Xafology.ExpressApp.Xpo.Updater.SetupIdentityColumn(((XPObjectSpace)ObjectSpace).Session, typeof(CashFlow));
-            //Xafology.ExpressApp.Xpo.Updater.SetupIdentityColumn(((XPObjectSpace)ObjectSpace).Session, typeof(ForexTrade));
+            CreateFunctions((XPObjectSpace)ObjectSpace);
         }
-
 
         protected new void DropColumn(string tableName, string columnName)
         {
@@ -37,6 +37,25 @@ namespace CashDiscipline.Module.DatabaseUpdate
         {
             Tracing.Tracer.LogText("DropConstraint {0}, {1}", new object[] { tableName, constraintName });
             this.ExecuteNonQueryCommand("alter table " + tableName + " drop constraint " + constraintName, true);
+        }
+
+        public static void CreateFunctions(XPObjectSpace os)
+        {
+            var conn = os.Session.DataLayer.Connection as SqlConnection;
+            if (conn == null) return;
+
+            var command = conn.CreateCommand();
+            command.CommandText = @"IF OBJECT_ID('dbo.BOMONTH') IS NOT NULL DROP FUNCTION dbo.BOMONTH";
+            command.ExecuteNonQuery();
+
+            command.CommandText =
+@"CREATE FUNCTION dbo.BOMONTH ( @TranDate date )
+RETURNS date
+AS
+BEGIN
+	RETURN DATEADD(d, 1, EOMONTH(@TranDate,-1))
+END";
+            command.ExecuteNonQuery();
         }
 
         // Set up the minimum objects for this application to function correctly
@@ -69,6 +88,11 @@ namespace CashDiscipline.Module.DatabaseUpdate
             var resRevRecFixTag = objSpace.CreateObject<CashForecastFixTag>();
             resRevRecFixTag.Name = CashDiscipline.Module.Constants.ResRevRecFixTag;
             resRevRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
+
+            var payrollFixTag = objSpace.CreateObject<CashForecastFixTag>();
+            payrollFixTag.Name = CashDiscipline.Module.Constants.PayrollFixTag;
+            payrollFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
+
         }
 
         public static void InitSetOfBooks(IObjectSpace objSpace)

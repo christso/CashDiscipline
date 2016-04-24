@@ -112,6 +112,19 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private int _FixRank;
+        public int FixRank
+        {
+            get
+            {
+                return _FixRank;
+            }
+            set
+            {
+                SetPropertyValue("FixRank", ref _FixRank, value);
+            }
+        }
+
         private string _FixFromDateExpr;
         public string FixFromDateExpr
         {

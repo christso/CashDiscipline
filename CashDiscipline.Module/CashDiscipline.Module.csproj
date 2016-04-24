@@ -219,8 +219,8 @@
     <Compile Include="BusinessObjects\CashLookup\CounterpartyTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\Owner.cs" />
-    <Compile Include="Logic\Cash\CashFlowHelper.cs" />
     <Compile Include="Logic\Cash\CashFlowFixMapper.cs" />
+    <Compile Include="Logic\Cash\CashFlowHelper.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsRephaser.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsSqlBuilder.cs" />

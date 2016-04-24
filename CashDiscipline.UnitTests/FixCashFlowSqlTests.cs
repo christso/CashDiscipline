@@ -44,6 +44,7 @@ namespace CashDiscipline.UnitTests
 
         public override void OnSetup()
         {
+            CashDiscipline.Module.DatabaseUpdate.Updater.CreateFunctions(ObjectSpace);
             CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
             CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
@@ -102,17 +103,7 @@ namespace CashDiscipline.UnitTests
             allocFixTag.Name = "B3";
             allocFixTag.FixTagType = CashForecastFixTagType.Allocate;
 
-            var reversalFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            reversalFixTag.Name = CashDiscipline.Module.Constants.ReversalFixTag;
-            reversalFixTag.FixTagType = CashForecastFixTagType.Ignore;
-
-            var revRecFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            revRecFixTag.Name = CashDiscipline.Module.Constants.RevRecFixTag;
-            revRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
-
-            var resRevRecFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            resRevRecFixTag.Name = CashDiscipline.Module.Constants.ResRevRecFixTag;
-            resRevRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
 
             #endregion
 
@@ -467,7 +458,7 @@ namespace CashDiscipline.UnitTests
             var handsetActivity = ObjectSpace.CreateObject<Activity>();
             handsetActivity.Name = "Handset Pchse";
             handsetActivity.FixActivity = handsetActivity;
-            
+
             var fixActivity = ObjectSpace.CreateObject<Activity>();
             fixActivity.Name = "AP Pymt";
 
@@ -478,12 +469,16 @@ namespace CashDiscipline.UnitTests
             #region Arrange Fix Tags
 
             var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            schedOutFixTag.Name = "S2";
+            schedOutFixTag.Name = "S";
             schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
 
             var allocFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            allocFixTag.Name = "B3";
+            allocFixTag.Name = "B";
             allocFixTag.FixTagType = CashForecastFixTagType.Allocate;
+
+            var schedInFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            schedInFixTag.Name = "C";
+            schedInFixTag.FixTagType = CashForecastFixTagType.ScheduleIn;
 
             var ignoreFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
             ignoreFixTag.Name = "IG1";
@@ -537,36 +532,105 @@ namespace CashDiscipline.UnitTests
             ObjectSpace.CommitChanges();
 
             #endregion
-            
+
             #region Arrange Mapping
 
-            var map1 = ObjectSpace.CreateObject<CashFlowFixMapping>();
-            map1.CriteriaExpression = "Source.Team LIKE 'Treasury'";
-            map1.CriteriaStatus = CashFlowStatus.Forecast;
-            map1.Fix = ignoreFixTag;
-            map1.FixFromDateExpr = "TranDate";
-            map1.MapStep = 1;
+            int rowIndex = 0;
+            int mapStep = 0;
 
-            var map2 = ObjectSpace.CreateObject<CashFlowFixMapping>();
-            map2.CriteriaExpression = "DATEDIFFDAY(TranDate,EOMONTH(TranDate,1)) < 7";
-            map2.CriteriaStatus = CashFlowStatus.Forecast;
-            map2.FixFromDateExpr = "EOMONTH(TranDate, 1)";
-            map2.MapStep = 2;
+            mapStep += 1; // increment to next step
 
             var map3 = ObjectSpace.CreateObject<CashFlowFixMapping>();
             map3.CriteriaExpression = "Source.Team LIKE 'AP' AND Activity.Name LIKE 'Handset Pchse'";
             map3.CriteriaStatus = CashFlowStatus.Forecast;
             map3.FixActivity = handsetActivity;
             map3.Fix = schedOutFixTag;
+            map3.FixRank = 2;
             map3.FixFromDateExpr = "TranDate";
-            map3.MapStep = 1;
+            map3.MapStep = mapStep;
+            map3.RowIndex = rowIndex++;
+
+            var map5 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map5.CriteriaExpression = "Source.Team LIKE 'AP' AND Activity.Name LIKE 'iPhone Pchse Pymt'";
+            map5.CriteriaStatus = CashFlowStatus.Forecast;
+            map5.Fix = schedOutFixTag;
+            map5.FixRank = 2;
+            map5.FixFromDateExpr = "TranDate";
+            map5.FixActivity = handsetActivity;
+            map5.MapStep = mapStep;
+            map5.RowIndex = rowIndex++;
+
+            var map6 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map6.CriteriaExpression = "Activity.Name IN ('V Subs Rcpt','3 DD','V Subs DD Rcpt')";
+            map6.CriteriaStatus = CashFlowStatus.Forecast;
+            map6.Fix = schedInFixTag;
+            map6.FixRank = 2;
+            map6.FixFromDateExpr = "TranDate";
+            map6.MapStep = mapStep;
+            map6.RowIndex = rowIndex++;
+
+            var map7 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map7.CriteriaExpression = "Source.Team LIKE 'Trend' AND Activity.ActivityL1 NOT LIKE 'Receipts'";
+            map7.CriteriaStatus = CashFlowStatus.Forecast;
+            map7.Fix = schedOutFixTag;
+            map7.FixRank = 2;
+            map7.FixFromDateExpr = "TranDate";
+            map7.MapStep = mapStep;
+            map7.RowIndex = rowIndex++;
+
+            var map8 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map8.CriteriaExpression = "Activity.ActivityL1 LIKE 'Receipts'";
+            map8.CriteriaStatus = CashFlowStatus.Forecast;
+            map8.Fix = schedInFixTag;
+            map8.FixRank = 2;
+            map8.FixFromDateExpr = "dbo.BOMONTH(TranDate)";
+            map8.FixToDateExpr = "EOMONTH(TranDate)";
+            map8.MapStep = mapStep;
+            map8.RowIndex = rowIndex++;
+
+            var map9 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map9.CriteriaExpression = "Activity.ActivityL1 LIKE 'Financing Cash Flow'";
+            map9.CriteriaStatus = CashFlowStatus.Forecast;
+            map9.Fix = ignoreFixTag;
+            map9.FixFromDateExpr = "TranDate";
+            map9.MapStep = mapStep;
+            map9.RowIndex = rowIndex++;
+
+            var map1 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map1.CriteriaExpression = "Source.Team LIKE 'Treasury'";
+            map1.CriteriaStatus = CashFlowStatus.Forecast;
+            map1.Fix = ignoreFixTag;
+            map1.FixFromDateExpr = "TranDate";
+            map1.MapStep = mapStep;
+            map1.RowIndex = rowIndex++;
+
+            var map10 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map10.CriteriaExpression = "Source.Team LIKE 'Inventory'";
+            map10.CriteriaStatus = CashFlowStatus.Forecast;
+            map10.Fix = schedOutFixTag;
+            map10.FixRank = 3;
+            map10.FixFromDateExpr = "dbo.BOMONTH(TranDate)";
+            map10.FixToDateExpr = "EOMONTH(TranDate)";
+            map10.MapStep = mapStep;
+            map10.RowIndex = rowIndex++;
 
             var map4 = ObjectSpace.CreateObject<CashFlowFixMapping>();
             map4.CriteriaExpression = "Else";
             map4.CriteriaStatus = CashFlowStatus.Forecast;
             map4.Fix = schedOutFixTag;
+            map4.FixRank = 2;
             map4.FixFromDateExpr = "TranDate";
-            map4.MapStep = 2;
+            map4.RowIndex = rowIndex++;
+            map4.MapStep = mapStep;
+
+            mapStep += 1; // increment to next step
+
+            var map2 = ObjectSpace.CreateObject<CashFlowFixMapping>();
+            map2.CriteriaExpression = "DATEDIFF(d, TranDate,EOMONTH(TranDate)) < 7";
+            map2.CriteriaStatus = CashFlowStatus.Forecast;
+            map2.FixToDateExpr = "EOMONTH(TranDate)";
+            map3.RowIndex = rowIndex++;
+            map2.MapStep = mapStep;
 
             #endregion
 
@@ -584,18 +648,14 @@ namespace CashDiscipline.UnitTests
             paramObj.Save();
             ObjectSpace.CommitChanges();
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var mapper = new CashFlowFixMapper(ObjectSpace);
+
+            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj, mapper);
             fixAlgo.ProcessCashFlows();
 
             #endregion
 
-            #region Assert SQL
-
-            // TODO
-         
-            #endregion
-
-            #region Assert Result
+            #region Assert
 
             // TODO
 

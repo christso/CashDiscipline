@@ -26,6 +26,9 @@ DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM CashFlowFixParam)
 DECLARE @ApayableLockdownDate date = (SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam)
 DECLARE @ApayableNextLockdownDate date = (SELECT TOP 1 ApayableNextLockdownDate FROM CashFlowFixParam)
 DECLARE @IgnoreFixTagType int = 0
+DECLARE @AllocateFixTagType int = 1
+DECLARE @ScheduleInFixTagType int = 2
+DECLARE @ScheduleOutFixTagType int = 3
 DECLARE @ForecastStatus int = 0
 DECLARE @Snapshot uniqueidentifier = COALESCE(
 	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam),
@@ -37,7 +40,7 @@ DECLARE @ReversalFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFi
 DECLARE @RevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR')
 DECLARE @ResRevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR')
 DECLARE @PayrollFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR')
-DECLARE @ScheduleOutFixTagType int = 3
+
 */
 
 namespace CashDiscipline.Module.Logic.Cash
@@ -45,6 +48,12 @@ namespace CashDiscipline.Module.Logic.Cash
     public class SqlFixCashFlowsAlgorithm : IFixCashFlows
     {
         public SqlFixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj)
+            : this(objSpace, paramObj, new CashFlowFixMapper(objSpace))
+        {
+
+        }
+
+        public SqlFixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj, CashFlowFixMapper mapper)
         {
             this.objSpace = objSpace;
             this.paramObj = paramObj;
@@ -74,8 +83,8 @@ namespace CashDiscipline.Module.Logic.Cash
             payrollFixTag = query
                 .Where(x => x.Name == Constants.PayrollFixTag).FirstOrDefault();
 
-            //this.cashFlowsToDelete = new List<CashFlow>();
             setOfBooks = SetOfBooks.GetInstance(objSpace);
+            this.mapper = mapper;
         }
 
         private XPObjectSpace objSpace;
@@ -88,10 +97,11 @@ namespace CashDiscipline.Module.Logic.Cash
         private CashForecastFixTag payrollFixTag;
         private SetOfBooks setOfBooks;
         private CashFlowSnapshot currentSnapshot;
+        private CashFlowFixMapper mapper;
 
         public void ProcessCashFlows()
         {
-            Map(CreateParameters());
+            mapper.Process(CreateParameters());
             Rephase(CreateParameters());
             ApplyFix(CreateParameters());
         }
@@ -105,13 +115,16 @@ namespace CashDiscipline.Module.Logic.Cash
                 new SqlParameter("Snapshot", currentSnapshot.Oid),
                 new SqlParameter("Fix", reversalFixTag.Oid),
                 new SqlParameter("IgnoreFixTagType", Convert.ToInt32(CashForecastFixTagType.Ignore)),
+                new SqlParameter("AllocateFixTagType", Convert.ToInt32(CashForecastFixTagType.Allocate)),
+                new SqlParameter("ScheduleOutFixTagType", Convert.ToInt32(CashForecastFixTagType.ScheduleOut)),
+                new SqlParameter("ScheduleInFixTagType", Convert.ToInt32(CashForecastFixTagType.ScheduleIn)),
                 new SqlParameter("ForecastStatus", Convert.ToInt32(CashFlowStatus.Forecast)),
                 new SqlParameter("DefaultCounterparty", defaultCounterparty.Oid),
                 new SqlParameter("FunctionalCurrency", setOfBooks.FunctionalCurrency.Oid),
                 new SqlParameter("ReversalFixTag", reversalFixTag.Oid),
                 new SqlParameter("RevRecFixTag", revRecFixTag.Oid),
                 new SqlParameter("ResRevRecFixTag", resRevRecFixTag.Oid),
-                new SqlParameter("ScheduleOutFixTagType", Convert.ToInt32(CashForecastFixTagType.ScheduleOut)),
+                new SqlParameter("PayrollFixTag", payrollFixTag.Oid),
                 new SqlParameter("ApayableLockdownDate", paramObj.ApayableLockdownDate),
                 new SqlParameter("ApayableNextLockdownDate", paramObj.ApayableNextLockdownDate)
             };
@@ -166,73 +179,6 @@ namespace CashDiscipline.Module.Logic.Cash
             return CashFlowHelper.GetCurrentSnapshot(session);
         }
 
-        public void Map(List<SqlParameter> parameters)
-        {
-            var conn = (SqlConnection)objSpace.Session.Connection;
-            var command = conn.CreateCommand();
-
-            command.CommandText = GetFixActivityMapPropertyCommandText();
-            command.Parameters.AddRange(parameters.ToArray());
-            command.ExecuteNonQuery();
-        }
-
-        #region Map SQL
-
-        public string GetFixActivityMapPropertyCommandText()
-        {
-            return GetMapPropertyCommandText("FixActivity", (m) => 
-                string.Format("'{0}'", m.FixActivity.Oid));
-        }
-
-        public string GetFixFromDateMapPropertyCommandText()
-        {
-            return GetMapPropertyCommandText("FixFromDate", (m) => m.FixFromDateExpr);
-        }
-
-        private string GetMapPropertyCommandText(string mapPropertyName, Func<CashFlowFixMapping, string> mapPropertyValue)
-        {
-            var maps = objSpace.GetObjects<CashFlowFixMapping>();
-            var mapsCmdList = new List<string>();
-
-            string elseValue = string.Empty;
-            foreach (var map in maps.Where(m =>
-                m.FixActivity != null))
-            {
-                if (map.CriteriaExpression.ToLower().Trim() == "else")
-                {
-                    elseValue = mapPropertyValue(map);
-                }
-                else
-                {
-                    mapsCmdList.Add(string.Format(
-                        @"WHEN {0} THEN {1}",
-                        map.CriteriaExpression, mapPropertyValue(map)));
-                }
-            }
-
-            if (!string.IsNullOrEmpty(elseValue))
-                mapsCmdList.Add("ELSE " + elseValue);
-
-            var mapsCmdText = string.Join("\n", mapsCmdList);
-
-            string result = string.Format(
-@"UPDATE CashFlow SET
-    {1} = CASE
-    {0}
-    END
-    FROM CashFlow
-    LEFT JOIN CashFlowSource Source ON Source.Oid = CashFlow.Source
-    LEFT JOIN Activity ON Activity.Oid = CashFlow.Activity
-    WHERE CashFLow.GCRecord IS NULL
-    AND CashFlow.[Snapshot] = @Snapshot
-    AND CashFlow.{1} IS NULL",
-mapsCmdText,
-mapPropertyName);
-            return result;
-        }
-
-        #endregion
-
         #region Core Sql
 
         public string ResetCommandText
@@ -256,9 +202,7 @@ AND [Snapshot] = @Snapshot
             get
             {
                 return
-
-
-@"-- CashFlowsToFix
+                    @"-- CashFlowsToFix
 
 IF OBJECT_ID('temp_CashFlowsToFix') IS NOT NULL DROP TABLE temp_CashFlowsToFix;
 
@@ -365,6 +309,30 @@ LEFT JOIN temp_FixeeFixer fixeeFixer
 LEFT JOIN temp_CashFlowsToFix fixer
 	ON fixer.Oid = fixeeFixer.Fixer
 
+-- Reversal logic for AP Lockdown (i.e. payroll is excluded)
+
+	-- Reclass Fixee Fix
+IF OBJECT_ID('temp_FixRevReclass_Fixee') IS NOT NULL DROP TABLE temp_FixRevReclass_Fixee;
+	
+SELECT fr.*
+INTO temp_FixRevReclass_Fixee
+FROM temp_FixReversal fr
+LEFT JOIN CashForecastFixTag FixTag ON FixTag.Oid = fr.Fix
+WHERE fr.TranDate <= @ApayableLockdownDate AND FixTag.FixTagType = @AllocateFixTagType
+	AND fr.Fix != @PayrollFixTag;
+
+	-- Reclass Fixer Fix
+IF OBJECT_ID('temp_FixRevReclass_Fixer') IS NOT NULL DROP TABLE temp_FixRevReclass_Fixer;
+	
+SELECT fr.*
+INTO temp_FixRevReclass_Fixer
+FROM temp_FixReversal fr
+LEFT JOIN CashForecastFixTag FixTag ON FixTag.Oid = fr.Fix
+WHERE fr.TranDate <= @ApayableLockdownDate AND FixTag.FixTagType = @AllocateFixTagType
+	AND fr.Fix != @PayrollFixTag;
+
+-- Reclass Fixer Fix
+
 -- Link Fixee Cash Flow to Fixer
 
 UPDATE CashFlow
@@ -392,7 +360,6 @@ LEFT JOIN CashFlow fixee ON fixee.Oid = fixeeFixer.Fixee
 LEFT JOIN Account fixeeAccount ON fixee.Account = fixeeAccount.Oid
 
 SELECT * FROM temp_FixReversal
-
 */";
             }
         }

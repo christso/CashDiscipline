@@ -34,7 +34,6 @@ namespace CashDiscipline.Module.Logic.Cash
         private SetOfBooks setOfBooks;
         private FixCashFlowsRephaser rephaser;
         private IEnumerable<CashFlowFixMapping> cashFlowMappings;
-        private CashFlowFixMapper cashFlowMapper;
         private CashFlowSnapshot currentSnapshot;
 
         private List<CashFlow> cashFlowsToDelete;
@@ -78,7 +77,7 @@ namespace CashDiscipline.Module.Logic.Cash
             this.rephaser = new FixCashFlowsRephaser(objSpace, paramObj);
 
             this.cashFlowMappings = objSpace.GetObjects<CashFlowFixMapping>();
-            this.cashFlowMapper = new CashFlowFixMapper(objSpace);
+            //this.cashFlowMapper = new CashFlowFixMapper(objSpace);
         }
 
         #region Reset
@@ -176,7 +175,7 @@ namespace CashDiscipline.Module.Logic.Cash
 
             if (fixer != null)
             {
-                cashFlowMapper.Process(cashFlows);
+                //cashFlowMapper.Process(cashFlows);
                 rephaser.Process(fixer);
                 CreateFixes(fixer, fixee);
                 fixee.Fixer = fixer;
