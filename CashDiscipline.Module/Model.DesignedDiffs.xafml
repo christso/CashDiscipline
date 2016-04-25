@@ -344,14 +344,14 @@
         <ColumnInfo Id="CounterCcy" Index="11" />
         <ColumnInfo Id="Status" Index="12" />
         <ColumnInfo Id="Fix" Index="13" />
-        <ColumnInfo Id="IsReclass" Index="14" />
-        <ColumnInfo Id="DateUnFix" Index="15" />
-        <ColumnInfo Id="FixFromDate" Index="16" />
-        <ColumnInfo Id="FixToDate" Index="17" />
-        <ColumnInfo Id="FixActivity" Index="18" />
-        <ColumnInfo Id="TimeEntered" Index="19" />
-        <ColumnInfo Id="ForexSettleType" Index="20" />
-        <ColumnInfo Id="FixRank" Index="21" />
+        <ColumnInfo Id="FixRank" Index="14" />
+        <ColumnInfo Id="IsReclass" Index="15" />
+        <ColumnInfo Id="DateUnFix" Index="16" />
+        <ColumnInfo Id="FixFromDate" Index="17" />
+        <ColumnInfo Id="FixToDate" Index="18" />
+        <ColumnInfo Id="FixActivity" Index="19" />
+        <ColumnInfo Id="TimeEntered" Index="20" />
+        <ColumnInfo Id="ForexSettleType" Index="21" />
         <ColumnInfo Id="Fixer" Index="22" />
         <ColumnInfo Id="IsFixSynced" Index="23" />
         <ColumnInfo Id="IsFixerSynced" Index="24" />

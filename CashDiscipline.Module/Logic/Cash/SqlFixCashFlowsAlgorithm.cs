@@ -10,7 +10,6 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Xafology.Spreadsheet.Attributes;
@@ -19,6 +18,7 @@ using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.BusinessObjects;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 
 /* Parameters in SQL
 DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam)
@@ -47,6 +47,18 @@ namespace CashDiscipline.Module.Logic.Cash
 {
     public class SqlFixCashFlowsAlgorithm : IFixCashFlows
     {
+        private XPObjectSpace objSpace;
+        private CashFlowFixParam paramObj;
+        private Activity paramApReclassActivity;
+        private Counterparty defaultCounterparty;
+        private CashForecastFixTag reversalFixTag;
+        private CashForecastFixTag revRecFixTag;
+        private CashForecastFixTag resRevRecFixTag;
+        private CashForecastFixTag payrollFixTag;
+        private SetOfBooks setOfBooks;
+        private CashFlowSnapshot currentSnapshot;
+        private CashFlowFixMapper mapper;
+
         public SqlFixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj)
             : this(objSpace, paramObj, new CashFlowFixMapper(objSpace))
         {
@@ -86,18 +98,6 @@ namespace CashDiscipline.Module.Logic.Cash
             setOfBooks = SetOfBooks.GetInstance(objSpace);
             this.mapper = mapper;
         }
-
-        private XPObjectSpace objSpace;
-        private CashFlowFixParam paramObj;
-        private Activity paramApReclassActivity;
-        private Counterparty defaultCounterparty;
-        private CashForecastFixTag reversalFixTag;
-        private CashForecastFixTag revRecFixTag;
-        private CashForecastFixTag resRevRecFixTag;
-        private CashForecastFixTag payrollFixTag;
-        private SetOfBooks setOfBooks;
-        private CashFlowSnapshot currentSnapshot;
-        private CashFlowFixMapper mapper;
 
         public void ProcessCashFlows()
         {
@@ -229,10 +229,15 @@ UPDATE cf
 SET 
 GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
 FROM CashFlow cf
-WHERE GCRecord IS NULL
-AND [Snapshot] = @Snapshot
-AND Fix IN (@ReversalFixTag, @RevRecFixTag, @ResRevRecFixTag)
-AND ParentCashFlow IN (SELECT cf2.Oid FROM temp_CashFlowsToFix cf2)
+WHERE cf.GCRecord IS NULL
+AND cf.[Snapshot] = @Snapshot
+AND cf.Fix IN (@ReversalFixTag, @RevRecFixTag, @ResRevRecFixTag)
+AND 
+(
+	ParentCashFlow IN (SELECT cf2.Oid FROM temp_CashFlowsToFix cf2)
+	OR cf.ParentCashFlow IN (SELECT cf1.Oid FROM CashFlow cf1 WHERE cf1.GCRecord IS NULL)
+	OR cf.ParentCashFlow IN (SELECT cfd.Oid FROM CashFlow cfd WHERE cfd.GCRecord IS NOT NULL)
+)
 
 -- FixeeFixer
 
