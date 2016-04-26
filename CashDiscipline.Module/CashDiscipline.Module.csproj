@@ -226,6 +226,7 @@
     <Compile Include="Logic\Cash\FixCashFlowsSqlBuilder.cs" />
     <Compile Include="Logic\Cash\IFixCashFlows.cs" />
     <Compile Include="Logic\Cash\MemFixCashFlowsAlgorithm.cs" />
+    <Compile Include="Logic\Cash\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\SqlFixCashFlowsAlgorithm.cs" />
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
       <SubType>Component</SubType>

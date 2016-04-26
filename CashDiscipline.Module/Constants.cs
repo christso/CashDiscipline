@@ -27,7 +27,7 @@ namespace CashDiscipline.Module
         public const string ReversalFixTag = "R";
         public const string RevRecFixTag = "RR";
         public const string ResRevRecFixTag = "RRR";
-        public const string PayrollFixTag = "PY";
+        public const string PayrollFixTag = "PR";
         public const string BankFeeFixTag = "BFEE";
         public const string ProgenFixTag = "PRGN";
         public const string ScheduleOutFixTag = "S";

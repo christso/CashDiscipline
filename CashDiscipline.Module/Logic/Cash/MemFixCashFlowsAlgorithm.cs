@@ -282,7 +282,6 @@ namespace CashDiscipline.Module.Logic.Cash
             var revRecFixee = objSpace.CreateObject<CashFlow>();
             revRecFixee.ParentCashFlow = fixee;
             revRecFixee.TranDate = revFix.TranDate;
-            revRecFixee.Activity = revFix.Activity;
             revRecFixee.Account = revFix.Account;
             revRecFixee.CounterCcy = revFix.CounterCcy;
             revRecFixee.AccountCcyAmt = -1 * revFix.AccountCcyAmt;
