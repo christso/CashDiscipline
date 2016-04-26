@@ -111,33 +111,33 @@ namespace CashDiscipline.Module.Logic.Cash
         {
             var clauses = new List<SqlDeclareClause>()
             {
-                new SqlDeclareClause("FromDate", "date", "(SELECT TOP 1 FromDate FROM CashFlowFixParam)"),
-                new SqlDeclareClause("ToDate", "date", "(SELECT TOP 1 ToDate FROM CashFlowFixParam)"),
-                new SqlDeclareClause("ApayableLockdownDate", "date", "(SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam)"),
-                new SqlDeclareClause("ApayableNextLockdownDate", "date", "(SELECT TOP 1 ApayableNextLockdownDate FROM CashFlowFixParam)"),
+                new SqlDeclareClause("FromDate", "date", "(SELECT TOP 1 FromDate FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("ToDate", "date", "(SELECT TOP 1 ToDate FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("ApayableLockdownDate", "date", "(SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("ApayableNextLockdownDate", "date", "(SELECT TOP 1 ApayableNextLockdownDate FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
                 new SqlDeclareClause("IgnoreFixTagType", "int", "0"),
                 new SqlDeclareClause("AllocateFixTagType", "int", "1"),
                 new SqlDeclareClause("ScheduleInFixTagType", "int", "2"),
                 new SqlDeclareClause("ScheduleOutFixTagType", "int", "3"),
                 new SqlDeclareClause("ForecastStatus", "int", "0"),
                 new SqlDeclareClause("Snapshot", "uniqueidentifier", @"COALESCE(
-	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam),
-	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
+	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam WHERE GCRecord IS NULL),
+	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)
 )"),
                 new SqlDeclareClause("DefaultCounterparty", "uniqueidentifier",
-                    "(SELECT TOP 1 [Counterparty] FROM CashFlowDefaults)"),
+                    "(SELECT TOP 1 [Counterparty] FROM CashFlowDefaults WHERE GCRecord IS NULL)"),
                 new SqlDeclareClause("FunctionalCurrency", "uniqueidentifier",
-                    "(SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks)"),
+                    "(SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks WHERE GCRecord IS NULL)"),
                 new SqlDeclareClause("ReversalFixTag", "uniqueidentifier",
-                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'R')"),
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'R' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("RevRecFixTag", "uniqueidentifier",
-                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR')"),
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("ResRevRecFixTag", "uniqueidentifier",
-                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR')"),
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("PayrollFixTag", "uniqueidentifier",
-                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR')"),
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("ApReclassActivity", "uniqueidentifier",
-                    "(SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam)")
+                    "(SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam WHERE GCRecord IS NULL)")
             };
             return clauses;
         }

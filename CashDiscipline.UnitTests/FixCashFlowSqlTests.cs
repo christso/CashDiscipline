@@ -115,7 +115,8 @@ namespace CashDiscipline.UnitTests
                 cmd.CommandText = "SELECT " + sqlParameter.CommandText;
                 var sqlValue = cmd.ExecuteScalar();
                 
-                Assert.AreEqual(parameter.Value, sqlValue);
+                Assert.AreEqual(string.Format("{0}:{1}", parameter.ParameterName, parameter.Value),
+                    string.Format("{0}:{1}", parameter.ParameterName, sqlValue));
             }
             
             #endregion
@@ -972,6 +973,8 @@ namespace CashDiscipline.UnitTests
 
             var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj, mapper);
             fixAlgo.ProcessCashFlows();
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
 
             #endregion
 
