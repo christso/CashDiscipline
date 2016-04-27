@@ -59,6 +59,720 @@ namespace CashDiscipline.UnitTests
         #endregion
 
         [Test]
+        public void FixSchedOutsTwiceAfterFixerChange()
+        {
+
+            #region Arrange Dimensions
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ USD";
+            account.Currency = ccyUSD;
+
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionDate = new DateTime(2013, 12, 31);
+            rate.ConversionRate = 0.9M;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "Device Purchase";
+            activity.FixActivity = activity;
+
+            var fixActivity = ObjectSpace.CreateObject<Activity>();
+            fixActivity.Name = "AP Pymt";
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Fix Tags
+
+            var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            schedOutFixTag.Name = "S2";
+            schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
+
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
+
+            #endregion
+
+            #region Arrange Transactions
+
+            // act
+            var cfFixee1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixee1.TranDate = new DateTime(2016, 03, 03);
+            cfFixee1.Account = account;
+            cfFixee1.AccountCcyAmt = 600;
+            cfFixee1.Activity = activity;
+            cfFixee1.FixRank = 2;
+            cfFixee1.Fix = schedOutFixTag;
+            cfFixee1.DateUnFix = cfFixee1.TranDate;
+            cfFixee1.FixActivity = cfFixee1.Activity;
+
+            var cfFixee2 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixee2.TranDate = new DateTime(2016, 03, 03);
+            cfFixee2.Account = account;
+            cfFixee2.AccountCcyAmt = 500;
+            cfFixee2.Activity = activity;
+            cfFixee2.FixRank = 2;
+            cfFixee2.Fix = schedOutFixTag;
+            cfFixee2.DateUnFix = cfFixee2.TranDate;
+            cfFixee2.FixActivity = cfFixee2.Activity;
+
+            var cfFixer1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixer1.TranDate = new DateTime(2016, 03, 31);
+            cfFixer1.Account = account;
+            cfFixer1.AccountCcyAmt = 1400;
+            cfFixer1.Activity = activity;
+            cfFixer1.FixRank = 3;
+            cfFixer1.FixFromDate = new DateTime(2016, 03, 1);
+            cfFixer1.FixToDate = new DateTime(2016, 03, 31);
+            cfFixer1.Fix = schedOutFixTag;
+            cfFixer1.DateUnFix = cfFixer1.TranDate;
+            cfFixer1.FixActivity = cfFixer1.Activity;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Algorithm
+
+            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+            paramObj.FromDate = new DateTime(2016, 01, 01);
+            paramObj.ToDate = new DateTime(2016, 12, 31);
+            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
+            paramObj.ApReclassActivity = fixActivity;
+            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            ObjectSpace.CommitChanges();
+
+            var algoObjSpace = (XPObjectSpace)Application.CreateObjectSpace();
+            var fixAlgo1 = new SqlFixCashFlowsAlgorithm(algoObjSpace, paramObj);
+
+
+            #endregion
+
+            #region Assert Intermediate
+
+            fixAlgo1.ProcessCashFlows();
+            
+            ObjectSpace.Refresh();
+            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
+
+            Assert.AreEqual(5, cashFlows.Count());
+            Assert.AreEqual(300,
+                    cashFlows.Where(x =>
+                        x.TranDate == new DateTime(2016, 03, 31))
+                    .Sum(x => x.AccountCcyAmt));
+
+
+            #endregion
+
+            #region Assert Final
+
+            cfFixer1 = cashFlows.Where(cf => cf.Oid == cfFixer1.Oid).FirstOrDefault();
+            cfFixer1.TranDate = new DateTime(2016, 03, 28);
+            cfFixer1.Save();
+            ObjectSpace.CommitChanges();
+
+            fixAlgo1.ProcessCashFlows();
+            ObjectSpace.Refresh();
+
+            var cashFlows2 = ObjectSpace.GetObjects<CashFlow>();
+
+            Assert.AreEqual(5, cashFlows2.Count());
+
+            // $500+$600 should move from 31st to 28th
+            Assert.AreEqual(300,
+                    cashFlows2.Where(x =>
+                        x.TranDate == new DateTime(2016, 03, 28))
+                    .Sum(x => x.AccountCcyAmt));
+
+            Assert.AreEqual(0,
+                    cashFlows2.Where(x =>
+                        x.TranDate == new DateTime(2016, 03, 31))
+                    .Sum(x => x.AccountCcyAmt));
+            #endregion
+
+        }
+
+        [Test]
+        public void FixSchedOutsTwiceAfterFixeeChange()
+        {
+
+            #region Arrange Dimensions
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ USD";
+            account.Currency = ccyUSD;
+
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionDate = new DateTime(2013, 12, 31);
+            rate.ConversionRate = 0.9M;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "Device Purchase";
+            activity.FixActivity = activity;
+
+            var fixActivity = ObjectSpace.CreateObject<Activity>();
+            fixActivity.Name = "AP Pymt";
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Fix Tags
+
+            var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            schedOutFixTag.Name = "S2";
+            schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
+
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
+
+            #endregion
+
+            #region Arrange Transactions
+
+            // act
+            var cfFixee1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixee1.TranDate = new DateTime(2016, 03, 03);
+            cfFixee1.Account = account;
+            cfFixee1.AccountCcyAmt = 600;
+            cfFixee1.Activity = activity;
+            cfFixee1.FixRank = 2;
+            cfFixee1.Fix = schedOutFixTag;
+            cfFixee1.DateUnFix = cfFixee1.TranDate;
+            cfFixee1.FixActivity = cfFixee1.Activity;
+
+            var cfFixee2 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixee2.TranDate = new DateTime(2016, 03, 03);
+            cfFixee2.Account = account;
+            cfFixee2.AccountCcyAmt = 500;
+            cfFixee2.Activity = activity;
+            cfFixee2.FixRank = 2;
+            cfFixee2.Fix = schedOutFixTag;
+            cfFixee2.DateUnFix = cfFixee2.TranDate;
+            cfFixee2.FixActivity = cfFixee2.Activity;
+
+            var cfFixer1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixer1.TranDate = new DateTime(2016, 03, 31);
+            cfFixer1.Account = account;
+            cfFixer1.AccountCcyAmt = 1400;
+            cfFixer1.Activity = activity;
+            cfFixer1.FixRank = 3;
+            cfFixer1.FixFromDate = new DateTime(2016, 03, 1);
+            cfFixer1.FixToDate = new DateTime(2016, 03, 31);
+            cfFixer1.Fix = schedOutFixTag;
+            cfFixer1.DateUnFix = cfFixer1.TranDate;
+            cfFixer1.FixActivity = cfFixer1.Activity;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Algorithm
+
+            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+            paramObj.FromDate = new DateTime(2016, 01, 01);
+            paramObj.ToDate = new DateTime(2016, 12, 31);
+            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
+            paramObj.ApReclassActivity = fixActivity;
+            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            ObjectSpace.CommitChanges();
+
+            var fixAlgo1 = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+
+            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
+          
+            #endregion
+
+            #region Assert 1st run
+
+            fixAlgo1.ProcessCashFlows();
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
+            cashFlows = ObjectSpace.GetObjects<CashFlow>();
+
+            Assert.AreEqual(5, cashFlows.Count());
+            Assert.AreEqual(300,
+                    cashFlows.Where(x =>
+                        x.TranDate == new DateTime(2016, 03, 31))
+                    .Sum(x => x.AccountCcyAmt));
+
+            #endregion
+
+            #region Assert 2nd run
+            cfFixee1 = ObjectSpace.GetObjectByKey<CashFlow>(cfFixee1.Oid);
+
+            // change Tran Date and simulate setting flag to false
+            cfFixee1.TranDate = new DateTime(2016, 03, 05);
+            cfFixee1.AccountCcyAmt = 700;
+            ObjectSpace.CommitChanges();
+
+            fixAlgo1.ProcessCashFlows();
+
+            var cashFlows2 = ObjectSpace.GetObjects<CashFlow>();
+
+            Assert.AreEqual(5, cashFlows2.Count());
+            Assert.AreEqual(200,
+                    cashFlows2.Where(x =>
+                        x.TranDate == new DateTime(2016, 03, 31))
+                    .Sum(x => x.AccountCcyAmt));
+
+            #endregion
+        }
+
+        [Test]
+        public void NotFixedIfDateNotMatched()
+        {
+            #region Arrange Dimensions
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ USD";
+            account.Currency = ccyUSD;
+
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionDate = new DateTime(2013, 12, 31);
+            rate.ConversionRate = 0.9M;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "Device Purchase";
+            activity.FixActivity = activity;
+
+            var fixActivity = ObjectSpace.CreateObject<Activity>();
+            fixActivity.Name = "AP Pymt";
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Fix Tags
+
+            var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            schedOutFixTag.Name = "S2";
+            schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
+
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
+
+            #endregion
+
+            #region Arrange Transactions
+
+            // act
+            var cfFixee1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixee1.TranDate = new DateTime(2016, 03, 11);
+            cfFixee1.Account = account;
+            cfFixee1.AccountCcyAmt = 600;
+            cfFixee1.Activity = activity;
+            cfFixee1.FixRank = 2;
+            cfFixee1.Fix = schedOutFixTag;
+            cfFixee1.DateUnFix = cfFixee1.TranDate;
+            cfFixee1.FixActivity = cfFixee1.Activity;
+
+            var cfFixer1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixer1.TranDate = new DateTime(2016, 03, 12);
+            cfFixer1.Account = account;
+            cfFixer1.AccountCcyAmt = 500;
+            cfFixer1.Activity = activity;
+            cfFixer1.FixRank = 3;
+            cfFixer1.Fix = schedOutFixTag;
+            cfFixer1.DateUnFix = cfFixer1.TranDate;
+            cfFixer1.FixActivity = cfFixer1.Activity;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Algorithm
+
+            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+            paramObj.FromDate = new DateTime(2016, 01, 01);
+            paramObj.ToDate = new DateTime(2016, 12, 31);
+            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
+            paramObj.ApReclassActivity = fixActivity;
+            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+
+            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+
+            var cashFlowsPre = ObjectSpace.GetObjects<CashFlow>();
+            fixAlgo.ProcessCashFlows();
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
+
+            #endregion
+
+            #region Assert
+
+            var cashFlowsPost = ObjectSpace.GetObjects<CashFlow>();
+            Assert.AreEqual(2, cashFlowsPost.Count);
+
+            #endregion
+        }
+
+        [Test]
+        public void FixSchedOutLockdown()
+        {
+
+            #region Arrange Dimensions
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ USD";
+            account.Currency = ccyUSD;
+
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionDate = new DateTime(2013, 12, 31);
+            rate.ConversionRate = 0.9M;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "Device Purchase";
+            activity.FixActivity = activity;
+
+            var fixActivity = ObjectSpace.CreateObject<Activity>();
+            fixActivity.Name = "AP Pymt";
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Fix Tags
+
+            var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            schedOutFixTag.Name = "S";
+            schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
+
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
+
+            #endregion
+
+            #region Arrange Transactions
+
+            // act
+            var cfFixee1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixee1.TranDate = new DateTime(2016, 03, 11);
+            cfFixee1.Account = account;
+            cfFixee1.AccountCcyAmt = 600;
+            cfFixee1.Activity = activity;
+            cfFixee1.FixRank = 2;
+            cfFixee1.Fix = schedOutFixTag;
+            cfFixee1.DateUnFix = cfFixee1.TranDate;
+            cfFixee1.FixActivity = cfFixee1.Activity;
+
+            var cfFixer1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixer1.TranDate = new DateTime(2016, 03, 12);
+            cfFixer1.Account = account;
+            cfFixer1.AccountCcyAmt = 500;
+            cfFixer1.Activity = activity;
+            cfFixer1.FixRank = 3;
+            cfFixer1.Fix = schedOutFixTag;
+            cfFixer1.FixFromDate = new DateTime(2016, 03, 01);
+            cfFixer1.FixToDate = new DateTime(2016, 03, 31);
+            cfFixer1.DateUnFix = cfFixer1.TranDate;
+            cfFixer1.FixActivity = cfFixer1.Activity;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Algorithm
+
+            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+            paramObj.FromDate = new DateTime(2016, 01, 01);
+            paramObj.ToDate = new DateTime(2016, 12, 31);
+            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
+            paramObj.ApReclassActivity = fixActivity;
+            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+
+            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+
+            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
+
+            Assert.AreEqual(500, cashFlows
+                 .Where(cf => cf.TranDate == new DateTime(2016, 03, 12))
+                 .Sum(cf => cf.AccountCcyAmt));
+
+            fixAlgo.ProcessCashFlows();
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
+            #endregion
+
+            #region Assert
+
+            cashFlows = ObjectSpace.GetObjects<CashFlow>();
+
+            Assert.AreEqual(-100, cashFlows
+                .Where(cf => cf.TranDate == paramObj.ApayableNextLockdownDate)
+                .Sum(cf => cf.AccountCcyAmt));
+
+            Assert.AreEqual(0, cashFlows
+                .Where(cf => cf.TranDate == new DateTime(2016, 03, 12))
+                .Sum(cf => cf.AccountCcyAmt));
+            #endregion
+        }
+
+        [Test]
+        public void LockdownNonApForecast()
+        {
+            #region Arrange Dimensions
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+
+            var audAccount = ObjectSpace.CreateObject<Account>();
+            audAccount.Name = "VHA ANZ AUD";
+            audAccount.Currency = ccyAUD;
+
+            var usdAccount = ObjectSpace.CreateObject<Account>();
+            usdAccount.Name = "VHA ANZ USD";
+            usdAccount.Currency = ccyUSD;
+
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionDate = new DateTime(2013, 12, 31);
+            rate.ConversionRate = 0.9M;
+
+            var bankFeeActivity = ObjectSpace.CreateObject<Activity>();
+            bankFeeActivity.Name = "Bank Fees";
+            bankFeeActivity.FixActivity = bankFeeActivity;
+            bankFeeActivity.ForecastFixTag = CashDiscipline.Module.Constants.BankFeeFixTag;
+
+            var apActivity = ObjectSpace.CreateObject<Activity>();
+            apActivity.Name = "AP Pymt";
+            apActivity.FixActivity = apActivity;
+
+            var payrollActivity = ObjectSpace.CreateObject<Activity>();
+            payrollActivity.Name = "Payroll Pymt";
+            payrollActivity.FixActivity = payrollActivity;
+            payrollActivity.ForecastFixTag = CashDiscipline.Module.Constants.PayrollFixTag;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Fix Tags
+
+            var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            schedOutFixTag.Name = "S2";
+            schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
+
+            var allocFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            allocFixTag.Name = "B3";
+            allocFixTag.FixTagType = CashForecastFixTagType.Allocate;
+
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
+
+            #endregion
+
+            #region Arrange Transactions
+
+            // act
+            var cfFixee1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixee1.TranDate = new DateTime(2016, 03, 11);
+            cfFixee1.Account = audAccount;
+            cfFixee1.CounterCcy = ccyAUD;
+            cfFixee1.AccountCcyAmt = -600;
+            cfFixee1.CounterCcyAmt = -600;
+            cfFixee1.Activity = apActivity;
+            cfFixee1.FixRank = 2;
+            cfFixee1.Fix = schedOutFixTag;
+            cfFixee1.DateUnFix = cfFixee1.TranDate;
+            cfFixee1.FixActivity = cfFixee1.Activity;
+
+            var cfFixer1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixer1.TranDate = new DateTime(2016, 03, 25);
+            cfFixer1.Account = audAccount;
+            cfFixer1.CounterCcy = ccyAUD;
+            cfFixer1.CounterCcyAmt = -12000;
+            cfFixer1.AccountCcyAmt = -12000;
+            cfFixer1.Activity = bankFeeActivity;
+            cfFixer1.FixRank = 3;
+            cfFixer1.Fix = allocFixTag;
+            cfFixer1.FixFromDate = new DateTime(2016, 03, 01);
+            cfFixer1.FixToDate = new DateTime(2016, 03, 31);
+            cfFixer1.DateUnFix = cfFixer1.TranDate;
+            cfFixer1.FixActivity = cfFixer1.Activity;
+
+            var cfFixer2 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixer2.TranDate = new DateTime(2016, 03, 25);
+            cfFixer2.Account = audAccount;
+            cfFixer2.CounterCcy = ccyAUD;
+            cfFixer2.CounterCcyAmt = -30000;
+            cfFixer2.AccountCcyAmt = -30000;
+            cfFixer2.Activity = payrollActivity;
+            cfFixer2.FixRank = 3;
+            cfFixer2.Fix = schedOutFixTag;
+            cfFixer2.FixFromDate = new DateTime(2016, 03, 01);
+            cfFixer2.FixToDate = new DateTime(2016, 03, 31);
+            cfFixer2.DateUnFix = cfFixer2.TranDate;
+            cfFixer2.FixActivity = cfFixer2.Activity;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Algorithm
+
+            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+            paramObj.FromDate = new DateTime(2016, 01, 01);
+            paramObj.ToDate = new DateTime(2016, 12, 31);
+            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
+            paramObj.ApReclassActivity = apActivity;
+            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+
+            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+
+            fixAlgo.ProcessCashFlows();
+
+            #endregion
+
+            #region Assert
+
+            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
+            Assert.AreEqual(-42000, cashFlows.Where(cf =>
+            cf.TranDate == new DateTime(2016, 03, 25))
+            .Sum(cf => cf.AccountCcyAmt));
+
+            #endregion
+        }
+
+        [Test]
+        public void FixSchedOutsTwice()
+        {
+            #region Arrange Dimensions
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ USD";
+            account.Currency = ccyUSD;
+
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionDate = new DateTime(2013, 12, 31);
+            rate.ConversionRate = 0.9M;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "Device Purchase";
+            activity.FixActivity = activity;
+
+            var fixActivity = ObjectSpace.CreateObject<Activity>();
+            fixActivity.Name = "AP Pymt";
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Fix Tags
+
+            var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+            schedOutFixTag.Name = "S2";
+            schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
+
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
+            #endregion
+
+            #region Arrange Transactions
+
+            // act
+            var cfFixee1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixee1.TranDate = new DateTime(2016, 03, 03);
+            cfFixee1.Account = account;
+            cfFixee1.AccountCcyAmt = 600;
+            cfFixee1.Activity = activity;
+            cfFixee1.FixRank = 2;
+            cfFixee1.Fix = schedOutFixTag;
+            cfFixee1.DateUnFix = cfFixee1.TranDate;
+            cfFixee1.FixActivity = cfFixee1.Activity;
+
+            var cfFixee2 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixee2.TranDate = new DateTime(2016, 03, 03);
+            cfFixee2.Account = account;
+            cfFixee2.AccountCcyAmt = 500;
+            cfFixee2.Activity = activity;
+            cfFixee2.FixRank = 2;
+            cfFixee2.Fix = schedOutFixTag;
+            cfFixee2.DateUnFix = cfFixee2.TranDate;
+            cfFixee2.FixActivity = cfFixee2.Activity;
+
+            var cfFixer1 = ObjectSpace.CreateObject<CashFlow>();
+            cfFixer1.TranDate = new DateTime(2016, 03, 31);
+            cfFixer1.Account = account;
+            cfFixer1.AccountCcyAmt = 1400;
+            cfFixer1.Activity = activity;
+            cfFixer1.FixRank = 3;
+            cfFixer1.FixFromDate = new DateTime(2016, 03, 1);
+            cfFixer1.FixToDate = new DateTime(2016, 03, 31);
+            cfFixer1.Fix = schedOutFixTag;
+            cfFixer1.DateUnFix = cfFixer1.TranDate;
+            cfFixer1.FixActivity = cfFixer1.Activity;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Algorithm
+
+            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+            paramObj.FromDate = new DateTime(2016, 01, 01);
+            paramObj.ToDate = new DateTime(2016, 12, 31);
+            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
+            paramObj.ApReclassActivity = fixActivity;
+            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
+            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+
+            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+
+            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
+            
+            #endregion
+
+            #region Assert 1st run
+
+            fixAlgo.ProcessCashFlows();
+
+            CashFlowSnapshot currentSnapshot = CashFlowHelper.GetCurrentSnapshot(ObjectSpace.Session);
+
+            #endregion
+
+            #region Assert 2nd run
+
+            fixAlgo.ProcessCashFlows();
+
+            Assert.AreEqual(5, cashFlows.Count());
+
+            Assert.AreEqual(300,
+                    cashFlows.Where(x =>
+                        x.TranDate == new DateTime(2016, 03, 31))
+                    .Sum(x => x.AccountCcyAmt));
+
+            #endregion
+        }
+
+        [Test]
         public void TestFixParameters()
         {
             var fixActivity = ObjectSpace.CreateObject<Activity>();
