@@ -178,7 +178,7 @@ namespace CashDiscipline.UnitTests
             ObjectSpace.CommitChanges();
 
             var algoObjectSpace = (XPObjectSpace)Application.CreateObjectSpace();
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(algoObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(algoObjectSpace, paramObj);
 
             #endregion
 
@@ -245,7 +245,7 @@ namespace CashDiscipline.UnitTests
 
             #region Assert that 2nd call of algorithm will return correct result
             // TODO: it should not delete correctly fixed cashflows
-            fixAlgo = new SqlFixCashFlowsAlgorithm(algoObjectSpace, paramObj);
+            fixAlgo = new FixCashFlowsAlgorithm(algoObjectSpace, paramObj);
 
             fixAlgo.ProcessCashFlows();
             ObjectSpace.Refresh();
@@ -347,7 +347,7 @@ namespace CashDiscipline.UnitTests
             ObjectSpace.CommitChanges();
 
             var algoObjSpace = (XPObjectSpace)Application.CreateObjectSpace();
-            var fixAlgo1 = new SqlFixCashFlowsAlgorithm(algoObjSpace, paramObj);
+            var fixAlgo1 = new FixCashFlowsAlgorithm(algoObjSpace, paramObj);
 
 
             #endregion
@@ -486,7 +486,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
             ObjectSpace.CommitChanges();
 
-            var fixAlgo1 = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo1 = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
           
@@ -604,7 +604,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlowsPre = ObjectSpace.GetObjects<CashFlow>();
             fixAlgo.ProcessCashFlows();
@@ -700,7 +700,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -839,7 +839,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             fixAlgo.ProcessCashFlows();
 
@@ -942,7 +942,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
             
@@ -1005,7 +1005,7 @@ namespace CashDiscipline.UnitTests
 
             ObjectSpace.CommitChanges();
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var parameters = fixAlgo.CreateParameters();
             var sqlParameters = fixAlgo.CreateSqlParameters();
@@ -1123,7 +1123,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             fixAlgo.ProcessCashFlows();
             ObjectSpace.CommitChanges();
@@ -1255,7 +1255,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
             ObjectSpace.CommitChanges();
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -1364,7 +1364,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
             ObjectSpace.CommitChanges();
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -1488,7 +1488,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -1639,7 +1639,7 @@ namespace CashDiscipline.UnitTests
             paramObj.Save();
             ObjectSpace.CommitChanges();
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
             fixAlgo.ProcessCashFlows();
 
             #endregion
@@ -1883,7 +1883,7 @@ namespace CashDiscipline.UnitTests
 
             var mapper = new CashFlowFixMapper(ObjectSpace);
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj, mapper);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj, mapper);
             fixAlgo.ProcessCashFlows();
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
@@ -1979,7 +1979,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
             ObjectSpace.CommitChanges();
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
@@ -2084,7 +2084,7 @@ namespace CashDiscipline.UnitTests
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            var fixAlgo = new SqlFixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 

@@ -221,13 +221,11 @@
     <Compile Include="BusinessObjects\Owner.cs" />
     <Compile Include="Logic\Cash\CashFlowFixMapper.cs" />
     <Compile Include="Logic\Cash\CashFlowHelper.cs" />
-    <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsRephaser.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsSqlBuilder.cs" />
     <Compile Include="Logic\Cash\IFixCashFlows.cs" />
-    <Compile Include="Logic\Cash\MemFixCashFlowsAlgorithm.cs" />
     <Compile Include="Logic\Cash\SqlDeclareClause.cs" />
-    <Compile Include="Logic\Cash\SqlFixCashFlowsAlgorithm.cs" />
+    <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -42,10 +42,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             this.MapStep = 1;
         }
 
-        // Fields...
-
         private int _RowIndex;
-
         [ModelDefault("DisplayFormat", "f0")]
         [ModelDefault("SortOrder", "Ascending")]
         public int RowIndex
@@ -57,6 +54,19 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("RowIndex", ref _RowIndex, value);
+            }
+        }
+
+        private int _MapStep;
+        public int MapStep
+        {
+            get
+            {
+                return _MapStep;
+            }
+            set
+            {
+                SetPropertyValue("MapStep", ref _MapStep, value);
             }
         }
 
@@ -148,19 +158,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("FixToDateExpr", ref _FixToDateExpr, value);
-            }
-        }
-
-        private int _MapStep;
-        public int MapStep
-        {
-            get
-            {
-                return _MapStep;
-            }
-            set
-            {
-                SetPropertyValue("MapStep", ref _MapStep, value);
             }
         }
 

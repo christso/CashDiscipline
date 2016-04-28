@@ -19,6 +19,26 @@ namespace CashDiscipline.Module.Logic.Cash
         private readonly XPObjectSpace objSpace;
         private IList<CashFlowFixMapping> maps;
 
+        #region SQL Templates
+
+        private const string MapCommandTextListSqlTemplate =
+            MapCommandTextListSqlTemplateCommon + @"
+AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate";
+
+        private const string MapCommandTextListByCashFlowSqlTemplate =
+            MapCommandTextListSqlTemplateCommon + @"
+AND CashFlow.[Oid] IN ({1})";
+
+        private const string MapCommandTextListSqlTemplateCommon = @"UPDATE CashFlow SET
+{0}
+FROM CashFlow
+LEFT JOIN CashFlowSource Source ON Source.Oid = CashFlow.Source
+LEFT JOIN Activity ON Activity.Oid = CashFlow.Activity
+LEFT JOIN CashForecastFixTag Fix ON Fix.Oid = CashFlow.Fix
+WHERE CashFLow.GCRecord IS NULL";
+
+        #endregion
+
         public CashFlowFixMapper(XPObjectSpace objSpace)
         {
             this.objSpace = objSpace;
@@ -87,13 +107,7 @@ namespace CashDiscipline.Module.Logic.Cash
 
                 if (setTextList.Count > 0)
                 {
-                    mapTextList.Add(string.Format(@"UPDATE CashFlow SET
-{0}
-FROM CashFlow
-LEFT JOIN CashFlowSource Source ON Source.Oid = CashFlow.Source
-LEFT JOIN Activity ON Activity.Oid = CashFlow.Activity
-WHERE CashFLow.GCRecord IS NULL
-AND CashFlow.[Oid] IN ({1})",
+                    mapTextList.Add(string.Format(MapCommandTextListByCashFlowSqlTemplate,
                         setText, string.Join(",", oids)));
                 }
             }
@@ -104,21 +118,25 @@ AND CashFlow.[Oid] IN ({1})",
         {
             var setTextList = new List<string>();
 
-            var commandText = GetMapSetCommandText("FixActivity",
-                m => string.Format("'{0}'", m.FixActivity.Oid),
-                m => m.FixActivity != null, step);
+            var commandText = GetMapSetCommandText("FixActivity", m => string.Format("'{0}'", m.FixActivity.Oid), m => m.FixActivity != null, step, String.Empty);
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
-            commandText = GetMapSetCommandText("FixFromDate",
-                m => string.Format("{0}", m.FixFromDateExpr),
-                m => !string.IsNullOrEmpty(m.FixFromDateExpr), step);
+            commandText = GetMapSetCommandText("Fix", m => string.Format("'{0}'", m.Fix.Oid), m => m.Fix != null, step, String.Empty);
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
-            commandText = GetMapSetCommandText("FixToDate",
-                m => string.Format("{0}", m.FixToDateExpr),
-                m => !string.IsNullOrEmpty(m.FixToDateExpr), step);
+            commandText = GetMapSetCommandText("FixRank", m => string.Format("'{0}'", m.FixRank), 
+                m => m.FixRank != 0, step,
+                "WHEN CashFlow.{0} IS NOT NULL AND CashFlow.{0} != 0 THEN CashFlow.{0}");
+            if (!string.IsNullOrWhiteSpace(commandText))
+                setTextList.Add(commandText);
+
+            commandText = GetMapSetCommandText("FixFromDate", m => string.Format("{0}", m.FixFromDateExpr), m => !string.IsNullOrEmpty(m.FixFromDateExpr), step, String.Empty);
+            if (!string.IsNullOrWhiteSpace(commandText))
+                setTextList.Add(commandText);
+
+            commandText = GetMapSetCommandText("FixToDate", m => string.Format("{0}", m.FixToDateExpr), m => !string.IsNullOrEmpty(m.FixToDateExpr), step, String.Empty);
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
@@ -143,14 +161,7 @@ AND CashFlow.[Oid] IN ({1})",
 
                 if (setTextList.Count > 0)
                 {
-                    mapTextList.Add(string.Format(@"UPDATE CashFlow SET
-{0}
-FROM CashFlow
-LEFT JOIN CashFlowSource Source ON Source.Oid = CashFlow.Source
-LEFT JOIN Activity ON Activity.Oid = CashFlow.Activity
-WHERE CashFLow.GCRecord IS NULL
-AND CashFlow.[Snapshot] = @Snapshot
-AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate",
+                    mapTextList.Add(string.Format(MapCommandTextListSqlTemplate,
                         setText));
                 }
             }
@@ -165,7 +176,8 @@ AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate",
 
         public string GetMapSetCommandText(string mapPropertyName,
             Func<CashFlowFixMapping, string> mapPropertyValue, 
-            Predicate<CashFlowFixMapping> predicate, int step)
+            Predicate<CashFlowFixMapping> predicate, int step, 
+            string defaultValueSql)
         {
             ValidateMapExists();
             if (mapPropertyValue == null)
@@ -200,8 +212,11 @@ AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate",
 
             if (mapsCmdList.Count > 0)
             {
+                if (string.IsNullOrEmpty(defaultValueSql))
+                    defaultValueSql = "WHEN CashFlow.{0} IS NOT NULL THEN CashFlow.{0}";
+
                 var mapsCmdText = string.Join("\n", mapsCmdList);
-                mapsCmdText = string.Format("WHEN CashFlow.{0} IS NOT NULL THEN CashFlow.{0}", mapPropertyName)
+                mapsCmdText = string.Format(defaultValueSql, mapPropertyName)
                     + "\n" + mapsCmdText;
 
                 setText = string.Format(@"{1} = CASE

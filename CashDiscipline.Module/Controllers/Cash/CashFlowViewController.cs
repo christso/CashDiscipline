@@ -15,6 +15,10 @@ namespace CashDiscipline.Module.Controllers.Cash
     public class CashFlowViewController : ViewController
     {
         private const string processCubeCaption = "Process Cube";
+        private const string processCubeSshotCaption = "Process Snapshot";
+        private const string processCubeAllCaption = "Process All";
+        private const string processCubeCurrentCaption = "Process Current";
+
         public SingleChoiceAction RunProgramAction;
 
         public CashFlowViewController()
@@ -51,6 +55,18 @@ namespace CashDiscipline.Module.Controllers.Cash
             var processCubeAction = new ChoiceActionItem();
             processCubeAction.Caption = processCubeCaption;
             RunProgramAction.Items.Add(processCubeAction);
+
+            var processCubeAllAction = new ChoiceActionItem();
+            processCubeAllAction.Caption = processCubeAllCaption;
+            processCubeAction.Items.Add(processCubeAllAction);
+
+            var processCubeSshotAction = new ChoiceActionItem();
+            processCubeSshotAction.Caption = processCubeSshotCaption;
+            processCubeAction.Items.Add(processCubeSshotAction);
+
+            var processCubeCurrentAction = new ChoiceActionItem();
+            processCubeCurrentAction.Caption = processCubeCurrentCaption;
+            processCubeAction.Items.Add(processCubeCurrentAction);
         }
 
         private void RunProgramAction_ExecuteCompleted(object sender, ActionBaseEventArgs e)
