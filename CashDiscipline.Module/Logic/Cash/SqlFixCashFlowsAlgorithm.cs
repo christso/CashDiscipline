@@ -172,284 +172,6 @@ namespace CashDiscipline.Module.Logic.Cash
             ApplyFix(CreateParameters());
         }
 
-        public void ApplyFix2()
-        {
-            var commandText = @"DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam)
-DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM CashFlowFixParam)
-DECLARE @ApayableLockdownDate date = (SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam)
-DECLARE @ApayableNextLockdownDate date = (SELECT TOP 1 ApayableNextLockdownDate FROM CashFlowFixParam)
-DECLARE @IgnoreFixTagType int = 0
-DECLARE @AllocateFixTagType int = 1
-DECLARE @ScheduleInFixTagType int = 2
-DECLARE @ScheduleOutFixTagType int = 3
-DECLARE @ForecastStatus int = 0
-DECLARE @Snapshot uniqueidentifier = COALESCE(
-	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam),
-	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
-)
-DECLARE @DefaultCounterparty uniqueidentifier = (SELECT TOP 1 [Counterparty] FROM CashFlowDefaults)
-DECLARE @FunctionalCurrency uniqueidentifier = (SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks)
-DECLARE @ReversalFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'R')
-DECLARE @RevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR')
-DECLARE @ResRevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR')
-DECLARE @PayrollFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR')
-DECLARE @ApReclassActivity uniqueidentifier = (SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam)
-
--- CashFlowsToFix
-
-IF OBJECT_ID('temp_CashFlowsToFix') IS NOT NULL DROP TABLE temp_CashFlowsToFix;
-
-SELECT cf.* INTO temp_CashFlowsToFix
-FROM CashFlow cf
-LEFT JOIN CashForecastFixTag tag ON tag.Oid = cf.Fix
-LEFT JOIN CashFlow fixer ON fixer.Oid = cf.Oid
-WHERE
-    cf.GCRecord IS NULL
-    AND tag.GCRecord IS NULL
-    AND cf.TranDate BETWEEN @FromDate AND @ToDate
-	AND cf.[Snapshot] = @Snapshot
-    AND (cf.Fix = NULL OR tag.FixTagType != @IgnoreFixTagType)
-    AND 
-	(
-		cf.IsFixeeSynced=0 OR cf.IsFixerSynced=0 OR NOT cf.IsFixerFixeesSynced=0
-		OR fixer.GCRecord IS NOT NULL
-	)
-;
-
--- Delete Existing Fixes
-
-UPDATE cf
-SET 
-GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
-FROM CashFlow cf
-WHERE cf.GCRecord IS NULL
-AND cf.[Snapshot] = @Snapshot
-AND cf.Fix IN (@ReversalFixTag, @RevRecFixTag, @ResRevRecFixTag)
-AND 
-(
-	ParentCashFlow IN (SELECT cf2.Oid FROM temp_CashFlowsToFix cf2)
-	OR cf.ParentCashFlow IN (SELECT cf1.Oid FROM CashFlow cf1 WHERE cf1.GCRecord IS NULL)
-	OR cf.ParentCashFlow IN (SELECT cfd.Oid FROM CashFlow cfd WHERE cfd.GCRecord IS NOT NULL)
-)
-
--- FixeeFixer
-
-IF OBJECT_ID('temp_FixeeFixer') IS NOT NULL DROP TABLE temp_FixeeFixer;
-
-SELECT Fixee, Fixer
-INTO temp_FixeeFixer
-FROM
-(
-	SELECT
-		-- RowNum = 1 if fixee currency equals fixer currency, otherwise may be greater than 1
-		ROW_NUMBER() OVER(
-			PARTITION BY fixee.Oid 
-			ORDER BY CASE WHEN fixeeAccount.Currency = fixerAccount.Currency THEN 0 ELSE 1 END
-		) AS RowNum,
-		fixee.Oid AS Fixee,
-		fixer.Oid AS Fixer,
-		fixee.TranDate,
-		fixee.Account,
-		fixee.AccountCcyAmt,
-		fixee.FixFromDate,
-		fixee.FixToDate
-	FROM temp_CashFlowsToFix fixee
-	LEFT JOIN Counterparty fixeeCparty ON fixeeCparty.Oid = fixee.Counterparty
-	LEFT JOIN Account fixeeAccount ON fixeeAccount.Oid = fixee.Account
-	LEFT JOIN temp_CashFlowsToFix fixer
-		ON fixee.TranDate BETWEEN fixer.FixFromDate AND fixer.FixToDate
-			AND fixee.FixActivity = fixer.FixActivity
-			AND fixer.[Status] = @ForecastStatus
-			AND fixer.FixRank > fixee.FixRank
-			AND 
-			(
-				fixer.Counterparty IS NULL OR fixer.Counterparty = @DefaultCounterparty
-				OR fixee.Counterparty IS NULL AND fixer.Counterparty IS NULL
-				OR fixer.Counterparty = fixeeCparty.FixCounterparty
-				OR fixer.Counterparty = fixee.Counterparty
-			)
-	LEFT JOIN Account fixerAccount 
-		ON fixerAccount.Oid = fixer.Account
-	WHERE
-		fixee.Account IS NOT NULL AND 
-		(
-			fixeeAccount.FixAccount = fixerAccount.FixAccount
-			OR fixee.Account = fixer.Account
-		)
-) T1
-WHERE RowNum = 1
-
--- Insert Cash Flow Reversal
-IF OBJECT_ID('temp_FixReversal') IS NOT NULL DROP TABLE temp_FixReversal;
-
-SELECT cf.*
-INTO temp_FixReversal
-FROM temp_CashFlowsToFix cf
-JOIN temp_FixeeFixer fixeeFixer ON fixeeFixer.Fixee = cf.Oid;
-
-UPDATE revFix SET 
-	Oid = NEWID(),
-	ParentCashFlow = revFix.Oid,
-	TranDate = fixer.TranDate,
-
-	-- if the currencies do not match, use functional currency
-	CounterCcy = CASE WHEN revFix.CounterCcy <> fixer.CounterCcy THEN @FunctionalCurrency ELSE revFix.CounterCcy END,
-	CounterCcyAmt = CASE WHEN revFix.CounterCcy <> fixer.CounterCcy THEN -revFix.FunctionalCcyAmt ELSE -revFix.CounterCcyAmt END,
-
-	AccountCcyAmt = -revFix.AccountCcyAmt,
-	FunctionalCcyAmt = -revFix.FunctionalCcyAmt,
-	Fix = @ReversalFixTag,
-	Fixer = NULL
-
-FROM temp_FixReversal revFix
-LEFT JOIN temp_FixeeFixer fixeeFixer
-	ON fixeeFixer.Fixee = revFix.Oid
-LEFT JOIN temp_CashFlowsToFix fixer
-	ON fixer.Oid = fixeeFixer.Fixer
-
--- Reversal logic for AP Lockdown (i.e. payroll is excluded)
-
-	-- Fixee.RR: Reclass Fixee Fix into AP Pymt
-	-- (i.e. reverse the reversal so net reversal is zero because the total amount of AP is correct)
-IF OBJECT_ID('temp_FixRevReclass_Fixee') IS NOT NULL DROP TABLE temp_FixRevReclass_Fixee;
-
-SELECT fixee.*
-INTO temp_FixRevReclass_Fixee
-FROM CashFlow fixee
-JOIN temp_FixReversal fr ON fr.ParentCashFlow = fixee.OID
-JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
-JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
-WHERE fixee.TranDate <= @ApayableLockdownDate 
-	AND (@PayrollFixTag IS NULL OR fixee.Fix != @PayrollFixTag)
-	AND fixerTag.FixTagType = @AllocateFixTagType
-
-UPDATE frr SET 
-ParentCashFlow = Oid,
-Oid = NEWID(),
-Fix = @RevRecFixTag,
-Activity = @ApReclassActivity
-FROM temp_FixRevReclass_Fixee frr
-;
-
-	-- Fixee.RRR: Restore Fixee Fix to future date
-
-IF OBJECT_ID('temp_FixResRevRec_Fixee') IS NOT NULL DROP TABLE temp_FixResRevRec_Fixee;
-
-SELECT fixee.*
-INTO temp_FixResRevRec_Fixee
-FROM CashFlow fixee
-JOIN temp_FixReversal fr ON fr.ParentCashFlow = fixee.OID
-JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
-JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
-WHERE fixee.TranDate <= @ApayableLockdownDate 
-	AND (@PayrollFixTag IS NULL OR fixee.Fix != @PayrollFixTag)
-	AND fixerTag.FixTagType = @AllocateFixTagType
-
-UPDATE frrr SET 
-ParentCashFlow = Oid,
-Oid = NEWID(),
-Fix = @ResRevRecFixTag,
-Activity = @ApReclassActivity,
-AccountCcyAmt = -frrr.AccountCcyAmt,
-CounterCcyAmt = -frrr.CounterCcyAmt,
-FunctionalCcyAmt = -frrr.FunctionalCcyAmt,
-TranDate = @ApayableNextLockdownDate
-FROM temp_FixResRevRec_Fixee frrr
-;
-
-	-- Fixer.RR: Reverse Fixer Fix into AP Pymt
-IF OBJECT_ID('temp_FixRevReclass_Fixer') IS NOT NULL DROP TABLE temp_FixRevReclass_Fixer;
-
-SELECT fixer.*
-INTO temp_FixRevReclass_Fixer
-FROM CashFlow fixee
-JOIN temp_FixReversal fr ON fr.ParentCashFlow = fixee.OID
-JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
-JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
-WHERE fixee.TranDate <= @ApayableLockdownDate 
-	AND (@PayrollFixTag IS NULL OR fixee.Fix != @PayrollFixTag)
-	AND fixerTag.FixTagType = @AllocateFixTagType
-
-UPDATE frr SET
-ParentCashFlow = Oid, 
-Oid = NEWID(),
-Fix = @RevRecFixTag,
-Activity = @ApReclassActivity,
-AccountCcyAmt = -AccountCcyAmt,
-FunctionalCcyAmt = -FunctionalCcyAmt,
-CounterCcyAmt = -CounterCcyAmt,
-IsReclass = 1
-FROM temp_FixRevReclass_Fixer frr
-;
-
-	-- Fixer.RRR: Restore Fixer Fix to future date
-
-IF OBJECT_ID('temp_FixResRevReclass_Fixer') IS NOT NULL DROP TABLE temp_FixResRevReclass_Fixer;
-
-SELECT fixer.*
-INTO temp_FixResRevReclass_Fixer
-FROM CashFlow fixee
-JOIN temp_FixReversal fr ON fr.ParentCashFlow = fixee.OID
-JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
-JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
-WHERE fixee.TranDate <= @ApayableLockdownDate 
-	AND (@PayrollFixTag IS NULL OR fixee.Fix != @PayrollFixTag)
-	AND fixerTag.FixTagType = @AllocateFixTagType
-
-UPDATE frrr SET
-ParentCashFlow = Oid, 
-Oid = NEWID(),
-Fix = @ResRevRecFixTag,
-Activity = @ApReclassActivity,
-TranDate = @ApayableNextLockdownDate
-FROM temp_FixResRevReclass_Fixer frrr
-;
-
--- Link Fixee Cash Flow to Fixer
-
-UPDATE CashFlow
-SET Fixer = fixeeFixer.Fixer
-FROM CashFlow cf
-	INNER JOIN temp_FixeeFixer fixeeFixer ON cf.Oid = fixeeFixer.Fixee
-
--- Finalize
-
-INSERT INTO CashFlow
-SELECT * FROM temp_FixReversal
-UNION ALL
-SELECT * FROM temp_FixRevReclass_Fixee
-UNION ALL
-SELECT * FROM temp_FixRevReclass_Fixer
-UNION ALL
-SELECT * FROM temp_FixResRevRec_Fixee
-UNION ALL
-SELECT * FROM temp_FixResRevReclass_Fixer
-
--- SELECT
-/*
-SELECT fixeeFixer.*, 
-	fixee.TranDate, 
-	fixee.Counterparty,
-	fixee.AccountCcyAmt,
-	fixee.Account,
-	fixeeAccount.FixAccount,
-	fixee.FixFromDate,
-	fixee.FixToDate
-FROM temp_FixeeFixer fixeeFixer
-LEFT JOIN CashFlow fixee ON fixee.Oid = fixeeFixer.Fixee
-LEFT JOIN Account fixeeAccount ON fixee.Account = fixeeAccount.Oid
-
-SELECT * FROM temp_FixReversal
-*/";
-
-            
-            var conn = (SqlConnection)objSpace.Session.Connection;
-            var command = conn.CreateCommand();
-            command.CommandText = commandText;
-            command.ExecuteNonQuery();
-
-        }
-
         public void ApplyFix(List<SqlParameter> parameters)
         {
             if (defaultCounterparty == null)
@@ -468,7 +190,6 @@ SELECT * FROM temp_FixReversal
 
         public void Rephase(List<SqlParameter> parameters)
         {
-
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
 
@@ -521,7 +242,29 @@ AND [Snapshot] = @Snapshot
             get
             {
                 return
-                    @"-- CashFlowsToFix
+                    @"-- Delete Existing Fixes
+
+UPDATE cf
+SET 
+GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
+FROM CashFlow cf
+LEFT JOIN CashFlow pcf ON pcf.Oid = cf.ParentCashFlow
+WHERE cf.GCRecord IS NULL
+AND cf.[Snapshot] = @Snapshot
+AND cf.Fix IN (@ReversalFixTag, @RevRecFixTag, @ResRevRecFixTag)
+AND 
+(
+	--cf.ParentCashFlow IN (SELECT cf2.Oid FROM temp_CashFlowsToFix cf2)
+	cf.ParentCashFlow IN (SELECT cf1.Oid FROM CashFlow cf1 WHERE cf1.GCRecord IS NULL)
+	OR cf.ParentCashFlow IN (SELECT cfd.Oid FROM CashFlow cfd WHERE cfd.GCRecord IS NOT NULL)
+)
+AND 
+(
+	cf.ParentCashFlow IS NULL
+	OR pcf.IsFixeeSynced=0 OR pcf.IsFixerSynced=0 OR pcf.IsFixerFixeesSynced=0
+)
+
+-- CashFlowsToFix
 
 IF OBJECT_ID('temp_CashFlowsToFix') IS NOT NULL DROP TABLE temp_CashFlowsToFix;
 
@@ -537,26 +280,18 @@ WHERE
     AND (cf.Fix = NULL OR tag.FixTagType != @IgnoreFixTagType)
     AND 
 	(
-		cf.IsFixeeSynced=0 OR cf.IsFixerSynced=0 OR NOT cf.IsFixerFixeesSynced=0
+		cf.IsFixeeSynced=0 OR cf.IsFixerSynced=0 OR cf.IsFixerFixeesSynced=0
 		OR fixer.GCRecord IS NOT NULL
 	)
 ;
 
--- Delete Existing Fixes
+-- Update Status
 
-UPDATE cf
-SET 
-GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
-FROM CashFlow cf
-WHERE cf.GCRecord IS NULL
-AND cf.[Snapshot] = @Snapshot
-AND cf.Fix IN (@ReversalFixTag, @RevRecFixTag, @ResRevRecFixTag)
-AND 
-(
-	ParentCashFlow IN (SELECT cf2.Oid FROM temp_CashFlowsToFix cf2)
-	OR cf.ParentCashFlow IN (SELECT cf1.Oid FROM CashFlow cf1 WHERE cf1.GCRecord IS NULL)
-	OR cf.ParentCashFlow IN (SELECT cfd.Oid FROM CashFlow cfd WHERE cfd.GCRecord IS NOT NULL)
-)
+UPDATE CashFlow SET
+IsFixeeSynced = 1,
+IsFixerFixeesSynced = 1,
+IsFixerSynced = 1
+WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM temp_CashFlowsToFix cf2)
 
 -- FixeeFixer
 
@@ -633,10 +368,11 @@ LEFT JOIN temp_FixeeFixer fixeeFixer
 LEFT JOIN temp_CashFlowsToFix fixer
 	ON fixer.Oid = fixeeFixer.Fixer
 
--- Link Fixee Cash Flow to Fixer
+-- Update Fixee Cash Flow
 
 UPDATE CashFlow
-SET Fixer = fixeeFixer.Fixer
+SET 
+Fixer = fixeeFixer.Fixer -- Link Fixee Cash Flow to Fixer
 FROM CashFlow cf
 	INNER JOIN temp_FixeeFixer fixeeFixer ON cf.Oid = fixeeFixer.Fixee
 
@@ -772,8 +508,7 @@ LEFT JOIN CashFlow fixee ON fixee.Oid = fixeeFixer.Fixee
 LEFT JOIN Account fixeeAccount ON fixee.Account = fixeeAccount.Oid
 
 SELECT * FROM temp_FixReversal
-*/
-";
+*/";
             }
         }
 
