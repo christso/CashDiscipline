@@ -15,6 +15,7 @@ using CashDiscipline.Module.BusinessObjects.Cash;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
+    [ModelDefault("ImageName", "BO_List")]
     public class AustPostSettle : BaseObject
     {
         public AustPostSettle(Session session)

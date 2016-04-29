@@ -15,6 +15,7 @@ using DevExpress.Persistent.Validation;
 namespace CashDiscipline.Module.BusinessObjects.Setup
 {
     [DefaultClassOptions]
+    [ModelDefault("ImageName", "BO_List")]
     //[ImageName("BO_Contact")]
     //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
     //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]

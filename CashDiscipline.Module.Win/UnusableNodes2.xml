@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <ListView Id="CashFlow_PivotGridViewTest" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
+  </Views>
+  <NavigationItems Id="NavigationItems">
+    <Items Id="Items">
+      <Item Id="CustomAnalysis">
+        <Items Id="Items">
+          <Item Id="BankStmtPivotGrid" ViewId="BankStmtPivotGridView" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+</Application>

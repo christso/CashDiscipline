@@ -1,5 +1,6 @@
 using CashDiscipline.Module.BusinessObjects.Cash;
 using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
@@ -13,6 +14,7 @@ namespace CashDiscipline.Module.BusinessObjects
     //[ImageName("BO_Contact")]
     //[DefaultProperty("PersistentProperty")]
     //[DefaultListViewOptions(MasterDetailMode.ListViewAndDetailView, true, NewItemRowPosition.Top)]
+    [ModelDefault("ImageName", "BO_List")]
     [DefaultClassOptions]
     public class SetOfBooks : BaseObject
     { // You can use a different base persistent class based on your requirements (http://documentation.devexpress.com/#Xaf/CustomDocument3146).

@@ -1,22 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application>
-  <NavigationItems>
-    <Items>
-      <Item Id="CustomAnalysis">
-        <Items>
-          <Item Id="BankStmtPivotGrid" ViewId="BankStmtPivotGridView" />
-        </Items>
-      </Item>
-    </Items>
-  </NavigationItems>
+  <NavigationItems DefaultLeafImageName="BO_List" />
   <SchemaModules>
-    <SchemaModule Name="CloneObjectModule" Version="13.2.9.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="13.2.9.0" IsNewNode="True" />
-    <SchemaModule Name="SystemWindowsFormsModule" Version="13.2.9.0" IsNewNode="True" />
+    <SchemaModule Name="CloneObjectModule" Version="15.2.7.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="15.2.7.0" IsNewNode="True" />
+    <SchemaModule Name="SystemWindowsFormsModule" Version="15.2.7.0" IsNewNode="True" />
   </SchemaModules>
   <Views>
     <ListView Id="AccountSummary_PivotGridView" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
     <ListView Id="CashFlow_PivotGridView" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
-    <ListView Id="CashFlow_PivotGridViewTest" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
   </Views>
 </Application>

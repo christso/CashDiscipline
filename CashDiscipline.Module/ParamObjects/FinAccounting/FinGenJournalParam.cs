@@ -15,6 +15,7 @@ using DevExpress.ExpressApp.Xpo;
 
 namespace CashDiscipline.Module.ParamObjects.FinAccounting
 {
+    [ModelDefault("ImageName", "BO_List")]
     [DefaultProperty("Oid")]
     [RuleCriteria("FinGenJournalParam_CannotDeleteSingleton", DefaultContexts.Delete, "False",
     CustomMessageTemplate = "Cannot delete Singleton.")]

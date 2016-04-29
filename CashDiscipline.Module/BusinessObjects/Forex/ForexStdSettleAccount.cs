@@ -15,6 +15,7 @@ using CashDiscipline.Module.BusinessObjects.Cash;
 
 namespace CashDiscipline.Module.BusinessObjects.Forex
 {
+    [ModelDefault("ImageName", "BO_List")]
     public class ForexStdSettleAccount : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ForexStdSettleAccount(Session session)

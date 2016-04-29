@@ -12,6 +12,7 @@ using System.ComponentModel;
 
 namespace CashDiscipline.Module.BusinessObjects.Forex
 {
+    [ModelDefault("ImageName", "BO_List")]
     [ModelDefault("IsCloneable", "True")]
     [DefaultProperty("TradeId")]
     [ModelDefault("IsFooterVisible", "True")]

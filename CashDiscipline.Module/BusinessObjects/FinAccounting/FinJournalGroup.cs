@@ -15,6 +15,7 @@ using CashDiscipline.Module.ParamObjects.FinAccounting;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
+    [ModelDefault("ImageName", "BO_List")]
     [DefaultProperty("Name")]
     public class FinJournalGroup : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).

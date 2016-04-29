@@ -370,13 +370,14 @@ UPDATE revFix SET
 	AccountCcyAmt = -revFix.AccountCcyAmt,
 	FunctionalCcyAmt = -revFix.FunctionalCcyAmt,
 	Fix = @ReversalFixTag,
-	Fixer = NULL
-
+	Fixer = NULL,
+	Source = a1.FixSource
 FROM temp_FixReversal revFix
 LEFT JOIN temp_FixeeFixer fixeeFixer
 	ON fixeeFixer.Fixee = revFix.Oid
 LEFT JOIN temp_CashFlowsToFix fixer
 	ON fixer.Oid = fixeeFixer.Fixer
+LEFT JOIN Activity a1 ON a1.Oid = revFix.Activity
 
 -- Update Fixee Cash Flow
 
@@ -408,9 +409,11 @@ ParentCashFlow = frr.Oid,
 Oid = NEWID(),
 Fix = @RevRecFixTag,
 Activity = @ApReclassActivity,
-TranDate = fixer.TranDate
+TranDate = fixer.TranDate,
+Source = a1.FixSource
 FROM temp_FixRevReclass_Fixee frr
 LEFT JOIN CashFlow fixer ON fixer.Oid = frr.Fixer
+LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 ;
 
 	-- Fixee.RRR: Restore Fixee Fix to future date
@@ -429,15 +432,17 @@ WHERE fixee.TranDate <= @ApayableLockdownDate
 	AND fixerTag.FixTagType = @AllocateFixTagType
 
 UPDATE frrr SET 
-ParentCashFlow = Oid,
+ParentCashFlow = frrr.Oid,
 Oid = NEWID(),
 Fix = @ResRevRecFixTag,
 Activity = @ApReclassActivity,
 AccountCcyAmt = -frrr.AccountCcyAmt,
 CounterCcyAmt = -frrr.CounterCcyAmt,
 FunctionalCcyAmt = -frrr.FunctionalCcyAmt,
-TranDate = @ApayableNextLockdownDate
+TranDate = @ApayableNextLockdownDate,
+Source = a1.FixSource
 FROM temp_FixResRevRec_Fixee frrr
+LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
 
 	-- Fixer.RR: Reverse Fixer Fix into AP Pymt
@@ -455,15 +460,17 @@ WHERE fixee.TranDate <= @ApayableLockdownDate
 	AND fixerTag.FixTagType = @AllocateFixTagType
 
 UPDATE frr SET
-ParentCashFlow = Oid, 
+ParentCashFlow = frr.Oid, 
 Oid = NEWID(),
 Fix = @RevRecFixTag,
 Activity = @ApReclassActivity,
-AccountCcyAmt = -AccountCcyAmt,
-FunctionalCcyAmt = -FunctionalCcyAmt,
-CounterCcyAmt = -CounterCcyAmt,
-IsReclass = 1
+AccountCcyAmt = -frr.AccountCcyAmt,
+FunctionalCcyAmt = -frr.FunctionalCcyAmt,
+CounterCcyAmt = -frr.CounterCcyAmt,
+IsReclass = 1,
+Source = a1.FixSource
 FROM temp_FixRevReclass_Fixer frr
+LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 ;
 
 	-- Fixer.RRR: Restore Fixer Fix to future date
@@ -482,12 +489,14 @@ WHERE fixee.TranDate <= @ApayableLockdownDate
 	AND fixerTag.FixTagType = @AllocateFixTagType
 
 UPDATE frrr SET
-ParentCashFlow = Oid, 
+ParentCashFlow = frrr.Oid, 
 Oid = NEWID(),
 Fix = @ResRevRecFixTag,
 Activity = @ApReclassActivity,
-TranDate = @ApayableNextLockdownDate
+TranDate = @ApayableNextLockdownDate,
+Source = a1.FixSource
 FROM temp_FixResRevReclass_Fixer frrr
+LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
 
 -- Finalize

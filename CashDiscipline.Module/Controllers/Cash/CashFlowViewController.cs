@@ -15,9 +15,10 @@ namespace CashDiscipline.Module.Controllers.Cash
     public class CashFlowViewController : ViewController
     {
         private const string processCubeCaption = "Process Cube";
-        private const string processCubeSshotCaption = "Process Snapshot";
+        private const string processCubeHistCaption = "Process Historical";
         private const string processCubeAllCaption = "Process All";
-        private const string processCubeCurrentCaption = "Process Current";
+        private const string processCubeRecentCaption = "Process Recent";
+        private const string processCubeSshotCaption = "Process Snapshots";
 
         public SingleChoiceAction RunProgramAction;
 
@@ -60,13 +61,17 @@ namespace CashDiscipline.Module.Controllers.Cash
             processCubeAllAction.Caption = processCubeAllCaption;
             processCubeAction.Items.Add(processCubeAllAction);
 
+            var processCubeHistAction = new ChoiceActionItem();
+            processCubeHistAction.Caption = processCubeHistCaption;
+            processCubeAction.Items.Add(processCubeHistAction);
+
+            var processCubeRecentAction = new ChoiceActionItem();
+            processCubeRecentAction.Caption = processCubeRecentCaption;
+            processCubeAction.Items.Add(processCubeRecentAction);
+
             var processCubeSshotAction = new ChoiceActionItem();
             processCubeSshotAction.Caption = processCubeSshotCaption;
             processCubeAction.Items.Add(processCubeSshotAction);
-
-            var processCubeCurrentAction = new ChoiceActionItem();
-            processCubeCurrentAction.Caption = processCubeCurrentCaption;
-            processCubeAction.Items.Add(processCubeCurrentAction);
         }
 
         private void RunProgramAction_ExecuteCompleted(object sender, ActionBaseEventArgs e)
@@ -123,16 +128,54 @@ namespace CashDiscipline.Module.Controllers.Cash
                     SaveForecast();
                     break;
                 case processCubeCaption:
-                    ProcessCube();
+                    break;
+                case processCubeAllCaption:
+                    ProcessCube_All();
+                    break;
+                case processCubeRecentCaption:
+                    ProcessCube_Recent();
+                    break;
+                case processCubeHistCaption:
+                    ProcessCube_Hist();
+                    break;
+                case processCubeSshotCaption:
+                    ProcessCube_Sshot();
                     break;
             }
         }
 
-        public void ProcessCube()
+        #region Process Cube
+
+        public ServerProcessor CreateSsasClient()
         {
-            var ssas = new ServerProcessor("FINSERV01", "CashFlow");
+            return new ServerProcessor("FINSERV01", "CashFlow");
+        }
+
+
+        public void ProcessCube_All()
+        {
+            var ssas = CreateSsasClient();
             ssas.ProcessDatabase();
         }
+
+        public void ProcessCube_Recent()
+        {
+            var ssas = CreateSsasClient();
+            ssas.ProcessPartition("Model", "CashFlow", "CashFlow_Current_Recent");
+        }
+
+        public void ProcessCube_Hist()
+        {
+            var ssas = CreateSsasClient();
+            ssas.ProcessPartition("Model", "CashFlow", "CashFlow_Current_Hist");
+        }
+
+        public void ProcessCube_Sshot()
+        {
+            var ssas = CreateSsasClient();
+            ssas.ProcessPartition("Model", "CashFlow", "CashFlow_Snapshot");
+        }
+        #endregion
 
         private void ShowFixForecastForm(ShowViewParameters svp)
         {

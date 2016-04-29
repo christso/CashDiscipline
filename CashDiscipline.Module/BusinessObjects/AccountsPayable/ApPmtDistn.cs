@@ -19,6 +19,7 @@ using CashDiscipline.Module.BusinessObjects.Cash;
 namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
     [ModelDefault("IsFooterVisible", "True")]
+    [ModelDefault("ImageName", "BO_List")]
     public class ApPmtDistn : BaseObject, IXpoImportable
     { // You can use a different base persistent class based on your requirements (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ApPmtDistn(Session session)

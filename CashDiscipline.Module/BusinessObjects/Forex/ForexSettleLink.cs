@@ -15,6 +15,7 @@ using CashDiscipline.Module.BusinessObjects.Cash;
 
 namespace CashDiscipline.Module.BusinessObjects.Forex
 {
+    [ModelDefault("ImageName", "BO_List")]
     //[ImageName("BO_Contact")]
     //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
     //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]

@@ -17,6 +17,7 @@ using DevExpress.ExpressApp.Xpo;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
+    [ModelDefault("ImageName", "BO_List")]
     [RuleCriteria("FinAccountingDefaults_CannotDeleteSingleton", DefaultContexts.Delete, "False",
     CustomMessageTemplate = "Cannot delete Singleton.")]
     public class FinAccountingDefaults : BaseObject

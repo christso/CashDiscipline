@@ -15,6 +15,7 @@ using Xafology.ExpressApp.RowMover;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
+    [ModelDefault("ImageName", "BO_List")]
     public class BankStmtMapping : BaseObject, IRowMoverObject
     {
         public BankStmtMapping(Session session)

@@ -10,6 +10,7 @@ using System.Linq;
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CashDiscipline.Module.BusinessObjects.Forex
 {
+    [ModelDefault("ImageName", "BO_List")]
     // Specify various UI options for your persistent class and its properties using a declarative approach via built-in attributes (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
     //[ImageName("BO_Contact")]
     //[DefaultProperty("PersistentProperty")]

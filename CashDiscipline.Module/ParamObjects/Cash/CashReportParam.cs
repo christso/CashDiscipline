@@ -19,11 +19,7 @@ using CashDiscipline.Module.BusinessObjects;
 
 namespace CashDiscipline.Module.ParamObjects.Cash
 {
-    //[ImageName("BO_Contact")]
-    //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
-    //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
-    //[Persistent("DatabaseTableName")]
-    // Specify more UI options using a declarative approach (http://documentation.devexpress.com/#Xaf/CustomDocument2701).
+    [ModelDefault("ImageName", "BO_List")]
     public class CashReportParam : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public CashReportParam(Session session)

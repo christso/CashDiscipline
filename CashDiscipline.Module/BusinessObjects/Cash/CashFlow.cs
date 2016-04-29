@@ -113,14 +113,14 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         #region Main Properties
 
-        [NonPersistent]
-        public string ShortUID
-        {
-            get
-            {
-                return Convert.ToString(Oid).Substring(0, 8);
-            }
-        }
+        //[NonPersistent]
+        //public string ShortUID
+        //{
+        //    get
+        //    {
+        //        return Convert.ToString(Oid).Substring(0, 8);
+        //    }
+        //}
 
         public CashFlow OrigCashFlow
         {
@@ -618,6 +618,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         private CashFlow _Fixer;
+        [ModelDefault("LookupProperty", "Oid")]
         [Association("CashFlowFixer-CashFlows")]
         public CashFlow Fixer
         {
