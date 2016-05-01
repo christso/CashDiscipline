@@ -146,11 +146,10 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         #region Process Cube
 
-        public ServerProcessor CreateSsasClient()
+        private ServerProcessor CreateSsasClient()
         {
-            return new ServerProcessor("FINSERV01", "CashFlow");
+            return CashDisciplineHelpers.CreateSsasClient();
         }
-
 
         public void ProcessCube_All()
         {

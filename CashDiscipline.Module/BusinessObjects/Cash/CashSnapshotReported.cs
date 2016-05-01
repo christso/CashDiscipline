@@ -12,7 +12,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 {
     [ImageName("BO_List")]
     [ModelDefault("IsCloneable", "True")]
-    [NavigationItem("Cash Setup")]
+    [NavigationItem("Cash Report")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [ModelDefault("IsFooterVisible", "True")]
     public class CashSnapshotReported : BaseObject

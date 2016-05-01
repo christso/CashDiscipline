@@ -48,7 +48,6 @@
           <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="0" IsNewNode="True" />
           <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="1" IsNewNode="True" />
           <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="3" IsNewNode="True" />
-          <Item Id="CashFlowSnapshot" ViewId="CashFlowSnapshot_ListView" Index="4" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="Custom" Index="4" Removed="True" />

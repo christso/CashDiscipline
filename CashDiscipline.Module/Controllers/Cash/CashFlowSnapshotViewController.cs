@@ -5,6 +5,7 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
+using DG2NTT.AnalysisServicesHelpers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,24 +18,42 @@ namespace CashDiscipline.Module.Controllers.Cash
 {
     public class CashFlowSnapshotViewController : ViewController
     {
+        private const string processCubeCaption = "Process Cube";
+
         public CashFlowSnapshotViewController()
         {
+            TargetObjectType = typeof(CashFlowSnapshot);
 
             var cfsAction = new SingleChoiceAction(this, "CashFlowSnapshotAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
-            cfsAction.Caption = "Actions";
+            cfsAction.Caption = "Run Program";
             cfsAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             cfsAction.Execute += cfsAction_Execute;
             cfsAction.ShowItemsOnClick = true;
 
-            //var deleteAction = new ChoiceActionItem();
-            //deleteAction.Caption = "Delete";
-            //cfsAction.Items.Add(deleteAction);
-            
+            var processCubeAction = new ChoiceActionItem();
+            processCubeAction.Caption = processCubeCaption;
+            cfsAction.Items.Add(processCubeAction);
         }
 
         private void cfsAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
-            throw new NotImplementedException();
+            switch (e.SelectedChoiceActionItem.Caption)
+            {
+                case processCubeCaption:
+                    ProcessCube();
+                    break;
+            }
+        }
+
+        private void ProcessCube()
+        {
+            var ssas = CreateSsasClient();
+            ssas.ProcessTable("SnapshotReported");
+        }
+
+        private ServerProcessor CreateSsasClient()
+        {
+            return CashDisciplineHelpers.CreateSsasClient();
         }
 
         protected override void OnActivated()
