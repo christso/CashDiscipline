@@ -332,13 +332,7 @@ FROM
 			AND fixee.FixActivity = fixer.FixActivity
 			AND fixer.[Status] = @ForecastStatus
 			AND fixer.FixRank > fixee.FixRank
-			AND 
-			(
-				fixer.Counterparty IS NULL OR fixer.Counterparty = @DefaultCounterparty
-				OR fixee.Counterparty IS NULL AND fixer.Counterparty IS NULL
-				OR fixer.Counterparty = fixeeCparty.FixCounterparty
-				OR fixer.Counterparty = fixee.Counterparty
-			)
+	LEFT JOIN Counterparty fixerCparty ON fixerCparty.Oid = fixer.Counterparty
 	LEFT JOIN Account fixerAccount 
 		ON fixerAccount.Oid = fixer.Account
 	WHERE
@@ -346,6 +340,14 @@ FROM
 		(
 			fixeeAccount.FixAccount = fixerAccount.FixAccount
 			OR fixee.Account = fixer.Account
+		)
+		AND 
+		(
+			fixer.Counterparty IS NULL OR fixer.Counterparty = @DefaultCounterparty
+			OR fixee.Counterparty IS NULL AND fixer.Counterparty IS NULL
+			OR fixer.Counterparty = fixeeCparty.FixCounterparty
+			OR fixer.Counterparty = fixee.Counterparty
+			OR fixerCparty.FixCounterparty = fixeeCparty.FixCounterparty
 		)
 ) T1
 WHERE RowNum = 1
@@ -371,7 +373,8 @@ UPDATE revFix SET
 	FunctionalCcyAmt = -revFix.FunctionalCcyAmt,
 	Fix = @ReversalFixTag,
 	Fixer = NULL,
-	Source = a1.FixSource
+	Source = a1.FixSource,
+	[Status] = @ForecastStatus
 FROM temp_FixReversal revFix
 LEFT JOIN temp_FixeeFixer fixeeFixer
 	ON fixeeFixer.Fixee = revFix.Oid
@@ -410,7 +413,8 @@ Oid = NEWID(),
 Fix = @RevRecFixTag,
 Activity = @ApReclassActivity,
 TranDate = fixer.TranDate,
-Source = a1.FixSource
+Source = a1.FixSource,
+[Status] = @ForecastStatus
 FROM temp_FixRevReclass_Fixee frr
 LEFT JOIN CashFlow fixer ON fixer.Oid = frr.Fixer
 LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
@@ -440,7 +444,8 @@ AccountCcyAmt = -frrr.AccountCcyAmt,
 CounterCcyAmt = -frrr.CounterCcyAmt,
 FunctionalCcyAmt = -frrr.FunctionalCcyAmt,
 TranDate = @ApayableNextLockdownDate,
-Source = a1.FixSource
+Source = a1.FixSource,
+[Status] = @ForecastStatus
 FROM temp_FixResRevRec_Fixee frrr
 LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
@@ -468,7 +473,8 @@ AccountCcyAmt = -frr.AccountCcyAmt,
 FunctionalCcyAmt = -frr.FunctionalCcyAmt,
 CounterCcyAmt = -frr.CounterCcyAmt,
 IsReclass = 1,
-Source = a1.FixSource
+Source = a1.FixSource,
+[Status] = @ForecastStatus
 FROM temp_FixRevReclass_Fixer frr
 LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 ;
@@ -494,7 +500,8 @@ Oid = NEWID(),
 Fix = @ResRevRecFixTag,
 Activity = @ApReclassActivity,
 TranDate = @ApayableNextLockdownDate,
-Source = a1.FixSource
+Source = a1.FixSource,
+[Status] = @ForecastStatus
 FROM temp_FixResRevReclass_Fixer frrr
 LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
