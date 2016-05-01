@@ -19,6 +19,7 @@ namespace CashDiscipline.Module.Controllers.Cash
         private const string processCubeAllCaption = "Process All";
         private const string processCubeRecentCaption = "Process Recent";
         private const string processCubeSshotCaption = "Process Snapshots";
+        private const string mapSelectedCaption = "Map Selected";
 
         public SingleChoiceAction RunProgramAction;
 
@@ -38,7 +39,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             RunProgramAction.Items.Add(dailyUpdateAction);
 
             var mapAction = new ChoiceActionItem();
-            mapAction.Caption = "Map";
+            mapAction.Caption = mapSelectedCaption;
             RunProgramAction.Items.Add(mapAction);
 
             var fixForecastAction = new ChoiceActionItem();
@@ -116,8 +117,8 @@ namespace CashDiscipline.Module.Controllers.Cash
                 case "Fix Forecast":
                     ShowFixForecastForm(e.ShowViewParameters);
                     break;
-                case "Map":
-                    ExecuteMapping();
+                case mapSelectedCaption:
+                    MapSelected();
                     break;
                 case "Reload Forex Forecast":
                     var uploader = new ForexTradeBatchUploaderImpl(ObjectSpace);
@@ -191,7 +192,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             CashFlow.SaveForecast(objSpace);
         }
 
-        private void ExecuteMapping()
+        private void MapSelected()
         {
             var mapper = new CashFlowFixMapper((XPObjectSpace)ObjectSpace);
             var cashFlows = View.SelectedObjects;

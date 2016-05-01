@@ -23,7 +23,14 @@ namespace CashDiscipline.Module.Logic.Cash
 
         private const string MapCommandTextListSqlTemplate =
             MapCommandTextListSqlTemplateCommon + @"
-AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate";
+AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate
+AND CashFlow.[Snapshot] = @Snapshot
+AND 
+(
+	CashFlow.IsFixeeSynced=0 OR CashFlow.IsFixerSynced=0 OR CashFlow.IsFixerFixeesSynced=0
+	OR CashFlow.IsFixeeSynced IS NULL OR CashFlow.IsFixerSynced IS NULL OR CashFlow.IsFixerFixeesSynced IS NULL
+)
+AND (CashFlow.Fix = NULL OR Fix.FixTagType != @IgnoreFixTagType)";
 
         private const string MapCommandTextListByCashFlowSqlTemplate =
             MapCommandTextListSqlTemplateCommon + @"

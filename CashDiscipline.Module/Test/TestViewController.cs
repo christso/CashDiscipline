@@ -24,6 +24,8 @@ namespace CashDiscipline.Module.Test
 
         public TestViewController()
         {
+            this.Active["Test"] = false;
+
             var testDataAction = new SingleChoiceAction(this, "TestDataAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             testDataAction.ShowItemsOnClick = false;
             testDataAction.Caption = "Test";

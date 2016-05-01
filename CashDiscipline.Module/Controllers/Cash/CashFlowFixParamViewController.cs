@@ -31,6 +31,21 @@ namespace CashDiscipline.Module.Controllers.Cash
             var resetAction = new SimpleAction(this, "CashFlowFixResetAction", PredefinedCategory.ObjectsCreation);
             resetAction.Caption = "Reset";
             resetAction.Execute += ResetAction_Execute;
+
+            var mapAction = new SimpleAction(this, "CashFlowMapAction", PredefinedCategory.ObjectsCreation);
+            mapAction.Caption = "Map";
+            mapAction.Execute += MapAction_Execute;
+        }
+
+        private void MapAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            var os = (XPObjectSpace)Application.CreateObjectSpace();
+            var paramObj = View.CurrentObject as CashFlowFixParam;
+            if (paramObj != null)
+            {
+                var algo = new FixCashFlowsAlgorithm(os, paramObj);
+                algo.Map();
+            }
         }
 
         private void ResetAction_Execute(object sender, SimpleActionExecuteEventArgs e)

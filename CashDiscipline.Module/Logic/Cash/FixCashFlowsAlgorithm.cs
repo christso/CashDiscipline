@@ -188,6 +188,11 @@ namespace CashDiscipline.Module.Logic.Cash
             int result = command.ExecuteNonQuery();
         }
 
+        public void Map()
+        {
+            mapper.Process(CreateParameters());
+        }
+
         public void Rephase(List<SqlParameter> parameters)
         {
             var conn = (SqlConnection)objSpace.Session.Connection;
