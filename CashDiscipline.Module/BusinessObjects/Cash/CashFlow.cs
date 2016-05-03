@@ -17,6 +17,7 @@ using Xafology.Spreadsheet.Attributes;
 using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.Logic.Cash;
+using Xafology.ExpressApp.Xpo.SequentialGuidBase;
 
 // Please note that calling Save() will set IsFixeeSynced and IsFixerSynced to false;
 // Therefore, avoid calling Save() if you need to update those properties.
@@ -28,7 +29,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [ModelDefault("ImageName","BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("ShortUID")]
-    public class CashFlow : BaseObject, ICalculateToggleObject, CashDiscipline.Module.Interfaces.ICashFlow, IXpoImportable
+    public class CashFlow : SequentialGuidBaseObject, ICalculateToggleObject, CashDiscipline.Module.Interfaces.ICashFlow, IXpoImportable
     {
 
         private Activity _FixActivity;

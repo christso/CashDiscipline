@@ -44,6 +44,8 @@ namespace CashDiscipline.Module
             PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutFixForecast, typeof(CashFlow).Name);
             PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutWeekly, typeof(CashFlow).Name);
             PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutMonthly, typeof(CashFlow).Name);
+
+            Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.IsSequential = true;
         }
 
         #region Application Model Nodes

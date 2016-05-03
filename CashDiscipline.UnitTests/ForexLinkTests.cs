@@ -26,7 +26,7 @@ namespace CashDiscipline.UnitTests
     {
         public ForexLinkTests()
         {
-            SetTesterDbType(TesterDbType.InMemory);
+            SetTesterDbType(TesterDbType.MsSql);
         }
 
         public override void OnSetup()
@@ -50,7 +50,7 @@ namespace CashDiscipline.UnitTests
             // Currencies
             var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
             var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
-
+            
             // Forex Rates
             var rate = ObjectSpace.CreateObject<ForexRate>();
             rate.ConversionDate = new DateTime(2013, 11, 01);
@@ -217,6 +217,7 @@ namespace CashDiscipline.UnitTests
             #region Arrange Cash Flow Objects
 
             var cfIn1 = ObjectSpace.CreateObject<CashFlow>();
+
             cfIn1.CalculateEnabled = false;
             cfIn1.CounterCcy = ccyUSD;
             cfIn1.TranDate = new DateTime(2013, 11, 16);
@@ -230,7 +231,7 @@ namespace CashDiscipline.UnitTests
             cfIn1.Description = "cfIn1";
             cfIn1.BankStmts.Add(bsIn1);
             cfIn1.Save();
-
+            
             var cfIn2 = ObjectSpace.CreateObject<CashFlow>();
             cfIn2.CalculateEnabled = false;
             cfIn2.CounterCcy = ccyUSD;
