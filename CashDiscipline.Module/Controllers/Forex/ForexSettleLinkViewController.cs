@@ -52,6 +52,7 @@ namespace CashDiscipline.Module.Controllers.Forex
             // sort cash flow by date so that the earliest inflows are linked first
             var sortProps = new SortingCollection(null);
             sortProps.Add(new SortProperty("TranDate", DevExpress.Xpo.DB.SortingDirection.Ascending));
+            sortProps.Add(new SortProperty("Oid", DevExpress.Xpo.DB.SortingDirection.Ascending));
 
             // get unlinked forex settles for foreign currency accounts
 

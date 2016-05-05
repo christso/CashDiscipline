@@ -28,7 +28,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [ModelDefault("IsFooterVisible", "True")]
     [ModelDefault("ImageName","BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
-    [DefaultProperty("ShortUID")]
+    [DefaultProperty("Oid")]
     public class CashFlow : SequentialGuidBaseObject, ICalculateToggleObject, CashDiscipline.Module.Interfaces.ICashFlow, IXpoImportable
     {
 

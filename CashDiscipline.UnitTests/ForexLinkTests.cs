@@ -27,12 +27,17 @@ namespace CashDiscipline.UnitTests
         public ForexLinkTests()
         {
             SetTesterDbType(TesterDbType.MsSql);
+
+            var tester = Tester as MSSqlDbTestBase;
+            if (tester != null)
+                tester.DatabaseName = Constants.TestDbName;
         }
 
         public override void OnSetup()
         {
             CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
+
         }
 
         [TestCase(1)]
@@ -42,8 +47,16 @@ namespace CashDiscipline.UnitTests
         [TestCase(5)]
         [TestCase(6)]
         [TestCase(7)]
+        [TestCase(8)]
+        [TestCase(9)]
+        [TestCase(10)]
+        [TestCase(11)]
+        [TestCase(12)]
+        [TestCase(13)]
+        [TestCase(14)]
         public void ForexLinkFifo(int caseNumber)
         {
+            Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.IsSequential = true;
 
             #region Arrange Forex Objects
 
@@ -273,6 +286,7 @@ namespace CashDiscipline.UnitTests
             cfOut1.FunctionalCcyAmt = cfOut1.AccountCcyAmt / rate.ConversionRate;
             cfOut1.CounterCcyAmt = cfOut1.AccountCcyAmt;
             cfOut1.ForexSettleType = CashFlowForexSettleType.Out;
+            cfOut1.Description = "cfout1";
             cfOut1.BankStmts.Add(bsOut1);
             cfOut1.Save();
 
@@ -387,6 +401,7 @@ namespace CashDiscipline.UnitTests
 
             ObjectSpace.CommitChanges();
             ForexSettleLinkViewController.ForexLinkFifo(ObjectSpace, 100);
+            ObjectSpace.CommitChanges();
 
             #endregion
 
@@ -409,7 +424,7 @@ namespace CashDiscipline.UnitTests
 
             decimal bankStmtSum = Math.Round(bankStmts.Sum(x => x.FunctionalCcyAmt), 2);
             Assert.LessOrEqual(bankStmtSum, -4.43M);
-            Assert.GreaterOrEqual(bankStmtSum, -4.45M);
+            Assert.GreaterOrEqual(bankStmtSum, -4.46M);
 
             #endregion
         }

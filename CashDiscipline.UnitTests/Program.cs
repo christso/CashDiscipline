@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +14,12 @@ namespace CashDiscipline.UnitTests
         [STAThread]
         static void Main(string[] args)
         {
-            RunTestMetheod();
+            RunTest();
 
             Console.ReadKey();
         }
 
-        static void RunTestMetheod()
+        static void RunTempTestMethod()
         {
             var tests = new CashDiscipline.UnitTests.TempTests();
             tests.TempTest();
@@ -26,13 +27,25 @@ namespace CashDiscipline.UnitTests
 
         static void RunTest()
         {
-            var tests = new CashDiscipline.UnitTests.TempTests();
+            var tests = new CashDiscipline.UnitTests.ForexLinkTests();
             tests.SetUpFixture();
-            tests.Setup();
-            tests.TempTest();
-            tests.TearDown();
+            for (int i = 0; i < 10; i++)
+            {
+                try
+                {
+                    tests.Setup();
+                    tests.ForexLinkFifo(i);
+                    tests.TearDown();
+                    Console.WriteLine("Test {0} Passed", i);
+                }
+                catch (AssertionException ex)
+                {
+                    Console.WriteLine("Test {0} Failed\n{1}", i,
+                        ex.Message);
+                }
+            }
             tests.TearDownFixture();
-            Console.WriteLine("Test Passed");
+            
         }
     }
 }
