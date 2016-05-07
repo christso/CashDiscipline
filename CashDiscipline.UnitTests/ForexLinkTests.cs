@@ -992,6 +992,9 @@ namespace CashDiscipline.UnitTests
             var counterparty = ObjectSpace.CreateObject<Counterparty>();
             counterparty.Name = "UNDEFINED";
 
+            var stmtSource = ObjectSpace.CreateObject<CashFlowSource>();
+            stmtSource.Name = "Stmt";
+
             #endregion
 
             #region Arrange Bank Stmt Objects
@@ -1044,6 +1047,7 @@ namespace CashDiscipline.UnitTests
             bsOut1.Counterparty = counterparty;
             bsOut1.TranAmount = -110;
             bsOut1.ForexSettleType = CashFlowForexSettleType.Out;
+            bsOut1.SummaryDescription = "bsOut1";
             bsOut1.Save();
 
             var bsOut2 = ObjectSpace.CreateObject<BankStmt>();
@@ -1150,6 +1154,7 @@ namespace CashDiscipline.UnitTests
             cfIn1.CounterCcyAmt = cfIn1.AccountCcyAmt;
             cfIn1.ForexSettleType = CashFlowForexSettleType.In;
             cfIn1.Description = "cfIn1";
+            cfIn1.Source = stmtSource;
             cfIn1.BankStmts.Add(bsIn1);
             cfTable.Add(intparam[counter], cfIn1);
             counter++;
@@ -1166,6 +1171,7 @@ namespace CashDiscipline.UnitTests
             cfIn2.CounterCcyAmt = cfIn2.AccountCcyAmt;
             cfIn2.ForexSettleType = CashFlowForexSettleType.In;
             cfIn2.Description = "cfIn2";
+            cfIn2.Source = stmtSource;
             cfIn2.BankStmts.Add(bsIn2);
             cfTable.Add(intparam[counter], cfIn2);
             counter++;
@@ -1182,6 +1188,7 @@ namespace CashDiscipline.UnitTests
             cfIn3.CounterCcyAmt = cfIn3.AccountCcyAmt;
             cfIn3.ForexSettleType = CashFlowForexSettleType.In;
             cfIn3.Description = "cfIn3";
+            cfIn3.Source = stmtSource;
             cfIn3.BankStmts.Add(bsIn3);
             cfTable.Add(intparam[counter], cfIn3);
             counter++;
@@ -1198,6 +1205,7 @@ namespace CashDiscipline.UnitTests
             cfOut1.CounterCcyAmt = cfOut1.AccountCcyAmt;
             cfOut1.ForexSettleType = CashFlowForexSettleType.Out;
             cfOut1.Description = "cfout1";
+            cfOut1.Source = stmtSource;
             cfOut1.BankStmts.Add(bsOut1);
             cfTable.Add(intparam[counter], cfOut1);
             counter++;
@@ -1214,6 +1222,7 @@ namespace CashDiscipline.UnitTests
             cfOut2.CounterCcyAmt = cfOut2.AccountCcyAmt;
             cfOut2.ForexSettleType = CashFlowForexSettleType.OutReclass;
             cfOut2.Description = "cfOut2";
+            cfOut2.Source = stmtSource;
             cfOut2.BankStmts.Add(bsOut2);
             cfTable.Add(intparam[counter], cfOut2);
             counter++;
@@ -1230,6 +1239,7 @@ namespace CashDiscipline.UnitTests
             cfOut3.CounterCcyAmt = cfOut3.AccountCcyAmt;
             cfOut3.ForexSettleType = CashFlowForexSettleType.OutReclass;
             cfOut3.Description = "cfOut3";
+            cfOut3.Source = stmtSource;
             cfOut3.BankStmts.Add(bsOut3);
             cfTable.Add(intparam[counter], cfOut3);
             counter++;
@@ -1246,6 +1256,7 @@ namespace CashDiscipline.UnitTests
             cfOut4.CounterCcyAmt = cfOut4.AccountCcyAmt;
             cfOut4.ForexSettleType = CashFlowForexSettleType.Out;
             cfOut4.Description = "cfOut4";
+            cfOut4.Source = stmtSource;
             cfOut4.BankStmts.Add(bsOut4);
             cfTable.Add(intparam[counter], cfOut4);
             counter++;
@@ -1263,6 +1274,7 @@ namespace CashDiscipline.UnitTests
             cfOut5.ForexSettleType = CashFlowForexSettleType.OutReclass;
             cfOut5.Description = "cfOut5";
             cfOut5.BankStmts.Add(bsOut5);
+            cfOut5.Source = stmtSource;
             cfTable.Add(intparam[counter], cfOut5);
             counter++;
 
@@ -1278,6 +1290,7 @@ namespace CashDiscipline.UnitTests
             cfOut6.CounterCcyAmt = cfOut6.AccountCcyAmt;
             cfOut6.ForexSettleType = CashFlowForexSettleType.OutReclass;
             cfOut6.Description = "cfOut6";
+            cfOut6.Source = stmtSource;
             cfOut6.BankStmts.Add(bsOut6);
             cfTable.Add(intparam[counter], cfOut6);
             counter++;
@@ -1294,6 +1307,7 @@ namespace CashDiscipline.UnitTests
             cfOut7.CounterCcyAmt = cfOut7.AccountCcyAmt;
             cfOut7.ForexSettleType = CashFlowForexSettleType.Out;
             cfOut7.Description = "cfOut7";
+            cfOut7.Source = stmtSource;
             cfOut7.BankStmts.Add(bsOut7);
             cfTable.Add(intparam[counter], cfOut7);
             counter++;
@@ -1310,6 +1324,7 @@ namespace CashDiscipline.UnitTests
             cfOut8.CounterCcyAmt = cfOut8.AccountCcyAmt;
             cfOut8.ForexSettleType = CashFlowForexSettleType.Out;
             cfOut8.Description = "cfOut8";
+            cfOut8.Source = stmtSource;
             cfOut8.BankStmts.Add(bsOut8);
             cfTable.Add(intparam[counter], cfOut8);
             counter++;
@@ -1383,6 +1398,88 @@ namespace CashDiscipline.UnitTests
             Assert.AreEqual(
                 Math.Round(cfOut8.AccountCcyAmt * cfIn3.FunctionalCcyAmt / cfIn3.AccountCcyAmt, 2),
                 Math.Round(cfOut8.FunctionalCcyAmt, 2));
+
+            #endregion
+
+            #region Act - Insert new Cash Inflow to fund excess outflow
+
+            ccyUSD = ObjectSpace.GetObjectByKey<Currency>(ccyUSD.Oid);
+            account = ObjectSpace.GetObjectByKey<Account>(account.Oid);
+            activity = ObjectSpace.GetObjectByKey<Activity>(activity.Oid);
+            counterparty = ObjectSpace.GetObjectByKey<Counterparty>(counterparty.Oid);
+
+            // additional cash flow, not linked to bank stmt
+            var cfIn4 = ObjectSpace.CreateObject<CashFlow>();
+            cfIn4.CalculateEnabled = false;
+            cfIn4.CounterCcy = ccyUSD;
+            cfIn4.TranDate = new DateTime(2013, 12, 18);
+            cfIn4.Account = account;
+            cfIn4.Activity = activity;
+            cfIn4.Counterparty = counterparty;
+            cfIn4.AccountCcyAmt = 10;
+            cfIn4.FunctionalCcyAmt = cfIn4.AccountCcyAmt / 0.6M;
+            cfIn4.CounterCcyAmt = cfIn4.AccountCcyAmt;
+            cfIn4.ForexSettleType = CashFlowForexSettleType.In;
+            cfIn4.Description = "cfIn4";
+            ObjectSpace.CommitChanges();
+
+            algo.Process();
+
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
+
+            #endregion
+
+            #region Assert that new cash flow is linked
+
+            fsls = ObjectSpace.GetObjects<ForexSettleLink>();
+            Assert.AreEqual(184, fsls.Sum(x => x.AccountCcyAmt));
+
+            #endregion
+
+            #region Assert revaluation of outflow uses the new inflow
+
+            cfIn1 = ObjectSpace.GetObjectByKey<CashFlow>(cfIn1.Oid);
+            cfIn2 = ObjectSpace.GetObjectByKey<CashFlow>(cfIn2.Oid);
+            cfIn3 = ObjectSpace.GetObjectByKey<CashFlow>(cfIn3.Oid);
+            cfOut1 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut1.Oid);
+            cfOut2 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut2.Oid);
+            cfOut3 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut3.Oid);
+            cfOut4 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut4.Oid);
+            cfOut5 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut5.Oid);
+            cfOut6 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut6.Oid);
+            cfOut7 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut7.Oid);
+            cfOut8 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut8.Oid);
+
+            Assert.AreEqual(
+                -Math.Round(15 / cfIn3.AccountCcyAmt * cfIn3.FunctionalCcyAmt
+                    + 4 / cfIn4.AccountCcyAmt * cfIn4.FunctionalCcyAmt , 2),
+                Math.Round(cfOut8.FunctionalCcyAmt, 2));
+
+            #endregion
+
+            #region Assert Bank Statement values equal Cash Flow
+
+            bsIn1 = ObjectSpace.GetObjectByKey<BankStmt>(bsIn1.Oid);
+            bsIn2 = ObjectSpace.GetObjectByKey<BankStmt>(bsIn2.Oid);
+            bsIn3 = ObjectSpace.GetObjectByKey<BankStmt>(bsIn3.Oid);
+            bsOut1 = ObjectSpace.GetObjectByKey<BankStmt>(bsOut1.Oid);
+            bsOut2 = ObjectSpace.GetObjectByKey<BankStmt>(bsOut2.Oid);
+            bsOut3 = ObjectSpace.GetObjectByKey<BankStmt>(bsOut3.Oid);
+            bsOut4 = ObjectSpace.GetObjectByKey<BankStmt>(bsOut4.Oid);
+            bsOut5 = ObjectSpace.GetObjectByKey<BankStmt>(bsOut5.Oid);
+            bsOut6 = ObjectSpace.GetObjectByKey<BankStmt>(bsOut6.Oid);
+            bsOut7 = ObjectSpace.GetObjectByKey<BankStmt>(bsOut7.Oid);
+            bsOut8 = ObjectSpace.GetObjectByKey<BankStmt>(bsOut8.Oid);
+
+            Assert.AreEqual(cfOut1.FunctionalCcyAmt, bsOut1.FunctionalCcyAmt);
+            Assert.AreEqual(cfOut2.FunctionalCcyAmt, bsOut2.FunctionalCcyAmt);
+            Assert.AreEqual(cfOut3.FunctionalCcyAmt, bsOut3.FunctionalCcyAmt);
+            Assert.AreEqual(cfOut4.FunctionalCcyAmt, bsOut4.FunctionalCcyAmt);
+            Assert.AreEqual(cfOut5.FunctionalCcyAmt, bsOut5.FunctionalCcyAmt);
+            Assert.AreEqual(cfOut6.FunctionalCcyAmt, bsOut6.FunctionalCcyAmt);
+            Assert.AreEqual(cfOut7.FunctionalCcyAmt, bsOut7.FunctionalCcyAmt);
+            Assert.AreEqual(cfOut8.FunctionalCcyAmt, bsOut8.FunctionalCcyAmt);
 
             #endregion
         }

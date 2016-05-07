@@ -58,18 +58,39 @@ BEGIN
 
 IF OBJECT_ID('temp_FifoCashFlow') IS NOT NULL DROP TABLE temp_FifoCashFlow;
 
+SELECT *
+INTO temp_FifoCashFlow
+FROM
+(
 SELECT
 	ROW_NUMBER() OVER (ORDER BY CashFlow.TranDate, CashFlow.Oid) AS RowId,
 	CashFlow.Account,
 	CashFlow.Oid,
 	CashFlow.TranDate,
-	CashFlow.AccountCcyAmt AS Amount,
+	-- <Unlinked Amount>
+	-- Original Cash Flow Amount
+	CashFlow.AccountCcyAmt 
+	-- Linked Inflow Amount
+	- COALESCE ( (
+		SELECT SUM (fsl.AccountCcyAmt )
+		FROM ForexSettleLink fsl
+		WHERE fsl.CashFlowIn = CashFlow.Oid
+	) , 0 )
+	+
+	-- Linked Outflow Amount
+	COALESCE ( (
+		SELECT SUM (fsl.AccountCcyAmt )
+		FROM ForexSettleLink fsl
+		WHERE fsl.CashFlowOut = CashFlow.Oid
+	), 0 ) AS Amount,
+	-- </Unlinked Amount>
 	CashFlow.ForexSettleType,
 	CAST ( 0.00 AS money ) AS IoBalance
-INTO temp_FifoCashFlow
 FROM CashFlow
 WHERE GCRecord IS NULL
 	AND ForexSettleType IN (@InSettleType, @OutSettleType)
+) cf
+WHERE cf.Amount != 0
 
 UPDATE cf1 SET
 IoBalance =
@@ -187,6 +208,19 @@ JOIN
             }
         }
 
+        public string RevalueBankStmtCommandText
+        {
+            get
+            {
+                return
+@"UPDATE BankStmt SET
+FunctionalCcyAmt = CashFlow.FunctionalCcyAmt
+FROM BankStmt
+JOIN CashFlow ON CashFlow.Oid = BankStmt.CashFlow
+WHERE BankStmt.GCRecord IS NULL";
+            }
+        }
+
         #endregion
 
         private XPObjectSpace objSpace;
@@ -197,6 +231,7 @@ JOIN
         {
             LinkCashFlows();
             RevalueOutflows();
+            RevalueBankStmt();
         }
 
         public void LinkCashFlows()
@@ -221,6 +256,19 @@ JOIN
             {
                 cmd.Parameters.AddRange(parameters.ToArray());
                 cmd.CommandText = RevalueOutflowsCommandText;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void RevalueBankStmt()
+        {
+            var clauses = CreateSqlParameters();
+            var parameters = CreateParameters(clauses);
+
+            using (var cmd = ((SqlConnection)objSpace.Session.Connection).CreateCommand())
+            {
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.CommandText = RevalueBankStmtCommandText;
                 cmd.ExecuteNonQuery();
             }
         }
