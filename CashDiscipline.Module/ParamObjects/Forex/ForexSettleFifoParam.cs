@@ -54,18 +54,6 @@ namespace CashDiscipline.Module.ParamObjects.Forex
                 SetPropertyValue("ToDate", ref _ToDate, value);
             }
         }
-
-        private CashFlowSnapshot _Snapshot;
-        public CashFlowSnapshot Snapshot
-        {
-            get
-            {
-                return _Snapshot;
-            }
-            set
-            {
-                SetPropertyValue("Snapshot", ref _Snapshot, value);
-            }
-        }
+        
     }
 }

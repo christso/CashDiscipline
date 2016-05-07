@@ -9,15 +9,15 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlTypes;
 
 /* Parameters in SQL
-DECLARE @Snapshot uniqueidentifier = COALESCE(
-	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam),
-	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
-)
+DECLARE @Snapshot uniqueidentifier = (SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
 DECLARE @InSettleType int = 1
 DECLARE @OutSettleType int = 2
 DECLARE @OutReclassSettleType int = 4
+DECLARE @FromDate date = '1970-01-01'
+DECLARE @ToDate date = '2199-12-31'
 */
 
 namespace CashDiscipline.Module.Logic.Forex
@@ -29,6 +29,17 @@ namespace CashDiscipline.Module.Logic.Forex
         {
             this.objSpace = objSpace;
             this.paramObj = paramObj;
+
+            if (paramObj.FromDate <= SqlDateTime.MinValue.Value)
+                this.fromDate = SqlDateTime.MinValue.Value;
+            else
+                this.fromDate = paramObj.FromDate;
+
+            if (paramObj.ToDate <= SqlDateTime.MinValue.Value)
+                this.toDate = SqlDateTime.MaxValue.Value;
+            else
+                this.toDate = paramObj.ToDate;
+
             this.currentSnapshot = CashFlowHelper.GetCurrentSnapshot(objSpace.Session);
         }
 
@@ -89,6 +100,8 @@ SELECT
 	CAST ( 0.00 AS money ) AS IoBalance
 FROM CashFlow
 WHERE GCRecord IS NULL
+	AND [Snapshot] = @Snapshot
+	AND TranDate BETWEEN @FromDate AND @ToDate
 	AND ForexSettleType IN (@InSettleType, @OutSettleType)
 ) cf
 WHERE cf.Amount != 0
@@ -205,7 +218,10 @@ JOIN
 	WHERE fsl.GCRecord IS NULL
 	GROUP BY
 		fsl.CashFlowOut
-) fsm ON fsm.CashFlowOut = CashFlow.Oid";
+) fsm ON fsm.CashFlowOut = CashFlow.Oid
+WHERE 
+CashFlow.[Snapshot] = @Snapshot
+AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate";
             }
         }
 
@@ -235,6 +251,8 @@ JOIN
 	cf1.TranDate = cf0.TranDate
 	AND cf1.Account = cf0.Account
 WHERE cf0.GCRecord IS NULL
+AND cf0.[Snapshot] = @Snapshot
+AND cf0.TranDate BETWEEN @FromDate AND @ToDate
 AND cf0.ForexSettleType = @OutReclassSettleType";
             }
         }
@@ -248,7 +266,10 @@ AND cf0.ForexSettleType = @OutReclassSettleType";
 FunctionalCcyAmt = CashFlow.FunctionalCcyAmt
 FROM BankStmt
 JOIN CashFlow ON CashFlow.Oid = BankStmt.CashFlow
-WHERE BankStmt.GCRecord IS NULL";
+WHERE 
+	BankStmt.GCRecord IS NULL
+	AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate
+	AND CashFlow.[Snapshot] = @Snapshot";
             }
         }
 
@@ -256,6 +277,8 @@ WHERE BankStmt.GCRecord IS NULL";
 
         private XPObjectSpace objSpace;
         private ForexSettleFifoParam paramObj;
+        private DateTime fromDate;
+        private DateTime toDate;
         private CashFlowSnapshot currentSnapshot;
 
         public void Process()
@@ -322,13 +345,13 @@ WHERE BankStmt.GCRecord IS NULL";
         {
             var clauses = new List<SqlDeclareClause>()
             {
-                new SqlDeclareClause("Snapshot", "uniqueidentifier", @"COALESCE(
-	                (SELECT TOP 1 [Snapshot] FROM ForexSettleFifoParam WHERE GCRecord IS NULL),
-	                (SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)
-                )"),
+                new SqlDeclareClause("Snapshot", "uniqueidentifier",
+                @"(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)"),
                 new SqlDeclareClause("InSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.In))),
                 new SqlDeclareClause("OutSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.Out))),
-                new SqlDeclareClause("OutReclassSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.OutReclass)))
+                new SqlDeclareClause("OutReclassSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.OutReclass))),
+                new SqlDeclareClause("FromDate", "date", string.Format("'{0}'", fromDate.ToString("yyyy-MM-dd"))),
+                new SqlDeclareClause("ToDate", "date", string.Format("'{0}'", toDate.ToString("yyyy-MM-dd")))
             };
             return clauses;
         }
