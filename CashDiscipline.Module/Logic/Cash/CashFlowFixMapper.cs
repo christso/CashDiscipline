@@ -41,6 +41,7 @@ AND CashFlow.[Oid] IN ({1})";
 FROM CashFlow
 LEFT JOIN CashFlowSource Source ON Source.Oid = CashFlow.Source
 LEFT JOIN Activity ON Activity.Oid = CashFlow.Activity
+LEFT JOIN Account ON Account.Oid = CashFlow.Account
 LEFT JOIN CashForecastFixTag Fix ON Fix.Oid = CashFlow.Fix
 WHERE CashFLow.GCRecord IS NULL";
 
@@ -144,6 +145,12 @@ WHERE CashFLow.GCRecord IS NULL";
                 setTextList.Add(commandText);
 
             commandText = GetMapSetCommandText("FixToDate", m => string.Format("{0}", m.FixToDateExpr), m => !string.IsNullOrEmpty(m.FixToDateExpr), step, String.Empty);
+            if (!string.IsNullOrWhiteSpace(commandText))
+                setTextList.Add(commandText);
+
+            commandText = GetMapSetCommandText("ForexSettleType", m => string.Format("{0}", Convert.ToInt32(m.ForexSettleType)),
+                m => m.ForexSettleType != CashFlowForexSettleType.Auto, step,
+                "WHEN CashFlow.{0} IS NOT NULL AND CashFlow.{0} != 0 AND CashFlow.{0} != 1 THEN CashFlow.{0}");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 

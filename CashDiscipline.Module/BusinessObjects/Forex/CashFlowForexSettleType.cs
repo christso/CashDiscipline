@@ -22,10 +22,12 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
 {
     public enum CashFlowForexSettleType
     {
+        Auto,
         Exclude,
         In,
+        [DevExpress.ExpressApp.DC.XafDisplayName("In Reclass")]
+        InReclass,
         Out,
-        Auto,
         [DevExpress.ExpressApp.DC.XafDisplayName("Out Reclass")]
         OutReclass
     }

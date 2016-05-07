@@ -12,6 +12,7 @@ using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using Xafology.ExpressApp.RowMover;
+using CashDiscipline.Module.BusinessObjects.Forex;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -172,6 +173,19 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("Description", ref _Description, value);
+            }
+        }
+
+        private CashFlowForexSettleType _ForexSettleType;
+        public CashFlowForexSettleType ForexSettleType
+        {
+            get
+            {
+                return _ForexSettleType;
+            }
+            set
+            {
+                SetPropertyValue("ForexSettleType", ref _ForexSettleType, value);
             }
         }
 

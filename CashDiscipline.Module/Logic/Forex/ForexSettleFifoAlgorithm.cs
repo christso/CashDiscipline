@@ -13,9 +13,9 @@ using System.Data.SqlTypes;
 
 /* Parameters in SQL
 DECLARE @Snapshot uniqueidentifier = (SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
-DECLARE @InSettleType int = 1
-DECLARE @OutSettleType int = 2
-DECLARE @OutReclassSettleType int = 4
+DECLARE @InSettleType int = 2
+DECLARE @OutSettleType int = 4
+DECLARE @OutReclassSettleType int = 5
 DECLARE @FromDate date = '1970-01-01'
 DECLARE @ToDate date = '2199-12-31'
 */
