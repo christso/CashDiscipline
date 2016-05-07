@@ -1331,17 +1331,58 @@ namespace CashDiscipline.UnitTests
 
             var paramObj = ObjectSpace.CreateObject<ForexSettleFifoParam>();
             var algo = new ForexSettleFifoAlgorithm(ObjectSpace, paramObj);
-            algo.Process();
+            algo.LinkCashFlows();
             ObjectSpace.CommitChanges();
 
             #endregion
 
-            #region Assert
+            #region Assert ForexSettleLink
 
+            // assert that all cash flows are linked
             var fsls = ObjectSpace.GetObjects<ForexSettleLink>();
             Assert.AreEqual(180, fsls.Sum(x => x.AccountCcyAmt));
 
+            #endregion
 
+            #region Act - Revalue Cash Outflows
+
+            algo.RevalueOutflows();
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Assert Cash Outflow revaluation
+
+            ObjectSpace.Refresh();
+            cfIn1 = ObjectSpace.GetObjectByKey<CashFlow>(cfIn1.Oid);
+            cfIn2 = ObjectSpace.GetObjectByKey<CashFlow>(cfIn2.Oid);
+            cfIn3 = ObjectSpace.GetObjectByKey<CashFlow>(cfIn3.Oid);
+            cfOut1 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut1.Oid);
+            cfOut2 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut2.Oid);
+            cfOut3 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut3.Oid);
+            cfOut4 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut4.Oid);
+            cfOut5 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut5.Oid);
+            cfOut6 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut6.Oid);
+            cfOut7 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut7.Oid);
+            cfOut8 = ObjectSpace.GetObjectByKey<CashFlow>(cfOut8.Oid);
+
+            Assert.AreEqual(
+                -Math.Round(cfIn1.FunctionalCcyAmt + 10 / cfIn2.AccountCcyAmt * cfIn2.FunctionalCcyAmt, 2),
+                Math.Round(cfOut1.FunctionalCcyAmt,2));
+
+            Assert.AreEqual(
+                -Math.Round(30 / cfIn2.AccountCcyAmt * cfIn2.FunctionalCcyAmt, 2),
+                Math.Round(cfOut4.FunctionalCcyAmt,2));
+
+            Assert.AreEqual(
+                -Math.Round(10 / cfIn2.AccountCcyAmt * cfIn2.FunctionalCcyAmt
+                + 15 / cfIn3.AccountCcyAmt * cfIn3.FunctionalCcyAmt, 2),
+                Math.Round(cfOut7.FunctionalCcyAmt, 2));
+
+            // assume rate of last cfIn is used
+            Assert.AreEqual(
+                Math.Round(cfOut8.AccountCcyAmt * cfIn3.FunctionalCcyAmt / cfIn3.AccountCcyAmt, 2),
+                Math.Round(cfOut8.FunctionalCcyAmt, 2));
 
             #endregion
         }

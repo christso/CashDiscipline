@@ -33,7 +33,11 @@ namespace CashDiscipline.Module.Logic.Forex
 
         #region SQL
 
-        public const string ProcessFifoCommandText =
+        public string ProcessFifoCommandText
+        {
+            get
+            {
+                return
 @"-- Pre-validation
 
 DECLARE @IsValid int = 1- COALESCE (
@@ -154,6 +158,34 @@ SELECT
 FROM temp_InflowOutflow
 
 END";
+            }
+        }
+
+        public string RevalueOutflowsCommandText
+        {
+            get
+            {
+                return
+@"UPDATE CashFlow SET
+FunctionalCcyAmt =
+(
+	SELECT fsm.FunctionalCcyAmt / fsm.AccountCcyAmt * CashFlow.AccountCcyAmt
+)
+FROM CashFlow
+JOIN
+(
+	SELECT 
+		fsl.CashFlowOut,
+		SUM ( fsl.AccountCcyAmt ) AS AccountCcyAmt,
+		SUM ( cfIn.FunctionalCcyAmt * fsl.AccountCcyAmt / cfIn.AccountCcyAmt ) AS FunctionalCcyAmt
+	FROM ForexSettleLink fsl
+	LEFT JOIN CashFlow cfIn ON cfIn.Oid = fsl.CashFlowIn
+	WHERE fsl.GCRecord IS NULL
+	GROUP BY
+		fsl.CashFlowOut
+) fsm ON fsm.CashFlowOut = CashFlow.Oid";
+            }
+        }
 
         #endregion
 
@@ -163,6 +195,12 @@ END";
 
         public void Process()
         {
+            LinkCashFlows();
+            RevalueOutflows();
+        }
+
+        public void LinkCashFlows()
+        {
             var clauses = CreateSqlParameters();
             var parameters = CreateParameters(clauses);
 
@@ -170,6 +208,19 @@ END";
             {
                 cmd.Parameters.AddRange(parameters.ToArray());
                 cmd.CommandText = ProcessFifoCommandText;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void RevalueOutflows()
+        {
+            var clauses = CreateSqlParameters();
+            var parameters = CreateParameters(clauses);
+
+            using (var cmd = ((SqlConnection)objSpace.Session.Connection).CreateCommand())
+            {
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.CommandText = RevalueOutflowsCommandText;
                 cmd.ExecuteNonQuery();
             }
         }
