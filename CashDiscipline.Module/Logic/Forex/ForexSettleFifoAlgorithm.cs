@@ -99,10 +99,13 @@ SELECT
 	CashFlow.ForexSettleType,
 	CAST ( 0.00 AS money ) AS IoBalance
 FROM CashFlow
-WHERE GCRecord IS NULL
-	AND [Snapshot] = @Snapshot
-	AND TranDate BETWEEN @FromDate AND @ToDate
-	AND ForexSettleType IN (@InSettleType, @OutSettleType)
+WHERE CashFlow.GCRecord IS NULL
+	AND CashFlow.[Snapshot] = @Snapshot
+	AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate
+	AND CashFlow.ForexSettleType IN (@InSettleType, @OutSettleType)
+	-- FunctionalCurrency != Account.Currency
+	AND (SELECT SetOfBooks.FunctionalCurrency FROM SetOfBooks WHERE GCRecord IS NULL) 
+		!= (SELECT Account.Currency FROM Account WHERE Account.Oid = CashFlow.Account)
 ) cf
 WHERE cf.Amount != 0
 

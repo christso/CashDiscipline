@@ -44,7 +44,7 @@ namespace CashDiscipline.UnitTests
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 })]
         [TestCase(new int[] { 1, 3, 2, 9, 10, 7, 4, 8, 6, 5, 11 })]
         [TestCase(new int[] { 1, 2, 3, 9, 10, 7, 4, 8, 6, 5, 11 })]
-        public void LinkCashFlowsTest1(int[] intparam)
+        public void LinkCashFlows(int[] intparam)
         {
             Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.IsSequential = true;
             Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.OidInitializationMode = DevExpress.Persistent.BaseImpl.OidInitializationMode.OnSaving;
@@ -294,7 +294,7 @@ namespace CashDiscipline.UnitTests
 
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 })]
         [TestCase(new int[] { 4, 3, 2, 1, 5, 6, 7, 8, 9, 10, 11, 12 })]
-        public void LinkCashFlowsTest2(int[] intparam)
+        public void LinkCashFlowsWithForecastInflow(int[] intparam)
         {
             Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.IsSequential = true;
             Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.OidInitializationMode = DevExpress.Persistent.BaseImpl.OidInitializationMode.OnSaving;
