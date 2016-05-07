@@ -29,16 +29,17 @@ namespace CashDiscipline.UnitTests
         {
             var tests = new CashDiscipline.UnitTests.ForexLinkTests();
             tests.SetUpFixture();
-            for (int i = 0; i < 1; i++)
+
+            for (int i = 0; i < 20; i++)
             {
-                var arr = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-                //var shuffled = Xafology.Utils.DataStructUtils.RandomizeArray<int>(arr);
-                var shuffled = arr;
+                var arr = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 };
+                var shuffled = Xafology.Utils.DataStructUtils.RandomizeArray<int>(arr);
+                //var shuffled = arr;
 
                 try
                 {
                     tests.Setup();
-                    tests.ForexLinkFifo2(shuffled);
+                    tests.LinkCashFlowsTest2(shuffled);
                     tests.TearDown();
                     Console.WriteLine("Test {0} Passed", i);
                 }

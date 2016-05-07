@@ -231,6 +231,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
+    <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="BusinessObjects\BankStmt\BankStmtCashFlowForecast.cs" />
     <Compile Include="BusinessObjects\CashLookup\ActivityTag.cs" />

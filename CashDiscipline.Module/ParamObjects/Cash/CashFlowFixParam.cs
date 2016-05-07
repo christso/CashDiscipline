@@ -20,7 +20,6 @@ namespace CashDiscipline.Module.ParamObjects.Cash
             session.LockingOption = LockingOption.None;
         }
 
-        // TODO: create generic method
         public static CashFlowFixParam GetInstance(IObjectSpace objectSpace)
         {
             CashFlowFixParam result = objectSpace.FindObject<CashFlowFixParam>(null);

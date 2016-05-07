@@ -17,6 +17,7 @@ using DevExpress.Xpo;
 using CashDiscipline.UnitTests.TestObjects;
 using Xafology.ExpressApp.Xpo.Import.Parameters;
 using DevExpress.Data.Filtering;
+using CashDiscipline.Module.ParamObjects.Forex;
 
 namespace CashDiscipline.UnitTests
 {
@@ -72,6 +73,7 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(CashForecastFixTag));
             module.AdditionalExportedTypes.Add(typeof(CashFlowFixMapping));
             module.AdditionalExportedTypes.Add(typeof(CashFlowSnapshot));
+            module.AdditionalExportedTypes.Add(typeof(ForexSettleFifoParam));
 
         }
     }

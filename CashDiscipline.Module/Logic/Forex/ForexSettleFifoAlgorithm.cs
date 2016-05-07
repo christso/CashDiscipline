@@ -1,13 +1,20 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
+using CashDiscipline.Module.BusinessObjects.Forex;
 using CashDiscipline.Module.Logic.Cash;
+using CashDiscipline.Module.ParamObjects.Forex;
 using DevExpress.ExpressApp.Xpo;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 /* Parameters in SQL
+DECLARE @Snapshot uniqueidentifier = COALESCE(
+	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam),
+	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
+)
 DECLARE @InSettleType int = 1
 DECLARE @OutSettleType int = 2
 */
@@ -17,9 +24,10 @@ namespace CashDiscipline.Module.Logic.Forex
     public class ForexSettleFifoAlgorithm
     {
 
-        public ForexSettleFifoAlgorithm(XPObjectSpace objSpace)
+        public ForexSettleFifoAlgorithm(XPObjectSpace objSpace, ForexSettleFifoParam paramObj)
         {
             this.objSpace = objSpace;
+            this.paramObj = paramObj;
             this.currentSnapshot = CashFlowHelper.GetCurrentSnapshot(objSpace.Session);
         }
 
@@ -46,7 +54,8 @@ BEGIN
 
 IF OBJECT_ID('temp_FifoCashFlow') IS NOT NULL DROP TABLE temp_FifoCashFlow;
 
-SELECT 
+SELECT
+	ROW_NUMBER() OVER (ORDER BY CashFlow.TranDate, CashFlow.Oid) AS RowId,
 	CashFlow.Account,
 	CashFlow.Oid,
 	CashFlow.TranDate,
@@ -64,8 +73,7 @@ IoBalance =
 	SELECT SUM(cf2.Amount)
 	FROM temp_FifoCashFlow cf2
 	WHERE 
-		cf2.TranDate <= cf1.TranDate
-		AND cf2.Oid <= cf1.Oid
+		cf2.RowId <= cf1.RowId
 		AND cf2.Account = cf1.Account
 		AND cf2.ForexSettleType = cf1.ForexSettleType
 )
@@ -85,22 +93,22 @@ SELECT
 	-cfOut.IoBalance AS Out_IoBalance,
 
 	/* Minimum ( LinkDemand, LinkSupply)
-	*/CASE 
-		WHEN
+	*/
+	( 
+		SELECT MIN(T1.LinkAmount)
+		FROM (
+			-- LinkSupply
+			SELECT -cfOut.IoBalance - cfIn.IoBalance + cfIn.Amount AS LinkAmount
+			UNION ALL
 			-- LinkDemand
-			-cfOut.Amount + ( cfIn.IoBalance + cfOut.IoBalance )  
-				* ( CASE WHEN cfIn.IoBalance + cfOut.IoBalance < 0 THEN 1 ELSE 0 END )
-			>
-			--LinkSupply
-			-cfOut.IoBalance - cfIn.IoBalance + cfIn.Amount
-		THEN
-			--LinkSupply
-			-cfOut.IoBalance - cfIn.IoBalance + cfIn.Amount
-		ELSE
-			-- LinkDemand
-			-cfOut.Amount + ( cfIn.IoBalance + cfOut.IoBalance )  
-				* ( CASE WHEN cfIn.IoBalance + cfOut.IoBalance < 0 THEN 1 ELSE 0 END )			
-	END AS LinkAmount
+			SELECT	-cfOut.Amount + ( cfIn.IoBalance + cfOut.IoBalance )  
+					* ( CASE WHEN cfIn.IoBalance + cfOut.IoBalance < 0 THEN 1 ELSE 0 END )
+			UNION ALL
+			-- InAmount
+			SELECT cfIn.Amount
+		) T1
+	) AS LinkAmount
+
 INTO temp_InflowOutflow
 FROM 
 (
@@ -150,11 +158,47 @@ END";
         #endregion
 
         private XPObjectSpace objSpace;
+        private ForexSettleFifoParam paramObj;
         private CashFlowSnapshot currentSnapshot;
 
         public void Process()
         {
+            var clauses = CreateSqlParameters();
+            var parameters = CreateParameters(clauses);
 
+            using (var cmd = ((SqlConnection)objSpace.Session.Connection).CreateCommand())
+            {
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.CommandText = ProcessFifoCommandText;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public List<SqlDeclareClause> CreateSqlParameters()
+        {
+            var clauses = new List<SqlDeclareClause>()
+            {
+                new SqlDeclareClause("Snapshot", "uniqueidentifier", @"COALESCE(
+	                (SELECT TOP 1 [Snapshot] FROM ForexSettleFifoParam WHERE GCRecord IS NULL),
+	                (SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)
+                )"),
+                new SqlDeclareClause("InSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.In))),
+                new SqlDeclareClause("OutSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.Out)))
+            };
+            return clauses;
+        }
+
+        public List<SqlParameter> CreateParameters(List<SqlDeclareClause> clauses)
+        {
+            var parameters = new List<SqlParameter>();
+            using (var cmd = objSpace.Session.Connection.CreateCommand())
+            {
+                foreach (var clause in clauses)
+                {
+                    parameters.Add(new SqlParameter(clause.ParameterName, clause.ExecuteScalar(cmd)));
+                }
+            }
+            return parameters;
         }
 
         public void Reset()

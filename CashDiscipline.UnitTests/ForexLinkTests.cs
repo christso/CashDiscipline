@@ -18,6 +18,8 @@ using DevExpress.Xpo;
 using CashDiscipline.Module.Controllers.Cash;
 using CashDiscipline.Module.DatabaseUpdate;
 using Xafology.TestUtils;
+using CashDiscipline.Module.Logic.Forex;
+using CashDiscipline.Module.ParamObjects.Forex;
 
 namespace CashDiscipline.UnitTests
 {
@@ -40,8 +42,9 @@ namespace CashDiscipline.UnitTests
 
         }
 
-        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, } )]
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 })]
         [TestCase(new int[] { 1, 3, 2, 9, 10, 7, 4, 8, 6, 5, 11 })]
+        [TestCase(new int[] { 1, 2, 3, 9, 10, 7, 4, 8, 6, 5, 11 })]
         public void ForexLinkFifo(int[] intparam)
         {
             Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.IsSequential = true;
@@ -437,9 +440,525 @@ namespace CashDiscipline.UnitTests
             #endregion
         }
 
-
         [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 })]
-        public void ForexLinkFifo2(int[] intparam)
+        [TestCase(new int[] { 1, 3, 2, 9, 10, 7, 4, 8, 6, 5, 11 })]
+        [TestCase(new int[] { 1, 2, 3, 9, 10, 7, 4, 8, 6, 5, 11 })]
+        public void LinkCashFlowsTest1(int[] intparam)
+        {
+            Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.IsSequential = true;
+            Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.OidInitializationMode = DevExpress.Persistent.BaseImpl.OidInitializationMode.OnSaving;
+
+            #region Arrange Forex Objects
+
+            // Currencies
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+
+            // Forex Rates
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.ConversionDate = new DateTime(2013, 11, 01);
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionRate = 0.9M;
+            rate.Save();
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Lookup Objects
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ USD";
+            account.Currency = ccyUSD;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "AP Pymt";
+
+            var counterparty = ObjectSpace.CreateObject<Counterparty>();
+            counterparty.Name = "UNDEFINED";
+
+            #endregion
+
+            #region Arrange Cash Flow Objects
+
+            var cfTable = new Dictionary<int, CashFlow>();
+            int counter = 0;
+
+            var cfIn1 = ObjectSpace.CreateObject<CashFlow>();
+
+            cfIn1.CalculateEnabled = false;
+            cfIn1.CounterCcy = ccyUSD;
+            cfIn1.TranDate = new DateTime(2013, 11, 16);
+            cfIn1.Account = account;
+            cfIn1.Activity = activity;
+            cfIn1.Counterparty = counterparty;
+            cfIn1.AccountCcyAmt = 100;
+            cfIn1.FunctionalCcyAmt = cfIn1.AccountCcyAmt / 0.95M;
+            cfIn1.CounterCcyAmt = cfIn1.AccountCcyAmt;
+            cfIn1.ForexSettleType = CashFlowForexSettleType.In;
+            cfIn1.Description = "cfIn1";
+            //cfIn1.BankStmts.Add(bsIn1);
+            cfTable.Add(intparam[counter], cfIn1);
+            counter++;
+
+            var cfIn2 = ObjectSpace.CreateObject<CashFlow>();
+            cfIn2.CalculateEnabled = false;
+            cfIn2.CounterCcy = ccyUSD;
+            cfIn2.TranDate = new DateTime(2013, 11, 30);
+            cfIn2.Account = account;
+            cfIn2.Activity = activity;
+            cfIn2.Counterparty = counterparty;
+            cfIn2.AccountCcyAmt = 50;
+            cfIn2.FunctionalCcyAmt = cfIn2.AccountCcyAmt / 0.99M;
+            cfIn2.CounterCcyAmt = cfIn2.AccountCcyAmt;
+            cfIn2.ForexSettleType = CashFlowForexSettleType.In;
+            cfIn2.Description = "cfIn2";
+            //cfIn2.BankStmts.Add(bsIn2);
+            cfTable.Add(intparam[counter], cfIn2);
+            counter++;
+
+            var cfIn3 = ObjectSpace.CreateObject<CashFlow>();
+            cfIn3.CalculateEnabled = false;
+            cfIn3.CounterCcy = ccyUSD;
+            cfIn3.TranDate = new DateTime(2013, 11, 30);
+            cfIn3.Account = account;
+            cfIn3.Activity = activity;
+            cfIn3.Counterparty = counterparty;
+            cfIn3.AccountCcyAmt = 30;
+            cfIn3.FunctionalCcyAmt = cfIn3.AccountCcyAmt / 0.87M;
+            cfIn3.CounterCcyAmt = cfIn3.AccountCcyAmt;
+            cfIn3.ForexSettleType = CashFlowForexSettleType.In;
+            cfIn3.Description = "cfIn3";
+            //cfIn3.BankStmts.Add(bsIn3);
+            cfTable.Add(intparam[counter], cfIn3);
+            counter++;
+
+            var cfOut1 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut1.CalculateEnabled = false;
+            cfOut1.CounterCcy = ccyUSD;
+            cfOut1.TranDate = new DateTime(2013, 12, 17);
+            cfOut1.Account = account;
+            cfOut1.Activity = activity;
+            cfOut1.Counterparty = counterparty;
+            cfOut1.AccountCcyAmt = -110;
+            cfOut1.FunctionalCcyAmt = cfOut1.AccountCcyAmt / rate.ConversionRate;
+            cfOut1.CounterCcyAmt = cfOut1.AccountCcyAmt;
+            cfOut1.ForexSettleType = CashFlowForexSettleType.Out;
+            cfOut1.Description = "cfout1";
+            //cfOut1.BankStmts.Add(bsOut1);
+            cfTable.Add(intparam[counter], cfOut1);
+            counter++;
+
+            var cfOut2 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut2.CalculateEnabled = false;
+            cfOut2.CounterCcy = ccyUSD;
+            cfOut2.TranDate = new DateTime(2013, 12, 17);
+            cfOut2.Account = account;
+            cfOut2.Activity = activity;
+            cfOut2.Counterparty = counterparty;
+            cfOut2.AccountCcyAmt = 105;
+            cfOut2.FunctionalCcyAmt = cfOut2.AccountCcyAmt / rate.ConversionRate;
+            cfOut2.CounterCcyAmt = cfOut2.AccountCcyAmt;
+            cfOut2.ForexSettleType = CashFlowForexSettleType.OutReclass;
+            cfOut2.Description = "cfOut2";
+            //cfOut2.BankStmts.Add(bsOut2);
+            cfTable.Add(intparam[counter], cfOut2);
+            counter++;
+
+            var cfOut3 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut3.CalculateEnabled = false;
+            cfOut3.CounterCcy = ccyUSD;
+            cfOut3.TranDate = new DateTime(2013, 12, 17);
+            cfOut3.Account = account;
+            cfOut3.Activity = activity;
+            cfOut3.Counterparty = counterparty;
+            cfOut3.AccountCcyAmt = -105;
+            cfOut3.FunctionalCcyAmt = cfOut3.AccountCcyAmt / rate.ConversionRate;
+            cfOut3.CounterCcyAmt = cfOut3.AccountCcyAmt;
+            cfOut3.ForexSettleType = CashFlowForexSettleType.OutReclass;
+            cfOut3.Description = "cfOut3";
+            //cfOut3.BankStmts.Add(bsOut3);
+            cfTable.Add(intparam[counter], cfOut3);
+            counter++;
+
+            var cfOut4 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut4.CalculateEnabled = false;
+            cfOut4.CounterCcy = ccyUSD;
+            cfOut4.TranDate = new DateTime(2013, 12, 17);
+            cfOut4.Account = account;
+            cfOut4.Activity = activity;
+            cfOut4.Counterparty = counterparty;
+            cfOut4.AccountCcyAmt = -30;
+            cfOut4.FunctionalCcyAmt = cfOut4.AccountCcyAmt / rate.ConversionRate;
+            cfOut4.CounterCcyAmt = cfOut4.AccountCcyAmt;
+            cfOut4.ForexSettleType = CashFlowForexSettleType.Out;
+            cfOut4.Description = "cfOut4";
+            //cfOut4.BankStmts.Add(bsOut4);
+            cfTable.Add(intparam[counter], cfOut4);
+            counter++;
+
+            var cfOut5 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut5.CalculateEnabled = false;
+            cfOut5.CounterCcy = ccyUSD;
+            cfOut5.TranDate = new DateTime(2013, 12, 17);
+            cfOut5.Account = account;
+            cfOut5.Activity = activity;
+            cfOut5.Counterparty = counterparty;
+            cfOut5.AccountCcyAmt = 45;
+            cfOut5.FunctionalCcyAmt = cfOut5.AccountCcyAmt / rate.ConversionRate;
+            cfOut5.CounterCcyAmt = cfOut5.AccountCcyAmt;
+            cfOut5.ForexSettleType = CashFlowForexSettleType.OutReclass;
+            cfOut5.Description = "cfOut5";
+            //cfOut5.BankStmts.Add(bsOut5);
+            cfTable.Add(intparam[counter], cfOut5);
+            counter++;
+
+            var cfOut6 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut6.CalculateEnabled = false;
+            cfOut6.CounterCcy = ccyUSD;
+            cfOut6.TranDate = new DateTime(2013, 12, 17);
+            cfOut6.Account = account;
+            cfOut6.Activity = activity;
+            cfOut6.Counterparty = counterparty;
+            cfOut6.AccountCcyAmt = -45;
+            cfOut6.FunctionalCcyAmt = cfOut6.AccountCcyAmt / rate.ConversionRate;
+            cfOut6.CounterCcyAmt = cfOut6.AccountCcyAmt;
+            cfOut6.ForexSettleType = CashFlowForexSettleType.OutReclass;
+            cfOut6.Description = "cfOut6";
+            //cfOut6.BankStmts.Add(bsOut6);
+            cfTable.Add(intparam[counter], cfOut6);
+            counter++;
+
+            var cfOut7 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut7.CalculateEnabled = false;
+            cfOut7.CounterCcy = ccyUSD;
+            cfOut7.TranDate = new DateTime(2013, 12, 17);
+            cfOut7.Account = account;
+            cfOut7.Activity = activity;
+            cfOut7.Counterparty = counterparty;
+            cfOut7.AccountCcyAmt = -25;
+            cfOut7.FunctionalCcyAmt = cfOut7.AccountCcyAmt / rate.ConversionRate;
+            cfOut7.CounterCcyAmt = cfOut7.AccountCcyAmt;
+            cfOut7.ForexSettleType = CashFlowForexSettleType.Out;
+            cfOut7.Description = "cfOut7";
+            //cfOut7.BankStmts.Add(bsOut7);
+            cfTable.Add(intparam[counter], cfOut7);
+            counter++;
+
+            var cfOut8 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut8.CalculateEnabled = false;
+            cfOut8.CounterCcy = ccyUSD;
+            cfOut8.TranDate = new DateTime(2013, 12, 17);
+            cfOut8.Account = account;
+            cfOut8.Activity = activity;
+            cfOut8.Counterparty = counterparty;
+            cfOut8.AccountCcyAmt = -19;
+            cfOut8.FunctionalCcyAmt = cfOut8.AccountCcyAmt / rate.ConversionRate;
+            cfOut8.CounterCcyAmt = cfOut8.AccountCcyAmt;
+            cfOut8.ForexSettleType = CashFlowForexSettleType.Out;
+            cfOut8.Description = "cfOut8";
+            //cfOut8.BankStmts.Add(bsOut8);
+            cfTable.Add(intparam[counter], cfOut8);
+            counter++;
+
+            #endregion
+
+            #region Act - generate OIDs
+
+            foreach (var pair in cfTable.OrderBy(c => c.Key))
+            {
+                var cf = pair.Value;
+                cf.GenerateOid();
+            }
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Act - run algorithm
+
+            var paramObj = ObjectSpace.CreateObject<ForexSettleFifoParam>();
+            var algo = new ForexSettleFifoAlgorithm(ObjectSpace, paramObj);
+            algo.Process();
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Assert
+
+            var fsls = ObjectSpace.GetObjects<ForexSettleLink>();
+
+            Assert.AreEqual(180, fsls.Sum(x => x.AccountCcyAmt));
+            #endregion
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 })]
+        [TestCase(new int[] { 4, 3, 2, 1, 5, 6, 7, 8, 9, 10, 11, 12 })]
+        public void LinkCashFlowsTest2(int[] intparam)
+        {
+            Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.IsSequential = true;
+            Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.OidInitializationMode = DevExpress.Persistent.BaseImpl.OidInitializationMode.OnSaving;
+
+            #region Arrange Forex Objects
+
+            // Currencies
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+
+            // Forex Rates
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.ConversionDate = new DateTime(2013, 11, 01);
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionRate = 0.9M;
+            rate.Save();
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Arrange Lookup Objects
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ USD";
+            account.Currency = ccyUSD;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "AP Pymt";
+
+            var counterparty = ObjectSpace.CreateObject<Counterparty>();
+            counterparty.Name = "UNDEFINED";
+
+            #endregion
+
+            #region Arrange Cash Flow Objects
+
+            var cfTable = new Dictionary<int, CashFlow>();
+            int counter = 0;
+
+            var cfIn1 = ObjectSpace.CreateObject<CashFlow>();
+
+            cfIn1.CalculateEnabled = false;
+            cfIn1.CounterCcy = ccyUSD;
+            cfIn1.TranDate = new DateTime(2013, 11, 16);
+            cfIn1.Account = account;
+            cfIn1.Activity = activity;
+            cfIn1.Counterparty = counterparty;
+            cfIn1.AccountCcyAmt = 100;
+            cfIn1.FunctionalCcyAmt = cfIn1.AccountCcyAmt / 0.95M;
+            cfIn1.CounterCcyAmt = cfIn1.AccountCcyAmt;
+            cfIn1.ForexSettleType = CashFlowForexSettleType.In;
+            cfIn1.Description = "cfIn1";
+            //cfIn1.BankStmts.Add(bsIn1);
+            cfTable.Add(intparam[counter], cfIn1);
+            counter++;
+
+            var cfIn2 = ObjectSpace.CreateObject<CashFlow>();
+            cfIn2.CalculateEnabled = false;
+            cfIn2.CounterCcy = ccyUSD;
+            cfIn2.TranDate = new DateTime(2013, 11, 30);
+            cfIn2.Account = account;
+            cfIn2.Activity = activity;
+            cfIn2.Counterparty = counterparty;
+            cfIn2.AccountCcyAmt = 50;
+            cfIn2.FunctionalCcyAmt = cfIn2.AccountCcyAmt / 0.99M;
+            cfIn2.CounterCcyAmt = cfIn2.AccountCcyAmt;
+            cfIn2.ForexSettleType = CashFlowForexSettleType.In;
+            cfIn2.Description = "cfIn2";
+            //cfIn2.BankStmts.Add(bsIn2);
+            cfTable.Add(intparam[counter], cfIn2);
+            counter++;
+
+            var cfIn3 = ObjectSpace.CreateObject<CashFlow>();
+            cfIn3.CalculateEnabled = false;
+            cfIn3.CounterCcy = ccyUSD;
+            cfIn3.TranDate = new DateTime(2013, 11, 30);
+            cfIn3.Account = account;
+            cfIn3.Activity = activity;
+            cfIn3.Counterparty = counterparty;
+            cfIn3.AccountCcyAmt = 30;
+            cfIn3.FunctionalCcyAmt = cfIn3.AccountCcyAmt / 0.87M;
+            cfIn3.CounterCcyAmt = cfIn3.AccountCcyAmt;
+            cfIn3.ForexSettleType = CashFlowForexSettleType.In;
+            cfIn3.Description = "cfIn3";
+            //cfIn3.BankStmts.Add(bsIn3);
+            cfTable.Add(intparam[counter], cfIn3);
+            counter++;
+
+            var cfIn4 = ObjectSpace.CreateObject<CashFlow>();
+            cfIn4.CalculateEnabled = false;
+            cfIn4.CounterCcy = ccyUSD;
+            cfIn4.TranDate = new DateTime(2013, 12, 18);
+            cfIn4.Account = account;
+            cfIn4.Activity = activity;
+            cfIn4.Counterparty = counterparty;
+            cfIn4.AccountCcyAmt = 10;
+            cfIn4.FunctionalCcyAmt = cfIn4.AccountCcyAmt / 0.81M;
+            cfIn4.CounterCcyAmt = cfIn4.AccountCcyAmt;
+            cfIn4.ForexSettleType = CashFlowForexSettleType.In;
+            cfIn4.Description = "cfIn4";
+            //cfIn4.BankStmts.Add(bsIn3);
+            cfTable.Add(intparam[counter], cfIn4);
+            counter++;
+
+            var cfOut1 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut1.CalculateEnabled = false;
+            cfOut1.CounterCcy = ccyUSD;
+            cfOut1.TranDate = new DateTime(2013, 12, 17);
+            cfOut1.Account = account;
+            cfOut1.Activity = activity;
+            cfOut1.Counterparty = counterparty;
+            cfOut1.AccountCcyAmt = -110;
+            cfOut1.FunctionalCcyAmt = cfOut1.AccountCcyAmt / rate.ConversionRate;
+            cfOut1.CounterCcyAmt = cfOut1.AccountCcyAmt;
+            cfOut1.ForexSettleType = CashFlowForexSettleType.Out;
+            cfOut1.Description = "cfout1";
+            //cfOut1.BankStmts.Add(bsOut1);
+            cfTable.Add(intparam[counter], cfOut1);
+            counter++;
+
+            var cfOut2 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut2.CalculateEnabled = false;
+            cfOut2.CounterCcy = ccyUSD;
+            cfOut2.TranDate = new DateTime(2013, 12, 17);
+            cfOut2.Account = account;
+            cfOut2.Activity = activity;
+            cfOut2.Counterparty = counterparty;
+            cfOut2.AccountCcyAmt = 105;
+            cfOut2.FunctionalCcyAmt = cfOut2.AccountCcyAmt / rate.ConversionRate;
+            cfOut2.CounterCcyAmt = cfOut2.AccountCcyAmt;
+            cfOut2.ForexSettleType = CashFlowForexSettleType.OutReclass;
+            cfOut2.Description = "cfOut2";
+            //cfOut2.BankStmts.Add(bsOut2);
+            cfTable.Add(intparam[counter], cfOut2);
+            counter++;
+
+            var cfOut3 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut3.CalculateEnabled = false;
+            cfOut3.CounterCcy = ccyUSD;
+            cfOut3.TranDate = new DateTime(2013, 12, 17);
+            cfOut3.Account = account;
+            cfOut3.Activity = activity;
+            cfOut3.Counterparty = counterparty;
+            cfOut3.AccountCcyAmt = -105;
+            cfOut3.FunctionalCcyAmt = cfOut3.AccountCcyAmt / rate.ConversionRate;
+            cfOut3.CounterCcyAmt = cfOut3.AccountCcyAmt;
+            cfOut3.ForexSettleType = CashFlowForexSettleType.OutReclass;
+            cfOut3.Description = "cfOut3";
+            //cfOut3.BankStmts.Add(bsOut3);
+            cfTable.Add(intparam[counter], cfOut3);
+            counter++;
+
+            var cfOut4 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut4.CalculateEnabled = false;
+            cfOut4.CounterCcy = ccyUSD;
+            cfOut4.TranDate = new DateTime(2013, 12, 17);
+            cfOut4.Account = account;
+            cfOut4.Activity = activity;
+            cfOut4.Counterparty = counterparty;
+            cfOut4.AccountCcyAmt = -30;
+            cfOut4.FunctionalCcyAmt = cfOut4.AccountCcyAmt / rate.ConversionRate;
+            cfOut4.CounterCcyAmt = cfOut4.AccountCcyAmt;
+            cfOut4.ForexSettleType = CashFlowForexSettleType.Out;
+            cfOut4.Description = "cfOut4";
+            //cfOut4.BankStmts.Add(bsOut4);
+            cfTable.Add(intparam[counter], cfOut4);
+            counter++;
+
+            var cfOut5 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut5.CalculateEnabled = false;
+            cfOut5.CounterCcy = ccyUSD;
+            cfOut5.TranDate = new DateTime(2013, 12, 17);
+            cfOut5.Account = account;
+            cfOut5.Activity = activity;
+            cfOut5.Counterparty = counterparty;
+            cfOut5.AccountCcyAmt = 45;
+            cfOut5.FunctionalCcyAmt = cfOut5.AccountCcyAmt / rate.ConversionRate;
+            cfOut5.CounterCcyAmt = cfOut5.AccountCcyAmt;
+            cfOut5.ForexSettleType = CashFlowForexSettleType.OutReclass;
+            cfOut5.Description = "cfOut5";
+            //cfOut5.BankStmts.Add(bsOut5);
+            cfTable.Add(intparam[counter], cfOut5);
+            counter++;
+
+            var cfOut6 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut6.CalculateEnabled = false;
+            cfOut6.CounterCcy = ccyUSD;
+            cfOut6.TranDate = new DateTime(2013, 12, 17);
+            cfOut6.Account = account;
+            cfOut6.Activity = activity;
+            cfOut6.Counterparty = counterparty;
+            cfOut6.AccountCcyAmt = -45;
+            cfOut6.FunctionalCcyAmt = cfOut6.AccountCcyAmt / rate.ConversionRate;
+            cfOut6.CounterCcyAmt = cfOut6.AccountCcyAmt;
+            cfOut6.ForexSettleType = CashFlowForexSettleType.OutReclass;
+            cfOut6.Description = "cfOut6";
+            //cfOut6.BankStmts.Add(bsOut6);
+            cfTable.Add(intparam[counter], cfOut6);
+            counter++;
+
+            var cfOut7 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut7.CalculateEnabled = false;
+            cfOut7.CounterCcy = ccyUSD;
+            cfOut7.TranDate = new DateTime(2013, 12, 17);
+            cfOut7.Account = account;
+            cfOut7.Activity = activity;
+            cfOut7.Counterparty = counterparty;
+            cfOut7.AccountCcyAmt = -25;
+            cfOut7.FunctionalCcyAmt = cfOut7.AccountCcyAmt / rate.ConversionRate;
+            cfOut7.CounterCcyAmt = cfOut7.AccountCcyAmt;
+            cfOut7.ForexSettleType = CashFlowForexSettleType.Out;
+            cfOut7.Description = "cfOut7";
+            //cfOut7.BankStmts.Add(bsOut7);
+            cfTable.Add(intparam[counter], cfOut7);
+            counter++;
+
+            var cfOut8 = ObjectSpace.CreateObject<CashFlow>();
+            cfOut8.CalculateEnabled = false;
+            cfOut8.CounterCcy = ccyUSD;
+            cfOut8.TranDate = new DateTime(2013, 12, 17);
+            cfOut8.Account = account;
+            cfOut8.Activity = activity;
+            cfOut8.Counterparty = counterparty;
+            cfOut8.AccountCcyAmt = -19;
+            cfOut8.FunctionalCcyAmt = cfOut8.AccountCcyAmt / rate.ConversionRate;
+            cfOut8.CounterCcyAmt = cfOut8.AccountCcyAmt;
+            cfOut8.ForexSettleType = CashFlowForexSettleType.Out;
+            cfOut8.Description = "cfOut8";
+            //cfOut8.BankStmts.Add(bsOut8);
+            cfTable.Add(intparam[counter], cfOut8);
+            counter++;
+
+            #endregion
+
+            #region Act - generate OIDs
+
+            foreach (var pair in cfTable.OrderBy(c => c.Key))
+            {
+                var cf = pair.Value;
+                cf.GenerateOid();
+            }
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Act - run algorithm
+
+            var paramObj = ObjectSpace.CreateObject<ForexSettleFifoParam>();
+            var algo = new ForexSettleFifoAlgorithm(ObjectSpace, paramObj);
+            algo.Process();
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Assert
+
+            var fsls = ObjectSpace.GetObjects<ForexSettleLink>();
+
+            Assert.AreEqual(184, fsls.Sum(x => x.AccountCcyAmt));
+            #endregion
+        }
+
+        [TestCase(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 })]
+        public void ForexSettleFifoIntegrated(int[] intparam)
         {
             Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.IsSequential = true;
             Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.OidInitializationMode = DevExpress.Persistent.BaseImpl.OidInitializationMode.OnSaving;
@@ -797,7 +1316,7 @@ namespace CashDiscipline.UnitTests
 
             #endregion
 
-            #region Act
+            #region Act - generate OIDs
 
             foreach (var pair in cfTable.OrderBy(c => c.Key))
             {
@@ -805,7 +1324,14 @@ namespace CashDiscipline.UnitTests
                 cf.GenerateOid();
             }
             ObjectSpace.CommitChanges();
-            ForexSettleLinkViewController.ForexLinkFifo(ObjectSpace, 100);
+
+            #endregion
+
+            #region Act - run FIFO algorithm
+
+            var paramObj = ObjectSpace.CreateObject<ForexSettleFifoParam>();
+            var algo = new ForexSettleFifoAlgorithm(ObjectSpace, paramObj);
+            algo.Process();
             ObjectSpace.CommitChanges();
 
             #endregion
@@ -813,6 +1339,9 @@ namespace CashDiscipline.UnitTests
             #region Assert
 
             var fsls = ObjectSpace.GetObjects<ForexSettleLink>();
+            Assert.AreEqual(180, fsls.Sum(x => x.AccountCcyAmt));
+
+
 
             #endregion
         }
