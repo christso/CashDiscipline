@@ -346,7 +346,7 @@ WHERE
             var clauses = new List<SqlDeclareClause>()
             {
                 new SqlDeclareClause("Snapshot", "uniqueidentifier",
-                @"(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)"),
+                @"(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)"),
                 new SqlDeclareClause("InSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.In))),
                 new SqlDeclareClause("OutSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.Out))),
                 new SqlDeclareClause("OutReclassSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.OutReclass))),
