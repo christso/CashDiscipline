@@ -17,6 +17,7 @@ DECLARE @Snapshot uniqueidentifier = COALESCE(
 )
 DECLARE @InSettleType int = 1
 DECLARE @OutSettleType int = 2
+DECLARE @OutReclassSettleType int = 4
 */
 
 namespace CashDiscipline.Module.Logic.Forex
@@ -208,6 +209,36 @@ JOIN
             }
         }
 
+        public string RevalueOutflowReclassCommandText
+        {
+            get
+            {
+                return
+@"UPDATE cf0 SET
+FunctionalCcyAmt =
+cf0.AccountCcyAmt * cf1.FunctionalCcyAmt / cf1.AccountCcyAmt
+FROM CashFlow cf0
+JOIN
+(
+	SELECT 
+	cf1.Account,
+	cf1.TranDate,
+	SUM ( cf1.AccountCcyAmt ) AS AccountCcyAmt,
+	SUM ( cf1.FunctionalCcyAmt ) AS FunctionalCcyAmt,
+	SUM ( cf1.AccountCcyAmt ) / SUM ( cf1.FunctionalCcyAmt ) AS ForexRate
+	FROM CashFlow cf1
+	WHERE cf1.ForexSettleType = @OutSettleType
+	GROUP BY 
+		cf1.Account,
+		cf1.TranDate
+) cf1 ON 
+	cf1.TranDate = cf0.TranDate
+	AND cf1.Account = cf0.Account
+WHERE cf0.GCRecord IS NULL
+AND cf0.ForexSettleType = @OutReclassSettleType";
+            }
+        }
+
         public string RevalueBankStmtCommandText
         {
             get
@@ -231,6 +262,7 @@ WHERE BankStmt.GCRecord IS NULL";
         {
             LinkCashFlows();
             RevalueOutflows();
+            RevalueOutflowReclass();
             RevalueBankStmt();
         }
 
@@ -260,6 +292,19 @@ WHERE BankStmt.GCRecord IS NULL";
             }
         }
 
+        public void RevalueOutflowReclass()
+        {
+            var clauses = CreateSqlParameters();
+            var parameters = CreateParameters(clauses);
+
+            using (var cmd = ((SqlConnection)objSpace.Session.Connection).CreateCommand())
+            {
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.CommandText = RevalueOutflowReclassCommandText;
+                cmd.ExecuteNonQuery();
+            }
+        }
+
         public void RevalueBankStmt()
         {
             var clauses = CreateSqlParameters();
@@ -282,7 +327,8 @@ WHERE BankStmt.GCRecord IS NULL";
 	                (SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)
                 )"),
                 new SqlDeclareClause("InSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.In))),
-                new SqlDeclareClause("OutSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.Out)))
+                new SqlDeclareClause("OutSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.Out))),
+                new SqlDeclareClause("OutReclassSettleType", "int", Convert.ToString(Convert.ToInt32(CashFlowForexSettleType.OutReclass)))
             };
             return clauses;
         }

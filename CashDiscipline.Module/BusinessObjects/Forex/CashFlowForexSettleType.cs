@@ -26,6 +26,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         In,
         Out,
         Auto,
+        [DevExpress.ExpressApp.DC.XafDisplayName("Out Reclass")]
         OutReclass
     }
 }
