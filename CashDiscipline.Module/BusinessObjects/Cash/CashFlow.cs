@@ -780,65 +780,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        [MemberDesignTimeVisibility(false)]
-        [ModelDefault("EditMask", "n2")]
-        [ModelDefault("DisplayFormat", "n2")]
-        public decimal ForexLinkedInAccountCcyAmt
-        {
-            get
-            {
-                if (!IsLoading && !IsSaving && _ForexLinkedInAccountCcyAmt == null)
-                    UpdateForexLinkedInAmt(false);
-                return (decimal)(_ForexLinkedInAccountCcyAmt ?? 0);
-            }
-        }
-
-        [MemberDesignTimeVisibility(false)]
-        [ModelDefault("EditMask", "n2")]
-        [ModelDefault("DisplayFormat", "n2")]
-        public decimal ForexLinkedOutAccountCcyAmt
-        {
-            get
-            {
-                if (!IsLoading && !IsSaving && _ForexLinkedOutAccountCcyAmt == null)
-                    UpdateForexLinkedOutAmt(false);
-                return (decimal)(_ForexLinkedOutAccountCcyAmt ?? 0);
-            }
-        }
-
-        // Potentially determine whether this is an outflow or inflow to compute either In or Out but not both
-        // for lazy calculation
-        [ModelDefault("EditMask", "n2")]
-        [ModelDefault("DisplayFormat", "n2")]
-        public decimal ForexLinkedAccountCcyAmt
-        {
-            get
-            {
-                return ForexLinkedInAccountCcyAmt + ForexLinkedOutAccountCcyAmt;
-            }
-        }
-        // this has same sign as AccountCcyAmt
-        [ModelDefault("EditMask", "n2")]
-        [ModelDefault("DisplayFormat", "n2")]
-        public decimal ForexUnlinkedAccountCcyAmt
-        {
-            get
-            {
-                return AccountCcyAmt - ForexLinkedAccountCcyAmt;
-            }
-        }
-
-        public bool ForexLinkIsClosed
-        {
-            get
-            {
-                if (!IsLoading && !IsSaving && _ForexLinkIsClosed == null)
-                    UpdateForexLinkIsClosed(false);
-                return (bool)(_ForexLinkIsClosed ?? false);
-            }
-        }
-
-
         [Association("CashFlowIn-ForexSettleLinks")]
         public XPCollection<ForexSettleLink> ForexSettleLinksIn
         {
@@ -856,7 +797,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 return GetCollection<ForexSettleLink>("ForexSettleLinksOut");
             }
         }
-
 
         private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
@@ -898,83 +838,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 return false;
             }
         }
-
-        private void UpdateForexLinkIsClosed(bool forceChangeEvents)
-        {
-            // get accounts with currency that don't equal functional currency --> ForexSettleLink.FcaAccounts
-            // set IsClosed = true
-
-            if (AccountCcyAmt - ForexLinkedOutAccountCcyAmt - ForexLinkedInAccountCcyAmt == 0
-                || !IsForexAccount)
-            {
-                _ForexLinkIsClosed = true;
-                if (forceChangeEvents)
-                    OnChanged("ForexLinkIsClosed");
-            }
-        }
-
-        public void UpdateForexLinkedInAmt(bool forceChangeEvents)
-        {
-            decimal? oldAmount = _ForexLinkedInAccountCcyAmt;
-            decimal tempTotal = 0;
-            foreach (ForexSettleLink detail in ForexSettleLinksIn)
-                tempTotal += detail.AccountCcyAmt;
-            _ForexLinkedInAccountCcyAmt = tempTotal;
-            if (forceChangeEvents)
-                OnChanged("ForexLinkedInAccountCcyAmt", oldAmount, _ForexLinkedInAccountCcyAmt);
-        }
-
-
-        public void UpdateForexLinkedOutAmt(bool forceChangeEvents)
-        {
-            decimal? oldAmount = _ForexLinkedOutAccountCcyAmt;
-            decimal tempTotal = 0;
-            foreach (ForexSettleLink detail in ForexSettleLinksOut)
-                // we subtract because the links are based on linkedins and we want linkedout
-                tempTotal -= detail.AccountCcyAmt;
-            _ForexLinkedOutAccountCcyAmt = tempTotal;
-            if (forceChangeEvents)
-                OnChanged("ForexLinkedOutAccountCcyAmt", oldAmount, _ForexLinkedOutAccountCcyAmt);
-        }
-
-        private decimal GetUnlinkedFunctionalCcyAmt()
-        {
-            var defaultRate = FunctionalCcyAmt / AccountCcyAmt;
-            decimal unlinkedAmt = ForexUnlinkedAccountCcyAmt * defaultRate;
-
-            // use ForexRates table
-            if (TranDate != default(DateTime))
-            {
-                var rateObj = GetForexRateObject(Session, Account.Currency, SetOfBooks.CachedInstance.FunctionalCurrency, (DateTime)TranDate);
-                if (rateObj != null)
-                {
-                    unlinkedAmt = ForexUnlinkedAccountCcyAmt * (decimal)rateObj.ConversionRate;
-                }
-            }
-            return unlinkedAmt;
-        }
-
-        public void UpdateForexFunctionalCcyAmt(bool forceChangeEvents)
-        {
-            if (ForexSettleLinksOut.Count == 0
-                || !IsForexAccount) return;
-
-            // Linked Rate
-            decimal oldAmount = _FunctionalCcyAmt;
-            decimal tempTotal = 0;
-            foreach (ForexSettleLink detail in ForexSettleLinksOut)
-                // we subtract because the links are based on linkedins and we want linkedout
-                tempTotal -= detail.FunctionalCcyAmt;
-
-            // Spot Rate
-            tempTotal += GetUnlinkedFunctionalCcyAmt();
-
-            _FunctionalCcyAmt = Math.Round(tempTotal, 2);
-            if (forceChangeEvents)
-                OnChanged("FunctionalCcyAmt", oldAmount, _FunctionalCcyAmt);
-            UpdateBankStmtsFunctionalCcyAmt();
-        }
-
+        
         private void UpdateBankStmtsFunctionalCcyAmt()
         {
             // why is BankStmts.Count == 0?

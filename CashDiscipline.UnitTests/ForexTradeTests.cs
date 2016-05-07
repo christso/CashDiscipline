@@ -22,28 +22,6 @@ namespace CashDiscipline.UnitTests
         {
             SetTesterDbType(TesterDbType.InMemory);
         }
-
-        /// <summary>
-        /// Cash Flows with an Account.Currency that equals the Functional Currency 
-        /// will have ForexLinkIsClosed property set to TRUE
-        /// </summary>
-        [Test]
-        public void ForexLinkIsClosedIfCashFlowAccountCurrencyIsFunctional()
-        {
-            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
-
-            var account = ObjectSpace.CreateObject<Account>();
-            account.Name = "VHA ANZ 70086";
-            account.Currency = ccyAUD;
-
-            var cfIn1 = ObjectSpace.CreateObject<CashFlow>();
-            cfIn1.TranDate = new DateTime(2012, 06, 01);
-            cfIn1.Account = account;
-            cfIn1.AccountCcyAmt = 2000000;
-            cfIn1.Save();
-
-            Assert.AreEqual(true, cfIn1.ForexLinkIsClosed);
-        }
         
         [Test]
         public void InvalidIfNoValueDate()

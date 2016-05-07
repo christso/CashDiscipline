@@ -220,6 +220,9 @@
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\Owner.cs" />
     <Compile Include="CashDisciplineHelpers.cs" />
+    <Compile Include="Controllers\Forex\ForexSettleFifoParamViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Logic\Cash\CashFlowFixMapper.cs" />
     <Compile Include="Logic\Cash\CashFlowHelper.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsRephaser.cs" />

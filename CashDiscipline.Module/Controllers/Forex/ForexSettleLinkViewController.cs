@@ -14,6 +14,7 @@ using DevExpress.Xpo;
 using DevExpress.ExpressApp.Xpo;
 using Xafology.ExpressApp.Xpo;
 using System.Diagnostics;
+using CashDiscipline.Module.ParamObjects.Forex;
 
 namespace CashDiscipline.Module.Controllers.Forex
 {
@@ -33,107 +34,26 @@ namespace CashDiscipline.Module.Controllers.Forex
 
         }
 
+        private SingleChoiceAction runProgramAction;
+
         void runProgramAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
             switch (e.SelectedChoiceActionItem.Caption)
             {
                 case "Link with FIFO":
-                    ForexLinkFifo(ObjectSpace);
+                    ShowFifoForm(e.ShowViewParameters);
                     break;
             }
         }
 
-        #region Link FIFO
-
-        public static void ForexLinkFifo(IObjectSpace objSpace, int maxSteps = 0)
+        private void ShowFifoForm(ShowViewParameters svp)
         {
-            var session = ((XPObjectSpace)objSpace).Session;
-            
-            // sort cash flow by date so that the earliest inflows are linked first
-            var sortProps = new SortingCollection(null);
-            sortProps.Add(new SortProperty("TranDate", DevExpress.Xpo.DB.SortingDirection.Ascending));
-            sortProps.Add(new SortProperty("Oid", DevExpress.Xpo.DB.SortingDirection.Ascending));
-
-            // get unlinked forex settles for foreign currency accounts
-
-            var cfOutCop = CriteriaOperator.Parse(
-                "ForexLinkIsClosed = ? And ForexSettleType = ? And CounterCcy.Oid <> ?",
-                false, CashFlowForexSettleType.Out, SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
-            var cashFlowOuts = XpoExtensions.GetObjects<CashFlow>(session, cfOutCop, sortProps);
-
-            var cfInCop = CriteriaOperator.Parse(
-                "ForexLinkIsClosed = ? And ForexSettleType = ? And CounterCcy.Oid <> ?",
-                false, CashFlowForexSettleType.In, SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
-            var cashFlowIns = XpoExtensions.GetObjects<CashFlow>(session, cfInCop, sortProps);
-
-            ForexLinkFifoWork(objSpace, cashFlowOuts, cashFlowIns, maxSteps);
-
-            objSpace.CommitChanges();
+            var os = Application.CreateObjectSpace();
+            var paramObj = ForexSettleFifoParam.GetInstance(os);
+            var detailView = Application.CreateDetailView(os, paramObj);
+            svp.TargetWindow = TargetWindow.NewModalWindow;
+            svp.CreatedView = detailView;
         }
 
-        private static void ForexLinkFifoWork(IObjectSpace objSpace, IList<CashFlow> cashFlowOuts, IList<CashFlow> cashFlowIns, int maxSteps)
-        {
-            int iOut = 0;
-            int iIn = 0;
-            int step = 0;
-
-            while (iOut < cashFlowOuts.Count)
-            {
-                var cfOut = cashFlowOuts[iOut];
-
-                if (iIn < 0)
-                    iIn = 0;
-                while (iIn >= 0 && iIn < cashFlowIns.Count)
-                {
-                    if (maxSteps != 0 && step > maxSteps)
-                        return;
-                    step++;
-
-                    var cfIn = cashFlowIns[iIn];
-
-                    // go to next Outflow if current Outflow is closed
-                    if (cfOut.ForexUnlinkedAccountCcyAmt == 0) break;
-
-                    // go to next Inflow if current Inflow is closed and the Outflow has negative sign
-                    // (negative sign means it requires linking)
-                    if (cfIn.ForexUnlinkedAccountCcyAmt == 0 & cfOut.AccountCcyAmt < 0) continue;
-
-                    CreateForexSettleFifoLink(objSpace, cfOut, cfIn, ref iIn, step);
-                }
-                iOut++;
-            }
-        }
-
-        // iIn: cursor position in inflows. Can decrease or increase by 1.
-        private static ForexSettleLink CreateForexSettleFifoLink(IObjectSpace objSpace, CashFlow cfOut, CashFlow cfIn, ref int iIn, int step)
-        {
-            // create link
-            var fsl = objSpace.CreateObject<ForexSettleLink>();
-            fsl.CashFlowIn = cfIn;
-            fsl.CashFlowOut = cfOut;
-            fsl.Step = step;
-
-            if (cfOut.AccountCcyAmt > 0)
-            {
-                // limit negative link amount by the positive linked amount of the inflow
-                fsl.AccountCcyAmt = -Math.Min(cfIn.ForexLinkedAccountCcyAmt, cfOut.ForexUnlinkedAccountCcyAmt);
-                if (cfOut.ForexUnlinkedAccountCcyAmt != 0)
-                    // if Outflow is not closed, then go to previous Inflow
-                    iIn--;
-            }
-            else
-            {
-                fsl.AccountCcyAmt = Math.Min(cfIn.ForexUnlinkedAccountCcyAmt, -cfOut.ForexUnlinkedAccountCcyAmt);
-                if (cfOut.ForexUnlinkedAccountCcyAmt != 0)
-                    // if Outflow is not closed, then go to next Inflow
-                    iIn++;
-            }
-            fsl.Save();
-            return fsl;
-        }
-        #endregion
-
-
-        private SingleChoiceAction runProgramAction;
     }
 }

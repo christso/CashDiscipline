@@ -369,7 +369,7 @@ WHERE
             return parameters;
         }
 
-        public void Reset()
+        public void Unlink()
         {
 
         }

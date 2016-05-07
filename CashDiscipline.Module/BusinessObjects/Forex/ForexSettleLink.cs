@@ -69,14 +69,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
-                var oldCashFlow = _CashFlowIn;
                 SetPropertyValue("CashFlowIn", ref _CashFlowIn, value);
-                if (!IsLoading && !IsSaving && calculateEnabled && oldCashFlow != _CashFlowIn)
-                {
-                    oldCashFlow = oldCashFlow ?? _CashFlowIn;
-                    oldCashFlow.UpdateForexLinkedInAmt(true);
-                    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
-                }
             }
         }
 
@@ -90,14 +83,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
-                var oldCashFlow = _CashFlowOut;
                 SetPropertyValue("CashFlowOut", ref _CashFlowOut, value);
-                if (!IsLoading && !IsSaving && calculateEnabled && oldCashFlow != _CashFlowOut)
-                {
-                    oldCashFlow = oldCashFlow ?? _CashFlowOut;
-                    oldCashFlow.UpdateForexLinkedOutAmt(true);
-                    oldCashFlow.UpdateForexFunctionalCcyAmt(true);
-                }
             }
         }
 
@@ -112,22 +98,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
-                if (SetPropertyValue("AccountCcyAmt", ref _AccountCcyAmt, value))
-                {
-                    if (!IsLoading && !IsSaving && calculateEnabled)
-                    {
-                        if (_CashFlowOut != null)
-                        {
-                            _CashFlowOut.UpdateForexLinkedOutAmt(true);
-                            _CashFlowOut.UpdateForexFunctionalCcyAmt(true);
-                        }
-                        if (_CashFlowIn != null)
-                        {
-                            _CashFlowIn.UpdateForexLinkedInAmt(true);
-                            _CashFlowIn.UpdateForexFunctionalCcyAmt(true);
-                        }
-                    }
-                }
+                SetPropertyValue("AccountCcyAmt", ref _AccountCcyAmt, value);
             }
         }
 
@@ -184,20 +155,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             set
             {
                 SetPropertyValue("TimeCreated", ref _TimeCreated, value);
-            }
-        }
-
-        private int _Step;
-        [MemberDesignTimeVisibility(false)]
-        public int Step
-        {
-            get
-            {
-                return _Step;
-            }
-            set
-            {
-                SetPropertyValue("Step", ref _Step, value);
             }
         }
     }
