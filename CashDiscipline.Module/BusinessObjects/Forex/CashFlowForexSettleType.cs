@@ -25,6 +25,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         Exclude,
         In,
         Out,
-        Auto
+        Auto,
+        OutReclass
     }
 }

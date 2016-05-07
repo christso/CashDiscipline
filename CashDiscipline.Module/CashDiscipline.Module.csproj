@@ -225,11 +225,12 @@
     <Compile Include="Logic\Cash\FixCashFlowsRephaser.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsSqlBuilder.cs" />
     <Compile Include="Logic\Cash\IFixCashFlows.cs" />
-    <Compile Include="Logic\Cash\SqlDeclareClause.cs" />
+    <Compile Include="Logic\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="BusinessObjects\BankStmt\BankStmtCashFlowForecast.cs" />
     <Compile Include="BusinessObjects\CashLookup\ActivityTag.cs" />

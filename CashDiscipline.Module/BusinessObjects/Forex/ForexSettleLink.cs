@@ -34,14 +34,8 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
             TimeCreated = DateTime.Now;
         }
-
-        private CashFlow _CashFlowIn;
-        private CashFlow _CashFlowOut;
-        private decimal _AccountCcyAmt;
-        private DateTime _TimeCreated;
-        private int _Step;
+     
         private bool calculateEnabled;
-
         [MemberDesignTimeVisibility(false), Browsable(false), NonPersistent]
         public bool CalculateEnabled
         {
@@ -51,7 +45,21 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                 calculateEnabled = value;
             }
         }
-  
+
+        private Account _Account;
+        public Account Account
+        {
+            get
+            {
+                return _Account;
+            }
+            set
+            {
+                SetPropertyValue("Account", ref _Account, value);
+            }
+        }
+
+        private CashFlow _CashFlowIn;
         [Association("CashFlowIn-ForexSettleLinks")]
         public CashFlow CashFlowIn
         {
@@ -71,6 +79,8 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                 }
             }
         }
+
+        private CashFlow _CashFlowOut;
         [Association("CashFlowOut-ForexSettleLinks")]
         public CashFlow CashFlowOut
         {
@@ -91,6 +101,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
         }
 
+        private decimal _AccountCcyAmt;
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
         public decimal AccountCcyAmt
@@ -125,7 +136,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         {
             get
             {
-                return CashFlowIn.TranDate;
+                return CashFlowIn == null ? default(DateTime) : CashFlowIn.TranDate;
             }
         }
 
@@ -134,15 +145,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         {
             get
             {
-                return CashFlowOut.TranDate;
-            }
-        }
-
-        public Account Account
-        {
-            get
-            {
-                return CashFlowIn.Account;
+                return CashFlowOut == null ? default(DateTime) : CashFlowOut.TranDate;
             }
         }
 
@@ -169,6 +172,8 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
         }
 
+
+        private DateTime _TimeCreated;
         [MemberDesignTimeVisibility(false)]
         public DateTime TimeCreated
         {
@@ -182,6 +187,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
         }
 
+        private int _Step;
         [MemberDesignTimeVisibility(false)]
         public int Step
         {
