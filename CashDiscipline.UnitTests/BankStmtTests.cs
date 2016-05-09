@@ -17,7 +17,11 @@ namespace CashDiscipline.UnitTests
     {
         public BankStmtTests()
         {
-            SetTesterDbType(TesterDbType.InMemory);
+            SetTesterDbType(TesterDbType.MsSql);
+
+            var tester = Tester as MSSqlDbTestBase;
+            if (tester != null)
+                tester.DatabaseName = Constants.TestDbName;
         }
 
         [Test]
