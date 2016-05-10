@@ -220,7 +220,7 @@
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\Owner.cs" />
     <Compile Include="CashDisciplineHelpers.cs" />
-    <Compile Include="Controllers\Cash\SqlBankStmtToCashFlow.cs" />
+    <Compile Include="Logic\Cash\BankStmtToCashFlowAlgorithm.cs" />
     <Compile Include="Controllers\Forex\ForexSettleFifoParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -256,7 +256,6 @@
     <Compile Include="BusinessObjects\Forex\ForexTrade.cs" />
     <Compile Include="BusinessObjects\Forex\ForexTradePredelivery.cs" />
     <Compile Include="BusinessObjects\ICalculateToggleObject.cs" />
-    <Compile Include="Controllers\Cash\BankStmtToCashFlow.cs" />
     <Compile Include="Controllers\Cash\ICashFlowDeleter.cs" />
     <Compile Include="Controllers\Cash\CashFlowDeleter.cs" />
     <Compile Include="Interfaces\IJournalDeleter.cs" />

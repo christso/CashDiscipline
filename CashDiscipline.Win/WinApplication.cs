@@ -20,7 +20,9 @@ namespace CashDiscipline.Win
         protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)
         {
             args.ObjectSpaceProvider = new ExtObjectSpaceProvider(args.ConnectionString, args.Connection);
+            args.ObjectSpaceProviders.Add(new NonPersistentObjectSpaceProvider(TypesInfo, null));
         }
+
         private void CashDisciplineWindowsFormsApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e)
         {
 #if EASYTEST
