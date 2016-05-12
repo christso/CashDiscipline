@@ -111,8 +111,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             switch (e.SelectedChoiceActionItem.Caption)
             {
                 case "Daily Update":
-                    var dialog1 = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
-                    dialog1.ShowNonPersistentView(typeof(DailyCashUpdateParam));
+                    ShowDailyCashUpdateForm(e.ShowViewParameters);
                     break;
                 case "Fix Forecast":
                     ShowFixForecastForm(e.ShowViewParameters);
@@ -181,6 +180,15 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             var os = Application.CreateObjectSpace();
             var paramObj = CashFlowFixParam.GetInstance(os);
+            var detailView = Application.CreateDetailView(os, paramObj);
+            svp.TargetWindow = TargetWindow.NewModalWindow;
+            svp.CreatedView = detailView;
+        }
+
+        private void ShowDailyCashUpdateForm(ShowViewParameters svp)
+        {
+            var os = Application.CreateObjectSpace();
+            var paramObj = DailyCashUpdateParam.GetInstance(os);
             var detailView = Application.CreateDetailView(os, paramObj);
             svp.TargetWindow = TargetWindow.NewModalWindow;
             svp.CreatedView = detailView;

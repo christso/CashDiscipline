@@ -10,6 +10,8 @@ using DevExpress.ExpressApp.SystemModule;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
 using CashDiscipline.Module.BusinessObjects.Cash;
+using DevExpress.ExpressApp.Actions;
+using DevExpress.Persistent.Base;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -19,27 +21,26 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             TargetObjectType = typeof(DailyCashUpdateParam);
             TargetViewType = ViewType.DetailView;
+
+            var runAction = new SimpleAction(this, "DailyCashUpdateRunAction", PredefinedCategory.ObjectsCreation);
+            runAction.Caption = "Run";
+            runAction.Execute += RunAction_Execute;
+
         }
+
+        private void RunAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            var paramObj = (DailyCashUpdateParam)View.CurrentObject;
+            var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
+
+            var uploader = new CashDiscipline.Module.Logic.Cash.BankStmtToCashFlowAlgorithm(objSpace, paramObj);
+            uploader.Process();
+        }
+
         protected override void OnActivated()
         {
             base.OnActivated();
             ((DetailView)View).ViewEditMode = ViewEditMode.Edit;
-            var dc = Frame.GetController<DialogController>();
-            if (dc != null)
-                dc.AcceptAction.Execute += AcceptAction_Execute;
-        }
-
-
-
-        private void AcceptAction_Execute(object sender, DevExpress.ExpressApp.Actions.SimpleActionExecuteEventArgs e)
-        {
-            var paramObj = (DailyCashUpdateParam)View.CurrentObject;
-            var objSpace = (XPObjectSpace) Application.CreateObjectSpace();
-
-            var deleter = new CashFlowDeleter(objSpace.Session, paramObj.TranDate, paramObj.TranDate);
-            var uploader = new BankStmtToCashFlow(objSpace, paramObj.TranDate, paramObj.TranDate, deleter);
-            uploader.Process();
-            //BankStmt.UploadToCashFlow(objSpace, paramObj.TranDate);
         }
     }
 }
