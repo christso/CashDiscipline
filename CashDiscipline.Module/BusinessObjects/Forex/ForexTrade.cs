@@ -290,6 +290,20 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                 }
             }
         }
+
+        private ForexStatus _Status;
+        public ForexStatus Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                SetPropertyValue("Status", ref _Status, value);
+            }
+        }
+
         public Activity HedgeActivity
         {
             get
@@ -760,7 +774,9 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         Amend,
         Cancel,
         Extend,
-        Reclass
+        Reclass,
+        Gain,
+        Settle
     }
 
     public enum ForexStatus
