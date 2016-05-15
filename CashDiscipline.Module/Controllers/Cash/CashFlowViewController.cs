@@ -151,28 +151,73 @@ namespace CashDiscipline.Module.Controllers.Cash
             return CashDisciplineHelpers.CreateSsasClient();
         }
 
+        private AdomdProcessor CreateAdomdClient()
+        {
+            return CashDisciplineHelpers.CreateAdomdClient();
+        }
+
         public void ProcessCube_All()
         {
-            var ssas = CreateSsasClient();
-            ssas.ProcessDatabase();
+            var ssas = CreateAdomdClient();
+            ssas.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""CashFlow""
+      }
+    ]
+  }
+}");
         }
 
         public void ProcessCube_Recent()
         {
-            var ssas = CreateSsasClient();
-            ssas.ProcessPartition("Model", "CashFlow", "CashFlow_Current_Recent");
+            var ssas = CreateAdomdClient();
+            ssas.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""CashFlow"",
+        ""table"": ""CashFlow"",
+        ""partition"": ""CashFlow_Current_Recent""
+      }
+    ]
+  }
+}");
         }
 
         public void ProcessCube_Hist()
         {
-            var ssas = CreateSsasClient();
-            ssas.ProcessPartition("Model", "CashFlow", "CashFlow_Current_Hist");
+            var ssas = CreateAdomdClient();
+            ssas.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""CashFlow"",
+        ""table"": ""CashFlow"",
+        ""partition"": ""CashFlow_Current_Hist""
+      }
+    ]
+  }");
         }
 
         public void ProcessCube_Sshot()
         {
-            var ssas = CreateSsasClient();
-            ssas.ProcessPartition("Model", "CashFlow", "CashFlow_Snapshot");
+            var ssas = CreateAdomdClient();
+            ssas.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""CashFlow"",
+        ""table"": ""CashFlow"",
+        ""partition"": ""CashFlow_Snapshot""
+      }
+    ]
+  }");
         }
         #endregion
 

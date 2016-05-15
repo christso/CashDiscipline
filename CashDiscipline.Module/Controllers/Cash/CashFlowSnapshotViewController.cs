@@ -1,4 +1,5 @@
-﻿using CashDiscipline.Module.BusinessObjects.Cash;
+﻿using CashDiscipline.Module;
+using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Logic;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
@@ -47,8 +48,18 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         private void ProcessCube()
         {
-            var ssas = CreateSsasClient();
-            ssas.ProcessTable("SnapshotReported");
+            var ssas = CashDisciplineHelpers.CreateAdomdClient();
+            ssas.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""CashFlow"",
+        ""table"": ""SnapshotReported""
+      }
+    ]
+  }
+}");
         }
 
         private ServerProcessor CreateSsasClient()

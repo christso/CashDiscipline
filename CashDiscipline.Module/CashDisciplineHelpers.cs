@@ -13,5 +13,10 @@ namespace CashDiscipline.Module
         {
             return new ServerProcessor("FINSERV01", "CashFlow");
         }
+
+        public static AdomdProcessor CreateAdomdClient()
+        {
+            return new AdomdProcessor("FINSERV01");
+        }
     }
 }
