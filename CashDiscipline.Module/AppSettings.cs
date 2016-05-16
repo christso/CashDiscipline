@@ -9,5 +9,6 @@ namespace CashDiscipline.Module
     public class AppSettings
     {
         public static bool UserTriggersEnabled = true;
+        public static bool MsasTabularCompatibility_13 = false;
     }
 }

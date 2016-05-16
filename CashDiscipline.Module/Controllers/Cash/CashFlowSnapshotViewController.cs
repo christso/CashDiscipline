@@ -48,8 +48,10 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         private void ProcessCube()
         {
-            var ssas = CashDisciplineHelpers.CreateAdomdClient();
-            ssas.ProcessCommand(@"{
+            if (AppSettings.MsasTabularCompatibility_13)
+            {
+                var ssas = CashDisciplineHelpers.CreateAdomdClient();
+                ssas.ProcessCommand(@"{
   ""refresh"": {
     ""type"": ""full"",
     ""objects"": [
@@ -60,6 +62,12 @@ namespace CashDiscipline.Module.Controllers.Cash
     ]
   }
 }");
+            }
+            else
+            {
+                var ssas = CreateSsasClient();
+                ssas.ProcessTable("SnapshotReported");
+            }
         }
 
         private ServerProcessor CreateSsasClient()

@@ -158,8 +158,10 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         public void ProcessCube_All()
         {
-            var ssas = CreateAdomdClient();
-            ssas.ProcessCommand(@"{
+            if (AppSettings.MsasTabularCompatibility_13)
+            {
+                var ssas = CreateAdomdClient();
+                ssas.ProcessCommand(@"{
   ""refresh"": {
     ""type"": ""full"",
     ""objects"": [
@@ -169,12 +171,20 @@ namespace CashDiscipline.Module.Controllers.Cash
     ]
   }
 }");
+            }
+            else
+            {
+                var ssas = CreateSsasClient();
+                ssas.ProcessDatabase();
+            }
         }
 
         public void ProcessCube_Recent()
         {
-            var ssas = CreateAdomdClient();
-            ssas.ProcessCommand(@"{
+            if (AppSettings.MsasTabularCompatibility_13)
+            {
+                var ssas = CreateAdomdClient();
+                ssas.ProcessCommand(@"{
   ""refresh"": {
     ""type"": ""full"",
     ""objects"": [
@@ -186,12 +196,20 @@ namespace CashDiscipline.Module.Controllers.Cash
     ]
   }
 }");
+            }
+            else
+            {
+                var ssas = CreateSsasClient();
+                ssas.ProcessPartition("CashFlow", "CashFlow", "CashFlow_Current_Recent");
+            }
         }
 
         public void ProcessCube_Hist()
         {
-            var ssas = CreateAdomdClient();
-            ssas.ProcessCommand(@"{
+            if (AppSettings.MsasTabularCompatibility_13)
+            {
+                var ssas = CreateAdomdClient();
+                ssas.ProcessCommand(@"{
   ""refresh"": {
     ""type"": ""full"",
     ""objects"": [
@@ -202,12 +220,20 @@ namespace CashDiscipline.Module.Controllers.Cash
       }
     ]
   }");
+            }
+            else
+            {
+                var ssas = CreateSsasClient();
+                ssas.ProcessPartition("CashFlow", "CashFlow", "CashFlow_Current_Hist");
+            }
         }
 
         public void ProcessCube_Sshot()
         {
-            var ssas = CreateAdomdClient();
-            ssas.ProcessCommand(@"{
+            if (AppSettings.MsasTabularCompatibility_13)
+            {
+                var ssas = CreateAdomdClient();
+                ssas.ProcessCommand(@"{
   ""refresh"": {
     ""type"": ""full"",
     ""objects"": [
@@ -218,6 +244,12 @@ namespace CashDiscipline.Module.Controllers.Cash
       }
     ]
   }");
+            }
+            else
+            {
+                var ssas = CreateSsasClient();
+                ssas.ProcessPartition("CashFlow", "CashFlow", "CashFlow_Snapshot");
+            }
         }
         #endregion
 
