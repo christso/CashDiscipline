@@ -21,10 +21,11 @@ namespace CashDiscipline.Module.Test
         private const string cashFlowChoiceCaption = "Cash Flow";
         private const string importParamChoiceCaption = "Import Param";
         private const string forexChoiceCaption = "Convert Currency";
+        private const string pasteChoiceCaption = "Paste";
 
         public TestViewController()
         {
-            this.Active["Test"] = false;
+            this.Active["Test"] = true;
 
             var testDataAction = new SingleChoiceAction(this, "TestDataAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             testDataAction.ShowItemsOnClick = false;
@@ -43,6 +44,16 @@ namespace CashDiscipline.Module.Test
             var forexChoice = new ChoiceActionItem();
             forexChoice.Caption = "Convert Currency";
             testDataAction.Items.Add(forexChoice);
+
+            var pasteChoice = new ChoiceActionItem();
+            pasteChoice.Caption = pasteChoiceCaption;
+            testDataAction.Items.Add(pasteChoice);
+
+            // active
+            cashFlowChoice.Active["Test"] = false;
+            importParamChoice.Active["Test"] = false;
+            forexChoice.Active["Test"] = false;
+            pasteChoice.Active["Test"] = true;
         }
 
         private void testAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -58,7 +69,15 @@ namespace CashDiscipline.Module.Test
                 case forexChoiceCaption:
                     ConvertCurrency();
                     break;
+                case pasteChoiceCaption:
+                    PasteTest();
+                    break;
             }
+        }
+
+        protected virtual void PasteTest()
+        {
+
         }
 
         private void ConvertCurrency()
