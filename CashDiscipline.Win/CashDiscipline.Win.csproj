@@ -287,6 +287,9 @@
       <HintPath>..\assemblies\Xafology.ExpressApp.MsoExcel.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Xafology.ExpressApp.Paste">
+      <HintPath>..\assemblies\Xafology.ExpressApp.Paste.dll</HintPath>
+    </Reference>
     <Reference Include="Xafology.ExpressApp.Paste.Win, Version=15.2.7.1, Culture=neutral, PublicKeyToken=63251deee19baa62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\assemblies\Xafology.ExpressApp.Paste.Win.dll</HintPath>

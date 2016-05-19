@@ -112,6 +112,7 @@ namespace CashDiscipline.Win
             this.Modules.Add(this.XafologySystemWindowsFormsModule1);
             this.Modules.Add(this.batchDeleteWinModule1);
             this.Modules.Add(this.pasteWinModule1);
+            this.Modules.Add(new Xafology.ExpressApp.Paste.PasteModule());
             this.Modules.Add(this.module4);
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CashDisciplineWindowsFormsApplication_DatabaseVersionMismatch);
             this.CustomizeLanguagesList += new System.EventHandler<DevExpress.ExpressApp.CustomizeLanguagesListEventArgs>(this.CashDisciplineWindowsFormsApplication_CustomizeLanguagesList);
