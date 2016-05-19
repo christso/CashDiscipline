@@ -30,8 +30,11 @@ namespace CashDiscipline.Module.Win.Test
             var listView = (ListView)View;
             var listEditor = listView.Editor as GridListEditor;
 
-            var columns1 = listView.Model.Columns;
-            var columns2 = listEditor.Model.Columns;
+            //var columns1 = listView.Model.Columns;
+            //var columns2 = listEditor.Model.Columns;
+
+            var paster = new NewRowPasteProcessor(copyParser, listView);
+            paster.Process();
 
             #endregion
         }
@@ -46,6 +49,7 @@ namespace CashDiscipline.Module.Win.Test
                 }
             }
         }
+
 
 
     }

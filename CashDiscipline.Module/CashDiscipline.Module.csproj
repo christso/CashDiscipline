@@ -192,6 +192,9 @@
     <Reference Include="Xafology.ExpressApp.MsoExcel">
       <HintPath>..\assemblies\Xafology.ExpressApp.MsoExcel.dll</HintPath>
     </Reference>
+    <Reference Include="Xafology.ExpressApp.Paste">
+      <HintPath>..\assemblies\Xafology.ExpressApp.Paste.dll</HintPath>
+    </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGrid">
       <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.dll</HintPath>
     </Reference>

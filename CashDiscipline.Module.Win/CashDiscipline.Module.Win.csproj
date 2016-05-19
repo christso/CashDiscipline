@@ -198,7 +198,11 @@
     <Reference Include="Xafology.ExpressApp.Layout.Win, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.Layout.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Paste.Win, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.Paste">
+      <HintPath>..\assemblies\Xafology.ExpressApp.Paste.dll</HintPath>
+    </Reference>
+    <Reference Include="Xafology.ExpressApp.Paste.Win, Version=15.2.7.1, Culture=neutral, PublicKeyToken=63251deee19baa62, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\assemblies\Xafology.ExpressApp.Paste.Win.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.PivotGrid, Culture=neutral, processorArchitecture=MSIL">
@@ -213,7 +217,8 @@
     <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.Win, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Xafology.ExpressApp.Win, Version=15.2.7.1, Culture=neutral, PublicKeyToken=63251deee19baa62, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\assemblies\Xafology.ExpressApp.Win.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Xpo, Culture=neutral, processorArchitecture=MSIL">
@@ -290,7 +295,9 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Analyzer Include="..\assemblies\DevExpress.ExpressApp.Win.v15.2.dll" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="FunctionalTests\Config.xml" />
     <None Include="UnusableNodes2.xml">
