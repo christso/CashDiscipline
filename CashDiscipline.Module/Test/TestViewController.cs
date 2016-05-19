@@ -1,5 +1,4 @@
-﻿#if TESTDATA
-using CashDiscipline.Module.BusinessObjects.Cash;
+﻿using CashDiscipline.Module.BusinessObjects.Cash;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Xpo;
@@ -211,4 +210,3 @@ namespace CashDiscipline.Module.Test
         }
     }
 }
-#endif

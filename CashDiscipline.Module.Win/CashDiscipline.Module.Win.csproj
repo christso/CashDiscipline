@@ -296,9 +296,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Analyzer Include="..\assemblies\DevExpress.ExpressApp.Win.v15.2.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="FunctionalTests\Config.xml" />
     <None Include="UnusableNodes2.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
