@@ -485,7 +485,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             if (obj == null || fromCcy == null) return;
             var session = obj.Session;
 
-            var funcCcy = session.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
+            var funcCcy = SetOfBooks.GetInstance(session).FunctionalCurrency;
 
             if (SetOfBooks.CachedInstance.FunctionalCurrency.Oid == fromCcy.Oid)
                 obj.FunctionalCcyAmt = fromAmt;
