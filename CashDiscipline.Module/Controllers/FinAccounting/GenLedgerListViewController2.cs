@@ -6,18 +6,19 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CashDiscipline.Module.ParamObjects.FinAccounting;
+using CashDiscipline.Module.Logic.FinAccounting;
 
 namespace CashDiscipline.Module.Controllers.FinAccounting
 {
-    public class GenLedgerListViewController : ViewController
+    public class GenLedgerListViewController2 : ViewController
     {
-        public GenLedgerListViewController()
+        public GenLedgerListViewController2()
         {
             TargetObjectType = typeof(GenLedger);
             TargetViewType = ViewType.ListView;
 
-            genJnlAction = new SimpleAction(this, "GenJnlAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
-            genJnlAction.Caption = "Generate Journals";
+            genJnlAction = new SimpleAction(this, "GenJnlAction2", DevExpress.Persistent.Base.PredefinedCategory.Edit);
+            genJnlAction.Caption = "Generate Journals 2";
             genJnlAction.Execute += genJnlAction_Execute;
 
         }
@@ -28,12 +29,6 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
         protected override void OnActivated()
         {
             base.OnActivated();
-            View.ControlsCreated += View_ControlsCreated;
-        }
-
-        void View_ControlsCreated(object sender, EventArgs e)
-        {
-            var editor = ((ListView)View).Editor;
         }
 
         void genJnlAction_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -49,12 +44,8 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
         // generate for selected CashFlows and BankStmts
         void dialog_Accepting(object sender, DevExpress.ExpressApp.SystemModule.DialogControllerAcceptingEventArgs e)
         {
-            GenerateJournals(_ParamObj);
-        }
-
-        public static void GenerateJournals(FinGenJournalParam paramObj)
-        {
-            GenLedger.GenerateJournals(paramObj);
+            var jg = new SqlJournalGenerator(_ParamObj);
+            jg.Execute();
         }
     }
 }
