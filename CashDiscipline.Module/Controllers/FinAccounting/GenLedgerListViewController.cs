@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 using CashDiscipline.Module.ParamObjects.FinAccounting;
+using DevExpress.ExpressApp.Xpo;
+using CashDiscipline.Module.Logic.FinAccounting;
 
 namespace CashDiscipline.Module.Controllers.FinAccounting
 {
@@ -24,6 +26,7 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
 
         private SimpleAction genJnlAction;
         private FinGenJournalParam _ParamObj;
+        private JournalGenerator journalGenerator;
 
         protected override void OnActivated()
         {
@@ -38,9 +41,11 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
 
         void genJnlAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var objSpace = Application.CreateObjectSpace();
+            var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = FinGenJournalParam.GetInstance(objSpace);
             _ParamObj = paramObj;
+            journalGenerator = new JournalGenerator(paramObj, objSpace);
+
             var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
             dialog.Accepting += dialog_Accepting;
             dialog.ShowView(objSpace, paramObj);
@@ -49,12 +54,7 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
         // generate for selected CashFlows and BankStmts
         void dialog_Accepting(object sender, DevExpress.ExpressApp.SystemModule.DialogControllerAcceptingEventArgs e)
         {
-            GenerateJournals(_ParamObj);
-        }
-
-        public static void GenerateJournals(FinGenJournalParam paramObj)
-        {
-            GenLedger.GenerateJournals(paramObj);
+            journalGenerator.Execute();
         }
     }
 }

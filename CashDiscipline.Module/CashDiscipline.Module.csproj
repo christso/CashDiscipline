@@ -235,7 +235,10 @@
     <Compile Include="Logic\Cash\FixCashFlowsRephaser.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsSqlBuilder.cs" />
     <Compile Include="Logic\Cash\IFixCashFlows.cs" />
-    <Compile Include="Logic\FinAccounting\JournalDeleter.cs" />
+    <Compile Include="Logic\FinAccounting\BankStmtJournalHelper.cs" />
+    <Compile Include="Logic\FinAccounting\CashFlowJournalHelper.cs" />
+    <Compile Include="Logic\FinAccounting\GenLedgerFinActivityJoin.cs" />
+    <Compile Include="Logic\FinAccounting\IJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\SqlJournalGenerator.cs" />
     <Compile Include="Logic\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />

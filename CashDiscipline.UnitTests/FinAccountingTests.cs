@@ -171,7 +171,7 @@ namespace CashDiscipline.UnitTests
             journalGroupParam.GenJournalParam = glParam;
 
             var deleter = new CashDiscipline.UnitTests.TestObjects.MockJournalDeleter(glParam);
-            var jg = new JournalGenerator(glParam, deleter);
+            var jg = new JournalGenerator(glParam, ObjectSpace);
             jg.Execute();
 
             #endregion
@@ -362,7 +362,7 @@ namespace CashDiscipline.UnitTests
             journalGroupParam.GenJournalParam = glParam;
 
             var deleter = new CashDiscipline.UnitTests.TestObjects.MockJournalDeleter(glParam);
-            var jg = new JournalGenerator(glParam, deleter);
+            var jg = new JournalGenerator(glParam, ObjectSpace);
             jg.Execute();
 
             #endregion
@@ -497,7 +497,7 @@ namespace CashDiscipline.UnitTests
 
             journalGroupParam.GenJournalParam = glParam;
             var deleter = new CashDiscipline.UnitTests.TestObjects.MockJournalDeleter(glParam);
-            var jg = new JournalGenerator(glParam, deleter);
+            var jg = new JournalGenerator(glParam, ObjectSpace);
             jg.Execute();
 
             #endregion
@@ -601,7 +601,7 @@ namespace CashDiscipline.UnitTests
 
             journalGroupParam.GenJournalParam = glParam;
             var deleter = new CashDiscipline.UnitTests.TestObjects.MockJournalDeleter(glParam);
-            var jg = new JournalGenerator(glParam, deleter);
+            var jg = new JournalGenerator(glParam, ObjectSpace);
             jg.Execute();
 
 
@@ -699,7 +699,7 @@ namespace CashDiscipline.UnitTests
 
             #region Act
 
-            var jg = new SqlJournalGenerator(glParam);
+            var jg = new SqlJournalGenerator(glParam, ObjectSpace);
             jg.Execute();
 
             #endregion
@@ -788,7 +788,7 @@ namespace CashDiscipline.UnitTests
 
             journalGroupParam.GenJournalParam = glParam;
 
-            var jg = new JournalGenerator(glParam);
+            var jg = new JournalGenerator(glParam, ObjectSpace);
             jg.Execute();
             jg.Execute();
 

@@ -292,13 +292,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                 SetPropertyValue("IsActivity", ref _IsActivity, value);
             }
         }
-
-        public static void GenerateJournals(FinGenJournalParam paramObj)
-        {
-            var jg = new JournalGenerator(paramObj);
-
-            jg.Execute();
-        }
     }
 
     public enum GenLedgerSourceType
