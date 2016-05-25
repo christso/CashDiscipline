@@ -22,7 +22,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 {
     [VisibleInReports(true)]
     [ModelDefault("DefaultListViewAllowEdit", "True")]
-    [DefaultProperty("BankStmtId")]
+    [DefaultProperty("Oid")]
     [ModelDefault("IsFooterVisible", "True")]
     public class BankStmt : BaseObject, IXpoImportable
     {
@@ -146,6 +146,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
         string _TranDescription;
         [VisibleInLookupListView(true)]
+        [VisibleInListView(true)]
         [Size(SizeAttribute.Unlimited)]
         public string TranDescription
         {
