@@ -1,3 +1,4 @@
+using CashDiscipline.Module.Attributes;
 using CashDiscipline.Module.BusinessObjects.Cash;
 
 using DevExpress.Data.Filtering;
@@ -16,6 +17,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
     [ModelDefault("IsCloneable", "True")]
     [DefaultProperty("TradeId")]
     [ModelDefault("IsFooterVisible", "True")]
+    [AutoColumnWidth(false)]
     public class ForexTrade : BaseObject, ICalculateToggleObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ForexTrade(Session session)

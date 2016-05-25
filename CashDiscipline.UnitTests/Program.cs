@@ -19,13 +19,25 @@ namespace CashDiscipline.UnitTests
             Console.ReadKey();
         }
 
+        static void RunTest()
+        {
+            var tests = new TempTests();
+            tests.SetUpFixture();
+            tests.Setup();
+
+            tests.TempTest();
+
+            tests.TearDown();
+            tests.TearDownFixture();
+        }
+
         static void RunTempTestMethod()
         {
             var tests = new CashDiscipline.UnitTests.TempTests();
             tests.TempTest();
         }
 
-        static void RunTest()
+        static void RunExperiment()
         {
             var tests = new CashDiscipline.UnitTests.ForexLinkTests();
             tests.SetUpFixture();

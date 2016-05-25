@@ -22,7 +22,7 @@ using CashDiscipline.Module.ParamObjects.Cash;
 using Xafology.TestUtils;
 using CashDiscipline.UnitTests.TestObjects;
 using CashDiscipline.Module.Logic.Cash;
-
+using CashDiscipline.Module.Attributes;
 
 namespace CashDiscipline.UnitTests
 {
@@ -97,9 +97,14 @@ namespace CashDiscipline.UnitTests
         [Test]
         public void TempTest()
         {
-            var session = ObjectSpace.Session;
-            session.ExecuteNonQuery(@"SELECT cf.* INTO tempdb..#CashFlowsToFix
-FROM CashFlow cf");
+            var attrs = typeof(BankStmt).CustomAttributes;
+            foreach (var attr in attrs)
+            {
+                if (attr.AttributeType == typeof(AutoColumnWidthAttribute))
+                    Console.WriteLine("Attribute {0} matched", attr.AttributeType.Name);
+                else
+                    Console.WriteLine("Attribute {0} not matched", attr.AttributeType.Name);
+            }
         }
     }
 }

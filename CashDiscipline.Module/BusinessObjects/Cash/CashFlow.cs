@@ -18,6 +18,7 @@ using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.Logic.Cash;
 using Xafology.ExpressApp.Xpo.SequentialGuidBase;
+using CashDiscipline.Module.Attributes;
 
 // Please note that calling Save() will set IsFixeeSynced and IsFixerSynced to false;
 // Therefore, avoid calling Save() if you need to update those properties.
@@ -29,6 +30,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [ModelDefault("ImageName","BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("Oid")]
+    [AutoColumnWidth(false)]
     public class CashFlow : SequentialGuidBaseObject, ICalculateToggleObject, CashDiscipline.Module.Interfaces.ICashFlow, IXpoImportable
     {
 

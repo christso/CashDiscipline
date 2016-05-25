@@ -13,6 +13,7 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using Xafology.ExpressApp.RowMover;
 using CashDiscipline.Module.BusinessObjects.Forex;
+using CashDiscipline.Module.Attributes;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -20,6 +21,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [ModelDefault("IsFooterVisible", "True")]
     [ModelDefault("ImageName", "BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [AutoColumnWidth(false)]
     public class CashFlowFixMapping : BaseObject, IRowMoverObject
     {
         private static int NextIndex = 1;

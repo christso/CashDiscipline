@@ -1,10 +1,13 @@
-﻿using CashDiscipline.Module.BusinessObjects.Cash;
+﻿using CashDiscipline.Module.Attributes;
+using CashDiscipline.Module.BusinessObjects.Cash;
+using CashDiscipline.Module.BusinessObjects.FinAccounting;
 using CashDiscipline.Module.BusinessObjects.Forex;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Win.Editors;
 using System;
+using System.Linq;
 
-namespace CashDiscipline.Module.Win.Controllers.Cash
+namespace CashDiscipline.Module.Win.Controllers
 {
     public class CustomizeGridViewController : ViewController
     {
@@ -17,11 +20,12 @@ namespace CashDiscipline.Module.Win.Controllers.Cash
         {
             get
             {
-                return (View.ObjectTypeInfo.Type == typeof(CashFlow)
-                || View.ObjectTypeInfo.Type == typeof(ForexTrade)
-                || View.ObjectTypeInfo.Type == typeof(CashFlowFixMapping)
-                || View.ObjectTypeInfo.Type == typeof(BankStmt)
-                );
+                
+                var attr = View.ObjectTypeInfo.FindAttribute<AutoColumnWidthAttribute>();               
+                
+                if (attr == null || attr.AutoColumnWidth == true)
+                    return false;
+                return true;
             }
         }
 

@@ -10,7 +10,7 @@ using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid;
 using CashDiscipline.Module.BusinessObjects.Cash;
 
-namespace CashDiscipline.Module.Win.Controllers.Cash
+namespace CashDiscipline.Module.Win.Controllers
 {
     public class BankStmtFilterViewController : ViewController
     {
@@ -23,6 +23,11 @@ namespace CashDiscipline.Module.Win.Controllers.Cash
         {
             base.OnActivated();
             View.ControlsCreated += View_ControlsCreated;
+        }
+        protected override void OnDeactivated()
+        {
+            base.OnDeactivated();
+            View.ControlsCreated -= View_ControlsCreated;
         }
 
         void View_ControlsCreated(object sender, EventArgs e)

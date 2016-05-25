@@ -16,15 +16,12 @@ using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Logic.FinAccounting;
 using CashDiscipline.Module.ParamObjects.FinAccounting;
 using Xafology.Spreadsheet.Attributes;
+using CashDiscipline.Module.Attributes;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
     [ModelDefault("ImageName", "BO_List")]
-    //[ImageName("BO_Contact")]
-    //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
-    //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
-    //[Persistent("DatabaseTableName")]
-    // Specify more UI options using a declarative approach (http://documentation.devexpress.com/#Xaf/CustomDocument2701).
+    [AutoColumnWidth(false)]
     public class GenLedger : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public GenLedger(Session session)

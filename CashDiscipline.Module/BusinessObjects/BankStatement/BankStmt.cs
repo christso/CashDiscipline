@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.BankStatement;
+using CashDiscipline.Module.Attributes;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -24,6 +25,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [ModelDefault("DefaultListViewAllowEdit", "True")]
     [DefaultProperty("Oid")]
     [ModelDefault("IsFooterVisible", "True")]
+    [AutoColumnWidth(false)]
     public class BankStmt : BaseObject, IXpoImportable
     {
         public BankStmt(Session session)

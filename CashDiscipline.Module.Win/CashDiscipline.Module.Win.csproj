@@ -229,16 +229,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Cash\BankStmtFilterViewController.cs">
+    <Compile Include="Controllers\BankStmtFilterViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\Cash\CustomizeGridViewController.cs">
+    <Compile Include="Controllers\CustomizeGridViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\CashDisciplinePivotGridDrillDownController.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\FinAccounting\GenLedgerListViewControllerWin.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\ToolbarViewController.cs">
