@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashDiscipline.Module.BusinessObjects
+namespace CashDiscipline.Module.BusinessObjects.BankStatement
 {
     public class BankStmtCashFlowForecast : BaseObject
     {

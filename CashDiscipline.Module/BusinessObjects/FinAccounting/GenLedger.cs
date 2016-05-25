@@ -101,7 +101,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         {
             get
             {
-                if (string.IsNullOrEmpty(SrcBankStmt.BankStmtId))
+                if (SrcBankStmt == null)
                     return SrcCashFlow.Oid;
                 return SrcBankStmt.Oid;
             }

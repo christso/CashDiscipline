@@ -16,6 +16,7 @@ using System.Collections.Generic;
 
 using System.Diagnostics;
 using Xafology.ExpressApp.Xpo.Import;
+using CashDiscipline.Module.BusinessObjects.BankStatement;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -96,24 +97,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 return GetCollection<GenLedger>("GenLedgers");
             }
         }
-
-        [PersistentAlias("concat('BS', ToStr(Id))")]
-        public string BankStmtId
-        {
-            get
-            {
-                return Convert.ToString(EvaluateAlias("BankStmtId"));
-            }
-        }
-
-        int _Id;
-        [ModelDefault("DisplayFormat", "f0")]
-        [ModelDefault("AllowEdit", "false")]
-        public int Id
-        {
-            get { return _Id; }
-            set { SetPropertyValue("Id", ref _Id, value); }
-        }
+        
         DateTime _TranDate;
         [VisibleInLookupListView(true)]
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
@@ -168,6 +152,18 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             get { return _TranDescription; }
             set { SetPropertyValue("TranDescription", ref _TranDescription, value); }
         }
+
+        BankStmtTranCode _TranCode;
+        [VisibleInLookupListView(false)]
+        public BankStmtTranCode TranCode
+        {
+            get { return _TranCode; }
+            set
+            {
+                SetPropertyValue("TranCode", ref _TranCode, value);
+            }
+        }
+
         Account _Account;
         [VisibleInLookupListView(true)]
         public Account Account
@@ -234,6 +230,37 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         {
             get { return _CounterCcy; }
             set { SetPropertyValue("CounterCcy", ref _CounterCcy, value); }
+        }
+
+        DateTime _ValueDate;
+        [VisibleInLookupListView(true)]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        public DateTime ValueDate
+        {
+            get { return _ValueDate; }
+            set { SetPropertyValue("ValueDate", ref _ValueDate, value); }
+        }
+
+        private DateTime _TimeEntered;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy hh:mm:ss")]
+        public DateTime TimeEntered
+        {
+            get
+            {
+                return _TimeEntered;
+            }
+            set
+            {
+                SetPropertyValue("TimeEntered", ref _TimeEntered, value);
+            }
+        }
+
+        private ActionOwner _ActionOwner;
+        public ActionOwner ActionOwner
+        {
+            get { return _ActionOwner; }
+            set { SetPropertyValue("ActionOwner", ref _ActionOwner, value); }
         }
 
         private CashFlow _CashFlow;

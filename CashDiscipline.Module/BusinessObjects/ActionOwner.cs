@@ -10,12 +10,12 @@ using DevExpress.ExpressApp;
 namespace CashDiscipline.Module.BusinessObjects
 {
     [ImageName("BO_List")]
-    [DefaultProperty("ShortName")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [ModelDefault("IsFooterVisible", "True")]
-    public class Owner : BaseObject
+    [NavigationItem("Cash Setup")]
+    public class ActionOwner : BaseObject
     {
-        public Owner(Session session)
+        public ActionOwner(Session session)
             : base(session)
         {
             // This constructor is used when an object is loaded from a persistent storage.
@@ -28,17 +28,17 @@ namespace CashDiscipline.Module.BusinessObjects
             // Place here your initialization code.
         }
 
-        private string _ShortName;
+        private string _Name;
 
-        public string ShortName
+        public string Name
         {
             get
             {
-                return _ShortName;
+                return _Name;
             }
             set
             {
-                SetPropertyValue("ShortName", ref _ShortName, value);
+                SetPropertyValue("Name", ref _Name, value);
             }
         }
     }

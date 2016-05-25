@@ -219,9 +219,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
     <Compile Include="BusinessObjects\CashLookup\CounterpartyTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
-    <Compile Include="BusinessObjects\Owner.cs" />
+    <Compile Include="BusinessObjects\ActionOwner.cs" />
     <Compile Include="CashDisciplineHelpers.cs" />
     <Compile Include="Controllers\FinAccounting\GenLedgerListViewController2.cs">
       <SubType>Component</SubType>
@@ -248,7 +249,7 @@
     <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
-    <Compile Include="BusinessObjects\BankStmt\BankStmtCashFlowForecast.cs" />
+    <Compile Include="BusinessObjects\BankStatement\BankStmtCashFlowForecast.cs" />
     <Compile Include="BusinessObjects\CashLookup\ActivityTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowDefaults.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowSnapshot.cs" />
@@ -281,8 +282,8 @@
     <Compile Include="BusinessObjects\AccountsPayable\ApBankAccount.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApSource.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistn.cs" />
-    <Compile Include="BusinessObjects\BankStmt\BankStmtAccountImportMapping.cs" />
-    <Compile Include="BusinessObjects\BankStmt\BankStmtMapping.cs" />
+    <Compile Include="BusinessObjects\BankStatement\BankStmtAccountImportMapping.cs" />
+    <Compile Include="BusinessObjects\BankStatement\BankStmtMapping.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlow.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowSource.cs" />
     <Compile Include="BusinessObjects\Cash\CashForecastFixTag.cs" />
@@ -391,7 +392,7 @@
     <Compile Include="Validation\GenLedgerRule.cs" />
     <Compile Include="BusinessObjects\CashLookup\Account.cs" />
     <Compile Include="BusinessObjects\CashLookup\Activity.cs" />
-    <Compile Include="BusinessObjects\BankStmt\BankStmt.cs" />
+    <Compile Include="BusinessObjects\BankStatement\BankStmt.cs" />
     <Compile Include="BusinessObjects\CashLookup\Counterparty.cs" />
     <Compile Include="BusinessObjects\CashLookup\Currency.cs" />
     <Compile Include="Constants.cs" />
