@@ -60,16 +60,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                 return GetCollection<FinAccount>("FinAccounts");
             }
         }
-
-        [Association("JournalGroup-GenLedger")]
-        public XPCollection<GenLedger> GenLedger
-        {
-            get
-            {
-                return GetCollection<GenLedger>("GenLedger");
-            }
-        }
-
+        
         protected override void OnSaved()
         {
             base.OnSaved();

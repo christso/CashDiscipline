@@ -22,6 +22,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
     [ImageName("BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [ModelDefault("IsFooterVisible", "True")]
+    [AutoColumnWidth(false)]
     public class FinActivity : BaseObject, IRowMoverObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public FinActivity(Session session)

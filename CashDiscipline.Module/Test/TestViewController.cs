@@ -24,7 +24,7 @@ namespace CashDiscipline.Module.Test
 
         public TestViewController()
         {
-            this.Active["Test"] = true;
+            this.Active["Test"] = false;
 
             var testDataAction = new SingleChoiceAction(this, "TestDataAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             testDataAction.ShowItemsOnClick = false;
@@ -52,7 +52,7 @@ namespace CashDiscipline.Module.Test
             cashFlowChoice.Active["Test"] = false;
             importParamChoice.Active["Test"] = false;
             forexChoice.Active["Test"] = false;
-            pasteChoice.Active["Test"] = true;
+            pasteChoice.Active["Test"] = false;
         }
 
         private void testAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)

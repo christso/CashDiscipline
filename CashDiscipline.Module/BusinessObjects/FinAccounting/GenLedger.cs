@@ -17,11 +17,13 @@ using CashDiscipline.Module.Logic.FinAccounting;
 using CashDiscipline.Module.ParamObjects.FinAccounting;
 using Xafology.Spreadsheet.Attributes;
 using CashDiscipline.Module.Attributes;
+using Xafology.ExpressApp.BatchDelete;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
     [ModelDefault("ImageName", "BO_List")]
     [AutoColumnWidth(false)]
+    [BatchDelete(isVisible: true, isOptimized: true)]
     public class GenLedger : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public GenLedger(Session session)
@@ -56,7 +58,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
-        [Association("BankStmt-GenLedgers")]
         [VisibleInLookupListView(false)]
         public BankStmt SrcBankStmt
         {
@@ -66,13 +67,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
             set
             {
-                var oldBankStmt = _SrcBankStmt;
                 SetPropertyValue("SrcBankStmt", ref _SrcBankStmt, value);
-                if (!IsLoading && !IsSaving && oldBankStmt != _SrcBankStmt)
-                {
-                    oldBankStmt = oldBankStmt ?? _SrcBankStmt;
-                    oldBankStmt.UpdateGenLedgerTotal(true);
-                }
             }
         }
         [ExcelReportField]
@@ -87,9 +82,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                 return GenLedgerSourceType.Unknown;
             }
         }
-
-
-
+        
         [VisibleInListView(false)]
         [VisibleInDetailView(false)]
         [VisibleInLookupListView(false)]
@@ -153,7 +146,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         }
         #endregion
         [ExcelReportField]
-        [Association("JournalGroup-GenLedger")]
         public FinJournalGroup JournalGroup
         {
             get
@@ -254,6 +246,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 
         private string _GlDescription;
         [ExcelReportField]
+        [VisibleInListView(true)]
+        [Size(SizeAttribute.Unlimited)]
         public string GlDescription
         {
             get

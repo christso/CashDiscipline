@@ -91,15 +91,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        [Association("BankStmt-GenLedgers")]
-        public XPCollection<GenLedger> GenLedgers
-        {
-            get
-            {
-                return GetCollection<GenLedger>("GenLedgers");
-            }
-        }
-        
         DateTime _TranDate;
         [VisibleInLookupListView(true)]
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
@@ -334,17 +325,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         #region Amount Calculators
-
-        private static CriteriaOperator GetRateCriteriaOperator(Currency fromCcy, Currency toCcy, DateTime convDate)
-        {
-            var rateOp = CriteriaOperator.Parse(
-                              "ConversionDate = [<ForexRate>][FromCurrency.Oid = ? "
-                                + "AND ToCurrency.Oid = ? AND ConversionDate <= ?].Max(ConversionDate) "
-                                + "AND FromCurrency.Oid = ? AND ToCurrency.Oid = ?",
-                              fromCcy.Oid, toCcy.Oid, convDate, fromCcy.Oid, toCcy.Oid);
-            return rateOp;
-        }
-
         private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
             return ForexRate.GetForexRateObject(session, fromCcy, toCcy, convDate);
@@ -403,58 +383,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        #endregion
-
-        #region Master Detail
-        protected override void OnLoaded()
-        {
-            //When using "lazy" calculations it's necessary to reset cached values.
-            Reset();
-            base.OnLoaded();
-        }
-        private void Reset()
-        {
-            _GenLedgerTotal = null;
-            GenLedgers.Reload();
-        }
-        #endregion
-
-        #region GenLedger Master
-
-        [Persistent("GenLedgerTotal")]
-        private decimal? _GenLedgerTotal = null;
-
-        [VisibleInLookupListView(false)]
-        [PersistentAlias("_GenLedgerTotal")]
-        [ModelDefault("DisplayFormat", "n2")]
-        [ModelDefault("EditMask", "n2")]
-        [ModelDefault("AllowEdit", "false")]
-        public decimal? GenLedgerFuncTotal
-        {
-            get
-            {
-                if (!IsLoading && !IsSaving && _GenLedgerTotal == null)
-                    UpdateGenLedgerTotal(false);
-                return _GenLedgerTotal;
-            }
-        }
-
-        //Define a way to calculate and update the OrdersTotal;
-        public void UpdateGenLedgerTotal(bool forceChangeEvents)
-        {
-            //Put your complex business logic here. Just for demo purposes, we calculate a sum here.
-            decimal? oldGenLedgerTotal = _GenLedgerTotal;
-            decimal tempTotal = 0;
-            //Manually iterate through the Orders collection if your calculated property requires a complex business logic which cannot be expressed via criteria language.
-            foreach (GenLedger detail in GenLedgers)
-            {
-                if (!detail.IsActivity)
-                    tempTotal += detail.FunctionalCcyAmt;
-            }
-            _GenLedgerTotal = tempTotal;
-            if (forceChangeEvents)
-                OnChanged("GenLedgerTotal", oldGenLedgerTotal, _GenLedgerTotal);
-        }
         #endregion
 
         public static void DeleteCashFlows(IObjectSpace objSpace, string criteria, params object[] parameters)

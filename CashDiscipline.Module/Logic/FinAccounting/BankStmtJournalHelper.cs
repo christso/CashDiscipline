@@ -6,6 +6,7 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,32 +28,57 @@ namespace CashDiscipline.Module.Logic.FinAccounting
         {
             var genLedgerFinActivityJoin = new List<GenLedgerFinActivityJoin>();
 
+            var sw0 = new Stopwatch();
+            var sw1 = new Stopwatch();
+            var sw2 = new Stopwatch();
+
+            sw0.Start();
+
             foreach (BankStmt bsi in bankStmts)
             {
                 // use the same Account Map for each Bank Statement Item
                 var accountMap = accountMaps.FirstOrDefault(m => m.Account == bsi.Account);
                 genLedgerFinActivityJoin.Clear();
+
                 foreach (var activityMap in activityMaps)
                 {
                     if (activityMap.FromActivity != bsi.Activity
                         || !(activityMap.TargetObject == FinJournalTargetObject.BankStmt
                         || activityMap.TargetObject == FinJournalTargetObject.All)) continue;
 
+                    #region Create Journal Items
+
+                    sw1.Start();
+
                     GenLedger activityGli = CreateActivityJournalItem(bsi, activityMap);
                     GenLedger accountGli = CreateAccountJournalItem(bsi, accountMap, activityMap);
+
+                    sw1.Stop();
+
+                    #endregion
+
+                    #region Evaluate Amount
+
+                    sw2.Start();
 
                     // Evaluate Amount Expression
                     accountGli.FunctionalCcyAmt = EvalFunctionalCcyAmt(bsi, activityMap, genLedgerFinActivityJoin); // TODO: may be zero
                     activityGli.FunctionalCcyAmt = accountGli.FunctionalCcyAmt * -1.00M;
 
-                    activityGli.Save();
-                    accountGli.Save();
-
                     // Join GenLedger with FinActivity so you can get the sum of all previous GenLedger.FinActivity.Token
                     // we use accountGli as the FunctionCcyAmt's sign is not reversed like in actvitiyGli
                     genLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedger = accountGli });
+
+                    sw2.Stop();
+
+                    #endregion
                 }
             }
+
+            sw0.Stop();
+            var elapsed0 = sw0.Elapsed.TotalSeconds;
+            var elapsed1 = sw1.Elapsed.TotalSeconds;
+            var elapsed2 = sw2.Elapsed.TotalSeconds;
         }
 
         public GenLedger CreateActivityJournalItem(BankStmt bsi, FinActivity activityMap)

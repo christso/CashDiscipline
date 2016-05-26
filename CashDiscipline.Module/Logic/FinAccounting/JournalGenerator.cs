@@ -70,11 +70,12 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             #region Process Cash Flows
 
             var cfJournalHelper = new CashFlowJournalHelper(objSpace, paramObj);
-            ProcessJournals(cfJournalHelper, accountMaps, activityMaps);
+            //TODO: uncomment below once speed issue is fixed
+            //ProcessJournals(cfJournalHelper, accountMaps, activityMaps);
 
             #endregion
 
-            objSpace.CommitChanges();
+            objSpace.Session.CommitTransaction();
         }
 
         public void ProcessJournals<T>(IJournalHelper<T> helper, IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
