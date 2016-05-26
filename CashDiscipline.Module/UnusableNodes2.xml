@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <ListView Id="BankStmt_ListView_FCA">
+      <Columns Id="Columns">
+        <ColumnInfo Id="Id" PropertyName="Id" Index="0" Width="50" />
+      </Columns>
+    </ListView>
+    <ListView Id="BankStmt_ListView_Artf">
+      <Columns Id="Columns">
+        <ColumnInfo Id="BankStmtId" PropertyName="BankStmtId" Width="41" Index="0" />
+      </Columns>
+    </ListView>
+    <DetailView Id="BankStmt_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="BankStmt">
+            <LayoutGroup Id="SimpleEditors">
+              <LayoutGroup Id="BankStmt_col2">
+                <LayoutItem Id="GenLedgerFuncTotal" ViewItem="GenLedgerFuncTotal" />
+                <LayoutItem Id="ArtfReconTotal" ViewItem="ArtfReconTotal" />
+              </LayoutGroup>
+              <LayoutGroup Id="BankStmt_col1">
+                <LayoutItem Id="BankStmtId" ViewItem="BankStmtId" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="BankStmt_LookupListView">
+      <Columns Id="Columns">
+        <ColumnInfo Id="Id" PropertyName="Id" Index="0" />
+      </Columns>
+    </ListView>
+    <ListView Id="CashFlow_ListView">
+      <Columns Id="Columns">
+        <ColumnInfo Id="ForexLinkedAccountCcyAmt" Index="29" />
+        <ColumnInfo Id="ForexUnlinkedAccountCcyAmt" Index="30" />
+        <ColumnInfo Id="ForexLinkIsClosed" Index="31" />
+      </Columns>
+    </ListView>
+    <DetailView Id="CashFlow_DetailView">
+      <Items Id="Items">
+        <PropertyEditor Id="ForexLinkedAccountCcyAmt" Caption="Linked Account Ccy Amt" />
+        <PropertyEditor Id="ForexLinkIsClosed" Caption="Link Is Closed" />
+        <PropertyEditor Id="ForexUnlinkedAccountCcyAmt" Caption="Unlinked Account Ccy Amt" />
+      </Items>
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="Forex">
+              <LayoutGroup Id="Forex_col2">
+                <LayoutItem Id="ForexLinkIsClosed" ViewItem="ForexLinkIsClosed" />
+              </LayoutGroup>
+              <LayoutGroup Id="Forex_col1">
+                <LayoutItem Id="ForexUnlinkedAccountCcyAmt" ViewItem="ForexUnlinkedAccountCcyAmt" />
+                <LayoutItem Id="ForexLinkedAccountCcyAmt" ViewItem="ForexLinkedAccountCcyAmt" />
+              </LayoutGroup>
+            </LayoutGroup>
+            <LayoutGroup Id="CashFlow">
+              <LayoutGroup Id="CashFlow_col1">
+                <LayoutItem Id="IsReclass" Removed="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="CashFlow_col2">
+                <LayoutItem Id="ForexLinkedAccountCcyAmt" Removed="True" />
+                <LayoutItem Id="ForexLinkIsClosed" Removed="True" />
+                <LayoutItem Id="ForexUnlinkedAccountCcyAmt" Removed="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+  <NavigationItems Id="NavigationItems">
+    <Items Id="Items">
+      <Item Id="Accounting Mapping">
+        <Items Id="Items">
+          <Item Id="Gl Sales Channel" ViewId="GlSalesChannel_ListView" />
+          <Item Id="Gl Project" ViewId="GlProject_ListView" />
+          <Item Id="Gl Product" ViewId="GlProduct_ListView" />
+          <Item Id="Gl Location" ViewId="GlLocation_ListView" />
+          <Item Id="Gl Intercompany" ViewId="GlIntercompany_ListView" />
+          <Item Id="Gl Country" ViewId="GlCountry_ListView" />
+          <Item Id="Gl Cost Centre" ViewId="GlCostCentre_ListView" />
+          <Item Id="Gl Company" ViewId="GlCompany_ListView" />
+          <Item Id="Gl Account" ViewId="GlAccount_ListView" />
+        </Items>
+      </Item>
+      <Item Id="Cash Setup">
+        <Items Id="Items">
+          <Item Id="CashForecastFixTagType" ViewId="CashForecastFixTagType_ListView" />
+          <Item Id="AccountActivityMap" ViewId="AccountActivityMap_ListView" />
+        </Items>
+      </Item>
+      <Item Id="Default">
+        <Items Id="Items">
+          <Item Id="ActionRequest" ViewId="ActionRequest_ListView" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+</Application>

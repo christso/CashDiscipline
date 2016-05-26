@@ -318,15 +318,6 @@
     <Compile Include="ExcelReportCreators\CashReportCreator.cs" />
     <Compile Include="ExcelReportCreators\GenLedgerReportCreator.cs" />
     <Compile Include="ParamObjects\Cash\CashReportParam.cs" />
-    <Compile Include="BusinessObjects\ChartOfAccounts\GlAccount.cs" />
-    <Compile Include="BusinessObjects\ChartOfAccounts\GlCompany.cs" />
-    <Compile Include="BusinessObjects\ChartOfAccounts\GlCostCentre.cs" />
-    <Compile Include="BusinessObjects\ChartOfAccounts\GlCountry.cs" />
-    <Compile Include="BusinessObjects\ChartOfAccounts\GlIntercompany.cs" />
-    <Compile Include="BusinessObjects\ChartOfAccounts\GlLocation.cs" />
-    <Compile Include="BusinessObjects\ChartOfAccounts\GlProduct.cs" />
-    <Compile Include="BusinessObjects\ChartOfAccounts\GlProject.cs" />
-    <Compile Include="BusinessObjects\ChartOfAccounts\GlSalesChannel.cs" />
     <Compile Include="BusinessObjects\Forex\ForexRate.cs" />
     <Compile Include="BusinessObjects\SetOfBooks.cs" />
     <Compile Include="BusinessObjects\Setup\DateDim.cs" />
@@ -445,6 +436,14 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="UnusableNodes3.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes2.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UnusableNodes1.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>

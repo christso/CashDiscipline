@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
-using CashDiscipline.Module.BusinessObjects.ChartOfAccounts;
+
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.Cash;
 
@@ -115,56 +115,56 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
                 SetPropertyValue("Vendor", ref _Vendor, value);
             }
         }
-        private GlCompany _GlCompany;
-        public GlCompany GlCompany
+        private string _GlCompany;
+        public string GlCompany
         {
             get { return _GlCompany; }
             set { SetPropertyValue("GlCompany", ref _GlCompany, value); }
         }
-        private GlAccount _GlAccount;
-        public GlAccount GlAccount
+        private string _GlAccount;
+        public string GlAccount
         {
             get { return _GlAccount; }
             set { SetPropertyValue("GlAccount", ref _GlAccount, value); }
         }
-        private GlCostCentre _GlCostCentre;
-        public GlCostCentre GlCostCentre
+        private string _GlCostCentre;
+        public string GlCostCentre
         {
             get { return _GlCostCentre; }
             set { SetPropertyValue("GlCostCentre", ref _GlCostCentre, value); }
         }
-        private GlProduct _GlProduct;
-        public GlProduct GlProduct
+        private string _GlProduct;
+        public string GlProduct
         {
             get { return _GlProduct; }
             set { SetPropertyValue("GlProduct", ref _GlProduct, value); }
         }
-        private GlSalesChannel _GlSalesChannel;
-        public GlSalesChannel GlSalesChannel
+        private string _GlSalesChannel;
+        public string GlSalesChannel
         {
             get { return _GlSalesChannel; }
             set { SetPropertyValue("GlSalesChannel", ref _GlSalesChannel, value); }
         }
-        private GlCountry _GlCountry;
-        public GlCountry GlCountry
+        private string _GlCountry;
+        public string GlCountry
         {
             get { return _GlCountry; }
             set { SetPropertyValue("GlCountry", ref _GlCountry, value); }
         }
-        private GlIntercompany _GlIntercompany;
-        public GlIntercompany GlIntercompany
+        private string _GlIntercompany;
+        public string GlIntercompany
         {
             get { return _GlIntercompany; }
             set { SetPropertyValue("GlIntercompany", ref _GlIntercompany, value); }
         }
-        private GlProject _GlProject;
-        public GlProject GlProject
+        private string _GlProject;
+        public string GlProject
         {
             get { return _GlProject; }
             set { SetPropertyValue("GlProject", ref _GlProject, value); }
         }
-        private GlLocation _GlLocation;
-        public GlLocation GlLocation
+        private string _GlLocation;
+        public string GlLocation
         {
             get { return _GlLocation; }
             set { SetPropertyValue("GlLocation", ref _GlLocation, value); }

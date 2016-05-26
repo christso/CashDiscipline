@@ -52,9 +52,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         private Activity _Activity;
         private DateTime _TranDate;
         private CashFlowForexSettleType _ForexSettleType;
-        private decimal? _ForexLinkedInAccountCcyAmt;
-        private decimal? _ForexLinkedOutAccountCcyAmt;
-        private bool? _ForexLinkIsClosed;
         private CashFlow origCashFlow;
         private long _ForexSettleGroupId;
         private bool calculateEnabled;
@@ -913,9 +910,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         protected void Reset()
         {
-            _ForexLinkedInAccountCcyAmt = null;
-            _ForexLinkedOutAccountCcyAmt = null;
-            _ForexLinkIsClosed = null;
             ForexSettleLinksIn.Reload();
             ForexSettleLinksOut.Reload();
         }

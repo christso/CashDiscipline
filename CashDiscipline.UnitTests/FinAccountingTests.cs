@@ -19,7 +19,7 @@ using DevExpress.ExpressApp.Utils;
 
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.BusinessObjects.FinAccounting;
-using CashDiscipline.Module.BusinessObjects.ChartOfAccounts;
+
 using CashDiscipline.Module.ParamObjects.FinAccounting;
 using CashDiscipline.Module.BusinessObjects;
 using DevExpress.Persistent.Validation;
@@ -64,8 +64,8 @@ namespace CashDiscipline.UnitTests
 
             var glDescDateFormat = "dd-mmm-yy";
 
-            var bankGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            bankGlAccount.Code = "210127";
+            var bankGlAccount = ObjectSpace.CreateObject<string>();
+            bankGlAccount = "210127";
 
             var stmtSource = ObjectSpace.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.BankStmtCashFlowSource.Oid);
             var reclassSource = ObjectSpace.CreateObject<CashFlowSource>();
@@ -84,8 +84,8 @@ namespace CashDiscipline.UnitTests
             #region Bank Fees
             var bankFeeActivity = ObjectSpace.CreateObject<Activity>();
             bankFeeActivity.Name = "HSBC Bank Fee";
-            var bankFeeGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            bankFeeGlAccount.Code = "691090";
+            var bankFeeGlAccount = ObjectSpace.CreateObject<string>();
+            bankFeeGlAccount = "691090";
 
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
             finActivity1.FromActivity = bankFeeActivity;
@@ -101,8 +101,8 @@ namespace CashDiscipline.UnitTests
             #region Interest Expense
             var intExpActivity = ObjectSpace.CreateObject<Activity>();
             intExpActivity.Name = "IntExp CCS VG";
-            var intExpGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            intExpGlAccount.Code = "691090";
+            var intExpGlAccount = ObjectSpace.CreateObject<string>();
+            intExpGlAccount = "691090";
 
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
             finActivity2.FromActivity = intExpActivity;
@@ -204,8 +204,8 @@ namespace CashDiscipline.UnitTests
 
             var glDescDateFormat = "dd-mmm-yy";
 
-            var bankGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            bankGlAccount.Code = "210159";
+            var bankGlAccount = ObjectSpace.CreateObject<string>();
+            bankGlAccount = "210159";
 
             #endregion
 
@@ -221,8 +221,8 @@ namespace CashDiscipline.UnitTests
             #region Gross Amount
             var grossActivity = ObjectSpace.CreateObject<Activity>();
             grossActivity.Name = "V AustPost Rcpt";
-            var grossGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            grossGlAccount.Code = "211900";
+            var grossGlAccount = ObjectSpace.CreateObject<string>();
+            grossGlAccount = "211900";
 
             var finActivity3 = ObjectSpace.CreateObject<FinActivity>();
             finActivity3.FromActivity = grossActivity;
@@ -238,8 +238,8 @@ namespace CashDiscipline.UnitTests
             #region Commission
             var commActivity = ObjectSpace.CreateObject<Activity>();
             commActivity.Name = "V AustPost Comm";
-            var commGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            commGlAccount.Code = "691090";
+            var commGlAccount = ObjectSpace.CreateObject<string>();
+            commGlAccount = "691090";
 
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
             finActivity1.FromActivity = grossActivity;
@@ -255,8 +255,8 @@ namespace CashDiscipline.UnitTests
             #region Commission GST
             var gstActivity = ObjectSpace.CreateObject<Activity>();
             gstActivity.Name = "V AustPost Comm GST";
-            var gstGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            gstGlAccount.Code = "235815";
+            var gstGlAccount = ObjectSpace.CreateObject<string>();
+            gstGlAccount = "235815";
 
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
             finActivity2.FromActivity = grossActivity;
@@ -272,8 +272,8 @@ namespace CashDiscipline.UnitTests
             #region Dishonour Chequqe Fee
             var dsrFeeActivity = ObjectSpace.CreateObject<Activity>();
             dsrFeeActivity.Name = "V AustPost Dsr Chq Fee";
-            var dsrFeeGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            dsrFeeGlAccount.Code = "671701";
+            var dsrFeeGlAccount = ObjectSpace.CreateObject<string>();
+            dsrFeeGlAccount = "671701";
 
             var finActivity4 = ObjectSpace.CreateObject<FinActivity>();
             finActivity4.FromActivity = grossActivity;
@@ -289,8 +289,8 @@ namespace CashDiscipline.UnitTests
             #region DishonourChequeReversal
             var dsrRvslActivity = ObjectSpace.CreateObject<Activity>();
             dsrRvslActivity.Name = "V AustPost Dsr Chq Rvsl";
-            var dsrRvslGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            dsrRvslGlAccount.Code = "211900";
+            var dsrRvslGlAccount = ObjectSpace.CreateObject<string>();
+            dsrRvslGlAccount = "211900";
 
             var finActivity5 = ObjectSpace.CreateObject<FinActivity>();
             finActivity5.FromActivity = grossActivity;
@@ -306,8 +306,8 @@ namespace CashDiscipline.UnitTests
             #region NegativeCorrections
             var negActivity = ObjectSpace.CreateObject<Activity>();
             negActivity.Name = "V AustPost Neg Corr";
-            var negGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            negGlAccount.Code = "211900";
+            var negGlAccount = ObjectSpace.CreateObject<string>();
+            negGlAccount = "211900";
 
             var finActivity6 = ObjectSpace.CreateObject<FinActivity>();
             finActivity6.FromActivity = grossActivity;
@@ -395,8 +395,8 @@ namespace CashDiscipline.UnitTests
 
             var glDescDateFormat = "dd-mmm-yy";
 
-            var bankGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            bankGlAccount.Code = "210156";
+            var bankGlAccount = ObjectSpace.CreateObject<string>();
+            bankGlAccount = "210156";
 
             #endregion
 
@@ -412,8 +412,8 @@ namespace CashDiscipline.UnitTests
             #region Gross Amount
             var grossActivity = ObjectSpace.CreateObject<Activity>();
             grossActivity.Name = "V AMEX Rcpt";
-            var grossGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            grossGlAccount.Code = "211900";
+            var grossGlAccount = ObjectSpace.CreateObject<string>();
+            grossGlAccount = "211900";
 
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
             finActivity1.FromActivity = grossActivity;
@@ -431,8 +431,8 @@ namespace CashDiscipline.UnitTests
             #region Commission
             var commActivity = ObjectSpace.CreateObject<Activity>();
             commActivity.Name = "V AMEX Comm GST";
-            var commGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            commGlAccount.Code = "691030";
+            var commGlAccount = ObjectSpace.CreateObject<string>();
+            commGlAccount = "691030";
 
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
             finActivity2.FromActivity = grossActivity;
@@ -450,8 +450,8 @@ namespace CashDiscipline.UnitTests
             #region Commission GST
             var gstActivity = ObjectSpace.CreateObject<Activity>();
             gstActivity.Name = "V AMEX Comm GST";
-            var gstGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            gstGlAccount.Code = "235815";
+            var gstGlAccount = ObjectSpace.CreateObject<string>();
+            gstGlAccount = "235815";
 
             var finActivity3 = ObjectSpace.CreateObject<FinActivity>();
             finActivity3.FromActivity = grossActivity;
@@ -536,12 +536,12 @@ namespace CashDiscipline.UnitTests
             commActivity.Name = "V Diners Comm";
             var gstActivity = ObjectSpace.CreateObject<Activity>();
             gstActivity.Name = "V Diners Comm GST";
-            var commGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            commGlAccount.Code = "691090";
-            var gstGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            gstGlAccount.Code = "235815";
-            var bankGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            bankGlAccount.Code = "210156";
+            var commGlAccount = ObjectSpace.CreateObject<string>();
+            commGlAccount = "691090";
+            var gstGlAccount = ObjectSpace.CreateObject<string>();
+            gstGlAccount = "235815";
+            var bankGlAccount = ObjectSpace.CreateObject<string>();
+            bankGlAccount = "210156";
 
             var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
             journalGroup.Name = "VF Bank";
@@ -632,12 +632,12 @@ namespace CashDiscipline.UnitTests
             commActivity.Name = "V Diners Comm";
             var gstActivity = ObjectSpace.CreateObject<Activity>();
             gstActivity.Name = "V Diners Comm GST";
-            var commGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            commGlAccount.Code = "691090";
-            var gstGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            gstGlAccount.Code = "235815";
-            var bankGlAccount = ObjectSpace.CreateObject<GlAccount>();
-            bankGlAccount.Code = "210156";
+            var commGlAccount = ObjectSpace.CreateObject<string>();
+            commGlAccount = "691090";
+            var gstGlAccount = ObjectSpace.CreateObject<string>();
+            gstGlAccount = "235815";
+            var bankGlAccount = ObjectSpace.CreateObject<string>();
+            bankGlAccount = "210156";
 
             var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
             journalGroup.Name = "VF Bank";

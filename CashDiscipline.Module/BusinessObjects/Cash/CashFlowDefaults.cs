@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
-using CashDiscipline.Module.BusinessObjects.ChartOfAccounts;
+
 using CashDiscipline.Module.BusinessObjects.Cash;
 using DevExpress.ExpressApp.Xpo;
 
