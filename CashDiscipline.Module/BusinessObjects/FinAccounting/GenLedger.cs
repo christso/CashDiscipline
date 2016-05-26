@@ -24,7 +24,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
     [ModelDefault("ImageName", "BO_List")]
     [AutoColumnWidth(false)]
     [BatchDelete(isVisible: true, isOptimized: true)]
-    public class GenLedger : BaseObject
+    public class GenLedger : BaseObject, IBatchDeletable
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public GenLedger(Session session)
             : base(session)

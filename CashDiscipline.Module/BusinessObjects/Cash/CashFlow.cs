@@ -19,6 +19,7 @@ using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.Logic.Cash;
 using Xafology.ExpressApp.Xpo.SequentialGuidBase;
 using CashDiscipline.Module.Attributes;
+using Xafology.ExpressApp.BatchDelete;
 
 // Please note that calling Save() will set IsFixeeSynced and IsFixerSynced to false;
 // Therefore, avoid calling Save() if you need to update those properties.
@@ -31,7 +32,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("Oid")]
     [AutoColumnWidth(false)]
-    public class CashFlow : SequentialGuidBaseObject, ICalculateToggleObject, CashDiscipline.Module.Interfaces.ICashFlow, IXpoImportable
+    [BatchDelete(isVisible: true, isOptimized: true)]
+    public class CashFlow : SequentialGuidBaseObject, ICalculateToggleObject, CashDiscipline.Module.Interfaces.ICashFlow, 
+        IXpoImportable, IBatchDeletable
     {
 
         private Activity _FixActivity;
