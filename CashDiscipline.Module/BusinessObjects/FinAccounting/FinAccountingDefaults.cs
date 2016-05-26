@@ -94,6 +94,20 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             set { SetPropertyValue("GlLocation", ref _GlLocation, value); }
         }
         #endregion
+
+        private string _GlDescDateFormat;
+        public string GlDescDateFormat
+        {
+            get
+            {
+                return _GlDescDateFormat;
+            }
+            set
+            {
+                SetPropertyValue("GlDescDateFormat", ref _GlDescDateFormat, value);
+            }
+        }
+
         public static FinAccountingDefaults GetInstance(IObjectSpace objectSpace)
         {
             FinAccountingDefaults result = objectSpace.FindObject<FinAccountingDefaults>(null);

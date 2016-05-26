@@ -43,9 +43,12 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             {
                 var sortProps = new SortingCollection(null);
                 sortProps.Add(new SortProperty("RowIndex", DevExpress.Xpo.DB.SortingDirection.Ascending));
+                var criteria = CriteriaOperator.And(
+                    new InOperator("JournalGroup", jnlGroupsInParams),
+                    new BinaryOperator("Enabled", true, BinaryOperatorType.Equal));
                 var result = session.GetObjects(session.GetClassInfo(typeof(FinActivity)),
-                                new InOperator("JournalGroup", jnlGroupsInParams),
-                                sortProps, 0, false, true).Cast<FinActivity>().ToList();
+                                criteria, sortProps, 0, false, true)
+                                .Cast<FinActivity>().ToList();
                 return result;
             })();
             var activitiesToMap = activityMaps.GroupBy(m => m.FromActivity).Select(k => k.Key);

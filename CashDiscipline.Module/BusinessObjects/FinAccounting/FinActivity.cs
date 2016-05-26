@@ -15,15 +15,13 @@ using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.BusinessObjects.ChartOfAccounts;
 using DevExpress.ExpressApp.Xpo;
 using Xafology.ExpressApp.RowMover;
+using CashDiscipline.Module.Attributes;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
-    [ModelDefault("ImageName", "BO_List")]
-    //[ImageName("BO_Contact")]
-    //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
-    //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
-    //[Persistent("DatabaseTableName")]
-    // Specify more UI options using a declarative approach (http://documentation.devexpress.com/#Xaf/CustomDocument2701).
+    [ImageName("BO_List")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [ModelDefault("IsFooterVisible", "True")]
     public class FinActivity : BaseObject, IRowMoverObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public FinActivity(Session session)
@@ -36,7 +34,11 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
             if (AppSettings.UserTriggersEnabled)
                 InitDefaultValues();
+
         }
+        // singleton
+        private static int NextIndex = 1;
+
         private int _RowIndex;
         private string _FunctionalCcyAmtExpr;
         private string _GlDescription;
@@ -112,6 +114,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        [VisibleInListView(true)]
+        [Size(SizeAttribute.Unlimited)]
         public string FunctionalCcyAmtExpr
         {
             get
@@ -205,6 +209,21 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 
         public void InitDefaultValues()
         {
+            #region Index
+
+            object maxIndex = Session.Evaluate<FinActivity>(CriteriaOperator.Parse("Max(RowIndex)"), null);
+
+            if (maxIndex != null)
+            {
+                if ((int)maxIndex >= NextIndex)
+                    NextIndex = (int)maxIndex + 1;
+            }
+            this.RowIndex = NextIndex;
+
+            #endregion
+
+            #region Accounting
+
             var defObj = Session.FindObject<FinAccountingDefaults>(null);
             if (defObj == null) return;
             if (GlCompany == null)
@@ -224,7 +243,11 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             if (GlProject == null)
                 GlProject = defObj.GlProject;
             if (GlLocation == null)
-                GlLocation = defObj.GlLocation;        
+                GlLocation = defObj.GlLocation;
+
+            GlDescDateFormat = defObj.GlDescDateFormat;
+            Enabled = true;
+            #endregion
         }
 
         private FinJournalTargetObject _TargetObject;
@@ -237,6 +260,19 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             set
             {
                 SetPropertyValue("TargetObject", ref _TargetObject, value);
+            }
+        }
+
+        private bool _Enabled;
+        public bool Enabled
+        {
+            get
+            {
+                return _Enabled;
+            }
+            set
+            {
+                SetPropertyValue("Enabled", ref _Enabled, value);
             }
         }
     }
