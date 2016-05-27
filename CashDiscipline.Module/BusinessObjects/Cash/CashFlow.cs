@@ -524,8 +524,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 SetPropertyValue("FixRank", ref _FixRank, value);
             }
         }
-
-        [Association("CashForecastFixTag-CashFlows")]
+        
         public CashForecastFixTag Fix
         {
             get

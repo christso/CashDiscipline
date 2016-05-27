@@ -71,15 +71,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 SetPropertyValue("FixTagType", ref _FixTagType, value);
             }
         }
-
-        [Association("CashForecastFixTag-CashFlows")]
-        public XPCollection<CashFlow> CashFlows
-        {
-            get
-            {
-                return GetCollection<CashFlow>("CashFlows");
-            }
-        }
     }
 
     public enum CashForecastFixTagType
