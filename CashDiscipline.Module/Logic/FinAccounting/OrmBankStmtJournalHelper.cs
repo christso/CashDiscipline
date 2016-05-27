@@ -14,11 +14,11 @@ using Xafology.StringEvaluators;
 
 namespace CashDiscipline.Module.Logic.FinAccounting
 {
-    public class BankStmtJournalHelper : IJournalHelper<BankStmt>
+    public class OrmBankStmtJournalHelper : IJournalHelper<BankStmt>
     {
         private readonly XPObjectSpace objSpace;
         private readonly FinGenJournalParam paramObj;
-        public BankStmtJournalHelper(XPObjectSpace objSpace, FinGenJournalParam paramObj)
+        public OrmBankStmtJournalHelper(XPObjectSpace objSpace, FinGenJournalParam paramObj)
         {
             this.objSpace = objSpace;
             this.paramObj = paramObj;
@@ -27,7 +27,6 @@ namespace CashDiscipline.Module.Logic.FinAccounting
         public void Process(IEnumerable<BankStmt> bankStmts, IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
         {
             var genLedgerFinActivityJoin = new List<GenLedgerFinActivityJoin>();
-
             var sw0 = new Stopwatch();
             var sw1 = new Stopwatch();
             var sw2 = new Stopwatch();
@@ -47,30 +46,23 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                         || activityMap.TargetObject == FinJournalTargetObject.All)) continue;
 
                     #region Create Journal Items
-
                     sw1.Start();
-
                     GenLedger activityGli = CreateActivityJournalItem(bsi, activityMap);
-                    GenLedger accountGli = CreateAccountJournalItem(bsi, accountMap, activityMap);
-
                     sw1.Stop();
-
                     #endregion
 
                     #region Evaluate Amount
-
                     sw2.Start();
 
                     // Evaluate Amount Expression
-                    accountGli.FunctionalCcyAmt = EvalFunctionalCcyAmt(bsi, activityMap, genLedgerFinActivityJoin); // TODO: may be zero
-                    activityGli.FunctionalCcyAmt = accountGli.FunctionalCcyAmt * -1.00M;
+                    var genLedgerKey = new GenLedgerKey() {
+                        FunctionalCcyAmt = EvalFunctionalCcyAmt(bsi, activityMap, genLedgerFinActivityJoin) };
+                    activityGli.FunctionalCcyAmt = genLedgerKey.FunctionalCcyAmt * -1.00M;
 
                     // Join GenLedger with FinActivity so you can get the sum of all previous GenLedger.FinActivity.Token
-                    // we use accountGli as the FunctionCcyAmt's sign is not reversed like in actvitiyGli
-                    genLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedger = accountGli });
+                    genLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedgerKey = genLedgerKey });
 
                     sw2.Stop();
-
                     #endregion
                 }
             }
@@ -103,30 +95,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             activityGli.IsActivity = true;
             return activityGli;
         }
-
-        public GenLedger CreateAccountJournalItem(BankStmt bsi, FinAccount accountMap, FinActivity activityMap)
-        {
-            var accountGli = new GenLedger(objSpace.Session);
-            accountGli.SrcBankStmt = bsi;
-            accountGli.GlDescription = accountMap.GlDescription ?? (string.IsNullOrEmpty(bsi.SummaryDescription) ?
-                bsi.TranDescription : bsi.TranDescription + "_" + bsi.SummaryDescription);
-
-            accountGli.EntryType = GenLedgerEntryType.Auto;
-            accountGli.JournalGroup = accountMap.JournalGroup;
-            accountGli.Activity = activityMap.ToActivity;
-            accountGli.GlCompany = accountMap.GlCompany;
-            accountGli.GlAccount = accountMap.GlAccount;
-            accountGli.GlCostCentre = accountMap.GlCostCentre;
-            accountGli.GlCountry = accountMap.GlCountry;
-            accountGli.GlIntercompany = accountMap.GlIntercompany;
-            accountGli.GlLocation = accountMap.GlLocation;
-            accountGli.GlProduct = accountMap.GlProduct;
-            accountGli.GlProject = accountMap.GlProject;
-            accountGli.GlSalesChannel = accountMap.GlSalesChannel;
-            accountGli.IsActivity = false;
-            return accountGli;
-        }
-
+        
         public decimal EvalFunctionalCcyAmt(BankStmt bsi, FinActivity activityMap, List<GenLedgerFinActivityJoin> genLedgerFinActivityJoin)
         {
             // get maps that have been computed for each bank statement item
@@ -136,7 +105,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                 // e.FunctionArgs[0] will have value like, for example, 'A'
                 var result = from j in genLedgerFinActivityJoin
                              where j.FinActivity.Token == e.FunctionArgs[0]
-                             select j.GenLedger.FunctionalCcyAmt;
+                             select j.GenLedgerKey.FunctionalCcyAmt;
                 return result.Sum();
             };
             fp.Add("FA", TokenFAmountHandler);
@@ -161,5 +130,6 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             cop = GroupOperator.And(cop, new InOperator("Account", accountsToMap));
             return new XPCollection<BankStmt>(session, cop);
         }
+
     }
 }

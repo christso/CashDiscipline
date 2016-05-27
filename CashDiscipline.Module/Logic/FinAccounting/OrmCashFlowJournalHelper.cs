@@ -14,11 +14,11 @@ using CashDiscipline.Module.BusinessObjects;
 
 namespace CashDiscipline.Module.Logic.FinAccounting
 {
-    public class CashFlowJournalHelper : IJournalHelper<CashFlow>
+    public class OrmCashFlowJournalHelper : IJournalHelper<CashFlow>
     {
         private readonly XPObjectSpace objSpace;
         private readonly FinGenJournalParam paramObj;
-        public CashFlowJournalHelper(XPObjectSpace objSpace, FinGenJournalParam paramObj)
+        public OrmCashFlowJournalHelper(XPObjectSpace objSpace, FinGenJournalParam paramObj)
         {
             this.objSpace = objSpace;
             this.paramObj = paramObj;
@@ -28,7 +28,6 @@ namespace CashDiscipline.Module.Logic.FinAccounting
         {
             var genLedgerFinActivityJoin = new List<GenLedgerFinActivityJoin>();
 
-            // TODO: fix error "The 'CashDiscipline.Module.BusinessObjects.Cash.CashFlowSnapshot' object belongs to a different session."
             foreach (CashFlow cf in cashFlows)
             {
                 // use the same Account Map for each Bank Statement Item
@@ -41,44 +40,20 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                         || activityMap.TargetObject == FinJournalTargetObject.All)) continue;
 
                     GenLedger activityGli = CreateActivityJournalItem(cf, activityMap);
-                    GenLedger accountGli = CreateAccountJournalItem(cf, accountMap, activityMap);
 
                     // Evaluate Amount Expression
-                    accountGli.FunctionalCcyAmt = EvalFunctionalCcyAmt(cf, activityMap, genLedgerFinActivityJoin); // TODO: may be zero
-                    activityGli.FunctionalCcyAmt = accountGli.FunctionalCcyAmt * -1.00M;
-
-                    activityGli.Save();
-                    accountGli.Save();
+                    var genLedgerKey = new GenLedgerKey() { FunctionalCcyAmt = 
+                        EvalFunctionalCcyAmt(cf, activityMap, genLedgerFinActivityJoin) /* TODO: may be zero*/
+                    };
+                    activityGli.FunctionalCcyAmt = genLedgerKey.FunctionalCcyAmt * -1.00M;
 
                     // Join GenLedger with FinActivity so you can get the sum of all previous GenLedger.FinActivity.Token
                     // we use accountGli as the FunctionCcyAmt's sign is not reversed like in actvitiyGli
-                    genLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedger = accountGli });
+                    genLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedgerKey = genLedgerKey });
                 }
             }
         }
-
-        public GenLedger CreateAccountJournalItem(CashFlow cf, FinAccount accountMap, FinActivity activityMap)
-        {
-            var accountGli = new GenLedger(objSpace.Session);
-            accountGli.SrcCashFlow = cf;
-            accountGli.GlDescription = accountMap.GlDescription ?? cf.Description;
-
-            accountGli.EntryType = GenLedgerEntryType.Auto;
-            accountGli.JournalGroup = accountMap.JournalGroup;
-            accountGli.Activity = activityMap.ToActivity;
-            accountGli.GlCompany = accountMap.GlCompany;
-            accountGli.GlAccount = accountMap.GlAccount;
-            accountGli.GlCostCentre = accountMap.GlCostCentre;
-            accountGli.GlCountry = accountMap.GlCountry;
-            accountGli.GlIntercompany = accountMap.GlIntercompany;
-            accountGli.GlLocation = accountMap.GlLocation;
-            accountGli.GlProduct = accountMap.GlProduct;
-            accountGli.GlProject = accountMap.GlProject;
-            accountGli.GlSalesChannel = accountMap.GlSalesChannel;
-            accountGli.IsActivity = false;
-            return accountGli;
-        }
-
+        
         public GenLedger CreateActivityJournalItem(CashFlow cf, FinActivity activityMap)
         {
             var activityGli = new GenLedger(objSpace.Session);
@@ -111,7 +86,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                 // e.FunctionArgs[0] will have value like, for example, 'A'
                 var result = from j in genLedgerFinActivityJoin
                              where j.FinActivity.Token == e.FunctionArgs[0]
-                             select j.GenLedger.FunctionalCcyAmt;
+                             select j.GenLedgerKey.FunctionalCcyAmt;
                 return result.Sum();
             };
             fp.Add("FA", TokenFAmountHandler);

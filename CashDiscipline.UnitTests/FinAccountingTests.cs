@@ -64,8 +64,7 @@ namespace CashDiscipline.UnitTests
 
             var glDescDateFormat = "dd-mmm-yy";
 
-            var bankGlAccount = ObjectSpace.CreateObject<string>();
-            bankGlAccount = "210127";
+            var bankGlAccount = "210127";
 
             var stmtSource = ObjectSpace.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.BankStmtCashFlowSource.Oid);
             var reclassSource = ObjectSpace.CreateObject<CashFlowSource>();
@@ -84,8 +83,7 @@ namespace CashDiscipline.UnitTests
             #region Bank Fees
             var bankFeeActivity = ObjectSpace.CreateObject<Activity>();
             bankFeeActivity.Name = "HSBC Bank Fee";
-            var bankFeeGlAccount = ObjectSpace.CreateObject<string>();
-            bankFeeGlAccount = "691090";
+            var bankFeeGlAccount = "691090";
 
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
             finActivity1.FromActivity = bankFeeActivity;
@@ -101,8 +99,7 @@ namespace CashDiscipline.UnitTests
             #region Interest Expense
             var intExpActivity = ObjectSpace.CreateObject<Activity>();
             intExpActivity.Name = "IntExp CCS VG";
-            var intExpGlAccount = ObjectSpace.CreateObject<string>();
-            intExpGlAccount = "691090";
+            var intExpGlAccount = "691090";
 
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
             finActivity2.FromActivity = intExpActivity;
@@ -155,6 +152,7 @@ namespace CashDiscipline.UnitTests
             cashFlow3.AccountCcyAmt = 10;
             cashFlow3.Source = reclassSource;
             cashFlow3.Status = CashFlowStatus.Actual;
+
             #endregion
             #endregion
 
@@ -204,8 +202,7 @@ namespace CashDiscipline.UnitTests
 
             var glDescDateFormat = "dd-mmm-yy";
 
-            var bankGlAccount = ObjectSpace.CreateObject<string>();
-            bankGlAccount = "210159";
+            var bankGlAccount = "210159";
 
             #endregion
 
@@ -221,8 +218,7 @@ namespace CashDiscipline.UnitTests
             #region Gross Amount
             var grossActivity = ObjectSpace.CreateObject<Activity>();
             grossActivity.Name = "V AustPost Rcpt";
-            var grossGlAccount = ObjectSpace.CreateObject<string>();
-            grossGlAccount = "211900";
+            var grossGlAccount = "211900";
 
             var finActivity3 = ObjectSpace.CreateObject<FinActivity>();
             finActivity3.FromActivity = grossActivity;
@@ -238,8 +234,7 @@ namespace CashDiscipline.UnitTests
             #region Commission
             var commActivity = ObjectSpace.CreateObject<Activity>();
             commActivity.Name = "V AustPost Comm";
-            var commGlAccount = ObjectSpace.CreateObject<string>();
-            commGlAccount = "691090";
+            var commGlAccount = "691090";
 
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
             finActivity1.FromActivity = grossActivity;
@@ -255,8 +250,7 @@ namespace CashDiscipline.UnitTests
             #region Commission GST
             var gstActivity = ObjectSpace.CreateObject<Activity>();
             gstActivity.Name = "V AustPost Comm GST";
-            var gstGlAccount = ObjectSpace.CreateObject<string>();
-            gstGlAccount = "235815";
+            var gstGlAccount = "235815";
 
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
             finActivity2.FromActivity = grossActivity;
@@ -272,8 +266,7 @@ namespace CashDiscipline.UnitTests
             #region Dishonour Chequqe Fee
             var dsrFeeActivity = ObjectSpace.CreateObject<Activity>();
             dsrFeeActivity.Name = "V AustPost Dsr Chq Fee";
-            var dsrFeeGlAccount = ObjectSpace.CreateObject<string>();
-            dsrFeeGlAccount = "671701";
+            var dsrFeeGlAccount = "671701";
 
             var finActivity4 = ObjectSpace.CreateObject<FinActivity>();
             finActivity4.FromActivity = grossActivity;
@@ -289,8 +282,7 @@ namespace CashDiscipline.UnitTests
             #region DishonourChequeReversal
             var dsrRvslActivity = ObjectSpace.CreateObject<Activity>();
             dsrRvslActivity.Name = "V AustPost Dsr Chq Rvsl";
-            var dsrRvslGlAccount = ObjectSpace.CreateObject<string>();
-            dsrRvslGlAccount = "211900";
+            var dsrRvslGlAccount = "211900";
 
             var finActivity5 = ObjectSpace.CreateObject<FinActivity>();
             finActivity5.FromActivity = grossActivity;
@@ -306,8 +298,7 @@ namespace CashDiscipline.UnitTests
             #region NegativeCorrections
             var negActivity = ObjectSpace.CreateObject<Activity>();
             negActivity.Name = "V AustPost Neg Corr";
-            var negGlAccount = ObjectSpace.CreateObject<string>();
-            negGlAccount = "211900";
+            var negGlAccount = "211900";
 
             var finActivity6 = ObjectSpace.CreateObject<FinActivity>();
             finActivity6.FromActivity = grossActivity;
@@ -394,9 +385,7 @@ namespace CashDiscipline.UnitTests
             currency.Name = "AUD";
 
             var glDescDateFormat = "dd-mmm-yy";
-
-            var bankGlAccount = ObjectSpace.CreateObject<string>();
-            bankGlAccount = "210156";
+            var bankGlAccount = "210156";
 
             #endregion
 
@@ -412,8 +401,7 @@ namespace CashDiscipline.UnitTests
             #region Gross Amount
             var grossActivity = ObjectSpace.CreateObject<Activity>();
             grossActivity.Name = "V AMEX Rcpt";
-            var grossGlAccount = ObjectSpace.CreateObject<string>();
-            grossGlAccount = "211900";
+            var grossGlAccount = "211900";
 
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
             finActivity1.FromActivity = grossActivity;
@@ -431,8 +419,7 @@ namespace CashDiscipline.UnitTests
             #region Commission
             var commActivity = ObjectSpace.CreateObject<Activity>();
             commActivity.Name = "V AMEX Comm GST";
-            var commGlAccount = ObjectSpace.CreateObject<string>();
-            commGlAccount = "691030";
+            var commGlAccount = "691030";
 
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
             finActivity2.FromActivity = grossActivity;
@@ -450,8 +437,7 @@ namespace CashDiscipline.UnitTests
             #region Commission GST
             var gstActivity = ObjectSpace.CreateObject<Activity>();
             gstActivity.Name = "V AMEX Comm GST";
-            var gstGlAccount = ObjectSpace.CreateObject<string>();
-            gstGlAccount = "235815";
+            var gstGlAccount = "235815";
 
             var finActivity3 = ObjectSpace.CreateObject<FinActivity>();
             finActivity3.FromActivity = grossActivity;
@@ -528,6 +514,9 @@ namespace CashDiscipline.UnitTests
             #endregion
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [Test]
         [Category("Coverage_1")]
         public void GenerateJournals_FinActivityMapExprToken_MappedToJournals()
@@ -536,12 +525,9 @@ namespace CashDiscipline.UnitTests
             commActivity.Name = "V Diners Comm";
             var gstActivity = ObjectSpace.CreateObject<Activity>();
             gstActivity.Name = "V Diners Comm GST";
-            var commGlAccount = ObjectSpace.CreateObject<string>();
-            commGlAccount = "691090";
-            var gstGlAccount = ObjectSpace.CreateObject<string>();
-            gstGlAccount = "235815";
-            var bankGlAccount = ObjectSpace.CreateObject<string>();
-            bankGlAccount = "210156";
+            var commGlAccount = "691090";
+            var gstGlAccount = "235815";
+            var bankGlAccount = "210156";
 
             var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
             journalGroup.Name = "VF Bank";
@@ -622,6 +608,180 @@ namespace CashDiscipline.UnitTests
             gl = gls.FirstOrDefault(x => x.Activity == gstActivity & x.GlAccount == gstGlAccount);
             Assert.AreEqual(3.59, gl.FunctionalCcyAmt);
         }
+        
+
+        [Test]
+        public void GenerateJournals_FinActivityMapTypeCombo()
+        {
+            #region Prepare
+            var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
+            journalGroup.Name = "VF Bank";
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ 94881";
+            var currency = ObjectSpace.CreateObject<Currency>();
+            currency.Name = "AUD";
+
+            var glDescDateFormat = "dd-mmm-yy";
+
+            var bankGlAccount = "210156";
+
+            #endregion
+
+            #region Cash Flow Mapping
+
+            #region Bank Account
+            var finAccount = ObjectSpace.CreateObject<FinAccount>();
+            finAccount.Account = account;
+            finAccount.GlAccount = bankGlAccount;
+            finAccount.JournalGroup = journalGroup;
+            #endregion
+
+            #region Gross Amount
+            var grossActivity = ObjectSpace.CreateObject<Activity>();
+            grossActivity.Name = "V AMEX Rcpt";
+            var grossGlAccount = "211900";
+
+            var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity1.FromActivity = grossActivity;
+            finActivity1.ToActivity = grossActivity;
+            finActivity1.FunctionalCcyAmtExpr = "SubString(TranDescription, 71, 9)";
+            finActivity1.GlDescription = "SUMMARY POSTING - AMEX";
+            finActivity1.Token = "A";
+            finActivity1.RowIndex = 1;
+            finActivity1.GlDescDateFormat = glDescDateFormat;
+            finActivity1.GlAccount = grossGlAccount;
+            finActivity1.JournalGroup = journalGroup;
+            finActivity1.TargetObject = FinJournalTargetObject.BankStmt;
+            #endregion
+
+            #region Commission
+            var commActivity = ObjectSpace.CreateObject<Activity>();
+            commActivity.Name = "V AMEX Comm";
+            var commGlAccount = "691030";
+
+            var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity2.FromActivity = grossActivity;
+            finActivity2.ToActivity = commActivity;
+            finActivity2.FunctionalCcyAmtExpr = "({FA} - {FA(A)}) * 10/11";
+            finActivity2.GlDescription = "AMEX COMMISSION CHARGES";
+            finActivity2.Token = "B";
+            finActivity2.GlDescDateFormat = glDescDateFormat;
+            finActivity2.GlAccount = commGlAccount;
+            finActivity2.RowIndex = 2;
+            finActivity2.JournalGroup = journalGroup;
+            finActivity2.TargetObject = FinJournalTargetObject.BankStmt;
+            #endregion
+
+            #region Commission GST
+            var gstActivity = ObjectSpace.CreateObject<Activity>();
+            gstActivity.Name = "V AMEX Comm GST";
+            var gstGlAccount = "235815";
+
+            var finActivity3 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity3.FromActivity = grossActivity;
+            finActivity3.ToActivity = gstActivity;
+            finActivity3.FunctionalCcyAmtExpr = "{FA(B)} * 0.1";
+            finActivity3.GlDescription = "GST ON AMEX COMMISSION CHARGES";
+            finActivity3.Token = "C";
+            finActivity3.RowIndex = 3;
+            finActivity3.GlDescDateFormat = glDescDateFormat;
+            finActivity3.GlAccount = gstGlAccount;
+            finActivity3.JournalGroup = journalGroup;
+            finActivity3.TargetObject = FinJournalTargetObject.BankStmt;
+
+            #endregion
+
+            #region Bank Fees
+            var bankFeeActivity = ObjectSpace.CreateObject<Activity>();
+            bankFeeActivity.Name = "HSBC Bank Fee";
+            var bankFeeGlAccount = "691090";
+
+            var finActivity4 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity4.FromActivity = bankFeeActivity;
+            finActivity4.ToActivity = bankFeeActivity;
+            finActivity4.FunctionalCcyAmtExpr = "{FA}";
+            finActivity4.GlDescription = "Bank Fees";
+            finActivity4.GlDescDateFormat = glDescDateFormat;
+            finActivity4.GlAccount = bankFeeGlAccount;
+            finActivity4.JournalGroup = journalGroup;
+            finActivity4.TargetObject = FinJournalTargetObject.All;
+            finActivity4.Algorithm = FinMapAlgorithmType.SQL;
+            #endregion
+
+            #endregion
+
+            #region Transactions
+            var tranDate = new DateTime(2014, 03, 31);
+            decimal grossAmount = 122441.99M;
+
+            // Bank Stmt
+            var bankStmt1 = ObjectSpace.CreateObject<BankStmt>();
+            bankStmt1.TranDate = tranDate;
+            bankStmt1.Account = account;
+            bankStmt1.Activity = grossActivity;
+            bankStmt1.TranAmount = 119546.24M;
+            bankStmt1.FunctionalCcyAmt = bankStmt1.TranAmount;
+            bankStmt1.CounterCcyAmt = bankStmt1.TranAmount;
+            bankStmt1.CounterCcy = currency;
+            bankStmt1.TranDescription = string.Format("TRANSFER                                9796724284         FROM AMEX GR{0}", grossAmount);
+
+            var bankStmt2 = ObjectSpace.CreateObject<BankStmt>();
+            bankStmt2.TranDate = tranDate;
+            bankStmt2.Account = account;
+            bankStmt2.Activity = bankFeeActivity;
+            bankStmt2.TranAmount = -150M;
+            bankStmt2.FunctionalCcyAmt = bankStmt2.TranAmount;
+            bankStmt2.CounterCcyAmt = bankStmt2.TranAmount;
+            bankStmt2.CounterCcy = currency;
+
+            #endregion
+
+            #region Generate Journals
+            // Params
+            var glParam = ObjectSpace.CreateObject<FinGenJournalParam>();
+            glParam.FromDate = bankStmt1.TranDate;
+            glParam.ToDate = bankStmt1.TranDate;
+            var journalGroupParam = ObjectSpace.CreateObject<FinJournalGroupParam>();
+            journalGroupParam.JournalGroup = journalGroup;
+            journalGroupParam.GenJournalParam = glParam;
+
+            ObjectSpace.CommitChanges();
+            Assert.AreEqual(1, glParam.JournalGroupParams.Count);
+
+            var jg = new JournalGenerator(glParam, ObjectSpace);
+            jg.Execute();
+
+            #endregion
+
+            #region Asserts
+            var gls = ObjectSpace.GetObjects<GenLedger>();
+
+            {
+                var accountGls = gls.Where(x => x.Activity == grossActivity && x.GlAccount == bankGlAccount);
+                Assert.AreEqual(grossAmount, accountGls.Sum(x => x.FunctionalCcyAmt));
+            }
+            {
+                var gl = gls.FirstOrDefault(x => x.Activity == grossActivity & x.GlAccount == grossGlAccount);
+                Assert.AreEqual(-grossAmount, gl.FunctionalCcyAmt);
+            }
+
+            {
+                GenLedger gl = null;
+                decimal commission = Math.Round((bankStmt1.TranAmount - grossAmount) * 10 / 11, 2);
+
+                gl = gls.FirstOrDefault(x => x.Activity == commActivity & x.GlAccount == commGlAccount);
+                Assert.AreEqual(-commission, Math.Round(gl.FunctionalCcyAmt, 2));
+
+                gl = gls.FirstOrDefault(x => x.Activity == gstActivity & x.GlAccount == gstGlAccount);
+                Assert.AreEqual(-Math.Round(commission * 0.1M, 2), Math.Round(gl.FunctionalCcyAmt, 2));
+            }
+            {
+                var gl = gls.FirstOrDefault(x => x.Activity == bankFeeActivity & x.GlAccount == bankFeeGlAccount);
+                Assert.AreEqual(-Math.Round(-150M, 2), Math.Round(gl.FunctionalCcyAmt, 2));
+            }
+            #endregion
+        }
 
         [Test]
         public void DeleteJournals()
@@ -632,12 +792,9 @@ namespace CashDiscipline.UnitTests
             commActivity.Name = "V Diners Comm";
             var gstActivity = ObjectSpace.CreateObject<Activity>();
             gstActivity.Name = "V Diners Comm GST";
-            var commGlAccount = ObjectSpace.CreateObject<string>();
-            commGlAccount = "691090";
-            var gstGlAccount = ObjectSpace.CreateObject<string>();
-            gstGlAccount = "235815";
-            var bankGlAccount = ObjectSpace.CreateObject<string>();
-            bankGlAccount = "210156";
+            var commGlAccount = "691090";
+            var gstGlAccount = "235815";
+            var bankGlAccount = "210156";
 
             var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
             journalGroup.Name = "VF Bank";

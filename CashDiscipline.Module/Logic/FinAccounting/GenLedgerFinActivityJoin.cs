@@ -7,7 +7,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
 {
     public class GenLedgerFinActivityJoin
     {
-        public GenLedger GenLedger;
+        public GenLedgerKey GenLedgerKey;
         public FinActivity FinActivity;
     }
 }

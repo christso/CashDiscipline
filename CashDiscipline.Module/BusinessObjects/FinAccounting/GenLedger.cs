@@ -288,7 +288,9 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
     public enum GenLedgerSourceType
     {
         Unknown,
+        [DevExpress.ExpressApp.DC.XafDisplayName("Bank Stmt")]
         BankStmt,
+        [DevExpress.ExpressApp.DC.XafDisplayName("Cash Flow")]
         CashFlow
     }
 

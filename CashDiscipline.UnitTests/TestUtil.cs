@@ -43,14 +43,6 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(FinJournalGroup));
             module.AdditionalExportedTypes.Add(typeof(FinGenJournalParam));
             module.AdditionalExportedTypes.Add(typeof(GenLedger));
-            module.AdditionalExportedTypes.Add(typeof(string));
-            module.AdditionalExportedTypes.Add(typeof(string));
-            module.AdditionalExportedTypes.Add(typeof(string));
-            module.AdditionalExportedTypes.Add(typeof(string));
-            module.AdditionalExportedTypes.Add(typeof(string));
-            module.AdditionalExportedTypes.Add(typeof(string));
-            module.AdditionalExportedTypes.Add(typeof(string));
-            module.AdditionalExportedTypes.Add(typeof(string));
             module.AdditionalExportedTypes.Add(typeof(FinAccountingDefaults));
             module.AdditionalExportedTypes.Add(typeof(ForexTrade));
             module.AdditionalExportedTypes.Add(typeof(ForexCounterparty));

@@ -21,14 +21,16 @@ namespace CashDiscipline.UnitTests
 
         static void RunTest()
         {
-            var tests = new TempTests();
+            var tests = new FinAccountingTests();
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.TempTest();
+            tests.GenerateJournals_FinActivityMapExprToken_MappedToJournals();
 
             tests.TearDown();
             tests.TearDownFixture();
+
+            Console.WriteLine("Test passed");
         }
 
         static void RunTempTestMethod()

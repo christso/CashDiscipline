@@ -97,14 +97,7 @@ namespace CashDiscipline.UnitTests
         [Test]
         public void TempTest()
         {
-            var attrs = typeof(BankStmt).CustomAttributes;
-            foreach (var attr in attrs)
-            {
-                if (attr.AttributeType == typeof(AutoColumnWidthAttribute))
-                    Console.WriteLine("Attribute {0} matched", attr.AttributeType.Name);
-                else
-                    Console.WriteLine("Attribute {0} not matched", attr.AttributeType.Name);
-            }
+            
         }
     }
 }

@@ -264,6 +264,19 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        private FinMapAlgorithmType _Algorithm;
+        public FinMapAlgorithmType Algorithm
+        {
+            get
+            {
+                return _Algorithm;
+            }
+            set
+            {
+                SetPropertyValue("Algorithm", ref _Algorithm, value);
+            }
+        }
+
         private bool _Enabled;
         public bool Enabled
         {
@@ -276,6 +289,12 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                 SetPropertyValue("Enabled", ref _Enabled, value);
             }
         }
+    }
+
+    public enum FinMapAlgorithmType
+    {
+        ORM,
+        SQL
     }
 
     public enum FinJournalTargetObject

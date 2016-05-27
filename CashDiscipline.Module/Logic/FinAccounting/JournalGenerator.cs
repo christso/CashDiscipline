@@ -39,6 +39,9 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             var jnlGroupsInParams = new XPCollection<FinJournalGroup>(session,
                 new InOperator("Oid", jnlGroupKeysInParams));
 
+            var accountMaps = new XPCollection<FinAccount>(session, new InOperator("JournalGroup", jnlGroupsInParams));
+            var accountsToMap = accountMaps.Select(k => k.Account);
+
             var activityMaps = new Func<List<FinActivity>>(() =>
             {
                 var sortProps = new SortingCollection(null);
@@ -53,28 +56,38 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             })();
             var activitiesToMap = activityMaps.GroupBy(m => m.FromActivity).Select(k => k.Key);
 
-            var accountMaps = new XPCollection<FinAccount>(session, new InOperator("JournalGroup", jnlGroupsInParams));
-            var accountsToMap = accountMaps.Select(k => k.Account);
-
             #endregion
 
             DeleteAutoGenLedgerItems();
 
-            #region Process Bank Stmt
+            #region Process via ORM
 
-            var bsJournalHelper = new BankStmtJournalHelper(objSpace, paramObj);
-            ProcessJournals(bsJournalHelper, accountMaps, activityMaps);
+            var bsJournalHelper = new OrmBankStmtJournalHelper(objSpace, paramObj);
+            ProcessJournals(bsJournalHelper, accountMaps, activityMaps.Where(x => x.Algorithm == FinMapAlgorithmType.ORM));
 
-            #endregion
-
-            #region Process Cash Flows
-
-            var cfJournalHelper = new CashFlowJournalHelper(objSpace, paramObj);
+            var cfJournalHelper = new OrmCashFlowJournalHelper(objSpace, paramObj);
             ProcessJournals(cfJournalHelper, accountMaps, activityMaps);
 
+            // commit to datastore (required for SQL algorithm which creates account gen ledgers)
+            objSpace.Session.CommitTransaction();
+
             #endregion
 
-            objSpace.Session.CommitTransaction();
+            #region Process via SQL
+
+            var sqlActivityMaps = activityMaps.Where(x => x.Algorithm == FinMapAlgorithmType.SQL);
+
+            var bankStmtActivitySqlJnlr = new BankStmtActivitySqlJournalHelper(objSpace, paramObj);
+            bankStmtActivitySqlJnlr.Process(sqlActivityMaps);
+
+            var cashFlowActivitySqlJnlr = new CashFlowActivitySqlJournalHelper(objSpace, paramObj);
+            cashFlowActivitySqlJnlr.Process(sqlActivityMaps);
+            
+            var accountSqlJnlr = new AccountSqlJournalHelper(objSpace, paramObj);
+            accountSqlJnlr.Process();
+
+            #endregion
+
         }
 
         public void ProcessJournals<T>(IJournalHelper<T> helper, IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
@@ -85,6 +98,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             helper.Process(sourceObjects, accountMaps, activityMaps);
         }
 
+        #region Deleter
         public void DeleteAutoGenLedgerItems()
         {
             // Delete Bank Stmts and Cash Flows
@@ -116,6 +130,8 @@ AND (
 )";
             }
         }
+        #endregion
+
         #endregion
     }
 }
