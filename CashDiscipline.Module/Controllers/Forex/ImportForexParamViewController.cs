@@ -10,7 +10,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace CashDiscipline.Module.Controllers.Market
+namespace CashDiscipline.Module.Controllers.Forex
 {
     public class ImportForexParamViewController : ViewController
     {

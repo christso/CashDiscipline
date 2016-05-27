@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashDiscipline.Module.Controllers.Cash
+namespace CashDiscipline.Module.Controllers.Forex
 {
-    public interface ICashFlowDeleter
+    public class ForexRateViewController
     {
-        void Delete();
     }
 }
