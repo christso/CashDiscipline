@@ -14,11 +14,11 @@ using CashDiscipline.Module.BusinessObjects;
 
 namespace CashDiscipline.Module.Logic.FinAccounting
 {
-    public class OrmCashFlowJournalHelper : IJournalHelper<CashFlow>
+    public class CashFlowActivityOrmJournalHelper : IJournalHelper<CashFlow>
     {
         private readonly XPObjectSpace objSpace;
         private readonly FinGenJournalParam paramObj;
-        public OrmCashFlowJournalHelper(XPObjectSpace objSpace, FinGenJournalParam paramObj)
+        public CashFlowActivityOrmJournalHelper(XPObjectSpace objSpace, FinGenJournalParam paramObj)
         {
             this.objSpace = objSpace;
             this.paramObj = paramObj;

@@ -89,7 +89,10 @@ WHERE FinActivity.GCRecord IS NULL
 	AND FinActivity.TargetObject IN (@TargetObject_All, @TargetObject_CashFlow)
 	AND FinActivity.[Enabled] = 1
     AND FinActivity.JournalGroup IN ({JG})
-    AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate";
+    AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate
+    AND CashFlow.Snapshot = @Snapshot
+    AND CashFlow.Source != @StmtSource
+    AND CashFlow.GCRecord IS NULL";
             }
         }
 

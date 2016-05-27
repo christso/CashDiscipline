@@ -88,7 +88,8 @@ WHERE FinActivity.GCRecord IS NULL
 	AND FinActivity.TargetObject IN (@TargetObject_All, @TargetObject_BankStmt)
 	AND FinActivity.[Enabled] = 1
     AND FinActivity.JournalGroup IN ({JG})
-    AND BankStmt.TranDate BETWEEN @FromDate AND @ToDate";
+    AND BankStmt.TranDate BETWEEN @FromDate AND @ToDate
+    AND BanKStmt.GCRecord IS NULL";
             }
         }
 

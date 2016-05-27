@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xafology.Utils.Data;
 using DevExpress.ExpressApp.Xpo;
+using System.Diagnostics;
 
 namespace CashDiscipline.Module.Logic.FinAccounting
 {
@@ -28,6 +29,9 @@ namespace CashDiscipline.Module.Logic.FinAccounting
 
         public void Execute()
         {
+            var sw1 = new Stopwatch();
+            sw1.Start();
+
             var session = objSpace.Session;
             if (paramObj == null) throw new UserFriendlyException("Param Object cannot be null.");
 
@@ -62,10 +66,10 @@ namespace CashDiscipline.Module.Logic.FinAccounting
 
             #region Process via ORM
 
-            var bsJournalHelper = new OrmBankStmtJournalHelper(objSpace, paramObj);
+            var bsJournalHelper = new BankStmtActivityOrmJournalHelper(objSpace, paramObj);
             ProcessJournals(bsJournalHelper, accountMaps, activityMaps.Where(x => x.Algorithm == FinMapAlgorithmType.ORM));
 
-            var cfJournalHelper = new OrmCashFlowJournalHelper(objSpace, paramObj);
+            var cfJournalHelper = new CashFlowActivityOrmJournalHelper(objSpace, paramObj);
             ProcessJournals(cfJournalHelper, accountMaps, activityMaps);
 
             // commit to datastore (required for SQL algorithm which creates account gen ledgers)
@@ -87,6 +91,9 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             accountSqlJnlr.Process();
 
             #endregion
+
+            sw1.Stop();
+            var elapsed = sw1.Elapsed.TotalSeconds;
 
         }
 

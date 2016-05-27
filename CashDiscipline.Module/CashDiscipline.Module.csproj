@@ -237,11 +237,11 @@
     <Compile Include="Logic\FinAccounting\AccountSqlJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\ActivitySqlJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\CashFlowActivitySqlJournalHelper.cs" />
-    <Compile Include="Logic\FinAccounting\OrmCashFlowJournalHelper.cs" />
+    <Compile Include="Logic\FinAccounting\CashFlowActivityOrmJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\GenLedgerFinActivityJoin.cs" />
     <Compile Include="Logic\FinAccounting\GenLedgerKey.cs" />
     <Compile Include="Logic\FinAccounting\IJournalHelper.cs" />
-    <Compile Include="Logic\FinAccounting\OrmBankStmtJournalHelper.cs" />
+    <Compile Include="Logic\FinAccounting\BankStmtActivityOrmJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\BankStmtActivitySqlJournalHelper.cs" />
     <Compile Include="Logic\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />

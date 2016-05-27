@@ -6,6 +6,8 @@ DECLARE @TargetObject_All int = 0
 DECLARE @TargetObject_BankStmt int = 1
 DECLARE @TargetObject_CashFlow int = 2
 DECLARE @GenLedgerEntryType int = 0
+DECLARE @Snapshot uniqueidentifier = (SELECT TOP 1 CurrentCashFlowSnapshot FROM SetOfBooks)
+DECLARE @StmtSource uniqueidentifier = (SELECT TOP 1 BankStmtCashFlowSource FROM SetOfBooks)
 */
 
 /* Instructions
@@ -115,7 +117,9 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                 new SqlDeclareClause("TargetObject_All", "int",  string.Format("{0}", Convert.ToInt32(FinJournalTargetObject.All))),
                 new SqlDeclareClause("TargetObject_BankStmt", "int",  string.Format("{0}", Convert.ToInt32(FinJournalTargetObject.BankStmt))),
                 new SqlDeclareClause("TargetObject_CashFlow", "int", string.Format("{0}", Convert.ToInt32(FinJournalTargetObject.CashFlow))),
-                new SqlDeclareClause("Algorithm", "int",  string.Format("{0}", Convert.ToInt32(FinMapAlgorithmType.SQL)))
+                new SqlDeclareClause("Algorithm", "int",  string.Format("{0}", Convert.ToInt32(FinMapAlgorithmType.SQL))),
+                new SqlDeclareClause("Snapshot", "uniqueidentifier", "(SELECT TOP 1 CurrentCashFlowSnapshot FROM SetOfBooks)"),
+                new SqlDeclareClause("StmtSource", "uniqueidentifier", "(SELECT TOP 1 BankStmtCashFlowSource FROM SetOfBooks)")
             };
             return clauses;
         }

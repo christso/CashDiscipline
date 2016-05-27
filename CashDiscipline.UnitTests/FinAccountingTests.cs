@@ -51,6 +51,101 @@ namespace CashDiscipline.UnitTests
         }
 
         [Test]
+        public void GenerateJournalsOnOverlappingSources()
+        {
+            #region Prepare
+            var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
+            journalGroup.Name = "VF Bank";
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ 94945";
+            var currency = ObjectSpace.CreateObject<Currency>();
+            currency.Name = "AUD";
+
+            var glDescDateFormat = "dd-mmm-yy";
+            var bankGlAccount = "210159";
+
+            var stmtSource = ObjectSpace.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.BankStmtCashFlowSource.Oid);
+
+            #endregion
+
+            #region Cash Flow Mapping
+
+            var finAccount = ObjectSpace.CreateObject<FinAccount>();
+            finAccount.Account = account;
+            finAccount.GlAccount = bankGlAccount;
+            finAccount.JournalGroup = journalGroup;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "Bad Debt Recovery Rcpt";
+            var badDebtRecAccount = "211900";
+
+            var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity1.FromActivity = activity;
+            finActivity1.ToActivity = activity;
+            finActivity1.FunctionalCcyAmtExpr = "{FA}";
+            finActivity1.GlDescription = "Bank Fees";
+            finActivity1.GlDescDateFormat = glDescDateFormat;
+            finActivity1.GlAccount = badDebtRecAccount;
+            finActivity1.JournalGroup = journalGroup;
+            finActivity1.TargetObject = FinJournalTargetObject.All;
+
+            #endregion
+
+            #region Transactions
+
+            var bankStmt1 = ObjectSpace.CreateObject<BankStmt>();
+            bankStmt1.TranDate = new DateTime(2016,04,29);
+            bankStmt1.Account = account;
+            bankStmt1.Activity = activity;
+            bankStmt1.TranAmount = 49113.67M;
+            bankStmt1.TranDescription = "TRANSFER                                ADR29042016        FROM AUSTRALIAN DEBT";
+            bankStmt1.CounterCcyAmt = bankStmt1.TranAmount;
+            bankStmt1.FunctionalCcyAmt = bankStmt1.TranAmount;
+            bankStmt1.CounterCcy = currency;
+
+            var cashFlow1 = ObjectSpace.CreateObject<CashFlow>();
+            cashFlow1.TranDate = bankStmt1.TranDate;
+            cashFlow1.Account = account;
+            cashFlow1.Activity = bankStmt1.Activity;
+            cashFlow1.AccountCcyAmt = bankStmt1.TranAmount;
+            cashFlow1.Source = stmtSource;
+            cashFlow1.Status = CashFlowStatus.Actual;
+
+            #endregion
+
+            #region Generate Journals
+            // Params
+            var glParam = ObjectSpace.CreateObject<FinGenJournalParam>();
+            glParam.FromDate = new DateTime(2016, 01, 01);
+            glParam.ToDate = new DateTime(2016, 12, 31);
+            var journalGroupParam = ObjectSpace.CreateObject<FinJournalGroupParam>();
+            journalGroupParam.JournalGroup = journalGroup;
+
+            ObjectSpace.CommitChanges();
+
+            journalGroupParam.GenJournalParam = glParam;
+
+            var jg = new JournalGenerator(glParam, ObjectSpace);
+            jg.Execute();
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region
+
+            var gls = ObjectSpace.GetObjects<GenLedger>();
+
+            Assert.AreEqual(bankStmt1.TranAmount,
+                gls.Where(x => x.GlAccount == bankGlAccount && x.SrcBankStmt != null).Sum(x => x.FunctionalCcyAmt));
+            Assert.AreEqual(0,
+                gls.Where(x => x.GlAccount == bankGlAccount && x.SrcCashFlow != null).Sum(x => x.FunctionalCcyAmt));
+
+            #endregion
+
+        }
+
+        [Test]
         public void GenerateJournals_CashFlowReclass_MappedToJournals()
         {
             #region Prepare
@@ -188,7 +283,6 @@ namespace CashDiscipline.UnitTests
         }
 
         [Test]
-        [Category("Coverage_2")]
         public void GenerateJournals_AustPostSettle_MappedToJournals()
         {
             #region Prepare
@@ -372,7 +466,6 @@ namespace CashDiscipline.UnitTests
         }
 
         [Test]
-        [Category("Coverage_2")]
         public void GenerateJournals_FinActivityMapSubStringExpr_MappedToJournals()
         {
             #region Prepare
@@ -518,7 +611,6 @@ namespace CashDiscipline.UnitTests
         /// 
         /// </summary>
         [Test]
-        [Category("Coverage_1")]
         public void GenerateJournals_FinActivityMapExprToken_MappedToJournals()
         {
             var commActivity = ObjectSpace.CreateObject<Activity>();

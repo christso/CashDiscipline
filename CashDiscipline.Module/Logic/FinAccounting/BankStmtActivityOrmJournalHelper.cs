@@ -14,11 +14,11 @@ using Xafology.StringEvaluators;
 
 namespace CashDiscipline.Module.Logic.FinAccounting
 {
-    public class OrmBankStmtJournalHelper : IJournalHelper<BankStmt>
+    public class BankStmtActivityOrmJournalHelper : IJournalHelper<BankStmt>
     {
         private readonly XPObjectSpace objSpace;
         private readonly FinGenJournalParam paramObj;
-        public OrmBankStmtJournalHelper(XPObjectSpace objSpace, FinGenJournalParam paramObj)
+        public BankStmtActivityOrmJournalHelper(XPObjectSpace objSpace, FinGenJournalParam paramObj)
         {
             this.objSpace = objSpace;
             this.paramObj = paramObj;
@@ -27,11 +27,6 @@ namespace CashDiscipline.Module.Logic.FinAccounting
         public void Process(IEnumerable<BankStmt> bankStmts, IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
         {
             var genLedgerFinActivityJoin = new List<GenLedgerFinActivityJoin>();
-            var sw0 = new Stopwatch();
-            var sw1 = new Stopwatch();
-            var sw2 = new Stopwatch();
-
-            sw0.Start();
 
             foreach (BankStmt bsi in bankStmts)
             {
@@ -46,13 +41,10 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                         || activityMap.TargetObject == FinJournalTargetObject.All)) continue;
 
                     #region Create Journal Items
-                    sw1.Start();
                     GenLedger activityGli = CreateActivityJournalItem(bsi, activityMap);
-                    sw1.Stop();
                     #endregion
 
                     #region Evaluate Amount
-                    sw2.Start();
 
                     // Evaluate Amount Expression
                     var genLedgerKey = new GenLedgerKey() {
@@ -62,15 +54,18 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                     // Join GenLedger with FinActivity so you can get the sum of all previous GenLedger.FinActivity.Token
                     genLedgerFinActivityJoin.Add(new GenLedgerFinActivityJoin() { FinActivity = activityMap, GenLedgerKey = genLedgerKey });
 
-                    sw2.Stop();
                     #endregion
                 }
             }
+        }
 
-            sw0.Stop();
-            var elapsed0 = sw0.Elapsed.TotalSeconds;
-            var elapsed1 = sw1.Elapsed.TotalSeconds;
-            var elapsed2 = sw2.Elapsed.TotalSeconds;
+        public void Process<T>(IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
+        {
+            var helper = (IJournalHelper<T>)this;
+            var accountsToMap = accountMaps.Select(k => k.Account);
+            var activitiesToMap = activityMaps.GroupBy(m => m.FromActivity).Select(k => k.Key);
+            var sourceObjects = helper.GetSourceObjects(activitiesToMap, accountsToMap);
+            helper.Process(sourceObjects, accountMaps, activityMaps);
         }
 
         public GenLedger CreateActivityJournalItem(BankStmt bsi, FinActivity activityMap)
