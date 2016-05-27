@@ -24,6 +24,12 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             this.paramObj = paramObj;
         }
 
+        public void Process(IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
+        {
+            var helper = (IJournalHelper<BankStmt>)this;
+            OrmJournalHelper.Process<BankStmt>(helper, accountMaps, activityMaps);
+        }
+
         public void Process(IEnumerable<BankStmt> bankStmts, IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
         {
             var genLedgerFinActivityJoin = new List<GenLedgerFinActivityJoin>();
@@ -59,14 +65,6 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             }
         }
 
-        public void Process<T>(IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
-        {
-            var helper = (IJournalHelper<T>)this;
-            var accountsToMap = accountMaps.Select(k => k.Account);
-            var activitiesToMap = activityMaps.GroupBy(m => m.FromActivity).Select(k => k.Key);
-            var sourceObjects = helper.GetSourceObjects(activitiesToMap, accountsToMap);
-            helper.Process(sourceObjects, accountMaps, activityMaps);
-        }
 
         public GenLedger CreateActivityJournalItem(BankStmt bsi, FinActivity activityMap)
         {

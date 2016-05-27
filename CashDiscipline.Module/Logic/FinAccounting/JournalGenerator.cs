@@ -29,9 +29,6 @@ namespace CashDiscipline.Module.Logic.FinAccounting
 
         public void Execute()
         {
-            var sw1 = new Stopwatch();
-            sw1.Start();
-
             var session = objSpace.Session;
             if (paramObj == null) throw new UserFriendlyException("Param Object cannot be null.");
 
@@ -67,10 +64,10 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             #region Process via ORM
 
             var bsJournalHelper = new BankStmtActivityOrmJournalHelper(objSpace, paramObj);
-            ProcessJournals(bsJournalHelper, accountMaps, activityMaps.Where(x => x.Algorithm == FinMapAlgorithmType.ORM));
+            bsJournalHelper.Process(accountMaps, activityMaps.Where(x => x.Algorithm == FinMapAlgorithmType.ORM));
 
             var cfJournalHelper = new CashFlowActivityOrmJournalHelper(objSpace, paramObj);
-            ProcessJournals(cfJournalHelper, accountMaps, activityMaps);
+            cfJournalHelper.Process(accountMaps, activityMaps);
 
             // commit to datastore (required for SQL algorithm which creates account gen ledgers)
             objSpace.Session.CommitTransaction();
@@ -91,18 +88,6 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             accountSqlJnlr.Process();
 
             #endregion
-
-            sw1.Stop();
-            var elapsed = sw1.Elapsed.TotalSeconds;
-
-        }
-
-        public void ProcessJournals<T>(IJournalHelper<T> helper, IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
-        {
-            var accountsToMap = accountMaps.Select(k => k.Account);
-            var activitiesToMap = activityMaps.GroupBy(m => m.FromActivity).Select(k => k.Key);
-            var sourceObjects = helper.GetSourceObjects(activitiesToMap, accountsToMap);
-            helper.Process(sourceObjects, accountMaps, activityMaps);
         }
 
         #region Deleter

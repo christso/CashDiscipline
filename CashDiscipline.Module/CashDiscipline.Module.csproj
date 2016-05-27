@@ -243,6 +243,7 @@
     <Compile Include="Logic\FinAccounting\IJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\BankStmtActivityOrmJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\BankStmtActivitySqlJournalHelper.cs" />
+    <Compile Include="Logic\FinAccounting\OrmJournalHelper.cs" />
     <Compile Include="Logic\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">

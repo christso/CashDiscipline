@@ -24,6 +24,12 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             this.paramObj = paramObj;
         }
 
+        public void Process(IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
+        {
+            var helper = (IJournalHelper<CashFlow>)this;
+            OrmJournalHelper.Process<CashFlow>(helper, accountMaps, activityMaps);
+        }
+
         public void Process(IEnumerable<CashFlow> cashFlows, IEnumerable<FinAccount> accountMaps, IEnumerable<FinActivity> activityMaps)
         {
             var genLedgerFinActivityJoin = new List<GenLedgerFinActivityJoin>();
@@ -42,7 +48,9 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                     GenLedger activityGli = CreateActivityJournalItem(cf, activityMap);
 
                     // Evaluate Amount Expression
-                    var genLedgerKey = new GenLedgerKey() { FunctionalCcyAmt = 
+                    var genLedgerKey = new GenLedgerKey()
+                    {
+                        FunctionalCcyAmt =
                         EvalFunctionalCcyAmt(cf, activityMap, genLedgerFinActivityJoin) /* TODO: may be zero*/
                     };
                     activityGli.FunctionalCcyAmt = genLedgerKey.FunctionalCcyAmt * -1.00M;
@@ -53,7 +61,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                 }
             }
         }
-        
+
         public GenLedger CreateActivityJournalItem(CashFlow cf, FinActivity activityMap)
         {
             var activityGli = new GenLedger(objSpace.Session);
@@ -118,6 +126,5 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             cop = GroupOperator.And(cop, new InOperator("Account", accountsToMap));
             return new XPCollection<CashFlow>(session, cop);
         }
-
     }
 }
