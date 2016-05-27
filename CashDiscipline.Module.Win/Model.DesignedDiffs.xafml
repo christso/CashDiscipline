@@ -6,8 +6,4 @@
     <SchemaModule Name="SystemModule" Version="15.2.7.0" IsNewNode="True" />
     <SchemaModule Name="SystemWindowsFormsModule" Version="15.2.7.0" IsNewNode="True" />
   </SchemaModules>
-  <Views>
-    <ListView Id="AccountSummary_PivotGridView" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
-    <ListView Id="CashFlow_PivotGridView" EditorTypeName="DevExpress.ExpressApp.PivotGrid.Win.PivotGridListEditor" />
-  </Views>
 </Application>

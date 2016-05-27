@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Xafology.Spreadsheet.Attributes;
 using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.Logic.Cash;
@@ -152,8 +151,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-
-        [ExcelReportField]
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         [RuleRequiredField("CashFlow.TranDate_RuleRequiredField", DefaultContexts.Save)]
         public DateTime TranDate
@@ -169,7 +166,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         [MemberDesignTimeVisibility(false)]
-        [ExcelReportField]
         [DevExpress.Xpo.DisplayName("Account")]
         public string AccountName
         {
@@ -200,7 +196,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         [MemberDesignTimeVisibility(false)]
-        [ExcelReportField]
         [DevExpress.Xpo.DisplayName("Activity")]
         public string ActivityName
         {
@@ -237,7 +232,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        [ExcelReportField]
         [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
@@ -262,7 +256,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        [ExcelReportField]
         [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
@@ -284,7 +277,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        [ExcelReportField]
         [EditorAlias("Xafology_DecimalActionPropertyEditor")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
@@ -308,8 +300,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-
-        [ExcelReportField]
         [MemberDesignTimeVisibility(false)]
         [DevExpress.Xpo.DisplayName("Counter Ccy")]
         public string CounterCcyName

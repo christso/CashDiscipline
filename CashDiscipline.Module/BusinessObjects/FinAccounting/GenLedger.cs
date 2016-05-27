@@ -15,7 +15,6 @@ using DevExpress.Persistent.Validation;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Logic.FinAccounting;
 using CashDiscipline.Module.ParamObjects.FinAccounting;
-using Xafology.Spreadsheet.Attributes;
 using CashDiscipline.Module.Attributes;
 using Xafology.ExpressApp.BatchDelete;
 
@@ -70,7 +69,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                 SetPropertyValue("SrcBankStmt", ref _SrcBankStmt, value);
             }
         }
-        [ExcelReportField]
         public GenLedgerSourceType SourceType
         {
             get
@@ -86,7 +84,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         [VisibleInListView(false)]
         [VisibleInDetailView(false)]
         [VisibleInLookupListView(false)]
-        [ExcelReportField]
         public Guid SrcOid
         {
             get
@@ -97,7 +94,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
-        [ExcelReportField]
         public DateTime? SrcDate
         {
             get
@@ -120,7 +116,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                 return null;
             }
         }
-        [ExcelReportField]
+
         public decimal? SrcAccountCcyAmt
         {
             get
@@ -132,7 +128,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                 return null;
             }
         }
-        [ExcelReportField]
+
         public string SrcDescription
         {
             get
@@ -145,7 +141,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
         #endregion
-        [ExcelReportField]
+
         public FinJournalGroup JournalGroup
         {
             get
@@ -173,7 +169,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
-        [ExcelReportField]
         [DevExpress.Xpo.DisplayName("Gl Functional Ccy Amt")]
         public decimal FunctionalCcyAmt
         {
@@ -188,14 +183,12 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         }
 
         private string _GlCompany;
-        [ExcelReportField]
         public string GlCompany
         {
             get { return _GlCompany; }
             set { SetPropertyValue("GlCompany", ref _GlCompany, value); }
         }
         private string _GlAccount;
-        [ExcelReportField]
         public string GlAccount
         {
             get { return _GlAccount; }
@@ -245,7 +238,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         }
 
         private string _GlDescription;
-        [ExcelReportField]
         [VisibleInListView(true)]
         [Size(SizeAttribute.Unlimited)]
         public string GlDescription
@@ -271,7 +263,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                 SetPropertyValue("EntryType", ref _EntryType, value);
             }
         }
-        [ExcelReportField]
+
         public bool IsActivity
         {
             get

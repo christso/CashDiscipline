@@ -13,7 +13,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Xafology.Spreadsheet.Attributes;
 using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.Cash;

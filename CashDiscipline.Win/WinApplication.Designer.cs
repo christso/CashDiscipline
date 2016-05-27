@@ -37,24 +37,14 @@ namespace CashDiscipline.Win
             this.cloneObjectModule1 = new DevExpress.ExpressApp.CloneObject.CloneObjectModule();
             this.viewVariantsModule1 = new DevExpress.ExpressApp.ViewVariantsModule.ViewVariantsModule();
             this.validationModule1 = new DevExpress.ExpressApp.Validation.ValidationModule();
-            this.pivotGridModule1 = new DevExpress.ExpressApp.PivotGrid.PivotGridModule();
-            this.reportsModule1 = new DevExpress.ExpressApp.Reports.ReportsModule();
             this.scriptRecorderModuleBase1 = new DevExpress.ExpressApp.ScriptRecorder.ScriptRecorderModuleBase();
             this.scriptRecorderWindowsFormsModule1 = new DevExpress.ExpressApp.ScriptRecorder.Win.ScriptRecorderWindowsFormsModule();
-            this.reportsWindowsFormsModule1 = new DevExpress.ExpressApp.Reports.Win.ReportsWindowsFormsModule();
-            this.pivotGridWindowsFormsModule1 = new DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule();
-            this.pivotChartModuleBase1 = new DevExpress.ExpressApp.PivotChart.PivotChartModuleBase();
-            this.pivotChartWindowsFormsModule1 = new DevExpress.ExpressApp.PivotChart.Win.PivotChartWindowsFormsModule();
-            this.CashDisciplinePivotGridWinModule1 = new Xafology.ExpressApp.PivotGrid.Win.XafologyPivotGridWinModule();
             this.XafologySystemModule1 = new Xafology.ExpressApp.SystemModule.XafologySystemModule();
             this.fileAttachmentsWindowsFormsModule1 = new DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule();
-            this.pivotGridLayoutModule1 = new Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule();
             this.xpoModule1 = new Xafology.ExpressApp.Xpo.XpoModule();
-            this.pivotGridLayoutWindowsFormsModule1 = new Xafology.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule();
             this.layoutModule1 = new Xafology.ExpressApp.Layout.LayoutModule();
             this.layoutWindowsFormsModule1 = new Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule();
             this.XafologySystemWindowsFormsModule1 = new Xafology.ExpressApp.Win.SystemModule.XafologySystemWindowsFormsModule();
-            this.msoExcelModule1 = new Xafology.ExpressApp.MsoExcel.MsoExcelModule();
             this.importModule1 = new Xafology.ExpressApp.Xpo.Import.ImportModule();
             this.batchDeleteWinModule1 = new Xafology.ExpressApp.BatchDelete.Win.BatchDeleteWinModule();
             this.pasteWinModule1 = new Xafology.ExpressApp.Paste.Win.PasteWinModule();
@@ -70,15 +60,7 @@ namespace CashDiscipline.Win
             // 
             this.validationModule1.AllowValidationDetailsAccess = true;
             this.validationModule1.IgnoreWarningAndInformationRules = false;
-            // 
-            // reportsModule1
-            // 
-            this.reportsModule1.EnableInplaceReports = true;
-            this.reportsModule1.ReportDataType = typeof(DevExpress.Persistent.BaseImpl.ReportData);
-            // 
-            // pivotChartModuleBase1
-            // 
-            this.pivotChartModuleBase1.ShowAdditionalNavigation = false;
+
             // 
             // CashDisciplineWindowsFormsApplication
             // 
@@ -90,24 +72,13 @@ namespace CashDiscipline.Win
             this.Modules.Add(this.cloneObjectModule1);
             this.Modules.Add(this.viewVariantsModule1);
             this.Modules.Add(this.validationModule1);
-            this.Modules.Add(this.pivotGridModule1);
-            this.Modules.Add(this.reportsModule1);
-            this.Modules.Add(this.pivotGridLayoutModule1);
             this.Modules.Add(this.XafologySystemModule1);
             this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.layoutModule1);
-            this.Modules.Add(this.msoExcelModule1);
             this.Modules.Add(this.importModule1);
             this.Modules.Add(this.module3);
             this.Modules.Add(this.scriptRecorderModuleBase1);
-            this.Modules.Add(this.scriptRecorderWindowsFormsModule1);
-            this.Modules.Add(this.reportsWindowsFormsModule1);
-            this.Modules.Add(this.pivotGridWindowsFormsModule1);
-            this.Modules.Add(this.pivotChartModuleBase1);
-            this.Modules.Add(this.pivotChartWindowsFormsModule1);
-            this.Modules.Add(this.CashDisciplinePivotGridWinModule1);
             this.Modules.Add(this.fileAttachmentsWindowsFormsModule1);
-            this.Modules.Add(this.pivotGridLayoutWindowsFormsModule1);
             this.Modules.Add(this.layoutWindowsFormsModule1);
             this.Modules.Add(this.XafologySystemWindowsFormsModule1);
             this.Modules.Add(this.batchDeleteWinModule1);
@@ -131,24 +102,14 @@ namespace CashDiscipline.Win
         private DevExpress.ExpressApp.CloneObject.CloneObjectModule cloneObjectModule1;
         private DevExpress.ExpressApp.ViewVariantsModule.ViewVariantsModule viewVariantsModule1;
         private DevExpress.ExpressApp.Validation.ValidationModule validationModule1;
-        private DevExpress.ExpressApp.PivotGrid.PivotGridModule pivotGridModule1;
-        private DevExpress.ExpressApp.Reports.ReportsModule reportsModule1;
         private DevExpress.ExpressApp.ScriptRecorder.ScriptRecorderModuleBase scriptRecorderModuleBase1;
         private DevExpress.ExpressApp.ScriptRecorder.Win.ScriptRecorderWindowsFormsModule scriptRecorderWindowsFormsModule1;
-        private DevExpress.ExpressApp.Reports.Win.ReportsWindowsFormsModule reportsWindowsFormsModule1;
-        private DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule pivotGridWindowsFormsModule1;
-        private DevExpress.ExpressApp.PivotChart.PivotChartModuleBase pivotChartModuleBase1;
-        private DevExpress.ExpressApp.PivotChart.Win.PivotChartWindowsFormsModule pivotChartWindowsFormsModule1;
-        private Xafology.ExpressApp.PivotGrid.Win.XafologyPivotGridWinModule CashDisciplinePivotGridWinModule1;
         private Xafology.ExpressApp.SystemModule.XafologySystemModule XafologySystemModule1;
         private DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule fileAttachmentsWindowsFormsModule1;
-        private Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule pivotGridLayoutModule1;
         private Xafology.ExpressApp.Xpo.XpoModule xpoModule1;
-        private Xafology.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule pivotGridLayoutWindowsFormsModule1;
         private Xafology.ExpressApp.Layout.LayoutModule layoutModule1;
         private Xafology.ExpressApp.Layout.Win.LayoutWindowsFormsModule layoutWindowsFormsModule1;
         private Xafology.ExpressApp.Win.SystemModule.XafologySystemWindowsFormsModule XafologySystemWindowsFormsModule1;
-        private Xafology.ExpressApp.MsoExcel.MsoExcelModule msoExcelModule1;
         private Xafology.ExpressApp.Xpo.Import.ImportModule importModule1;
         private Xafology.ExpressApp.BatchDelete.Win.BatchDeleteWinModule batchDeleteWinModule1;
         private Xafology.ExpressApp.Paste.Win.PasteWinModule pasteWinModule1;

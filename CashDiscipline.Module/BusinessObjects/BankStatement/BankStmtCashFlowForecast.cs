@@ -1,4 +1,5 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
+using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace CashDiscipline.Module.BusinessObjects.BankStatement
 {
+    [ImageName("BO_List")]
     public class BankStmtCashFlowForecast : BaseObject
     {
         public BankStmtCashFlowForecast()

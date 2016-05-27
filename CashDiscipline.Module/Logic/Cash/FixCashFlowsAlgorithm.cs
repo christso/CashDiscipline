@@ -12,7 +12,6 @@ using DevExpress.Xpo;
 using System;
 using System.ComponentModel;
 using System.Linq;
-using Xafology.Spreadsheet.Attributes;
 using DevExpress.Persistent.BaseImpl;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.Cash;

@@ -38,9 +38,6 @@ namespace CashDiscipline.Module.Win
             
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Win.SystemModule.SystemWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.ScriptRecorder.Win.ScriptRecorderWindowsFormsModule));
-            this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Reports.Win.ReportsWindowsFormsModule));
-            this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotGrid.Win.PivotGridWindowsFormsModule));
-            this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotChart.Win.PivotChartWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.PivotGrid.Win.XafologyPivotGridWinModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.FileAttachments.Win.FileAttachmentsWindowsFormsModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.PivotGridLayout.Win.PivotGridLayoutWindowsFormsModule));

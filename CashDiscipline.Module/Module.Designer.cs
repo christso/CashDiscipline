@@ -31,7 +31,6 @@ namespace CashDiscipline.Module
             // 
             // CashDisciplineModule
             // 
-            this.AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.Analysis));
             this.AdditionalExportedTypes.Add(typeof(DevExpress.Persistent.BaseImpl.BaseObject));
             this.AdditionalExportedTypes.Add(typeof(DevExpress.Xpo.XPCustomObject));
             this.AdditionalExportedTypes.Add(typeof(DevExpress.Xpo.XPBaseObject));
@@ -39,13 +38,10 @@ namespace CashDiscipline.Module
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.SystemModule.SystemModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.CloneObject.CloneObjectModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.ViewVariantsModule.ViewVariantsModule));
-            this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.PivotGrid.PivotGridModule));
             this.RequiredModuleTypes.Add(typeof(DevExpress.ExpressApp.Validation.ValidationModule));
-            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.PivotGridLayout.PivotGridLayoutModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Xpo.XpoModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.SystemModule.XafologySystemModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.LayoutModule));
-            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.MsoExcel.MsoExcelModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Xpo.Import.ImportModule));
         }
 

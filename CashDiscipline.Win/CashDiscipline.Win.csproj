@@ -121,12 +121,6 @@
     <Reference Include="DevExpress.ExpressApp.CloneObject.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.FileAttachment.Win.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.Objects.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.PivotChart.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.ExpressApp.PivotChart.Win.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.ExpressApp.PivotGrid.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.PivotGrid.Win.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.Reports.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.ExpressApp.Reports.Win.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.ScriptRecorder.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.ScriptRecorder.Win.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.Security.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
@@ -145,7 +139,6 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.PivotGrid.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.RichEdit.v15.2.Core">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -180,10 +173,6 @@
     <Reference Include="DevExpress.Xpo.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.Charts.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraCharts.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraCharts.v15.2.UI, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraCharts.v15.2.Wizard, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraGrid.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -199,7 +188,6 @@
     <Reference Include="DevExpress.XtraNavBar.v15.2">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="DevExpress.XtraPivotGrid.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraPrinting.v15.2">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -207,10 +195,8 @@
     <Reference Include="DevExpress.Sparkline.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Utils.v15.2.UI, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.CodeParser.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraReports.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DataAccess.v15.2.UI, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraReports.v15.2.Extensions, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.XtraRichEdit.v15.2">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -283,32 +269,12 @@
       <HintPath>..\assemblies\Xafology.ExpressApp.Layout.Win.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.ExpressApp.MsoExcel, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\assemblies\Xafology.ExpressApp.MsoExcel.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Xafology.ExpressApp.Paste">
       <HintPath>..\assemblies\Xafology.ExpressApp.Paste.dll</HintPath>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Paste.Win, Version=15.2.7.1, Culture=neutral, PublicKeyToken=63251deee19baa62, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\assemblies\Xafology.ExpressApp.Paste.Win.dll</HintPath>
-    </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGrid.Win, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGrid.Win.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xafology.ExpressApp.PivotGridLayout.Win, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\assemblies\Xafology.ExpressApp.PivotGridLayout.Win.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Xafology.ExpressApp.Win, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.ExpressApp.Win.dll</HintPath>
@@ -322,14 +288,6 @@
       <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.Import.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Xafology.PivotGrid, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\assemblies\Xafology.PivotGrid.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Xafology.Spreadsheet, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\assemblies\Xafology.Spreadsheet.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Xafology.Utils, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\assemblies\Xafology.Utils.dll</HintPath>
       <Private>True</Private>
@@ -340,22 +298,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="CashDiscipline.Win_TemporaryKey.pfx" />
     <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes.xml">
-      <DependentUpon>Model.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes1.xml">
-      <DependentUpon>Model.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes2.xml">
-      <DependentUpon>Model.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes3.xml">
-      <DependentUpon>Model.xafml</DependentUpon>
       <SubType>Designer</SubType>
     </None>
     <Content Include="ExpressApp.ico" />

@@ -1,6 +1,5 @@
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Validation;
-using Xafology.ExpressApp.PivotGridLayout;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Model.Core;
