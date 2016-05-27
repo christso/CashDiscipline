@@ -145,8 +145,6 @@ END";
                 setOfBooks.CurrentCashFlowSnapshot = snapshot;
             }
 
-            setOfBooks.CashFlowPivotLayoutName = Constants.CashFlowPivotLayoutMonthly;
-
             objSpace.CommitChanges();
         }
 

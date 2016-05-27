@@ -235,9 +235,6 @@
     <Compile Include="Controllers\CustomizeGridViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\CashDisciplinePivotGridDrillDownController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\ToolbarViewController.cs">
       <SubType>Component</SubType>
     </Compile>

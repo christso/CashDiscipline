@@ -52,7 +52,6 @@ namespace CashDiscipline.Module.BusinessObjects
         private CashFlowSource _ForexSettleCashFlowSource;
         private CashFlowSource _BankStmtCashFlowSource;
         private CashFlowSnapshot _CurrentCashFlowSnapshot;
-        private string _CashFlowPivotLayoutName;
 
         public string Description
         {
@@ -126,18 +125,7 @@ namespace CashDiscipline.Module.BusinessObjects
                 SetPropertyValue("CurrentCashFlowSnapshot", ref _CurrentCashFlowSnapshot, value);
             }
         }
-
-        public string CashFlowPivotLayoutName
-        {
-            get
-            {
-                return _CashFlowPivotLayoutName;
-            }
-            set
-            {
-                SetPropertyValue("CashFlowPivotLayoutName", ref _CashFlowPivotLayoutName, value);
-            }
-        }
+        
         #region CurrentSetOfBooks
 
         public static SetOfBooks GetInstance(DevExpress.Xpo.Session session)

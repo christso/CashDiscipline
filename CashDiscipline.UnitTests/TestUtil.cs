@@ -53,7 +53,6 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(ForexStdSettleAccount));
             module.AdditionalExportedTypes.Add(typeof(ForexTradePredelivery));
             module.AdditionalExportedTypes.Add(typeof(AustPostSettle));
-            module.AdditionalExportedTypes.Add(typeof(CashReportParam));
             module.AdditionalExportedTypes.Add(typeof(AccountSummary));
             module.AdditionalExportedTypes.Add(typeof(ForexSettleLink));
             module.AdditionalExportedTypes.Add(typeof(MockLookupObject1));

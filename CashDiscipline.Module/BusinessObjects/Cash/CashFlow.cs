@@ -414,16 +414,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        [VisibleInDetailView(false)]
-        [VisibleInListView(false)]
-        [VisibleInLookupListView(false)]
-        public DateDim DateKey
-        {
-            get
-            {
-                return Session.GetObjectByKey<DateDim>(TranDate);
-            }
-        }
         #endregion
 
         #region Amount Calculators

@@ -368,7 +368,7 @@ namespace CashDiscipline.UnitTests
             finActivity4.FunctionalCcyAmtExpr = "AustPostSettles.Sum(DishonourChequeFee)";
             finActivity4.GlDescription = "DISHONOUR FEE - AUST POST";
             finActivity4.GlDescDateFormat = glDescDateFormat;
-            finActivity4.GlAccount = gstGlAccount;
+            finActivity4.GlAccount = dsrFeeGlAccount;
             finActivity4.JournalGroup = journalGroup;
             finActivity4.TargetObject = FinJournalTargetObject.BankStmt;
             #endregion

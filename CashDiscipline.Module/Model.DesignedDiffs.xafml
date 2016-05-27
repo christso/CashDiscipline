@@ -10,12 +10,9 @@
     <Items>
       <Item Id="Default" Caption="Administration" Index="0" ImageName="BO_Folder" IsNewNode="True">
         <Items IsNewNode="True">
-          <Item Id="ActionRequest" ViewId="ActionRequest_ListView" IsNewNode="True" />
           <Item Id="ImportHeadersParam" ViewId="ImportHeadersParam_ListView" IsNewNode="True" />
           <Item Id="ImportOrdinalsParam" ViewId="ImportOrdinalsParam_ListView" IsNewNode="True" />
           <Item Id="ImportParamBase" ViewId="ImportParamBase_ListView" IsNewNode="True" />
-          <Item Id="PivotGridLoadedLayout_ListView" ViewId="PivotGridLoadedLayout_ListView" IsNewNode="True" />
-          <Item Id="PivotGridSavedLayout_ListView" ViewId="PivotGridSavedLayout_ListView" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="Accounting" Index="1" IsNewNode="True">
@@ -29,29 +26,15 @@
           <Item Id="General Ledger" ViewId="GenLedger_ListView" Caption="General Ledger" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Cash Data" Caption="Cash Data" Index="4" IsNewNode="True">
+      <Item Id="Cash Data" Caption="Cash Data" Index="2" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="0" IsNewNode="True" />
           <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="1" IsNewNode="True" />
           <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="3" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Custom" Index="4" Removed="True" />
-      <Item Id="Cash Report" Index="5" IsNewNode="True">
-        <Items IsNewNode="True">
-          <Item Id="CashBalanceReport" Caption="Cash Balance Report" ViewId="AccountSummary_PivotGridView" Index="13" IsNewNode="True" />
-          <Item Id="CashFlowReport" ViewId="CashFlow_PivotGridView" Caption="Cash Flow Report" Index="16" IsNewNode="True" />
-          <Item Id="CashReportParam" ViewId="CashReportParam_ListView" IsNewNode="True" />
-        </Items>
-      </Item>
-      <Item Id="Cash Report Internal" Index="6" IsNewNode="True">
-        <Items IsNewNode="True">
-          <Item Id="AccountSummary" Index="0" ViewId="AccountSummary_ListView" IsNewNode="True" />
-          <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
-          <Item Id="CashFlowNote" ViewId="CashFlowNote_ListView" Caption="Note" Index="3" IsNewNode="True" />
-        </Items>
-      </Item>
-      <Item Id="Cash Setup" Index="7" IsNewNode="True">
+      <Item Id="Cash Report" Index="3" IsNewNode="True" />
+      <Item Id="Cash Setup" Index="4" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="AccountActivityMap" ViewId="AccountActivityMap_ListView" Index="1" IsNewNode="True" />
           <Item Id="BankStmtAccountImportMapping" ViewId="BankStmtAccountImportMapping_ListView" Index="7" IsNewNode="True" />
@@ -61,7 +44,8 @@
           <Item Id="CashFlowFixMapping" ViewId="CashFlowFixMapping_ListView" Index="14" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Forex" Index="8" IsNewNode="True">
+      <Item Id="Custom" Index="4" Removed="True" />
+      <Item Id="Forex" Index="5" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="Forex Rates" ViewId="ForexRate_ListView" IsNewNode="True" />
           <Item Id="ForexCounterparty" ViewId="ForexCounterparty_ListView" Caption="Forex Counterparty" IsNewNode="True" />
@@ -71,9 +55,10 @@
           <Item Id="ForexTradePredeliveries" ViewId="ForexTradePredelivery_ListView" Caption="Predeliveries" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Reports" Index="9">
-        <Items>
-          <Item Id="ExcelReport" ViewId="ExcelReport_ListView" IsNewNode="True" />
+      <Item Id="Reports" Index="6" />
+      <Item Id="System Internals" Index="7" Caption="System Internals" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
         </Items>
       </Item>
     </Items>

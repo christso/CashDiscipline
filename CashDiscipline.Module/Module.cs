@@ -38,13 +38,6 @@ namespace CashDiscipline.Module
         {
             base.Setup(application);
 
-            // PivotGridSavedLayout
-            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutMonthlyVariance, typeof(CashFlow).Name);
-            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutDaily, typeof(CashFlow).Name);
-            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutFixForecast, typeof(CashFlow).Name);
-            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutWeekly, typeof(CashFlow).Name);
-            PivotGridSavedLayout.ReservedLayoutNames.Add(Constants.CashFlowPivotLayoutMonthly, typeof(CashFlow).Name);
-
             Xafology.ExpressApp.Xpo.SequentialGuidBase.SequentialGuidBaseObject.IsSequential = true;
         }
 

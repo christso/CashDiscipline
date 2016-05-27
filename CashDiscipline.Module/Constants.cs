@@ -16,13 +16,6 @@ namespace CashDiscipline.Module
         // Contexts
         public const string AcceptActionContext = "AcceptAction";
 
-        // Cash Flow Pivot Layout
-        public const string CashFlowPivotLayoutDaily = "Daily";
-        public const string CashFlowPivotLayoutWeekly = "Weekly";
-        public const string CashFlowPivotLayoutMonthly = "Monthly";
-        public const string CashFlowPivotLayoutMonthlyVariance = "MonthlyVariance";
-        public const string CashFlowPivotLayoutFixForecast = "FixForecast";
-
         // Fix Tags
         public const string ReversalFixTag = "R";
         public const string RevRecFixTag = "RR";
