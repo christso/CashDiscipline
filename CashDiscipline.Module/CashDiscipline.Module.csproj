@@ -148,6 +148,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.SqlServer.Management.IntegrationServices, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.SqlServer.Management.IntegrationServices\13.0.0.0__89845dcd8080cc91\Microsoft.SqlServer.Management.IntegrationServices.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.SqlServer.Management.Sdk.Sfc\13.0.0.0__89845dcd8080cc91\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Windows\assembly\GAC_MSIL\Microsoft.SqlServer.Smo\13.0.0.0__89845dcd8080cc91\Microsoft.SqlServer.Smo.dll</HintPath>
+    </Reference>
     <Reference Include="SDP.ParserUtils, Version=1.1.2.0, Culture=neutral, PublicKeyToken=4ee1200acbd59010, processorArchitecture=MSIL">
       <HintPath>..\packages\SDP.ParserUtils.1.1.2.0\lib\net45\SDP.ParserUtils.dll</HintPath>
       <Private>True</Private>
@@ -194,11 +206,14 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
+    <Compile Include="BusinessObjects\BaseObjectHelper.cs" />
     <Compile Include="BusinessObjects\CashLookup\CounterpartyTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\ActionOwner.cs" />
     <Compile Include="CashDisciplineHelpers.cs" />
-    <Compile Include="Controllers\Forex\ForexRateViewController.cs" />
+    <Compile Include="Controllers\Forex\ForexRateViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Logic\Cash\BankStmtToCashFlowAlgorithm.cs" />
     <Compile Include="Controllers\Forex\ForexSettleFifoParamViewController.cs">
       <SubType>Component</SubType>
@@ -218,6 +233,7 @@
     <Compile Include="Logic\FinAccounting\BankStmtActivityOrmJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\BankStmtActivitySqlJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\OrmJournalHelper.cs" />
+    <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
     <Compile Include="Logic\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
@@ -269,9 +285,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Forex\ForexTradeBatchUploader.cs" />
-    <Compile Include="Controllers\ImportListViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controllers\Forex\ForexSettleLinkViewController.cs">
       <SubType>Component</SubType>
     </Compile>

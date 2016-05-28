@@ -1,55 +1,37 @@
-﻿using DevExpress.Persistent.Base;
+﻿using CashDiscipline.Module.BusinessObjects;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Xpo;
+using DevExpress.Persistent.Base;
+using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 
 namespace CashDiscipline.Module.ParamObjects.Import
 {
-    [NonPersistent]
     [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
-    [FileAttachment("File")]
     [DefaultClassOptions]
-    public class ImportForexRatesParam
+    public class ImportForexRatesParam : BaseObject
     {
-        public ImportForexRatesParam()
+        public ImportForexRatesParam(Session session) : base(session)
         {
-            _File = new Xafology.ExpressApp.SystemModule.OpenFileData();
+            session.LockingOption = LockingOption.None;
         }
 
-        private Xafology.ExpressApp.SystemModule.OpenFileData _File;
-
-        [DisplayName("Please upload a file")]
-        public Xafology.ExpressApp.SystemModule.OpenFileData File
-        {
-            get
-            {
-                return _File;
-            }
-            set
-            {
-                _File = value;
-            }
-        }
-
-        [MemberDesignTimeVisibility(false)]
+        private string _FileName;
         public string FileName
         {
             get
             {
-                return _File.FileName;
+                return _FileName;
             }
-        }
-        [MemberDesignTimeVisibility(false)]
-        public int Size
-        {
-            get { return _File.Size; }
+            set
+            {
+                SetPropertyValue("FileName", ref _FileName, value);
+            }
         }
 
-        [MemberDesignTimeVisibility(false)]
-        public byte[] Content
+        public static ImportForexRatesParam GetInstance(IObjectSpace objectSpace)
         {
-            get
-            {
-                return _File.Content;
-            }
+            return BaseObjectHelper.GetInstance<ImportForexRatesParam>(objectSpace);
         }
     }
 }

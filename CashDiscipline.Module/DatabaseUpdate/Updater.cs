@@ -202,7 +202,7 @@ END";
             base.UpdateDatabaseAfterUpdateSchema();
 
             SetupObjects(ObjectSpace);
-            SetupSecurity();
+            //SetupSecurity();
         }
 
         private void SetupSecurity()
