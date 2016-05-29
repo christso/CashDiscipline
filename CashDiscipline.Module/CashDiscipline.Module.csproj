@@ -131,8 +131,8 @@
     <Reference Include="DevExpress.CodeParser.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.DataAccess.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DevExpress.DataAccess.v15.2.UI, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DG2NTT.AnalysisServicesHelpers, Version=1.0.0.2, Culture=neutral, PublicKeyToken=e9cfe43101879f64, processorArchitecture=MSIL">
-      <HintPath>..\packages\DG2NTT.AnalysisServicesHelpers.1.0.0.2\lib\net45\DG2NTT.AnalysisServicesHelpers.dll</HintPath>
+    <Reference Include="DG2NTT.AnalysisServicesHelpers, Version=1.0.0.3, Culture=neutral, PublicKeyToken=e9cfe43101879f64, processorArchitecture=MSIL">
+      <HintPath>..\packages\DG2NTT.AnalysisServicesHelpers.1.0.0.3\lib\net45\DG2NTT.AnalysisServicesHelpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="LumenWorks.Framework.IO, Version=3.9.0.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
@@ -236,9 +236,6 @@
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
     <Compile Include="Logic\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
-    <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
     <Compile Include="Logic\SqlProcessorUtil.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />

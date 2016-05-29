@@ -62,13 +62,13 @@ namespace CashDiscipline.Module.Controllers.Cash
             processCubeAllAction.Caption = processCubeAllCaption;
             processCubeAction.Items.Add(processCubeAllAction);
 
-            var processCubeHistAction = new ChoiceActionItem();
-            processCubeHistAction.Caption = processCubeHistCaption;
-            processCubeAction.Items.Add(processCubeHistAction);
-
             var processCubeRecentAction = new ChoiceActionItem();
             processCubeRecentAction.Caption = processCubeRecentCaption;
             processCubeAction.Items.Add(processCubeRecentAction);
+
+            var processCubeHistAction = new ChoiceActionItem();
+            processCubeHistAction.Caption = processCubeHistCaption;
+            processCubeAction.Items.Add(processCubeHistAction);
 
             var processCubeSshotAction = new ChoiceActionItem();
             processCubeSshotAction.Caption = processCubeSshotCaption;
@@ -200,7 +200,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             else
             {
                 var ssas = CreateSsasClient();
-                ssas.ProcessPartition("CashFlow", "CashFlow", "CashFlow_Current_Recent");
+                ssas.ProcessPartition("Model", "CashFlow", "CashFlow_Current_Recent");
             }
         }
 

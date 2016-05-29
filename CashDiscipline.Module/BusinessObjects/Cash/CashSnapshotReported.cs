@@ -22,6 +22,12 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         {
         }
 
+        public override void AfterConstruction()
+        {
+            base.AfterConstruction();
+            IsEnabled = true;
+        }
+
         private string _CompareName;
         [RuleUniqueValue("CashFlowSnapshot_CompareName_RuleUniqueValue", DefaultContexts.Save)]
         public string CompareName
@@ -87,6 +93,19 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("ToDate", ref _ToDate, value);
+            }
+        }
+
+        private bool _IsEnabled;
+        public bool IsEnabled
+        {
+            get
+            {
+                return _IsEnabled;
+            }
+            set
+            {
+                SetPropertyValue("IsEnabled", ref _IsEnabled, value);
             }
         }
 

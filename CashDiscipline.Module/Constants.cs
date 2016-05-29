@@ -30,5 +30,12 @@ namespace CashDiscipline.Module
 
         // Defaults
         public const string DefaultFixCounterparty = "UNDEFINED";
+
+        // SSAS
+        public const string SsasDatabase = "CashFlow";
+        public const string SsasModel = "Model";
+        public const string SsasSnapshotPartition = "CashFlow_Snapshot";
+        public const string SsasSnapshotReported = "SnapshotReported";
+        public const string SsasSnapshot = "Snapshot";
     }
 }
