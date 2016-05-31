@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DevExpress.Xpo;
 using CashDiscipline.Module.BusinessObjects;
+using CashDiscipline.Module.BusinessObjects.BankStatement;
 
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
@@ -82,13 +83,14 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             // TODO: can selected objects be cast into a List?
             // Record the Cash Flow Forecast that was reconciled with the Bank Stmt
-            CashDiscipline.Module.BusinessObjects.BankStatement.BankStmtCashFlowForecast bsCff = ReconcileForecast(((XPObjectSpace)View.ObjectSpace).Session, (BankStmt)View.CurrentObject, (CashFlow)e.AcceptActionArgs.CurrentObject);
+            BankStmtCashFlowForecast bsCff = ReconcileForecast(((XPObjectSpace)View.ObjectSpace).Session, 
+                (BankStmt)View.CurrentObject, (CashFlow)e.AcceptActionArgs.CurrentObject);
             ChangeBankStmtToCashFlowForecast(bsCff.BankStmt, bsCff.CashFlow);
         }
 
         // Record the Cash Flow Forecast that was reconciled with the Bank Stmt
 
-        private static CashDiscipline.Module.BusinessObjects.BankStatement.BankStmtCashFlowForecast ReconcileForecast(Session session, BankStmt bankStmtObj, CashFlow cashFlowObj)
+        private static BankStmtCashFlowForecast ReconcileForecast(Session session, BankStmt bankStmtObj, CashFlow cashFlowObj)
         {
             // ensure both objects belong to the same session
             BankStmt bankStmt = bankStmtObj;
@@ -99,11 +101,11 @@ namespace CashDiscipline.Module.Controllers.Cash
                 cashFlow = session.GetObjectByKey<CashFlow>(session.GetKeyValue(cashFlowObj));
 
             // associate the bank stmt object with the cash flow forecast object using a link object
-            var bsCff = (CashDiscipline.Module.BusinessObjects.BankStatement.BankStmtCashFlowForecast)session.FindObject<CashDiscipline.Module.BusinessObjects.BankStatement.BankStmtCashFlowForecast>(CriteriaOperator.Parse(
+            var bsCff = session.FindObject<BankStmtCashFlowForecast>(CriteriaOperator.Parse(
                 "BankStmt = ?", bankStmt));
             if (bsCff == null)
             {
-                bsCff = new CashDiscipline.Module.BusinessObjects.BankStatement.BankStmtCashFlowForecast(session);
+                bsCff = new BankStmtCashFlowForecast(session);
                 bsCff.BankStmt = bankStmt;
                 bsCff.CashFlow = cashFlow;
             }
@@ -130,11 +132,11 @@ namespace CashDiscipline.Module.Controllers.Cash
                 //Debug.Print(string.Format("Autoreconcile Activity {0} with {1}", bsi.Activity.Name, transferActivity.Name));
                 if (bsi.Activity.Oid != transferActivity.Oid) continue;
                 var cf = session.FindObject<CashFlow>(CriteriaOperator.Parse(
-                    "TranDate = ? And Activity = ? And AccountCcyAmt = ?", 
+                    "TranDate = ? And Activity = ? And AccountCcyAmt = ?",
                     bsi.TranDate, transferActivity, bsi.TranAmount));
                 if (cf == null) break;
 
-                CashDiscipline.Module.BusinessObjects.BankStatement.BankStmtCashFlowForecast bsCff = ReconcileForecast(session, bsi, cf);
+                BankStmtCashFlowForecast bsCff = ReconcileForecast(session, bsi, cf);
                 ChangeBankStmtToCashFlowForecast(bsCff.BankStmt, bsCff.CashFlow);
 
             }
