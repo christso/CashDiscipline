@@ -40,7 +40,7 @@ namespace CashDiscipline.Module.BusinessObjects.BankStatement
         {
             get
             {
-                return BankStmt.TranDate;
+                return BankStmt == null ? default(DateTime) : BankStmt.TranDate;
             }
         }
 
@@ -48,7 +48,7 @@ namespace CashDiscipline.Module.BusinessObjects.BankStatement
         {
             get
             {
-                return BankStmt.Account;
+                return BankStmt == null ? null : BankStmt.Account;
             }
         }
 
@@ -56,7 +56,7 @@ namespace CashDiscipline.Module.BusinessObjects.BankStatement
         {
             get
             {
-                return BankStmt.Activity;
+                return BankStmt == null ? null : BankStmt.Activity;
             }
         }
 
@@ -64,7 +64,7 @@ namespace CashDiscipline.Module.BusinessObjects.BankStatement
         {
             get
             {
-                return BankStmt.TranAmount;
+                return BankStmt == null ? 0 : BankStmt.TranAmount;
             }
         }
 
@@ -85,7 +85,7 @@ namespace CashDiscipline.Module.BusinessObjects.BankStatement
         {
             get
             {
-                return CashFlow.TranDate;
+                return CashFlow == null ? default(DateTime) : CashFlow.TranDate;
             }
         }
 
@@ -93,7 +93,7 @@ namespace CashDiscipline.Module.BusinessObjects.BankStatement
         {
             get
             {
-                return CashFlow.Account;
+                return CashFlow == null ? null : CashFlow.Account;
             }
         }
 
@@ -101,7 +101,7 @@ namespace CashDiscipline.Module.BusinessObjects.BankStatement
         {
             get
             {
-                return CashFlow.Activity;
+                return CashFlow == null ? null : CashFlow.Activity;
             }
         }
 
@@ -109,7 +109,7 @@ namespace CashDiscipline.Module.BusinessObjects.BankStatement
         {
             get
             {
-                return CashFlow.AccountCcyAmt;
+                return CashFlow == null ? 0 : CashFlow.AccountCcyAmt;
             }
         }
 

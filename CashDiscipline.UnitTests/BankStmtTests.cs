@@ -12,6 +12,7 @@ using Xafology.TestUtils;
 using CashDiscipline.Module.ParamObjects.Cash;
 using CashDiscipline.Module.Logic.Cash;
 using DevExpress.ExpressApp.Xpo;
+using CashDiscipline.Module.BusinessObjects.BankStatement;
 
 namespace CashDiscipline.UnitTests
 {
@@ -288,6 +289,7 @@ namespace CashDiscipline.UnitTests
             #endregion
         }
 
+        [Test]
         public void ReconcileBankStmtToCashFlowSnapshot()
         {
             #region Arrange Forex objects
@@ -306,9 +308,7 @@ namespace CashDiscipline.UnitTests
 
             // Constants
             decimal rate1 = 0.95M;
-            decimal rate2 = 0.99M;
             #endregion
-
 
             #region Arrange Lookup Objects
 
@@ -334,6 +334,9 @@ namespace CashDiscipline.UnitTests
             var forexCounterparty = ObjectSpace.CreateObject<ForexCounterparty>();
             forexCounterparty.Name = "ANZ";
             forexCounterparty.CashFlowCounterparty = inCounterparty;
+
+            var snapshot1 = ObjectSpace.CreateObject<CashFlowSnapshot>();
+            snapshot1.Name = "Snapshot 1";
             #endregion
 
 
@@ -367,6 +370,36 @@ namespace CashDiscipline.UnitTests
             cfPriForex1.Description = "cfPriForex1";
             cfPriForex1.Save();
 
+            var cfCouForex1a = ObjectSpace.CreateObject<CashFlow>();
+            cfCouForex1a.CalculateEnabled = false;
+            cfCouForex1a.TranDate = new DateTime(2013, 11, 16);
+            cfCouForex1a.Account = couAccount;
+            cfCouForex1a.Activity = forexActivity;
+            cfCouForex1a.Counterparty = inCounterparty;
+            cfCouForex1a.AccountCcyAmt = 100;
+            cfCouForex1a.FunctionalCcyAmt = 100 / rate1;
+            cfCouForex1a.CounterCcyAmt = 100;
+            cfCouForex1a.CounterCcy = ccyUSD;
+            cfCouForex1a.ForexSettleType = CashFlowForexSettleType.In;
+            cfCouForex1a.Description = "cfCouForex1a";
+            cfCouForex1a.Snapshot = snapshot1;
+            cfCouForex1a.Save();
+
+            var cfPriForex1a = ObjectSpace.CreateObject<CashFlow>();
+            cfPriForex1a.CalculateEnabled = false;
+            cfPriForex1a.TranDate = new DateTime(2013, 11, 16);
+            cfPriForex1a.Account = priAccount;
+            cfPriForex1a.Activity = forexActivity;
+            cfPriForex1a.Counterparty = inCounterparty;
+            cfPriForex1a.AccountCcyAmt = -100 / rate1;
+            cfPriForex1a.FunctionalCcyAmt = -100 / rate1;
+            cfPriForex1a.CounterCcyAmt = 100;
+            cfPriForex1a.CounterCcy = ccyUSD;
+            cfPriForex1a.ForexSettleType = CashFlowForexSettleType.In;
+            cfPriForex1a.Description = "cfPriForex1a";
+            cfPriForex1a.Snapshot = snapshot1;
+            cfPriForex1a.Save();
+
             #endregion
 
             #region Arrange Bank Stmt Forex Trade objects
@@ -393,22 +426,17 @@ namespace CashDiscipline.UnitTests
 
             #endregion
 
-            #region Act Autoreconciliation
+            #region Reconcile Bank Stmt
 
             ObjectSpace.CommitChanges();
             var bankStmts = ObjectSpace.GetObjects<BankStmt>();
             var reconciler = new BankStmtForecastReconciler((XPObjectSpace)ObjectSpace);
-            reconciler.AutoreconcileTransfers(bankStmts);
+            BankStmtCashFlowForecast bsCff = reconciler.ReconcileItem(bsCouForex1, cfCouForex1a);
             ObjectSpace.CommitChanges();
             #endregion
 
             #region Assert
-
-            Assert.AreEqual(0, bankStmts.Sum(x => x.FunctionalCcyAmt));
-
-
-            Assert.AreEqual(6, bankStmts.Where(x => x.Activity.Name == forexActivity.Name).Count());
-            Assert.AreEqual(6, bankStmts.Where(x => x.Counterparty.Name == inCounterparty.Name).Count());
+            Assert.AreEqual("cfCouForex1a", bsCouForex1.SummaryDescription);
             #endregion
         }
 

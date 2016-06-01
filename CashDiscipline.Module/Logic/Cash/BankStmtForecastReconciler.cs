@@ -20,13 +20,14 @@ namespace CashDiscipline.Module.Logic.Cash
             this.objSpace = objSpace;
         }
 
-        public void ReconcileItem(BankStmt bankStmt, CashFlow cashFlow)
+        public BankStmtCashFlowForecast ReconcileItem(BankStmt bankStmt, CashFlow cashFlow)
         {
             // TODO: can selected objects be cast into a List?
             // Record the Cash Flow Forecast that was reconciled with the Bank Stmt
             BankStmtCashFlowForecast bsCff = ReconcileForecast(objSpace.Session,
                 bankStmt, cashFlow);
             ChangeBankStmtToCashFlowForecast(bsCff.BankStmt, bsCff.CashFlow);
+            return bsCff;
         }
 
         // Auto-reconcile BankStmt with ForexTrades
@@ -44,6 +45,8 @@ namespace CashDiscipline.Module.Logic.Cash
                 session = bs.Session;
                 break;
             }
+            var snapshot = SetOfBooks.GetInstance(session).CurrentCashFlowSnapshot;
+
             if (session == null) return;
             var transferActivity = session.GetObjectByKey<Activity>(
                 SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
@@ -53,8 +56,8 @@ namespace CashDiscipline.Module.Logic.Cash
                 //Debug.Print(string.Format("Autoreconcile Activity {0} with {1}", bsi.Activity.Name, transferActivity.Name));
                 if (bsi.Activity.Oid != transferActivity.Oid) continue;
                 var cf = session.FindObject<CashFlow>(CriteriaOperator.Parse(
-                    "TranDate = ? And Activity = ? And AccountCcyAmt = ?",
-                    bsi.TranDate, transferActivity, bsi.TranAmount));
+                    "TranDate = ? And Activity = ? And AccountCcyAmt = ? And Snapshot = ?",
+                    bsi.TranDate, transferActivity, bsi.TranAmount, snapshot));
                 if (cf == null) break;
 
                 BankStmtCashFlowForecast bsCff = ReconcileForecast(session, bsi, cf);
@@ -68,6 +71,11 @@ namespace CashDiscipline.Module.Logic.Cash
         #region Static Members
 
         private static BankStmtCashFlowForecast ReconcileForecast(Session session, BankStmt bankStmtObj, CashFlow cashFlowObj)
+        {
+            return ReconcileForecast(session, bankStmtObj, cashFlowObj, false);
+        }
+
+        private static BankStmtCashFlowForecast ReconcileForecast(Session session, BankStmt bankStmtObj, CashFlow cashFlowObj, bool commit)
         {
             // use the same session for both BankStmt and CashFlow object
             BankStmt bankStmt = bankStmtObj;
@@ -85,9 +93,10 @@ namespace CashDiscipline.Module.Logic.Cash
             {
                 bsCff = new BankStmtCashFlowForecast(session);
                 bsCff.BankStmt = bankStmt;
-                bsCff.CashFlow = cashFlow;
             }
-            session.CommitTransaction();
+            bsCff.CashFlow = cashFlow;
+            if (commit)
+                session.CommitTransaction();
             return bsCff;
         }
 
