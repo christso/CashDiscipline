@@ -10,6 +10,8 @@ using DevExpress.ExpressApp;
 using CashDiscipline.Module.Controllers.Cash;
 using Xafology.TestUtils;
 using CashDiscipline.Module.ParamObjects.Cash;
+using CashDiscipline.Module.Logic.Cash;
+using DevExpress.ExpressApp.Xpo;
 
 namespace CashDiscipline.UnitTests
 {
@@ -274,12 +276,137 @@ namespace CashDiscipline.UnitTests
 
             ObjectSpace.CommitChanges();
             var bankStmts = ObjectSpace.GetObjects<BankStmt>();
-            BankStmtViewController.AutoreconcileForexTrades(bankStmts);
+            var reconciler = new BankStmtForecastReconciler((XPObjectSpace)ObjectSpace);
+            reconciler.AutoreconcileTransfers(bankStmts);
 
             #endregion
 
             #region Assert
             Assert.AreEqual(0, bankStmts.Sum(x => x.FunctionalCcyAmt));
+            Assert.AreEqual(6, bankStmts.Where(x => x.Activity.Name == forexActivity.Name).Count());
+            Assert.AreEqual(6, bankStmts.Where(x => x.Counterparty.Name == inCounterparty.Name).Count());
+            #endregion
+        }
+
+        public void ReconcileBankStmtToCashFlowSnapshot()
+        {
+            #region Arrange Forex objects
+            // Currencies
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+
+            // Forex Rates
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.ConversionDate = new DateTime(2013, 11, 01);
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionRate = 0.9M;
+            rate.Save();
+            ObjectSpace.CommitChanges();
+
+            // Constants
+            decimal rate1 = 0.95M;
+            decimal rate2 = 0.99M;
+            #endregion
+
+
+            #region Arrange Lookup Objects
+
+            var priAccount = ObjectSpace.CreateObject<Account>();
+            priAccount.Name = "VHA ANZ 70086";
+            priAccount.Currency = ccyAUD;
+
+            var couAccount = ObjectSpace.CreateObject<Account>();
+            couAccount.Name = "VHA ANZ USD";
+            couAccount.Currency = ccyUSD;
+
+            var forexActivity = SetOfBooks.GetInstance(ObjectSpace).ForexSettleActivity;
+
+            var outActivity = ObjectSpace.CreateObject<Activity>();
+            outActivity.Name = "AP Pymt";
+
+            var outCounterparty = ObjectSpace.CreateObject<Counterparty>();
+            outCounterparty.Name = "UNDEFINED";
+
+            var inCounterparty = ObjectSpace.CreateObject<Counterparty>();
+            inCounterparty.Name = "ANZ";
+
+            var forexCounterparty = ObjectSpace.CreateObject<ForexCounterparty>();
+            forexCounterparty.Name = "ANZ";
+            forexCounterparty.CashFlowCounterparty = inCounterparty;
+            #endregion
+
+
+            #region Create Cash Flow Forex Trade Objects
+
+            var cfCouForex1 = ObjectSpace.CreateObject<CashFlow>();
+            cfCouForex1.CalculateEnabled = false;
+            cfCouForex1.TranDate = new DateTime(2013, 11, 16);
+            cfCouForex1.Account = couAccount;
+            cfCouForex1.Activity = forexActivity;
+            cfCouForex1.Counterparty = inCounterparty;
+            cfCouForex1.AccountCcyAmt = 100;
+            cfCouForex1.FunctionalCcyAmt = 100 / rate1;
+            cfCouForex1.CounterCcyAmt = 100;
+            cfCouForex1.CounterCcy = ccyUSD;
+            cfCouForex1.ForexSettleType = CashFlowForexSettleType.In;
+            cfCouForex1.Description = "cfCouForex1";
+            cfCouForex1.Save();
+
+            var cfPriForex1 = ObjectSpace.CreateObject<CashFlow>();
+            cfPriForex1.CalculateEnabled = false;
+            cfPriForex1.TranDate = new DateTime(2013, 11, 16);
+            cfPriForex1.Account = priAccount;
+            cfPriForex1.Activity = forexActivity;
+            cfPriForex1.Counterparty = inCounterparty;
+            cfPriForex1.AccountCcyAmt = -100 / rate1;
+            cfPriForex1.FunctionalCcyAmt = -100 / rate1;
+            cfPriForex1.CounterCcyAmt = 100;
+            cfPriForex1.CounterCcy = ccyUSD;
+            cfPriForex1.ForexSettleType = CashFlowForexSettleType.In;
+            cfPriForex1.Description = "cfPriForex1";
+            cfPriForex1.Save();
+
+            #endregion
+
+            #region Arrange Bank Stmt Forex Trade objects
+
+            var bsCouForex1 = ObjectSpace.CreateObject<BankStmt>();
+            bsCouForex1.TranDate = new DateTime(2013, 11, 16);
+            bsCouForex1.Account = couAccount;
+            bsCouForex1.Activity = forexActivity;
+            bsCouForex1.Counterparty = outCounterparty;
+            bsCouForex1.TranAmount = 100;
+            bsCouForex1.ForexSettleType = CashFlowForexSettleType.In;
+            bsCouForex1.SummaryDescription = "bsCouForex1";
+            bsCouForex1.Save();
+
+            var bsPriForex1 = ObjectSpace.CreateObject<BankStmt>();
+            bsPriForex1.TranDate = new DateTime(2013, 11, 16);
+            bsPriForex1.Account = priAccount;
+            bsPriForex1.Activity = forexActivity;
+            bsPriForex1.Counterparty = outCounterparty;
+            bsPriForex1.TranAmount = -100 / rate1;
+            bsPriForex1.ForexSettleType = CashFlowForexSettleType.In;
+            bsPriForex1.SummaryDescription = "bsPriForex1";
+            bsPriForex1.Save();
+
+            #endregion
+
+            #region Act Autoreconciliation
+
+            ObjectSpace.CommitChanges();
+            var bankStmts = ObjectSpace.GetObjects<BankStmt>();
+            var reconciler = new BankStmtForecastReconciler((XPObjectSpace)ObjectSpace);
+            reconciler.AutoreconcileTransfers(bankStmts);
+            ObjectSpace.CommitChanges();
+            #endregion
+
+            #region Assert
+
+            Assert.AreEqual(0, bankStmts.Sum(x => x.FunctionalCcyAmt));
+
+
             Assert.AreEqual(6, bankStmts.Where(x => x.Activity.Name == forexActivity.Name).Count());
             Assert.AreEqual(6, bankStmts.Where(x => x.Counterparty.Name == inCounterparty.Name).Count());
             #endregion

@@ -211,6 +211,9 @@
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\ActionOwner.cs" />
     <Compile Include="CashDisciplineHelpers.cs" />
+    <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Forex\ForexRateViewController.cs">
       <SubType>Component</SubType>
     </Compile>

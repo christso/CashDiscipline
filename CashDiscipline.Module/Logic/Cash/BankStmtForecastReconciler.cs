@@ -32,6 +32,11 @@ namespace CashDiscipline.Module.Logic.Cash
         // Auto-reconcile BankStmt with ForexTrades
         public void AutoreconcileTransfers(System.Collections.IEnumerable bankStmts)
         {
+            AutoreconcileTransfers(bankStmts, false);
+        }
+        
+        public void AutoreconcileTransfers(System.Collections.IEnumerable bankStmts, bool commit)
+        {
             // get session from first BankStmt. This assumes the same sessions are being used.
             Session session = null;
             foreach (BankStmt bs in bankStmts)
@@ -56,7 +61,8 @@ namespace CashDiscipline.Module.Logic.Cash
                 ChangeBankStmtToCashFlowForecast(bsCff.BankStmt, bsCff.CashFlow);
 
             }
-            session.CommitTransaction();
+            if (commit)
+                session.CommitTransaction();
         }
 
         #region Static Members

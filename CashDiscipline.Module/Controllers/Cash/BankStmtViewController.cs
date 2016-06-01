@@ -13,6 +13,7 @@ using CashDiscipline.Module.BusinessObjects.BankStatement;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
 using System.Diagnostics;
+using CashDiscipline.Module.Logic.Cash;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -60,11 +61,12 @@ namespace CashDiscipline.Module.Controllers.Cash
                     ReconcileForecastChoice(Application, View);
                     break;
                 case "Auto-Reconcile Forecast":
-                    AutoreconcileForexTrades(View.SelectedObjects);
+                    var reconciler = new BankStmtForecastReconciler((XPObjectSpace)View.ObjectSpace);
+                    reconciler.AutoreconcileTransfers(View.SelectedObjects);
                     break;
             }
         }
-
+        
         private void ReconcileForecastChoice(XafApplication app, View view)
         {
             var bankStmt = (BankStmt)view.CurrentObject;
@@ -81,80 +83,10 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         void reconcileForecastDialog_Accepting(object sender, DevExpress.ExpressApp.SystemModule.DialogControllerAcceptingEventArgs e)
         {
-            // TODO: can selected objects be cast into a List?
+            var reconciler = new BankStmtForecastReconciler((XPObjectSpace)View.ObjectSpace);
+
             // Record the Cash Flow Forecast that was reconciled with the Bank Stmt
-            BankStmtCashFlowForecast bsCff = ReconcileForecast(((XPObjectSpace)View.ObjectSpace).Session, 
-                (BankStmt)View.CurrentObject, (CashFlow)e.AcceptActionArgs.CurrentObject);
-            ChangeBankStmtToCashFlowForecast(bsCff.BankStmt, bsCff.CashFlow);
-        }
-
-        // Record the Cash Flow Forecast that was reconciled with the Bank Stmt
-
-        private static BankStmtCashFlowForecast ReconcileForecast(Session session, BankStmt bankStmtObj, CashFlow cashFlowObj)
-        {
-            // ensure both objects belong to the same session
-            BankStmt bankStmt = bankStmtObj;
-            if (session != bankStmtObj.Session)
-                bankStmt = session.GetObjectByKey<BankStmt>(session.GetKeyValue(bankStmtObj));
-            CashFlow cashFlow = cashFlowObj;
-            if (session != cashFlowObj.Session)
-                cashFlow = session.GetObjectByKey<CashFlow>(session.GetKeyValue(cashFlowObj));
-
-            // associate the bank stmt object with the cash flow forecast object using a link object
-            var bsCff = session.FindObject<BankStmtCashFlowForecast>(CriteriaOperator.Parse(
-                "BankStmt = ?", bankStmt));
-            if (bsCff == null)
-            {
-                bsCff = new BankStmtCashFlowForecast(session);
-                bsCff.BankStmt = bankStmt;
-                bsCff.CashFlow = cashFlow;
-            }
-            session.CommitTransaction();
-            return bsCff;
-        }
-
-        // Auto-reconcile BankStmt with ForexTrades
-        public static void AutoreconcileForexTrades(System.Collections.IEnumerable bankStmts)
-        {
-            // get session from first BankStmt. This assumes the same sessions are being used.
-            Session session = null;
-            foreach (BankStmt bs in bankStmts)
-            {
-                session = bs.Session;
-                break;
-            }
-            if (session == null) return;
-            var transferActivity = session.GetObjectByKey<Activity>(
-                SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
-
-            foreach (BankStmt bsi in bankStmts)
-            {
-                //Debug.Print(string.Format("Autoreconcile Activity {0} with {1}", bsi.Activity.Name, transferActivity.Name));
-                if (bsi.Activity.Oid != transferActivity.Oid) continue;
-                var cf = session.FindObject<CashFlow>(CriteriaOperator.Parse(
-                    "TranDate = ? And Activity = ? And AccountCcyAmt = ?",
-                    bsi.TranDate, transferActivity, bsi.TranAmount));
-                if (cf == null) break;
-
-                BankStmtCashFlowForecast bsCff = ReconcileForecast(session, bsi, cf);
-                ChangeBankStmtToCashFlowForecast(bsCff.BankStmt, bsCff.CashFlow);
-
-            }
-            session.CommitTransaction();
-        }
-
-        private static void ChangeBankStmtToCashFlowForecast(BankStmt bankStmt, CashFlow cashFlow)
-        {
-            bool oldCalculateEnabled = bankStmt.CalculateEnabled;
-            bankStmt.CalculateEnabled = false;
-
-            bankStmt.CounterCcy = cashFlow.CounterCcy;
-            bankStmt.CounterCcyAmt = cashFlow.CounterCcyAmt;
-            bankStmt.FunctionalCcyAmt = cashFlow.FunctionalCcyAmt;
-            bankStmt.SummaryDescription = cashFlow.Description;
-            bankStmt.Counterparty = cashFlow.Counterparty;
-
-            bankStmt.CalculateEnabled = oldCalculateEnabled;
+            reconciler.ReconcileItem((BankStmt)View.CurrentObject, (CashFlow)e.AcceptActionArgs.CurrentObject);
         }
 
         public void ExecuteMapping(System.Collections.IList objects)
