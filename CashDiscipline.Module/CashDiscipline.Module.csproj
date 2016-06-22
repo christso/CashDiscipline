@@ -205,6 +205,7 @@
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
+    <Compile Include="BusinessObjects\ProgramPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
     <Compile Include="BusinessObjects\BaseObjectHelper.cs" />
     <Compile Include="BusinessObjects\CashLookup\CounterpartyTag.cs" />
