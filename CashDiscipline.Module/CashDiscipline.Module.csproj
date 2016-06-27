@@ -205,7 +205,7 @@
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
-    <Compile Include="BusinessObjects\ProgramPortal.cs" />
+    <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
     <Compile Include="BusinessObjects\BaseObjectHelper.cs" />
     <Compile Include="BusinessObjects\CashLookup\CounterpartyTag.cs" />
@@ -216,6 +216,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Forex\ForexRateViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Logic\Cash\BankStmtToCashFlowAlgorithm.cs" />
@@ -239,6 +242,8 @@
     <Compile Include="Logic\FinAccounting\BankStmtActivitySqlJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\OrmJournalHelper.cs" />
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
+    <Compile Include="Logic\Setup\ActionPortalItem.cs" />
+    <Compile Include="Logic\Setup\ActionPortalLogic.cs" />
     <Compile Include="Logic\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
