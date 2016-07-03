@@ -3,20 +3,20 @@
 	<Applications>
 		<!-- Win -->
 		<Application
-			Name="CTMSWin"
-			FileName="[WinAppBin]\CTMS.Win.exe"
+			Name="CashDisciplineWin"
+			FileName="[WinAppBin]\CashDiscipline.Win.exe"
 			AdapterAssemblyName="[WinAdapterAssemblyName]"
 			CommunicationPort="4100"/>
 		<!-- Web -->
 		<!--<Application
-			Name="CTMSWeb"
+			Name="CashDisciplineWeb"
 			Url="http://localhost:4030"
 			PhysicalPath="[WebAppBin]"
 			AdapterAssemblyName="[WebAdapterAssemblyName]"/>-->
 		<!-- For IIS -->
 		<Application
-			Name="CTMSWeb"
-			Url="http://localhost/CTMSDebug/Default.aspx"
+			Name="CashDisciplineWeb"
+			Url="http://localhost/CashDisciplineDebug/Default.aspx"
 			AdapterAssemblyName="[WebAdapterAssemblyName]"/>
 	</Applications>
 	<TestDatabases>
@@ -25,10 +25,10 @@
 
 	<Aliases>
 		<Alias Name="DomainUserName" Value="%USERDOMAIN%\%USERNAME%" />
-		<Alias Name="WinAdapterAssemblyName" Value="DevExpress.ExpressApp.EasyTest.WinAdapter.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-		<Alias Name="WebAdapterAssemblyName" Value="DevExpress.ExpressApp.EasyTest.WebAdapter.v15.1, Version=15.1.8.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-		<Alias Name="WinAppBin" Value="[ConfigPath]\..\..\CTMS.Win\Bin\EasyTest" />
-		<Alias Name="WebAppBin" Value="[ConfigPath]\..\..\CTMS.Web" />
+		<Alias Name="WinAdapterAssemblyName" Value="DevExpress.ExpressApp.EasyTest.WinAdapter.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+		<Alias Name="WebAdapterAssemblyName" Value="DevExpress.ExpressApp.EasyTest.WebAdapter.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+		<Alias Name="WinAppBin" Value="[ConfigPath]\..\..\CashDiscipline.Win\Bin\EasyTest" />
+		<Alias Name="WebAppBin" Value="[ConfigPath]\..\..\CashDiscipline.Web" />
 	</Aliases>
 </Options>
 
