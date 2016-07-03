@@ -14,12 +14,13 @@ namespace CashDiscipline.Module.Controllers.Cash
 {
     public class CashFlowViewController : ViewController
     {
-        private const string processCubeCaption = "Process Cube";
-        private const string processCubeHistCaption = "Process Historical";
-        private const string processCubeAllCaption = "Process All";
-        private const string processCubeRecentCaption = "Process Recent";
-        private const string processCubeSshotCaption = "Process Snapshots";
-        private const string mapSelectedCaption = "Map Selected";
+        public const string processCubeCaption = "Process Cube";
+        public const string processCubeHistCaption = "Process Historical";
+        public const string processCubeAllCaption = "Process All";
+        public const string processCubeRecentCaption = "Process Recent";
+        public const string processCubeSshotCaption = "Process Snapshots";
+        public const string mapSelectedCaption = "Map Selected";
+        public const string fixForecastFormCaption = "Fix Forecast";
 
         public SingleChoiceAction RunProgramAction;
 
@@ -33,7 +34,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             RunProgramAction.Execute += runProgramAction_Execute;
             RunProgramAction.ShowItemsOnClick = true;
             RunProgramAction.ExecuteCompleted += RunProgramAction_ExecuteCompleted;
-
+            
             var dailyUpdateAction = new ChoiceActionItem();
             dailyUpdateAction.Caption = "Daily Update";
             RunProgramAction.Items.Add(dailyUpdateAction);
@@ -113,7 +114,7 @@ namespace CashDiscipline.Module.Controllers.Cash
                 case "Daily Update":
                     ShowDailyCashUpdateForm(e.ShowViewParameters);
                     break;
-                case "Fix Forecast":
+                case fixForecastFormCaption:
                     ShowFixForecastForm(e.ShowViewParameters);
                     break;
                 case mapSelectedCaption:
@@ -146,17 +147,17 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         #region Process Cube
 
-        private ServerProcessor CreateSsasClient()
+        private static ServerProcessor CreateSsasClient()
         {
             return CashDisciplineHelpers.CreateSsasClient();
         }
 
-        private AdomdProcessor CreateAdomdClient()
+        private static AdomdProcessor CreateAdomdClient()
         {
             return CashDisciplineHelpers.CreateAdomdClient();
         }
 
-        public void ProcessCube_All()
+        public static void ProcessCube_All()
         {
             if (AppSettings.MsasTabularCompatibility_13)
             {
@@ -179,7 +180,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
         }
 
-        public void ProcessCube_Recent()
+        public static void ProcessCube_Recent()
         {
             if (AppSettings.MsasTabularCompatibility_13)
             {
@@ -258,6 +259,15 @@ namespace CashDiscipline.Module.Controllers.Cash
             var os = Application.CreateObjectSpace();
             var paramObj = CashFlowFixParam.GetInstance(os);
             var detailView = Application.CreateDetailView(os, paramObj);
+            svp.TargetWindow = TargetWindow.NewModalWindow;
+            svp.CreatedView = detailView;
+        }
+
+        public static void ShowFixForecastForm(XafApplication app, ShowViewParameters svp)
+        {
+            var os = app.CreateObjectSpace();
+            var paramObj = CashFlowFixParam.GetInstance(os);
+            var detailView = app.CreateDetailView(os, paramObj);
             svp.TargetWindow = TargetWindow.NewModalWindow;
             svp.CreatedView = detailView;
         }
