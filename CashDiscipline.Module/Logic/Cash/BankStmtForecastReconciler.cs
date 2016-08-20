@@ -54,7 +54,7 @@ namespace CashDiscipline.Module.Logic.Cash
             foreach (BankStmt bsi in bankStmts)
             {
                 //Debug.Print(string.Format("Autoreconcile Activity {0} with {1}", bsi.Activity.Name, transferActivity.Name));
-                if (bsi.Activity.Oid != transferActivity.Oid) continue;
+                if (bsi.Activity != null && bsi.Activity.Oid != transferActivity.Oid) continue;
                 var cf = session.FindObject<CashFlow>(CriteriaOperator.Parse(
                     "TranDate = ? And Activity = ? And AccountCcyAmt = ? And Snapshot = ?",
                     bsi.TranDate, transferActivity, bsi.TranAmount, snapshot));

@@ -78,7 +78,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         private string _OraTrxNum;
         [VisibleInLookupListView(true)]
-        [ModelDefault("AllowEdit", "false")]
+        [ModelDefault("AllowEdit", "true")]
         public string OraTrxNum
         {
             get

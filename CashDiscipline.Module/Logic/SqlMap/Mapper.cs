@@ -70,7 +70,15 @@ namespace CashDiscipline.Module.Logic.SqlMap
                 command.Parameters.Clear();
                 if (SqlParameters != null)
                     command.Parameters.AddRange(SqlParameters.ToArray());
-                command.ExecuteNonQuery();
+                try
+                {
+                    command.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    throw new InvalidOperationException(ex.Message + "\r\nLine Number " + ex.LineNumber
+                        + ". \r\nSQL ---------\r\n" + command.CommandText, ex);
+                }
             }
         }
 

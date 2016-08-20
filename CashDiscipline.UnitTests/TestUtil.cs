@@ -66,6 +66,7 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(CashFlowSnapshot));
             module.AdditionalExportedTypes.Add(typeof(ForexSettleFifoParam));
             module.AdditionalExportedTypes.Add(typeof(DailyCashUpdateParam));
+            module.AdditionalExportedTypes.Add(typeof(BankStmtMapping));
         }
     }
 }

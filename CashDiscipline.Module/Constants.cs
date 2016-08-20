@@ -8,7 +8,7 @@ namespace CashDiscipline.Module
 {
     public class Constants
     {
-   
+
         // Views
         public const string CashFlowListViewId = "CashFlow_ListView";
         public const string CashFlowAllListViewId = "CashFlowAll_ListView";
@@ -40,5 +40,8 @@ namespace CashDiscipline.Module
         public const string SqlConnectionString = @"Data Source=FINSERV01;Initial Catalog=CashDiscipline;Integrated Security=SSPI;";
         public const string SqlDatabase = "CashDiscipline";
         public const string SsisFolderName = "CashFlow";
+
+        // Resources
+        public const string CashDiscSqlInstallScriptPath = @"CashDiscipline.Module.Scripts.CashDisc-SQL-Install.sql";
     }
 }

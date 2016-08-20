@@ -9,8 +9,11 @@ using DevExpress.ExpressApp.Security.Strategy;
 using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
+using Microsoft.SqlServer.Management.Smo;
+using Microsoft.SqlServer.Management.Common;
 using System;
 using System.Data.SqlClient;
+using System.IO;
 using Cash = CashDiscipline.Module.BusinessObjects.Cash;
 
 
@@ -41,21 +44,15 @@ namespace CashDiscipline.Module.DatabaseUpdate
 
         public static void CreateFunctions(XPObjectSpace os)
         {
-            var conn = os.Session.DataLayer.Connection as SqlConnection;
+            var conn = (SqlConnection)os.Session.Connection;
             if (conn == null) return;
 
-            var command = conn.CreateCommand();
-            command.CommandText = @"IF OBJECT_ID('dbo.BOMONTH') IS NOT NULL DROP FUNCTION dbo.BOMONTH";
-            command.ExecuteNonQuery();
-
-            command.CommandText =
-@"CREATE FUNCTION dbo.BOMONTH ( @TranDate date )
-RETURNS date
-AS
-BEGIN
-	RETURN DATEADD(d, 1, EOMONTH(@TranDate,-1))
-END";
-            command.ExecuteNonQuery();
+            string resourcePath = Constants.CashDiscSqlInstallScriptPath;
+            var stream = typeof(CashDiscipline.Module.AssemblyInfo).Assembly.GetManifestResourceStream(resourcePath);
+            StreamReader reader = new StreamReader(stream);
+            var script = reader.ReadToEnd();
+            Server server = new Server(new ServerConnection(conn));
+            server.ConnectionContext.ExecuteNonQuery(script);
         }
 
         // Set up the minimum objects for this application to function correctly

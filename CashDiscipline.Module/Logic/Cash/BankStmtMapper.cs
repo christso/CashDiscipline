@@ -31,7 +31,7 @@ AND BankStmt.[Oid] IN ({1})";
 FROM BankStmt
 LEFT JOIN Activity ON Activity.Oid = BankStmt.Activity
 LEFT JOIN Account ON Account.Oid = BankStmt.Account
-LEFT JOIN BankStmtTranCode ON BankStmtTranCode.Oid = BankStmt.TranCode
+LEFT JOIN BankStmtTranCode TranCode ON TranCode.Oid = BankStmt.TranCode
 WHERE BankStmt.GCRecord IS NULL";
 
         public BankStmtMapper(XPObjectSpace objspace)
@@ -47,7 +47,9 @@ WHERE BankStmt.GCRecord IS NULL";
             var clauses = new List<SqlDeclareClause>()
             {
                 new SqlDeclareClause("UndefActivityOid", "uniqueidentifer",
-                "(select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)")
+                "(select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)"),
+                new SqlDeclareClause("UndefCounterpartyOid", "uniqueidentifer",
+                "(select oid from counterparty where counterparty.name like 'UNDEFINED' and GCRecord IS NULL)")
             };
             return clauses;
         }
@@ -87,7 +89,23 @@ WHERE BankStmt.GCRecord IS NULL";
                 "WHEN BankStmt.Activity IS NOT NULL AND BankStmt.Activity <> @UndefActivityOid THEN BankStmt.Activity");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
-            
+
+            commandText = mapper.GetMapSetCommandText("Counterparty", m => string.Format("'{0}'", m.Counterparty.Oid), m => m.Counterparty != null, step,
+                "WHEN BankStmt.Counterparty IS NOT NULL AND BankStmt.Counterparty <> @UndefCounterpartyOid THEN BankStmt.Counterparty");
+            if (!string.IsNullOrWhiteSpace(commandText))
+                setTextList.Add(commandText);
+
+            setTextList.Add(@"OraTrxNum = 
+CASE WHEN OraTrxNum IS NULL OR OraTrxNum = '' THEN 
+FORMAT(TranDate, 'yyyyMMdd') + '-' + RIGHT(Account.BankAccountNumber, 3)
+	+ '-' + RIGHT('000' + RTRIM((
+	SELECT COUNT(*) FROM BankStmt b2
+	WHERE b2.Account = BankStmt.Account
+		AND b2.TranDate = BankStmt.TranDate
+		AND b2.Oid <= BankStmt.Oid
+	)), 3)
+ELSE OraTrxNum END");
+
             return setTextList;
         }
         

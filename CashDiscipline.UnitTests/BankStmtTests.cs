@@ -13,6 +13,8 @@ using CashDiscipline.Module.ParamObjects.Cash;
 using CashDiscipline.Module.Logic.Cash;
 using DevExpress.ExpressApp.Xpo;
 using CashDiscipline.Module.BusinessObjects.BankStatement;
+using System.Reflection;
+using System.IO;
 
 namespace CashDiscipline.UnitTests
 {
@@ -26,6 +28,18 @@ namespace CashDiscipline.UnitTests
             var tester = Tester as MSSqlDbTestBase;
             if (tester != null)
                 tester.DatabaseName = Constants.TestDbName;
+        }
+
+        public override void OnSetup()
+        {
+            CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
+            SetOfBooks.GetInstance(ObjectSpace);
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
+            CashDiscipline.Module.DatabaseUpdate.Updater.CreateFunctions(ObjectSpace);
+        }
+        public override void OnAddExportedTypes(ModuleBase module)
+        {
+            CashDisciplineTestHelper.AddExportedTypes(module);
         }
 
         [Test]
@@ -440,15 +454,39 @@ namespace CashDiscipline.UnitTests
             #endregion
         }
 
-        public override void OnSetup()
+        [Test]
+        public void MapBankStmtActivityRegex()
         {
-            CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
-            SetOfBooks.GetInstance(ObjectSpace);
-            CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
-        }
-        public override void OnAddExportedTypes(ModuleBase module)
-        {
-            CashDisciplineTestHelper.AddExportedTypes(module);
+            var ccyAud = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+
+            var account1 = ObjectSpace.CreateObject<Account>();
+            account1.Name = "VHA ANZ 70086";
+            account1.Currency = ccyAud;
+
+            var activity1 = ObjectSpace.CreateObject<Activity>();
+            activity1.Name = "Reversed AP Pymt";
+
+            var bs1 = ObjectSpace.CreateObject<BankStmt>();
+            bs1.TranDate = new DateTime(2016, 06, 01);
+            bs1.Account = account1;
+            bs1.Activity = activity1;
+            bs1.TranDescription = "252040416CMOAU30305823434";
+            bs1.TranAmount = 1000;
+
+            var map = ObjectSpace.CreateObject<BankStmtMapping>();
+            map.RowIndex = 1;
+            map.CriteriaExpression = @"Account.Name IN ('VHA ANZ EUR','VHA ANZ GBP','VHA ANZ NZD','VHA ANZ USD') AND dbo.REGEXP(TranDescription, '(\A\d{9,})([a-zA-Z]{0,6})(\d{9,})(.{0,4}\z)')=1 AND TranAmount > 0";
+            map.Activity = activity1;
+
+            ObjectSpace.CommitChanges();
+
+            var bss = ObjectSpace.GetObjects<BankStmt>();
+
+            var mapper = new BankStmtMapper(ObjectSpace);
+            mapper.Process(bss);
+
+            bs1 = ObjectSpace.FindObject<BankStmt>(null);
+            Assert.NotNull(bs1.Activity);
         }
     }
 }
