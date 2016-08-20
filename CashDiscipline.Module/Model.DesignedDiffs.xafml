@@ -13,6 +13,7 @@
           <Item Id="ImportHeadersParam" ViewId="ImportHeadersParam_ListView" IsNewNode="True" />
           <Item Id="ImportOrdinalsParam" ViewId="ImportOrdinalsParam_ListView" IsNewNode="True" />
           <Item Id="ImportParamBase" ViewId="ImportParamBase_ListView" IsNewNode="True" />
+          <Item Id="PasteParam_ListView" ViewId="PasteParam_ListView" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="Accounting" Index="1" IsNewNode="True">
@@ -62,8 +63,8 @@
     </Items>
   </NavigationItems>
   <SchemaModules>
-    <SchemaModule Name="CloneObjectModule" Version="15.2.7.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="15.2.7.0" IsNewNode="True" />
+    <SchemaModule Name="CloneObjectModule" Version="16.1.4.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="16.1.4.0" IsNewNode="True" />
     <SchemaModule Name="SystemWindowsFormsModule" Version="12.2.7.0" IsNewNode="True" />
   </SchemaModules>
   <Templates>
@@ -85,6 +86,7 @@
     <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server" />
     <DetailView Id="BankStmt_DetailView" AllowEdit="True" AllowNew="True" AllowDelete="True" ImageName="">
       <Items>
+        <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
         <PropertyEditor Id="OraTrxNum" AllowEdit="False" />
       </Items>
       <Layout>
@@ -92,21 +94,21 @@
           <LayoutGroup Id="BankStmt" Index="0" Direction="Vertical" ShowCaption="True" Caption="Bank Stmt" IsNewNode="True">
             <LayoutGroup Id="SimpleEditors" ShowCaption="False" Index="0" Direction="Horizontal" IsNewNode="True">
               <LayoutGroup Id="BankStmt_col1" Index="0" ShowCaption="False" IsNewNode="True">
-                <LayoutItem Id="OraTrxNum" ViewItem="OraTrxNum" Index="0" IsNewNode="True" />
-                <LayoutItem Id="BankStmtId" Index="1" ViewItem="BankStmtId" IsNewNode="True" />
-                <LayoutItem Id="Account" ViewItem="Account" Index="2" IsNewNode="True" />
-                <LayoutItem Id="TranDate" ViewItem="TranDate" Index="3" IsNewNode="True" />
-                <LayoutItem Id="TranType" ViewItem="TranType" Index="4" IsNewNode="True" />
-                <LayoutItem Id="TranRef" ViewItem="TranRef" Index="5" IsNewNode="True" />
-                <LayoutItem Id="TranAmount" ViewItem="TranAmount" Index="6" IsNewNode="True" />
+                <LayoutItem Id="Oid" ViewItem="Oid" Index="0" IsNewNode="True" />
+                <LayoutItem Id="Account" ViewItem="Account" Index="3" IsNewNode="True" />
+                <LayoutItem Id="TranDate" ViewItem="TranDate" Index="4" IsNewNode="True" />
+                <LayoutItem Id="TranType" ViewItem="TranType" Index="5" IsNewNode="True" />
+                <LayoutItem Id="TranRef" ViewItem="TranRef" Index="6" IsNewNode="True" />
+                <LayoutItem Id="TranAmount" ViewItem="TranAmount" Index="7" IsNewNode="True" />
               </LayoutGroup>
               <LayoutGroup Id="BankStmt_col2" Index="1" ShowCaption="False" IsNewNode="True">
-                <LayoutItem Id="Activity" ViewItem="Activity" Index="0" IsNewNode="True" />
-                <LayoutItem Id="Counterparty" ViewItem="Counterparty" Index="1" IsNewNode="True" />
-                <LayoutItem Id="FunctionalCcyAmt" ViewItem="FunctionalCcyAmt" Index="2" IsNewNode="True" />
-                <LayoutItem Id="CounterCcyAmt" ViewItem="CounterCcyAmt" Index="3" IsNewNode="True" />
-                <LayoutItem Id="CounterCcy" ViewItem="CounterCcy" Index="4" IsNewNode="True" />
-                <LayoutItem Id="ArtfReconTotal" Index="5" ViewItem="ArtfReconTotal" IsNewNode="True" />
+                <LayoutItem Id="OraTrxNum" ViewItem="OraTrxNum" Index="0" IsNewNode="True" />
+                <LayoutItem Id="Activity" ViewItem="Activity" Index="1" IsNewNode="True" />
+                <LayoutItem Id="Counterparty" ViewItem="Counterparty" Index="2" IsNewNode="True" />
+                <LayoutItem Id="FunctionalCcyAmt" ViewItem="FunctionalCcyAmt" Index="3" IsNewNode="True" />
+                <LayoutItem Id="CounterCcyAmt" ViewItem="CounterCcyAmt" Index="4" IsNewNode="True" />
+                <LayoutItem Id="CounterCcy" ViewItem="CounterCcy" Index="5" IsNewNode="True" />
+                <LayoutItem Id="ArtfReconTotal" Index="6" ViewItem="ArtfReconTotal" IsNewNode="True" />
                 <LayoutItem Id="GenLedgerFuncTotal" ViewItem="GenLedgerFuncTotal" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
@@ -128,38 +130,26 @@
     </DetailView>
     <ListView Id="BankStmt_ListView" AllowEdit="True" NewItemRowPosition="Top" DataAccessMode="Server">
       <Columns>
-        <ColumnInfo Id="TranDate" SortOrder="Descending" />
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="OraTrxNum" Index="1" />
+        <ColumnInfo Id="TranDate" SortOrder="Descending" SortIndex="0" Index="2" />
+        <ColumnInfo Id="TranType" Index="3" />
+        <ColumnInfo Id="TranRef" Index="4" />
+        <ColumnInfo Id="TranAmount" Index="5" />
+        <ColumnInfo Id="TranDescription" Index="6" />
+        <ColumnInfo Id="TranCode" Index="7" />
+        <ColumnInfo Id="Account" Index="8" />
+        <ColumnInfo Id="Activity" Index="9" />
+        <ColumnInfo Id="Counterparty" Index="10" />
+        <ColumnInfo Id="FunctionalCcyAmt" Index="11" />
+        <ColumnInfo Id="CounterCcyAmt" Index="12" />
+        <ColumnInfo Id="CounterCcy" Index="13" />
+        <ColumnInfo Id="ValueDate" Index="14" />
+        <ColumnInfo Id="TimeEntered" Index="15" />
+        <ColumnInfo Id="ActionOwner" Index="16" />
+        <ColumnInfo Id="CashFlow" Index="17" />
+        <ColumnInfo Id="ForexSettleType" Index="18" />
       </Columns>
-    </ListView>
-    <ListView Id="BankStmt_ListView_Artf" AllowNew="False" AllowDelete="False" ShowAutoFilterRow="True" ClassName="CashDiscipline.Module.BusinessObjects.Cash.BankStmt" DataAccessMode="Server" IsNewNode="True">
-      <Columns IsNewNode="True">
-        <ColumnInfo Id="SummaryDescription" PropertyName="SummaryDescription" Width="70" Index="-1" IsNewNode="True" />
-        <ColumnInfo Id="TranDate" PropertyName="TranDate" Width="81" Index="1" View="" SortIndex="0" SortOrder="Descending" IsNewNode="True" />
-        <ColumnInfo Id="Account" PropertyName="Account" Width="92" Index="2" IsNewNode="True" />
-        <ColumnInfo Id="TranType" PropertyName="TranType" Width="88" Index="3" IsNewNode="True" />
-        <ColumnInfo Id="TranRef" PropertyName="TranRef" Width="72" Index="4" IsNewNode="True" />
-        <ColumnInfo Id="TranAmount" PropertyName="TranAmount" Width="77" Index="5" IsNewNode="True" />
-        <ColumnInfo Id="TranDescription" PropertyName="TranDescription" Width="120" Index="6" IsNewNode="True" />
-        <ColumnInfo Id="Activity" PropertyName="Activity" Width="90" Index="7" IsNewNode="True" />
-        <ColumnInfo Id="Counterparty" PropertyName="Counterparty" Width="71" Index="8" IsNewNode="True" />
-      </Columns>
-    </ListView>
-    <ListView Id="BankStmt_ListView_FCA" ShowAutoFilterRow="True" AllowDelete="False" AllowNew="False" ClassName="CashDiscipline.Module.BusinessObjects.Cash.BankStmt" DataAccessMode="Server" IsNewNode="True">
-      <Columns IsNewNode="True">
-        <ColumnInfo Id="TranDate" PropertyName="TranDate" Index="1" Width="70" SortIndex="0" SortOrder="Ascending" IsNewNode="True" />
-        <ColumnInfo Id="Account" Index="2" PropertyName="Account" IsNewNode="True" />
-        <ColumnInfo Id="TranType" PropertyName="TranType" Index="3" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="TranRef" PropertyName="TranRef" Index="4" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="TranAmount" PropertyName="TranAmount" Index="5" Width="50" IsNewNode="True" />
-        <ColumnInfo Id="FunctionalCcyAmt" PropertyName="FunctionalCcyAmt" Index="6" Width="50" IsNewNode="True" />
-        <ColumnInfo Id="Activity" PropertyName="Activity" Index="7" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="Counterparty" PropertyName="Counterparty" Index="8" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="TranDescription" PropertyName="TranDescription" Index="9" Width="70" IsNewNode="True" />
-        <ColumnInfo Id="SummaryDescription" PropertyName="SummaryDescription" Index="10" Width="70" IsNewNode="True" />
-      </Columns>
-      <Filters CurrentFilterId="AR_FCA_Filter" IsNewNode="True">
-        <Filter Id="AR_FCA_Filter" Criteria="[Account.Name] In ('VHA ANZ USD', 'VHA ANZ EUR', 'VHA ANZ NZD', 'VHA ANZ GBP') And Not [Activity.Name] In ('Pymt', 'Rcpt', 'TSY Rcpt') And [Activity.Dim_1_1] = 'Receipts'" Caption="AR FCA Filter" IsNewNode="True" />
-      </Filters>
     </ListView>
     <ListView Id="BankStmt_LookupListView" DataAccessMode="Server">
       <Columns>

@@ -10,34 +10,40 @@ using System.IO;
 using System.Text;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
-using CashDiscipline.Module.Logic.Forex;
+using CashDiscipline.Module.Logic.Cash;
 
-namespace CashDiscipline.Module.Controllers.Forex
+namespace CashDiscipline.Module.Controllers.Cash
 {
-    public class ImportForexParamViewController : ViewController
+    public class ImportBankStmtParamViewController : ViewController
     {
-        public ImportForexParamViewController()
+        public ImportBankStmtParamViewController()
         {
-            TargetObjectType = typeof(ImportForexRatesParam);
+            TargetObjectType = typeof(ImportBankStmtParam);
             TargetViewType = ViewType.DetailView;
 
-            var importAction = new SimpleAction(this, "ImportWbcForexRatesACtion", PredefinedCategory.ObjectsCreation);
+            var importAction = new SimpleAction(this, "ImportBankStmtAction", PredefinedCategory.ObjectsCreation);
             importAction.Caption = "Run Import";
-            importAction.Execute += ImportAction_Execute; ;
+            importAction.Execute += ImportAction_Execute;
         }
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            WbcImport();
+            try
+            {
+                Import();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
+            }
         }
 
-
-        public void WbcImport()
+        public void Import()
         {
-            var paramObj = View.CurrentObject as ImportForexRatesParam;
+            var paramObj = View.CurrentObject as ImportBankStmtParam;
 
-            var importer = new WbcForexRateImporter();
-            importer.Execute(paramObj.FileName);
+            var importer = new BankStmtImporter();
+            importer.Execute(paramObj);
 
             // show log message
 
@@ -59,6 +65,6 @@ namespace CashDiscipline.Module.Controllers.Forex
         {
             base.OnActivated();
             ((DetailView)View).ViewEditMode = ViewEditMode.Edit;
-        }        
+        }
     }
 }

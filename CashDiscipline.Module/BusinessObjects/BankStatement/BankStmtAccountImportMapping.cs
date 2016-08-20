@@ -15,6 +15,9 @@ using DevExpress.Persistent.Validation;
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
     [ModelDefault("ImageName", "BO_List")]
+    [ModelDefault("DefaultListViewAllowEdit", "True")]
+    [ModelDefault("IsFooterVisible", "True")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     public class BankStmtAccountImportMapping : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public BankStmtAccountImportMapping(Session session)

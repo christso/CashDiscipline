@@ -24,6 +24,8 @@ namespace CashDiscipline.Module.Controllers
 
         public ActionPortalViewController()
         {
+            TargetObjectType = typeof(ActionPortal);
+
             var portalAction = new SingleChoiceAction(this, "ProgramPortalAction", PredefinedCategory.ObjectsCreation);
             portalAction.Caption = "Actions";
             portalAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
@@ -49,7 +51,6 @@ namespace CashDiscipline.Module.Controllers
                     RunPortalAction(e.ShowViewParameters);
                     break;
             }
-           
         }
 
         private void ResetPortal()

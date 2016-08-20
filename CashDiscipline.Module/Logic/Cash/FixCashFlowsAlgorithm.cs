@@ -266,7 +266,7 @@ AND cf.[Snapshot] = @Snapshot
 AND cf.Fix IN (@ReversalFixTag, @RevRecFixTag, @ResRevRecFixTag)
 AND 
 (
-	--cf.ParentCashFlow IN (SELECT cf2.Oid FROM temp_CashFlowsToFix cf2)
+	--cf.ParentCashFlow IN (SELECT cf2.Oid FROM dbo.TmpCashFlowsToFix cf2)
 	cf.ParentCashFlow IN (SELECT cf1.Oid FROM CashFlow cf1 WHERE cf1.GCRecord IS NULL)
 	OR cf.ParentCashFlow IN (SELECT cfd.Oid FROM CashFlow cfd WHERE cfd.GCRecord IS NOT NULL)
 )
@@ -279,9 +279,9 @@ AND
 
 -- CashFlowsToFix
 
-IF OBJECT_ID('temp_CashFlowsToFix') IS NOT NULL DROP TABLE temp_CashFlowsToFix;
+IF OBJECT_ID('dbo.TmpCashFlowsToFix') IS NOT NULL DROP TABLE dbo.TmpCashFlowsToFix;
 
-SELECT cf.* INTO temp_CashFlowsToFix
+SELECT cf.* INTO dbo.TmpCashFlowsToFix
 FROM CashFlow cf
 LEFT JOIN CashForecastFixTag tag ON tag.Oid = cf.Fix
 LEFT JOIN CashFlow fixer ON fixer.Oid = cf.Oid
@@ -305,7 +305,7 @@ UPDATE CashFlow SET
 IsFixeeSynced = 1,
 IsFixerFixeesSynced = 1,
 IsFixerSynced = 1
-WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM temp_CashFlowsToFix cf2)
+WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM dbo.TmpCashFlowsToFix cf2)
 
 -- FixeeFixer
 
@@ -328,10 +328,10 @@ FROM
 		fixee.AccountCcyAmt,
 		fixee.FixFromDate,
 		fixee.FixToDate
-	FROM temp_CashFlowsToFix fixee
+	FROM dbo.TmpCashFlowsToFix fixee
 	LEFT JOIN Counterparty fixeeCparty ON fixeeCparty.Oid = fixee.Counterparty
 	LEFT JOIN Account fixeeAccount ON fixeeAccount.Oid = fixee.Account
-	LEFT JOIN temp_CashFlowsToFix fixer
+	LEFT JOIN dbo.TmpCashFlowsToFix fixer
 		ON fixee.TranDate BETWEEN fixer.FixFromDate AND fixer.FixToDate
 			AND fixee.FixActivity = fixer.FixActivity
 			AND fixer.[Status] = @ForecastStatus
@@ -361,7 +361,7 @@ IF OBJECT_ID('temp_FixReversal') IS NOT NULL DROP TABLE temp_FixReversal;
 
 SELECT cf.*
 INTO temp_FixReversal
-FROM temp_CashFlowsToFix cf
+FROM dbo.TmpCashFlowsToFix cf
 JOIN temp_FixeeFixer fixeeFixer ON fixeeFixer.Fixee = cf.Oid;
 
 UPDATE revFix SET 
@@ -382,7 +382,7 @@ UPDATE revFix SET
 FROM temp_FixReversal revFix
 LEFT JOIN temp_FixeeFixer fixeeFixer
 	ON fixeeFixer.Fixee = revFix.Oid
-LEFT JOIN temp_CashFlowsToFix fixer
+LEFT JOIN dbo.TmpCashFlowsToFix fixer
 	ON fixer.Oid = fixeeFixer.Fixer
 LEFT JOIN Activity a1 ON a1.Oid = revFix.Activity
 

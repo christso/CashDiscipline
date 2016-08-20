@@ -1,4 +1,5 @@
-﻿using Microsoft.SqlServer.Management.IntegrationServices;
+﻿using CashDiscipline.Module.ParamObjects.Import;
+using Microsoft.SqlServer.Management.IntegrationServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,24 +8,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashDiscipline.Module.Logic.Forex
+namespace CashDiscipline.Module.Logic.Cash
 {
-    public class WbcForexRateImporter
+    public class BankStmtImporter
     {
         private const string SqlConnectionString = Constants.SqlConnectionString;
         private const string catalogName = Constants.SqlDatabase;
         private const string ssisFolderName = Constants.SsisFolderName;
-        private const string pkgName = "WbcForexRate.dtsx";
+        private const string pkgName = "BankStmt.dtsx";
 
-        public WbcForexRateImporter()
+        public BankStmtImporter()
         {
             SSISMessagesList = new List<string>();
         }
 
+
         public List<string> SSISMessagesList;
 
-        //inputFilePath = @"\\FINSERV01\Downloads\VHA Import\SSIS\Westpac Forex Rates\GLXR160527.txt";
-        public void Execute(string inputFilePath)
+        public void Execute(ImportBankStmtParam paramObj)
         {
             SSISMessagesList.Clear();
 
@@ -39,7 +40,14 @@ namespace CashDiscipline.Module.Logic.Forex
             executionParameter.Add(new PackageInfo.ExecutionValueParameterSet { ObjectType = 50, ParameterName = "SYNCHRONIZED", ParameterValue = 1 });
 
             // Modify package parameter
-            ssisPackage.Parameters["SourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, inputFilePath);
+            ssisPackage.Parameters["AnzSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.AnzFilePath ?? "");
+            ssisPackage.Parameters["AnzDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.AnzEnabled);
+            ssisPackage.Parameters["WbcSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.WbcFilePath ?? "");
+            ssisPackage.Parameters["WbcDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.WbcEnabled);
+            ssisPackage.Parameters["CbaOpSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.CbaOpFilePath ?? "");
+            ssisPackage.Parameters["CbaOpDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.CbaOpEnabled);
+            ssisPackage.Parameters["CbaBosSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.CbaBosFilePath ?? "");
+            ssisPackage.Parameters["CbaBosDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.CbaBosEnabled);
             ssisPackage.Alter();
 
             // Get the identifier of the execution to get the log

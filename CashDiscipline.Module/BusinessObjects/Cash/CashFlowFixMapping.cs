@@ -14,6 +14,7 @@ using DevExpress.Persistent.Validation;
 using Xafology.ExpressApp.RowMover;
 using CashDiscipline.Module.BusinessObjects.Forex;
 using CashDiscipline.Module.Attributes;
+using CashDiscipline.Module.Interfaces;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -22,7 +23,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [ModelDefault("ImageName", "BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [AutoColumnWidth(false)]
-    public class CashFlowFixMapping : BaseObject, IRowMoverObject
+    public class CashFlowFixMapping : BaseObject, IRowMoverObject, IMapping
     {
         private static int NextIndex = 1;
 
@@ -74,6 +75,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         private string _CriteriaExpression;
+        [VisibleInLookupListView(true)]
+        [VisibleInListView(true)]
+        [Size(SizeAttribute.Unlimited)]
         public string CriteriaExpression
         {
             get

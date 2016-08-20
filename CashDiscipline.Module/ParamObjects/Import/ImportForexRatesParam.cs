@@ -1,5 +1,6 @@
 ﻿using CashDiscipline.Module.BusinessObjects;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
@@ -8,6 +9,7 @@ using DevExpress.Xpo;
 namespace CashDiscipline.Module.ParamObjects.Import
 {
     [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
+    [ModelDefault("ImageName", "BO_List")]
     [DefaultClassOptions]
     public class ImportForexRatesParam : BaseObject
     {

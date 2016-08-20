@@ -14,48 +14,53 @@ using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
 using System.Diagnostics;
 using CashDiscipline.Module.Logic.Cash;
+using CashDiscipline.Module.ParamObjects.Import;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
     public class BankStmtViewController : ViewController
     {
+        private const string mapCaption = "Map Selected";
+        private const string importCaption = "Import";
+
         public BankStmtViewController()
         {
             TargetObjectType = typeof(BankStmt);
 
-            #region Mapping
             BankStmtAction = new SingleChoiceAction(this, "RunBankStmtAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             BankStmtAction.Caption = "Actions";
             BankStmtAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             BankStmtAction.Execute += BankStmtAction_Execute;
 
-            // Test for BankStmt to Cash Flow Forecast
-            //var bankStmtCashFlowActionItem = new ChoiceActionItem();
-            //bankStmtCashFlowActionItem.Caption = "Cash Flow Forecast Links";
-            //BankStmtAction.Items.Add(bankStmtCashFlowActionItem);
+            var importChoice = new ChoiceActionItem();
+            importChoice.Caption = importCaption;
+            BankStmtAction.Items.Add(importChoice);
 
-            var mappingActionItem = new ChoiceActionItem();
-            mappingActionItem.Caption = "Mapping";
-            BankStmtAction.Items.Add(mappingActionItem);
-            #endregion
+            var mappingChoice = new ChoiceActionItem();
+            mappingChoice.Caption = mapCaption;
+            BankStmtAction.Items.Add(mappingChoice);
 
-            var reconForecastActionItem = new ChoiceActionItem();
-            reconForecastActionItem.Caption = "Reconcile Forecast";
-            BankStmtAction.Items.Add(reconForecastActionItem);
+            var reconForecastChoice = new ChoiceActionItem();
+            reconForecastChoice.Caption = "Reconcile Forecast";
+            BankStmtAction.Items.Add(reconForecastChoice);
 
-            var autoReconForecastActionItem = new ChoiceActionItem();
-            autoReconForecastActionItem.Caption = "Auto-Reconcile Forecast";
-            BankStmtAction.Items.Add(autoReconForecastActionItem);
+            var autoReconForecastChoice = new ChoiceActionItem();
+            autoReconForecastChoice.Caption = "Auto-Reconcile Forecast";
+            BankStmtAction.Items.Add(autoReconForecastChoice);
             BankStmtAction.ShowItemsOnClick = true;
         }
 
         private SingleChoiceAction BankStmtAction;
         private void BankStmtAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
-            switch (e.SelectedChoiceActionItem.Caption)
+            var caption = e.SelectedChoiceActionItem.Caption;
+            switch (caption)
             {
-                case "Mapping":
-                    ExecuteMapping(View.SelectedObjects);
+                case mapCaption:
+                    MapSelected();
+                    break;
+                case importCaption:
+                    ShowImportBankStmtForm(e.ShowViewParameters);
                     break;
                 case "Reconcile Forecast":
                     ReconcileForecastChoice(Application, View);
@@ -89,29 +94,20 @@ namespace CashDiscipline.Module.Controllers.Cash
             reconciler.ReconcileItem((BankStmt)View.CurrentObject, (CashFlow)e.AcceptActionArgs.CurrentObject);
         }
 
-        public void ExecuteMapping(System.Collections.IList objects)
+        private void ShowImportBankStmtForm(ShowViewParameters svp)
         {
-            
-            var objSpace = ObjectSpace;
-            var mappings = objSpace.GetObjects<BankStmtMapping>();
+            var os = Application.CreateObjectSpace();
+            var paramObj = ImportBankStmtParam.GetInstance(os);
+            var detailView = Application.CreateDetailView(os, paramObj);
+            svp.TargetWindow = TargetWindow.NewModalWindow;
+            svp.CreatedView = detailView;
+        }
 
-            foreach (BankStmt bsi in objects)
-            {
-                foreach (var mapping in mappings)
-                {
-                    // update BSI with first matching expression
-                    if (bsi.Fit(mapping.CriteriaExpression))
-                    {
-                        if (mapping.Activity != null)
-                            bsi.Activity = mapping.Activity;
-                        if (mapping.Account != null)
-                            bsi.Account = mapping.Account;
-                        break;
-                    }
-                }
-                bsi.Save();
-            }
-            objSpace.CommitChanges();
+        public void MapSelected()
+        {
+            var mapper = new BankStmtMapper((XPObjectSpace)ObjectSpace);
+            var bankStmts = View.SelectedObjects;
+            mapper.Process(bankStmts);
         }
 
         public static string ReadTextFile(string FullPath)

@@ -215,12 +215,18 @@
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\Cash\ImportBankStmtParamViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Forex\ForexRateViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Interfaces\IMapping.cs" />
+    <Compile Include="Logic\Cash\BankStmtImporter.cs" />
+    <Compile Include="Logic\Cash\BankStmtMapper.cs" />
     <Compile Include="Logic\Cash\BankStmtToCashFlowAlgorithm.cs" />
     <Compile Include="Controllers\Forex\ForexSettleFifoParamViewController.cs">
       <SubType>Component</SubType>
@@ -242,12 +248,14 @@
     <Compile Include="Logic\FinAccounting\BankStmtActivitySqlJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\OrmJournalHelper.cs" />
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
+    <Compile Include="Logic\SqlMap\Mapper.cs" />
     <Compile Include="Logic\Setup\ActionPortalItem.cs" />
     <Compile Include="Logic\Setup\ActionPortalLogic.cs" />
     <Compile Include="Logic\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
     <Compile Include="Logic\SqlProcessorUtil.cs" />
+    <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtCashFlowForecast.cs" />
@@ -407,12 +415,16 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="UnusableNodes.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="Images\banner.png" />
     <Content Include="FunctionalTests\Counterparty_Create.inc" />
     <Content Include="FunctionalTests\ForexCounterparty_Create.inc" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\Setup\" />
+    <Folder Include="Logic\SqlServer\" />
     <Folder Include="ParamObjects\Setup\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

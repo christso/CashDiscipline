@@ -37,5 +37,8 @@ namespace CashDiscipline.Module
         public const string SsasSnapshotPartition = "CashFlow_Snapshot";
         public const string SsasSnapshotReported = "SnapshotReported";
         public const string SsasSnapshot = "Snapshot";
+        public const string SqlConnectionString = @"Data Source=FINSERV01;Initial Catalog=CashDiscipline;Integrated Security=SSPI;";
+        public const string SqlDatabase = "CashDiscipline";
+        public const string SsisFolderName = "CashFlow";
     }
 }

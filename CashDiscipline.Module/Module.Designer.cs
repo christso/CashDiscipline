@@ -43,6 +43,7 @@ namespace CashDiscipline.Module
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.SystemModule.XafologySystemModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Layout.LayoutModule));
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Xpo.Import.ImportModule));
+            this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Paste.PasteModule));
         }
 
         #endregion

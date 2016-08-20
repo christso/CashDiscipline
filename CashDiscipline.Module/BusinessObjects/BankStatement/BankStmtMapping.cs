@@ -12,11 +12,17 @@ using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using Xafology.ExpressApp.RowMover;
+using CashDiscipline.Module.Attributes;
+using CashDiscipline.Module.Interfaces;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
+    [ModelDefault("IsCloneable", "True")]
+    [ModelDefault("IsFooterVisible", "True")]
     [ModelDefault("ImageName", "BO_List")]
-    public class BankStmtMapping : BaseObject, IRowMoverObject
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [AutoColumnWidth(false)]
+    public class BankStmtMapping : BaseObject, IRowMoverObject, IMapping
     {
         public BankStmtMapping(Session session)
             : base(session)
@@ -38,8 +44,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         private static int NextIndex = 1;
 
         // Fields...
-        private Account _Account;
-        private Activity _Activity;
+
         private string _CriteriaExpression;
         private int _RowIndex;
 
@@ -57,7 +62,22 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private int _MapStep;
+        public int MapStep
+        {
+            get
+            {
+                return _MapStep;
+            }
+            set
+            {
+                SetPropertyValue("MapStep", ref _MapStep, value);
+            }
+        }
 
+        [VisibleInLookupListView(true)]
+        [VisibleInListView(true)]
+        [Size(SizeAttribute.Unlimited)]
         public string CriteriaExpression
         {
             get
@@ -70,6 +90,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private Activity _Activity;
         public Activity Activity
         {
             get
@@ -82,15 +103,16 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        public Account Account
+        private Counterparty _Counterparty;
+        public Counterparty Counterparty
         {
             get
             {
-                return _Account;
+                return _Counterparty;
             }
             set
             {
-                SetPropertyValue("Account", ref _Account, value);
+                SetPropertyValue("Counterparty", ref _Counterparty, value);
             }
         }
     }

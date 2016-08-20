@@ -65,7 +65,7 @@ WHERE CashFLow.GCRecord IS NULL";
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
-            var commandTextList = GetMapCommandTextListByCashFlow(cashFlows);
+            var commandTextList = GetMapCommandTextListByItem(cashFlows);
 
             foreach (string commandText in commandTextList)
             {
@@ -92,7 +92,7 @@ WHERE CashFLow.GCRecord IS NULL";
             }
         }
 
-        public List<string> GetMapCommandTextListByCashFlow(IEnumerable cashFlows)
+        public List<string> GetMapCommandTextListByItem(IEnumerable cashFlows)
         {
             var oids = new List<string>();
             foreach (CashFlow cf in cashFlows)
