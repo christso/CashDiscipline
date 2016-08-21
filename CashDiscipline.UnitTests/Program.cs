@@ -21,11 +21,11 @@ namespace CashDiscipline.UnitTests
 
         static void RunTest()
         {
-            var tests = new BankStmtTests();
+            var tests = new CashFlowTests();
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.MapBankStmtActivityRegex();
+            tests.ConvertEnumToString();
 
             tests.TearDown();
             tests.TearDownFixture();

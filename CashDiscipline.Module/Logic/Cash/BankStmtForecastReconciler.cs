@@ -54,15 +54,28 @@ namespace CashDiscipline.Module.Logic.Cash
             foreach (BankStmt bsi in bankStmts)
             {
                 //Debug.Print(string.Format("Autoreconcile Activity {0} with {1}", bsi.Activity.Name, transferActivity.Name));
-                if (bsi.Activity != null && bsi.Activity.Oid != transferActivity.Oid) continue;
-                var cf = session.FindObject<CashFlow>(CriteriaOperator.Parse(
-                    "TranDate = ? And Activity = ? And AccountCcyAmt = ? And Snapshot = ?",
-                    bsi.TranDate, transferActivity, bsi.TranAmount, snapshot));
-                if (cf == null) break;
+                if (bsi.Activity != null && bsi.Activity.Oid == transferActivity.Oid)
+                {
+                    // reconcile transfer
+                    var cf = session.FindObject<CashFlow>(CriteriaOperator.Parse(
+                        "TranDate = ? And Activity = ? And AccountCcyAmt = ? And Snapshot = ?",
+                        bsi.TranDate, transferActivity, bsi.TranAmount, snapshot));
+                    if (cf == null) break;
 
-                BankStmtCashFlowForecast bsCff = ReconcileForecast(session, bsi, cf);
-                ChangeBankStmtToCashFlowForecast(bsCff.BankStmt, bsCff.CashFlow);
+                    BankStmtCashFlowForecast bsCff = ReconcileForecast(session, bsi, cf);
+                    ChangeBankStmtToCashFlowForecast(bsCff.BankStmt, bsCff.CashFlow);
+                }
+                else
+                {
+                    // reconcile anything else with matching date and amount
+                    var cf = session.FindObject<CashFlow>(CriteriaOperator.Parse(
+                   "TranDate = ? And AccountCcyAmt = ? And Snapshot = ?",
+                   bsi.TranDate, bsi.TranAmount, snapshot));
+                    if (cf == null) break;
 
+                    BankStmtCashFlowForecast bsCff = ReconcileForecast(session, bsi, cf);
+                    ChangeBankStmtToCashFlowForecast(bsCff.BankStmt, bsCff.CashFlow);
+                }
             }
             if (commit)
                 session.CommitTransaction();
@@ -110,6 +123,7 @@ namespace CashDiscipline.Module.Logic.Cash
             bankStmt.FunctionalCcyAmt = cashFlow.FunctionalCcyAmt;
             bankStmt.SummaryDescription = cashFlow.Description;
             bankStmt.Counterparty = cashFlow.Counterparty;
+            bankStmt.Activity = cashFlow.Activity;
 
             bankStmt.CalculateEnabled = oldCalculateEnabled;
         }

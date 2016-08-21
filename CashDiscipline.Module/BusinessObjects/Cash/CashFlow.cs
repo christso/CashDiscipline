@@ -1056,6 +1056,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         #endregion
 
     }
+    //used by DailyCashUpdate - @ActualStatus
     public enum CashFlowStatus
     {
         Forecast = 0,

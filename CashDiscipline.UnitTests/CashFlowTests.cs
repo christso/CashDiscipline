@@ -675,6 +675,10 @@ namespace CashDiscipline.UnitTests
             }
         }
 
+        public void ConvertEnumToString()
+        {
+            Console.WriteLine("{0}", Convert.ToInt32(CashFlowStatus.Actual).ToString());
+        }
     }
 
 }
