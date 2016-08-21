@@ -1,6 +1,7 @@
 ﻿using CashDiscipline.Module.BusinessObjects.AccountsPayable;
 using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.ParamObjects.Import;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Xpo;
@@ -15,7 +16,8 @@ namespace CashDiscipline.Module.Controllers.Cash
 {
     public class ApPmtDistnViewController : ViewController
     {
-        private const string mapCaption = "Map Selected";
+        private const string mapSelectedCaption = "Map Selected";
+        private const string mapFilteredCaption = "Map Filtered";
         private const string importCaption = "Import";
 
         public ApPmtDistnViewController()
@@ -32,10 +34,13 @@ namespace CashDiscipline.Module.Controllers.Cash
             importChoice.Caption = importCaption;
             mainAction.Items.Add(importChoice);
 
-            var mappingChoice = new ChoiceActionItem();
-            mappingChoice.Caption = mapCaption;
-            mainAction.Items.Add(mappingChoice);
+            var mapSelectedChoice = new ChoiceActionItem();
+            mapSelectedChoice.Caption = mapSelectedCaption;
+            mainAction.Items.Add(mapSelectedChoice);
 
+            var mapFilteredChoice = new ChoiceActionItem();
+            mapFilteredChoice.Caption = mapFilteredCaption;
+            mainAction.Items.Add(mapFilteredChoice);
         }
 
         private void MainAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -43,8 +48,10 @@ namespace CashDiscipline.Module.Controllers.Cash
             var caption = e.SelectedChoiceActionItem.Caption;
             switch (caption)
             {
-                case mapCaption:
+                case mapSelectedCaption:
                     MapSelected();
+                    break;
+                case mapFilteredCaption:
                     break;
                 case importCaption:
                     ShowImportForm(e.ShowViewParameters);
@@ -66,6 +73,12 @@ namespace CashDiscipline.Module.Controllers.Cash
             var mapper = new ApPmtDistnMapper((XPObjectSpace)ObjectSpace);
             var objs = View.SelectedObjects;
             mapper.Process(objs);
+        }
+
+        private void MapFiltered()
+        {
+            var mapper = new ApPmtDistnMapper((XPObjectSpace)ObjectSpace);
+            
         }
 
         protected override void OnActivated()

@@ -87,6 +87,8 @@ WHERE ApPmtDistn.GCRecord IS NULL";
             mapper.Process(objs);
         }
 
+        
+
         public List<string> GetMapSetCommandTextList(int step)
         {
             var setTextList = new List<string>();
