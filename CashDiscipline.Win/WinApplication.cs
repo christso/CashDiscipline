@@ -15,12 +15,24 @@ namespace CashDiscipline.Win
         {
             InitializeComponent();
             DelayedViewItemsInitialization = true;
+            this.CustomCheckCompatibility += CashDisc_CustomCheckCompatibility;
         }
 
         protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)
         {
             args.ObjectSpaceProvider = new ExtObjectSpaceProvider(args.ConnectionString, args.Connection);
             args.ObjectSpaceProviders.Add(new NonPersistentObjectSpaceProvider(TypesInfo, null));
+        }
+
+        private void CashDisc_CustomCheckCompatibility(object sender, DevExpress.ExpressApp.CustomCheckCompatibilityEventArgs e)
+        {
+            // do not check compatibility for release version
+            // so we avoid throwing error in the app when we make minor changes to the database
+            //var pubVer = CashDiscipline.Module.AssemblyInfo.Version;
+            if (!System.Diagnostics.Debugger.IsAttached)
+            { 
+                e.Handled = true;
+            }
         }
 
         private void CashDisciplineWindowsFormsApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e)

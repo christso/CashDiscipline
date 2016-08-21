@@ -14,14 +14,18 @@ using DevExpress.Persistent.Validation;
 
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.Cash;
+using CashDiscipline.Module.Attributes;
+using Xafology.ExpressApp.BatchDelete;
 
-// With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
     [ModelDefault("IsFooterVisible", "True")]
     [ModelDefault("ImageName", "BO_List")]
-    public class ApPmtDistn : BaseObject, IXpoImportable
-    { // You can use a different base persistent class based on your requirements (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
+    [ModelDefault("DefaultListViewAllowEdit", "True")]
+    [AutoColumnWidth(false)]
+    [BatchDelete(isVisible: true, isOptimized: true)]
+    public class ApPmtDistn : BaseObject, IBatchDeletable
+    {
         public ApPmtDistn(Session session)
             : base(session)
         {
@@ -34,16 +38,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             base.AfterConstruction();
             // Place here your initialization code (check out http://documentation.devexpress.com/#Xaf/CustomDocument2834 for more details).
         }
-        private ApVendor _Vendor;
-        private ApInvSource _InvSource;
-        private ApPayGroup _PayGroup;
-        private ApBankAccount _BankAccount;
-        private int _Id;
-        public int Id
-        {
-            get { return _Id; }
-            set { SetPropertyValue("Id", ref _Id, value); }
-        }
+
         private DateTime _PaymentDate;
         [ModelDefault("EditMask", "dd-MMM-yy")]
         [ModelDefault("DisplayFormat","dd-MMM-yy")]
@@ -67,7 +62,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 
         // use Account and lookup from BankAccountName instead?
 
-
+        private ApBankAccount _BankAccount;
         public ApBankAccount BankAccount
         {
             get
@@ -80,6 +75,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             }
         }
 
+        private ApPayGroup _PayGroup;
         public ApPayGroup PayGroup
         {
             get
@@ -92,6 +88,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             }
         }
 
+        private ApInvSource _InvSource;
         public ApInvSource InvSource
         {
             get
@@ -104,6 +101,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             }
         }
 
+        private ApVendor _Vendor;
         public ApVendor Vendor
         {
             get
@@ -116,68 +114,78 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             }
         }
         private string _GlCompany;
+        [Size(10)]
         public string GlCompany
         {
             get { return _GlCompany; }
             set { SetPropertyValue("GlCompany", ref _GlCompany, value); }
         }
         private string _GlAccount;
+        [Size(10)]
         public string GlAccount
         {
             get { return _GlAccount; }
             set { SetPropertyValue("GlAccount", ref _GlAccount, value); }
         }
         private string _GlCostCentre;
+        [Size(10)]
         public string GlCostCentre
         {
             get { return _GlCostCentre; }
             set { SetPropertyValue("GlCostCentre", ref _GlCostCentre, value); }
         }
         private string _GlProduct;
+        [Size(10)]
         public string GlProduct
         {
             get { return _GlProduct; }
             set { SetPropertyValue("GlProduct", ref _GlProduct, value); }
         }
         private string _GlSalesChannel;
+        [Size(10)]
         public string GlSalesChannel
         {
             get { return _GlSalesChannel; }
             set { SetPropertyValue("GlSalesChannel", ref _GlSalesChannel, value); }
         }
         private string _GlCountry;
+        [Size(10)]
         public string GlCountry
         {
             get { return _GlCountry; }
             set { SetPropertyValue("GlCountry", ref _GlCountry, value); }
         }
         private string _GlIntercompany;
+        [Size(10)]
         public string GlIntercompany
         {
             get { return _GlIntercompany; }
             set { SetPropertyValue("GlIntercompany", ref _GlIntercompany, value); }
         }
         private string _GlProject;
+        [Size(10)]
         public string GlProject
         {
             get { return _GlProject; }
             set { SetPropertyValue("GlProject", ref _GlProject, value); }
         }
         private string _GlLocation;
+        [Size(10)]
         public string GlLocation
         {
             get { return _GlLocation; }
             set { SetPropertyValue("GlLocation", ref _GlLocation, value); }
         }
-        [ModelDefault("DisplayFormat", "f0")]
-        [ModelDefault("AllowEdit", "false")]
+
         private int _PoNum;
+        [ModelDefault("DisplayFormat", "f0")]
         public int PoNum
         {
             get { return _PoNum; }
             set { SetPropertyValue("PoNum", ref _PoNum, value); }
         }
         private string _InvoiceNum;
+        [Size(255)]
         public string InvoiceNum
         {
             get { return _InvoiceNum; }
@@ -199,15 +207,16 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             get { return _PaymentAmountAud; }
             set { SetPropertyValue("PaymentAmountAud", ref _PaymentAmountAud, value); }
         }
-        [ModelDefault("DisplayFormat", "f0")]
-        [ModelDefault("AllowEdit", "false")]
+        
         private int _PaymentNumber;
+        [ModelDefault("DisplayFormat", "f0")]
         public int PaymentNumber
         {
             get { return _PaymentNumber; }
             set { SetPropertyValue("PaymentNumber", ref _PaymentNumber, value); }
         }
         private string _PaymentBatchName;
+        [Size(50)]
         public string PaymentBatchName
         {
             get { return _PaymentBatchName; }
@@ -227,8 +236,9 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             get { return _PaymentCreationDate; }
             set { SetPropertyValue("PaymentCreationDate", ref _PaymentCreationDate, value); }
         }
-        [Size(1000)]
+        
         private string _InvoiceLineDesc;
+        [Size(1000)]
         public string InvoiceLineDesc
         {
             get { return _InvoiceLineDesc; }
@@ -250,14 +260,20 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             get { return _DistnLineGstFx; }
             set { SetPropertyValue("DistnLineGstFx", ref _DistnLineGstFx, value); }
         }
+
+        private Account _Account;
         public Account Account
         {
             get 
             {
-                if (BankAccount == null) return null;
-                return BankAccount.Account; 
+                return _Account;
+            }
+            set
+            {
+                SetPropertyValue("Account", ref _Account, value);
             }
         }
+
         private Activity _Activity;
         public Activity Activity
         {
@@ -271,6 +287,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             set { SetPropertyValue("Counterparty", ref _Counterparty, value); }
         }
         private string _SummaryDescription;
+        [Size(255)]
         public string SummaryDescription
         {
             get { return _SummaryDescription; }
@@ -290,6 +307,146 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             get { return _InvoiceDueDate; }
             set { SetPropertyValue("InvoiceDueDate", ref _InvoiceDueDate, value); }
         }
-       
+
+        private DateTime _InvoiceCreationDate;
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        public DateTime InvoiceCreationDate
+        {
+            get
+            {
+                return _InvoiceCreationDate;
+            }
+            set
+            {
+                SetPropertyValue("InvoiceCreationDate", ref _InvoiceCreationDate, value);
+            }
+        }
+
+        private string _CapexOpex;
+        [Size(50)]
+        public string CapexOpex
+        {
+            get
+            {
+                return _CapexOpex;
+            }
+            set
+            {
+                SetPropertyValue("CapexOpex", ref _CapexOpex, value);
+            }
+        }
+
+        [Size(50)]
+        private string _OrgName;
+        public string OrgName
+        {
+            get
+            {
+                return _OrgName;
+            }
+            set
+            {
+                SetPropertyValue("OrgName", ref _OrgName, value);
+            }
+        }
+
+        private string _LineType;
+        [Size(50)]
+        public string LineType
+        {
+            get
+            {
+                return _LineType;
+            }
+            set
+            {
+                SetPropertyValue("LineType", ref _LineType, value);
+            }
+        }
+
+        private string _TaxCode;
+        [Size(10)]
+        public string TaxCode
+        {
+            get
+            {
+                return _TaxCode;
+            }
+            set
+            {
+                SetPropertyValue("TaxCode", ref _TaxCode, value);
+            }
+        }
+
+        private DateTime _InvoiceDate;
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        public DateTime InvoiceDate
+        {
+            get
+            {
+                return _InvoiceDate;
+            }
+            set
+            {
+                SetPropertyValue("InvoiceDate", ref _InvoiceDate, value);
+            }
+        }
+
+        private string _ExpenditureType;
+        [Size(255)]
+        public string ExpenditureType
+        {
+            get
+            {
+                return _ExpenditureType;
+            }
+            set
+            {
+                SetPropertyValue("ExpenditureType", ref _ExpenditureType, value);
+            }
+        }
+
+        private int _ProjectNumber;
+        [ModelDefault("DisplayFormat", "f0")]
+        public int ProjectNumber
+        {
+            get
+            {
+                return _ProjectNumber;
+            }
+            set
+            {
+                SetPropertyValue("ProjectNumber", ref _ProjectNumber, value);
+            }
+        }
+
+        private int _InvoiceId;
+        [ModelDefault("DisplayFormat", "f0")]
+        public int InvoiceId
+        {
+            get
+            {
+                return _InvoiceId;
+            }
+            set
+            {
+                SetPropertyValue("InvoiceId", ref _InvoiceId, value);
+            }
+        }
+
+        private int _DistributionLineNumber;
+        public int DistributionLineNumber
+        {
+            get
+            {
+                return _DistributionLineNumber;
+            }
+            set
+            {
+                SetPropertyValue("DistributionLineNumber", ref _DistributionLineNumber, value);
+            }
+        }
     }
 }

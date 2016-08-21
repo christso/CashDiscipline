@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SmartFormat;
 
 namespace CashDiscipline.Module.Logic.Cash
 {
@@ -10,12 +11,12 @@ namespace CashDiscipline.Module.Logic.Cash
         {
             get
             {
-                return
+                return Smart.Format(
 @"-- CashFlowsToFix
 
-IF OBJECT_ID('temp_CashFlowsToFix') IS NOT NULL DROP TABLE temp_CashFlowsToFix;
+IF OBJECT_ID('{tfixee}') IS NOT NULL DROP TABLE {tfixee};
 
-SELECT cf.* INTO temp_CashFlowsToFix
+SELECT cf.* INTO {tfixee}
 FROM CashFlow cf
 LEFT JOIN CashForecastFixTag tag ON tag.Oid = cf.Fix
 LEFT JOIN CashFlow fixer ON fixer.Oid = cf.Oid
@@ -30,20 +31,22 @@ WHERE
 
 -- FixeeFixer
 
-IF OBJECT_ID('temp_FixeeFixer') IS NOT NULL DROP TABLE temp_FixeeFixer;
+IF OBJECT_ID('{tfixeefixer}') IS NOT NULL DROP TABLE {tfixeefixer};
 
 SELECT 
 	fixee.Oid AS Fixee,
 	(
 	SELECT TOP 1 fixer.Oid
-	FROM temp_CashFlowsToFix fixer
+	FROM {tfixee} fixer
 	WHERE fixee.TranDate BETWEEN fixer.FixFromDate AND fixer.FixToDate
 	) AS Fixer
-INTO temp_FixeeFixer
-FROM temp_CashFlowsToFix fixee;
-";
+INTO {tfixeefixer}
+FROM {tfixee} fixee;",
+new {
+    tfixee = "#TmpCashFlowsToFix",
+    tfixeefixer = "#TmpFixeeFixer"
+});
             }
         }
-        
     }
 }

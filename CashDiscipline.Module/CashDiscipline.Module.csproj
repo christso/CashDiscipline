@@ -213,6 +213,7 @@
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
     <Compile Include="BusinessObjects\BaseObjectHelper.cs" />
@@ -220,7 +221,13 @@
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\ActionOwner.cs" />
     <Compile Include="CashDisciplineHelpers.cs" />
+    <Compile Include="Controllers\AboutInfoWindowController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\ImportApPmtDistnParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Cash\ImportBankStmtParamViewController.cs">
@@ -232,7 +239,12 @@
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\ImportViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Interfaces\IMapping.cs" />
+    <Compile Include="Logic\Cash\ApPmtDistnImporter.cs" />
+    <Compile Include="Logic\Cash\ApPmtDistnMapper.cs" />
     <Compile Include="Logic\Cash\BankStmtImporter.cs" />
     <Compile Include="Logic\Cash\BankStmtMapper.cs" />
     <Compile Include="Logic\Cash\BankStmtToCashFlowAlgorithm.cs" />
@@ -423,6 +435,10 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="UnusableNodes1.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="Scripts\CashDisc-SQL-Install.sql" />
     <None Include="UnusableNodes.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>

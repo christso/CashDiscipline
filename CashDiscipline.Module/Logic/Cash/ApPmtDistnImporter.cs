@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace CashDiscipline.Module.Logic.Cash
 {
-    public class BankStmtImporter
+    public class ApPmtDistnImporter
     {
         private const string SqlConnectionString = Constants.SqlConnectionString;
         private const string catalogName = Constants.SqlDatabase;
         private const string ssisFolderName = Constants.SsisFolderName;
-        private const string pkgName = "BankStmt.dtsx";
+        private const string pkgName = "ApPmtDistn.dtsx";
 
-        public BankStmtImporter()
+        public ApPmtDistnImporter()
         {
             SSISMessagesList = new List<string>();
         }
@@ -25,7 +25,7 @@ namespace CashDiscipline.Module.Logic.Cash
 
         public List<string> SSISMessagesList;
 
-        public void Execute(ImportBankStmtParam paramObj)
+        public void Execute(ImportApPmtDistnParam paramObj)
         {
             SSISMessagesList.Clear();
 
@@ -40,21 +40,14 @@ namespace CashDiscipline.Module.Logic.Cash
             executionParameter.Add(new PackageInfo.ExecutionValueParameterSet { ObjectType = 50, ParameterName = "SYNCHRONIZED", ParameterValue = 1 });
 
             // Modify package parameter
-            ssisPackage.Parameters["AnzSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.AnzFilePath ?? "");
-            ssisPackage.Parameters["AnzDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.AnzEnabled);
-            ssisPackage.Parameters["WbcSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.WbcFilePath ?? "");
-            ssisPackage.Parameters["WbcDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.WbcEnabled);
-            ssisPackage.Parameters["CbaOpSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.CbaOpFilePath ?? "");
-            ssisPackage.Parameters["CbaOpDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.CbaOpEnabled);
-            ssisPackage.Parameters["CbaBosSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.CbaBosFilePath ?? "");
-            ssisPackage.Parameters["CbaBosDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.CbaBosEnabled);
+            ssisPackage.Parameters["SourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.FilePath ?? "");
             ssisPackage.Alter();
 
             // Get the identifier of the execution to get the log
             long executionIdentifier = ssisPackage.Execute(false, null, executionParameter);
 
             // Loop through the log and add the messages to the listbox
-            foreach (OperationMessage message in ssisServer.Catalogs["SSISDB"].Executions[executionIdentifier].Messages)
+            foreach (OperationMessage message in ssisServer.Catalogs[Constants.SsisCatalog].Executions[executionIdentifier].Messages)
             {
                 SSISMessagesList.Add(message.MessageType.ToString() + ": " + message.Message);
             }

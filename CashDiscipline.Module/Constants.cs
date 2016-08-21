@@ -40,6 +40,7 @@ namespace CashDiscipline.Module
         public const string SqlConnectionString = @"Data Source=FINSERV01;Initial Catalog=CashDiscipline;Integrated Security=SSPI;";
         public const string SqlDatabase = "CashDiscipline";
         public const string SsisFolderName = "CashFlow";
+        public const string SsisCatalog = "SSISDB";
 
         // Resources
         public const string CashDiscSqlInstallScriptPath = @"CashDiscipline.Module.Scripts.CashDisc-SQL-Install.sql";

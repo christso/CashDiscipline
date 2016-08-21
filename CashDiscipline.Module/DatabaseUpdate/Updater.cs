@@ -24,6 +24,7 @@ namespace CashDiscipline.Module.DatabaseUpdate
         public Updater(IObjectSpace objectSpace, Version currentDBVersion)
             : base(objectSpace, currentDBVersion)
         {
+
         }
 
         public override void UpdateDatabaseBeforeUpdateSchema()

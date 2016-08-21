@@ -83,7 +83,11 @@
       </Filters>
     </ListView>
     <ListView Id="Activity_ListView" AllowEdit="True" />
-    <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server" />
+    <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server">
+      <Columns>
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+      </Columns>
+    </ListView>
     <DetailView Id="BankStmt_DetailView" AllowEdit="True" AllowNew="True" AllowDelete="True" ImageName="">
       <Items>
         <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />

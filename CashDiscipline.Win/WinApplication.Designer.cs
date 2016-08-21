@@ -48,6 +48,8 @@ namespace CashDiscipline.Win
             this.importModule1 = new Xafology.ExpressApp.Xpo.Import.ImportModule();
             this.batchDeleteWinModule1 = new Xafology.ExpressApp.BatchDelete.Win.BatchDeleteWinModule();
             this.pasteWinModule1 = new Xafology.ExpressApp.Paste.Win.PasteWinModule();
+            this.pasteModule1 = new Xafology.ExpressApp.Paste.PasteModule();
+            this.scriptRecorderWindowsFormsModule2 = new DevExpress.ExpressApp.ScriptRecorder.Win.ScriptRecorderWindowsFormsModule();
             ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
             // 
             // sqlConnection1
@@ -60,7 +62,6 @@ namespace CashDiscipline.Win
             // 
             this.validationModule1.AllowValidationDetailsAccess = true;
             this.validationModule1.IgnoreWarningAndInformationRules = false;
-
             // 
             // CashDisciplineWindowsFormsApplication
             // 
@@ -76,6 +77,7 @@ namespace CashDiscipline.Win
             this.Modules.Add(this.xpoModule1);
             this.Modules.Add(this.layoutModule1);
             this.Modules.Add(this.importModule1);
+            this.Modules.Add(this.pasteModule1);
             this.Modules.Add(this.module3);
             this.Modules.Add(this.scriptRecorderModuleBase1);
             this.Modules.Add(this.fileAttachmentsWindowsFormsModule1);
@@ -83,7 +85,7 @@ namespace CashDiscipline.Win
             this.Modules.Add(this.XafologySystemWindowsFormsModule1);
             this.Modules.Add(this.batchDeleteWinModule1);
             this.Modules.Add(this.pasteWinModule1);
-            this.Modules.Add(new Xafology.ExpressApp.Paste.PasteModule());
+            this.Modules.Add(this.scriptRecorderWindowsFormsModule2);
             this.Modules.Add(this.module4);
             this.DatabaseVersionMismatch += new System.EventHandler<DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs>(this.CashDisciplineWindowsFormsApplication_DatabaseVersionMismatch);
             this.CustomizeLanguagesList += new System.EventHandler<DevExpress.ExpressApp.CustomizeLanguagesListEventArgs>(this.CashDisciplineWindowsFormsApplication_CustomizeLanguagesList);
@@ -113,5 +115,7 @@ namespace CashDiscipline.Win
         private Xafology.ExpressApp.Xpo.Import.ImportModule importModule1;
         private Xafology.ExpressApp.BatchDelete.Win.BatchDeleteWinModule batchDeleteWinModule1;
         private Xafology.ExpressApp.Paste.Win.PasteWinModule pasteWinModule1;
+        private Xafology.ExpressApp.Paste.PasteModule pasteModule1;
+        private DevExpress.ExpressApp.ScriptRecorder.Win.ScriptRecorderWindowsFormsModule scriptRecorderWindowsFormsModule2;
     }
 }

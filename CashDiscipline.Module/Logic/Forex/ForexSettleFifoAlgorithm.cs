@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlTypes;
+using SmartFormat;
 
 /* Parameters in SQL
 DECLARE @Snapshot uniqueidentifier = (SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
@@ -49,7 +50,7 @@ namespace CashDiscipline.Module.Logic.Forex
         {
             get
             {
-                return
+                return Smart.Format(
 @"-- Pre-validation
 
 DECLARE @IsValid int = 1- COALESCE (
@@ -68,10 +69,10 @@ BEGIN
 
 -- FifoCashFlow
 
-IF OBJECT_ID('temp_FifoCashFlow') IS NOT NULL DROP TABLE temp_FifoCashFlow;
+IF OBJECT_ID('{tcf}') IS NOT NULL DROP TABLE {tcf};
 
 SELECT *
-INTO temp_FifoCashFlow
+INTO {tcf}
 FROM
 (
 SELECT
@@ -113,17 +114,17 @@ UPDATE cf1 SET
 IoBalance =
 (
 	SELECT SUM(cf2.Amount)
-	FROM temp_FifoCashFlow cf2
+	FROM {tcf} cf2
 	WHERE 
 		cf2.RowId <= cf1.RowId
 		AND cf2.Account = cf1.Account
 		AND cf2.ForexSettleType = cf1.ForexSettleType
 )
-FROM temp_FifoCashFlow cf1
+FROM {tcf} cf1
 
 -- InflowOutflow
 
-IF OBJECT_ID('temp_InflowOutflow') IS NOT NULL DROP TABLE temp_InflowOutflow;
+IF OBJECT_ID('{tio}') IS NOT NULL DROP TABLE {tio};
 
 SELECT
 	cfIn.Account,
@@ -151,7 +152,7 @@ SELECT
 		) T1
 	) AS LinkAmount
 
-INTO temp_InflowOutflow
+INTO {tio}
 FROM 
 (
 	SELECT
@@ -160,7 +161,7 @@ FROM
 		TranDate,
 		Amount,
 		IoBalance
-	FROM temp_FifoCashFlow WHERE ForexSettleType = @InSettleType
+	FROM {tcf} WHERE ForexSettleType = @InSettleType
 ) cfIn
 CROSS JOIN 
 (
@@ -170,7 +171,7 @@ CROSS JOIN
 		TranDate,
 		Amount,
 		IoBalance
-	FROM temp_FifoCashFlow WHERE ForexSettleType = @OutSettleType
+	FROM {tcf} WHERE ForexSettleType = @OutSettleType
 ) cfOut
 WHERE
 	-- In.Account = Out.Account
@@ -193,10 +194,11 @@ SELECT
 	Out_Oid,
 	LinkAmount,
 	GETDATE()
-FROM temp_InflowOutflow
+FROM {tio}
 
-END";
-            }
+END",
+new { tcf = "#TmpFifoCashFlow", tio = "#TmpInflowOutflow" });
+}
         }
 
         public string RevalueOutflowsCommandText

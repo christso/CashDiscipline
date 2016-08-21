@@ -11,16 +11,18 @@ using System.Collections.Generic;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
+using CashDiscipline.Module.Attributes;
 
 namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
-    //[ImageName("BO_Contact")]
-    //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
-    //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
-    //[Persistent("DatabaseTableName")]
-    // Specify more UI options using a declarative approach (http://documentation.devexpress.com/#Xaf/CustomDocument2701).
+    [ModelDefault("IsCloneable", "True")]
+    [ModelDefault("IsFooterVisible", "True")]
+    [ModelDefault("ImageName", "BO_List")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [AutoColumnWidth(false)]
+    [NavigationItem("Cash Setup")]
     public class ApPayGroup : BaseObject
-    { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
+    { 
         public ApPayGroup(Session session)
             : base(session)
         {

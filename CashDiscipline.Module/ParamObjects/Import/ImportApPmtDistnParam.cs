@@ -1,4 +1,7 @@
-﻿using DevExpress.Persistent.Base;
+﻿using CashDiscipline.Module.BusinessObjects;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Model;
+using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 using System;
@@ -10,51 +13,33 @@ using Xafology.ExpressApp.SystemModule;
 
 namespace CashDiscipline.Module.ParamObjects.Import
 {
-    [NonPersistent]
     [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
-    [FileAttachment("File")]
-    public class ImportApPmtDistnParam
+    [ModelDefault("ImageName", "BO_List")]
+    [DefaultClassOptions]
+    public class ImportApPmtDistnParam : BaseObject
     {
-        public ImportApPmtDistnParam()
+        public ImportApPmtDistnParam(Session session) : base(session)
         {
-            _File = new OpenFileData();
+            session.LockingOption = LockingOption.None;
         }
-        private OpenFileData _File;
 
-        [DisplayName("Please upload a file")]
-        public OpenFileData File
+
+        private string _FilePath;
+        public string FilePath
         {
             get
             {
-                return _File;
+                return _FilePath;
             }
             set
             {
-                _File = value;
+                SetPropertyValue("FilePath", ref _FilePath, value);
             }
         }
 
-        [MemberDesignTimeVisibility(false)]
-        public string FileName
+        public static ImportApPmtDistnParam GetInstance(IObjectSpace objectSpace)
         {
-            get
-            {
-                return _File.FileName;
-            }
-        }
-        [MemberDesignTimeVisibility(false)]
-        public int Size
-        {
-            get { return _File.Size; }
-        }
-
-        [MemberDesignTimeVisibility(false)]
-        public byte[] Content
-        {
-            get
-            {
-                return _File.Content;
-            }
+            return BaseObjectHelper.GetInstance<ImportApPmtDistnParam>(objectSpace);
         }
     }
 }

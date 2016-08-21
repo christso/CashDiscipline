@@ -1,9 +1,19 @@
-﻿using DevExpress.Data.Filtering;
+﻿using CashDiscipline.Module.Attributes;
+using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Model;
+using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 
 namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
+    [ModelDefault("IsCloneable", "True")]
+    [ModelDefault("IsFooterVisible", "True")]
+    [ModelDefault("ImageName", "BO_List")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [AutoColumnWidth(false)]
+    [NavigationItem("Cash Setup")]
     public class ApSource : BaseObject
     {
         public ApSource(Session session)

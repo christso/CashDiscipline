@@ -12,12 +12,18 @@ using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using CashDiscipline.Module.BusinessObjects.Cash;
+using CashDiscipline.Module.Attributes;
 
 namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
-
+    [ModelDefault("IsCloneable", "True")]
+    [ModelDefault("IsFooterVisible", "True")]
+    [ModelDefault("ImageName", "BO_List")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [AutoColumnWidth(false)]
+    [NavigationItem("Cash Setup")]
     public class ApBankAccount : BaseObject
-    { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
+    {
         public ApBankAccount(Session session)
             : base(session)
         {
@@ -25,7 +31,6 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
         }
         // Fields...
 

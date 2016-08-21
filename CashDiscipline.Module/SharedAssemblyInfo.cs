@@ -7,7 +7,9 @@ namespace CashDiscipline.Module
     public static class AssemblyInfo
     {
         public const string AssemblyCopyright = "Copyright (c) 2013-2016 DG2NTT Pty Ltd";
-        public const string Version = "15.2.7.150";
+        public const string MinorVersion = "158";
+        public const string PublishVersion = "15.2.7";
+        public const string Version = PublishVersion + "." + MinorVersion;
         public const string AssemblyCompany = "DG2NTT Pty Ltd";
     }
 }

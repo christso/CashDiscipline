@@ -19,6 +19,7 @@ using CashDiscipline.Module.BusinessObjects;
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Diagnostics;
+using SmartFormat;
 
 /* Parameters in SQL
 DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam)
@@ -254,6 +255,7 @@ AND [Snapshot] = @Snapshot;";
             get
             {
                 return
+                    Smart.Format(
                     @"-- Delete Existing Fixes
 
 UPDATE cf
@@ -309,10 +311,10 @@ WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM dbo.TmpCashFlowsToFix cf2)
 
 -- FixeeFixer
 
-IF OBJECT_ID('temp_FixeeFixer') IS NOT NULL DROP TABLE temp_FixeeFixer;
+IF OBJECT_ID('{tfixeefixer}') IS NOT NULL DROP TABLE {tfixeefixer};
 
 SELECT Fixee, Fixer
-INTO temp_FixeeFixer
+INTO {tfixeefixer}
 FROM
 (
 	SELECT
@@ -357,12 +359,12 @@ FROM
 WHERE RowNum = 1
 
 -- Insert Cash Flow Reversal
-IF OBJECT_ID('temp_FixReversal') IS NOT NULL DROP TABLE temp_FixReversal;
+IF OBJECT_ID('{tfixrev}') IS NOT NULL DROP TABLE {tfixrev};
 
 SELECT cf.*
-INTO temp_FixReversal
+INTO {tfixrev}
 FROM dbo.TmpCashFlowsToFix cf
-JOIN temp_FixeeFixer fixeeFixer ON fixeeFixer.Fixee = cf.Oid;
+JOIN {tfixeefixer} fixeeFixer ON fixeeFixer.Fixee = cf.Oid;
 
 UPDATE revFix SET 
 	Oid = NEWID(),
@@ -379,8 +381,8 @@ UPDATE revFix SET
 	Fixer = NULL,
 	Source = a1.FixSource,
 	[Status] = @ForecastStatus
-FROM temp_FixReversal revFix
-LEFT JOIN temp_FixeeFixer fixeeFixer
+FROM {tfixrev} revFix
+LEFT JOIN {tfixeefixer} fixeeFixer
 	ON fixeeFixer.Fixee = revFix.Oid
 LEFT JOIN dbo.TmpCashFlowsToFix fixer
 	ON fixer.Oid = fixeeFixer.Fixer
@@ -392,18 +394,18 @@ UPDATE CashFlow
 SET 
 Fixer = fixeeFixer.Fixer -- Link Fixee Cash Flow to Fixer
 FROM CashFlow cf
-	INNER JOIN temp_FixeeFixer fixeeFixer ON cf.Oid = fixeeFixer.Fixee
+	INNER JOIN {tfixeefixer} fixeeFixer ON cf.Oid = fixeeFixer.Fixee
 
 -- Reversal logic for AP Lockdown (i.e. payroll is excluded)
 
 	-- Fixee.RR: Reclass Fixee Fix into AP Pymt
 	-- (i.e. reverse the reversal so net reversal is zero because the total amount of AP is correct)
-IF OBJECT_ID('temp_FixRevReclass_Fixee') IS NOT NULL DROP TABLE temp_FixRevReclass_Fixee;
+IF OBJECT_ID('{trrfixee}') IS NOT NULL DROP TABLE {trrfixee};
 
 SELECT fixee.*
-INTO temp_FixRevReclass_Fixee
+INTO {trrfixee}
 FROM CashFlow fixee
-JOIN temp_FixReversal fr ON fr.ParentCashFlow = fixee.OID
+JOIN {tfixrev} fr ON fr.ParentCashFlow = fixee.OID
 JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
 JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
 WHERE fixee.TranDate <= @ApayableLockdownDate 
@@ -419,19 +421,19 @@ Activity = @ApReclassActivity,
 TranDate = fixer.TranDate,
 Source = a1.FixSource,
 [Status] = @ForecastStatus
-FROM temp_FixRevReclass_Fixee frr
+FROM {trrfixee} frr
 LEFT JOIN CashFlow fixer ON fixer.Oid = frr.Fixer
 LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 ;
 
 	-- Fixee.RRR: Restore Fixee Fix to future date
 
-IF OBJECT_ID('temp_FixResRevRec_Fixee') IS NOT NULL DROP TABLE temp_FixResRevRec_Fixee;
+IF OBJECT_ID('{trrrfixee}') IS NOT NULL DROP TABLE {trrrfixee};
 
 SELECT fixee.*
-INTO temp_FixResRevRec_Fixee
+INTO {trrrfixee}
 FROM CashFlow fixee
-JOIN temp_FixReversal fr ON fr.ParentCashFlow = fixee.OID
+JOIN {tfixrev} fr ON fr.ParentCashFlow = fixee.OID
 JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
 JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
 WHERE fixee.TranDate <= @ApayableLockdownDate 
@@ -450,17 +452,17 @@ FunctionalCcyAmt = -frrr.FunctionalCcyAmt,
 TranDate = @ApayableNextLockdownDate,
 Source = a1.FixSource,
 [Status] = @ForecastStatus
-FROM temp_FixResRevRec_Fixee frrr
+FROM {trrrfixee} frrr
 LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
 
 	-- Fixer.RR: Reverse Fixer Fix into AP Pymt
-IF OBJECT_ID('temp_FixRevReclass_Fixer') IS NOT NULL DROP TABLE temp_FixRevReclass_Fixer;
+IF OBJECT_ID('{trrfixer}') IS NOT NULL DROP TABLE {trrfixer};
 
 SELECT fixer.*
-INTO temp_FixRevReclass_Fixer
+INTO {trrfixer}
 FROM CashFlow fixee
-JOIN temp_FixReversal fr ON fr.ParentCashFlow = fixee.OID
+JOIN {tfixrev} fr ON fr.ParentCashFlow = fixee.OID
 JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
 JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
 WHERE fixee.TranDate <= @ApayableLockdownDate 
@@ -479,18 +481,18 @@ CounterCcyAmt = -frr.CounterCcyAmt,
 IsReclass = 1,
 Source = a1.FixSource,
 [Status] = @ForecastStatus
-FROM temp_FixRevReclass_Fixer frr
+FROM {trrfixer} frr
 LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 ;
 
 	-- Fixer.RRR: Restore Fixer Fix to future date
 
-IF OBJECT_ID('temp_FixResRevReclass_Fixer') IS NOT NULL DROP TABLE temp_FixResRevReclass_Fixer;
+IF OBJECT_ID('{trrrfixer}') IS NOT NULL DROP TABLE {trrrfixer};
 
 SELECT fixer.*
-INTO temp_FixResRevReclass_Fixer
+INTO {trrrfixer}
 FROM CashFlow fixee
-JOIN temp_FixReversal fr ON fr.ParentCashFlow = fixee.OID
+JOIN {tfixrev} fr ON fr.ParentCashFlow = fixee.OID
 JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
 JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
 WHERE fixee.TranDate <= @ApayableLockdownDate 
@@ -506,22 +508,22 @@ Activity = @ApReclassActivity,
 TranDate = @ApayableNextLockdownDate,
 Source = a1.FixSource,
 [Status] = @ForecastStatus
-FROM temp_FixResRevReclass_Fixer frrr
+FROM {trrrfixer} frrr
 LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
 
 -- Finalize
 
 INSERT INTO CashFlow
-SELECT * FROM temp_FixReversal
+SELECT * FROM {tfixrev}
 UNION ALL
-SELECT * FROM temp_FixRevReclass_Fixee
+SELECT * FROM {trrfixee}
 UNION ALL
-SELECT * FROM temp_FixRevReclass_Fixer
+SELECT * FROM {trrfixer}
 UNION ALL
-SELECT * FROM temp_FixResRevRec_Fixee
+SELECT * FROM {trrrfixee}
 UNION ALL
-SELECT * FROM temp_FixResRevReclass_Fixer
+SELECT * FROM {trrrfixer}
 
 -- SELECT
 /*
@@ -533,12 +535,20 @@ SELECT fixeeFixer.*,
 	fixeeAccount.FixAccount,
 	fixee.FixFromDate,
 	fixee.FixToDate
-FROM temp_FixeeFixer fixeeFixer
+FROM {tfixeefixer} fixeeFixer
 LEFT JOIN CashFlow fixee ON fixee.Oid = fixeeFixer.Fixee
 LEFT JOIN Account fixeeAccount ON fixee.Account = fixeeAccount.Oid
 
-SELECT * FROM temp_FixReversal
-*/";
+SELECT * FROM {tfixrev}
+*/",
+                   new {
+                       tfixeefixer = "#TmpFixeeFixer",
+                       trrrfixee = "#TmpFixResRevRec_Fixee",
+                       trrrfixer = "#TmpFixResRevReclass_Fixer",
+                       tfixrev = "#TmpFixReversal",
+                       trrfixee = "#TmpFixRevReclass_Fixee",
+                       trrfixer = "#TmpFixRevReclass_Fixer"
+                   });
             }
         }
 
