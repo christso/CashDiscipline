@@ -18,16 +18,12 @@ namespace CashDiscipline.Module.Logic.Cash
         private readonly XPObjectSpace objSpace;
         private Mapper<BankStmtMapping> mapper;
 
-        private const string MapCommandTextListSqlTemplate =
-            MapCommandTextListSqlTemplateCommon + @"
-AND BankStmt.TranDate BETWEEN @FromDate AND @ToDate";
-
         private const string MapCommandTextListByObjectSqlTemplate =
             MapCommandTextListSqlTemplateCommon + @"
-AND BankStmt.[Oid] IN ({1})";
+AND BankStmt.[Oid] IN ({oids})";
 
         private const string MapCommandTextListSqlTemplateCommon = @"UPDATE BankStmt SET
-{0}
+{setpairs}
 FROM BankStmt
 LEFT JOIN Activity ON Activity.Oid = BankStmt.Activity
 LEFT JOIN Account ON Account.Oid = BankStmt.Account

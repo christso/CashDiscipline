@@ -23,10 +23,10 @@ namespace CashDiscipline.Module.Logic.Cash
 
         private const string MapCommandTextListByObjectSqlTemplate =
             MapCommandTextListSqlTemplateCommon + @"
-AND ApPmtDistn.[Oid] IN ({1})";
+AND ApPmtDistn.[Oid] IN ({oids})";
 
         private const string MapCommandTextListSqlTemplateCommon = @"UPDATE ApPmtDistn SET
-{0}
+{setpairs}
 FROM 
 (
 	SELECT *,

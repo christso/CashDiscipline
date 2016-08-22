@@ -141,8 +141,8 @@ namespace CashDiscipline.Module.Logic.SqlMap
 
                 if (setTextList.Count > 0)
                 {
-                    mapTextList.Add(string.Format(sqlTemplate,
-                        setText));
+                    mapTextList.Add(Smart.Format(sqlTemplate,
+                        new { setpairs = setText }));
                 }
             }
             return mapTextList;
@@ -172,8 +172,11 @@ namespace CashDiscipline.Module.Logic.SqlMap
 
                 if (setTextList.Count > 0)
                 {
-                    mapTextList.Add(string.Format(MapCommandTextListByObjectSqlTemplate,
-                        setText, string.Join(",", oids)));
+                    mapTextList.Add(Smart.Format(MapCommandTextListByObjectSqlTemplate,
+                        new {
+                            setpairs = setText,
+                            oids = string.Join(",", oids)
+                        }));
                 }
             }
             return mapTextList;
