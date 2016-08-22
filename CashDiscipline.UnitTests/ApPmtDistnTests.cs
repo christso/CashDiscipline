@@ -50,6 +50,12 @@ namespace CashDiscipline.UnitTests
 
             string vendorName = "Tech Mahindra Business Services Limited";
 
+            var cp1 = ObjectSpace.CreateObject<Counterparty>();
+            cp1.Name = vendorName;
+
+            var cp2 = ObjectSpace.CreateObject<Counterparty>();
+            cp2.Name = "AGGREGATE";
+
             var pmt = ObjectSpace.CreateObject<ApPmtDistn>();
             pmt.PaymentDate = new DateTime(2017, 07, 15);
             pmt.Vendor = ObjectSpace.CreateObject<ApVendor>();
@@ -64,12 +70,14 @@ namespace CashDiscipline.UnitTests
 
             var map2 = ObjectSpace.CreateObject<ApPmtDistnMapping>();
             map2.CriteriaExpression = "ELSE";
-            map2.CounterpartyExpr = "AGGREGATE";
+            map2.Counterparty = cp2;
+
+            ObjectSpace.CommitChanges();
 
             #endregion
 
             #region Act
-
+            
             var mapper = new ApPmtDistnMapper(ObjectSpace);
             mapper.Process(pmt);
 
@@ -79,6 +87,7 @@ namespace CashDiscipline.UnitTests
 
             #region Assert
 
+            ObjectSpace.Refresh();
             pmt = ObjectSpace.FindObject<ApPmtDistn>(null);
             Assert.NotNull(pmt.Counterparty);
             Assert.AreEqual(vendorName, pmt.Counterparty.Name);

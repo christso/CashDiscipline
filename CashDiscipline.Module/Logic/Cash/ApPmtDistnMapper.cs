@@ -87,6 +87,9 @@ WHERE ApPmtDistn.GCRecord IS NULL";
 
         public void Process(IXPObject obj)
         {
+            var clauses = CreateSqlParameters();
+            var sqlParams = CreateParameters(clauses);
+            mapper.SqlParameters = sqlParams;
             mapper.Process(obj);
         }
 
@@ -107,7 +110,15 @@ WHERE ApPmtDistn.GCRecord IS NULL";
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
-            commandText = mapper.GetMapSetCommandText("Counterparty", m => string.Format("'{0}'", m.Counterparty.Oid), m => m.Counterparty != null, step,
+            commandText = mapper.GetMapSetCommandText("Counterparty", 
+                m => {
+                    if (m.Counterparty != null)
+                        return string.Format("'{0}'", m.Counterparty.Oid);
+                    else
+                        return string.Format("(SELECT c.Oid FROM Counterparty c WHERE c.Name LIKE {0})", m.CounterpartyExpr);
+                },
+                m => m.Counterparty != null || !string.IsNullOrWhiteSpace(m.CounterpartyExpr), 
+                step,
                 "WHEN ApPmtDistn.Counterparty IS NOT NULL AND ApPmtDistn.Counterparty <> @UndefCounterpartyOid THEN ApPmtDistn.Counterparty");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
