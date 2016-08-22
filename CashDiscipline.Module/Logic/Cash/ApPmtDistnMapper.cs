@@ -27,7 +27,17 @@ AND ApPmtDistn.[Oid] IN ({1})";
 
         private const string MapCommandTextListSqlTemplateCommon = @"UPDATE ApPmtDistn SET
 {0}
-FROM ApPmtDistn
+FROM 
+(
+	SELECT *,
+	(
+		SELECT SUM(a2.PaymentAmountAud)
+		FROM ApPmtDistn a2
+		WHERE a2.PaymentDate = ApPmtDistn.PaymentDate
+			AND a2.Vendor = ApPmtDistn.Vendor
+	) AS VendorPaymentAmountAud
+	FROM ApPmtDistn
+) ApPmtDistn
 LEFT JOIN ApSource Source ON Source.Oid = ApPmtDistn.Source
 LEFT JOIN ApBankAccount BankAccount ON BankAccount.Oid =  ApPmtDistn.BankAccount
 LEFT JOIN ApPayGroup PayGroup ON PayGroup.Oid =  ApPmtDistn.PayGroup

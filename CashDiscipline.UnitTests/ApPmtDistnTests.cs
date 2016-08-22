@@ -72,6 +72,10 @@ namespace CashDiscipline.UnitTests
             map2.CriteriaExpression = "ELSE";
             map2.Counterparty = cp2;
 
+            var map3 = ObjectSpace.CreateObject<ApPmtDistnMapping>();
+            map3.CriteriaExpression = "VendorPaymentAmountAud > 50000";
+            map3.CounterpartyExpr = "Vendor.Name";
+
             ObjectSpace.CommitChanges();
 
             #endregion
