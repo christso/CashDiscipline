@@ -72,6 +72,10 @@
     <Reference Include="Xafology.ExpressApp">
       <HintPath>..\assemblies\Xafology.ExpressApp.dll</HintPath>
     </Reference>
+    <Reference Include="Xafology.ExpressApp.BatchDelete, Version=16.1.4.0, Culture=neutral, PublicKeyToken=63251deee19baa62, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\assemblies\Xafology.ExpressApp.BatchDelete.dll</HintPath>
+    </Reference>
     <Reference Include="Xafology.ExpressApp.Xpo">
       <HintPath>..\assemblies\Xafology.ExpressApp.Xpo.dll</HintPath>
     </Reference>
@@ -94,6 +98,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApPmtDistnTests.cs" />
     <Compile Include="BankStmtTests.cs" />
     <Compile Include="CashFlowTests.cs" />
     <Compile Include="Constants.cs" />

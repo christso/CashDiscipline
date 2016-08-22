@@ -36,7 +36,6 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            // Place here your initialization code (check out http://documentation.devexpress.com/#Xaf/CustomDocument2834 for more details).
         }
 
         private DateTime _PaymentDate;

@@ -117,5 +117,18 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
                 SetPropertyValue("Counterparty", ref _Counterparty, value);
             }
         }
+
+        private string _CounterpartyExpr;
+        public string CounterpartyExpr
+        {
+            get
+            {
+                return _CounterpartyExpr;
+            }
+            set
+            {
+                SetPropertyValue("CounterpartyExpr", ref _CounterpartyExpr, value);
+            }
+        }
     }
 }

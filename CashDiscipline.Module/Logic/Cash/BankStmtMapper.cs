@@ -39,7 +39,6 @@ WHERE BankStmt.GCRecord IS NULL";
             this.objSpace = objspace;
             this.mapper = new Mapper<BankStmtMapping>(objspace, "BankStmt", GetMapSetCommandTextList);
             mapper.MapCommandTextListByObjectSqlTemplate = MapCommandTextListByObjectSqlTemplate;
-            mapper.MapCommandTextListSqlTemplate = MapCommandTextListSqlTemplate;
         }
 
         public List<SqlDeclareClause> CreateSqlParameters()

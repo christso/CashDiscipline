@@ -1,8 +1,10 @@
 ﻿using CashDiscipline.Module.BusinessObjects.AccountsPayable;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Logic.SqlMap;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl;
+using DevExpress.Xpo;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xafology.ExpressApp.Xpo;
 
 namespace CashDiscipline.Module.Logic.Cash
 {
@@ -17,10 +20,6 @@ namespace CashDiscipline.Module.Logic.Cash
     {
         private readonly XPObjectSpace objSpace;
         private Mapper<ApPmtDistnMapping> mapper;
-
-        private const string MapCommandTextListSqlTemplate =
-            MapCommandTextListSqlTemplateCommon + @"
-AND ApPmtDistn.PaymentDate BETWEEN @FromDate AND @ToDate";
 
         private const string MapCommandTextListByObjectSqlTemplate =
             MapCommandTextListSqlTemplateCommon + @"
@@ -45,7 +44,7 @@ WHERE ApPmtDistn.GCRecord IS NULL";
             this.objSpace = objspace;
             this.mapper = new Mapper<ApPmtDistnMapping>(objspace, "ApPmtDistn", GetMapSetCommandTextList);
             mapper.MapCommandTextListByObjectSqlTemplate = MapCommandTextListByObjectSqlTemplate;
-            mapper.MapCommandTextListSqlTemplate = MapCommandTextListSqlTemplate;
+            mapper.MapCommandTextListSqlTemplate = string.Empty;
         }
 
         public List<SqlDeclareClause> CreateSqlParameters()
@@ -73,7 +72,6 @@ WHERE ApPmtDistn.GCRecord IS NULL";
             return parameters;
         }
 
-
         public IList<ApPmtDistnMapping> RefreshMaps()
         {
             return mapper.RefreshMaps();
@@ -87,7 +85,18 @@ WHERE ApPmtDistn.GCRecord IS NULL";
             mapper.Process(objs);
         }
 
-        
+        public void Process(IXPObject obj)
+        {
+            mapper.Process(obj);
+        }
+
+        public void Process(CriteriaOperator criteria)
+        {
+            var clauses = CreateSqlParameters();
+            var sqlParams = CreateParameters(clauses);
+            mapper.SqlParameters = sqlParams;
+            mapper.Process(MapCommandTextListSqlTemplateCommon, criteria);
+        }
 
         public List<string> GetMapSetCommandTextList(int step)
         {

@@ -1,4 +1,5 @@
 ﻿using CashDiscipline.Module.Interfaces;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl;
 using System;
@@ -8,6 +9,9 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xafology.ExpressApp.Xpo;
+using SmartFormat;
+using DevExpress.Xpo;
 
 namespace CashDiscipline.Module.Logic.SqlMap
 {
@@ -50,6 +54,25 @@ namespace CashDiscipline.Module.Logic.SqlMap
 
         public List<SqlParameter> SqlParameters { get; set; }
 
+        public void Process(string sqlUpdate, CriteriaOperator criteria)
+        {
+            var sqlWhere = CriteriaToWhereClauseHelper.GetMsSqlWhere(XpoCriteriaFixer.Fix(criteria));
+            var sqlTemplate = sqlUpdate + " AND " + sqlWhere;
+
+            RefreshMaps();
+
+            var conn = (SqlConnection)objSpace.Session.Connection;
+            var command = conn.CreateCommand();
+            var commandTextList = GetMapCommandTextList(sqlTemplate);
+
+            foreach (string commandText in commandTextList)
+            {
+                command.CommandText = commandText;
+                command.Parameters.Clear();
+                ProcessCommand(command);
+            }
+        }
+
         public void Process(IEnumerable objs)
         {
             RefreshMaps();
@@ -68,27 +91,45 @@ namespace CashDiscipline.Module.Logic.SqlMap
             {
                 command.CommandText = commandText;
                 command.Parameters.Clear();
-                if (SqlParameters != null)
-                    command.Parameters.AddRange(SqlParameters.ToArray());
-                try
-                {
-                    command.ExecuteNonQuery();
-                }
-                catch (SqlException ex)
-                {
-                    throw new InvalidOperationException(ex.Message + "\r\nLine Number " + ex.LineNumber
-                        + ". \r\nSQL ---------\r\n" + command.CommandText, ex);
-                }
+                ProcessCommand(command);
             }
         }
 
+        public void Process(IXPObject obj)
+        {
+            var objs = new object[1];
+            objs[0] = obj;
+            Process(objs);
+        }
+
+        private void ProcessCommand(SqlCommand command)
+        {
+            if (SqlParameters != null)
+                command.Parameters.AddRange(SqlParameters.ToArray());
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new InvalidOperationException(ex.Message + "\r\nLine Number " + ex.LineNumber
+                    + ". \r\nSQL ---------\r\n" + command.CommandText, ex);
+            }
+        }
+
+        // used for mapping the object view
         // e.g. mapPropertyName = "FixActivity"; mapPropertyValue = "Handset Pchse"
         public List<string> GetMapCommandTextList()
         {
+            return GetMapCommandTextList(MapCommandTextListSqlTemplate);
+        }
+
+        private List<string> GetMapCommandTextList(string sqlTemplate)
+        {
             var steps = maps.GroupBy(m => new { ((IMapping)m).MapStep })
-                .OrderBy(g => g.Key.MapStep)
-                .Select(g => g.Key.MapStep)
-                .ToList<int>();
+                   .OrderBy(g => g.Key.MapStep)
+                   .Select(g => g.Key.MapStep)
+                   .ToList<int>();
 
             var mapTextList = new List<string>();
 
@@ -100,13 +141,14 @@ namespace CashDiscipline.Module.Logic.SqlMap
 
                 if (setTextList.Count > 0)
                 {
-                    mapTextList.Add(string.Format(MapCommandTextListSqlTemplate,
+                    mapTextList.Add(string.Format(sqlTemplate,
                         setText));
                 }
             }
             return mapTextList;
         }
 
+        // used for mapping individual objects
         public List<string> GetMapCommandTextListByItem(IEnumerable objs)
         {
             var oids = new List<string>();
@@ -136,7 +178,6 @@ namespace CashDiscipline.Module.Logic.SqlMap
             }
             return mapTextList;
         }
-
 
         public string GetMapSetCommandText(string mapPropertyName,
             Func<TMap, string> mapPropertyValue,

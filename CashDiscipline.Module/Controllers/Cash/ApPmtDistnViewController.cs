@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xafology.ExpressApp.BatchDelete;
+using Xafology.ExpressApp.Xpo;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -52,6 +53,7 @@ namespace CashDiscipline.Module.Controllers.Cash
                     MapSelected();
                     break;
                 case mapFilteredCaption:
+                    MapFiltered();
                     break;
                 case importCaption:
                     ShowImportForm(e.ShowViewParameters);
@@ -78,7 +80,13 @@ namespace CashDiscipline.Module.Controllers.Cash
         private void MapFiltered()
         {
             var mapper = new ApPmtDistnMapper((XPObjectSpace)ObjectSpace);
-            
+
+            var batchController = Frame.GetController<BatchDeleteListViewController>();
+            if (batchController != null)
+            {
+                var criteria = batchController.ActiveFilterCriteria;
+                mapper.Process(criteria);
+            }
         }
 
         protected override void OnActivated()

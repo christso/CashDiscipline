@@ -18,6 +18,7 @@ using CashDiscipline.UnitTests.TestObjects;
 using Xafology.ExpressApp.Xpo.Import.Parameters;
 using DevExpress.Data.Filtering;
 using CashDiscipline.Module.ParamObjects.Forex;
+using CashDiscipline.Module.BusinessObjects.AccountsPayable;
 
 namespace CashDiscipline.UnitTests
 {
@@ -67,6 +68,13 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(ForexSettleFifoParam));
             module.AdditionalExportedTypes.Add(typeof(DailyCashUpdateParam));
             module.AdditionalExportedTypes.Add(typeof(BankStmtMapping));
+            module.AdditionalExportedTypes.Add(typeof(ApPmtDistnMapping));
+            module.AdditionalExportedTypes.Add(typeof(ApBankAccount));
+            module.AdditionalExportedTypes.Add(typeof(ApInvSource));
+            module.AdditionalExportedTypes.Add(typeof(ApPayGroup));
+            module.AdditionalExportedTypes.Add(typeof(ApPmtDistn));
+            module.AdditionalExportedTypes.Add(typeof(ApSource));
+            module.AdditionalExportedTypes.Add(typeof(ApVendor));
         }
     }
 }
