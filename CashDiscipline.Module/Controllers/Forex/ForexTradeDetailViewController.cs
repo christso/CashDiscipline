@@ -2,6 +2,7 @@
 using Xafology.ExpressApp.Editors;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Editors;
+using CashDiscipline.Module.Logic.Forex;
 
 namespace CashDiscipline.Module.Controllers.Forex
 {
@@ -15,6 +16,7 @@ namespace CashDiscipline.Module.Controllers.Forex
         protected override void OnViewControlsCreated()
         {
             base.OnViewControlsCreated();
+
             var viewItems = View.GetItems<IActionPropertyEditor>();
             foreach (var viewItem in viewItems)
             {
@@ -27,6 +29,16 @@ namespace CashDiscipline.Module.Controllers.Forex
                     viewItem.ButtonClick += rateCalculator;
 
             }
+        }
+
+        protected override void OnActivated()
+        {
+            base.OnActivated();
+        }
+
+        protected override void OnDeactivated()
+        {
+            base.OnDeactivated();
         }
 
         #region Action Property Calculators

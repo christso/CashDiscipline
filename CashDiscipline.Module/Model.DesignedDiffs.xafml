@@ -47,12 +47,13 @@
       </Item>
       <Item Id="Forex" Index="5" IsNewNode="True">
         <Items IsNewNode="True">
-          <Item Id="Forex Rates" ViewId="ForexRate_ListView" IsNewNode="True" />
-          <Item Id="ForexCounterparty" ViewId="ForexCounterparty_ListView" Caption="Forex Counterparty" IsNewNode="True" />
-          <Item Id="ForexSettleLink" ViewId="ForexSettleLink_ListView" IsNewNode="True" />
+          <Item Id="ForexCounterparty" ViewId="ForexCounterparty_ListView" Caption="Forex Counterparty" Index="0" IsNewNode="True" />
+          <Item Id="Forex Rates" ViewId="ForexRate_ListView" Index="1" IsNewNode="True" />
+          <Item Id="ForexSettleLink" ViewId="ForexSettleLink_ListView" Index="2" IsNewNode="True" />
+          <Item Id="ForexTradeAmend" ViewId="ForexTradeAmend_ListView" Index="3" IsNewNode="True" />
+          <Item Id="ForexTrade" ViewId="ForexTrade_ListView" Caption="Forex Trades" Index="4" IsNewNode="True" />
+          <Item Id="ForexTradePredeliveries" ViewId="ForexTradeAmend_ListView" Caption="Predeliveries" Index="5" IsNewNode="True" />
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
-          <Item Id="ForexTrade" ViewId="ForexTrade_ListView" Caption="Forex Trades" IsNewNode="True" />
-          <Item Id="ForexTradePredeliveries" ViewId="ForexTradePredelivery_ListView" Caption="Predeliveries" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="System Internals" Index="7" Caption="System Internals" IsNewNode="True">
@@ -320,6 +321,28 @@
     </ListView>
     <DetailView Id="FinGenJournalParam_DetailView" AllowNew="False" AllowDelete="False" />
     <ListView Id="FinGenJournalParam_JournalGroupParams_ListView" AllowDelete="False" AllowNew="False" />
+    <DetailView Id="ForexTrade_DetailView">
+      <Items>
+        <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="ForexTrade">
+              <LayoutGroup Id="ForexTrade_col2">
+                <LayoutItem Id="Oid" ViewItem="Oid" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ForexTrade_ListView">
+      <Columns>
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="ConfDealNum" Index="1" />
+      </Columns>
+    </ListView>
     <DetailView Id="ImportForexRatesParam_DetailView">
       <Items>
         <StaticText Id="StatusMessage" IsNewNode="True" />

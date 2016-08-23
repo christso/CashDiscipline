@@ -306,8 +306,10 @@ namespace CashDiscipline.UnitTests
             decimal pdRate1 = 0.92M;
             decimal pdPrimaryCcyAmt1 = Math.Round(pdCounterCcyAmt1 / pdRate1, 2);
 
-            var ftLogic = new ForexTradeLogic(ObjectSpace);
-            var pdy1 = ftLogic.Predeliver(ft1, pdCounterCcyAmt1, pdValueDate1, pdRate1);
+            var newFt = ForexTradeLogic.Initialize(ft1);
+            newFt.CounterCcyAmt = pdCounterCcyAmt1;
+            newFt.ValueDate = pdValueDate1;
+            newFt.Rate = pdRate1;
 
             ObjectSpace.CommitChanges();
 
@@ -315,7 +317,7 @@ namespace CashDiscipline.UnitTests
             uploader.Process();
             ObjectSpace.Refresh();
             ft1 = ObjectSpace.GetObjectByKey<ForexTrade>(ft1.Oid);
-            pdy1 = ObjectSpace.GetObjectByKey<ForexTradePredelivery>(pdy1.Oid);
+            newFt = ObjectSpace.GetObjectByKey<ForexTrade>(newFt.Oid);
 
             #endregion
 
@@ -323,19 +325,19 @@ namespace CashDiscipline.UnitTests
 
             // Assert predelivery object values
 
-            Assert.AreEqual(ft1, pdy1.FromForexTrade);
-            Assert.AreEqual(pdCounterCcyAmt1, pdy1.ToForexTrade.CounterCcyAmt);
-            Assert.AreEqual(pdRate1, pdy1.ToForexTrade.Rate);
-            Assert.AreEqual(pdPrimaryCcyAmt1, pdy1.ToForexTrade.PrimaryCcyAmt);
-            Assert.AreEqual(pdValueDate1, pdy1.ToForexTrade.ValueDate);
-            Assert.AreEqual(-pdCounterCcyAmt1, pdy1.AmendForexTrade.CounterCcyAmt);
-            Assert.AreEqual(ft1.Rate, pdy1.AmendForexTrade.Rate);
-            Assert.AreEqual(Math.Round(-pdCounterCcyAmt1 / ft1.Rate, 2), pdy1.AmendForexTrade.PrimaryCcyAmt);
+            Assert.AreEqual(ft1, newFt.OrigTrade);
+            Assert.AreEqual(pdCounterCcyAmt1, newFt.CounterCcyAmt);
+            Assert.AreEqual(pdRate1, newFt.Rate);
+            Assert.AreEqual(pdPrimaryCcyAmt1, newFt.PrimaryCcyAmt);
+            Assert.AreEqual(pdValueDate1, newFt.ValueDate);
+            Assert.AreEqual(-pdCounterCcyAmt1, newFt.ReverseTrade.CounterCcyAmt);
+            Assert.AreEqual(ft1.Rate, newFt.ReverseTrade.Rate);
+            Assert.AreEqual(Math.Round(-pdCounterCcyAmt1 / ft1.Rate, 2), newFt.ReverseTrade.PrimaryCcyAmt);
 
             // Assert cashflow object values
             var cfs2 = ObjectSpace.GetObjects<CashFlow>();
-            var couCf2 = cfs2.FirstOrDefault(x => x == pdy1.ToForexTrade.CounterCashFlow);
-            var priCf2 = cfs2.FirstOrDefault(x => x == pdy1.ToForexTrade.PrimaryCashFlow);
+            var couCf2 = cfs2.FirstOrDefault(x => x == newFt.CounterCashFlow);
+            var priCf2 = cfs2.FirstOrDefault(x => x == newFt.PrimaryCashFlow);
 
             Assert.AreEqual(pdPrimaryCcyAmt1, couCf2.FunctionalCcyAmt);
             Assert.AreEqual(-pdPrimaryCcyAmt1, priCf2.FunctionalCcyAmt);

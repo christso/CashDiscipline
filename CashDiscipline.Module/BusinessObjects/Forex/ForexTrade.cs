@@ -1,6 +1,6 @@
 using CashDiscipline.Module.Attributes;
 using CashDiscipline.Module.BusinessObjects.Cash;
-
+using CashDiscipline.Module.Logic.Forex;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Xpo;
@@ -15,7 +15,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
 {
     [ModelDefault("ImageName", "BO_List")]
     [ModelDefault("IsCloneable", "True")]
-    [DefaultProperty("TradeId")]
+    [DefaultProperty("Oid")]
     [ModelDefault("IsFooterVisible", "True")]
     [AutoColumnWidth(false)]
     public class ForexTrade : BaseObject, ICalculateToggleObject
@@ -29,7 +29,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         {
             base.AfterConstruction();
             if (AppSettings.UserTriggersEnabled)
-                InitDefaultValues();
+                InitializeValues();
         }
 
         private string _ConfDealNum;
@@ -163,7 +163,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                         {
                             var toAmt = Math.Round(fromAmt / _Rate, 2);
                             obj.SetPropertyValue("PrimaryCcyAmt", ref obj._PrimaryCcyAmt, toAmt);
-                            //UpdateCashFlowForecast();
                         }
                     }
                 }
@@ -222,6 +221,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                 {
                     if (!IsLoading && !IsSaving && CalculateEnabled)
                     {
+                        ForexTradeLogic.UpdateReverseTrade(this);
                         UpdatePrimaryCcyAmt();
                     }
                 }
@@ -240,7 +240,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             {
                 if (SetPropertyValue("TradeDate", ref _TradeDate, value))
                 {
-                    if (!IsLoading && !IsSaving && CalculateEnabled)
+                    if (!IsLoading && !IsSaving && CalculateEnabled && OrigTrade == null)
                     {
                         _OrigTradeDate = value;
                         OnChanged("OrigTradeDate");
@@ -476,30 +476,16 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
         }
 
-        [Association("FromForexTrade-ForexTradePredelivery")]
-        public XPCollection<ForexTradePredelivery> FromForexTradePredelivery
+        private ForexTrade _ReverseTrade;
+        public ForexTrade ReverseTrade
         {
             get
             {
-                return GetCollection<ForexTradePredelivery>("FromForexTradePredelivery");
+                return _ReverseTrade;
             }
-        }
-
-        [Association("ToForexTrade-ForexTradePredelivery")]
-        public XPCollection<ForexTradePredelivery> ToForexTradePredelivery
-        {
-            get
+            set
             {
-                return GetCollection<ForexTradePredelivery>("ToForexTradePredelivery");
-            }
-        }
-
-        [Association("AmendForexTrade-ForexTradePredelivery")]
-        public XPCollection<ForexTradePredelivery> AmendForexTradePredelivery
-        {
-            get
-            {
-                return GetCollection<ForexTradePredelivery>("AmendForexTradePredelivery");
+                SetPropertyValue("ReverseTrade", ref _ReverseTrade, value);
             }
         }
 
@@ -630,7 +616,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         public void UpdateRate()
         {
             var fromAmt = CounterCcyAmt;
-            var session = Session;
             var fromCcy = CounterCcy;
 
             if (this.PrimaryCcyAmt != 0.00M && this.CounterCcyAmt != 0.00M)
@@ -639,7 +624,8 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             else if (this.ValueDate != default(DateTime))
             {
-                var ratethis = GetForexRateObject(session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, this.ValueDate);
+                var toCcy = SetOfBooks.GetInstance(fromCcy.Session).FunctionalCurrency;
+                var ratethis = GetForexRateObject(fromCcy, toCcy, this.ValueDate);
                 if (ratethis != null)
                 {
                     var value = Math.Round(fromAmt * (decimal)ratethis.ConversionRate, 2);
@@ -673,7 +659,11 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
 
         public void CalculatePrimaryCcyAmt(Currency fromCcy, decimal fromAmt)
         {
-            var rateObj = GetForexRateObject(Session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, ValueDate);
+            var toCcy = SetOfBooks.GetInstance(fromCcy.Session).FunctionalCurrency;
+            if (fromCcy.Session != toCcy.Session)
+                throw new InvalidOperationException("Both currencies must be in the same session.");
+
+            var rateObj = GetForexRateObject(fromCcy, toCcy, ValueDate);
             if (rateObj != null)
             {
                 var usedRate = 1 / rateObj.ConversionRate;
@@ -703,12 +693,15 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             {
                 CalculateCounterCcyAmt(fromCcy, fromAmt);
             }
-            //UpdateCashFlowForecast();
         }
 
         public void CalculateCounterCcyAmt(Currency fromCcy, decimal fromAmt)
         {
-            var rateObj = GetForexRateObject(Session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, ValueDate);
+            var toCcy = SetOfBooks.GetInstance(fromCcy.Session).FunctionalCurrency;
+            if (fromCcy.Session != toCcy.Session)
+                throw new InvalidOperationException("Both currencies must be in the same session.");
+
+            var rateObj = GetForexRateObject(fromCcy, toCcy, ValueDate);
             if (rateObj != null)
             {
                 var usedRate = rateObj.ConversionRate;
@@ -717,20 +710,20 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
         }
 
-        private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
+        private static ForexRate GetForexRateObject(Currency fromCcy, Currency toCcy, DateTime convDate)
         {
-            return ForexRate.GetForexRateObject(session, fromCcy, toCcy, convDate);
+            return ForexRate.GetForexRateObject(fromCcy, toCcy, convDate);
         }
 
         #endregion
 
-        public void InitDefaultValues()
+        public void InitializeValues()
         {
             OrigTrade = this;
-            CreationDate = DateTime.Now;
-            TradeDate = DateTime.Now;
-            OrigTradeDate = TradeDate;
-            ValueDate = DateTime.Now.Date;
+            CreationDate = (DateTime)Session.ExecuteScalar("SELECT GETDATE()");
+            TradeDate = CreationDate;
+            OrigTradeDate = CreationDate;
+            ValueDate = CreationDate.Date;
             PrimarySettleDate = ValueDate;
             CounterSettleDate = ValueDate;
 

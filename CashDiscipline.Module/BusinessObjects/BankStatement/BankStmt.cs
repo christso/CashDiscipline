@@ -327,7 +327,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         #region Amount Calculators
         private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
-            return ForexRate.GetForexRateObject(session, fromCcy, toCcy, convDate);
+            return ForexRate.GetForexRateObject(fromCcy, toCcy, convDate);
         }
 
         public static void UpdateFunctionalCcyAmt(BankStmt obj, decimal fromAmt, Currency fromCcy)

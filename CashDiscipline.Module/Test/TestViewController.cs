@@ -87,8 +87,7 @@ namespace CashDiscipline.Module.Test
 
             var functionalCurrency = ObjectSpace.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
 
-            var rateObj = ForexRate.GetForexRateObject(((XPObjectSpace)ObjectSpace).Session, 
-                cf.Account.Currency, functionalCurrency, (DateTime)cf.TranDate);
+            var rateObj = ForexRate.GetForexRateObject(cf.Account.Currency, functionalCurrency, (DateTime)cf.TranDate);
 
             string message = string.Format("rate = {0}", rateObj.ConversionRate);
 

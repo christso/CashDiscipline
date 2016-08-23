@@ -52,7 +52,6 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(ForexRate));
             module.AdditionalExportedTypes.Add(typeof(CashDiscipline.Module.BusinessObjects.BankStatement.BankStmtCashFlowForecast));
             module.AdditionalExportedTypes.Add(typeof(ForexStdSettleAccount));
-            module.AdditionalExportedTypes.Add(typeof(ForexTradePredelivery));
             module.AdditionalExportedTypes.Add(typeof(AustPostSettle));
             module.AdditionalExportedTypes.Add(typeof(AccountSummary));
             module.AdditionalExportedTypes.Add(typeof(ForexSettleLink));

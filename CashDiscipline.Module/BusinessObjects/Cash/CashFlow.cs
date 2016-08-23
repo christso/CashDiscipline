@@ -781,12 +781,12 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         private static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
-            return ForexRate.GetForexRateObject(session, fromCcy, toCcy, convDate);
+            return ForexRate.GetForexRateObject(fromCcy, toCcy, convDate);
         }
 
         private static decimal GetForexRate(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
-            return ForexRate.GetForexRate(session, fromCcy, toCcy, convDate);
+            return ForexRate.GetForexRate(fromCcy, toCcy, convDate);
         }
 
         #endregion

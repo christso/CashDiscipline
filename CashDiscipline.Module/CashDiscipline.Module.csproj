@@ -297,7 +297,6 @@
     <Compile Include="BusinessObjects\Forex\ForexStdSettleAccount.cs" />
     <Compile Include="BusinessObjects\Forex\ForexSettleLink.cs" />
     <Compile Include="BusinessObjects\Forex\ForexTrade.cs" />
-    <Compile Include="BusinessObjects\Forex\ForexTradePredelivery.cs" />
     <Compile Include="BusinessObjects\ICalculateToggleObject.cs" />
     <Compile Include="Interfaces\IJournalDeleter.cs" />
     <Compile Include="Interfaces\ICashFlow.cs" />
@@ -325,9 +324,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Forex\ForexTradeDetailViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controllers\Forex\ForexTradePredeliveryListViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Forex\ForexTradeViewController.cs">
@@ -436,15 +432,7 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="UnusableNodes1.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
     <EmbeddedResource Include="Scripts\CashDisc-SQL-Install.sql" />
-    <None Include="UnusableNodes.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
     <EmbeddedResource Include="Images\banner.png" />
     <Content Include="FunctionalTests\Counterparty_Create.inc" />
     <Content Include="FunctionalTests\ForexCounterparty_Create.inc" />

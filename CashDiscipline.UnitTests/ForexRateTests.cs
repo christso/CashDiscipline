@@ -76,7 +76,7 @@ namespace CashDiscipline.UnitTests
 
         private static decimal GetForexRate(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
         {
-            return ForexRate.GetForexRate(session, fromCcy, toCcy, convDate);
+            return ForexRate.GetForexRate(fromCcy, toCcy, convDate);
         }
 
         public override void OnAddExportedTypes(ModuleBase module)

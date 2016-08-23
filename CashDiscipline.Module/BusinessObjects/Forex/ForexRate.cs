@@ -102,7 +102,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                     ConversionDate, ToCurrency, FromCurrency));
                 if (revForexRate == null)
                 {
-                    revForexRate = new CashDiscipline.Module.BusinessObjects.Forex.ForexRate(Session)
+                    revForexRate = new ForexRate(Session)
                     {
                         ConversionDate = this.ConversionDate,
                         FromCurrency = this.ToCurrency,
@@ -117,10 +117,14 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
 
         #region Rate Utilities
 
-        public static ForexRate GetForexRateObject(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
+        public static ForexRate GetForexRateObject(Currency fromCcy, Currency toCcy, DateTime convDate)
         {
-            XPQuery<ForexRate> ratesQuery = new XPQuery<ForexRate>(session);
+            var session = fromCcy.Session;
+            if (session != toCcy.Session)
+                throw new InvalidOperationException("Both currencies must be in the same session.");
 
+            XPQuery<ForexRate> ratesQuery = new XPQuery<ForexRate>(session);
+            
             var rates = ratesQuery.Where(r => r.FromCurrency == fromCcy
                 && r.ToCurrency == toCcy
                 && r.ConversionDate <= convDate
@@ -142,23 +146,13 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             return rateObj;
         }
 
-        public static decimal GetForexRate(Session session, Currency fromCcy, Currency toCcy, DateTime convDate)
+        public static decimal GetForexRate(Currency fromCcy, Currency toCcy, DateTime convDate)
         {
             if (fromCcy == toCcy) return 1;
-            var rateObj = GetForexRateObject(session, fromCcy, toCcy, convDate);
+            var rateObj = GetForexRateObject(fromCcy, toCcy, convDate);
             if (rateObj != null)
                 return rateObj.ConversionRate;
             return 0;
-        }
-
-        private static CriteriaOperator GetRateCriteriaOperator(Currency fromCcy, Currency toCcy, DateTime convDate)
-        {
-            var rateOp = CriteriaOperator.Parse(
-                              "ConversionDate = [<ForexRate>][FromCurrency.Oid = ? "
-                                + "AND ToCurrency.Oid = ? AND ConversionDate <= ?].Max(ConversionDate) "
-                                + "AND FromCurrency.Oid = ? AND ToCurrency.Oid = ?",
-                              fromCcy.Oid, toCcy.Oid, convDate, fromCcy.Oid, toCcy.Oid);
-            return rateOp;
         }
         #endregion
     }

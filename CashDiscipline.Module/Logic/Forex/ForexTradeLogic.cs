@@ -15,28 +15,35 @@ namespace CashDiscipline.Module.Logic.Forex
         {
             this.objSpace = objSpace;
         }
+
         private XPObjectSpace objSpace;
 
-        public ForexTradePredelivery Predeliver(
-            ForexTrade ft,
-            decimal counterCcyAmt, DateTime valueDate, decimal rate)
+        public static ForexTrade Initialize(ForexTrade origFt)
         {
-            var pdy = objSpace.CreateObject<ForexTradePredelivery>();
+            ForexTrade newFt = ForexTradeLogic.CloneForexTrade(origFt);
+            Initialize(origFt, newFt);
+            return newFt;
+        }
 
-            pdy.FromForexTrade = ft;
-            pdy.CounterCcyAmt = counterCcyAmt;
-            pdy.ValueDate = valueDate;
-            pdy.Rate = rate;
+        public static ForexTrade Initialize(ForexTrade origFt, ForexTrade newFt)
+        {
+            newFt.EventType = ForexEventType.Predeliver;
+            newFt.CreationDate = (DateTime)newFt.Session.ExecuteScalar("SELECT GETDATE()");
+            newFt.TradeDate = newFt.CreationDate;
 
-            pdy.AmendForexTrade = ForexTradeLogic.CloneForexTrade(pdy.FromForexTrade);
-            pdy.AmendForexTrade.CounterCcyAmt *= -1;
+            ForexTrade revFt = ForexTradeLogic.CloneForexTrade(origFt);
+            newFt.ReverseTrade = revFt;
+            revFt.Rate = origFt.Rate;
+            revFt.CreationDate = newFt.CreationDate;
+            revFt.TradeDate = revFt.CreationDate;
+            UpdateReverseTrade(newFt);
+            return newFt;
+        }
 
-            pdy.ToForexTrade = ForexTradeLogic.CloneForexTrade(pdy.FromForexTrade);
-            pdy.ToForexTrade.Rate = rate;
-            pdy.ToForexTrade.TradeDate = pdy.TradeDate;
-            pdy.ToForexTrade.ValueDate = pdy.ValueDate;
-
-            return pdy;
+        public static void UpdateReverseTrade(ForexTrade newFt)
+        {
+            if (newFt.ReverseTrade == null) return;
+            newFt.ReverseTrade.CounterCcyAmt = -newFt.CounterCcyAmt;
         }
 
         public static ForexTrade CloneForexTrade(ForexTrade fromFt)
