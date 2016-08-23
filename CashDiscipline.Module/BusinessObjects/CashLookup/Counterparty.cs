@@ -17,14 +17,13 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         public Counterparty(Session session)
             : base(session)
         {
-            // This constructor is used when an object is loaded from a persistent storage.
-            // Do not place any code here.
         }
 
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            // Place here your initialization code.
+            var dateTime = Session.ExecuteScalar("SELECT GETDATE()");
+            DateTimeCreated = Convert.ToDateTime(dateTime);
         }
 
         int _Id;
@@ -85,6 +84,20 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("CounterpartyL2", ref _CounterpartyL2, value);
+            }
+        }
+
+        private DateTime _DateTimeCreated;
+
+        public DateTime DateTimeCreated
+        {
+            get
+            {
+                return _DateTimeCreated;
+            }
+            set
+            {
+                SetPropertyValue("DateTimeCreated", ref _DateTimeCreated, value);
             }
         }
     }

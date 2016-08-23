@@ -239,9 +239,11 @@
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\Forex\ForexToCashFlowUploader.cs" />
     <Compile Include="Controllers\ImportViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="DatabaseUpdate\DbUtils.cs" />
     <Compile Include="Interfaces\IMapping.cs" />
     <Compile Include="Logic\Cash\ApPmtDistnImporter.cs" />
     <Compile Include="Logic\Cash\ApPmtDistnMapper.cs" />
@@ -297,7 +299,6 @@
     <Compile Include="BusinessObjects\Forex\ForexTradePredelivery.cs" />
     <Compile Include="BusinessObjects\ICalculateToggleObject.cs" />
     <Compile Include="Interfaces\IJournalDeleter.cs" />
-    <Compile Include="Controllers\Forex\ForexTradeBatchUploaderImpl.cs" />
     <Compile Include="Interfaces\ICashFlow.cs" />
     <Compile Include="BusinessObjects\IImportObject.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowFixDetail.cs" />
@@ -319,7 +320,6 @@
     <Compile Include="Controllers\Cash\CashFlowCalculatorDetailViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\Forex\ForexTradeBatchUploader.cs" />
     <Compile Include="Controllers\Forex\ForexSettleLinkViewController.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -49,6 +49,28 @@ LEFT JOIN Activity ON Activity.Oid = ApPmtDistn.Activity
 LEFT JOIN Account ON Account.Oid = ApPmtDistn.Account
 WHERE ApPmtDistn.GCRecord IS NULL";
 
+        private const string AddCounterpartySql = @"DECLARE @DefaultFixCounterparty uniqueidentifier = (SELECT Oid FROM Counterparty WHERE Name LIKE 'UNDEFINED')
+DECLARE @DefaultCounterpartyTag uniqueidentifier = (SELECT Oid FROM CounterpartyTag WHERE [Text] LIKE 'UNDEFINED')
+
+INSERT INTO Counterparty
+(
+	Oid,
+	Name,
+	FixCounterparty,
+	CounterpartyL1,
+	CounterpartyL2,
+	DateTimeCreated
+)
+SELECT
+(SELECT CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER)) AS Oid,
+v.Name,
+@DefaultFixCounterparty AS FixCounterparty,
+@DefaultCounterpartyTag AS CounterpartyL1,
+@DefaultCounterpartyTag AS CounterpartyL2,
+GETDATE()
+FROM ApVendor v
+WHERE v.Name NOT IN (SELECT c.Name FROM Counterparty c)";
+
         public ApPmtDistnMapper(XPObjectSpace objspace)
         {
             this.objSpace = objspace;
@@ -89,14 +111,19 @@ WHERE ApPmtDistn.GCRecord IS NULL";
 
         public void Process(IEnumerable objs)
         {
+            BeforeProcess();
+
             var clauses = CreateSqlParameters();
             var sqlParams = CreateParameters(clauses);
             mapper.SqlParameters = sqlParams;
+
             mapper.Process(objs);
         }
 
         public void Process(IXPObject obj)
         {
+            BeforeProcess();
+
             var clauses = CreateSqlParameters();
             var sqlParams = CreateParameters(clauses);
             mapper.SqlParameters = sqlParams;
@@ -105,10 +132,20 @@ WHERE ApPmtDistn.GCRecord IS NULL";
 
         public void Process(CriteriaOperator criteria)
         {
+            BeforeProcess();
+
             var clauses = CreateSqlParameters();
             var sqlParams = CreateParameters(clauses);
             mapper.SqlParameters = sqlParams;
             mapper.Process(MapCommandTextListSqlTemplateCommon, criteria);
+        }
+
+        private void BeforeProcess()
+        {
+            var conn = (SqlConnection)objSpace.Session.Connection;
+            var command = conn.CreateCommand();
+            command.CommandText = AddCounterpartySql;
+            command.ExecuteNonQuery();
         }
 
         public List<string> GetMapSetCommandTextList(int step)

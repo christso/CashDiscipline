@@ -33,6 +33,15 @@ namespace CashDiscipline.Module.DatabaseUpdate
             CreateFunctions((XPObjectSpace)ObjectSpace);
         }
 
+        public override void UpdateDatabaseAfterUpdateSchema()
+        {
+            base.UpdateDatabaseAfterUpdateSchema();
+
+            SetupObjects(ObjectSpace);
+            //AddDefaultConstraints((XPObjectSpace)ObjectSpace);
+            //SetupSecurity();
+        }
+
         protected new void DropColumn(string tableName, string columnName)
         {
             this.ExecuteNonQueryCommand("ALTER TABLE " + tableName + " DROP COLUMN [" + columnName + "]", true);
@@ -52,8 +61,7 @@ namespace CashDiscipline.Module.DatabaseUpdate
             var stream = typeof(CashDiscipline.Module.AssemblyInfo).Assembly.GetManifestResourceStream(resourcePath);
             StreamReader reader = new StreamReader(stream);
             var script = reader.ReadToEnd();
-            Server server = new Server(new ServerConnection(conn));
-            server.ConnectionContext.ExecuteNonQuery(script);
+            DbUtils.ExecuteNonQueryCommand(os, script, false);
         }
 
         // Set up the minimum objects for this application to function correctly
@@ -64,7 +72,17 @@ namespace CashDiscipline.Module.DatabaseUpdate
             CreateFinAccountingDefaults(objSpace);
             CreateCashFlowDefaults(objSpace);
             Xafology.ExpressApp.StaticHelpers.GetInstance<CashDiscipline.Module.ParamObjects.Cash.CashFlowFixParam>(objSpace);
+        }
 
+        public static void AddDefaultConstraints(XPObjectSpace os)
+        {
+            string script = 
+@"IF OBJECT_ID('DF_Counterparty_DateTimeCreated') IS NOT NULL
+BEGIN
+ALTER TABLE [dbo].[Counterparty] DROP CONSTRAINT [DF_Counterparty_DateTimeCreated]
+END
+ALTER TABLE [dbo].[Counterparty] ADD CONSTRAINT [DF_Counterparty_DateTimeCreated] DEFAULT (getdate()) FOR [DateTimeCreated]";
+            DbUtils.ExecuteNonQueryCommand(os, script, false);
         }
 
         public static void CreateFinAccountingDefaults(IObjectSpace objSpace)
@@ -193,14 +211,6 @@ namespace CashDiscipline.Module.DatabaseUpdate
                 cfDef.Activity = activity;
             if (cfDef.Account == null)
                 cfDef.Account = account;
-        }
-
-        public override void UpdateDatabaseAfterUpdateSchema()
-        {
-            base.UpdateDatabaseAfterUpdateSchema();
-
-            SetupObjects(ObjectSpace);
-            //SetupSecurity();
         }
 
         private void SetupSecurity()

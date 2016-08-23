@@ -57,7 +57,7 @@ namespace CashDiscipline.Module.Logic.SqlMap
         public void Process(string sqlUpdate, CriteriaOperator criteria)
         {
             var sqlWhere = CriteriaToWhereClauseHelper.GetMsSqlWhere(XpoCriteriaFixer.Fix(criteria));
-            var sqlTemplate = sqlUpdate + " AND " + sqlWhere;
+            var sqlTemplate = sqlUpdate + (string.IsNullOrEmpty(sqlWhere) ? "" : " AND " + sqlWhere);
 
             RefreshMaps();
 

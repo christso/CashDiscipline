@@ -32,7 +32,7 @@ namespace CashDiscipline.UnitTests
         public CashFlowTests()
         {
             SetTesterDbType(TesterDbType.MsSql);
-
+            
             var tester = Tester as MSSqlDbTestBase;
             if (tester != null)
                 tester.DatabaseName = Constants.TestDbName;

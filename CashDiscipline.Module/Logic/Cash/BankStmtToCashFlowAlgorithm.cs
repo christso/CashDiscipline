@@ -133,7 +133,7 @@ ORDER BY
 	bs.CounterCcy,
 	bs.ForexSettleType;
 
--- Generate CashFlow GUIDs
+-- Generate CashFlow GUIDs for each temporary BankStmt
 UPDATE bs1
 SET CashFlow = bs2.CashFlow
 FROM
@@ -146,7 +146,7 @@ LEFT JOIN
 	FROM {tbs} bs
 ) bs2 ON bs2.RowId = bs1.RowId
 
--- Delete Existing Cash Flow
+-- Delete Existing Cash Flow from current snapshot
 
 UPDATE CashFlow SET
 GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
@@ -155,7 +155,9 @@ Account = NULL,
 Counterparty = NULL,
 Source = NULL,
 CounterCcy = NULL
-WHERE TranDate BETWEEN @FromDate AND @ToDate;
+WHERE 
+    Snapshot = @Snapshot
+    AND TranDate BETWEEN @FromDate AND @ToDate;
 
 -- Upload Bank Stmt to Cash Flow
 

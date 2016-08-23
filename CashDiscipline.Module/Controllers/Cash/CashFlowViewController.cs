@@ -121,8 +121,8 @@ namespace CashDiscipline.Module.Controllers.Cash
                     MapSelected();
                     break;
                 case "Reload Forex Forecast":
-                    var uploader = new ForexTradeBatchUploaderImpl(ObjectSpace);
-                    uploader.UploadToCashFlowForecast();
+                    var uploader = new ForexToCashFlowUploader((XPObjectSpace)ObjectSpace);
+                    uploader.Process();
                     ObjectSpace.CommitChanges();
                     break;
                 case "Save Forecast":

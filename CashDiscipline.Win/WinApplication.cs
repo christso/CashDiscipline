@@ -16,6 +16,7 @@ namespace CashDiscipline.Win
             InitializeComponent();
             DelayedViewItemsInitialization = true;
             this.CustomCheckCompatibility += CashDisc_CustomCheckCompatibility;
+            
         }
 
         protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)

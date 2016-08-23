@@ -21,11 +21,5 @@ namespace CashDiscipline.Module.Controllers.Forex
         {
             base.OnActivated();
         }
-
-
-        public static void LinkCashFlowsToForexTrades(IObjectSpace objSpace)
-        {
-            
-        }
     }
 }

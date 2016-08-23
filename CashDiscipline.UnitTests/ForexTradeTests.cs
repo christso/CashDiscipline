@@ -20,7 +20,12 @@ namespace CashDiscipline.UnitTests
     {
         public ForexTradeTests()
         {
-            SetTesterDbType(TesterDbType.InMemory);
+            //SetTesterDbType(TesterDbType.InMemory);
+            SetTesterDbType(TesterDbType.MsSql);
+
+            var tester = Tester as MSSqlDbTestBase;
+            if (tester != null)
+                tester.DatabaseName = Constants.TestDbName;
         }
         
         [Test]
@@ -138,16 +143,23 @@ namespace CashDiscipline.UnitTests
 
             ObjectSpace.CommitChanges();
 
-            var uploader = new ForexTradeBatchUploaderImpl(ObjectSpace);
-            uploader.UploadToCashFlowForecast();
+            var uploader = new ForexToCashFlowUploader(ObjectSpace);
+            uploader.Process();
+            ObjectSpace.Refresh();
+
+            ft1 = ObjectSpace.GetObjectByKey<ForexTrade>(ft1.Oid);
+            ft2 = ObjectSpace.GetObjectByKey<ForexTrade>(ft2.Oid);
+            usdAccount = ObjectSpace.GetObjectByKey<Account>(usdAccount.Oid);
+            audAccount = ObjectSpace.GetObjectByKey<Account>(audAccount.Oid);
+
             #endregion
 
             #region Assert
             Assert.AreEqual(ft1.PrimaryCashFlow, ft2.PrimaryCashFlow);
             Assert.AreEqual(ft1.CounterCashFlow, ft2.CounterCashFlow);
 
-            Assert.AreEqual(audAccount, ft1.PrimarySettleAccount);
-            Assert.AreEqual(usdAccount, ft1.CounterSettleAccount);
+            Assert.AreEqual(audAccount.Oid, ft1.PrimarySettleAccount.Oid);
+            Assert.AreEqual(usdAccount.Oid, ft1.CounterSettleAccount.Oid);
 
             decimal targetPrimaryCcyAmt = Math.Round(1000 / 0.9M, 2);
             Assert.AreEqual(targetPrimaryCcyAmt, ft1.PrimaryCcyAmt);
@@ -296,8 +308,11 @@ namespace CashDiscipline.UnitTests
 
             ObjectSpace.CommitChanges();
 
-            var uploader = new ForexTradeBatchUploaderImpl(ObjectSpace);
-            uploader.UploadToCashFlowForecast();
+            var uploader = new ForexToCashFlowUploader(ObjectSpace);
+            uploader.Process();
+            ObjectSpace.Refresh();
+            ft1 = ObjectSpace.GetObjectByKey<ForexTrade>(ft1.Oid);
+            pdy1 = ObjectSpace.GetObjectByKey<ForexTradePredelivery>(pdy1.Oid);
 
             #endregion
 
@@ -315,8 +330,6 @@ namespace CashDiscipline.UnitTests
             Assert.AreEqual(Math.Round(-pdCounterCcyAmt1 / ft1.Rate, 2), pdy1.AmendForexTrade.PrimaryCcyAmt);
 
             // Assert cashflow object values
-
-
             var cfs2 = ObjectSpace.GetObjects<CashFlow>();
             var couCf2 = cfs2.FirstOrDefault(x => x == pdy1.ToForexTrade.CounterCashFlow);
             var priCf2 = cfs2.FirstOrDefault(x => x == pdy1.ToForexTrade.PrimaryCashFlow);
@@ -409,8 +422,8 @@ namespace CashDiscipline.UnitTests
 
             #region Act
 
-            var uploader = new ForexTradeBatchUploaderImpl(ObjectSpace);
-            uploader.UploadToCashFlowForecast();
+            var uploader = new ForexToCashFlowUploader(ObjectSpace);
+            uploader.Process();
 
             #endregion
 

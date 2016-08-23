@@ -85,7 +85,20 @@ namespace CashDiscipline.Module.Controllers.Cash
             if (batchController != null)
             {
                 var criteria = batchController.ActiveFilterCriteria;
-                mapper.Process(criteria);
+                var filtered = batchController.ActiveFilterEnabled;
+
+                if (Object.ReferenceEquals(null, criteria) || !filtered)
+                {
+                    var message = new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                        "Filter is empty. Do you wish to continue mapping the ENTIRE table?",
+                        "Warning",
+                        (sender, svp) => mapper.Process(criteria),
+                        (sender, svp) => { return; });
+                }
+                else
+                {
+                    mapper.Process(criteria);
+                }
             }
         }
 
