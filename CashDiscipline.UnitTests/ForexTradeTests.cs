@@ -13,6 +13,7 @@ using DevExpress.ExpressApp.Xpo;
 using System.Diagnostics;
 using Xafology.TestUtils;
 using DevExpress.ExpressApp;
+using CashDiscipline.Module.Logic.Forex;
 
 namespace CashDiscipline.UnitTests
 {
@@ -304,7 +305,9 @@ namespace CashDiscipline.UnitTests
             DateTime pdValueDate1 = new DateTime(2013, 11, 30);
             decimal pdRate1 = 0.92M;
             decimal pdPrimaryCcyAmt1 = Math.Round(pdCounterCcyAmt1 / pdRate1, 2);
-            var pdy1 = ft1.Predeliver(pdCounterCcyAmt1, pdValueDate1, pdRate1);
+
+            var ftLogic = new ForexTradeLogic(ObjectSpace);
+            var pdy1 = ftLogic.Predeliver(ft1, pdCounterCcyAmt1, pdValueDate1, pdRate1);
 
             ObjectSpace.CommitChanges();
 

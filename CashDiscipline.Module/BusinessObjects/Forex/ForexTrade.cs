@@ -724,20 +724,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
 
         #endregion
 
-        #region Trade Predelivery Logic
-        public ForexTradePredelivery Predeliver(decimal counterCcyAmt, DateTime valueDate, decimal rate)
-        {
-            var pdy = new ForexTradePredelivery(Session);
-
-            pdy.FromForexTrade = this;
-            pdy.CounterCcyAmt = counterCcyAmt;
-            pdy.ValueDate = valueDate;
-            pdy.Rate = rate;
-
-            return pdy;
-        }
-        #endregion
-
         public void InitDefaultValues()
         {
             OrigTrade = this;

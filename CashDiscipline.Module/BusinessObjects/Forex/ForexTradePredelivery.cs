@@ -54,14 +54,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
-                if (SetPropertyValue("FromForexTrade", ref _FromForexTrade, value))
-                {
-                    if (!IsLoading && !IsSaving && _FromForexTrade != null)
-                    {
-                        CreateAmendForexTrade();
-                        CreateToForexTrade();
-                    }
-                }
+                SetPropertyValue("FromForexTrade", ref _FromForexTrade, value);
             }
         }
 
@@ -71,11 +64,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         {
             get
             {
-                if (!IsLoading && !IsSaving && !IsDeleted
-                    && _FromForexTrade != null && _ToForexTrade == null)
-                {
-                    CreateToForexTrade();
-                }
                 return _ToForexTrade;
             }
             set
@@ -90,12 +78,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         {
             get
             {
-                if (!IsLoading && !IsSaving && !IsDeleted
-                  && _FromForexTrade != null && _AmendForexTrade == null)
-                {
-                    CreateAmendForexTrade();
-
-                }
                 return _AmendForexTrade;
             }
             set
@@ -131,7 +113,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             {
                 if (SetPropertyValue("ValueDate", ref _ValueDate, value.Date))
                 {
-                    if (!IsLoading && !IsSaving)
+                    if (!IsLoading && !IsSaving && ToForexTrade != null)
                     {
                         ToForexTrade.ValueDate = _ValueDate;
                     }
@@ -150,15 +132,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
-                if (SetPropertyValue("CounterCcyAmt", ref _CounterCcyAmt, value))
-                {
-                    if (!IsLoading && !IsSaving)
-                    {
-                        AmendForexTrade.CounterCcyAmt = -_CounterCcyAmt;
-                        ToForexTrade.CounterCcyAmt = _CounterCcyAmt;
-                        SetPropertyValue("PrimaryCcyAmt", ref _PrimaryCcyAmt, ToForexTrade.PrimaryCcyAmt);
-                    }
-                }
+                SetPropertyValue("CounterCcyAmt", ref _CounterCcyAmt, value);
             }
         }
 
@@ -174,14 +148,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
-                if (SetPropertyValue("Rate", ref _Rate, value))
-                {
-                    if (!IsLoading && !IsSaving)
-                    {
-                        ToForexTrade.Rate = _Rate;
-                        SetPropertyValue("PrimaryCcyAmt", ref _PrimaryCcyAmt, ToForexTrade.PrimaryCcyAmt);
-                    }
-                }
+                SetPropertyValue("Rate", ref _Rate, value);
             }
         }
 
@@ -194,22 +161,10 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             {
                 return _PrimaryCcyAmt;
             }
-        }
-
-        public void CreateAmendForexTrade()
-        {
-            Cloner cloner = new Cloner();
-            AmendForexTrade = (ForexTrade)cloner.CloneTo(FromForexTrade, typeof(ForexTrade));
-            _AmendForexTrade.EventType = ForexEventType.Predeliver;
-            _AmendForexTrade.OrigTrade = _FromForexTrade;
-        }
-
-        public void CreateToForexTrade()
-        {
-            Cloner cloner = new Cloner();
-            ToForexTrade = (ForexTrade)cloner.CloneTo(FromForexTrade, typeof(ForexTrade));
-            _ToForexTrade.EventType = ForexEventType.Predeliver;
-            _ToForexTrade.OrigTrade = _FromForexTrade;
+            set
+            {
+                SetPropertyValue("PrimaryCcyAmt", ref _PrimaryCcyAmt, value);
+            }
         }
 
         protected override void OnDeleting()

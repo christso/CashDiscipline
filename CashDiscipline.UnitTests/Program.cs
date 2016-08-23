@@ -25,7 +25,7 @@ namespace CashDiscipline.UnitTests
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.UploadForexTradeToCashFlow();
+            tests.PredeliverForexTrade();
 
             tests.TearDown();
             tests.TearDownFixture();

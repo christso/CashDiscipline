@@ -269,6 +269,7 @@
     <Compile Include="Logic\FinAccounting\BankStmtActivityOrmJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\BankStmtActivitySqlJournalHelper.cs" />
     <Compile Include="Logic\FinAccounting\OrmJournalHelper.cs" />
+    <Compile Include="Logic\Forex\ForexTradeLogic.cs" />
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
     <Compile Include="Logic\SqlMap\Mapper.cs" />
     <Compile Include="Logic\Setup\ActionPortalItem.cs" />
