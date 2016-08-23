@@ -29,7 +29,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             TargetObjectType = typeof(CashFlow);
 
             RunProgramAction = new SingleChoiceAction(this, "RunCashFlowProgramAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
-            RunProgramAction.Caption = "Run Program";
+            RunProgramAction.Caption = "Actions";
             RunProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             RunProgramAction.Execute += runProgramAction_Execute;
             RunProgramAction.ShowItemsOnClick = true;

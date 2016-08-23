@@ -41,7 +41,7 @@ namespace CashDiscipline.Module.Controllers.Forex
             {
                 cmd.Parameters.AddRange(parameters.ToArray());
                 cmd.CommandText = ProcessCommandText;
-                cmd.ExecuteNonQuery();
+                int result = cmd.ExecuteNonQuery();
             }
         }
 

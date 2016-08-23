@@ -27,7 +27,6 @@ namespace CashDiscipline.Module.Controllers.Forex
                     viewItem.ButtonClick += primaryCcyAmtCalculator;
                 else if (editor.Id == ForexTrade.FieldNames.Rate)
                     viewItem.ButtonClick += rateCalculator;
-
             }
         }
 
