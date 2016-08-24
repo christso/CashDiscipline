@@ -19,6 +19,7 @@ namespace CashDiscipline.Module.ParamObjects.Import
         }
 
         private string _FileName;
+        [Size(SizeAttribute.Unlimited)]
         public string FileName
         {
             get

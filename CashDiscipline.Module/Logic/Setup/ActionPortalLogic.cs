@@ -1,6 +1,8 @@
 ﻿using CashDiscipline.Module.Controllers.Cash;
+using CashDiscipline.Module.Logic.Forex;
 using CashDiscipline.Module.ParamObjects.Cash;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,7 @@ using System.Threading.Tasks;
 namespace CashDiscipline.Module.Logic.Setup
 {
     public delegate void ExecutablePortalAction(XafApplication app, ShowViewParameters svp);
+
     public class ActionPortalLogic
     {
         private static List<ActionPortalItem> _ActionPortalList;
@@ -29,7 +32,7 @@ namespace CashDiscipline.Module.Logic.Setup
 
         public static void Execute(XafApplication app, ShowViewParameters svp, string actionName)
         {
-            var act = _ActionPortalList.Where(x => x.ActionName == actionName).FirstOrDefault();
+            var act = ActionPortalList.Where(x => x.ActionName == actionName).FirstOrDefault();
             if (act == null)
                 throw new UserFriendlyException(string.Format("Unrecognized action '{0}'", actionName));
             act.ExecutableAction(app, svp);
@@ -53,7 +56,12 @@ namespace CashDiscipline.Module.Logic.Setup
             {
                 CashFlowViewController.ProcessCube_Recent();
             };
+
+            item = new ActionPortalItem();
+            item.ActionName = "Import Forex Rates";
+
             _ActionPortalList.Add(item);
         }
+
     }
 }

@@ -33,6 +33,7 @@ namespace CashDiscipline.Module.ParamObjects.Import
         }
 
         private string _AnzFilePath;
+        [Size(SizeAttribute.Unlimited)]
         public string AnzFilePath
         {
             get
@@ -59,6 +60,7 @@ namespace CashDiscipline.Module.ParamObjects.Import
         }
 
         private string _WbcFilePath;
+        [Size(SizeAttribute.Unlimited)]
         public string WbcFilePath
         {
             get
@@ -86,6 +88,7 @@ namespace CashDiscipline.Module.ParamObjects.Import
         }
 
         private string _CbaBosFilePath;
+        [Size(SizeAttribute.Unlimited)]
         public string CbaBosFilePath
         {
             get
@@ -112,6 +115,7 @@ namespace CashDiscipline.Module.ParamObjects.Import
         }
 
         private string _CbaOpFilePath;
+        [Size(SizeAttribute.Unlimited)]
         public string CbaOpFilePath
         {
             get

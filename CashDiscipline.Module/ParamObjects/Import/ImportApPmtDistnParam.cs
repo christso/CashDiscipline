@@ -25,6 +25,7 @@ namespace CashDiscipline.Module.ParamObjects.Import
 
 
         private string _FilePath;
+        [Size(SizeAttribute.Unlimited)]
         public string FilePath
         {
             get

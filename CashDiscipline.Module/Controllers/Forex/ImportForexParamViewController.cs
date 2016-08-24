@@ -28,7 +28,19 @@ namespace CashDiscipline.Module.Controllers.Forex
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            WbcImport();
+            WbcImport_v2();
+        }
+
+        public void WbcImport_v2()
+        {
+            var paramObj = View.CurrentObject as ImportForexRatesParam;
+
+            var importer = new WbcForexRateImporter_v2();
+            var result = importer.Execute(paramObj.FileName);
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+               Application,
+               result.ReturnMessage
+               );
         }
 
 

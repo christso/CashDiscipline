@@ -6,12 +6,14 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using DevExpress.Xpo;
+using System.ComponentModel;
 
 namespace CashDiscipline.Module.BusinessObjects
 {
     [NavigationItem("Cash Setup")]
     [ImageName("BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [DefaultProperty("Name")]
     public class Currency : BaseObject
     {
         public Currency(Session session)
