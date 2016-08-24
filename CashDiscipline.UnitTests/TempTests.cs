@@ -53,15 +53,15 @@ namespace CashDiscipline.UnitTests
         {
 
             var reversalFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            reversalFixTag.Name = CashDiscipline.Module.Constants.ReversalFixTag;
+            reversalFixTag.Name = CashDiscipline.Common.Constants.ReversalFixTag;
             reversalFixTag.FixTagType = CashForecastFixTagType.Ignore;
 
             var revRecFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            revRecFixTag.Name = CashDiscipline.Module.Constants.RevRecFixTag;
+            revRecFixTag.Name = CashDiscipline.Common.Constants.RevRecFixTag;
             revRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
 
             var resRevRecFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            resRevRecFixTag.Name = CashDiscipline.Module.Constants.ResRevRecFixTag;
+            resRevRecFixTag.Name = CashDiscipline.Common.Constants.ResRevRecFixTag;
             resRevRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
 
 

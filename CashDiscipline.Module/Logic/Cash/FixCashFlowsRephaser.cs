@@ -41,7 +41,7 @@ namespace CashDiscipline.Module.Logic.Cash
             if (cashFlow.Fix.FixTagType == CashForecastFixTagType.ScheduleOut
                 && cashFlow.FixRank > 2
                 && cashFlow.TranDate <= paramObj.PayrollLockdownDate
-                && cashFlow.Activity.ForecastFixTag != Constants.PayrollFixTag
+                && cashFlow.Activity.ForecastFixTag != CashDiscipline.Common.Constants.PayrollFixTag
                 )
             {
                 // adjust date of payroll payments
@@ -50,10 +50,10 @@ namespace CashDiscipline.Module.Logic.Cash
             else if (cashFlow.Fix.FixTagType == CashForecastFixTagType.ScheduleOut
                 && cashFlow.FixRank > 2
                 && cashFlow.TranDate <= paramObj.ApayableLockdownDate
-                && cashFlow.Activity.ForecastFixTag != Constants.PayrollFixTag
-                && cashFlow.Activity.ForecastFixTag != Constants.BankFeeFixTag
-                && cashFlow.Activity.ForecastFixTag != Constants.ProgenFixTag
-                && cashFlow.Activity.ForecastFixTag != Constants.TaxFixTag
+                && cashFlow.Activity.ForecastFixTag != CashDiscipline.Common.Constants.PayrollFixTag
+                && cashFlow.Activity.ForecastFixTag != CashDiscipline.Common.Constants.BankFeeFixTag
+                && cashFlow.Activity.ForecastFixTag != CashDiscipline.Common.Constants.ProgenFixTag
+                && cashFlow.Activity.ForecastFixTag != CashDiscipline.Common.Constants.TaxFixTag
                 )
             {
                 // adjust date of AP payments (exclude Payroll, Progen, Bank Fee, Tax)

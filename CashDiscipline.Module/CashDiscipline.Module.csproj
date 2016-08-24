@@ -297,7 +297,6 @@
     <Compile Include="Logic\FinAccounting\OrmJournalHelper.cs" />
     <Compile Include="Logic\Forex\ForexTradeLogic.cs" />
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
-    <Compile Include="Logic\Forex\WbcForexRateImporter_v2.cs" />
     <Compile Include="Logic\SqlMap\Mapper.cs" />
     <Compile Include="Logic\Setup\ActionPortalItem.cs" />
     <Compile Include="Logic\Setup\ActionPortalLogic.cs" />
@@ -412,7 +411,6 @@
     <Compile Include="BusinessObjects\BankStatement\BankStmt.cs" />
     <Compile Include="BusinessObjects\CashLookup\Counterparty.cs" />
     <Compile Include="BusinessObjects\CashLookup\Currency.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="Controllers\CustomizeValidationMessageController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -501,6 +499,12 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\CashDisciplineServiceReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CashDiscipline.Common\CashDiscipline.Common.csproj">
+      <Project>{e2ac2fd6-94e0-43ea-af1e-6597ce68ba65}</Project>
+      <Name>CashDiscipline.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />

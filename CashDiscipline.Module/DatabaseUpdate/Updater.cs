@@ -57,7 +57,7 @@ namespace CashDiscipline.Module.DatabaseUpdate
             var conn = (SqlConnection)os.Session.Connection;
             if (conn == null) return;
 
-            string resourcePath = Constants.CashDiscSqlInstallScriptPath;
+            string resourcePath = CashDiscipline.Common.Constants.CashDiscSqlInstallScriptPath;
             var stream = typeof(CashDiscipline.Module.AssemblyInfo).Assembly.GetManifestResourceStream(resourcePath);
             StreamReader reader = new StreamReader(stream);
             var script = reader.ReadToEnd();
@@ -94,19 +94,19 @@ ALTER TABLE [dbo].[Counterparty] ADD CONSTRAINT [DF_Counterparty_DateTimeCreated
         public static void InitFixTags(IObjectSpace objSpace)
         {
             var reversalFixTag = objSpace.CreateObject<CashForecastFixTag>();
-            reversalFixTag.Name = CashDiscipline.Module.Constants.ReversalFixTag;
+            reversalFixTag.Name = CashDiscipline.Common.Constants.ReversalFixTag;
             reversalFixTag.FixTagType = CashForecastFixTagType.Ignore;
 
             var revRecFixTag = objSpace.CreateObject<CashForecastFixTag>();
-            revRecFixTag.Name = CashDiscipline.Module.Constants.RevRecFixTag;
+            revRecFixTag.Name = CashDiscipline.Common.Constants.RevRecFixTag;
             revRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
 
             var resRevRecFixTag = objSpace.CreateObject<CashForecastFixTag>();
-            resRevRecFixTag.Name = CashDiscipline.Module.Constants.ResRevRecFixTag;
+            resRevRecFixTag.Name = CashDiscipline.Common.Constants.ResRevRecFixTag;
             resRevRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
 
             var payrollFixTag = objSpace.CreateObject<CashForecastFixTag>();
-            payrollFixTag.Name = CashDiscipline.Module.Constants.PayrollFixTag;
+            payrollFixTag.Name = CashDiscipline.Common.Constants.PayrollFixTag;
             payrollFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
 
         }

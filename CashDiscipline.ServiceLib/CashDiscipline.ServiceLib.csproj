@@ -86,15 +86,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompositeType.cs" />
+    <Compile Include="ImportBankStmtServiceParam.cs" />
     <Compile Include="IntegrationPackageResult.cs" />
+    <Compile Include="Integration\ImportBankStmtImpl.cs" />
     <Compile Include="IService1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service1.cs" />
+    <Compile Include="Integration\ImportWbcForexRateImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CashDiscipline.Common\CashDiscipline.Common.csproj">
+      <Project>{e2ac2fd6-94e0-43ea-af1e-6597ce68ba65}</Project>
+      <Name>CashDiscipline.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

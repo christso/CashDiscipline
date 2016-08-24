@@ -752,7 +752,7 @@ namespace CashDiscipline.UnitTests
             var bankFeeActivity = ObjectSpace.CreateObject<Activity>();
             bankFeeActivity.Name = "Bank Fees";
             bankFeeActivity.FixActivity = bankFeeActivity;
-            bankFeeActivity.ForecastFixTag = CashDiscipline.Module.Constants.BankFeeFixTag;
+            bankFeeActivity.ForecastFixTag = CashDiscipline.Common.Constants.BankFeeFixTag;
 
             var apActivity = ObjectSpace.CreateObject<Activity>();
             apActivity.Name = "AP Pymt";
@@ -761,7 +761,7 @@ namespace CashDiscipline.UnitTests
             var payrollActivity = ObjectSpace.CreateObject<Activity>();
             payrollActivity.Name = "Payroll Pymt";
             payrollActivity.FixActivity = payrollActivity;
-            payrollActivity.ForecastFixTag = CashDiscipline.Module.Constants.PayrollFixTag;
+            payrollActivity.ForecastFixTag = CashDiscipline.Common.Constants.PayrollFixTag;
 
             ObjectSpace.CommitChanges();
 

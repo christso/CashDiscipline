@@ -124,6 +124,10 @@
     <EmbeddedResource Include="TestFiles\ApPmtDistn_150104.csv" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CashDiscipline.Common\CashDiscipline.Common.csproj">
+      <Project>{e2ac2fd6-94e0-43ea-af1e-6597ce68ba65}</Project>
+      <Name>CashDiscipline.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CashDiscipline.Module\CashDiscipline.Module.csproj">
       <Project>{5f15837d-d1e5-44dc-92f0-4f2ebe9c3f8d}</Project>
       <Name>CashDiscipline.Module</Name>

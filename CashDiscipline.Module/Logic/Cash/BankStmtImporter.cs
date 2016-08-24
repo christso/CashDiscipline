@@ -12,9 +12,9 @@ namespace CashDiscipline.Module.Logic.Cash
 {
     public class BankStmtImporter
     {
-        private const string SqlConnectionString = Constants.SqlConnectionString;
-        private const string catalogName = Constants.SqlDatabase;
-        private const string ssisFolderName = Constants.SsisFolderName;
+        private const string SqlConnectionString = CashDiscipline.Common.Constants.SqlConnectionString;
+        private const string catalogName = CashDiscipline.Common.Constants.SqlDatabase;
+        private const string ssisFolderName = CashDiscipline.Common.Constants.SsisFolderName;
         private const string pkgName = "BankStmt.dtsx";
 
         public BankStmtImporter()
@@ -33,7 +33,7 @@ namespace CashDiscipline.Module.Logic.Cash
             IntegrationServices ssisServer = new IntegrationServices(ssisConnection);
 
             // The reference to the package which you want to execute
-            PackageInfo ssisPackage = ssisServer.Catalogs[Constants.SsisCatalog].Folders[ssisFolderName].Projects[catalogName].Packages[pkgName];
+            PackageInfo ssisPackage = ssisServer.Catalogs[CashDiscipline.Common.Constants.SsisCatalog].Folders[ssisFolderName].Projects[catalogName].Packages[pkgName];
 
             // Add execution parameter to override the default asynchronized execution. If you leave this out the package is executed asynchronized
             Collection<PackageInfo.ExecutionValueParameterSet> executionParameter = new Collection<PackageInfo.ExecutionValueParameterSet>();

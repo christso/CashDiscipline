@@ -28,43 +28,19 @@ namespace CashDiscipline.Module.Controllers.Forex
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            WbcImport_v2();
+            WbcImport();
         }
-
-        public void WbcImport_v2()
-        {
-            var paramObj = View.CurrentObject as ImportForexRatesParam;
-
-            var importer = new WbcForexRateImporter_v2();
-            var result = importer.Execute(paramObj.FileName);
-            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-               Application,
-               result.ReturnMessage
-               );
-        }
-
 
         public void WbcImport()
         {
             var paramObj = View.CurrentObject as ImportForexRatesParam;
 
             var importer = new WbcForexRateImporter();
-            importer.Execute(paramObj.FileName);
-
-            // show log message
-
-            string messagesText = string.Empty;
-            foreach (var message in importer.SSISMessagesList)
-            {
-                if (messagesText != string.Empty)
-                    messagesText += "\r\n";
-                messagesText += message;
-            }
-
+            var result = importer.Execute(paramObj.FileName);
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                Application,
-                messagesText.Replace("\r\n\r\n", "\r\n")
-                );
+               Application,
+               result.ReturnMessage
+               );
         }
 
         protected override void OnActivated()

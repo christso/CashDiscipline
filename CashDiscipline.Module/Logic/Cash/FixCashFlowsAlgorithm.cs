@@ -80,21 +80,21 @@ namespace CashDiscipline.Module.Logic.Cash
                 paramApReclassActivity = objSpace.GetObjectByKey<Activity>(objSpace.GetKeyValue(paramObj.ApReclassActivity));
 
             defaultCounterparty = objSpace.FindObject<Counterparty>(
-             CriteriaOperator.Parse("Name LIKE ?", Constants.DefaultFixCounterparty));
+             CriteriaOperator.Parse("Name LIKE ?", CashDiscipline.Common.Constants.DefaultFixCounterparty));
 
             var query = new XPQuery<CashForecastFixTag>(objSpace.Session);
 
             reversalFixTag = query
-                .Where(x => x.Name == Constants.ReversalFixTag).FirstOrDefault();
+                .Where(x => x.Name == CashDiscipline.Common.Constants.ReversalFixTag).FirstOrDefault();
 
             revRecFixTag = query
-                .Where(x => x.Name == Constants.RevRecFixTag).FirstOrDefault();
+                .Where(x => x.Name == CashDiscipline.Common.Constants.RevRecFixTag).FirstOrDefault();
 
             resRevRecFixTag = query
-                .Where(x => x.Name == Constants.ResRevRecFixTag).FirstOrDefault();
+                .Where(x => x.Name == CashDiscipline.Common.Constants.ResRevRecFixTag).FirstOrDefault();
 
             payrollFixTag = query
-                .Where(x => x.Name == Constants.PayrollFixTag).FirstOrDefault();
+                .Where(x => x.Name == CashDiscipline.Common.Constants.PayrollFixTag).FirstOrDefault();
 
             setOfBooks = SetOfBooks.GetInstance(objSpace);
             this.mapper = mapper;
