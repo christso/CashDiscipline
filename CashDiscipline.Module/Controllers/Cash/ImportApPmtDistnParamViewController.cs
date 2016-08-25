@@ -42,20 +42,14 @@ namespace CashDiscipline.Module.Controllers.Cash
             var paramObj = View.CurrentObject as ImportApPmtDistnParam;
 
             var importer = new ApPmtDistnImporter();
-            importer.Execute(paramObj);
+            var result = importer.Execute(paramObj.FilePath);
 
             // show log message
-            string messagesText = string.Empty;
-            foreach (var message in importer.SSISMessagesList)
-            {
-                if (messagesText != string.Empty)
-                    messagesText += "\r\n";
-                messagesText += message;
-            }
+            string messagesText = result.ReturnMessage;
 
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 Application,
-                messagesText.Replace("\r\n\r\n", "\r\n")
+                messagesText
                 );
         }
 

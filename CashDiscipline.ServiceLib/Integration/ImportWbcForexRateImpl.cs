@@ -25,7 +25,7 @@ namespace CashDiscipline.ServiceLib.Integration
         public List<string> SSISMessagesList;
 
         //inputFilePath = @"\\FINSERV01\Downloads\VHA Import\SSIS\Westpac Forex Rates\GLXR160527.txt";
-        public void Execute(string inputFilePath)
+        public long Execute(string inputFilePath)
         {
             SSISMessagesList.Clear();
 
@@ -34,13 +34,13 @@ namespace CashDiscipline.ServiceLib.Integration
 
             // The reference to the package which you want to execute
             PackageInfo ssisPackage = ssisServer.Catalogs["SSISDB"].Folders[ssisFolderName].Projects[catalogName].Packages[pkgName];
-
+                
             // Add execution parameter to override the default asynchronized execution. If you leave this out the package is executed asynchronized
             Collection<PackageInfo.ExecutionValueParameterSet> executionParameter = new Collection<PackageInfo.ExecutionValueParameterSet>();
             executionParameter.Add(new PackageInfo.ExecutionValueParameterSet { ObjectType = 50, ParameterName = "SYNCHRONIZED", ParameterValue = 1 });
 
             // Modify package parameter
-            ssisPackage.Parameters["SourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, inputFilePath);
+            ssisPackage.Parameters["SourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, inputFilePath ?? "");
             ssisPackage.Alter();
 
             // Get the identifier of the execution to get the log
@@ -51,9 +51,11 @@ namespace CashDiscipline.ServiceLib.Integration
             {
                 SSISMessagesList.Add(message.MessageType.ToString() + ": " + message.Message);
             }
+
+            return executionIdentifier;
         }
 
-        public string ShowMessageText()
+        public string GetMessageText()
         {
             string messagesText = string.Empty;
             foreach (var message in SSISMessagesList)

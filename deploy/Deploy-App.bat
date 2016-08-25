@@ -1,0 +1,1 @@
+robocopy "E:\Models\Cash Discipline\CashDiscipline.Win\bin\Release" "\\finserv01\Apps\Cash Discipline\Application Files\Current" /MIR

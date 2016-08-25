@@ -18,7 +18,7 @@ DECLARE @Snapshot uniqueidentifier = (SELECT TOP 1 [CurrentCashFlowSnapshot] FRO
 
 */
 
-namespace CashDiscipline.Module.Controllers.Forex
+namespace CashDiscipline.Module.Logic.Forex
 {
     public class ForexToCashFlowUploader
     {

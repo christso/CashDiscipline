@@ -12,6 +12,7 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
 using CashDiscipline.Module.Logic.Cash;
 
+
 namespace CashDiscipline.Module.Controllers.Cash
 {
     public class ImportBankStmtParamViewController : ViewController
@@ -43,21 +44,12 @@ namespace CashDiscipline.Module.Controllers.Cash
             var paramObj = View.CurrentObject as ImportBankStmtParam;
 
             var importer = new BankStmtImporter();
-            importer.Execute(paramObj);
 
-            // show log message
-
-            string messagesText = string.Empty;
-            foreach (var message in importer.SSISMessagesList)
-            {
-                if (messagesText != string.Empty)
-                    messagesText += "\r\n";
-                messagesText += message;
-            }
-
+            var result = importer.Execute(paramObj);
+            string messagesText = result.ReturnMessage;
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 Application,
-                messagesText.Replace("\r\n\r\n", "\r\n")
+                messagesText
                 );
         }
 

@@ -4,7 +4,7 @@
     <xsd:schema targetNamespace="http://tempuri.org/Imports">
       <xsd:import schemaLocation="http://localhost:8080/CashDiscipline?xsd=xsd0" namespace="http://tempuri.org/" />
       <xsd:import schemaLocation="http://localhost:8080/CashDiscipline?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
-      <xsd:import schemaLocation="http://localhost:8080/CashDiscipline?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib" />
+      <xsd:import schemaLocation="http://localhost:8080/CashDiscipline?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" />
     </xsd:schema>
   </wsdl:types>
   <wsdl:message name="IService1_GetData_InputMessage">
@@ -13,11 +13,11 @@
   <wsdl:message name="IService1_GetData_OutputMessage">
     <wsdl:part name="parameters" element="tns:GetDataResponse" />
   </wsdl:message>
-  <wsdl:message name="IService1_GetDataUsingDataContract_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataUsingDataContract" />
+  <wsdl:message name="IService1_ExecuteSsisPackage_InputMessage">
+    <wsdl:part name="parameters" element="tns:ExecuteSsisPackage" />
   </wsdl:message>
-  <wsdl:message name="IService1_GetDataUsingDataContract_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataUsingDataContractResponse" />
+  <wsdl:message name="IService1_ExecuteSsisPackage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ExecuteSsisPackageResponse" />
   </wsdl:message>
   <wsdl:message name="IService1_ImportWbcForexRates_InputMessage">
     <wsdl:part name="parameters" element="tns:ImportWbcForexRates" />
@@ -25,18 +25,38 @@
   <wsdl:message name="IService1_ImportWbcForexRates_OutputMessage">
     <wsdl:part name="parameters" element="tns:ImportWbcForexRatesResponse" />
   </wsdl:message>
+  <wsdl:message name="IService1_ImportBankStmt_InputMessage">
+    <wsdl:part name="parameters" element="tns:ImportBankStmt" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ImportBankStmt_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ImportBankStmtResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ImportApPmtDistn_InputMessage">
+    <wsdl:part name="parameters" element="tns:ImportApPmtDistn" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ImportApPmtDistn_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ImportApPmtDistnResponse" />
+  </wsdl:message>
   <wsdl:portType name="IService1">
     <wsdl:operation name="GetData">
       <wsdl:input wsam:Action="http://tempuri.org/IService1/GetData" message="tns:IService1_GetData_InputMessage" />
       <wsdl:output wsam:Action="http://tempuri.org/IService1/GetDataResponse" message="tns:IService1_GetData_OutputMessage" />
     </wsdl:operation>
-    <wsdl:operation name="GetDataUsingDataContract">
-      <wsdl:input wsam:Action="http://tempuri.org/IService1/GetDataUsingDataContract" message="tns:IService1_GetDataUsingDataContract_InputMessage" />
-      <wsdl:output wsam:Action="http://tempuri.org/IService1/GetDataUsingDataContractResponse" message="tns:IService1_GetDataUsingDataContract_OutputMessage" />
+    <wsdl:operation name="ExecuteSsisPackage">
+      <wsdl:input wsam:Action="http://tempuri.org/IService1/ExecuteSsisPackage" message="tns:IService1_ExecuteSsisPackage_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/IService1/ExecuteSsisPackageResponse" message="tns:IService1_ExecuteSsisPackage_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="ImportWbcForexRates">
       <wsdl:input wsam:Action="http://tempuri.org/IService1/ImportWbcForexRates" message="tns:IService1_ImportWbcForexRates_InputMessage" />
       <wsdl:output wsam:Action="http://tempuri.org/IService1/ImportWbcForexRatesResponse" message="tns:IService1_ImportWbcForexRates_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ImportBankStmt">
+      <wsdl:input wsam:Action="http://tempuri.org/IService1/ImportBankStmt" message="tns:IService1_ImportBankStmt_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/IService1/ImportBankStmtResponse" message="tns:IService1_ImportBankStmt_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ImportApPmtDistn">
+      <wsdl:input wsam:Action="http://tempuri.org/IService1/ImportApPmtDistn" message="tns:IService1_ImportApPmtDistn_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/IService1/ImportApPmtDistnResponse" message="tns:IService1_ImportApPmtDistn_OutputMessage" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
@@ -50,8 +70,8 @@
         <soap:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="GetDataUsingDataContract">
-      <soap:operation soapAction="http://tempuri.org/IService1/GetDataUsingDataContract" style="document" />
+    <wsdl:operation name="ExecuteSsisPackage">
+      <soap:operation soapAction="http://tempuri.org/IService1/ExecuteSsisPackage" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -61,6 +81,24 @@
     </wsdl:operation>
     <wsdl:operation name="ImportWbcForexRates">
       <soap:operation soapAction="http://tempuri.org/IService1/ImportWbcForexRates" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportBankStmt">
+      <soap:operation soapAction="http://tempuri.org/IService1/ImportBankStmt" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ImportApPmtDistn">
+      <soap:operation soapAction="http://tempuri.org/IService1/ImportApPmtDistn" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>

@@ -1,0 +1,1 @@
+robocopy "E:\Models\Cash Discipline\CashDiscipline.ServiceHost\bin\Release" "\\finserv01\Apps\Cash Discipline Service" /MIR

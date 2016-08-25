@@ -1,5 +1,5 @@
-﻿using CashDiscipline.Module.ParamObjects.Import;
-using Microsoft.SqlServer.Management.IntegrationServices;
+﻿using CashDiscipline.Module.CashDisciplineServiceReference;
+using CashDiscipline.Module.ParamObjects.Import;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,52 +12,33 @@ namespace CashDiscipline.Module.Logic.Cash
 {
     public class BankStmtImporter
     {
-        private const string SqlConnectionString = CashDiscipline.Common.Constants.SqlConnectionString;
-        private const string catalogName = CashDiscipline.Common.Constants.SqlDatabase;
-        private const string ssisFolderName = CashDiscipline.Common.Constants.SsisFolderName;
-        private const string pkgName = "BankStmt.dtsx";
-
-        public BankStmtImporter()
+        public IntegrationPackageResult Execute(ImportBankStmtServiceParam svcParam)
         {
-            SSISMessagesList = new List<string>();
+            CashDisciplineServiceReference.Service1Client client = new
+                CashDisciplineServiceReference.Service1Client();
+
+            IntegrationPackageResult result = client.ImportBankStmt(svcParam);
+            return result;
         }
 
-
-        public List<string> SSISMessagesList;
-
-        public void Execute(ImportBankStmtParam paramObj)
+        public IntegrationPackageResult Execute(ImportBankStmtParam paramObj)
         {
-            SSISMessagesList.Clear();
+            var svcParam = MapParamObj(paramObj);
+            return Execute(svcParam);
+        }
 
-            SqlConnection ssisConnection = new SqlConnection(SqlConnectionString);
-            IntegrationServices ssisServer = new IntegrationServices(ssisConnection);
-
-            // The reference to the package which you want to execute
-            PackageInfo ssisPackage = ssisServer.Catalogs[CashDiscipline.Common.Constants.SsisCatalog].Folders[ssisFolderName].Projects[catalogName].Packages[pkgName];
-
-            // Add execution parameter to override the default asynchronized execution. If you leave this out the package is executed asynchronized
-            Collection<PackageInfo.ExecutionValueParameterSet> executionParameter = new Collection<PackageInfo.ExecutionValueParameterSet>();
-            executionParameter.Add(new PackageInfo.ExecutionValueParameterSet { ObjectType = 50, ParameterName = "SYNCHRONIZED", ParameterValue = 1 });
-
-            // Modify package parameter
-            ssisPackage.Parameters["AnzSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.AnzFilePath ?? "");
-            ssisPackage.Parameters["AnzDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.AnzEnabled);
-            ssisPackage.Parameters["WbcSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.WbcFilePath ?? "");
-            ssisPackage.Parameters["WbcDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.WbcEnabled);
-            ssisPackage.Parameters["CbaOpSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.CbaOpFilePath ?? "");
-            ssisPackage.Parameters["CbaOpDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.CbaOpEnabled);
-            ssisPackage.Parameters["CbaBosSourceConnectionString"].Set(ParameterInfo.ParameterValueType.Literal, paramObj.CbaBosFilePath ?? "");
-            ssisPackage.Parameters["CbaBosDisabled"].Set(ParameterInfo.ParameterValueType.Literal, !paramObj.CbaBosEnabled);
-            ssisPackage.Alter();
-
-            // Get the identifier of the execution to get the log
-            long executionIdentifier = ssisPackage.Execute(false, null, executionParameter);
-
-            // Loop through the log and add the messages to the listbox
-            foreach (OperationMessage message in ssisServer.Catalogs["SSISDB"].Executions[executionIdentifier].Messages)
-            {
-                SSISMessagesList.Add(message.MessageType.ToString() + ": " + message.Message);
-            }
+        public ImportBankStmtServiceParam MapParamObj(ImportBankStmtParam paramObj)
+        {
+            var svcParam = new ImportBankStmtServiceParam();
+            svcParam.AnzFilePath = paramObj.AnzFilePath;
+            svcParam.AnzEnabled = paramObj.AnzEnabled;
+            svcParam.WbcFilePath = paramObj.WbcFilePath;
+            svcParam.WbcEnabled = paramObj.WbcEnabled;
+            svcParam.CbaBosFilePath = paramObj.CbaBosFilePath;
+            svcParam.CbaBosEnabled = paramObj.CbaBosEnabled;
+            svcParam.CbaOpFilePath = paramObj.CbaOpFilePath;
+            svcParam.CbaOpEnabled = paramObj.CbaOpEnabled;
+            return svcParam;
         }
     }
 }

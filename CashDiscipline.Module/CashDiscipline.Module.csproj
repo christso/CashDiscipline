@@ -152,41 +152,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\assemblies\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Diagnostics.STrace, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\assemblies\Microsoft.SqlServer.Diagnostics.STrace.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Dmf, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\assemblies\Microsoft.SqlServer.Dmf.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Dmf.Common, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\assemblies\Microsoft.SqlServer.Dmf.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.IntegrationServices.Common.ObjectModel, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\assemblies\Microsoft.SqlServer.IntegrationServices.Common.ObjectModel.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Management.IntegrationServices, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\assemblies\Microsoft.SqlServer.Management.IntegrationServices.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Management.IntegrationServicesEnum, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\assemblies\Microsoft.SqlServer.Management.IntegrationServicesEnum.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\assemblies\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.SqlServer.Smo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\assemblies\Microsoft.SqlServer.Smo.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.SqlServer.SqlClrProvider, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\assemblies\Microsoft.SqlServer.SqlClrProvider.dll</HintPath>
     </Reference>
     <Reference Include="SDP.ParserUtils, Version=1.1.2.0, Culture=neutral, PublicKeyToken=4ee1200acbd59010, processorArchitecture=MSIL">
       <HintPath>..\packages\SDP.ParserUtils.1.1.2.0\lib\net45\SDP.ParserUtils.dll</HintPath>
@@ -265,7 +233,7 @@
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\Forex\ForexToCashFlowUploader.cs" />
+    <Compile Include="Logic\Forex\ForexToCashFlowUploader.cs" />
     <Compile Include="Controllers\ImportViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -427,9 +395,6 @@
     <Compile Include="ParamObjects\Import\ImportForexRatesParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseUpdate\Updater.cs" />
-    <None Include="Service References\CashDisciplineServiceReference\CashDiscipline.Module.CashDisciplineServiceReference.CompositeType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
     <None Include="Service References\CashDisciplineServiceReference\CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

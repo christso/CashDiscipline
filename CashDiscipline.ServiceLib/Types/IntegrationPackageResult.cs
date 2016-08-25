@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace CashDiscipline.ServiceLib
+namespace CashDiscipline.ServiceLib.Types
 {
     [DataContract]
     public class IntegrationPackageResult
@@ -24,5 +24,12 @@ namespace CashDiscipline.ServiceLib
             get { return returnMessage; }
             set { returnMessage = value; }
         }
+
+        [DataMember]
+        public long ExecutionIdentifer { get; set; }
+
+        [DataMember]
+        public List<SsisMessage> SsisMessages { get; set; }
+
     }
 }

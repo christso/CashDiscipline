@@ -121,7 +121,7 @@ namespace CashDiscipline.Module.Controllers.Cash
                     MapSelected();
                     break;
                 case "Reload Forex Forecast":
-                    var uploader = new ForexToCashFlowUploader((XPObjectSpace)ObjectSpace);
+                    var uploader = new CashDiscipline.Module.Logic.Forex.ForexToCashFlowUploader((XPObjectSpace)ObjectSpace);
                     uploader.Process();
                     ObjectSpace.CommitChanges();
                     break;

@@ -15,18 +15,18 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="CompositeType", Namespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SsisParameter", Namespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types")]
     [System.SerializableAttribute()]
-    public partial class CompositeType : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+    public partial class SsisParameter : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
         [System.NonSerializedAttribute()]
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private bool BoolValueField;
+        private string ParameterNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private string StringValueField;
+        private string ParameterValueField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -39,27 +39,27 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public bool BoolValue {
+        public string ParameterName {
             get {
-                return this.BoolValueField;
+                return this.ParameterNameField;
             }
             set {
-                if ((this.BoolValueField.Equals(value) != true)) {
-                    this.BoolValueField = value;
-                    this.RaisePropertyChanged("BoolValue");
+                if ((object.ReferenceEquals(this.ParameterNameField, value) != true)) {
+                    this.ParameterNameField = value;
+                    this.RaisePropertyChanged("ParameterName");
                 }
             }
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public string StringValue {
+        public string ParameterValue {
             get {
-                return this.StringValueField;
+                return this.ParameterValueField;
             }
             set {
-                if ((object.ReferenceEquals(this.StringValueField, value) != true)) {
-                    this.StringValueField = value;
-                    this.RaisePropertyChanged("StringValue");
+                if ((object.ReferenceEquals(this.ParameterValueField, value) != true)) {
+                    this.ParameterValueField = value;
+                    this.RaisePropertyChanged("ParameterValue");
                 }
             }
         }
@@ -76,7 +76,7 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
-    [System.Runtime.Serialization.DataContractAttribute(Name="IntegrationPackageResult", Namespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="IntegrationPackageResult", Namespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types")]
     [System.SerializableAttribute()]
     public partial class IntegrationPackageResult : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
         
@@ -84,10 +84,16 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
         private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private long ExecutionIdentiferField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string ReturnMessageField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private int ReturnValueField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private CashDiscipline.Module.CashDisciplineServiceReference.SsisMessage[] SsisMessagesField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -96,6 +102,19 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
             }
             set {
                 this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public long ExecutionIdentifer {
+            get {
+                return this.ExecutionIdentiferField;
+            }
+            set {
+                if ((this.ExecutionIdentiferField.Equals(value) != true)) {
+                    this.ExecutionIdentiferField = value;
+                    this.RaisePropertyChanged("ExecutionIdentifer");
+                }
             }
         }
         
@@ -125,6 +144,253 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
             }
         }
         
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public CashDiscipline.Module.CashDisciplineServiceReference.SsisMessage[] SsisMessages {
+            get {
+                return this.SsisMessagesField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.SsisMessagesField, value) != true)) {
+                    this.SsisMessagesField = value;
+                    this.RaisePropertyChanged("SsisMessages");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="SsisMessage", Namespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types")]
+    [System.SerializableAttribute()]
+    public partial class SsisMessage : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string MessageField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<short> MessageSourceTypeField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private System.Nullable<short> MessageTypeField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string Message {
+            get {
+                return this.MessageField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.MessageField, value) != true)) {
+                    this.MessageField = value;
+                    this.RaisePropertyChanged("Message");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<short> MessageSourceType {
+            get {
+                return this.MessageSourceTypeField;
+            }
+            set {
+                if ((this.MessageSourceTypeField.Equals(value) != true)) {
+                    this.MessageSourceTypeField = value;
+                    this.RaisePropertyChanged("MessageSourceType");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public System.Nullable<short> MessageType {
+            get {
+                return this.MessageTypeField;
+            }
+            set {
+                if ((this.MessageTypeField.Equals(value) != true)) {
+                    this.MessageTypeField = value;
+                    this.RaisePropertyChanged("MessageType");
+                }
+            }
+        }
+        
+        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        protected void RaisePropertyChanged(string propertyName) {
+            System.ComponentModel.PropertyChangedEventHandler propertyChanged = this.PropertyChanged;
+            if ((propertyChanged != null)) {
+                propertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+            }
+        }
+    }
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Runtime.Serialization", "4.0.0.0")]
+    [System.Runtime.Serialization.DataContractAttribute(Name="ImportBankStmtServiceParam", Namespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types")]
+    [System.SerializableAttribute()]
+    public partial class ImportBankStmtServiceParam : object, System.Runtime.Serialization.IExtensibleDataObject, System.ComponentModel.INotifyPropertyChanged {
+        
+        [System.NonSerializedAttribute()]
+        private System.Runtime.Serialization.ExtensionDataObject extensionDataField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool AnzEnabledField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string AnzFilePathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool CbaBosEnabledField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CbaBosFilePathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool CbaOpEnabledField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string CbaOpFilePathField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private bool WbcEnabledField;
+        
+        [System.Runtime.Serialization.OptionalFieldAttribute()]
+        private string WbcFilePathField;
+        
+        [global::System.ComponentModel.BrowsableAttribute(false)]
+        public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
+            get {
+                return this.extensionDataField;
+            }
+            set {
+                this.extensionDataField = value;
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool AnzEnabled {
+            get {
+                return this.AnzEnabledField;
+            }
+            set {
+                if ((this.AnzEnabledField.Equals(value) != true)) {
+                    this.AnzEnabledField = value;
+                    this.RaisePropertyChanged("AnzEnabled");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string AnzFilePath {
+            get {
+                return this.AnzFilePathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.AnzFilePathField, value) != true)) {
+                    this.AnzFilePathField = value;
+                    this.RaisePropertyChanged("AnzFilePath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool CbaBosEnabled {
+            get {
+                return this.CbaBosEnabledField;
+            }
+            set {
+                if ((this.CbaBosEnabledField.Equals(value) != true)) {
+                    this.CbaBosEnabledField = value;
+                    this.RaisePropertyChanged("CbaBosEnabled");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CbaBosFilePath {
+            get {
+                return this.CbaBosFilePathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CbaBosFilePathField, value) != true)) {
+                    this.CbaBosFilePathField = value;
+                    this.RaisePropertyChanged("CbaBosFilePath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool CbaOpEnabled {
+            get {
+                return this.CbaOpEnabledField;
+            }
+            set {
+                if ((this.CbaOpEnabledField.Equals(value) != true)) {
+                    this.CbaOpEnabledField = value;
+                    this.RaisePropertyChanged("CbaOpEnabled");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string CbaOpFilePath {
+            get {
+                return this.CbaOpFilePathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.CbaOpFilePathField, value) != true)) {
+                    this.CbaOpFilePathField = value;
+                    this.RaisePropertyChanged("CbaOpFilePath");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public bool WbcEnabled {
+            get {
+                return this.WbcEnabledField;
+            }
+            set {
+                if ((this.WbcEnabledField.Equals(value) != true)) {
+                    this.WbcEnabledField = value;
+                    this.RaisePropertyChanged("WbcEnabled");
+                }
+            }
+        }
+        
+        [System.Runtime.Serialization.DataMemberAttribute()]
+        public string WbcFilePath {
+            get {
+                return this.WbcFilePathField;
+            }
+            set {
+                if ((object.ReferenceEquals(this.WbcFilePathField, value) != true)) {
+                    this.WbcFilePathField = value;
+                    this.RaisePropertyChanged("WbcFilePath");
+                }
+            }
+        }
+        
         public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         
         protected void RaisePropertyChanged(string propertyName) {
@@ -145,17 +411,29 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetData", ReplyAction="http://tempuri.org/IService1/GetDataResponse")]
         System.Threading.Tasks.Task<string> GetDataAsync(string value);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService1/GetDataUsingDataContractResponse")]
-        CashDiscipline.Module.CashDisciplineServiceReference.CompositeType GetDataUsingDataContract(CashDiscipline.Module.CashDisciplineServiceReference.CompositeType composite);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ExecuteSsisPackage", ReplyAction="http://tempuri.org/IService1/ExecuteSsisPackageResponse")]
+        CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ExecuteSsisPackage(string packageName, CashDiscipline.Module.CashDisciplineServiceReference.SsisParameter[] parameters);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetDataUsingDataContract", ReplyAction="http://tempuri.org/IService1/GetDataUsingDataContractResponse")]
-        System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.CompositeType> GetDataUsingDataContractAsync(CashDiscipline.Module.CashDisciplineServiceReference.CompositeType composite);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ExecuteSsisPackage", ReplyAction="http://tempuri.org/IService1/ExecuteSsisPackageResponse")]
+        System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ExecuteSsisPackageAsync(string packageName, CashDiscipline.Module.CashDisciplineServiceReference.SsisParameter[] parameters);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ImportWbcForexRates", ReplyAction="http://tempuri.org/IService1/ImportWbcForexRatesResponse")]
         CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ImportWbcForexRates(string filePath);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ImportWbcForexRates", ReplyAction="http://tempuri.org/IService1/ImportWbcForexRatesResponse")]
         System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ImportWbcForexRatesAsync(string filePath);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ImportBankStmt", ReplyAction="http://tempuri.org/IService1/ImportBankStmtResponse")]
+        CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ImportBankStmt(CashDiscipline.Module.CashDisciplineServiceReference.ImportBankStmtServiceParam paramObj);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ImportBankStmt", ReplyAction="http://tempuri.org/IService1/ImportBankStmtResponse")]
+        System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ImportBankStmtAsync(CashDiscipline.Module.CashDisciplineServiceReference.ImportBankStmtServiceParam paramObj);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ImportApPmtDistn", ReplyAction="http://tempuri.org/IService1/ImportApPmtDistnResponse")]
+        CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ImportApPmtDistn(string filePath);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ImportApPmtDistn", ReplyAction="http://tempuri.org/IService1/ImportApPmtDistnResponse")]
+        System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ImportApPmtDistnAsync(string filePath);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
@@ -193,12 +471,12 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
             return base.Channel.GetDataAsync(value);
         }
         
-        public CashDiscipline.Module.CashDisciplineServiceReference.CompositeType GetDataUsingDataContract(CashDiscipline.Module.CashDisciplineServiceReference.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContract(composite);
+        public CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ExecuteSsisPackage(string packageName, CashDiscipline.Module.CashDisciplineServiceReference.SsisParameter[] parameters) {
+            return base.Channel.ExecuteSsisPackage(packageName, parameters);
         }
         
-        public System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.CompositeType> GetDataUsingDataContractAsync(CashDiscipline.Module.CashDisciplineServiceReference.CompositeType composite) {
-            return base.Channel.GetDataUsingDataContractAsync(composite);
+        public System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ExecuteSsisPackageAsync(string packageName, CashDiscipline.Module.CashDisciplineServiceReference.SsisParameter[] parameters) {
+            return base.Channel.ExecuteSsisPackageAsync(packageName, parameters);
         }
         
         public CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ImportWbcForexRates(string filePath) {
@@ -207,6 +485,22 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
         
         public System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ImportWbcForexRatesAsync(string filePath) {
             return base.Channel.ImportWbcForexRatesAsync(filePath);
+        }
+        
+        public CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ImportBankStmt(CashDiscipline.Module.CashDisciplineServiceReference.ImportBankStmtServiceParam paramObj) {
+            return base.Channel.ImportBankStmt(paramObj);
+        }
+        
+        public System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ImportBankStmtAsync(CashDiscipline.Module.CashDisciplineServiceReference.ImportBankStmtServiceParam paramObj) {
+            return base.Channel.ImportBankStmtAsync(paramObj);
+        }
+        
+        public CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ImportApPmtDistn(string filePath) {
+            return base.Channel.ImportApPmtDistn(filePath);
+        }
+        
+        public System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ImportApPmtDistnAsync(string filePath) {
+            return base.Channel.ImportApPmtDistnAsync(filePath);
         }
     }
 }

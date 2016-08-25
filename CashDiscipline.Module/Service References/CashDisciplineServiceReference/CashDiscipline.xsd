@@ -1,17 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:complexType name="CompositeType">
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:complexType name="ArrayOfSsisParameter">
     <xs:sequence>
-      <xs:element minOccurs="0" name="BoolValue" type="xs:boolean" />
-      <xs:element minOccurs="0" name="StringValue" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SsisParameter" nillable="true" type="tns:SsisParameter" />
     </xs:sequence>
   </xs:complexType>
-  <xs:element name="CompositeType" nillable="true" type="tns:CompositeType" />
+  <xs:element name="ArrayOfSsisParameter" nillable="true" type="tns:ArrayOfSsisParameter" />
+  <xs:complexType name="SsisParameter">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="ParameterName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="ParameterValue" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SsisParameter" nillable="true" type="tns:SsisParameter" />
   <xs:complexType name="IntegrationPackageResult">
     <xs:sequence>
+      <xs:element minOccurs="0" name="ExecutionIdentifer" type="xs:long" />
       <xs:element minOccurs="0" name="ReturnMessage" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="ReturnValue" type="xs:int" />
+      <xs:element minOccurs="0" name="SsisMessages" nillable="true" type="tns:ArrayOfSsisMessage" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="IntegrationPackageResult" nillable="true" type="tns:IntegrationPackageResult" />
+  <xs:complexType name="ArrayOfSsisMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="SsisMessage" nillable="true" type="tns:SsisMessage" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfSsisMessage" nillable="true" type="tns:ArrayOfSsisMessage" />
+  <xs:complexType name="SsisMessage">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="MessageSourceType" nillable="true" type="xs:short" />
+      <xs:element minOccurs="0" name="MessageType" nillable="true" type="xs:short" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="SsisMessage" nillable="true" type="tns:SsisMessage" />
+  <xs:complexType name="ImportBankStmtServiceParam">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="AnzEnabled" type="xs:boolean" />
+      <xs:element minOccurs="0" name="AnzFilePath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CbaBosEnabled" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CbaBosFilePath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="CbaOpEnabled" type="xs:boolean" />
+      <xs:element minOccurs="0" name="CbaOpFilePath" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="WbcEnabled" type="xs:boolean" />
+      <xs:element minOccurs="0" name="WbcFilePath" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ImportBankStmtServiceParam" nillable="true" type="tns:ImportBankStmtServiceParam" />
 </xs:schema>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using CashDiscipline.ServiceLib.Types;
 
 namespace CashDiscipline.ServiceLib
 {
@@ -15,10 +16,15 @@ namespace CashDiscipline.ServiceLib
         string GetData(string value);
 
         [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
+        IntegrationPackageResult ExecuteSsisPackage(string packageName, List<SsisParameter> parameters);
 
-        // TODO: Add your service operations here
         [OperationContract]
-        IntegrationPackageResult ImportWbcForexRates(string filePath);
+        CashDiscipline.ServiceLib.Types.IntegrationPackageResult ImportWbcForexRates(string filePath);
+
+        [OperationContract]
+        CashDiscipline.ServiceLib.Types.IntegrationPackageResult ImportBankStmt(CashDiscipline.ServiceLib.Types.ImportBankStmtServiceParam paramObj);
+
+        [OperationContract]
+        CashDiscipline.ServiceLib.Types.IntegrationPackageResult ImportApPmtDistn(string filePath);
     }
 }
