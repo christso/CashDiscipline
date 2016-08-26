@@ -11,7 +11,9 @@ using System.Text;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
 using CashDiscipline.Module.Logic.Cash;
-
+using CashDiscipline.Module.Logic;
+using System.Linq;
+using CashDiscipline.Module.CashDisciplineServiceReference;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -45,11 +47,27 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             var importer = new BankStmtImporter();
 
-            var result = importer.Execute(paramObj);
-            string messagesText = result.ReturnMessage;
+            var result = importer.Execute(paramObj.ImportBankStmtParamItems);
+
+            string messagesText = string.Empty;
+            foreach (var childResult in result)
+            {
+                if (!string.IsNullOrEmpty(messagesText))
+                    messagesText += "\r\n\r\n";
+                messagesText += string.Format("## {0}: {1} ---------------\r\n", 
+                    childResult.OperationStatus.ToString().ToUpper(),
+                    childResult.PackageName);
+                messagesText += CashDiscipline.Module.Logic.SqlServer.SsisUtil.GetMessageText(childResult.SsisMessages);
+            }
+
+            int successCount = result.Where(x => x.OperationStatus == SsisOperationStatus.Success).Count();
+            int failCount = result.Count - successCount;
+            
+
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                Application,
-                messagesText
+                messagesText,
+                    failCount > 0 ? string.Format("Import Completed with {0} Failures", failCount) :
+                    "Import Completed Successfully"
                 );
         }
 

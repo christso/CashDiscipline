@@ -1,4 +1,5 @@
-﻿using CashDiscipline.Module.Logic.Cash;
+﻿using CashDiscipline.Module.Logic;
+using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CashDiscipline.Module.CashDisciplineServiceReference;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -45,11 +47,12 @@ namespace CashDiscipline.Module.Controllers.Cash
             var result = importer.Execute(paramObj.FilePath);
 
             // show log message
-            string messagesText = result.ReturnMessage;
+            string messagesText = CashDiscipline.Module.Logic.SqlServer.SsisUtil.GetMessageText(result.SsisMessages);
 
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                Application,
-                messagesText
+                messagesText,
+                result.OperationStatus == CashDisciplineServiceReference.SsisOperationStatus.Success ?
+                    "Import Successful" : "Imported Failed"
                 );
         }
 

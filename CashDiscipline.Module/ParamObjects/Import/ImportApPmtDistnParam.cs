@@ -15,7 +15,7 @@ namespace CashDiscipline.Module.ParamObjects.Import
 {
     [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [ModelDefault("ImageName", "BO_List")]
-    [DefaultClassOptions]
+    [NavigationItem("Parameters")]
     public class ImportApPmtDistnParam : BaseObject
     {
         public ImportApPmtDistnParam(Session session) : base(session)

@@ -30,46 +30,4 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ImportWbcForexRates">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="filePath" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ImportWbcForexRatesResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q3="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" minOccurs="0" name="ImportWbcForexRatesResult" nillable="true" type="q3:IntegrationPackageResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ImportBankStmt">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q4="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" minOccurs="0" name="paramObj" nillable="true" type="q4:ImportBankStmtServiceParam" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ImportBankStmtResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q5="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" minOccurs="0" name="ImportBankStmtResult" nillable="true" type="q5:IntegrationPackageResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ImportApPmtDistn">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" name="filePath" nillable="true" type="xs:string" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ImportApPmtDistnResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element xmlns:q6="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" minOccurs="0" name="ImportApPmtDistnResult" nillable="true" type="q6:IntegrationPackageResult" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
 </xs:schema>

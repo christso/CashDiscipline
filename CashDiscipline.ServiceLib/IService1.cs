@@ -18,10 +18,5 @@ namespace CashDiscipline.ServiceLib
         [OperationContract]
         IntegrationPackageResult ExecuteSsisPackage(string packageName, SsisParameter[] parameters);
 
-        [OperationContract]
-        IntegrationPackageResult ImportBankStmt(CashDiscipline.ServiceLib.Types.ImportBankStmtServiceParam paramObj);
-
-        [OperationContract]
-        IntegrationPackageResult ImportApPmtDistn(string filePath);
     }
 }

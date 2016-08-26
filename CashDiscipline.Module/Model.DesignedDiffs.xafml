@@ -343,6 +343,25 @@
         <ColumnInfo Id="ConfDealNum" Index="1" />
       </Columns>
     </ListView>
+    <ListView Id="ImportBankStmtParam_ImportBankStmtParamItems_ListView">
+      <Columns>
+        <ColumnInfo Id="Enabled" Index="0" />
+        <ColumnInfo Id="Name" Index="1" />
+        <ColumnInfo Id="FilePath" Index="2" />
+        <ColumnInfo Id="Account" Index="3" />
+        <ColumnInfo Id="PackageName" Index="4" />
+      </Columns>
+    </ListView>
+    <ListView Id="ImportBankStmtParamItem_ListView">
+      <Columns>
+        <ColumnInfo Id="Enabled" Index="0" />
+        <ColumnInfo Id="Name" Index="1" />
+        <ColumnInfo Id="FilePath" Index="2" />
+        <ColumnInfo Id="Account" Index="3" />
+        <ColumnInfo Id="PackageName" Index="4" />
+        <ColumnInfo Id="ImportBankStmtParam" Index="5" />
+      </Columns>
+    </ListView>
     <DetailView Id="ImportForexRatesParam_DetailView">
       <Items>
         <StaticText Id="StatusMessage" IsNewNode="True" />

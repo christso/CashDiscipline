@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://localhost:8080/CashDiscipline?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
   <xs:complexType name="ArrayOfSsisParameter">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="SsisParameter" nillable="true" type="tns:SsisParameter" />
@@ -16,12 +17,80 @@
   <xs:complexType name="IntegrationPackageResult">
     <xs:sequence>
       <xs:element minOccurs="0" name="ExecutionIdentifer" type="xs:long" />
-      <xs:element minOccurs="0" name="ReturnMessage" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="ReturnValue" type="xs:int" />
+      <xs:element minOccurs="0" name="OperationStatus" type="tns:SsisOperationStatus" />
+      <xs:element minOccurs="0" name="PackageName" nillable="true" type="xs:string" />
       <xs:element minOccurs="0" name="SsisMessages" nillable="true" type="tns:ArrayOfSsisMessage" />
     </xs:sequence>
   </xs:complexType>
   <xs:element name="IntegrationPackageResult" nillable="true" type="tns:IntegrationPackageResult" />
+  <xs:simpleType name="SsisOperationStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Created">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">1</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Running">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">2</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Canceled">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">3</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Failed">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">4</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Pending">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">5</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="UnexpectTerminated">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">6</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Success">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">7</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Stopping">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">8</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+      <xs:enumeration value="Completion">
+        <xs:annotation>
+          <xs:appinfo>
+            <EnumerationValue xmlns="http://schemas.microsoft.com/2003/10/Serialization/">9</EnumerationValue>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:enumeration>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="SsisOperationStatus" nillable="true" type="tns:SsisOperationStatus" />
   <xs:complexType name="ArrayOfSsisMessage">
     <xs:sequence>
       <xs:element minOccurs="0" maxOccurs="unbounded" name="SsisMessage" nillable="true" type="tns:SsisMessage" />
@@ -36,17 +105,4 @@
     </xs:sequence>
   </xs:complexType>
   <xs:element name="SsisMessage" nillable="true" type="tns:SsisMessage" />
-  <xs:complexType name="ImportBankStmtServiceParam">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="AnzEnabled" type="xs:boolean" />
-      <xs:element minOccurs="0" name="AnzFilePath" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="CbaBosEnabled" type="xs:boolean" />
-      <xs:element minOccurs="0" name="CbaBosFilePath" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="CbaOpEnabled" type="xs:boolean" />
-      <xs:element minOccurs="0" name="CbaOpFilePath" nillable="true" type="xs:string" />
-      <xs:element minOccurs="0" name="WbcEnabled" type="xs:boolean" />
-      <xs:element minOccurs="0" name="WbcFilePath" nillable="true" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:element name="ImportBankStmtServiceParam" nillable="true" type="tns:ImportBankStmtServiceParam" />
 </xs:schema>

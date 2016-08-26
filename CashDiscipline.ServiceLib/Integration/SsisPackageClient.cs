@@ -34,7 +34,11 @@ namespace CashDiscipline.ServiceLib.Integration
             // Modify package parameter
             foreach (var svcParam in parameters)
             {
-                ssisPackage.Parameters[svcParam.ParameterName].Set(ParameterInfo.ParameterValueType.Literal, svcParam.ParameterValue);
+                ParameterInfo pInfo = null;
+                var pKey = new ParameterInfo.Key(svcParam.ParameterName);
+                if (!ssisPackage.Parameters.TryGetValue(pKey, out pInfo))
+                    throw new InvalidOperationException(string.Format("Parameter name {0} does not exist in package.", pKey.Name));
+                pInfo.Set(ParameterInfo.ParameterValueType.Literal, svcParam.ParameterValue);
             }
             
             ssisPackage.Alter();
@@ -44,6 +48,8 @@ namespace CashDiscipline.ServiceLib.Integration
 
             // Loop through the log and add the messages to the listbox
             SsisMessages = new List<SsisMessage>();
+            var execution = ssisServer.Catalogs["SSISDB"].Executions[executionIdentifier];
+            
             foreach (OperationMessage message in ssisServer.Catalogs["SSISDB"].Executions[executionIdentifier].Messages)
             {
                 SsisMessages.Add(new SsisMessage()
@@ -53,11 +59,13 @@ namespace CashDiscipline.ServiceLib.Integration
                     MessageType = message.MessageType
                 });
             }
-
+            
             // Update result
             PackageResult = new IntegrationPackageResult();
             PackageResult.SsisMessages = this.SsisMessages;
             PackageResult.ExecutionIdentifer = executionIdentifier;
+            PackageResult.PackageName = packageName;
+            PackageResult.OperationStatus = (SsisOperationStatus)execution.Status;
 
             return PackageResult;
         }

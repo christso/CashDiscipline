@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CashDiscipline.Module.CashDisciplineServiceReference;
 
-namespace CashDiscipline.Module.Logic
+namespace CashDiscipline.Module.Logic.SqlServer
 {
     public class SsisUtil
     {

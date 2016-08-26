@@ -272,9 +272,10 @@
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
     <Compile Include="Logic\SqlProcessorUtil.cs" />
-    <Compile Include="Logic\SsisUtil.cs" />
+    <Compile Include="Logic\SqlServer\SsisUtil.cs" />
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
     <Compile Include="Service References\CashDisciplineServiceReference\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -444,6 +445,10 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="UnusableNodes.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\CashDisciplineServiceReference\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -457,7 +462,6 @@
     <Content Include="FunctionalTests\ForexCounterparty_Create.inc" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Logic\SqlServer\" />
     <Folder Include="ParamObjects\Setup\" />
   </ItemGroup>
   <ItemGroup>

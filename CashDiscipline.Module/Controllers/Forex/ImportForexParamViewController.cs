@@ -12,6 +12,7 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
 using CashDiscipline.Module.Logic.Forex;
 using CashDiscipline.Module.Logic;
+using CashDiscipline.Module.CashDisciplineServiceReference;
 
 namespace CashDiscipline.Module.Controllers.Forex
 {
@@ -38,11 +39,12 @@ namespace CashDiscipline.Module.Controllers.Forex
           
             var importer = new WbcForexRateImporter();
             var result = importer.Execute(paramObj.FileName);
-            var messageText = SsisUtil.GetMessageText(result.SsisMessages);
+            var messageText = CashDiscipline.Module.Logic.SqlServer.SsisUtil.GetMessageText(result.SsisMessages);
 
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                messageText,
-               "Import Completion Status"
+               result.OperationStatus == SsisOperationStatus.Success ?
+                    "Import Successful" : "Imported Failed"
                );
         }
 

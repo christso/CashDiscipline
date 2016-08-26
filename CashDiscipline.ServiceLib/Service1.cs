@@ -17,26 +17,6 @@ namespace CashDiscipline.ServiceLib
             return string.Format("You entered: {0}", value);
         }
 
-        public IntegrationPackageResult ImportBankStmt(ImportBankStmtServiceParam paramObj)
-        {
-            var logic = new ImportBankStmtImpl();
-            logic.Execute(paramObj);
-            var result = new IntegrationPackageResult();
-            result.ReturnMessage = logic.GetMessageText();
-            result.ReturnValue = 0;
-            return result;
-        }
-
-        public IntegrationPackageResult ImportApPmtDistn(string filePath)
-        {
-            var logic = new ImportApPmtDistnImpl();
-            logic.Execute(filePath);
-            var result = new CashDiscipline.ServiceLib.Types.IntegrationPackageResult();
-            result.ReturnMessage = logic.GetMessageText();
-            result.ReturnValue = 0;
-            return result;
-        }
-
         public IntegrationPackageResult ExecuteSsisPackage(string packageName, SsisParameter[] parameters)
         {
             var client = new SsisPackageClient();

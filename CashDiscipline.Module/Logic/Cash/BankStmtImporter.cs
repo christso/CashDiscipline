@@ -12,33 +12,29 @@ namespace CashDiscipline.Module.Logic.Cash
 {
     public class BankStmtImporter
     {
-        public IntegrationPackageResult Execute(ImportBankStmtServiceParam svcParam)
+        public List<IntegrationPackageResult> Execute(IList<ImportBankStmtParamItem> paramObjs)
         {
-            CashDisciplineServiceReference.Service1Client client = new
-                CashDisciplineServiceReference.Service1Client();
+            Service1Client client = new Service1Client();
+            var result = new List<IntegrationPackageResult>();
 
-            IntegrationPackageResult result = client.ImportBankStmt(svcParam);
+            foreach (var paramObj in paramObjs)
+            {
+                if (paramObj.Enabled)
+                {
+                    var parameters = new SsisParameter[]
+                    {
+                        new SsisParameter() { ParameterName = "ChildPackageName", ParameterValue = paramObj.PackageName },
+                        new SsisParameter() { ParameterName = "SourceConnectionString", ParameterValue = paramObj.FilePath },
+                        new SsisParameter() { ParameterName = "Account",
+                            ParameterValue = paramObj.Account == null? "" : paramObj.Account.Name }
+                    };
+
+                    IntegrationPackageResult childResult = client.ExecuteSsisPackage("BankStmtFile.dtsx", parameters);
+                    result.Add(childResult);
+                }
+            }
+
             return result;
-        }
-
-        public IntegrationPackageResult Execute(ImportBankStmtParam paramObj)
-        {
-            var svcParam = MapParamObj(paramObj);
-            return Execute(svcParam);
-        }
-
-        public ImportBankStmtServiceParam MapParamObj(ImportBankStmtParam paramObj)
-        {
-            var svcParam = new ImportBankStmtServiceParam();
-            svcParam.AnzFilePath = paramObj.AnzFilePath;
-            svcParam.AnzEnabled = paramObj.AnzEnabled;
-            svcParam.WbcFilePath = paramObj.WbcFilePath;
-            svcParam.WbcEnabled = paramObj.WbcEnabled;
-            svcParam.CbaBosFilePath = paramObj.CbaBosFilePath;
-            svcParam.CbaBosEnabled = paramObj.CbaBosEnabled;
-            svcParam.CbaOpFilePath = paramObj.CbaOpFilePath;
-            svcParam.CbaOpEnabled = paramObj.CbaOpEnabled;
-            return svcParam;
         }
     }
 }

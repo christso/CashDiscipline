@@ -14,10 +14,14 @@ namespace CashDiscipline.Module.Logic.Cash
     {
         public IntegrationPackageResult Execute(string inputFilePath)
         {
-            CashDisciplineServiceReference.Service1Client client = new
-                CashDisciplineServiceReference.Service1Client();
+            Service1Client client = new Service1Client();
 
-            IntegrationPackageResult result = client.ImportApPmtDistn(inputFilePath);
+            var parameters = new SsisParameter[] {
+                new SsisParameter() { ParameterName = "SourceConnectionString", ParameterValue = inputFilePath ?? "" }
+            };
+
+            IntegrationPackageResult result = client.ExecuteSsisPackage("ApPmtDistn.dtsx", parameters);
+
             return result;
         }
     }
