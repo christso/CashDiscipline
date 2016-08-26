@@ -29,5 +29,16 @@ namespace CashDiscipline.Module.Logic
             }
             return parameters;
         }
+
+        public Guid GetServerSequentialGuid()
+        {
+            using (var cmd = ((SqlConnection)session.Connection).CreateCommand())
+            {
+                // get GUID for snapshot
+                cmd.CommandText = "SELECT CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER)";
+                var newGuid = (Guid)cmd.ExecuteScalar();
+                return newGuid;
+            }
+        }
     }
 }

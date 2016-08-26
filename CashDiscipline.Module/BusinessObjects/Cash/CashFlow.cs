@@ -924,44 +924,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             return session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid);
         }
 
-        public static CashFlowSnapshot SaveSnapshot(Session session, DateTime fromTranDate)
-        {
-            var snapshot = new CashFlowSnapshot(session);
-            snapshot.FromDate = fromTranDate;
-            snapshot.Name = string.Format("Snapshot {0:d-MMM-yy HH:mm:ss}", DateTime.Now);
-
-            var criteria = CriteriaOperator.Parse("Snapshot = ?",
-                session.GetObjectByKey<CashFlowSnapshot>(SetOfBooks.CachedInstance.CurrentCashFlowSnapshot.Oid));
-            if (fromTranDate != default(DateTime))
-                criteria = criteria & CriteriaOperator.Parse("TranDate >= ?", fromTranDate);
-            var cashFlows = session.GetObjects(session.GetClassInfo(typeof(CashFlow)),
-                            criteria,
-                            new SortingCollection(null), 0, false, true);
-            foreach (CashFlow cf in cashFlows)
-            {
-                var cfShot = new CashFlow(session);
-                cfShot.CalculateEnabled = false;
-                CloneIXPSimpleObjectHelper.CloneLocal(cf, cfShot);
-                cfShot.Snapshot = snapshot;
-                cfShot.origCashFlow = cf;
-            }
-
-            return snapshot;
-        }
-
-        public static CashFlowSnapshot SaveForecast(XPObjectSpace objSpace, bool commit = true)
-        {
-            var session = ((XPObjectSpace)objSpace).Session;
-            DateTime minDate = new XPQuery<CashFlow>(objSpace.Session)
-                            .Where(cf => cf.Status == CashFlowStatus.Forecast
-                                && cf.Snapshot == GetCurrentSnapshot(objSpace.Session))
-                            .Min(cf => cf.TranDate);
-            var result = CashFlow.SaveSnapshot(session, minDate);
-            if (commit)
-                objSpace.CommitChanges();
-            return result;
-        }
-
         #endregion
 
         #region Field Operators

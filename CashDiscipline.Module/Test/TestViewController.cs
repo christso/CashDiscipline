@@ -12,6 +12,7 @@ using CashDiscipline.Module.BusinessObjects;
 using DevExpress.Data.Filtering;
 using Xafology.ExpressApp.Xpo.Import.Parameters;
 using CashDiscipline.Module.BusinessObjects.Forex;
+using CashDiscipline.Module.Logic.Cash;
 
 namespace CashDiscipline.Module.Test
 {
@@ -150,7 +151,8 @@ namespace CashDiscipline.Module.Test
             cf.Save();
 
             ObjectSpace.CommitChanges();
-            var shot = CashFlow.SaveForecast((XPObjectSpace)ObjectSpace);
+            var shot = new SaveForecastSnapshot((XPObjectSpace)ObjectSpace);
+            shot.Process();
         }
 
         public void CreateCashFlowImportParams()

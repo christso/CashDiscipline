@@ -284,7 +284,8 @@ namespace CashDiscipline.Module.Controllers.Cash
         private void SaveForecast()
         {
             var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
-            CashFlow.SaveForecast(objSpace);
+            var logic = new SaveForecastSnapshot(objSpace);
+            logic.Process();
         }
 
         private void MapSelected()

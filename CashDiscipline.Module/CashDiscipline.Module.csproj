@@ -233,6 +233,7 @@
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Logic\Cash\SaveForecastSnapshot.cs" />
     <Compile Include="Logic\Forex\ForexToCashFlowUploader.cs" />
     <Compile Include="Controllers\ImportViewController.cs">
       <SubType>Component</SubType>

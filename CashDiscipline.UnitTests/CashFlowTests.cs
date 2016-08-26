@@ -468,8 +468,11 @@ namespace CashDiscipline.UnitTests
 
             ObjectSpace.CommitChanges();
 
-            var snapshot = CashFlow.SaveSnapshot(ObjectSpace.Session, tranDate);
-            ObjectSpace.CommitChanges();
+            var logic = new SaveForecastSnapshot(ObjectSpace);
+            logic.Process();
+            ObjectSpace.Refresh();
+
+            var snapshot = ObjectSpace.FindObject<CashFlowSnapshot>(null);
             #endregion
 
             #region Asserts
