@@ -11,6 +11,7 @@ using System.Text;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
 using CashDiscipline.Module.Logic.Forex;
+using CashDiscipline.Module.Logic;
 
 namespace CashDiscipline.Module.Controllers.Forex
 {
@@ -34,12 +35,14 @@ namespace CashDiscipline.Module.Controllers.Forex
         public void WbcImport()
         {
             var paramObj = View.CurrentObject as ImportForexRatesParam;
-
+          
             var importer = new WbcForexRateImporter();
             var result = importer.Execute(paramObj.FileName);
+            var messageText = SsisUtil.GetMessageText(result.SsisMessages);
+
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-               Application,
-               result.ReturnMessage
+               messageText,
+               "Import Completion Status"
                );
         }
 

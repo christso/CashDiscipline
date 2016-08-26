@@ -272,6 +272,7 @@
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
     <Compile Include="Logic\SqlProcessorUtil.cs" />
+    <Compile Include="Logic\SsisUtil.cs" />
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
     <Compile Include="Service References\CashDisciplineServiceReference\Reference.cs">

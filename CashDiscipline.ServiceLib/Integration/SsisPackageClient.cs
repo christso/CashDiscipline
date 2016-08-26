@@ -19,7 +19,7 @@ namespace CashDiscipline.ServiceLib.Integration
         public List<SsisMessage> SsisMessages;
         public IntegrationPackageResult PackageResult;
 
-        public IntegrationPackageResult Execute(string packageName, List<SsisParameter> parameters)
+        public IntegrationPackageResult Execute(string packageName, SsisParameter[] parameters)
         {
             SqlConnection ssisConnection = new SqlConnection(SqlConnectionString);
             IntegrationServices ssisServer = new IntegrationServices(ssisConnection);

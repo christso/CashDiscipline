@@ -16,15 +16,12 @@ namespace CashDiscipline.ServiceLib
         string GetData(string value);
 
         [OperationContract]
-        IntegrationPackageResult ExecuteSsisPackage(string packageName, List<SsisParameter> parameters);
+        IntegrationPackageResult ExecuteSsisPackage(string packageName, SsisParameter[] parameters);
 
         [OperationContract]
-        CashDiscipline.ServiceLib.Types.IntegrationPackageResult ImportWbcForexRates(string filePath);
+        IntegrationPackageResult ImportBankStmt(CashDiscipline.ServiceLib.Types.ImportBankStmtServiceParam paramObj);
 
         [OperationContract]
-        CashDiscipline.ServiceLib.Types.IntegrationPackageResult ImportBankStmt(CashDiscipline.ServiceLib.Types.ImportBankStmtServiceParam paramObj);
-
-        [OperationContract]
-        CashDiscipline.ServiceLib.Types.IntegrationPackageResult ImportApPmtDistn(string filePath);
+        IntegrationPackageResult ImportApPmtDistn(string filePath);
     }
 }

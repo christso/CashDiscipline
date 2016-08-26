@@ -10,13 +10,16 @@ namespace CashDiscipline.Module.Logic.Forex
 {
     public class WbcForexRateImporter
     {
-
         public IntegrationPackageResult Execute(string inputFilePath)
         {
-            CashDisciplineServiceReference.Service1Client client = new
-                CashDisciplineServiceReference.Service1Client();
+            Service1Client client = new Service1Client();
 
-            IntegrationPackageResult result = client.ImportWbcForexRates(inputFilePath);
+            var parameters = new SsisParameter[] {
+                new SsisParameter() { ParameterName = "SourceConnectionString", ParameterValue = inputFilePath ?? "" }
+            };
+
+            IntegrationPackageResult result = client.ExecuteSsisPackage("WbcForexRate.dtsx", parameters);
+            
             return result;
         }
     }
