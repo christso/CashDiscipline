@@ -6,5 +6,5 @@
     cause the file to be unrecognizable by the program.
 -->
 <GenericObjectDataSource DisplayName="CompositeType" Version="1.0" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
-   <TypeInfo>CashDiscipline.Module.CashDisciplineServiceReference.CompositeType, CashDiscipline.Module, Version=15.2.7.164, Culture=neutral, PublicKeyToken=c2b643702d3c23b7</TypeInfo>
+   <TypeInfo>CashDiscipline.Module.ServiceReference1.CompositeType, CashDiscipline.Module, Version=15.2.7.164, Culture=neutral, PublicKeyToken=c2b643702d3c23b7</TypeInfo>
 </GenericObjectDataSource>

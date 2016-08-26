@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CashDiscipline.Module.CashDisciplineServiceReference {
+namespace CashDiscipline.Module.ServiceReference1 {
     using System.Runtime.Serialization;
     using System;
     
@@ -87,13 +87,13 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
         private long ExecutionIdentiferField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private CashDiscipline.Module.CashDisciplineServiceReference.SsisOperationStatus OperationStatusField;
+        private CashDiscipline.Module.ServiceReference1.SsisOperationStatus OperationStatusField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
         private string PackageNameField;
         
         [System.Runtime.Serialization.OptionalFieldAttribute()]
-        private CashDiscipline.Module.CashDisciplineServiceReference.SsisMessage[] SsisMessagesField;
+        private CashDiscipline.Module.ServiceReference1.SsisMessage[] SsisMessagesField;
         
         [global::System.ComponentModel.BrowsableAttribute(false)]
         public System.Runtime.Serialization.ExtensionDataObject ExtensionData {
@@ -119,7 +119,7 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public CashDiscipline.Module.CashDisciplineServiceReference.SsisOperationStatus OperationStatus {
+        public CashDiscipline.Module.ServiceReference1.SsisOperationStatus OperationStatus {
             get {
                 return this.OperationStatusField;
             }
@@ -145,7 +145,7 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
         }
         
         [System.Runtime.Serialization.DataMemberAttribute()]
-        public CashDiscipline.Module.CashDisciplineServiceReference.SsisMessage[] SsisMessages {
+        public CashDiscipline.Module.ServiceReference1.SsisMessage[] SsisMessages {
             get {
                 return this.SsisMessagesField;
             }
@@ -277,29 +277,29 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="CashDisciplineServiceReference.IService1")]
+    [System.ServiceModel.ServiceContractAttribute(ConfigurationName="ServiceReference1.IService1")]
     public interface IService1 {
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetData", ReplyAction="http://tempuri.org/IService1/GetDataResponse")]
-        string GetData(string value);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Ping", ReplyAction="http://tempuri.org/IService1/PingResponse")]
+        string Ping(string value);
         
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/GetData", ReplyAction="http://tempuri.org/IService1/GetDataResponse")]
-        System.Threading.Tasks.Task<string> GetDataAsync(string value);
-        
-        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ExecuteSsisPackage", ReplyAction="http://tempuri.org/IService1/ExecuteSsisPackageResponse")]
-        CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ExecuteSsisPackage(string packageName, CashDiscipline.Module.CashDisciplineServiceReference.SsisParameter[] parameters);
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/Ping", ReplyAction="http://tempuri.org/IService1/PingResponse")]
+        System.Threading.Tasks.Task<string> PingAsync(string value);
         
         [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ExecuteSsisPackage", ReplyAction="http://tempuri.org/IService1/ExecuteSsisPackageResponse")]
-        System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ExecuteSsisPackageAsync(string packageName, CashDiscipline.Module.CashDisciplineServiceReference.SsisParameter[] parameters);
+        CashDiscipline.Module.ServiceReference1.IntegrationPackageResult ExecuteSsisPackage(string packageName, CashDiscipline.Module.ServiceReference1.SsisParameter[] parameters);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://tempuri.org/IService1/ExecuteSsisPackage", ReplyAction="http://tempuri.org/IService1/ExecuteSsisPackageResponse")]
+        System.Threading.Tasks.Task<CashDiscipline.Module.ServiceReference1.IntegrationPackageResult> ExecuteSsisPackageAsync(string packageName, CashDiscipline.Module.ServiceReference1.SsisParameter[] parameters);
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public interface IService1Channel : CashDiscipline.Module.CashDisciplineServiceReference.IService1, System.ServiceModel.IClientChannel {
+    public interface IService1Channel : CashDiscipline.Module.ServiceReference1.IService1, System.ServiceModel.IClientChannel {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
-    public partial class Service1Client : System.ServiceModel.ClientBase<CashDiscipline.Module.CashDisciplineServiceReference.IService1>, CashDiscipline.Module.CashDisciplineServiceReference.IService1 {
+    public partial class Service1Client : System.ServiceModel.ClientBase<CashDiscipline.Module.ServiceReference1.IService1>, CashDiscipline.Module.ServiceReference1.IService1 {
         
         public Service1Client() {
         }
@@ -320,19 +320,19 @@ namespace CashDiscipline.Module.CashDisciplineServiceReference {
                 base(binding, remoteAddress) {
         }
         
-        public string GetData(string value) {
-            return base.Channel.GetData(value);
+        public string Ping(string value) {
+            return base.Channel.Ping(value);
         }
         
-        public System.Threading.Tasks.Task<string> GetDataAsync(string value) {
-            return base.Channel.GetDataAsync(value);
+        public System.Threading.Tasks.Task<string> PingAsync(string value) {
+            return base.Channel.PingAsync(value);
         }
         
-        public CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult ExecuteSsisPackage(string packageName, CashDiscipline.Module.CashDisciplineServiceReference.SsisParameter[] parameters) {
+        public CashDiscipline.Module.ServiceReference1.IntegrationPackageResult ExecuteSsisPackage(string packageName, CashDiscipline.Module.ServiceReference1.SsisParameter[] parameters) {
             return base.Channel.ExecuteSsisPackage(packageName, parameters);
         }
         
-        public System.Threading.Tasks.Task<CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult> ExecuteSsisPackageAsync(string packageName, CashDiscipline.Module.CashDisciplineServiceReference.SsisParameter[] parameters) {
+        public System.Threading.Tasks.Task<CashDiscipline.Module.ServiceReference1.IntegrationPackageResult> ExecuteSsisPackageAsync(string packageName, CashDiscipline.Module.ServiceReference1.SsisParameter[] parameters) {
             return base.Channel.ExecuteSsisPackageAsync(packageName, parameters);
         }
     }

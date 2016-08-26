@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CashDiscipline.Module.CashDisciplineServiceReference;
+using CashDiscipline.Module.ServiceReference1;
 
 namespace CashDiscipline.Module.Logic.SqlServer
 {

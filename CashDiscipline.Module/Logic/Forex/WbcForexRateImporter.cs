@@ -1,4 +1,4 @@
-﻿using CashDiscipline.Module.CashDisciplineServiceReference;
+﻿using CashDiscipline.Module.ServiceReference1;
 using DevExpress.ExpressApp;
 using System;
 using System.Collections.Generic;

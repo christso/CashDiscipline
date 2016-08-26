@@ -276,7 +276,7 @@
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
-    <Compile Include="Service References\CashDisciplineServiceReference\Reference.cs">
+    <Compile Include="Service References\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
@@ -397,19 +397,6 @@
     <Compile Include="ParamObjects\Import\ImportForexRatesParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DatabaseUpdate\Updater.cs" />
-    <None Include="Service References\CashDisciplineServiceReference\CashDiscipline.Module.CashDisciplineServiceReference.IntegrationPackageResult.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\CashDisciplineServiceReference\CashDiscipline.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CashDisciplineServiceReference\CashDiscipline1.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CashDisciplineServiceReference\CashDiscipline2.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Service References\CashDisciplineServiceReference\Service1.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Model.DesignedDiffs.xafml">
@@ -445,17 +432,30 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Service References\ServiceReference1\CashDiscipline.Module.ServiceReference1.IntegrationPackageResult.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ServiceReference1\configuration.svcinfo" />
+    <None Include="Service References\ServiceReference1\configuration91.svcinfo" />
+    <None Include="Service References\ServiceReference1\CashDiscipline.disco" />
+    <None Include="Service References\ServiceReference1\CashDiscipline.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference1\CashDiscipline1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference1\CashDiscipline2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\ServiceReference1\Service1.wsdl" />
     <None Include="UnusableNodes.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Service References\CashDisciplineServiceReference\Reference.svcmap">
-      <Generator>WCF Proxy Generator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Service References\CashDisciplineServiceReference\configuration.svcinfo" />
-    <None Include="Service References\CashDisciplineServiceReference\configuration91.svcinfo" />
-    <None Include="Service References\CashDisciplineServiceReference\CashDiscipline.disco" />
     <EmbeddedResource Include="Scripts\CashDisc-SQL-Install.sql" />
     <EmbeddedResource Include="Images\banner.png" />
     <Content Include="FunctionalTests\Counterparty_Create.inc" />
@@ -468,13 +468,13 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadataStorage Include="Service References\CashDisciplineServiceReference\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CashDiscipline.Common\CashDiscipline.Common.csproj">
       <Project>{e2ac2fd6-94e0-43ea-af1e-6597ce68ba65}</Project>
       <Name>CashDiscipline.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ServiceReference1\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.2.1\tools\AutoMapper.targets')" />

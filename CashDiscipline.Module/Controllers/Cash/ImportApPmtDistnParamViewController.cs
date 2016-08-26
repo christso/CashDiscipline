@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CashDiscipline.Module.CashDisciplineServiceReference;
+using CashDiscipline.Module.ServiceReference1;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -51,7 +51,7 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 messagesText,
-                result.OperationStatus == CashDisciplineServiceReference.SsisOperationStatus.Success ?
+                result.OperationStatus == SsisOperationStatus.Success ?
                     "Import Successful" : "Imported Failed"
                 );
         }

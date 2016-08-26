@@ -12,7 +12,7 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
 using CashDiscipline.Module.Logic.Forex;
 using CashDiscipline.Module.Logic;
-using CashDiscipline.Module.CashDisciplineServiceReference;
+using CashDiscipline.Module.ServiceReference1;
 
 namespace CashDiscipline.Module.Controllers.Forex
 {

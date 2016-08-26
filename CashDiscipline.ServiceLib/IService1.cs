@@ -13,7 +13,7 @@ namespace CashDiscipline.ServiceLib
     public interface IService1
     {
         [OperationContract]
-        string GetData(string value);
+        string Ping(string value);
 
         [OperationContract]
         IntegrationPackageResult ExecuteSsisPackage(string packageName, SsisParameter[] parameters);

@@ -329,6 +329,7 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Images\ReadMe.txt" />
     <Content Include="Model.xafml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -352,10 +353,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\ReadMe.txt" />
     <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CashDiscipline.Common\CashDiscipline.Common.csproj">
+      <Project>{e2ac2fd6-94e0-43ea-af1e-6597ce68ba65}</Project>
+      <Name>CashDiscipline.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CashDiscipline.Module.Win\CashDiscipline.Module.Win.csproj">
       <Project>{7964F87D-BC5D-4C4E-8B2F-71E89739AA97}</Project>
       <Name>CashDiscipline.Module.Win</Name>
@@ -383,7 +387,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
+    <Folder Include="Controls\Images\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

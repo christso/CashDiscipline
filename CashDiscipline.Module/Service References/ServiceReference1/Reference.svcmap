@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a5c6d264-f83a-43bc-8486-ed495f007393" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="3daca8ec-dc72-40a9-91a2-eadf790c985d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,11 +22,11 @@
     <MetadataSource Address="http://localhost:8080/CashDiscipline" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="CashDiscipline.xsd" MetadataType="Schema" ID="69514559-bd6f-4370-9ed9-a2bf0b3593ab" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?xsd=xsd2" />
-    <MetadataFile FileName="CashDiscipline.disco" MetadataType="Disco" ID="cf8db395-50b7-49f1-b3e8-04f2dadc7cc2" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?disco" />
-    <MetadataFile FileName="CashDiscipline1.xsd" MetadataType="Schema" ID="b83ec77c-74a0-4b91-ba1e-81dcce936f76" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?xsd=xsd0" />
-    <MetadataFile FileName="CashDiscipline2.xsd" MetadataType="Schema" ID="6db503ff-81df-4212-9805-3dd770c9a634" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?xsd=xsd1" />
-    <MetadataFile FileName="Service1.wsdl" MetadataType="Wsdl" ID="eb7c586f-eaa4-4426-94f0-ab135537ab3f" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?wsdl" />
+    <MetadataFile FileName="CashDiscipline.xsd" MetadataType="Schema" ID="a457b9db-a3dc-4dfa-9751-b304ea6b0376" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?xsd=xsd2" />
+    <MetadataFile FileName="CashDiscipline.disco" MetadataType="Disco" ID="48cf6b3f-36a5-42b2-9363-6ba669201fe5" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?disco" />
+    <MetadataFile FileName="CashDiscipline1.xsd" MetadataType="Schema" ID="4d07c3a8-60f5-4aa7-ad23-02496619f397" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?xsd=xsd0" />
+    <MetadataFile FileName="CashDiscipline2.xsd" MetadataType="Schema" ID="a98fdf90-ece5-44c1-9f61-46fb7946a8c2" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?xsd=xsd1" />
+    <MetadataFile FileName="Service1.wsdl" MetadataType="Wsdl" ID="2e4b3c65-c71d-4cc9-957c-d2554becc464" SourceId="1" SourceUrl="http://localhost:8080/CashDiscipline?wsdl" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />

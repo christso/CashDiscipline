@@ -13,7 +13,7 @@ using DevExpress.Persistent.Base;
 using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.Logic;
 using System.Linq;
-using CashDiscipline.Module.CashDisciplineServiceReference;
+using CashDiscipline.Module.ServiceReference1;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {

@@ -1,4 +1,4 @@
-﻿using CashDiscipline.Module.CashDisciplineServiceReference;
+﻿using CashDiscipline.Module.ServiceReference1;
 using CashDiscipline.Module.ParamObjects.Import;
 using System;
 using System.Collections.Generic;

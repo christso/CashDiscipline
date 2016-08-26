@@ -7,11 +7,11 @@
       <xsd:import schemaLocation="http://localhost:8080/CashDiscipline?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/CashDiscipline.ServiceLib.Types" />
     </xsd:schema>
   </wsdl:types>
-  <wsdl:message name="IService1_GetData_InputMessage">
-    <wsdl:part name="parameters" element="tns:GetData" />
+  <wsdl:message name="IService1_Ping_InputMessage">
+    <wsdl:part name="parameters" element="tns:Ping" />
   </wsdl:message>
-  <wsdl:message name="IService1_GetData_OutputMessage">
-    <wsdl:part name="parameters" element="tns:GetDataResponse" />
+  <wsdl:message name="IService1_Ping_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PingResponse" />
   </wsdl:message>
   <wsdl:message name="IService1_ExecuteSsisPackage_InputMessage">
     <wsdl:part name="parameters" element="tns:ExecuteSsisPackage" />
@@ -20,9 +20,9 @@
     <wsdl:part name="parameters" element="tns:ExecuteSsisPackageResponse" />
   </wsdl:message>
   <wsdl:portType name="IService1">
-    <wsdl:operation name="GetData">
-      <wsdl:input wsam:Action="http://tempuri.org/IService1/GetData" message="tns:IService1_GetData_InputMessage" />
-      <wsdl:output wsam:Action="http://tempuri.org/IService1/GetDataResponse" message="tns:IService1_GetData_OutputMessage" />
+    <wsdl:operation name="Ping">
+      <wsdl:input wsam:Action="http://tempuri.org/IService1/Ping" message="tns:IService1_Ping_InputMessage" />
+      <wsdl:output wsam:Action="http://tempuri.org/IService1/PingResponse" message="tns:IService1_Ping_OutputMessage" />
     </wsdl:operation>
     <wsdl:operation name="ExecuteSsisPackage">
       <wsdl:input wsam:Action="http://tempuri.org/IService1/ExecuteSsisPackage" message="tns:IService1_ExecuteSsisPackage_InputMessage" />
@@ -31,8 +31,8 @@
   </wsdl:portType>
   <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <wsdl:operation name="GetData">
-      <soap:operation soapAction="http://tempuri.org/IService1/GetData" style="document" />
+    <wsdl:operation name="Ping">
+      <soap:operation soapAction="http://tempuri.org/IService1/Ping" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
