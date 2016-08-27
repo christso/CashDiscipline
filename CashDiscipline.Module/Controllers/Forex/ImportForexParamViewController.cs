@@ -23,7 +23,7 @@ namespace CashDiscipline.Module.Controllers.Forex
             TargetObjectType = typeof(ImportForexRatesParam);
             TargetViewType = ViewType.DetailView;
 
-            var importAction = new SimpleAction(this, "ImportWbcForexRatesACtion", PredefinedCategory.ObjectsCreation);
+            var importAction = new SimpleAction(this, "ImportWbcForexRatesAction", PredefinedCategory.ObjectsCreation);
             importAction.Caption = "Run Import";
             importAction.Execute += ImportAction_Execute; ;
         }

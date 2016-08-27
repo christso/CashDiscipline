@@ -1,8 +1,9 @@
-﻿using CashDiscipline.Module.BusinessObjects;
+﻿using CashDiscipline.Module.AppNavigation;
+using CashDiscipline.Module.BusinessObjects;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.BusinessObjects.Setup;
 using CashDiscipline.Module.Controllers.Cash;
-using CashDiscipline.Module.Logic.Setup;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Xpo;
@@ -31,14 +32,15 @@ namespace CashDiscipline.Module.Controllers
             portalAction.Caption = "Actions";
             portalAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             portalAction.Execute += portalAction_Execute;
-            var resetChoice = new ChoiceActionItem();
-            resetChoice.Caption = "Reset";
-            portalAction.Items.Add(resetChoice);
+            portalAction.ShowItemsOnClick = true;
 
             var runChoice = new ChoiceActionItem();
             runChoice.Caption = "Run";
             portalAction.Items.Add(runChoice);
 
+            var resetChoice = new ChoiceActionItem();
+            resetChoice.Caption = "Reset";
+            portalAction.Items.Add(resetChoice);
         }
 
         private void portalAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -56,21 +58,24 @@ namespace CashDiscipline.Module.Controllers
 
         private void ResetPortal()
         {
-
             var objSpace = (XPObjectSpace)ObjectSpace;
             var classInfo = objSpace.Session.GetClassInfo<ActionPortal>();
 
-            #region delete all actions
-            var deleter = new Xafology.ExpressApp.BatchDelete.BatchDeleter(ObjectSpace);
-            deleter.Delete(classInfo, null);
-            #endregion
-
             #region repopulate actions
 
-            foreach (var portalItem in ActionPortalLogic.ActionPortalList)
+            var softPortal = new ActionPortalLogic();
+            var hardPortal = new ActionPortalHardLogic(softPortal);
+
+            var intlObjs = ObjectSpace.GetObjects<ActionPortal>(
+                CriteriaOperator.Parse("ActionPortalType = ?", ActionPortalType.Internal));
+            ObjectSpace.Delete(intlObjs);
+
+            foreach (var portalItem in hardPortal.ActionPortalList)
             {
                 var portalObj = ObjectSpace.CreateObject<ActionPortal>();
+                portalObj.ActionPortalType = ActionPortalType.Internal;
                 portalObj.ActionName = portalItem.ActionName;
+                portalObj.ActionDescription = portalItem.ActionDescription;
             }
 
             ObjectSpace.CommitChanges();
@@ -80,9 +85,35 @@ namespace CashDiscipline.Module.Controllers
 
         private void RunPortalAction(ShowViewParameters svp)
         {
+            var softPortal = new CashDiscipline.Module.AppNavigation.ActionPortalLogic();
+            var hardPortal = new ActionPortalHardLogic(softPortal);
+
             var portalObj = View.CurrentObject as ActionPortal;
             if (portalObj == null) return;
-            ActionPortalLogic.Execute(Application, svp, portalObj.ActionName);
+            var appArgs = new CashDiscipline.Module.AppNavigation.ActionPortalEventArgs(Application, ObjectSpace, svp);
+            switch (portalObj.ActionPortalType)
+            {
+                case ActionPortalType.Internal:
+                    hardPortal.ExecutePortalAction(appArgs, portalObj.ActionName);
+                    break;
+                case ActionPortalType.ChoiceAction:
+                    softPortal.ExecuteChoiceActionByCaptionPath(
+                        appArgs,
+                        portalObj.ObjectType, portalObj.ControllerType,
+                        portalObj.ActionName, portalObj.ActionPath);
+                    break;
+                case ActionPortalType.SimpleAction:
+                    softPortal.ExecuteSimpleAction(
+                        appArgs,
+                        portalObj.ObjectType,
+                        portalObj.ControllerType,
+                        portalObj.ActionName);
+                    break;
+                case ActionPortalType.View:
+                    softPortal.OpenNavigationItem(appArgs, portalObj.ObjectType);
+                    break;
+            }
+
         }
 
     }

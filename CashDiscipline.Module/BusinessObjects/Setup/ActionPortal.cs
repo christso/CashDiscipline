@@ -1,4 +1,5 @@
-﻿using DevExpress.ExpressApp.Model;
+﻿using DevExpress.ExpressApp.DC;
+using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
@@ -24,19 +25,25 @@ namespace CashDiscipline.Module.BusinessObjects.Setup
 
         }
 
-        private string _ActionName;
-        public string ActionName
+        public override void AfterConstruction()
+        {
+            base.AfterConstruction();
+            this.ActionPortalType = ActionPortalType.View;
+        }
+
+        private ActionPortalType _ActionPortalType;
+        public ActionPortalType ActionPortalType
         {
             get
             {
-                return _ActionName;
+                return _ActionPortalType;
             }
             set
             {
-                SetPropertyValue("ActionName", ref _ActionName, value);
+                SetPropertyValue("ActionPortalType", ref _ActionPortalType, value);
             }
         }
-        
+
         private string _ActionDescription;
         public string ActionDescription
         {
@@ -49,5 +56,69 @@ namespace CashDiscipline.Module.BusinessObjects.Setup
                 SetPropertyValue("ActionDescription", ref _ActionDescription, value);
             }
         }
+
+        private string _ObjectType;
+        public string ObjectType
+        {
+            get
+            {
+                return _ObjectType;
+            }
+            set
+            {
+                SetPropertyValue("ObjectType", ref _ObjectType, value);
+            }
+        }
+
+        private string _ControllerType;
+        public string ControllerType
+        {
+            get
+            {
+                return _ControllerType;
+            }
+            set
+            {
+                SetPropertyValue("ControllerType", ref _ControllerType, value);
+            }
+        }
+
+        private string _ActionName;
+        public string ActionName
+        {
+            get
+            {
+                return _ActionName;
+            }
+            set
+            {
+                SetPropertyValue("ActionName", ref _ActionName, value);
+            }
+        }
+
+        private string _ActionPath;
+        [Size(255)]
+        public string ActionPath
+        {
+            get
+            {
+                return _ActionPath;
+            }
+            set
+            {
+                SetPropertyValue("ActionPath", ref _ActionPath, value);
+            }
+        }
+
+    }
+
+    public enum ActionPortalType
+    {
+        Internal,
+        View,
+        [XafDisplayName("Choice Action")]
+        ChoiceAction,
+        [XafDisplayName("Simple Action")]
+        SimpleAction
     }
 }

@@ -23,6 +23,7 @@ using Xafology.TestUtils;
 using CashDiscipline.UnitTests.TestObjects;
 using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.Attributes;
+using System.Reflection;
 
 namespace CashDiscipline.UnitTests
 {
@@ -87,7 +88,10 @@ namespace CashDiscipline.UnitTests
         [Test]
         public void TempTest()
         {
+            Assembly asm = typeof(CashDiscipline.Module.BusinessObjects.SetOfBooks).Assembly;
+            Type type = asm.GetType("CashDiscipline.Module.Controllers.Cash.CashFlowViewController");
             
+            Console.WriteLine(type.Name);
         }
     }
 }

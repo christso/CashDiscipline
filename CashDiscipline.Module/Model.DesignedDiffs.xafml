@@ -10,9 +10,6 @@
     <Items>
       <Item Id="Default" Caption="Administration" Index="0" ImageName="BO_Folder" IsNewNode="True">
         <Items IsNewNode="True">
-          <Item Id="ImportHeadersParam" ViewId="ImportHeadersParam_ListView" IsNewNode="True" />
-          <Item Id="ImportOrdinalsParam" ViewId="ImportOrdinalsParam_ListView" IsNewNode="True" />
-          <Item Id="ImportParamBase" ViewId="ImportParamBase_ListView" IsNewNode="True" />
           <Item Id="PasteParam_ListView" ViewId="PasteParam_ListView" IsNewNode="True" />
         </Items>
       </Item>
@@ -56,6 +53,16 @@
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
         </Items>
       </Item>
+      <Item Id="Parameters" Index="6" Caption="Import">
+        <Items>
+          <Item Id="ImportHeadersParam" ViewId="ImportHeadersParam_ListView" Index="0" IsNewNode="True" />
+          <Item Id="ImportOrdinalsParam" ViewId="ImportOrdinalsParam_ListView" Index="1" IsNewNode="True" />
+          <Item Id="ImportParamBase" ViewId="ImportParamBase_ListView" Index="2" IsNewNode="True" />
+          <Item Id="ImportApPmtDistnParam_ListView" Index="3" />
+          <Item Id="ImportBankStmtParam_ListView" Index="4" />
+          <Item Id="ImportBankStmtParamItem_ListView" Index="5" />
+        </Items>
+      </Item>
       <Item Id="System Internals" Index="7" Caption="System Internals" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
@@ -82,6 +89,16 @@
       <Filters CurrentFilterId="AllAccounts">
         <Filter Id="AllAccounts" Caption="All Accounts" IsNewNode="True" />
       </Filters>
+    </ListView>
+    <ListView Id="ActionPortal_ListView">
+      <Columns>
+        <ColumnInfo Id="ActionPortalType" Index="0" />
+        <ColumnInfo Id="ActionDescription" Index="1" />
+        <ColumnInfo Id="ObjectType" Index="2" />
+        <ColumnInfo Id="ControllerType" Index="3" />
+        <ColumnInfo Id="ActionName" Index="4" />
+        <ColumnInfo Id="ActionPath" Index="5" />
+      </Columns>
     </ListView>
     <ListView Id="Activity_ListView" AllowEdit="True" />
     <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server">
@@ -327,7 +344,6 @@
         <PropertyEditor Id="Description" Index="3" />
         <PropertyEditor Id="FromDate" Index="4" />
         <PropertyEditor Id="TimeCreated" Index="5" />
-        <PropertyEditor Id="CashFlows" Index="6" />
       </Items>
     </DetailView>
     <ListView Id="CashFlowSnapshot_ListView">

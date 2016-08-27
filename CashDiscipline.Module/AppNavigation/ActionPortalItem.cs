@@ -7,11 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashDiscipline.Module.Logic.Setup
+namespace CashDiscipline.Module.AppNavigation
 {
     public class ActionPortalItem
     {
         public string ActionName { get; set;  }
+
+        public string ActionDescription { get; set; }
 
         public ExecutablePortalAction ExecutableAction { get; set; }
     }

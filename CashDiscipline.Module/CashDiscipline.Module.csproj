@@ -205,6 +205,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppNavigation\ActionPortalHardLogic.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
@@ -270,14 +271,16 @@
     <Compile Include="Logic\FinAccounting\OrmJournalHelper.cs" />
     <Compile Include="Logic\Forex\ForexTradeLogic.cs" />
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
+    <Compile Include="AppNavigation\ActionPortalEventArgs.cs" />
+    <Compile Include="AppNavigation\ActionPortalItem.cs" />
     <Compile Include="Logic\SqlMap\Mapper.cs" />
-    <Compile Include="Logic\Setup\ActionPortalItem.cs" />
-    <Compile Include="Logic\Setup\ActionPortalLogic.cs" />
+    <Compile Include="AppNavigation\ActionPortalLogic.cs" />
     <Compile Include="Logic\SqlDeclareClause.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
     <Compile Include="Logic\SqlProcessorUtil.cs" />
     <Compile Include="Logic\SqlServer\SsisUtil.cs" />
+    <Compile Include="NavigationHelper.cs" />
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
@@ -366,7 +369,7 @@
     <Compile Include="Controllers\Forex\ImportForexParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ShowNavigationItemControllerEx.cs">
+    <Compile Include="Controllers\ObjectInitializationController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomFunctions\RegexMatchFunction.cs" />
@@ -435,6 +438,14 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="UnusableNodes2.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="UnusableNodes1.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Service References\ServiceReference1\CashDiscipline.Module.ServiceReference1.IntegrationPackageResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

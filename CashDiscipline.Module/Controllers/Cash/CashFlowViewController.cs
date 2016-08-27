@@ -17,10 +17,12 @@ namespace CashDiscipline.Module.Controllers.Cash
         public const string processCubeHistCaption = "Process Historical";
         public const string processCubeAllCaption = "Process All";
         public const string processCubeCurrentCaption = "Process Current";
-        public const string processCubeCaption = "Process DWH";
+        public const string processCubeCaption = "Process Report";
         public const string processCubeSshotCaption = "Process Snapshots";
         public const string mapSelectedCaption = "Map Selected";
         public const string fixForecastFormCaption = "Fix Forecast";
+        public const string ActionId = "RunCashFlowProgramAction";
+        public const string saveForecastCaption = "Save Forecast";
 
         public SingleChoiceAction RunProgramAction;
 
@@ -28,7 +30,7 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             TargetObjectType = typeof(CashFlow);
 
-            RunProgramAction = new SingleChoiceAction(this, "RunCashFlowProgramAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
+            RunProgramAction = new SingleChoiceAction(this, ActionId, DevExpress.Persistent.Base.PredefinedCategory.Edit);
             RunProgramAction.Caption = "Actions";
             RunProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             RunProgramAction.Execute += runProgramAction_Execute;
@@ -52,7 +54,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             RunProgramAction.Items.Add(reloadForexTradesAction);
 
             var saveForecastAction = new ChoiceActionItem();
-            saveForecastAction.Caption = "Save Forecast";
+            saveForecastAction.Caption = saveForecastCaption;
             RunProgramAction.Items.Add(saveForecastAction);
 
             var processCubeAction = new ChoiceActionItem();
@@ -63,9 +65,9 @@ namespace CashDiscipline.Module.Controllers.Cash
             processCubeAllAction.Caption = processCubeAllCaption;
             processCubeAction.Items.Add(processCubeAllAction);
 
-            var processCubeRecentAction = new ChoiceActionItem();
-            processCubeRecentAction.Caption = processCubeCurrentCaption;
-            processCubeAction.Items.Add(processCubeRecentAction);
+            var processCubeCurrentAction = new ChoiceActionItem();
+            processCubeCurrentAction.Caption = processCubeCurrentCaption;
+            processCubeAction.Items.Add(processCubeCurrentAction);
 
             var processCubeHistAction = new ChoiceActionItem();
             processCubeHistAction.Caption = processCubeHistCaption;
@@ -79,16 +81,19 @@ namespace CashDiscipline.Module.Controllers.Cash
         private void RunProgramAction_ExecuteCompleted(object sender, ActionBaseEventArgs e)
         {
             var es = (SingleChoiceActionExecuteEventArgs)e;
-            switch (es.SelectedChoiceActionItem.Caption)
-            {
-                case processCubeCaption:
-                case "Save Forecast":
-                    new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                        Application,
-                        es.SelectedChoiceActionItem.Caption + " completed.", e.Action.Caption);
-                    break;
-            }
+            var captionPath = es.SelectedChoiceActionItem.GetCaptionPath();
 
+            bool showMessageFlag = false;
+            if (captionPath == saveForecastCaption)
+                showMessageFlag = true;
+            else if (captionPath.StartsWith(processCubeCaption))
+                showMessageFlag = true;
+
+            if(showMessageFlag)
+                new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                     Application,
+                     "ACTION COMPLETED : " + captionPath.Replace("/", " - "), 
+                     "CashFlow Action Completed");
         }
 
         protected override void OnActivated()
@@ -109,6 +114,9 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         void runProgramAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
+            var choice = e.SelectedChoiceActionItem;
+            var captionPath = choice.GetCaptionPath();
+
             switch (e.SelectedChoiceActionItem.Caption)
             {
                 case "Daily Update":
@@ -163,15 +171,6 @@ namespace CashDiscipline.Module.Controllers.Cash
             var os = Application.CreateObjectSpace();
             var paramObj = CashFlowFixParam.GetInstance(os);
             var detailView = Application.CreateDetailView(os, paramObj);
-            svp.TargetWindow = TargetWindow.NewModalWindow;
-            svp.CreatedView = detailView;
-        }
-
-        public static void ShowFixForecastForm(XafApplication app, ShowViewParameters svp)
-        {
-            var os = app.CreateObjectSpace();
-            var paramObj = CashFlowFixParam.GetInstance(os);
-            var detailView = app.CreateDetailView(os, paramObj);
             svp.TargetWindow = TargetWindow.NewModalWindow;
             svp.CreatedView = detailView;
         }

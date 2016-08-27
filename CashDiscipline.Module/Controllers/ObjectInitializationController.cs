@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace CashDiscipline.Module.Controllers
 {
-    public class ShowNavigationItemControllerEx : DevExpress.ExpressApp.SystemModule.ShowNavigationItemController
+    public class ObjectInitializationController : DevExpress.ExpressApp.SystemModule.ShowNavigationItemController
     {
         protected override void InitializeItems()
         {

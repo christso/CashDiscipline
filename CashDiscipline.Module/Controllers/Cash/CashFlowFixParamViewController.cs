@@ -22,7 +22,7 @@ namespace CashDiscipline.Module.Controllers.Cash
         public CashFlowFixParamViewController()
         {
             TargetObjectType = typeof(CashFlowFixParam);
-            TargetViewType = ViewType.DetailView;
+            //TargetViewType = ViewType.DetailView;
 
             var runAction = new SimpleAction(this, "CashFlowFixRunAction", PredefinedCategory.ObjectsCreation);
             runAction.Caption = "Run";
@@ -75,7 +75,9 @@ namespace CashDiscipline.Module.Controllers.Cash
         protected override void OnActivated()
         {
             base.OnActivated();
-            ((DetailView)View).ViewEditMode = ViewEditMode.Edit;
+            var detailView = View as DetailView;
+            if (detailView != null)
+                detailView.ViewEditMode = ViewEditMode.Edit;
         }
     }
 }
