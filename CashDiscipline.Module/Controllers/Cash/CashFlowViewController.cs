@@ -14,10 +14,10 @@ namespace CashDiscipline.Module.Controllers.Cash
 {
     public class CashFlowViewController : ViewController
     {
-        public const string processCubeCaption = "Process Cube";
         public const string processCubeHistCaption = "Process Historical";
         public const string processCubeAllCaption = "Process All";
-        public const string processCubeRecentCaption = "Process Recent";
+        public const string processCubeCurrentCaption = "Process Current";
+        public const string processCubeCaption = "Process DWH";
         public const string processCubeSshotCaption = "Process Snapshots";
         public const string mapSelectedCaption = "Map Selected";
         public const string fixForecastFormCaption = "Fix Forecast";
@@ -64,7 +64,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             processCubeAction.Items.Add(processCubeAllAction);
 
             var processCubeRecentAction = new ChoiceActionItem();
-            processCubeRecentAction.Caption = processCubeRecentCaption;
+            processCubeRecentAction.Caption = processCubeCurrentCaption;
             processCubeAction.Items.Add(processCubeRecentAction);
 
             var processCubeHistAction = new ChoiceActionItem();
@@ -128,132 +128,36 @@ namespace CashDiscipline.Module.Controllers.Cash
                 case "Save Forecast":
                     SaveForecast();
                     break;
-                case processCubeCaption:
+                default:
+                    if (e.SelectedChoiceActionItem.ParentItem.Caption == processCubeCaption)
+                    {
+                        ProcessCube(e.SelectedChoiceActionItem.Caption);
+                    }
                     break;
+            }
+        }
+
+        public void ProcessCube(string caption)
+        {
+            var tabular = new CashFlowTabular();
+
+            switch (caption)
+            {
                 case processCubeAllCaption:
-                    ProcessCube_All();
+                    tabular.ProcessAll();
                     break;
-                case processCubeRecentCaption:
-                    ProcessCube_Recent();
+                case processCubeCurrentCaption:
+                    tabular.ProcessCurrent();
                     break;
                 case processCubeHistCaption:
-                    ProcessCube_Hist();
+                    tabular.ProcessHist();
                     break;
                 case processCubeSshotCaption:
-                    ProcessCube_Sshot();
+                    tabular.ProcessSshot();
                     break;
             }
         }
-
-        #region Process Cube
-
-        private static ServerProcessor CreateSsasClient()
-        {
-            return CashDisciplineHelpers.CreateSsasClient();
-        }
-
-        private static AdomdProcessor CreateAdomdClient()
-        {
-            return CashDisciplineHelpers.CreateAdomdClient();
-        }
-
-        public static void ProcessCube_All()
-        {
-            if (AppSettings.MsasTabularCompatibility_13)
-            {
-                var ssas = CreateAdomdClient();
-                ssas.ProcessCommand(@"{
-  ""refresh"": {
-    ""type"": ""full"",
-    ""objects"": [
-      {
-        ""database"": ""CashFlow""
-      }
-    ]
-  }
-}");
-            }
-            else
-            {
-                var ssas = CreateSsasClient();
-                ssas.ProcessDatabase();
-            }
-        }
-
-        public static void ProcessCube_Recent()
-        {
-            if (AppSettings.MsasTabularCompatibility_13)
-            {
-                var ssas = CreateAdomdClient();
-                ssas.ProcessCommand(@"{
-  ""refresh"": {
-    ""type"": ""full"",
-    ""objects"": [
-      {
-        ""database"": ""CashFlow"",
-        ""table"": ""CashFlow"",
-        ""partition"": ""CashFlow_Current_Recent""
-      }
-    ]
-  }
-}");
-            }
-            else
-            {
-                var ssas = CreateSsasClient();
-                ssas.ProcessPartition("Model", "CashFlow", "CashFlow_Current_Recent");
-            }
-        }
-
-        public void ProcessCube_Hist()
-        {
-            if (AppSettings.MsasTabularCompatibility_13)
-            {
-                var ssas = CreateAdomdClient();
-                ssas.ProcessCommand(@"{
-  ""refresh"": {
-    ""type"": ""full"",
-    ""objects"": [
-      {
-        ""database"": ""CashFlow"",
-        ""table"": ""CashFlow"",
-        ""partition"": ""CashFlow_Current_Hist""
-      }
-    ]
-  }");
-            }
-            else
-            {
-                var ssas = CreateSsasClient();
-                ssas.ProcessPartition("CashFlow", "CashFlow", "CashFlow_Current_Hist");
-            }
-        }
-
-        public void ProcessCube_Sshot()
-        {
-            if (AppSettings.MsasTabularCompatibility_13)
-            {
-                var ssas = CreateAdomdClient();
-                ssas.ProcessCommand(@"{
-  ""refresh"": {
-    ""type"": ""full"",
-    ""objects"": [
-      {
-        ""database"": ""CashFlow"",
-        ""table"": ""CashFlow"",
-        ""partition"": ""CashFlow_Snapshot""
-      }
-    ]
-  }");
-            }
-            else
-            {
-                var ssas = CreateSsasClient();
-                ssas.ProcessPartition("CashFlow", "CashFlow", "CashFlow_Snapshot");
-            }
-        }
-        #endregion
-
+        
         private void ShowFixForecastForm(ShowViewParameters svp)
         {
             var os = Application.CreateObjectSpace();

@@ -125,7 +125,20 @@ namespace CashDiscipline.Module.BusinessObjects
                 SetPropertyValue("CurrentCashFlowSnapshot", ref _CurrentCashFlowSnapshot, value);
             }
         }
-        
+
+        private CashSnapshotReported _CashSnapshotReported;
+        public CashSnapshotReported CashSnapshotReported
+        {
+            get
+            {
+                return _CashSnapshotReported;
+            }
+            set
+            {
+                SetPropertyValue("CashSnapshotReported", ref _CashSnapshotReported, value);
+            }
+        }
+
         #region CurrentSetOfBooks
 
         public static SetOfBooks GetInstance(DevExpress.Xpo.Session session)

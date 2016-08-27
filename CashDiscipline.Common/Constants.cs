@@ -8,6 +8,8 @@ namespace CashDiscipline.Common
 {
     public class Constants
     {
+        // Server
+        public static bool MsasTabularCompatibility_13 = true;
 
         // Views
         public const string CashFlowListViewId = "CashFlow_ListView";
@@ -32,6 +34,7 @@ namespace CashDiscipline.Common
         public const string DefaultFixCounterparty = "UNDEFINED";
 
         // SSAS
+        public const string SsasServerName = "FINSERV01";
         public const string SsasDatabase = "CashFlow";
         public const string SsasModel = "Model";
         public const string SsasSnapshotPartition = "CashFlow_Snapshot";

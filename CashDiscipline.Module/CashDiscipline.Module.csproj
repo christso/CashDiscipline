@@ -205,7 +205,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppSettings.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
@@ -214,7 +213,8 @@
     <Compile Include="BusinessObjects\CashLookup\CounterpartyTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\ActionOwner.cs" />
-    <Compile Include="CashDisciplineHelpers.cs" />
+    <Compile Include="Clients\CshDscTabularHelper.cs" />
+    <Compile Include="Clients\DaxClient.cs" />
     <Compile Include="Controllers\AboutInfoWindowController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -233,6 +233,10 @@
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Logic\Cash\CashFlowTabular.cs" />
+    <Compile Include="Logic\Cash\CashFlowTabular14.cs" />
+    <Compile Include="Logic\Cash\CashFlowTabular16.cs" />
+    <Compile Include="Logic\Cash\ICashFlowTabular.cs" />
     <Compile Include="Logic\Cash\SaveForecastSnapshot.cs" />
     <Compile Include="Logic\Forex\ForexToCashFlowUploader.cs" />
     <Compile Include="Controllers\ImportViewController.cs">
@@ -335,8 +339,6 @@
     <None Include="FunctionalTests\ForexTrade_Create.ets" />
     <Compile Include="BusinessObjects\Forex\ForexRate.cs" />
     <Compile Include="BusinessObjects\SetOfBooks.cs" />
-    <Compile Include="BusinessObjects\Setup\SqlScript.cs" />
-    <Compile Include="BusinessObjects\Setup\SqlScriptFolder.cs" />
     <Compile Include="Logic\FinAccounting\JournalGenerator.cs" />
     <Compile Include="Controllers\FinAccounting\GenLedgerListViewController.cs">
       <SubType>Component</SubType>

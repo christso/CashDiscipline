@@ -319,6 +319,27 @@
         <ColumnInfo Id="Source" PropertyName="Source" Width="70" Index="9" IsNewNode="True" />
       </Columns>
     </ListView>
+    <DetailView Id="CashFlowSnapshot_DetailView">
+      <Items>
+        <PropertyEditor Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+        <PropertyEditor Id="SequentialNumber" Index="1" />
+        <PropertyEditor Id="Name" Index="2" />
+        <PropertyEditor Id="Description" Index="3" />
+        <PropertyEditor Id="FromDate" Index="4" />
+        <PropertyEditor Id="TimeCreated" Index="5" />
+        <PropertyEditor Id="CashFlows" Index="6" />
+      </Items>
+    </DetailView>
+    <ListView Id="CashFlowSnapshot_ListView">
+      <Columns>
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="SequentialNumber" Index="1" />
+        <ColumnInfo Id="Name" Index="2" />
+        <ColumnInfo Id="Description" Index="3" />
+        <ColumnInfo Id="TimeCreated" Index="4" />
+        <ColumnInfo Id="FromDate" Index="5" />
+      </Columns>
+    </ListView>
     <DetailView Id="FinGenJournalParam_DetailView" AllowNew="False" AllowDelete="False" />
     <ListView Id="FinGenJournalParam_JournalGroupParams_ListView" AllowDelete="False" AllowNew="False" />
     <DetailView Id="ForexTrade_DetailView">

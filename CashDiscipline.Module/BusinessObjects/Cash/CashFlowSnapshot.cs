@@ -98,6 +98,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         [Association("CashFlowSnapshot-CashFlows"), DevExpress.Xpo.Aggregated]
+        [VisibleInDetailView(false)]
+        [MemberDesignTimeVisibility(false)]
+        [Browsable(false)]
         public XPCollection<CashFlow> CashFlows
         {
             get
@@ -111,6 +114,10 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             base.OnDeleting();
         }
 
+        protected override void OnSaving()
+        {
+            base.OnSaving();
+        }
         public new class Fields
         {
             public static OperandProperty Oid { get { return new OperandProperty("Oid"); } }

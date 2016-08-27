@@ -33,7 +33,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         {
             base.AfterConstruction();
             // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
-            if (AppSettings.UserTriggersEnabled)
+            if (CashDiscipline.Common.AppBehaviour.UserTriggersEnabled)
                 InitDefaultValues();
 
         }

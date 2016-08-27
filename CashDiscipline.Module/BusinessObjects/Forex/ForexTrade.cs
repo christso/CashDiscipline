@@ -28,7 +28,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            if (AppSettings.UserTriggersEnabled)
+            if (CashDiscipline.Common.AppBehaviour.UserTriggersEnabled)
                 InitializeValues();
         }
 

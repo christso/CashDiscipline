@@ -1,4 +1,5 @@
 ﻿using CashDiscipline.Module.Controllers.Cash;
+using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.Logic.Forex;
 using CashDiscipline.Module.ParamObjects.Cash;
 using DevExpress.ExpressApp;
@@ -51,10 +52,11 @@ namespace CashDiscipline.Module.Logic.Setup
             _ActionPortalList.Add(item);
 
             item = new ActionPortalItem();
-            item.ActionName = CashFlowViewController.processCubeRecentCaption;
+            item.ActionName = CashFlowViewController.processCubeCurrentCaption;
             item.ExecutableAction = (app, svp) =>
             {
-                CashFlowViewController.ProcessCube_Recent();
+                var tabular = new CashFlowTabular();
+                tabular.ProcessCurrent();
             };
 
             item = new ActionPortalItem();

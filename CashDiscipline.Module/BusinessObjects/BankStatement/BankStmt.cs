@@ -47,7 +47,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             // Place here your initialization code.
             _CalculateEnabled = true;
             TranDate = DateTime.Now;
-            if (AppSettings.UserTriggersEnabled)
+            if (CashDiscipline.Common.AppBehaviour.UserTriggersEnabled)
                 InitDefaultValues();
         }
 

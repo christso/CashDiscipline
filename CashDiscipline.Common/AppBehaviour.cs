@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashDiscipline.Module
+namespace CashDiscipline.Common
 {
-    public class AppSettings
+    public class AppBehaviour
     {
         public static bool UserTriggersEnabled = true;
-        public static bool MsasTabularCompatibility_13 = false;
     }
 }
