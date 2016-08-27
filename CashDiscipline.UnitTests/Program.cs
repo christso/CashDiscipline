@@ -21,11 +21,11 @@ namespace CashDiscipline.UnitTests
 
         static void RunTest()
         {
-            var tests = new TempTests();
+            var tests = new CashFlowTests();
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.TempTest();
+            tests.CashFlow_AccountIsUSD_CounterCcyAmtEqualsAccountCcyAmt();
 
             tests.TearDown();
             tests.TearDownFixture();
@@ -36,7 +36,7 @@ namespace CashDiscipline.UnitTests
         static void RunTempTestMethod()
         {
             var tests = new CashDiscipline.UnitTests.TempTests();
-            tests.TempTest();
+            tests.TempTest1();
         }
 
         static void RunExperiment()

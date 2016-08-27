@@ -1,4 +1,5 @@
-﻿using DG2NTT.AnalysisServicesHelpers;
+﻿using DevExpress.ExpressApp.Xpo;
+using DG2NTT.AnalysisServicesHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,14 @@ namespace CashDiscipline.Module.Logic.Cash
             }
         }
 
+        public string LastReturnMessage
+        {
+            get
+            {
+                return tabular.LastReturnMessage;
+            }
+        }
+
         private ICashFlowTabular tabular;
 
         public void ProcessAll()
@@ -28,9 +37,9 @@ namespace CashDiscipline.Module.Logic.Cash
             tabular.ProcessAll();
         }
 
-        public void ProcessCurrent()
+        public void ProcessCurrent(XPObjectSpace objSpace)
         {
-            tabular.ProcessCurrent();
+            tabular.ProcessCurrent(objSpace);
         }
 
         public void ProcessHist()

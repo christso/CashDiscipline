@@ -86,31 +86,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         public static CashFlowDefaults GetInstance(Session session)
         {
-            // return previous instance if session matches
-            try
-            {
-                if (CashFlowDefaults.CachedInstance != null
-                    && CashFlowDefaults.CachedInstance.Session == session
-                    && !CachedInstance.IsDeleted)
-                {
-                    return CashFlowDefaults.CachedInstance;
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-            }
-
-            // return instance from new session
-            var result = session.FindObject<CashFlowDefaults>(PersistentCriteriaEvaluationBehavior.InTransaction, null);
-
-            if (result == null)
-            {
-                result = new CashFlowDefaults(session);
-                result.Save();
-            }
-            CashFlowDefaults.CachedInstance = result;
-
-            return result;
+            CachedInstance = (CashFlowDefaults)BaseObjectHelper.PullCachedInstance(
+                session, CachedInstance, typeof(CashFlowDefaults));
+            return CachedInstance;
         }
 
         protected override void OnSaving()

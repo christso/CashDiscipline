@@ -24,7 +24,7 @@ namespace CashDiscipline.UnitTests
 
         public ImportTests()
         {
-            SetTesterDbType(TesterDbType.InMemory);
+            SetTesterDbType(TesterDbType.MsSql);
             
             var tester = Tester as MSSqlDbTestBase;
             if (tester != null)
@@ -123,12 +123,6 @@ namespace CashDiscipline.UnitTests
             Assert.NotNull(obj1.CounterCcy);
 
             #endregion
-        }
-
-        [Test]
-        public void InsertApPmtDistn()
-        {
-
         }
 
         [Test]

@@ -1,9 +1,11 @@
 ﻿using CashDiscipline.Module.BusinessObjects;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ namespace CashDiscipline.Module.Logic.Cash
 {
     public class CashFlowHelper
     {
+        #region XPO Helpers
         public static CashFlowSnapshot GetCurrentSnapshot(Session session)
         {
             var setOfBooks = SetOfBooks.GetInstance(session);
@@ -29,6 +32,29 @@ namespace CashDiscipline.Module.Logic.Cash
                 return default(DateTime);
             return (DateTime)res;
         }
+        #endregion
+
+        #region SQL Helpers
+
+
+/*
+DECLARE @ShhotPairOid uniqueidentifier = (SELECT TOP 1 CashSnapshotReported FROM SetOfBooks WHERE GCRecord IS NULL)
+DECLARE @PrevShhotOid uniqueidentifier = (
+	SELECT TOP 1 PreviousSnapshot 
+	FROM CashSnapshotReported 
+	WHERE GCRecord IS NULL AND OId = @ShhotPairOid)
+
+SELECT @PrevShhotOid 
+ */
+        public static CashFlowSnapshot GetPreviousSnapshot(XPObjectSpace objSpace)
+        {
+            var book = objSpace.FindObject<SetOfBooks>(null);
+            if (book == null || book.CashSnapshotReported == null)
+                return null;
+            return book.CashSnapshotReported.PreviousSnapshot;
+        }
+        #endregion
+
 
         #region Date Helpers
 

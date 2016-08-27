@@ -9,6 +9,7 @@ using DevExpress.ExpressApp.Xpo;
 using System;
 using System.Collections.Generic;
 using DG2NTT.AnalysisServicesHelpers;
+using Xafology.ExpressApp.SystemModule;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -35,7 +36,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             RunProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             RunProgramAction.Execute += runProgramAction_Execute;
             RunProgramAction.ShowItemsOnClick = true;
-            RunProgramAction.ExecuteCompleted += RunProgramAction_ExecuteCompleted;
+            //RunProgramAction.ExecuteCompleted += RunProgramAction_ExecuteCompleted;
             
             var dailyUpdateAction = new ChoiceActionItem();
             dailyUpdateAction.Caption = "Daily Update";
@@ -61,13 +62,13 @@ namespace CashDiscipline.Module.Controllers.Cash
             processCubeAction.Caption = processCubeCaption;
             RunProgramAction.Items.Add(processCubeAction);
 
-            var processCubeAllAction = new ChoiceActionItem();
-            processCubeAllAction.Caption = processCubeAllCaption;
-            processCubeAction.Items.Add(processCubeAllAction);
-
             var processCubeCurrentAction = new ChoiceActionItem();
             processCubeCurrentAction.Caption = processCubeCurrentCaption;
             processCubeAction.Items.Add(processCubeCurrentAction);
+
+            var processCubeAllAction = new ChoiceActionItem();
+            processCubeAllAction.Caption = processCubeAllCaption;
+            processCubeAction.Items.Add(processCubeAllAction);
 
             var processCubeHistAction = new ChoiceActionItem();
             processCubeHistAction.Caption = processCubeHistCaption;
@@ -76,24 +77,6 @@ namespace CashDiscipline.Module.Controllers.Cash
             var processCubeSshotAction = new ChoiceActionItem();
             processCubeSshotAction.Caption = processCubeSshotCaption;
             processCubeAction.Items.Add(processCubeSshotAction);
-        }
-
-        private void RunProgramAction_ExecuteCompleted(object sender, ActionBaseEventArgs e)
-        {
-            var es = (SingleChoiceActionExecuteEventArgs)e;
-            var captionPath = es.SelectedChoiceActionItem.GetCaptionPath();
-
-            bool showMessageFlag = false;
-            if (captionPath == saveForecastCaption)
-                showMessageFlag = true;
-            else if (captionPath.StartsWith(processCubeCaption))
-                showMessageFlag = true;
-
-            if(showMessageFlag)
-                new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                     Application,
-                     "ACTION COMPLETED : " + captionPath.Replace("/", " - "), 
-                     "CashFlow Action Completed");
         }
 
         protected override void OnActivated()
@@ -145,25 +128,47 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
         }
 
-        public void ProcessCube(string caption)
+        public bool ProcessCube(string caption)
         {
             var tabular = new CashFlowTabular();
 
+            if (ObjectSpace.IsModified)
+            {
+                new GenericMessageBox(
+                    "Please save your changes before processing the Cash Report", "Cash Report Processing Cancelled",
+                    (app, svp) => { return; });
+                return false;
+            }
             switch (caption)
             {
                 case processCubeAllCaption:
                     tabular.ProcessAll();
+                    new GenericMessageBox(
+                         "ACTION COMPLETED : Process Cash Report - All",
+                         "ACTION COMPLETED");
                     break;
                 case processCubeCurrentCaption:
-                    tabular.ProcessCurrent();
+                    var os = Application.CreateObjectSpace();
+                    tabular.ProcessCurrent((XPObjectSpace)os);
+                    new GenericMessageBox(
+                        "ACTION COMPLETED : Process Cash Report - Current\r\n"
+                        + "NOTE : " + tabular.LastReturnMessage,
+                        "ACTION COMPLETED");
                     break;
                 case processCubeHistCaption:
                     tabular.ProcessHist();
+                    new GenericMessageBox(
+                        "ACTION COMPLETED : Process Cash Report - Historical",
+                        "ACTION COMPLETED");
                     break;
                 case processCubeSshotCaption:
                     tabular.ProcessSshot();
+                    new GenericMessageBox(
+                        "ACTION COMPLETED : Process Cash Report - Snapshots",
+                        "ACTION COMPLETED");
                     break;
             }
+            return true;
         }
         
         private void ShowFixForecastForm(ShowViewParameters svp)
@@ -189,6 +194,9 @@ namespace CashDiscipline.Module.Controllers.Cash
             var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
             var logic = new SaveForecastSnapshot(objSpace);
             logic.Process();
+            new GenericMessageBox(
+                 "ACTION COMPLETED : Save Forecast",
+                 "ACTION COMPLETED");
         }
 
         private void MapSelected()

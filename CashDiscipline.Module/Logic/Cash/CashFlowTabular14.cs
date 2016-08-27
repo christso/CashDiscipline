@@ -1,4 +1,5 @@
-﻿using DG2NTT.AnalysisServicesHelpers;
+﻿using DevExpress.ExpressApp.Xpo;
+using DG2NTT.AnalysisServicesHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,13 @@ namespace CashDiscipline.Module.Logic.Cash
 {
     public class CashFlowTabular14 : ICashFlowTabular
     {
+        public string LastReturnMessage
+        {
+            get
+            {
+                return "";
+            }
+        }
 
         private static ServerProcessor CreateSsasClient()
         {
@@ -21,7 +29,7 @@ namespace CashDiscipline.Module.Logic.Cash
             ssas.ProcessDatabase();
         }
 
-        public void ProcessCurrent()
+        public void ProcessCurrent(XPObjectSpace objSpace)
         {
             var ssas = CreateSsasClient();
             ssas.ProcessPartition("Model", "CashFlow", "CashFlow_Report_Current");
