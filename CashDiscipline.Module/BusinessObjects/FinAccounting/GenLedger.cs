@@ -24,7 +24,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
     [AutoColumnWidth(false)]
     [BatchDelete(isVisible: true, isOptimized: true)]
     public class GenLedger : BaseObject, IBatchDeletable
-    { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
+    { 
         public GenLedger(Session session)
             : base(session)
         {
@@ -32,7 +32,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
         }
 
         private Activity _Activity;
@@ -94,6 +93,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime? SrcDate
         {
             get

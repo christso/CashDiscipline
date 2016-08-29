@@ -79,6 +79,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 SetPropertyValue("Counterparty", ref _Counterparty, value);
             }
         }
+
         public static CashFlowDefaults GetInstance(IObjectSpace objectSpace)
         {
             return CashFlowDefaults.GetInstance(((XPObjectSpace)objectSpace).Session);

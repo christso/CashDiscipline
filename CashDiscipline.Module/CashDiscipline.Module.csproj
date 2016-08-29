@@ -208,6 +208,7 @@
     <Compile Include="AppNavigation\ActionPortalHardLogic.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
+    <Compile Include="BusinessObjects\ReportConfig.cs" />
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
     <Compile Include="BusinessObjects\BaseObjectHelper.cs" />

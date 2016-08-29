@@ -10,25 +10,20 @@ using System;
 // With XPO, the data model is declared by classes (so-called Persistent Objects) that will define the database structure, and consequently, the user interface (http://documentation.devexpress.com/#Xaf/CustomDocument2600).
 namespace CashDiscipline.Module.BusinessObjects
 {
-    // Specify various UI options for your persistent class and its properties using a declarative approach via built-in attributes (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
-    //[ImageName("BO_Contact")]
-    //[DefaultProperty("PersistentProperty")]
-    //[DefaultListViewOptions(MasterDetailMode.ListViewAndDetailView, true, NewItemRowPosition.Top)]
     [ModelDefault("ImageName", "BO_List")]
     [DefaultClassOptions]
     public class SetOfBooks : BaseObject
-    { // You can use a different base persistent class based on your requirements (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
+    {
         public SetOfBooks(Session session)
             : base(session)
         {
-            // This constructor is used when an object is loaded from a persistent storage.
-            // Do not place any code here or place it only when the IsLoading property is false.
+
         }
 
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            // Place here your initialization code (check out http://documentation.devexpress.com/#Xaf/CustomDocument2834 for more details).
+
             FunctionalCurrency = Session.FindObject<Currency>(CriteriaOperator.Parse("[Name] = 'AUD'"));
         }
 
