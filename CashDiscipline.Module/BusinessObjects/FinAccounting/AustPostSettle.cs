@@ -12,6 +12,7 @@ using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using CashDiscipline.Module.BusinessObjects.Cash;
+using System.Data.SqlTypes;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
@@ -36,6 +37,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         private decimal _GrossCommission;
         private decimal _CommissionGST;
 
+
         [Association("BankStmt-AustPostSettle")]
         public BankStmt BankStmt
         {
@@ -45,7 +47,25 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
             set
             {
-                SetPropertyValue("BankStmt", ref _BankStmt, value);
+                if (SetPropertyValue("BankStmt", ref _BankStmt, value))
+                {
+
+                }
+            }
+        }
+
+        [Persistent("BankStmtDate")]
+        private DateTime _BankStmtDate;
+
+        [ModelDefault("AllowEdit", "false")]
+        public DateTime BankStmtDate
+        {
+            get
+            {
+                if (BankStmt != null)
+                    return BankStmt.TranDate;
+                else
+                    return SqlDateTime.MinValue.Value;
             }
         }
 

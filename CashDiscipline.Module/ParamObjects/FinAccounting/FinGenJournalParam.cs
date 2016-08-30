@@ -37,7 +37,7 @@ namespace CashDiscipline.Module.ParamObjects.FinAccounting
             if (result == null)
             {
                 result = new FinGenJournalParam(((XPObjectSpace)objectSpace).Session);
-                result.Save();
+                result.Save(); // this will also sync the child objects
             }
             return result;
         }

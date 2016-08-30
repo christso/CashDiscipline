@@ -49,7 +49,9 @@ INSERT INTO GenLedger
     GlLocation,
     GlDescription,
     EntryType,
-    IsActivity
+    IsActivity,
+    GlDate,
+    CreationDateTime
 )
 SELECT 
     NEWID() AS Oid,
@@ -69,7 +71,9 @@ SELECT
     [FinActivity].[GlLocation],
     [FinActivity].[GlDescription],
     0 AS GenLedgerEntryType,
-    1 AS IsActivity
+    1 AS IsActivity,
+    CashFlow.TranDate,
+    GETDATE()
 " + FilterCommandTextTemplate;
 
             }

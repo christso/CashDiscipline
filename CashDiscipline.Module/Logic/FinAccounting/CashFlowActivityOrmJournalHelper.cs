@@ -66,6 +66,8 @@ namespace CashDiscipline.Module.Logic.FinAccounting
         {
             var activityGli = new GenLedger(objSpace.Session);
             activityGli.SrcCashFlow = cf;
+            if (cf != null)
+                activityGli.GlDate = cf.TranDate;
 
             activityGli.EntryType = GenLedgerEntryType.Auto;
             activityGli.JournalGroup = activityMap.JournalGroup;

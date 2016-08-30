@@ -88,7 +88,15 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             var command = conn.CreateCommand();
             command.Parameters.AddRange(parameters.ToArray());
             command.CommandText = commandText;
-            int result = command.ExecuteNonQuery();
+            try
+            {
+                int result = command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new InvalidOperationException(ex.Message + "\r\nLine Number " + ex.LineNumber
+                    + ". \r\n## SQL BEGIN ##\r\n" + command.CommandText + "\r\n## SQL END ##", ex);
+            }
         }
 
         private int GetSourceObjectCount()
@@ -129,7 +137,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             foreach (var map in activityMaps)
             {
                 caseList.Add(string.Format("WHEN FinActivity.FromActivity = '{0}' THEN {1}",
-                    map.FromActivity.Oid, map.FunctionalCcyAmtExpr.Replace("{FA}", "-FunctionalCcyAmt")));
+                    map.FromActivity.Oid, map.FunctionalCcyAmtExpr.Replace("{FA}", "FunctionalCcyAmt*-1")));
             }
 
             return "CASE " + string.Join("\n", caseList) + " END";

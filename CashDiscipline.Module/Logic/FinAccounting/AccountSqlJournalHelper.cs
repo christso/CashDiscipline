@@ -53,7 +53,9 @@ INSERT INTO GenLedger
     GlLocation,
     FunctionalCcyAmt,
     EntryType,
-    IsActivity
+    IsActivity,
+    GlDate,
+    CreationDateTime
 )
 SELECT 
     NEWID() AS Oid,
@@ -79,7 +81,9 @@ SELECT
     FinAccount.[GlLocation],
 	GenLedger.FunctionalCcyAmt * -1 AS FunctionalCcyAmt,
     0 AS GenLedgerEntryType,
-    0 AS IsActivity
+    0 AS IsActivity,
+    GenLedger.GlDate,
+    GETDATE()
 FROM GenLedger
 LEFT JOIN BankStmt ON BankStmt.Oid = GenLedger.SrcBankStmt
     AND BankStmt.TranDate BETWEEN @FromDate AND @ToDate
@@ -108,7 +112,9 @@ INSERT INTO GenLedger
     GlLocation,
     FunctionalCcyAmt,
     EntryType,
-    IsActivity
+    IsActivity,
+    GlDate,
+    CreationDateTime
 )
 SELECT 
     NEWID() AS Oid,
@@ -132,7 +138,9 @@ SELECT
     FinAccount.[GlLocation],
 	GenLedger.FunctionalCcyAmt * -1 AS FunctionalCcyAmt,
     0 AS GenLedgerEntryType,
-    0 AS IsActivity
+    0 AS IsActivity,
+    GenLedger.GlDate,
+    GETDATE()
 FROM GenLedger
 LEFT JOIN CashFlow ON CashFlow.Oid = GenLedger.SrcCashFlow
     AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate

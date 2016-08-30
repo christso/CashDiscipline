@@ -46,6 +46,6 @@ namespace CashDiscipline.Common
         public const string SsisCatalog = "SSISDB";
 
         // Resources
-        public const string CashDiscSqlInstallScriptPath = @"CashDiscipline.Module.Scripts.CashDisc-SQL-Install.sql";
+        public const string CashDiscSqlInstallScriptPath = @"CashDiscipline.Module.Scripts.InstallClr.sql";
     }
 }

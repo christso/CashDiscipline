@@ -19,7 +19,6 @@
           <Item Id="FinAccountingDefaults" Caption="Default Accounting" ViewId="FinAccountingDefaults_ListView" Index="1" IsNewNode="True" />
           <Item Id="FinAccount" ViewId="FinAccount_ListView" Index="2" IsNewNode="True" />
           <Item Id="Fin Activity" ViewId="FinActivity_ListView" Index="3" IsNewNode="True" />
-          <Item Id="FinGenJournalParam" ViewId="FinGenJournalParam_ListView" Index="4" IsNewNode="True" />
           <Item Id="Fin Journal Group" ViewId="FinJournalGroup_ListView" IsNewNode="True" />
           <Item Id="General Ledger" ViewId="GenLedger_ListView" Caption="General Ledger" IsNewNode="True" />
         </Items>
@@ -66,6 +65,7 @@
       <Item Id="System Internals" Index="7" Caption="System Internals" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
+          <Item Id="FinGenJournalParam" ViewId="FinGenJournalParam_ListView" Index="4" IsNewNode="True" />
         </Items>
       </Item>
     </Items>

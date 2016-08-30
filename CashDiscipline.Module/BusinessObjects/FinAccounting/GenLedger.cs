@@ -32,6 +32,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         public override void AfterConstruction()
         {
             base.AfterConstruction();
+            CreationDateTime = (DateTime)Session.ExecuteScalar("SELECT GETDATE()");
         }
 
         private Activity _Activity;
@@ -68,6 +69,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                 SetPropertyValue("SrcBankStmt", ref _SrcBankStmt, value);
             }
         }
+
         public GenLedgerSourceType SourceType
         {
             get
@@ -141,6 +143,26 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
         #endregion
+
+        DateTime _GlDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        public DateTime GlDate
+        {
+            get {
+                if (_GlDate == default(DateTime))
+                {
+                    if (_SrcCashFlow != null)
+                        SetPropertyValue("GlDate", ref _GlDate, _SrcCashFlow.TranDate);
+                    else if (_SrcBankStmt != null)
+                        SetPropertyValue("GlDate", ref _GlDate, _SrcBankStmt.TranDate);
+                }
+                return _GlDate;
+            }
+            set {
+                SetPropertyValue("GlDate", ref _GlDate, value);
+            }
+        }
 
         public FinJournalGroup JournalGroup
         {
@@ -274,6 +296,15 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             {
                 SetPropertyValue("IsActivity", ref _IsActivity, value);
             }
+        }
+
+        DateTime _CreationDateTime;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        public DateTime CreationDateTime
+        {
+            get { return _CreationDateTime; }
+            set { SetPropertyValue("CreationDateTime", ref _CreationDateTime, value); }
         }
     }
 

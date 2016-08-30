@@ -30,8 +30,6 @@ namespace CashDiscipline.Module.ParamObjects.FinAccounting
             // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
         }
         private bool _Include;
-        private FinJournalGroup _JournalGroup;
-        private FinGenJournalParam _GenJournalParam;
 
         public bool Include
         {
@@ -45,6 +43,8 @@ namespace CashDiscipline.Module.ParamObjects.FinAccounting
             }
         }
 
+        private FinJournalGroup _JournalGroup;
+
         [ModelDefault("AllowEdit", "False")]
         public FinJournalGroup JournalGroup
         {
@@ -57,6 +57,8 @@ namespace CashDiscipline.Module.ParamObjects.FinAccounting
                 SetPropertyValue("JournalGroup", ref _JournalGroup, value);
             }
         }
+
+        private FinGenJournalParam _GenJournalParam;
 
         [Association("FinGenJournalParam-FinJournalGroupParams")]
         public FinGenJournalParam GenJournalParam
@@ -75,11 +77,6 @@ namespace CashDiscipline.Module.ParamObjects.FinAccounting
         {
             // get journal groups that already exist in parameters
             var jnlGroupParams = genJnlParam.JournalGroupParams;
-            //var jnlGroupsInParams = new List<FinJournalGroup>();
-            //foreach (FinJournalGroupParam jnlGroupParam in jnlGroupParams)
-            //{
-            //    jnlGroupsInParams.Add(jnlGroupParam.JournalGroup);
-            //}
             var jnlGroupsInParams = jnlGroupParams.Select(p => p.JournalGroup);
             
             // get journal groups

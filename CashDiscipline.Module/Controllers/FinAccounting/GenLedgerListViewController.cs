@@ -28,17 +28,6 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
         private FinGenJournalParam _ParamObj;
         private JournalGenerator journalGenerator;
 
-        protected override void OnActivated()
-        {
-            base.OnActivated();
-            View.ControlsCreated += View_ControlsCreated;
-        }
-
-        void View_ControlsCreated(object sender, EventArgs e)
-        {
-            var editor = ((ListView)View).Editor;
-        }
-
         void genJnlAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
             var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
