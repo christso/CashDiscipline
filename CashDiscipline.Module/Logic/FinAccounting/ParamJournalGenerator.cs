@@ -55,7 +55,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                                 .Cast<FinActivity>().ToList();
                 return result;
             })();
-            var activitiesToMap = activityMaps.GroupBy(m => m.FromActivity).Select(k => k.Key);
+            //var activitiesToMap = activityMaps.GroupBy(m => m.FromActivity).Select(k => k.Key);
 
             #endregion
 

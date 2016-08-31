@@ -26,6 +26,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using SmartFormat;
 
 namespace CashDiscipline.Module.Logic.FinAccounting
 {
@@ -133,12 +134,27 @@ namespace CashDiscipline.Module.Logic.FinAccounting
         }
         public string CreateFunctionalCcyAmtCommandText(IEnumerable<FinActivity> activityMaps)
         {
+            var activitiesToMap = activityMaps.GroupBy(m => new { m.FromActivity, m.JournalGroup } )
+                .Select(g => new { Group = g, Count = g.Count() })
+                .SelectMany(groupWithCount => groupWithCount.Group.Select(b => b)
+                    .Zip(
+                        Enumerable.Range( 1, groupWithCount.Count ),
+                        ( j, i ) => new {
+                            j.Oid, j.FromActivity, j.JournalGroup, j.FunctionalCcyAmtExpr, RowNumber = i
+                        }
+                    )
+                );
+
             var caseList = new List<string>();
-            foreach (var map in activityMaps)
+            foreach (var map in activitiesToMap)
             {
-                caseList.Add(string.Format("WHEN FinActivity.FromActivity = '{0}' THEN {1}",
-                    map.FromActivity.Oid.ToString().ToUpper(), 
-                    map.FunctionalCcyAmtExpr.Replace("{FA}", "FunctionalCcyAmt*-1.0")));
+                string sql = string.Format("WHEN FromActivity = '{0}' AND FinActivity.JournalGroup = '{3}' AND CalcRow = {2} THEN {1}",
+                    map.FromActivity.Oid.ToString().ToUpper(),
+                    map.FunctionalCcyAmtExpr.Replace("{FA}", "FunctionalCcyAmt*-1.0"),
+                    map.RowNumber,
+                    map.JournalGroup.Oid.ToString().ToUpper());
+
+                caseList.Add(sql);
             }
 
             return "CASE " + string.Join("\n", caseList) + " END";
@@ -160,6 +176,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
         {
             var amtCommandText = CreateFunctionalCcyAmtCommandText(activityMaps);
             var commandText = ProcessCommandTextTemplate
+                .Replace("{filter}", FilterCommandTextTemplate)
                 .Replace("{FA}", amtCommandText)
                 .Replace("{JG}", JournalGroupsParamText);
             return commandText;

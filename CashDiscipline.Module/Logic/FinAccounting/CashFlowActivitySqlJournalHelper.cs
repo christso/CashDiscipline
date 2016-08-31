@@ -37,7 +37,6 @@ INSERT INTO GenLedger
     SrcBankStmt,
     JournalGroup,
     Activity,
-    FunctionalCcyAmt,
     GlCompany,
     GlAccount,
     GlCostCentre,
@@ -51,16 +50,16 @@ INSERT INTO GenLedger
     EntryType,
     IsActivity,
     GlDate,
-    CreationDateTime
+    CreationDateTime,
+    FunctionalCcyAmt
 )
-SELECT 
+SELECT
     NEWID() AS Oid,
-    CashFlow.Oid AS SrcCashFlow,
+	CashFlow.Oid AS SrcCashFlow,
 	NULL AS SrcBankStmt,
     [FinActivity].[JournalGroup],
-    [FinActivity].[ToActivity] AS Activity,
-	{FA} AS FunctionalCcyAmt,
-    [FinActivity].[GlCompany],
+	[FinActivity].[ToActivity] AS Activity,
+	[FinActivity].[GlCompany],
     [FinActivity].[GlAccount],
     [FinActivity].[GlCostCentre],
     [FinActivity].[GlProduct],
@@ -70,12 +69,12 @@ SELECT
     [FinActivity].[GlProject],
     [FinActivity].[GlLocation],
     [FinActivity].[GlDescription],
-    0 AS GenLedgerEntryType,
-    1 AS IsActivity,
-    CashFlow.TranDate,
-    GETDATE()
-" + FilterCommandTextTemplate;
-
+	0 AS GenLedgerEntryType,
+	1 AS IsActivity,
+    CashFlow.TranDate AS GlDate,
+    GETDATE() AS CreationDateTime,
+    {FA} AS FunctionalCcyAmt
+{filter}";
             }
         }
 
@@ -84,12 +83,22 @@ SELECT
             get
             {
                 return
-@"FROM CashFlow
+@"FROM
+(
+SELECT 
+	CashFlow.*,
+	FinActivity.Oid AS FinActivity,
+    ROW_NUMBER() OVER (PARTITION BY FinActivity.JournalGroup, CashFlow.Oid ORDER BY CashFlow.Oid) AS CalcRow
+FROM CashFlow
 JOIN [FinActivity] ON CashFlow.Activity = FinActivity.FromActivity
+WHERE FinActivity.GCRecord IS NULL AND CashFlow.GCRecord IS NULL
+) CashFlow
+JOIN [FinActivity] ON CashFlow.FinActivity = FinActivity.Oid
 JOIN [FinAccount] ON CashFlow.Account = FinAccount.Account
 	AND FinAccount.JournalGroup = FinActivity.JournalGroup
-WHERE FinActivity.GCRecord IS NULL
-	AND FinActivity.[Algorithm] = @Algorithm
+	AND FinAccount.GCRecord IS NULL
+WHERE
+	FinActivity.[Algorithm] = @Algorithm
 	AND FinActivity.TargetObject IN (@TargetObject_All, @TargetObject_CashFlow)
 	AND FinActivity.[Enabled] = 1
     AND FinActivity.JournalGroup IN ({JG})

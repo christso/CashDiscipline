@@ -64,6 +64,41 @@ namespace CashDiscipline.UnitTests
         }
         #endregion
 
+        // Concept test
+        public void PartitionRowNumberByJournalGroupAndActivity()
+        {
+            var activities = (
+                new[]
+                {
+                new { id=1 , JournalGroup = "guitar" , Activity="john" },
+                new { id=2 , JournalGroup = "guitar" , Activity="george" },
+                new { id=3 , JournalGroup = "guitar" , Activity="paul" },
+                new { id=4 , JournalGroup = "drums" , Activity="ringo" },
+                new { id=5 , JournalGroup = "drums" , Activity="pete" },
+                new { id=6 , JournalGroup = "drums" , Activity="pete" }
+                }
+            );
+
+            var o = activities.GroupBy(m => new { m.Activity, m.JournalGroup })
+                .Select(g => new { Group = g, Count = g.Count() })
+                .SelectMany(groupWithCount => groupWithCount.Group.Select(b => b)
+                    .Zip(
+                        Enumerable.Range(1, groupWithCount.Count),
+                        (j, i) => new {
+                            j.id,
+                            j.Activity,
+                            j.JournalGroup,
+                            RowNumber = i
+                        }
+                    )
+                );
+
+            foreach (var i in o)
+            {
+                Console.WriteLine("{0} {1} {2} {3}", i.id, i.JournalGroup, i.Activity, i.RowNumber);
+            }
+        }
+
         [TestCase(FinMapAlgorithmType.SQL)]
         [TestCase(FinMapAlgorithmType.ORM)]
         public void GenerateJournals_AmountMustNotBeZero(FinMapAlgorithmType algoType)

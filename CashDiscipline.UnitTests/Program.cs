@@ -25,7 +25,7 @@ namespace CashDiscipline.UnitTests
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.GenerateJournals_CashFlowReclass_MappedToJournals(Module.BusinessObjects.FinAccounting.FinMapAlgorithmType.SQL);
+            tests.PartitionRowNumberByJournalGroupAndActivity();
 
             tests.TearDown();
             tests.TearDownFixture();

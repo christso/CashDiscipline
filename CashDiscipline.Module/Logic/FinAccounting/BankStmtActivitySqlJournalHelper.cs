@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using SmartFormat;
 
 namespace CashDiscipline.Module.Logic.FinAccounting
 {
@@ -36,7 +37,6 @@ INSERT INTO GenLedger
     SrcBankStmt,
     JournalGroup,
     Activity,
-    FunctionalCcyAmt,
     GlCompany,
     GlAccount,
     GlCostCentre,
@@ -50,16 +50,16 @@ INSERT INTO GenLedger
     EntryType,
     IsActivity,
     GlDate,
-    CreationDateTime
+    CreationDateTime,
+    FunctionalCcyAmt
 )
-SELECT 
+SELECT
     NEWID() AS Oid,
-    NULL AS SrcCashFlow,
+	NULL AS SrcCashFlow,
 	BankStmt.Oid AS SrcBankStmt,
     [FinActivity].[JournalGroup],
-    [FinActivity].[ToActivity] AS Activity,
-	{FA} AS FunctionalCcyAmt,
-    [FinActivity].[GlCompany],
+	[FinActivity].[ToActivity] AS Activity,
+	[FinActivity].[GlCompany],
     [FinActivity].[GlAccount],
     [FinActivity].[GlCostCentre],
     [FinActivity].[GlProduct],
@@ -69,11 +69,12 @@ SELECT
     [FinActivity].[GlProject],
     [FinActivity].[GlLocation],
     [FinActivity].[GlDescription],
-    0 AS GenLedgerEntryType,
-    1 AS IsActivity,
-    BankStmt.TranDate,
-    GETDATE()
-" + FilterCommandTextTemplate;
+	0 AS GenLedgerEntryType,
+	1 AS IsActivity,
+    BankStmt.TranDate AS GlDate,
+    GETDATE() AS CreationDateTime,
+    {FA} AS FunctionalCcyAmt
+{filter}";
 
     }
 }
@@ -83,12 +84,22 @@ SELECT
             get
             {
                 return
-@"FROM BankStmt
+@"FROM
+(
+SELECT 
+	BankStmt.*,
+	FinActivity.Oid AS FinActivity,
+    ROW_NUMBER() OVER (PARTITION BY FinActivity.JournalGroup, BankStmt.Oid ORDER BY BankStmt.Oid) AS CalcRow
+FROM BankStmt
 JOIN [FinActivity] ON BankStmt.Activity = FinActivity.FromActivity
+WHERE FinActivity.GCRecord IS NULL AND BanKStmt.GCRecord IS NULL
+) BankStmt
+JOIN [FinActivity] ON BankStmt.FinActivity = FinActivity.Oid
 JOIN [FinAccount] ON BankStmt.Account = FinAccount.Account
 	AND FinAccount.JournalGroup = FinActivity.JournalGroup
-WHERE FinActivity.GCRecord IS NULL
-	AND FinActivity.[Algorithm] = @Algorithm
+	AND FinAccount.GCRecord IS NULL
+WHERE
+	FinActivity.[Algorithm] = @Algorithm
 	AND FinActivity.TargetObject IN (@TargetObject_All, @TargetObject_BankStmt)
 	AND FinActivity.[Enabled] = 1
     AND FinActivity.JournalGroup IN ({JG})
