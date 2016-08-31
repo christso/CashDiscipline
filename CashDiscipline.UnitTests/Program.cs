@@ -25,7 +25,7 @@ namespace CashDiscipline.UnitTests
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.PartitionRowNumberByJournalGroupAndActivity();
+            tests.GenerateJournals_Decimal( Module.BusinessObjects.FinAccounting.FinMapAlgorithmType.SQL);
 
             tests.TearDown();
             tests.TearDownFixture();

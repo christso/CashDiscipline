@@ -150,7 +150,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             {
                 string sql = string.Format("WHEN FromActivity = '{0}' AND FinActivity.JournalGroup = '{3}' AND CalcRow = {2} THEN {1}",
                     map.FromActivity.Oid.ToString().ToUpper(),
-                    map.FunctionalCcyAmtExpr.Replace("{FA}", "FunctionalCcyAmt*-1.0"),
+                    map.FunctionalCcyAmtExpr.Replace("{FA}", "CAST ( FunctionalCcyAmt*-1 AS money )"),
                     map.RowNumber,
                     map.JournalGroup.Oid.ToString().ToUpper());
 
