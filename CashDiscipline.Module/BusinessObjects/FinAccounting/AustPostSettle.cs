@@ -54,7 +54,6 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
-        [Persistent("BankStmtDate")]
         private DateTime _BankStmtDate;
 
         [ModelDefault("AllowEdit", "false")]
@@ -66,6 +65,10 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
                     return BankStmt.TranDate;
                 else
                     return SqlDateTime.MinValue.Value;
+            }
+            set
+            {
+                SetPropertyValue("BankStmtDate", ref _BankStmtDate, value);
             }
         }
 

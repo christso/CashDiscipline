@@ -15,13 +15,13 @@ using System.Diagnostics;
 
 namespace CashDiscipline.Module.Logic.FinAccounting
 {
-    public class JournalGenerator
+    public class ParamJournalGenerator
     {
         private readonly FinGenJournalParam paramObj;
         private readonly XPObjectSpace objSpace;
         private List<GenLedgerFinActivityJoin> genLedgerFinActivityJoin;
 
-        public JournalGenerator(FinGenJournalParam paramObj, XPObjectSpace objSpace)
+        public ParamJournalGenerator(FinGenJournalParam paramObj, XPObjectSpace objSpace)
         {
             this.paramObj = paramObj;
             this.objSpace = objSpace;
@@ -63,11 +63,13 @@ namespace CashDiscipline.Module.Logic.FinAccounting
 
             #region Process via ORM
 
+            var ormActivityMaps = activityMaps.Where(x => x.Algorithm == FinMapAlgorithmType.ORM);
+
             var bsJournalHelper = new BankStmtActivityOrmJournalHelper(objSpace, paramObj);
-            bsJournalHelper.Process(accountMaps, activityMaps.Where(x => x.Algorithm == FinMapAlgorithmType.ORM));
+            bsJournalHelper.Process(accountMaps, ormActivityMaps);
 
             var cfJournalHelper = new CashFlowActivityOrmJournalHelper(objSpace, paramObj);
-            cfJournalHelper.Process(accountMaps, activityMaps);
+            cfJournalHelper.Process(accountMaps, ormActivityMaps);
 
             // commit to datastore (required for SQL algorithm which creates account gen ledgers)
             objSpace.Session.CommitTransaction();
@@ -88,6 +90,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             accountSqlJnlr.Process();
 
             #endregion
+            
         }
 
         #region Deleter

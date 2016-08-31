@@ -240,6 +240,7 @@
     <Compile Include="Logic\Cash\CashFlowTabular16.cs" />
     <Compile Include="Logic\Cash\ICashFlowTabular.cs" />
     <Compile Include="Logic\Cash\SaveForecastSnapshot.cs" />
+    <Compile Include="Logic\FinAccounting\SelectJournalGenerator.cs" />
     <Compile Include="Logic\Forex\ForexToCashFlowUploader.cs" />
     <Compile Include="Controllers\ImportViewController.cs">
       <SubType>Component</SubType>
@@ -344,7 +345,7 @@
     <None Include="FunctionalTests\ForexTrade_Create.ets" />
     <Compile Include="BusinessObjects\Forex\ForexRate.cs" />
     <Compile Include="BusinessObjects\SetOfBooks.cs" />
-    <Compile Include="Logic\FinAccounting\JournalGenerator.cs" />
+    <Compile Include="Logic\FinAccounting\ParamJournalGenerator.cs" />
     <Compile Include="Controllers\FinAccounting\GenLedgerListViewController.cs">
       <SubType>Component</SubType>
     </Compile>

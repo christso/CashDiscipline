@@ -36,7 +36,6 @@ namespace CashDiscipline.Module.Controllers.Cash
             RunProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             RunProgramAction.Execute += runProgramAction_Execute;
             RunProgramAction.ShowItemsOnClick = true;
-            //RunProgramAction.ExecuteCompleted += RunProgramAction_ExecuteCompleted;
             
             var dailyUpdateAction = new ChoiceActionItem();
             dailyUpdateAction.Caption = "Daily Update";

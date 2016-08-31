@@ -137,7 +137,8 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             foreach (var map in activityMaps)
             {
                 caseList.Add(string.Format("WHEN FinActivity.FromActivity = '{0}' THEN {1}",
-                    map.FromActivity.Oid, map.FunctionalCcyAmtExpr.Replace("{FA}", "FunctionalCcyAmt*-1")));
+                    map.FromActivity.Oid.ToString().ToUpper(), 
+                    map.FunctionalCcyAmtExpr.Replace("{FA}", "FunctionalCcyAmt*-1.0")));
             }
 
             return "CASE " + string.Join("\n", caseList) + " END";
@@ -148,7 +149,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             get
             {
                 var journalGroupOids = paramObj.JournalGroupParams
-    .Select(x => "'" + x.JournalGroup.Oid + "'");
+    .Select(x => string.Format("'{0}'", x.JournalGroup.Oid).ToUpper());
 
                 var journalGroupsParamText = string.Join(",", journalGroupOids);
                 return journalGroupsParamText;

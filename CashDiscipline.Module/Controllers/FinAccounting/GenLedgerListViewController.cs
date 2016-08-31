@@ -18,22 +18,33 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
             TargetObjectType = typeof(GenLedger);
             TargetViewType = ViewType.ListView;
 
-            genJnlAction = new SimpleAction(this, "GenJnlAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
+            genJnlAction = new SingleChoiceAction(this, "GenJnlAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             genJnlAction.Caption = "Generate Journals";
+            genJnlAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
+            genJnlAction.ShowItemsOnClick = false;
             genJnlAction.Execute += genJnlAction_Execute;
+
+            var choice1 = new ChoiceActionItem();
+            choice1.Caption = "Generate";
+            genJnlAction.Items.Add(choice1);
 
         }
 
-        private SimpleAction genJnlAction;
+        private SingleChoiceAction genJnlAction;
         private FinGenJournalParam _ParamObj;
-        private JournalGenerator journalGenerator;
+        private ParamJournalGenerator journalGenerator;
 
-        void genJnlAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        void genJnlAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
+        {
+            ShowGeneratorForm();
+        }
+
+        private void ShowGeneratorForm()
         {
             var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = FinGenJournalParam.GetInstance(objSpace);
             _ParamObj = paramObj;
-            journalGenerator = new JournalGenerator(paramObj, objSpace);
+            journalGenerator = new ParamJournalGenerator(paramObj, objSpace);
 
             var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
             dialog.Accepting += dialog_Accepting;

@@ -20,9 +20,9 @@
     <add name="ConnectionString" connectionString="Integrated Security=SSPI;Pooling=false;Data Source=localhost;Initial Catalog=CashDiscipline" />
     -->
     <add name="ConnectionString" connectionString="Integrated Security=SSPI;Pooling=false;Data Source=FINSERV01;Initial Catalog=CashDiscipline" />
-    <add name="EasyTestConnectionString" connectionString="Integrated Security=SSPI;Pooling=false;Data Source=localhost;Initial Catalog=CashDiscipline" />
+    <add name="EasyTestConnectionString" connectionString="Integrated Security=SSPI;Pooling=false;Data Source=FINSERV01;Initial Catalog=CashDiscipline" />
     <!--
-    <add name="ConnectionString" connectionString="XpoProvider=Postgres;Server=127.0.0.1;User ID=postgres;Database=Treasury;Encoding=UNICODE"/>
+    <add name="ConnectionString" connectionString="XpoProvider=Postgres;Server=127.0.0.1;User ID=postgres;Dat abase=Treasury;Encoding=UNICODE"/>
     -->
     <!--
 		Use the following connection string to connect to a database on the Microsoft SQL Server Express:
@@ -41,164 +41,12 @@
     <switches>
       <!-- Use the one of predefined values: 0-Off, 1-Errors, 2-Warnings, 3-Info, 4-Verbose. The default value is 3. -->
       <add name="eXpressAppFramework" value="3" />
-      <add name="XPO" value="0" />
+      <add name="XPO" value="1" />
     </switches>
   </system.diagnostics>
   <startup>
     <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5" />
   </startup>
-  <runtime>
-    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Persistent.Base.v14.1" publicKeyToken="B88D1754D700E49A" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-14.1.6.0" newVersion="14.1.6.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Xpo.v14.1" publicKeyToken="B88D1754D700E49A" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-14.1.6.0" newVersion="14.1.6.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.ExpressApp.Xpo.v14.1" publicKeyToken="B88D1754D700E49A" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-14.1.6.0" newVersion="14.1.6.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Persistent.BaseImpl.v14.1" publicKeyToken="B88D1754D700E49A" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-14.1.6.0" newVersion="14.1.6.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Data.v14.1" publicKeyToken="B88D1754D700E49A" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-14.1.6.0" newVersion="14.1.6.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.ExpressApp.v14.1" publicKeyToken="B88D1754D700E49A" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-14.1.6.0" newVersion="14.1.6.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="AutoMapper" publicKeyToken="be96cd2c38ef1005" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-4.2.1.0" newVersion="4.2.1.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.ExpressApp.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Data.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Persistent.BaseImpl.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraEditors.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.ExpressApp.Win.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Persistent.Base.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Utils.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Printing.v15.2.Core" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraNavBar.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraLayout.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraPrinting.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraBars.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.RichEdit.v15.2.Core" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraRichEdit.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraReports.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraReports.v15.2.Extensions" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.ExpressApp.Reports.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraGrid.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Sparkline.v15.2.Core" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.Xpo.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.7.0" newVersion="15.2.7.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.XtraPivotGrid.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.PivotGrid.v15.2.Core" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.ExpressApp.PivotGrid.Win.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.ExpressApp.Validation.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="DevExpress.ExpressApp.PivotGrid.v15.2" publicKeyToken="b88d1754d700e49a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-15.2.4.0" newVersion="15.2.4.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="System.Data" publicKeyToken="b77a5c561934e089" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="System" publicKeyToken="b77a5c561934e089" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="System.Xml" publicKeyToken="b77a5c561934e089" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="System.Drawing" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
-      </dependentAssembly>
-      <dependentAssembly>
-        <assemblyIdentity name="System.Configuration" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
-        <bindingRedirect oldVersion="0.0.0.0-4.0.0.0" newVersion="4.0.0.0" />
-      </dependentAssembly>
-    </assemblyBinding>
-  </runtime>
   <system.web>
     <membership defaultProvider="ClientAuthenticationMembershipProvider">
       <providers>
@@ -211,4 +59,16 @@
       </providers>
     </roleManager>
   </system.web>
+  <system.serviceModel>
+    <bindings>
+      <basicHttpBinding>
+        <binding name="BasicHttpBinding_IService1" />
+      </basicHttpBinding>
+    </bindings>
+    <client>
+      <endpoint address="http://FINSERV01:8080/CashDiscipline" binding="basicHttpBinding"
+          bindingConfiguration="BasicHttpBinding_IService1" contract="ServiceReference1.IService1"
+          name="BasicHttpBinding_IService1" />
+    </client>
+  </system.serviceModel>
 </configuration>

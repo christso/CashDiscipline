@@ -21,11 +21,11 @@ namespace CashDiscipline.UnitTests
 
         static void RunTest()
         {
-            var tests = new CashFlowTests();
+            var tests = new FinAccountingTests();
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.CashFlow_AccountIsUSD_CounterCcyAmtEqualsAccountCcyAmt();
+            tests.GenerateJournals_CashFlowReclass_MappedToJournals(Module.BusinessObjects.FinAccounting.FinMapAlgorithmType.SQL);
 
             tests.TearDown();
             tests.TearDownFixture();
