@@ -83,7 +83,7 @@ SELECT
     0 AS GenLedgerEntryType,
     0 AS IsActivity,
     GenLedger.GlDate,
-    1 AS IsJournal,
+    GenLedger.IsJournal,
     GETDATE()
 FROM GenLedger
 LEFT JOIN BankStmt ON BankStmt.Oid = GenLedger.SrcBankStmt
@@ -143,7 +143,7 @@ SELECT
     0 AS GenLedgerEntryType,
     0 AS IsActivity,
     GenLedger.GlDate,
-    1 AS IsJournal,
+    GenLedger.IsJournal,
     GETDATE()
 FROM GenLedger
 LEFT JOIN CashFlow ON CashFlow.Oid = GenLedger.SrcCashFlow

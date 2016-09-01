@@ -35,7 +35,7 @@ FROM GenLedger
 WHERE 
 	GenLedger.GlDate BETWEEN @FromDate AND @ToDate
 	AND GenLedger.IsJournal = 0
-    AND GenLedger.JournalGroup IN ('63dab5b7-bc33-47b6-8032-b9ceb8d868d4','027cb724-560a-4f21-a395-05c4fd435419','4389c348-35bf-49fe-ab8d-bbb37ba661f1','a24de1ec-af74-4edd-9bd2-e003024a7924','63adbcdd-2d6f-43d5-aa15-e2a3406fbf46','c3461a1d-5501-4722-9e19-458ccb15aedf','2fec3a3b-09d1-47e8-a4b2-be57607b1c38','53ea0b90-a1f3-4dbe-a11e-39c776270254','441cbd1c-3128-4f81-9028-d564234031e0','10e8f3ba-6660-4f1e-8434-13f2ccc9a3ea','8877d88e-2df4-4d2f-9122-0d553dd877e6','730bad02-a2c0-47ec-96d1-20a38513e096')
+    AND GenLedger.JournalGroup IN ({jg})
 
 INSERT INTO GenLedger
 (
@@ -76,7 +76,7 @@ SELECT
 	'0' AS GlIntercompany,
 	'0' AS GlProject,
 	'0' AS GlLocation,
-	ROUND(BankStmt.FunctionalCcyAmt - COALESCE(gl.FunctionalCcyAmt,0.00),2) AS FunctionalCcyAmt,
+	ROUND(BankStmt.FunctionalCcyAmt + COALESCE(gl.FunctionalCcyAmt,0.00),2)*-1 AS FunctionalCcyAmt,
 	BankStmt.TranDescription AS GlDescription,
 	0 AS EntryType,
 	1 AS IsActivity,
@@ -92,7 +92,8 @@ LEFT JOIN
 	FROM GenLedger gl
 	WHERE
         gl.GCRecord IS NULL
-		AND gl.IsActivity = 0
+		AND gl.IsActivity = 1
+        AND gl.IsJournal = 1
 		AND gl.SrcBankStmt IS NOT NULL
 		AND gl.GlDate BETWEEN @FromDate AND @ToDate
 	GROUP BY gl.SrcBankStmt
@@ -103,8 +104,8 @@ JOIN FinAccount ON FinAccount.Account = BankStmt.Account
 WHERE 
 	BankStmt.TranDate BETWEEN @FromDate AND @ToDate
 	AND BankStmt.GCRecord IS NULL
-	AND ROUND(BankStmt.FunctionalCcyAmt - COALESCE(gl.FunctionalCcyAmt,0.00),2) <> 0.00
-    AND FinAccount.JournalGroup IN ('63dab5b7-bc33-47b6-8032-b9ceb8d868d4','027cb724-560a-4f21-a395-05c4fd435419','4389c348-35bf-49fe-ab8d-bbb37ba661f1','a24de1ec-af74-4edd-9bd2-e003024a7924','63adbcdd-2d6f-43d5-aa15-e2a3406fbf46','c3461a1d-5501-4722-9e19-458ccb15aedf','2fec3a3b-09d1-47e8-a4b2-be57607b1c38','53ea0b90-a1f3-4dbe-a11e-39c776270254','441cbd1c-3128-4f81-9028-d564234031e0','10e8f3ba-6660-4f1e-8434-13f2ccc9a3ea','8877d88e-2df4-4d2f-9122-0d553dd877e6','730bad02-a2c0-47ec-96d1-20a38513e096')
+	AND ROUND(BankStmt.FunctionalCcyAmt + COALESCE(gl.FunctionalCcyAmt,0.00),2)*-1 <> 0.00
+    AND FinAccount.JournalGroup IN ({jg})
 ";
             }
         }
