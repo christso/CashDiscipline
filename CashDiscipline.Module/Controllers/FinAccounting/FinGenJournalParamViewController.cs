@@ -34,6 +34,7 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
             FinGenJournalParam paramObj = e.CurrentObject as FinGenJournalParam;
             var journalGenerator = new ParamJournalGenerator(paramObj, (XPObjectSpace)ObjectSpace);
             journalGenerator.Execute();
+            ObjectSpace.CommitChanges();
             View.Close();
         }
 
