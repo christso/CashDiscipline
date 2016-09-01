@@ -1,8 +1,11 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Controllers.Cash;
+using CashDiscipline.Module.Logic.FinAccounting;
 using CashDiscipline.Module.ParamObjects.Cash;
+using CashDiscipline.Module.ParamObjects.FinAccounting;
 using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Xpo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,6 +97,20 @@ namespace CashDiscipline.Module.AppNavigation
             });
             #endregion
 
+            #region SQL Test
+            ActionPortalList.Add(new ActionPortalItem()
+            {
+                ActionName = "GenLedger SQL Test",
+                ActionDescription = "GenLedger SQL Test",
+                ExecutableAction = (args) =>
+                {
+                    var objSpace = args.ObjectSpace;
+                    var paramObj = FinGenJournalParam.GetInstance(objSpace);
+                    var sqlJnlr = new GenLedgerUnpostedCreator((XPObjectSpace)objSpace, paramObj);
+                    sqlJnlr.Process();
+                }
+            });
+            #endregion
         }
     }
 }

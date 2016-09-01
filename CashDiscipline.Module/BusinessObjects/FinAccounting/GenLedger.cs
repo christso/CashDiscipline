@@ -298,6 +298,19 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        private bool _IsJournal;
+        public bool IsJournal
+        {
+            get
+            {
+                return _IsJournal;
+            }
+            set
+            {
+                SetPropertyValue("IsJournal", ref _IsJournal, value);
+            }
+        }
+
         DateTime _CreationDateTime;
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         [ModelDefault("EditMask", "dd-MMM-yy")]

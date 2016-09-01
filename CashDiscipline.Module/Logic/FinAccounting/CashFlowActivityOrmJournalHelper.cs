@@ -84,6 +84,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             activityGli.GlProject = activityMap.GlProject;
             activityGli.GlSalesChannel = activityMap.GlSalesChannel;
             activityGli.IsActivity = true;
+            activityGli.IsJournal = true;
             return activityGli;
         }
 

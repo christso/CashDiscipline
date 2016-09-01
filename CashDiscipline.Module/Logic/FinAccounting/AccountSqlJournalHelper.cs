@@ -55,6 +55,7 @@ INSERT INTO GenLedger
     EntryType,
     IsActivity,
     GlDate,
+    IsJournal,
     CreationDateTime
 )
 SELECT 
@@ -65,10 +66,9 @@ SELECT
     GenLedger.Activity,
 	CASE 
 		WHEN FinAccount.[GlDescription] IS NOT NULL
+            AND FinAccount.[GlDescription] <> ''
 		THEN FinAccount.[GlDescription]
-		WHEN BankStmt.SummaryDescription IS NOT NULL
-		THEN BankStmt.TranDescription + '_' + BankStmt.SummaryDescription
-		ELSE BankStmt.TranDescription
+		ELSE GenLedger.GlDescription
 		END AS [GlDescription],
     FinAccount.[GlCompany],
     FinAccount.[GlAccount],
@@ -83,6 +83,7 @@ SELECT
     0 AS GenLedgerEntryType,
     0 AS IsActivity,
     GenLedger.GlDate,
+    1 AS IsJournal,
     GETDATE()
 FROM GenLedger
 LEFT JOIN BankStmt ON BankStmt.Oid = GenLedger.SrcBankStmt
@@ -114,6 +115,7 @@ INSERT INTO GenLedger
     EntryType,
     IsActivity,
     GlDate,
+    IsJournal,
     CreationDateTime
 )
 SELECT 
@@ -122,10 +124,11 @@ SELECT
 	GenLedger.SrcBankStmt,
     GenLedger.[JournalGroup],
     GenLedger.Activity,
-	CASE
+	CASE 
 		WHEN FinAccount.[GlDescription] IS NOT NULL
+            AND FinAccount.[GlDescription] <> ''
 		THEN FinAccount.[GlDescription]
-		ELSE CashFlow.[Description]
+		ELSE GenLedger.GlDescription
 		END AS [GlDescription],
     FinAccount.[GlCompany],
     FinAccount.[GlAccount],
@@ -140,6 +143,7 @@ SELECT
     0 AS GenLedgerEntryType,
     0 AS IsActivity,
     GenLedger.GlDate,
+    1 AS IsJournal,
     GETDATE()
 FROM GenLedger
 LEFT JOIN CashFlow ON CashFlow.Oid = GenLedger.SrcCashFlow

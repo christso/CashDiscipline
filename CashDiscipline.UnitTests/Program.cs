@@ -36,7 +36,7 @@ namespace CashDiscipline.UnitTests
         static void RunTempTestMethod()
         {
             var tests = new CashDiscipline.UnitTests.TempTests();
-            tests.TempTest1();
+            //tests.TempTest1();
         }
 
         static void RunExperiment()

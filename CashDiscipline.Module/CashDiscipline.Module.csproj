@@ -240,7 +240,7 @@
     <Compile Include="Logic\Cash\CashFlowTabular16.cs" />
     <Compile Include="Logic\Cash\ICashFlowTabular.cs" />
     <Compile Include="Logic\Cash\SaveForecastSnapshot.cs" />
-    <Compile Include="Logic\FinAccounting\ActivityRow.cs" />
+    <Compile Include="Logic\FinAccounting\GenLedgerUnpostedCreator.cs" />
     <Compile Include="Logic\FinAccounting\SelectJournalGenerator.cs" />
     <Compile Include="Logic\Forex\ForexToCashFlowUploader.cs" />
     <Compile Include="Controllers\ImportViewController.cs">

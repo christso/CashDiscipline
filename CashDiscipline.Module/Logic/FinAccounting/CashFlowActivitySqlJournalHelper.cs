@@ -51,6 +51,7 @@ INSERT INTO GenLedger
     IsActivity,
     GlDate,
     CreationDateTime,
+    IsJournal,
     FunctionalCcyAmt
 )
 SELECT
@@ -68,11 +69,17 @@ SELECT
     [FinActivity].[GlIntercompany],
     [FinActivity].[GlProject],
     [FinActivity].[GlLocation],
-    [FinActivity].[GlDescription],
+    CASE
+        WHEN FinActivity.[GlDescription] IS NOT NULL AND FinActivity.[GlDescription] <> ''    
+            AND CashFlow.Description IS NOT NULL AND CashFlow.Description <> ''
+        THEN [FinActivity].[GlDescription] + '_' + CashFlow.Description
+        ELSE [FinActivity].[GlDescription]
+    END AS GlDescription,
 	0 AS GenLedgerEntryType,
 	1 AS IsActivity,
     CashFlow.TranDate AS GlDate,
     GETDATE() AS CreationDateTime,
+    1 AS IsJournal,
     {FA} AS FunctionalCcyAmt
 {filter}";
             }
@@ -86,14 +93,15 @@ SELECT
 @"FROM
 (
 SELECT 
-	CashFlow.*,
+	cf.Oid,
 	FinActivity.Oid AS FinActivity,
-    ROW_NUMBER() OVER (PARTITION BY FinActivity.JournalGroup, CashFlow.Oid ORDER BY CashFlow.Oid) AS CalcRow
-FROM CashFlow
-JOIN [FinActivity] ON CashFlow.Activity = FinActivity.FromActivity
-WHERE FinActivity.GCRecord IS NULL AND CashFlow.GCRecord IS NULL
-) CashFlow
-JOIN [FinActivity] ON CashFlow.FinActivity = FinActivity.Oid
+    ROW_NUMBER() OVER (PARTITION BY FinActivity.JournalGroup, cf.Oid ORDER BY cf.Oid) AS CalcRow
+FROM CashFlow cf
+JOIN [FinActivity] ON cf.Activity = FinActivity.FromActivity
+WHERE FinActivity.GCRecord IS NULL AND cf.GCRecord IS NULL
+) cf
+JOIN CashFlow ON CashFlow.Oid = cf.Oid
+JOIN [FinActivity] ON cf.FinActivity = FinActivity.Oid
 JOIN [FinAccount] ON CashFlow.Account = FinAccount.Account
 	AND FinAccount.JournalGroup = FinActivity.JournalGroup
 	AND FinAccount.GCRecord IS NULL

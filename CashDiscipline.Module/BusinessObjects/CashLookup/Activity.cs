@@ -157,6 +157,33 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
 
+        private ActivityTag _RvnuActivityL1;
+        public ActivityTag RvnuActivityL1
+        {
+            get
+            {
+                return _RvnuActivityL1;
+            }
+            set
+            {
+                SetPropertyValue("RvnuActivityL1", ref _RvnuActivityL1, value);
+            }
+        }
+
+        private ActivityTag _RvnuActivityL2;
+
+        public ActivityTag RvnuActivityL2
+        {
+            get
+            {
+                return _RvnuActivityL2;
+            }
+            set
+            {
+                SetPropertyValue("RvnuActivityL2", ref _RvnuActivityL2, value);
+            }
+        }
+
         private ActivityTag _HedgeActivity;
         public ActivityTag HedgeActivity
         {

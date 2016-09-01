@@ -51,6 +51,7 @@ INSERT INTO GenLedger
     IsActivity,
     GlDate,
     CreationDateTime,
+    IsJournal,
     FunctionalCcyAmt
 )
 SELECT
@@ -68,11 +69,24 @@ SELECT
     [FinActivity].[GlIntercompany],
     [FinActivity].[GlProject],
     [FinActivity].[GlLocation],
-    [FinActivity].[GlDescription],
+    CASE
+        WHEN FinActivity.[GlDescription] IS NOT NULL AND FinActivity.[GlDescription] <> ''
+		THEN CASE
+			WHEN BankStmt.SummaryDescription IS NOT NULL AND BankStmt.SummaryDescription <> ''
+			THEN FinActivity.[GlDescription] + '_' + BankStmt.SummaryDescription
+			ELSE FinActivity.[GlDescription]
+			END
+        ELSE CASE
+			WHEN BankStmt.SummaryDescription IS NOT NULL AND BankStmt.SummaryDescription <> ''
+			THEN BankStmt.TranDescription + '_' + BankStmt.SummaryDescription
+			ELSE BankStmt.TranDescription
+			END
+	END AS [GlDescription],
 	0 AS GenLedgerEntryType,
 	1 AS IsActivity,
     BankStmt.TranDate AS GlDate,
     GETDATE() AS CreationDateTime,
+    1 AS IsJournal,
     {FA} AS FunctionalCcyAmt
 {filter}";
 
@@ -87,14 +101,15 @@ SELECT
 @"FROM
 (
 SELECT 
-	BankStmt.*,
+	bs.Oid,
 	FinActivity.Oid AS FinActivity,
-    ROW_NUMBER() OVER (PARTITION BY FinActivity.JournalGroup, BankStmt.Oid ORDER BY BankStmt.Oid) AS CalcRow
-FROM BankStmt
-JOIN [FinActivity] ON BankStmt.Activity = FinActivity.FromActivity
-WHERE FinActivity.GCRecord IS NULL AND BanKStmt.GCRecord IS NULL
-) BankStmt
-JOIN [FinActivity] ON BankStmt.FinActivity = FinActivity.Oid
+    ROW_NUMBER() OVER (PARTITION BY FinActivity.JournalGroup, bs.Oid ORDER BY bs.Oid) AS CalcRow
+FROM BankStmt bs
+JOIN [FinActivity] ON bs.Activity = FinActivity.FromActivity
+WHERE FinActivity.GCRecord IS NULL AND bs.GCRecord IS NULL
+) bs
+JOIN BankStmt ON BankStmt.Oid = bs.Oid
+JOIN [FinActivity] ON bs.FinActivity = FinActivity.Oid
 JOIN [FinAccount] ON BankStmt.Account = FinAccount.Account
 	AND FinAccount.JournalGroup = FinActivity.JournalGroup
 	AND FinAccount.GCRecord IS NULL

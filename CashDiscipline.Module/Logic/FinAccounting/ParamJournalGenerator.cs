@@ -89,6 +89,9 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             var accountSqlJnlr = new AccountSqlJournalHelper(objSpace, paramObj);
             accountSqlJnlr.Process();
 
+            var unpostedSqlJnlr = new GenLedgerUnpostedCreator(objSpace, paramObj);
+            unpostedSqlJnlr.Process();
+
             #endregion
             
         }

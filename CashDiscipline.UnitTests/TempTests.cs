@@ -27,6 +27,8 @@ using System.Reflection;
 using CashDiscipline.Module.Clients;
 using CashDiscipline.Common;
 using ADOMD = Microsoft.AnalysisServices.AdomdClient;
+using CashDiscipline.Module.Logic.FinAccounting;
+using CashDiscipline.Module.ParamObjects.FinAccounting;
 
 namespace CashDiscipline.UnitTests
 {
@@ -88,14 +90,7 @@ namespace CashDiscipline.UnitTests
         }
         
 
-        public void TempTest1()
-        {
-      
-        }
 
-        public void TempTest2()
-        {
 
-        }
     }
 }
