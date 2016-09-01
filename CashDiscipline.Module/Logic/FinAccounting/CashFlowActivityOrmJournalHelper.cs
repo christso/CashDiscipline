@@ -103,13 +103,23 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             fp.Add("FA", TokenFAmountHandler);
             var parsed = fp.ParseToCriteria(activityMap.FunctionalCcyAmtExpr.Replace("{FA}", "FunctionalCcyAmt"));
 
-            object exprResult = cf.Evaluate(CriteriaOperator.Parse(parsed.Criteria, parsed.Parameters));
-            decimal famt = 0.00M;
-            if (exprResult != null && Decimal.TryParse(exprResult.ToString(), out famt))
+            try
             {
-                return famt;
+                object exprResult = cf.Evaluate(CriteriaOperator.Parse(parsed.Criteria, parsed.Parameters));
+                decimal famt = 0.00M;
+                if (exprResult != null && Decimal.TryParse(exprResult.ToString(), out famt))
+                {
+                    return famt;
+                }
+                return 0.00M;
             }
-            return 0.00M;
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(string.Format(
+                    "Error parsing map expression = '{1}', at FinActivity.Oid = '{0}', CashFlow.Oid = '{2}'",
+                    activityMap.Oid, activityMap.FunctionalCcyAmtExpr, cf.Oid),
+                    ex);
+            }
         }
 
         public IList<CashFlow> GetSourceObjects(IEnumerable<Activity> activitiesToMap, IEnumerable<Account> accountsToMap)

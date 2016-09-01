@@ -36,6 +36,10 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
             journalGenerator.Execute();
             ObjectSpace.CommitChanges();
             View.Close();
+
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                "Journals successfully generated. Please refresh the Cash Gen Ledger Report.", 
+                "Journal Generation SUCCESS");
         }
 
         private void CancelAction_Execute(object sender, SimpleActionExecuteEventArgs e)

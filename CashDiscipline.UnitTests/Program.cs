@@ -25,7 +25,7 @@ namespace CashDiscipline.UnitTests
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.GenerateJournals_Decimal( Module.BusinessObjects.FinAccounting.FinMapAlgorithmType.SQL);
+            tests.GenerateJournals_OrmSubStringOutOfRange();
 
             tests.TearDown();
             tests.TearDownFixture();

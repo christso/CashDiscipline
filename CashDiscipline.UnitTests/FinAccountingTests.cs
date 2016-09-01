@@ -64,6 +64,104 @@ namespace CashDiscipline.UnitTests
         }
         #endregion
 
+        // Example of how you should use a SubString mapping to avoid throwing an error
+        public void GenerateJournals_OrmSubStringOutOfRange()
+        {
+            #region Prepare
+            var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
+            journalGroup.Name = "VF Bank";
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ 70086";
+            var currency = ObjectSpace.CreateObject<Currency>();
+            currency.Name = "AUD";
+
+            var glDescDateFormat = "dd-mmm-yy";
+            var bankGlAccount = "210127";
+
+            var stmtSource = ObjectSpace.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.BankStmtCashFlowSource.Oid);
+
+            #endregion
+
+            #region Cash Flow Mapping
+
+            var finAccount = ObjectSpace.CreateObject<FinAccount>();
+            finAccount.Account = account;
+            finAccount.GlAccount = bankGlAccount;
+            finAccount.JournalGroup = journalGroup;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "V AMEX Rcpt";
+            var amexGlAccount = "211900";
+
+            var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity1.FromActivity = activity;
+            finActivity1.ToActivity = activity;
+            finActivity1.FunctionalCcyAmtExpr = "IIf(Len(TranDescription) > 80, SubString(TranDescription, 71, 9), {FA})";
+            finActivity1.GlDescription = "SUMMARY POSTING - AMEX";
+            finActivity1.GlDescDateFormat = glDescDateFormat;
+            finActivity1.GlAccount = amexGlAccount;
+            finActivity1.JournalGroup = journalGroup;
+            finActivity1.TargetObject = FinJournalTargetObject.BankStmt;
+            finActivity1.Algorithm = FinMapAlgorithmType.ORM;
+
+            #endregion
+
+            #region Transactions
+
+            var bankStmt1 = ObjectSpace.CreateObject<BankStmt>();
+            bankStmt1.TranDate = new DateTime(2016, 07, 01);
+            bankStmt1.Account = account;
+            bankStmt1.Activity = activity;
+            bankStmt1.TranAmount = 1793881.2M;
+            bankStmt1.TranDescription = "TRANSFER                                VHA AMEX DISPERSAL FROM PYC DISPERSAL";
+            bankStmt1.CounterCcyAmt = bankStmt1.TranAmount;
+            bankStmt1.FunctionalCcyAmt = bankStmt1.TranAmount;
+            bankStmt1.CounterCcy = currency;
+
+            var cashFlow1 = ObjectSpace.CreateObject<CashFlow>();
+            cashFlow1.TranDate = bankStmt1.TranDate;
+            cashFlow1.Account = account;
+            cashFlow1.Activity = bankStmt1.Activity;
+            cashFlow1.AccountCcyAmt = bankStmt1.TranAmount;
+            cashFlow1.Source = stmtSource;
+            cashFlow1.Status = CashFlowStatus.Actual;
+
+            #endregion
+
+            #region Generate Journals
+            // Params
+            var glParam = ObjectSpace.CreateObject<FinGenJournalParam>();
+            glParam.FromDate = new DateTime(2016, 01, 01);
+            glParam.ToDate = new DateTime(2016, 12, 31);
+            var journalGroupParam = ObjectSpace.CreateObject<FinJournalGroupParam>();
+            journalGroupParam.JournalGroup = journalGroup;
+
+            ObjectSpace.CommitChanges();
+
+            journalGroupParam.GenJournalParam = glParam;
+
+            var jg = new ParamJournalGenerator(glParam, ObjectSpace);
+            jg.Execute();
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region
+
+            var gls = ObjectSpace.GetObjects<GenLedger>();
+
+            decimal bankStmtResult = gls.Where(x => x.GlAccount == bankGlAccount && x.SrcBankStmt != null).Sum(x => x.FunctionalCcyAmt);
+            bankStmtResult = Math.Round(bankStmtResult, 2);
+            Assert.AreEqual(bankStmt1.TranAmount, bankStmtResult);
+
+            decimal cashFlowResult = gls.Where(x => x.GlAccount == bankGlAccount && x.SrcCashFlow != null).Sum(x => x.FunctionalCcyAmt);
+            cashFlowResult = Math.Round(cashFlowResult, 2);
+            Assert.AreEqual(0, cashFlowResult);
+
+            #endregion
+        }
+
         [TestCase(FinMapAlgorithmType.SQL)]
         [TestCase(FinMapAlgorithmType.ORM)]
         public void GenerateJournals_Decimal(FinMapAlgorithmType algoType)
