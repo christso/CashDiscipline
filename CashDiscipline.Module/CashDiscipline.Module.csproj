@@ -229,6 +229,9 @@
     <Compile Include="Controllers\Cash\ImportBankStmtParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\FinAccounting\FinGenJournalParamViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Forex\ForexRateViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -342,6 +345,10 @@
     <Compile Include="Controllers\Forex\ForexTradeViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <None Include="UnusableNodes3.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="app.config" />
     <None Include="FunctionalTests\ForexTrade_Create.ets" />
     <Compile Include="BusinessObjects\Forex\ForexRate.cs" />

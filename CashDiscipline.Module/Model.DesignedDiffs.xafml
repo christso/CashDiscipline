@@ -356,7 +356,14 @@
         <ColumnInfo Id="FromDate" Index="5" />
       </Columns>
     </ListView>
-    <DetailView Id="FinGenJournalParam_DetailView" AllowNew="False" AllowDelete="False" />
+    <DetailView Id="FinGenJournalParam_DetailView" AllowNew="False" AllowDelete="False">
+      <Items>
+        <ActionContainerViewItem Id="ExecuteActions" ActionContainer="ExecuteActions" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutItem Id="Execute" HorizontalAlign="Right" ViewItem="ExecuteActions" IsNewNode="True" />
+      </Layout>
+    </DetailView>
     <ListView Id="FinGenJournalParam_JournalGroupParams_ListView" AllowDelete="False" AllowNew="False" />
     <DetailView Id="ForexTrade_DetailView">
       <Items>

@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DetailView Id="FinGenJournalParam_DetailView">
+      <Layout Id="Layout">
+        <LayoutItem Id="Execute" ViewItem="PopupActions" />
+      </Layout>
+    </DetailView>
+    <DetailView Id="BankStmt_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="BankStmt">
+            <LayoutGroup Id="SimpleEditors">
+              <LayoutGroup Id="BankStmt_col2">
+                <LayoutItem Id="GenLedgerFuncTotal" ViewItem="GenLedgerFuncTotal" />
+                <LayoutItem Id="ArtfReconTotal" ViewItem="ArtfReconTotal" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <DetailView Id="CashFlow_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="Forex">
+              <LayoutGroup Id="Forex_col2">
+                <LayoutItem Id="ForexLinkIsClosed" ViewItem="ForexLinkIsClosed" />
+              </LayoutGroup>
+              <LayoutGroup Id="Forex_col1">
+                <LayoutItem Id="ForexUnlinkedAccountCcyAmt" ViewItem="ForexUnlinkedAccountCcyAmt" />
+                <LayoutItem Id="ForexLinkedAccountCcyAmt" ViewItem="ForexLinkedAccountCcyAmt" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+  <NavigationItems Id="NavigationItems">
+    <Items Id="Items">
+      <Item Id="Forex">
+        <Items Id="Items">
+          <Item Id="ForexTradePredeliveries" ViewId="ForexTradeAmend_ListView" />
+          <Item Id="ForexTradeAmend" ViewId="ForexTradeAmend_ListView" />
+        </Items>
+      </Item>
+      <Item Id="Cash Setup">
+        <Items Id="Items">
+          <Item Id="CashForecastFixTagType" ViewId="CashForecastFixTagType_ListView" />
+          <Item Id="AccountActivityMap" ViewId="AccountActivityMap_ListView" />
+        </Items>
+      </Item>
+    </Items>
+  </NavigationItems>
+</Application>

@@ -32,29 +32,20 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
 
         private SingleChoiceAction genJnlAction;
         private FinGenJournalParam _ParamObj;
-        private ParamJournalGenerator journalGenerator;
 
         void genJnlAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
-            ShowGeneratorForm();
+            ShowGeneratorForm(e.ShowViewParameters);
         }
 
-        private void ShowGeneratorForm()
+        private void ShowGeneratorForm(ShowViewParameters svp)
         {
             var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = FinGenJournalParam.GetInstance(objSpace);
             _ParamObj = paramObj;
-            journalGenerator = new ParamJournalGenerator(paramObj, objSpace);
-
-            var dialog = new Xafology.ExpressApp.SystemModule.PopupDialogDetailViewManager(Application);
-            dialog.Accepting += dialog_Accepting;
-            dialog.ShowView(objSpace, paramObj);
-        }
-
-        // generate for selected CashFlows and BankStmts
-        void dialog_Accepting(object sender, DevExpress.ExpressApp.SystemModule.DialogControllerAcceptingEventArgs e)
-        {
-            journalGenerator.Execute();
+   
+            var detailView = Application.CreateDetailView(objSpace, paramObj);
+            svp.CreatedView = detailView;
         }
     }
 }
