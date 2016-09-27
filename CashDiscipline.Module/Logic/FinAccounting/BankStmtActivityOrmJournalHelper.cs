@@ -121,8 +121,8 @@ namespace CashDiscipline.Module.Logic.FinAccounting
             catch (Exception ex)
             {
                 throw new InvalidOperationException(string.Format(
-                    "Error parsing map expression = '{1}', at FinActivity.Oid = '{0}', BankStmt.Oid = '{2}'", 
-                    activityMap.Oid, activityMap.FunctionalCcyAmtExpr, bsi.Oid),
+                    "Error parsing map expression = '{1}', at FinActivity.Oid = '{0}', BankStmt.Oid = '{2}'\r\n{3}", 
+                    activityMap.Oid, activityMap.FunctionalCcyAmtExpr, bsi.Oid, ex.Message),
                     ex);
             }
         }

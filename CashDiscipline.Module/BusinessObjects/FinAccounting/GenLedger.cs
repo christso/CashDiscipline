@@ -17,6 +17,7 @@ using CashDiscipline.Module.Logic.FinAccounting;
 using CashDiscipline.Module.ParamObjects.FinAccounting;
 using CashDiscipline.Module.Attributes;
 using Xafology.ExpressApp.BatchDelete;
+using CashDiscipline.Module.Logic.SqlServer;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
@@ -32,7 +33,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            CreationDateTime = (DateTime)Session.ExecuteScalar("SELECT GETDATE()");
+            var sqlUtil = new SqlQueryUtil(Session);
+            CreationDateTime = sqlUtil.GetDate();
         }
 
         private Activity _Activity;

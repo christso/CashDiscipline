@@ -44,7 +44,9 @@ namespace CashDiscipline.Module.BusinessObjects
         private string _Description;
         private Currency _FunctionalCurrency;
         private Activity _ForexSettleActivity;
+        private Activity _UnrealFxActivity;
         private CashFlowSource _ForexSettleCashFlowSource;
+        private CashFlowSource _FcaRevalCashFlowSource;
         private CashFlowSource _BankStmtCashFlowSource;
         private CashFlowSnapshot _CurrentCashFlowSnapshot;
 
@@ -85,6 +87,18 @@ namespace CashDiscipline.Module.BusinessObjects
             }
         }
 
+        public Activity UnrealFxActivity
+        {
+            get
+            {
+                return _UnrealFxActivity;
+            }
+            set
+            {
+                SetPropertyValue("UnrealFxActivity", ref _UnrealFxActivity, value);
+            }
+        }
+
         public CashFlowSource ForexSettleCashFlowSource
         {
             get
@@ -94,6 +108,18 @@ namespace CashDiscipline.Module.BusinessObjects
             set
             {
                 SetPropertyValue("ForexSettleCashFlowSource", ref _ForexSettleCashFlowSource, value);
+            }
+        }
+
+        public CashFlowSource FcaRevalCashFlowSource
+        {
+            get
+            {
+                return _FcaRevalCashFlowSource;
+            }
+            set
+            {
+                SetPropertyValue("FcaRevalCashFlowSource", ref _FcaRevalCashFlowSource, value);
             }
         }
 

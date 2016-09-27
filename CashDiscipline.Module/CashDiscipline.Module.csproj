@@ -242,6 +242,7 @@
     <Compile Include="Logic\Cash\CashFlowTabular14.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular16.cs" />
     <Compile Include="Logic\Cash\ICashFlowTabular.cs" />
+    <Compile Include="Logic\Cash\RevalueAccounts.cs" />
     <Compile Include="Logic\Cash\SaveForecastSnapshot.cs" />
     <Compile Include="Logic\FinAccounting\GenLedgerUnpostedCreator.cs" />
     <Compile Include="Logic\FinAccounting\SelectJournalGenerator.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Logic\Cash\FixCashFlowsAlgorithm.cs" />
     <Compile Include="Logic\Forex\ForexSettleFifoAlgorithm.cs" />
     <Compile Include="Logic\SqlProcessorUtil.cs" />
+    <Compile Include="Logic\SqlServer\SqlQueryUtil.cs" />
     <Compile Include="Logic\SqlServer\SsisUtil.cs" />
     <Compile Include="NavigationHelper.cs" />
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />

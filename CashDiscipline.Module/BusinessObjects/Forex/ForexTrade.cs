@@ -1,6 +1,7 @@
 using CashDiscipline.Module.Attributes;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Logic.Forex;
+using CashDiscipline.Module.Logic.SqlServer;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Xpo;
@@ -720,7 +721,8 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         public void InitializeValues()
         {
             OrigTrade = this;
-            CreationDate = (DateTime)Session.ExecuteScalar("SELECT GETDATE()");
+            var sqlUtil = new SqlQueryUtil(Session);
+            CreationDate = sqlUtil.GetDate();
             TradeDate = CreationDate;
             OrigTradeDate = CreationDate;
             ValueDate = CreationDate.Date;

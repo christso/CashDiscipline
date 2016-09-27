@@ -54,7 +54,7 @@ namespace CashDiscipline.Module.DatabaseUpdate
 
         public static void CreateFunctions(XPObjectSpace os)
         {
-            var conn = (SqlConnection)os.Session.Connection;
+            var conn = os.Session.Connection as SqlConnection;
             if (conn == null) return;
 
             string resourcePath = CashDiscipline.Common.Constants.CashDiscSqlInstallScriptPath;
@@ -178,6 +178,13 @@ ALTER TABLE [dbo].[Counterparty] ADD CONSTRAINT [DF_Counterparty_DateTimeCreated
             {
                 ccy = objSpace.CreateObject<Currency>();
                 ccy.Name = "USD";
+                ccy.Save();
+            }
+            ccy = objSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "EUR"));
+            if (ccy == null)
+            {
+                ccy = objSpace.CreateObject<Currency>();
+                ccy.Name = "EUR";
                 ccy.Save();
             }
         }

@@ -5,6 +5,7 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
+using CashDiscipline.Module.Logic.SqlServer;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -22,8 +23,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            var dateTime = Session.ExecuteScalar("SELECT GETDATE()");
-            DateTimeCreated = Convert.ToDateTime(dateTime);
+            var sqlUtil = new SqlQueryUtil(Session);
+            DateTimeCreated = sqlUtil.GetDate();
         }
 
         int _Id;

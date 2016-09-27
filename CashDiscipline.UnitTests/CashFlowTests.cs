@@ -678,9 +678,135 @@ namespace CashDiscipline.UnitTests
             }
         }
 
-        public void ConvertEnumToString()
+        [Test]
+        public void RevalueForeignCurrencyAccounts()
         {
-            Console.WriteLine("{0}", Convert.ToInt32(CashFlowStatus.Actual).ToString());
+            #region Arrange
+
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+            var ccyEUR = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "EUR"));
+
+            var unrealActivity = ObjectSpace.CreateObject<Activity>();
+            unrealActivity.Name = "Unreal Fx Gain";
+
+            var usdAccount = ObjectSpace.CreateObject<Account>();
+            usdAccount.Name = "VHA ANZ USD";
+            usdAccount.Currency = ccyUSD;
+
+            var eurAccount = ObjectSpace.CreateObject<Account>();
+            eurAccount.Name = "VHA ANZ EUR";
+            eurAccount.Currency = ccyEUR;
+
+            var revalSource = ObjectSpace.CreateObject<CashFlowSource>();
+            revalSource.Name = "UnrealFx";
+
+            var sob = SetOfBooks.GetInstance(ObjectSpace);
+            sob.FcaRevalCashFlowSource = revalSource;
+            sob.UnrealFxActivity = unrealActivity;
+
+            var usdRate1 = ObjectSpace.CreateObject<ForexRate>();
+            usdRate1.FromCurrency = ccyAUD;
+            usdRate1.ToCurrency = ccyUSD;
+            usdRate1.ConversionDate = new DateTime(2016, 6, 10);
+            usdRate1.ConversionRate = 0.8M;
+            ObjectSpace.CommitChanges();
+
+            var usdRate2 = ObjectSpace.CreateObject<ForexRate>();
+            usdRate2.FromCurrency = ccyAUD;
+            usdRate2.ToCurrency = ccyUSD;
+            usdRate2.ConversionDate = new DateTime(2016, 6, 25);
+            usdRate2.ConversionRate = 0.75M;
+            ObjectSpace.CommitChanges();
+
+            var usdRate3 = ObjectSpace.CreateObject<ForexRate>();
+            usdRate3.FromCurrency = ccyAUD;
+            usdRate3.ToCurrency = ccyUSD;
+            usdRate3.ConversionDate = new DateTime(2016, 6, 29);
+            usdRate3.ConversionRate = 0.70M;
+            ObjectSpace.CommitChanges();
+
+            var eurRate1 = ObjectSpace.CreateObject<ForexRate>();
+            eurRate1.FromCurrency = ccyAUD;
+            eurRate1.ToCurrency = ccyEUR;
+            eurRate1.ConversionDate = new DateTime(2016, 6, 10);
+            eurRate1.ConversionRate = 0.69M;
+            ObjectSpace.CommitChanges();
+
+            var eurRate2 = ObjectSpace.CreateObject<ForexRate>();
+            eurRate2.FromCurrency = ccyAUD;
+            eurRate2.ToCurrency = ccyEUR;
+            eurRate2.ConversionDate = new DateTime(2016, 6, 25);
+            eurRate2.ConversionRate = 0.65M;
+            ObjectSpace.CommitChanges();
+
+            var eurRate3 = ObjectSpace.CreateObject<ForexRate>();
+            eurRate3.FromCurrency = ccyAUD;
+            eurRate3.ToCurrency = ccyEUR;
+            eurRate3.ConversionDate = new DateTime(2016, 6, 29);
+            eurRate3.ConversionRate = 0.6M;
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Act
+
+            var usdCf1 = ObjectSpace.CreateObject<CashFlow>();
+            usdCf1.TranDate = new DateTime(2016, 6, 11);
+            usdCf1.Account = usdAccount;
+            usdCf1.AccountCcyAmt = 1000;
+            ObjectSpace.CommitChanges();
+
+            var usdCf2 = ObjectSpace.CreateObject<CashFlow>();
+            usdCf2.TranDate = new DateTime(2016, 6, 13);
+            usdCf2.Account = usdAccount;
+            usdCf2.AccountCcyAmt = 500;
+            ObjectSpace.CommitChanges();
+
+            var eurCf1 = ObjectSpace.CreateObject<CashFlow>();
+            eurCf1.TranDate = new DateTime(2016, 6, 11);
+            eurCf1.Account = eurAccount;
+            eurCf1.AccountCcyAmt = 600;
+            ObjectSpace.CommitChanges();
+
+            var eurCf2 = ObjectSpace.CreateObject<CashFlow>();
+            eurCf2.TranDate = new DateTime(2016, 6, 13);
+            eurCf2.Account = eurAccount;
+            eurCf2.AccountCcyAmt = 200;
+            ObjectSpace.CommitChanges();
+
+            var eurCf3 = ObjectSpace.CreateObject<CashFlow>();
+            eurCf3.TranDate = new DateTime(2016, 6, 30);
+            eurCf3.Account = eurAccount;
+            eurCf3.AccountCcyAmt = 1;
+            ObjectSpace.CommitChanges();
+
+            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+            paramObj.FromDate = new DateTime(2016, 05, 01);
+            paramObj.ToDate = new DateTime(2016, 12, 31);
+            ObjectSpace.CommitChanges();
+
+            var revaluer = new RevalueAccounts(ObjectSpace, paramObj);
+            revaluer.Process();
+
+            #endregion
+
+            #region Assert
+
+            ObjectSpace.CommitChanges();
+            ObjectSpace.Refresh();
+
+            var cashFlows = ObjectSpace.GetObjects<CashFlow>();
+            Assert.AreEqual(Math.Round(1500.00 / 0.7, 0),
+                Math.Round(cashFlows.Where(x => x.Account.Oid == usdAccount.Oid).Sum(c => c.FunctionalCcyAmt), 0));
+
+            Assert.AreEqual(Math.Round(801 / 0.6, 0),
+                Math.Round(cashFlows.Where(x => x.Account.Oid == eurAccount.Oid).Sum(c => c.FunctionalCcyAmt), 0));
+                
+            Assert.AreEqual(Math.Round(usdCf1.AccountCcyAmt / usdRate1.ConversionRate, 2),
+                Math.Round(usdCf1.FunctionalCcyAmt, 2));
+
+            #endregion
         }
     }
 

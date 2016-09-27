@@ -18,7 +18,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
     [ModelDefault("IsCloneable", "True")]
     [ModelDefault("IsFooterVisible", "True")]
     [ModelDefault("ImageName", "BO_List")]
-    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    //[DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [AutoColumnWidth(false)]
     [NavigationItem("Cash Setup")]
     public class ApVendor : BaseObject
