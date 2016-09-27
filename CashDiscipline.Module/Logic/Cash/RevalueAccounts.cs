@@ -9,25 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 /*
-IF OBJECT_ID('tempdb..#AccountTotal') IS NOT NULL
-BEGIN
-DROP TABLE #AccountTotal
-END
-
-IF OBJECT_ID('tempdb..#AccountTotalExt') IS NOT NULL
-BEGIN
-DROP TABLE #AccountTotalExt
-END
-
-IF OBJECT_ID('tempdb..#ForexRate') IS NOT NULL
-BEGIN
-DROP TABLE #ForexRate
-END
-
-IF OBJECT_ID('tempdb..#Valuation') IS NOT NULL
-BEGIN
-DROP TABLE #Valuation
-END
+declare @ActualStatus int = 1
+declare @ForecastStatus int = 0
 */
 
 namespace CashDiscipline.Module.Logic.Cash
@@ -48,7 +31,32 @@ namespace CashDiscipline.Module.Logic.Cash
             get
             {
                 return
-@"DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam WHERE GCRecord IS NULL)
+@"/* Clean Up ------- */
+IF OBJECT_ID('tempdb..#AccountTotal') IS NOT NULL
+BEGIN
+DROP TABLE #AccountTotal
+END
+
+IF OBJECT_ID('tempdb..#AccountTotalExt') IS NOT NULL
+BEGIN
+DROP TABLE #AccountTotalExt
+END
+
+IF OBJECT_ID('tempdb..#ForexRate') IS NOT NULL
+BEGIN
+DROP TABLE #ForexRate
+END
+
+IF OBJECT_ID('tempdb..#Valuation') IS NOT NULL
+BEGIN
+DROP TABLE #Valuation
+END
+
+/* Parameters ------- */
+declare @ActualStatus int = 1
+declare @ForecastStatus int = 0
+
+DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam WHERE GCRecord IS NULL)
 DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM CashFlowFixParam WHERE GCRecord IS NULL)
 DECLARE @Snapshot uniqueidentifier = (SELECT COALESCE(
 	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam WHERE GCRecord IS NULL),
@@ -58,9 +66,11 @@ DECLARE @DefaultCounterparty uniqueidentifier = (SELECT TOP 1 [Counterparty] FRO
 DECLARE @FunctionalCurrency uniqueidentifier = (SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks WHERE GCRecord IS NULL)
 DECLARE @RevalSource uniqueidentifier = (SELECT TOP 1 [FcaRevalCashFlowSource] FROM SetOfBooks WHERE GCRecord IS NULL)
 DECLARE @UnrealFxActivity uniqueidentifier = (SELECT TOP 1 [UnrealFxActivity] FROM SetOfBooks WHERE GCRecord IS NULL)
+DECLARE @LastActualDate datetime = (SELECT MAX(TranDate) FROM CashFlow WHERE [Snapshot] = @Snapshot AND [Status] = @ActualStatus)
 
 /* Delete existing revaluations ------- */
-DELETE FROM CashFlow 
+UPDATE CashFlow 
+SET GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
 WHERE [Snapshot] = @Snapshot
 	AND TranDate BETWEEN @FromDate AND @ToDate
 	AND Source = @RevalSource
@@ -79,9 +89,11 @@ WHERE
 	AND cf.Account NOT IN 
 	(
 		SELECT a.Oid FROM Account a
-		WHERE a.Currency LIKE 'AUD'
+		WHERE a.Currency LIKE @FunctionalCurrency
 	)
 GROUP BY cf.TranDate, cf.Account
+
+CREATE INDEX i_AccountTotal ON #AccountTotal (TranDate, Account)
 
 /* Transform account total summary to include all dates ------- */
 SELECT
@@ -108,6 +120,8 @@ LEFT JOIN #AccountTotal totals ON totals.TranDate = dates.TranDate
 LEFT JOIN Account ON Account.Oid = accts.Account
 LEFT JOIN Currency ON Currency.Oid = Account.Currency;
 
+CREATE INDEX i_AccountTotalExt ON #AccountTotalExt (TranDate, Account)
+
 /* Create Forex Rate Table ------- */
 
 CREATE TABLE #ForexRate (Currency uniqueidentifier, TranDate datetime, FxDate datetime, Rate float)
@@ -131,40 +145,42 @@ FROM #ForexRate
 UPDATE #ForexRate SET 
 Rate =
 (
-	SELECT fr.ConversionRate FROM ForexRate fr
+	SELECT TOP 1 fr.ConversionRate FROM ForexRate fr
 	WHERE fr.GCRecord IS NULL
 		AND #ForexRate.FxDate = fr.ConversionDate
 		AND fr.ToCurrency = #ForexRate.Currency
 		AND fr.FromCurrency = @FunctionalCurrency
 )
 
-/*
-SELECT #ForexRate.*, Currency.Name AS Currency FROM #ForexRate
-LEFT JOIN Currency ON Currency.Oid = #ForexRate.Currency
-ORDER BY Currency.Name
-*/
+CREATE INDEX i_ForexRate ON #ForexRate (TranDate, Currency)
 
 /* Balances -------------- */
 
 SELECT 
 	a1.TranDate,
 	a1.Account,
-	SUM(a2.AccountCcyAmt) AS AccountCcyAmt,
-	SUM(a2.FunctionalCcyAmt) AS OldFunctionalCcyAmt,
-	fr.Rate,
-	SUM(a2.AccountCcyAmt) / fr.Rate AS NewFunctionalCcyAmt,
+	(
+		SELECT SUM(a2.AccountCcyAmt) 
+		FROM #AccountTotal a2
+		WHERE a2.TranDate <= a1.TranDate AND a1.Account = a2.Account
+	) AS AccountCcyAmt,
+	(
+		SELECT SUM(a2.FunctionalCcyAmt) 
+		FROM #AccountTotal a2
+		WHERE a2.TranDate <= a1.TranDate AND a1.Account = a2.Account
+	) AS OldFunctionalCcyAmt,
+	(
+		SELECT SUM(a2.AccountCcyAmt) 
+		FROM #AccountTotal a2
+		WHERE a2.TranDate <= a1.TranDate AND a1.Account = a2.Account
+	) / fr.Rate AS NewFunctionalCcyAmt,
 	CAST(NULL AS float) AS DiffTotal,
 	CAST(NULL AS float) AS DiffChange,
 	CAST(NULL AS datetime) AS PrevTranDate
 INTO #Valuation
 FROM #AccountTotalExt a1
-LEFT JOIN #AccountTotal a2 ON a2.TranDate <= a1.TranDate AND a1.Account = a2.Account
 LEFT JOIN #ForexRate fr ON fr.Currency = a1.Currency AND fr.TranDate = a1.TranDate
-GROUP BY
-	a1.TranDate,
-	a1.Account,
-	fr.Rate
-HAVING ROUND ( SUM(a2.FunctionalCcyAmt), 2 ) <> 0.00;
+WHERE a1.TranDate BETWEEN @FromDate AND @ToDate
 
 UPDATE #Valuation SET
 DiffTotal = NewFunctionalCcyAmt - OldFunctionalCcyAmt,
@@ -182,11 +198,13 @@ UPDATE #Valuation SET DiffChange = COALESCE(
 INSERT INTO CashFlow (
 	Oid, [Snapshot], Counterparty,
 	TranDate, Account, Activity, AccountCcyAmt, FunctionalCcyAmt,
-	CounterCcyAmt, CounterCcy, Source, TimeEntered)
+	CounterCcyAmt, CounterCcy, [Source], TimeEntered, [Status])
 SELECT NEWID(), @Snapshot, @DefaultCounterparty,
 	TranDate, Account, @UnrealFxActivity, 
 	0.00, DiffChange, 0.00, @FunctionalCurrency, 
-	@RevalSource AS Source, GETDATE()
+	@RevalSource, GETDATE(),
+	CASE WHEN TranDate <= @LastActualDate THEN @ActualStatus
+	ELSE @ForecastStatus END
 FROM #Valuation
 WHERE DiffChange <> 0.00"
 ;
@@ -195,6 +213,8 @@ WHERE DiffChange <> 0.00"
 
         public void Process()
         {
+            objSpace.CommitChanges(); // persist parameters
+
             var clauses = CreateSqlParameters();
             var parameters = CreateParameters(clauses);
 

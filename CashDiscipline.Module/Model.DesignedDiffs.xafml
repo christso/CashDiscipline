@@ -336,6 +336,18 @@
         <ColumnInfo Id="Source" PropertyName="Source" Width="70" Index="9" IsNewNode="True" />
       </Columns>
     </ListView>
+    <DetailView Id="CashFlowFixParam_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="ExecuteActionsContainer" ActionContainer="ExecuteActions" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutItem Id="ExecuteActionsContainer" ViewItem="ExecuteActionsContainer" HorizontalAlign="Right" IsNewNode="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <DetailView Id="CashFlowSnapshot_DetailView">
       <Items>
         <PropertyEditor Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
@@ -387,6 +399,7 @@
         <ColumnInfo Id="ConfDealNum" Index="1" />
       </Columns>
     </ListView>
+    <ListView Id="GenLedger_ListView" DataAccessMode="Server" AllowEdit="True" NewItemRowPosition="Top" />
     <ListView Id="ImportBankStmtParam_ImportBankStmtParamItems_ListView">
       <Columns>
         <ColumnInfo Id="Enabled" Index="0" />

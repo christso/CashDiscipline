@@ -13,6 +13,7 @@ using DevExpress.ExpressApp.Model;
 
 namespace CashDiscipline.Module.ParamObjects.Cash
 {
+    [ModelDefault("ImageName", "BO_List")]
     public class CashFlowFixParam : BaseObject
     {
         public CashFlowFixParam(Session session) : base(session) 

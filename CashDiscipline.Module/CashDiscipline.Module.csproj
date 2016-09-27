@@ -246,6 +246,7 @@
     <Compile Include="Logic\Cash\SaveForecastSnapshot.cs" />
     <Compile Include="Logic\FinAccounting\GenLedgerUnpostedCreator.cs" />
     <Compile Include="Logic\FinAccounting\SelectJournalGenerator.cs" />
+    <Compile Include="Logic\Forex\ForexRateDeduplicator.cs" />
     <Compile Include="Logic\Forex\ForexToCashFlowUploader.cs" />
     <Compile Include="Controllers\ImportViewController.cs">
       <SubType>Component</SubType>
@@ -347,6 +348,11 @@
     <Compile Include="Controllers\Forex\ForexTradeViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Content Include="Scripts\CreateIndexes.sql" />
+    <None Include="UnusableNodes4.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UnusableNodes3.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>

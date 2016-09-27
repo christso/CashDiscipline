@@ -172,10 +172,10 @@ namespace CashDiscipline.Module.Controllers.Cash
         
         private void ShowFixForecastForm(ShowViewParameters svp)
         {
+
             var os = Application.CreateObjectSpace();
             var paramObj = CashFlowFixParam.GetInstance(os);
             var detailView = Application.CreateDetailView(os, paramObj);
-            svp.TargetWindow = TargetWindow.NewModalWindow;
             svp.CreatedView = detailView;
         }
 
