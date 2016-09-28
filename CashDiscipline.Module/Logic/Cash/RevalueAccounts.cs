@@ -66,7 +66,7 @@ DECLARE @DefaultCounterparty uniqueidentifier = (SELECT TOP 1 [Counterparty] FRO
 DECLARE @FunctionalCurrency uniqueidentifier = (SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks WHERE GCRecord IS NULL)
 DECLARE @RevalSource uniqueidentifier = (SELECT TOP 1 [FcaRevalCashFlowSource] FROM SetOfBooks WHERE GCRecord IS NULL)
 DECLARE @UnrealFxActivity uniqueidentifier = (SELECT TOP 1 [UnrealFxActivity] FROM SetOfBooks WHERE GCRecord IS NULL)
-DECLARE @LastActualDate datetime = (SELECT MAX(TranDate) FROM CashFlow WHERE [Snapshot] = @Snapshot AND [Status] = @ActualStatus)
+DECLARE @LastActualDate datetime = (SELECT MAX(TranDate) FROM CashFlow WHERE [Snapshot] = @Snapshot AND [Status] = @ActualStatus AND GCRecord IS NULL)
 
 /* Delete existing revaluations ------- */
 UPDATE CashFlow 
@@ -74,6 +74,7 @@ SET GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
 WHERE [Snapshot] = @Snapshot
 	AND TranDate BETWEEN @FromDate AND @ToDate
 	AND Source = @RevalSource
+    AND GCRecord IS NULL
 
 /* Create account total summary ------- */
 
@@ -85,11 +86,13 @@ SELECT
 INTO #AccountTotal
 FROM CashFlow cf
 WHERE
-	cf.[Snapshot] = @Snapshot
+    cf.GCRecord IS NULL
+	AND cf.[Snapshot] = @Snapshot
 	AND cf.Account NOT IN 
 	(
 		SELECT a.Oid FROM Account a
 		WHERE a.Currency LIKE @FunctionalCurrency
+        AND a.GCRecord IS NULL
 	)
 GROUP BY cf.TranDate, cf.Account
 
@@ -196,15 +199,35 @@ UPDATE #Valuation SET DiffChange = COALESCE(
 /* Upload */
 
 INSERT INTO CashFlow (
-	Oid, [Snapshot], Counterparty,
-	TranDate, Account, Activity, AccountCcyAmt, FunctionalCcyAmt,
-	CounterCcyAmt, CounterCcy, [Source], TimeEntered, [Status])
-SELECT NEWID(), @Snapshot, @DefaultCounterparty,
-	TranDate, Account, @UnrealFxActivity, 
-	0.00, DiffChange, 0.00, @FunctionalCurrency, 
-	@RevalSource, GETDATE(),
+	Oid, 
+	[Snapshot], 
+	Counterparty,
+	TranDate, 
+	Account,
+	Activity, 
+	AccountCcyAmt, 
+	FunctionalCcyAmt,
+	CounterCcyAmt, 
+	CounterCcy, 
+	[Source], 
+	TimeEntered, 
+	[Status]
+)
+SELECT 
+	NEWID() AS Oid, 
+	@Snapshot AS [Snapshot],
+	@DefaultCounterparty AS Counterparty,
+	TranDate, 
+	Account, 
+	@UnrealFxActivity AS Activity, 
+	0.00 AS AccountCcyAmt, 
+	DiffChange AS FunctionalCcyAmt, 
+	0.00 AS CounterCcyAmt, 
+	@FunctionalCurrency AS CounterCcy, 
+	@RevalSource AS [Source], 
+	GETDATE() AS TimeEntered,
 	CASE WHEN TranDate <= @LastActualDate THEN @ActualStatus
-	ELSE @ForecastStatus END
+	ELSE @ForecastStatus END AS [Status]
 FROM #Valuation
 WHERE DiffChange <> 0.00"
 ;
