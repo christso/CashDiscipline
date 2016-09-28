@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using SmartFormat;
 
 namespace CashDiscipline.Module.Logic.Cash
 {
@@ -25,12 +26,11 @@ namespace CashDiscipline.Module.Logic.Cash
             MapCommandTextListSqlTemplateCommon + @"
 AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate
 AND CashFlow.[Snapshot] = @Snapshot
-AND 
-(
-	CashFlow.IsFixeeSynced=0 OR CashFlow.IsFixerSynced=0 OR CashFlow.IsFixerFixeesSynced=0
-	OR CashFlow.IsFixeeSynced IS NULL OR CashFlow.IsFixerSynced IS NULL OR CashFlow.IsFixerFixeesSynced IS NULL
-)
-AND (CashFlow.Fix = NULL OR Fix.FixTagType != @IgnoreFixTagType)";
+AND (
+    CashFlow.Fix IS NULL OR Fix.Name LIKE 'Auto' 
+    OR CashFlow.ForexSettleType IS NULL
+    OR CashFlow.ForexSettleType = @AutoForexSettleType
+)";
 
         private const string MapCommandTextListByCashFlowSqlTemplate =
             MapCommandTextListSqlTemplateCommon + @"
@@ -69,8 +69,7 @@ WHERE CashFLow.GCRecord IS NULL";
 
             foreach (string commandText in commandTextList)
             {
-                command.CommandText = commandText;
-                command.Parameters.Clear();
+                command.CommandText = FixCashFlowsAlgorithm.ParameterCommandText + "\n" + commandText;
                 command.ExecuteNonQuery();
             }
         }
@@ -85,9 +84,9 @@ WHERE CashFLow.GCRecord IS NULL";
 
             foreach (string commandText in commandTextList)
             {
-                command.CommandText = commandText;
+                command.CommandText = FixCashFlowsAlgorithm.ParameterCommandText + "\n" + commandText;
                 command.Parameters.Clear();
-                command.Parameters.AddRange(parameters.ToArray());
+                //command.Parameters.AddRange(parameters.ToArray());
                 command.ExecuteNonQuery();
             }
         }
@@ -126,31 +125,36 @@ WHERE CashFLow.GCRecord IS NULL";
         {
             var setTextList = new List<string>();
 
-            var commandText = GetMapSetCommandText("FixActivity", m => string.Format("'{0}'", m.FixActivity.Oid), m => m.FixActivity != null, step, String.Empty);
+            var commandText = GetMapSetCommandText("FixActivity", m => string.Format("'{0}'", m.FixActivity.Oid), m => m.FixActivity != null, step,
+                "WHEN CashFlow.FixActivity IS NOT NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.FixActivity");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
-            commandText = GetMapSetCommandText("Fix", m => string.Format("'{0}'", m.Fix.Oid), m => m.Fix != null, step, String.Empty);
+            commandText = GetMapSetCommandText("Fix", m => string.Format("'{0}'", m.Fix.Oid), m => m.Fix != null, step,
+                "WHEN CashFlow.Fix IS NOT NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.Fix");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
-            commandText = GetMapSetCommandText("FixRank", m => string.Format("'{0}'", m.FixRank), 
+            commandText = GetMapSetCommandText("FixRank", m => string.Format("'{0}'", m.FixRank),
                 m => m.FixRank != 0, step,
                 "WHEN CashFlow.{0} IS NOT NULL AND CashFlow.{0} != 0 THEN CashFlow.{0}");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
-            commandText = GetMapSetCommandText("FixFromDate", m => string.Format("{0}", m.FixFromDateExpr), m => !string.IsNullOrEmpty(m.FixFromDateExpr), step, String.Empty);
+            commandText = GetMapSetCommandText("FixFromDate", m => string.Format("{0}", m.FixFromDateExpr), m => !string.IsNullOrEmpty(m.FixFromDateExpr), step,
+                "WHEN CashFlow.FixFromDate IS NOT NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.FixFromDate");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
-            commandText = GetMapSetCommandText("FixToDate", m => string.Format("{0}", m.FixToDateExpr), m => !string.IsNullOrEmpty(m.FixToDateExpr), step, String.Empty);
+            commandText = GetMapSetCommandText("FixToDate", m => string.Format("{0}", m.FixToDateExpr), m => !string.IsNullOrEmpty(m.FixToDateExpr), step,
+                "WHEN CashFlow.FixToDate IS NOT NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.FixToDate");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
+            // skip settle type = EXCLUDE and AUTO
             commandText = GetMapSetCommandText("ForexSettleType", m => string.Format("{0}", Convert.ToInt32(m.ForexSettleType)),
                 m => m.ForexSettleType != CashFlowForexSettleType.Auto, step,
-                "WHEN CashFlow.{0} IS NOT NULL AND CashFlow.{0} != 0 AND CashFlow.{0} != 1 THEN CashFlow.{0}");
+                "WHEN CashFlow.ForexSettleType IS NOT NULL AND CashFlow.ForexSettleType != @AutoForexSettleType THEN CashFlow.ForexSettleType");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 

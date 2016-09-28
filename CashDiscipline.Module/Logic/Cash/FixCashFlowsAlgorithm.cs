@@ -37,10 +37,11 @@ DECLARE @Snapshot uniqueidentifier = COALESCE(
 )
 DECLARE @DefaultCounterparty uniqueidentifier = (SELECT TOP 1 [Counterparty] FROM CashFlowDefaults)
 DECLARE @FunctionalCurrency uniqueidentifier = (SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks)
-DECLARE @ReversalFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'R')
-DECLARE @RevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR')
-DECLARE @ResRevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR')
-DECLARE @PayrollFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR')
+DECLARE @ReversalFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'R' AND GCRecord IS NULL)
+DECLARE @RevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR' AND GCRecord IS NULL)
+DECLARE @ResRevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR' AND GCRecord IS NULL)
+DECLARE @PayrollFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR' AND GCRecord IS NULL)
+DECLARE @AutoFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)
 DECLARE @ApReclassActivity uniqueidentifier = (SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam)
 */
 
@@ -56,6 +57,7 @@ namespace CashDiscipline.Module.Logic.Cash
         private CashForecastFixTag revRecFixTag;
         private CashForecastFixTag resRevRecFixTag;
         private CashForecastFixTag payrollFixTag;
+        private CashForecastFixTag autoFixTag;
         private SetOfBooks setOfBooks;
         private CashFlowSnapshot currentSnapshot;
         private CashFlowFixMapper mapper;
@@ -95,6 +97,9 @@ namespace CashDiscipline.Module.Logic.Cash
 
             payrollFixTag = query
                 .Where(x => x.Name == CashDiscipline.Common.Constants.PayrollFixTag).FirstOrDefault();
+
+            autoFixTag = query
+                .Where(x => x.Name == CashDiscipline.Common.Constants.AutoFixTag).FirstOrDefault();
 
             setOfBooks = SetOfBooks.GetInstance(objSpace);
             this.mapper = mapper;
@@ -136,8 +141,11 @@ namespace CashDiscipline.Module.Logic.Cash
                     "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("PayrollFixTag", "uniqueidentifier",
                     "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR' AND GCRecord IS NULL)"),
+                new SqlDeclareClause("AutoFixTag", "uniqueidentifier",
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("ApReclassActivity", "uniqueidentifier",
                     "(SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam WHERE GCRecord IS NULL)")
+           
             };
             return clauses;
         }
@@ -160,6 +168,7 @@ namespace CashDiscipline.Module.Logic.Cash
                 new SqlParameter("RevRecFixTag", revRecFixTag.Oid),
                 new SqlParameter("ResRevRecFixTag", resRevRecFixTag.Oid),
                 new SqlParameter("PayrollFixTag", payrollFixTag.Oid),
+                new SqlParameter("AutoFixTag", autoFixTag.Oid),
                 new SqlParameter("ApayableLockdownDate", paramObj.ApayableLockdownDate),
                 new SqlParameter("ApayableNextLockdownDate", paramObj.ApayableNextLockdownDate),
                 new SqlParameter("ApReclassActivity", paramObj.ApReclassActivity.Oid),
@@ -580,6 +589,38 @@ WHERE cf.[Status] = @ForecastStatus
 AND cf.[Snapshot] = @Snapshot
 AND cf.TranDate <= @MaxActualDate
 ";
+            }
+        }
+
+        public static string ParameterCommandText
+        {
+            get
+            {
+                return
+                    Smart.Format(
+@"DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam)
+DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM CashFlowFixParam)
+DECLARE @ApayableLockdownDate date = (SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam)
+DECLARE @ApayableNextLockdownDate date = (SELECT TOP 1 ApayableNextLockdownDate FROM CashFlowFixParam)
+DECLARE @IgnoreFixTagType int = 0
+DECLARE @AllocateFixTagType int = 1
+DECLARE @ScheduleInFixTagType int = 2
+DECLARE @ScheduleOutFixTagType int = 3
+DECLARE @ForecastStatus int = 0
+DECLARE @Snapshot uniqueidentifier = COALESCE(
+	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam),
+	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
+)
+DECLARE @DefaultCounterparty uniqueidentifier = (SELECT TOP 1 [Counterparty] FROM CashFlowDefaults)
+DECLARE @FunctionalCurrency uniqueidentifier = (SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks)
+DECLARE @ReversalFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'R' AND GCRecord IS NULL)
+DECLARE @RevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR' AND GCRecord IS NULL)
+DECLARE @ResRevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR' AND GCRecord IS NULL)
+DECLARE @PayrollFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR' AND GCRecord IS NULL)
+DECLARE @AutoFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)
+DECLARE @ApReclassActivity uniqueidentifier = (SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam)
+DECLARE @AutoForexSettleType int = {autoForexSettleType}",
+new { autoForexSettleType = Convert.ToInt32(CashFlowForexSettleType.Auto) });
             }
         }
 

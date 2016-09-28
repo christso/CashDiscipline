@@ -970,69 +970,69 @@ namespace CashDiscipline.UnitTests
             #endregion
         }
 
-        [Test]
-        public void TestFixParameters()
-        {
-            var fixActivity = ObjectSpace.CreateObject<Activity>();
-            fixActivity.Name = "AP Pymt";
+        //[Test]
+        //public void TestFixParameters()
+        //{
+        //    var fixActivity = ObjectSpace.CreateObject<Activity>();
+        //    fixActivity.Name = "AP Pymt";
 
-            #region Arrange Fix Tags
+        //    #region Arrange Fix Tags
 
-            var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            schedOutFixTag.Name = "S2";
-            schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
+        //    var schedOutFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+        //    schedOutFixTag.Name = "S2";
+        //    schedOutFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
 
-            var allocFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            allocFixTag.Name = "B3";
-            allocFixTag.FixTagType = CashForecastFixTagType.Allocate;
+        //    var allocFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
+        //    allocFixTag.Name = "B3";
+        //    allocFixTag.FixTagType = CashForecastFixTagType.Allocate;
 
-            CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
+        //    CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
 
-            ObjectSpace.CommitChanges();
+        //    ObjectSpace.CommitChanges();
 
-            #endregion
+        //    #endregion
 
-            #region Arrange Algorithm
+        //    #region Arrange Algorithm
 
-            var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
-            paramObj.FromDate = new DateTime(2016, 01, 01);
-            paramObj.ToDate = new DateTime(2016, 12, 31);
-            paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
-            paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
-            paramObj.ApReclassActivity = fixActivity;
-            paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
-            paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+        //    var paramObj = ObjectSpace.CreateObject<CashFlowFixParam>();
+        //    paramObj.FromDate = new DateTime(2016, 01, 01);
+        //    paramObj.ToDate = new DateTime(2016, 12, 31);
+        //    paramObj.ApayableLockdownDate = new DateTime(2016, 03, 18);
+        //    paramObj.ApayableNextLockdownDate = new DateTime(2016, 03, 25);
+        //    paramObj.ApReclassActivity = fixActivity;
+        //    paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
+        //    paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
 
-            ObjectSpace.CommitChanges();
+        //    ObjectSpace.CommitChanges();
 
-            var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
+        //    var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
-            var parameters = fixAlgo.CreateParameters();
-            var sqlParameters = fixAlgo.CreateSqlParameters();
-            // todo: is CashFlowFixParam created?
+        //    var parameters = fixAlgo.CreateParameters();
+        //    var sqlParameters = fixAlgo.CreateSqlParameters();
+        //    // todo: is CashFlowFixParam created?
 
-            #endregion
+        //    #endregion
 
-            #region Assert
+        //    #region Assert
 
-            var conn = ObjectSpace.Session.Connection;
-            var cmd = conn.CreateCommand();
+        //    var conn = ObjectSpace.Session.Connection;
+        //    var cmd = conn.CreateCommand();
             
-            foreach (var parameter in parameters)
-            {
-                var sqlParameter = sqlParameters
-                    .Where(p => p.ParameterName == parameter.ParameterName)
-                    .FirstOrDefault();
+        //    foreach (var parameter in parameters)
+        //    {
+        //        var sqlParameter = sqlParameters
+        //            .Where(p => p.ParameterName == parameter.ParameterName)
+        //            .FirstOrDefault();
 
-                cmd.CommandText = "SELECT " + sqlParameter.CommandText;
-                var sqlValue = cmd.ExecuteScalar();
+        //        cmd.CommandText = "SELECT " + sqlParameter.CommandText;
+        //        var sqlValue = cmd.ExecuteScalar();
                 
-                Assert.AreEqual(string.Format("{0}:{1}", parameter.ParameterName, parameter.Value),
-                    string.Format("{0}:{1}", parameter.ParameterName, sqlValue));
-            }
+        //        Assert.AreEqual(string.Format("{0}:{1}", parameter.ParameterName, parameter.Value),
+        //            string.Format("{0}:{1}", parameter.ParameterName, sqlValue));
+        //    }
             
-            #endregion
-        }
+        //    #endregion
+        //}
         
         [Test]
         [Category("Fix Cash Flow")]

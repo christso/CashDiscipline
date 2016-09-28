@@ -36,7 +36,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             RunProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             RunProgramAction.Execute += runProgramAction_Execute;
             RunProgramAction.ShowItemsOnClick = true;
-            
+
             var dailyUpdateAction = new ChoiceActionItem();
             dailyUpdateAction.Caption = "Daily Update";
             RunProgramAction.Items.Add(dailyUpdateAction);
@@ -169,7 +169,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
             return true;
         }
-        
+
         private void ShowFixForecastForm(ShowViewParameters svp)
         {
 
@@ -203,7 +203,10 @@ namespace CashDiscipline.Module.Controllers.Cash
             var mapper = new CashFlowFixMapper((XPObjectSpace)ObjectSpace);
             var cashFlows = View.SelectedObjects;
             mapper.Process(cashFlows);
-        }
 
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+            "ACTION COMPLETED : Map Selected",
+            "ACTION COMPLETED");
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace CashDiscipline.Common
         public const string RevRecFixTag = "RR";
         public const string ResRevRecFixTag = "RRR";
         public const string PayrollFixTag = "PR";
+        public const string AutoFixTag = "Auto";
         public const string BankFeeFixTag = "BFEE";
         public const string ProgenFixTag = "PRGN";
         public const string ScheduleOutFixTag = "S";

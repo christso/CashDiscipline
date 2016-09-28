@@ -53,15 +53,19 @@ namespace CashDiscipline.Module.Logic.Forex
                 return Smart.Format(
 @"-- Pre-validation
 
-DECLARE @IsValid int = 1- COALESCE (
-( SELECT 1 WHERE EXISTS ( SELECT * FROM CashFlow
+DECLARE @InvalidOid uniqueidentifier = (SELECT TOP 1 Oid FROM CashFlow
 WHERE GCRecord IS NULL
 	AND ForexSettleType = @OutSettleType
-	AND AccountCcyAmt > 0 )
-), 0)
+	AND AccountCcyAmt > 0
+	AND TranDate BETWEEN @FromDate AND @ToDate
+)
 
-IF @IsValid = 0
-	RAISERROR('CashFlow with SettleType = Out cannot be a positve number',16,1)
+DECLARE @ErrMessage nvarchar(255) = (SELECT 'CashFlow {' + CAST(@InvalidOid as nvarchar(255)) 
+	+ '} with SettleType = Out cannot be a positive number.'
+	+ ' If the CashFlow is a Reclass, then the negative and positive amounts should have SettleType = OutReclass or InReclass.')
+
+IF @InvalidOid IS NOT NULL
+	RAISERROR(@ErrMessage,16,1)
 
 ELSE
 

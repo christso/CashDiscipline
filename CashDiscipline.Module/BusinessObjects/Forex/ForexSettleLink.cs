@@ -12,15 +12,12 @@ using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using CashDiscipline.Module.BusinessObjects.Cash;
+using Xafology.ExpressApp.BatchDelete;
 
 namespace CashDiscipline.Module.BusinessObjects.Forex
 {
     [ModelDefault("ImageName", "BO_List")]
-    //[ImageName("BO_Contact")]
-    //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
-    //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
-    //[Persistent("DatabaseTableName")]
-    // Specify more UI options using a declarative approach (http://documentation.devexpress.com/#Xaf/CustomDocument2701).
+    [BatchDelete(isVisible: true, isOptimized: true)]
     public class ForexSettleLink : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ForexSettleLink(Session session)
