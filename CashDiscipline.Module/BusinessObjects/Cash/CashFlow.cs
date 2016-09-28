@@ -151,6 +151,18 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        public CashFlowStatus Status
+        {
+            get
+            {
+                return _Status;
+            }
+            set
+            {
+                SetPropertyValue("Status", ref _Status, value);
+            }
+        }
+
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         [RuleRequiredField("CashFlow.TranDate_RuleRequiredField", DefaultContexts.Save)]
         public DateTime TranDate
@@ -349,18 +361,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("Source", ref _Source, value);
-            }
-        }
-
-        public CashFlowStatus Status
-        {
-            get
-            {
-                return _Status;
-            }
-            set
-            {
-                SetPropertyValue("Status", ref _Status, value);
             }
         }
 

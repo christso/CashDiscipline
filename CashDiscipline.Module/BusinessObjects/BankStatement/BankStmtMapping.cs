@@ -115,5 +115,18 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 SetPropertyValue("Counterparty", ref _Counterparty, value);
             }
         }
+
+        private ActionOwner _ActionOwner;
+        public ActionOwner ActionOwner
+        {
+            get
+            {
+                return _ActionOwner;
+            }
+            set
+            {
+                SetPropertyValue("ActionOwner", ref _ActionOwner, value);
+            }
+        }
     }
 }

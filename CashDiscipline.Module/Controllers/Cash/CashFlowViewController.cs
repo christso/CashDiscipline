@@ -61,13 +61,13 @@ namespace CashDiscipline.Module.Controllers.Cash
             processCubeAction.Caption = processCubeCaption;
             RunProgramAction.Items.Add(processCubeAction);
 
-            var processCubeCurrentAction = new ChoiceActionItem();
-            processCubeCurrentAction.Caption = processCubeCurrentCaption;
-            processCubeAction.Items.Add(processCubeCurrentAction);
-
             var processCubeAllAction = new ChoiceActionItem();
             processCubeAllAction.Caption = processCubeAllCaption;
             processCubeAction.Items.Add(processCubeAllAction);
+
+            var processCubeCurrentAction = new ChoiceActionItem();
+            processCubeCurrentAction.Caption = processCubeCurrentCaption;
+            processCubeAction.Items.Add(processCubeCurrentAction);
 
             var processCubeHistAction = new ChoiceActionItem();
             processCubeHistAction.Caption = processCubeHistCaption;

@@ -197,7 +197,8 @@ namespace CashDiscipline.Module.Logic.SqlMap
             var mapsCmdList = new List<string>();
 
             foreach (IMapping map in maps.Where(m =>
-                ((IMapping)m).MapStep == step && predicate(m)))
+                ((IMapping)m).MapStep == step && predicate(m))
+                .OrderBy(m => ((IMapping)m).RowIndex))
             {
                 if (map.CriteriaExpression.ToLower().Trim() == "else")
                 {

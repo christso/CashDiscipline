@@ -92,12 +92,11 @@ namespace CashDiscipline.Module.Logic.Cash
             get
             {
                 return
-                    SmartFormat.Smart.Format(
 @"DECLARE @StmtSource uniqueidentifier = 
 	(SELECT Oid FROM CashFlowSource WHERE Name LIKE 'Stmt')
 
 -- Rank Bank Stmt lines
-IF OBJECT_ID('{tbs}') IS NOT NULL DROP TABLE {tbs}
+IF OBJECT_ID('tempdb..#TmpBankStmt') IS NOT NULL DROP TABLE #TmpBankStmt
 SELECT 
 	bs.Oid,
 	bs.TranDate,
@@ -121,9 +120,10 @@ SELECT
 	bs.FunctionalCcyAmt,
 	bs.ForexSettleType,
 	bs.Oid AS CashFlow
-INTO {tbs}
+INTO #TmpBankStmt
 FROM BankStmt bs
 WHERE bs.TranDate BETWEEN @FromDate AND @ToDate
+AND bs.GCRecord IS NULL
 ORDER BY 
 	bs.TranDate,
 	bs.Account,
@@ -137,13 +137,18 @@ ORDER BY
 UPDATE bs1
 SET CashFlow = bs2.CashFlow
 FROM
-{tbs} bs1 
+#TmpBankStmt bs1 
 LEFT JOIN 
 (
-	SELECT DISTINCT
-		RowId,
+	SELECT 
+		bsRows.RowId,
 		CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER) AS CashFlow
-	FROM {tbs} bs
+	FROM
+	(
+		SELECT DISTINCT
+			RowId
+		FROM #TmpBankStmt
+	) bsRows
 ) bs2 ON bs2.RowId = bs1.RowId
 
 -- Delete Existing Cash Flow from current snapshot
@@ -180,7 +185,7 @@ SELECT
 	bs.ForexSettleType,
 	CURRENT_TIMESTAMP AS TimeEntered,
     @ActualStatus AS Status
-FROM {tbs} bs
+FROM #TmpBankStmt bs
 GROUP BY
 	bs.TranDate,
 	bs.Account,
@@ -196,8 +201,7 @@ GROUP BY
 UPDATE bs0 SET
 CashFlow = bs1.CashFlow
 FROM BankStmt bs0
-JOIN {tbs} bs1 ON bs1.Oid = bs0.Oid",
-new { tbs = "#TmpBankStmt" });
+JOIN #TmpBankStmt bs1 ON bs1.Oid = bs0.Oid";
             }
         }
         #endregion

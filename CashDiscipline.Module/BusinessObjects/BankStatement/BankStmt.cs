@@ -108,7 +108,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             get { return _TranType; }
             set { SetPropertyValue("TranType", ref _TranType, value); }
         }
-        
+
         string _TranRef;
         [VisibleInLookupListView(false)]
         [Size(200)]
@@ -123,9 +123,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         public decimal TranAmount
         {
             get { return _TranAmount; }
-            set 
-            { 
-                if (SetPropertyValue("TranAmount", ref _TranAmount, Math.Round(value,2)))
+            set
+            {
+                if (SetPropertyValue("TranAmount", ref _TranAmount, Math.Round(value, 2)))
                 {
                     if (!IsLoading && !IsSaving && Account != null
                         && TranDate != default(DateTime) && CalculateEnabled)
@@ -163,7 +163,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         public Account Account
         {
             get { return _Account; }
-            set 
+            set
             {
                 if (SetPropertyValue("Account", ref _Account, value))
                 {
@@ -187,8 +187,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         {
             get { return _Counterparty; }
             set
-            { 
-                SetPropertyValue("Counterparty", ref _Counterparty, value); 
+            {
+                SetPropertyValue("Counterparty", ref _Counterparty, value);
             }
         }
         string _SummaryDescription;
@@ -271,24 +271,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        [Association("BankStmt-AustPostSettle")]
-        public XPCollection<AustPostSettle> AustPostSettles
-        {
-            get
-            {
-                return GetCollection<AustPostSettle>("AustPostSettles");
-            }
-        }
-
-        //[Association("BankStmt-ForexTrades")]
-        //public XPCollection<ForexTrade> ForexTrade
-        //{
-        //    get
-        //    {
-        //        return GetCollection<ForexTrade>("ForexTrade");
-        //    }
-        //}
-
         private CashFlowForexSettleType _ForexSettleType;
         public CashFlowForexSettleType ForexSettleType
         {
@@ -299,6 +281,15 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("ForexSettleType", ref _ForexSettleType, value);
+            }
+        }
+
+        [Association("BankStmt-AustPostSettle")]
+        public XPCollection<AustPostSettle> AustPostSettles
+        {
+            get
+            {
+                return GetCollection<AustPostSettle>("AustPostSettles");
             }
         }
 
@@ -343,7 +334,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 {
                     // TODO: do not assume that Functional Currency is 'AUD'
                     var value = fromAmt * (decimal)rateObj.ConversionRate;
-                    obj.SetPropertyValue("FunctionalCcyAmt", ref obj._FunctionalCcyAmt, Math.Round(value,2));
+                    obj.SetPropertyValue("FunctionalCcyAmt", ref obj._FunctionalCcyAmt, Math.Round(value, 2));
                 }
             }
         }
@@ -361,7 +352,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 if (rateObj != null)
                 {
                     var value = fromAmt * (decimal)rateObj.ConversionRate;
-                    obj.SetPropertyValue("TranAmount", ref obj._TranAmount, Math.Round(value,2));
+                    obj.SetPropertyValue("TranAmount", ref obj._TranAmount, Math.Round(value, 2));
                 }
             }
         }
@@ -392,104 +383,5 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             objSpace.Delete(cashFlows);
             objSpace.CommitChanges();
         }
-
-        public static void UploadToCashFlow(IObjectSpace objSpace, DateTime dateParam)
-        {
-            UploadToCashFlow(objSpace, dateParam, dateParam);
-        }
-
-        // TODO: avoid using SQL
-        public static void UploadToCashFlow(IObjectSpace objSpace, DateTime fromDate, DateTime toDate)
-        {
-            var session = ((XPObjectSpace)objSpace).Session;
-
-            XPQuery<BankStmt> bankStmtsQuery = new XPQuery<BankStmt>(session);
-            var bankStmtsSum = from c in bankStmtsQuery
-                                where c.TranDate >= fromDate && c.TranDate <= toDate
-                                group c by new
-                                {
-                                    c.TranDate,
-                                    c.Account,
-                                    c.Activity,
-                                    c.Counterparty,
-                                    c.SummaryDescription,
-                                    c.CounterCcy,
-                                    c.ForexSettleType
-                                } into grp
-                                where Math.Round(grp.Sum(c => c.TranAmount), 2) != 0.00M
-                                select new
-                                {
-                                    TranDate = grp.Key.TranDate,
-                                    Account = grp.Key.Account,
-                                    Activity = grp.Key.Activity,
-                                    Counterparty = grp.Key.Counterparty,
-                                    SummaryDescription = grp.Key.SummaryDescription,
-                                    CounterCcy = grp.Key.CounterCcy,
-                                    AccountCcyAmt = grp.Sum(c => c.TranAmount),
-                                    FunctionalCcyAmt = grp.Sum(c => c.FunctionalCcyAmt),
-                                    CounterCcyAmt = grp.Sum(c => c.CounterCcyAmt),
-                                    ForexSettypeType = grp.Key.ForexSettleType
-                                };
-
-            var aCashFlows = new List<CashFlow>();
-
-            foreach (var bs in bankStmtsSum)
-            {
-                var cf = objSpace.CreateObject<CashFlow>();
-                var oldCalculateEnabled = cf.CalculateEnabled;
-                cf.CalculateEnabled = false;
-                cf.TranDate = bs.TranDate;
-                cf.Account = bs.Account;
-                cf.Activity = bs.Activity;
-                cf.Counterparty = bs.Counterparty;
-                cf.CounterCcy = bs.CounterCcy;
-                cf.CounterCcyAmt = bs.CounterCcyAmt;
-                cf.AccountCcyAmt = bs.AccountCcyAmt;
-                cf.FunctionalCcyAmt = bs.FunctionalCcyAmt;
-                cf.Description = bs.SummaryDescription;
-                cf.Status = CashFlowStatus.Actual;
-                cf.ForexSettleType = bs.ForexSettypeType;
-                cf.CalculateEnabled = oldCalculateEnabled;
-                aCashFlows.Add(cf);
-            }
-            objSpace.CommitChanges();
-
-            session.ExplicitBeginTransaction();
-            foreach (var cf in aCashFlows)
-            {
-                // record the CashFlow that was aggregated from BankStmt
-                string bankStmtLinkSql = "UPDATE BankStmt SET CashFlow = @CashFlow WHERE "
-                    + "TranDate = @TranDate"
-                    + " AND Account = @Account"
-                    + " AND Activity = @Activity"
-                    + " AND Counterparty = @Counterparty"
-                    + " AND CounterCcy = @CounterCcy"
-                    + " AND ForexSettleType = @ForexSettleType";
-                if (!string.IsNullOrEmpty(cf.Description))
-                    bankStmtLinkSql += " AND SummaryDescription = @Description";
-
-                session.ExecuteNonQuery(bankStmtLinkSql,
-                    new string[] { "CashFlow", "TranDate", "Account", "Activity", "Counterparty", 
-                        "Description", "CounterCcy", "ForexSettleType" },
-                        new object[] { cf.Oid, cf.TranDate, 
-                            cf.Account == null ? (Guid?)null : cf.Account.Oid, 
-                            cf.Activity == null ? (Guid?)null : cf.Activity.Oid, 
-                            cf.Counterparty == null ? (Guid?)null : cf.Counterparty.Oid,
-                            cf.Description, 
-                            cf.CounterCcy == null ? (Guid?)null : cf.CounterCcy.Oid, 
-                            cf.ForexSettleType });
-                // DEBUG
-                //if (cf.ForexSettleType == CashFlowForexSettleType.In && cf.AccountCcyAmt == 100)
-                //{
-                //    Debug.Print(bankStmtLinkSql);
-                //}
-            }
-            session.ExplicitCommitTransaction();
-            
-            // reload the collection as Direct SQL does not automatically update the collection
-            foreach (var cf in aCashFlows)
-                cf.BankStmts.Reload();
-        }
     }
-
 }

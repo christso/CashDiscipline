@@ -90,6 +90,8 @@
         <Filter Id="AllAccounts" Caption="All Accounts" IsNewNode="True" />
       </Filters>
     </ListView>
+    <ListView Id="Account_LookupListView" AllowEdit="False" />
+    <ListView Id="ActionOwner_LookupListView" AllowEdit="False" />
     <ListView Id="ActionPortal_ListView">
       <Columns>
         <ColumnInfo Id="ActionPortalType" Index="0" />
@@ -101,11 +103,19 @@
       </Columns>
     </ListView>
     <ListView Id="Activity_ListView" AllowEdit="True" />
+    <ListView Id="Activity_LookupListView" AllowEdit="False" />
+    <ListView Id="ApBankAccount_LookupListView" AllowEdit="False" />
+    <ListView Id="ApInvSource_LookupListView" AllowEdit="False" />
+    <ListView Id="ApPayGroup_LookupListView" AllowEdit="False" />
     <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server">
       <Columns>
         <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
       </Columns>
     </ListView>
+    <ListView Id="ApPmtDistn_LookupListView" AllowEdit="False" />
+    <ListView Id="ApPmtDistnMapping_LookupListView" AllowEdit="False" />
+    <ListView Id="ApSource_LookupListView" AllowEdit="False" />
+    <ListView Id="ApVendor_LookupListView" AllowEdit="True" />
     <DetailView Id="BankStmt_DetailView" AllowEdit="True" AllowNew="True" AllowDelete="True" ImageName="">
       <Items>
         <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
@@ -150,21 +160,37 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
-    <ListView Id="BankStmt_ListView" AllowEdit="True" NewItemRowPosition="Top" DataAccessMode="Server">
+    <ListView Id="BankStmt_ListView" AllowEdit="True" NewItemRowPosition="Top" DataAccessMode="Server" IsFooterVisible="True">
       <Columns>
-        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True">
+          <Summary IsNewNode="True">
+            <ColumnSummaryItem Id="@1b13998d-59a6-454e-be01-493a1a33d2d1" SummaryType="Count" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
         <ColumnInfo Id="OraTrxNum" Index="1" />
         <ColumnInfo Id="TranDate" SortOrder="Descending" SortIndex="0" Index="2" />
         <ColumnInfo Id="TranType" Index="3" />
         <ColumnInfo Id="TranRef" Index="4" />
-        <ColumnInfo Id="TranAmount" Index="5" />
+        <ColumnInfo Id="TranAmount" Index="5">
+          <Summary>
+            <ColumnSummaryItem Id="@0086ae7d-9ad7-4728-95a8-068ef30fd554" SummaryType="Sum" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
         <ColumnInfo Id="TranDescription" Index="6" />
         <ColumnInfo Id="TranCode" Index="7" />
         <ColumnInfo Id="Account" Index="8" />
         <ColumnInfo Id="Activity" Index="9" />
         <ColumnInfo Id="Counterparty" Index="10" />
-        <ColumnInfo Id="FunctionalCcyAmt" Index="11" />
-        <ColumnInfo Id="CounterCcyAmt" Index="12" />
+        <ColumnInfo Id="FunctionalCcyAmt" Index="11">
+          <Summary>
+            <ColumnSummaryItem Id="@910e4ee1-ee3f-41a0-8901-4a859e4b0d16" SummaryType="Sum" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
+        <ColumnInfo Id="CounterCcyAmt" Index="12">
+          <Summary>
+            <ColumnSummaryItem Id="@62f5cba2-e3b8-4aba-95e0-b52917b9708f" SummaryType="Sum" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
         <ColumnInfo Id="CounterCcy" Index="13" />
         <ColumnInfo Id="ValueDate" Index="14" />
         <ColumnInfo Id="TimeEntered" Index="15" />
@@ -173,7 +199,7 @@
         <ColumnInfo Id="ForexSettleType" Index="18" />
       </Columns>
     </ListView>
-    <ListView Id="BankStmt_LookupListView" DataAccessMode="Server">
+    <ListView Id="BankStmt_LookupListView" DataAccessMode="Server" AllowEdit="False">
       <Columns>
         <ColumnInfo Id="OraTrxNum" Index="1" Removed="True" />
         <ColumnInfo Id="TranDate" Width="80" Index="2" />
@@ -183,12 +209,14 @@
         <ColumnInfo Id="TranDescription" Index="6" />
       </Columns>
     </ListView>
+    <ListView Id="BankStmtTranCode_LookupListView" AllowEdit="False" />
     <DetailView Id="CashFlow_DetailView">
       <Items>
         <PropertyEditor Id="ForexSettleGroupId" Caption="Settle Group Id" />
         <PropertyEditor Id="ForexSettleLinksIn" Caption="Settle Links In" />
         <PropertyEditor Id="ForexSettleLinksOut" Caption="Settle Links Out" />
         <PropertyEditor Id="ForexSettleType" Caption="Settle Type" />
+        <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
         <PropertyEditor Id="ParentCashFlow" PropertyName="ParentCashFlow" IsNewNode="True" />
       </Items>
       <Layout>
@@ -196,11 +224,13 @@
           <LayoutGroup Id="SimpleEditors" RelativeSize="47.6" CaptionWordWrap="Wrap">
             <LayoutGroup Id="CashFlow" RelativeSize="54.061624649859944">
               <LayoutGroup Id="CashFlow_col1" RelativeSize="48.533333333333331">
-                <LayoutItem Id="TranDate" SizeConstraintsType="Default" RelativeSize="15" />
+                <LayoutItem Id="Oid" ViewItem="Oid" Index="0" IsNewNode="True" />
+                <LayoutItem Id="OrigCashFlow" Index="1" />
                 <LayoutItem Id="AccountCcyAmt" SizeConstraintsType="Default" Index="2" RelativeSize="15" />
-                <LayoutItem Id="FunctionalCcyAmt" SizeConstraintsType="Default" Index="3" RelativeSize="15" />
-                <LayoutItem Id="CounterCcyAmt" SizeConstraintsType="Default" Index="4" RelativeSize="15" />
-                <LayoutItem Id="CounterCcy" SizeConstraintsType="Default" Index="5" RelativeSize="20" />
+                <LayoutItem Id="TranDate" SizeConstraintsType="Default" RelativeSize="15" Index="3" />
+                <LayoutItem Id="FunctionalCcyAmt" SizeConstraintsType="Default" Index="4" RelativeSize="15" />
+                <LayoutItem Id="CounterCcyAmt" SizeConstraintsType="Default" Index="5" RelativeSize="15" />
+                <LayoutItem Id="CounterCcy" SizeConstraintsType="Default" Index="6" RelativeSize="20" />
                 <LayoutItem Id="Account" Removed="True" />
                 <LayoutItem Id="Activity" Removed="True" />
                 <LayoutItem Id="Counterparty" Removed="True" />
@@ -208,6 +238,7 @@
                 <LayoutItem Id="FixRank" Removed="True" />
                 <LayoutItem Id="Source" Removed="True" />
                 <LayoutItem Id="Status" Removed="True" />
+                <LayoutItem Id="TimeEntered" Removed="True" />
               </LayoutGroup>
               <LayoutGroup Id="CashFlow_col2" RelativeSize="48.533333333333331">
                 <LayoutItem Id="Account" ViewItem="Account" Index="0" SizeConstraintsType="Default" RelativeSize="20" IsNewNode="True" />
@@ -215,6 +246,8 @@
                 <LayoutItem Id="Counterparty" ViewItem="Counterparty" Index="2" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
                 <LayoutItem Id="Source" ViewItem="Source" Index="3" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
                 <LayoutItem Id="Status" ViewItem="Status" Index="4" SizeConstraintsType="Default" RelativeSize="35" IsNewNode="True" />
+                <LayoutItem Id="IsReclass" Index="5" />
+                <LayoutItem Id="TimeEntered" ViewItem="TimeEntered" ShowCaption="" Index="6" IsNewNode="True" />
                 <LayoutItem Id="DateUnFix" Removed="True" />
                 <LayoutItem Id="FixActivity" Removed="True" />
                 <LayoutItem Id="Fixer" Removed="True" />
@@ -232,11 +265,8 @@
             <LayoutGroup Id="Forex" ShowCaption="True" Index="1" RelativeSize="45.938375350140056" CaptionWordWrap="Wrap" Direction="Horizontal" IsNewNode="True">
               <LayoutGroup Id="Forex_col1" Index="4" IsNewNode="True">
                 <LayoutItem Id="ForexSettleType" ViewItem="ForexSettleType" Index="0" SizeConstraintsType="Default" RelativeSize="19.512195121951219" IsNewNode="True" />
-                <LayoutItem Id="ForexLinkedAccountCcyAmt" ViewItem="ForexLinkedAccountCcyAmt" Index="1" SizeConstraintsType="Default" RelativeSize="14.634146341463415" IsNewNode="True" />
-                <LayoutItem Id="ForexUnlinkedAccountCcyAmt" ViewItem="ForexUnlinkedAccountCcyAmt" Index="2" SizeConstraintsType="Default" MinSize="203, 24" MaxSize="0, 0" RelativeSize="14.634146341463415" IsNewNode="True" />
               </LayoutGroup>
               <LayoutGroup Id="Forex_col2" IsNewNode="True">
-                <LayoutItem Id="ForexLinkIsClosed" ViewItem="ForexLinkIsClosed" Index="3" SizeConstraintsType="Default" RelativeSize="14.634146341463415" IsNewNode="True" />
                 <LayoutItem Id="ForexSettleGroupId" ViewItem="ForexSettleGroupId" Index="5" SizeConstraintsType="Default" RelativeSize="19.512195121951219" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
@@ -252,7 +282,6 @@
               <LayoutGroup Id="Forecast_col2" Index="2" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
                 <LayoutItem Id="Fixer" ViewItem="Fixer" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
                 <LayoutItem Id="ParentCashFlow" ViewItem="ParentCashFlow" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
-                <LayoutItem Id="IsReclass" ViewItem="IsReclass" Index="2" IsNewNode="True" />
                 <LayoutItem Id="IsFixerSynced" ViewItem="IsFixerSynced" Index="3" IsNewNode="True" />
                 <LayoutItem Id="IsFixeeSynced" ViewItem="IsFixeeSynced" Index="4" IsNewNode="True" />
                 <LayoutItem Id="IsFixerFixeesSynced" ViewItem="IsFixerFixeesSynced" Index="5" IsNewNode="True" />
@@ -289,41 +318,53 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
-    <ListView Id="CashFlow_ListView" DataAccessMode="Server" DetailViewID="">
+    <ListView Id="CashFlow_ListView" DataAccessMode="Server" IsFooterVisible="True" DetailViewID="">
       <Columns>
         <ColumnInfo Id="OrigCashFlow" Index="-1" />
-        <ColumnInfo Id="Oid" PropertyName="Oid" Index="1" IsNewNode="True" />
-        <ColumnInfo Id="Snapshot" Index="2" />
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Snapshot" Index="1" />
+        <ColumnInfo Id="Status" Index="2" />
         <ColumnInfo Id="TranDate" Index="3" />
         <ColumnInfo Id="Account" Index="4" />
         <ColumnInfo Id="Activity" Index="5" />
         <ColumnInfo Id="Counterparty" Index="6" />
-        <ColumnInfo Id="AccountCcyAmt" Index="7" />
+        <ColumnInfo Id="AccountCcyAmt" Index="7">
+          <Summary>
+            <ColumnSummaryItem Id="@7e67aeac-cfba-43dd-9fd0-f78bae53e419" SummaryType="Sum" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
         <ColumnInfo Id="Description" Index="8" />
         <ColumnInfo Id="Source" Index="9" />
-        <ColumnInfo Id="FunctionalCcyAmt" Index="10" />
-        <ColumnInfo Id="CounterCcyAmt" Index="11" />
+        <ColumnInfo Id="FunctionalCcyAmt" Index="10">
+          <Summary>
+            <ColumnSummaryItem Id="@55f8d62c-2abc-4c22-bbc8-8c7f5bfb7357" SummaryType="Sum" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
+        <ColumnInfo Id="CounterCcyAmt" Index="11">
+          <Summary>
+            <ColumnSummaryItem Id="@5b9cb5fd-0f25-4c5c-b1a6-dbef02f44484" SummaryType="Sum" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
         <ColumnInfo Id="CounterCcy" Index="12" />
-        <ColumnInfo Id="Status" Index="13" />
-        <ColumnInfo Id="Fix" Index="14" />
-        <ColumnInfo Id="FixRank" Index="15" />
-        <ColumnInfo Id="IsReclass" Index="16" />
-        <ColumnInfo Id="DateUnFix" Index="17" />
-        <ColumnInfo Id="FixFromDate" Index="18" />
-        <ColumnInfo Id="FixToDate" Index="19" />
-        <ColumnInfo Id="FixActivity" Index="20" />
-        <ColumnInfo Id="TimeEntered" Index="21" />
-        <ColumnInfo Id="ForexSettleType" Index="22" />
-        <ColumnInfo Id="Fixer" Index="23" />
-        <ColumnInfo Id="IsFixSynced" Index="24" />
-        <ColumnInfo Id="IsFixerSynced" Index="25" />
-        <ColumnInfo Id="IsFixeeSynced" Index="26" />
-        <ColumnInfo Id="IsFixerFixeesSynced" Index="27" />
-        <ColumnInfo Id="ParentCashFlow" Index="28" LookupProperty="Oid" />
-        <ColumnInfo Id="ForexSettleGroupId" Index="32" />
+        <ColumnInfo Id="Fix" Index="13" />
+        <ColumnInfo Id="FixRank" Index="14" />
+        <ColumnInfo Id="IsReclass" Index="15" />
+        <ColumnInfo Id="DateUnFix" Index="16" />
+        <ColumnInfo Id="FixFromDate" Index="17" />
+        <ColumnInfo Id="FixToDate" Index="18" />
+        <ColumnInfo Id="FixActivity" Index="19" />
+        <ColumnInfo Id="TimeEntered" Index="20" />
+        <ColumnInfo Id="ForexSettleType" Index="21" />
+        <ColumnInfo Id="Fixer" Index="22" />
+        <ColumnInfo Id="IsFixSynced" Index="23" />
+        <ColumnInfo Id="IsFixerSynced" Index="24" />
+        <ColumnInfo Id="IsFixeeSynced" Index="25" />
+        <ColumnInfo Id="IsFixerFixeesSynced" Index="26" />
+        <ColumnInfo Id="ParentCashFlow" Index="27" LookupProperty="Oid" />
+        <ColumnInfo Id="ForexSettleGroupId" Index="28" />
       </Columns>
     </ListView>
-    <ListView Id="CashFlow_LookupListView" DataAccessMode="Server">
+    <ListView Id="CashFlow_LookupListView" DataAccessMode="Server" AllowEdit="False">
       <Columns>
         <ColumnInfo Id="TranDate" PropertyName="TranDate" Width="70" Index="1" IsNewNode="True" />
         <ColumnInfo Id="Account" PropertyName="Account" Width="70" Index="2" IsNewNode="True" />
@@ -368,6 +409,10 @@
         <ColumnInfo Id="FromDate" Index="5" />
       </Columns>
     </ListView>
+    <ListView Id="Counterparty_LookupListView" AllowEdit="False" />
+    <ListView Id="Currency_LookupListView" AllowEdit="False" />
+    <ListView Id="FinAccount_LookupListView" AllowEdit="False" />
+    <ListView Id="FinActivity_LookupListView" AllowEdit="False" />
     <DetailView Id="FinGenJournalParam_DetailView" AllowNew="False" AllowDelete="False">
       <Items>
         <ActionContainerViewItem Id="ExecuteActions" ActionContainer="ExecuteActions" IsNewNode="True" />

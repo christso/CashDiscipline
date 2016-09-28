@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application>
   <NavigationItems DefaultLeafImageName="BO_List" />
+  <Options Skin="Visual Studio 2013 Blue" />
   <SchemaModules>
-    <SchemaModule Name="CloneObjectModule" Version="15.2.7.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="15.2.7.0" IsNewNode="True" />
-    <SchemaModule Name="SystemWindowsFormsModule" Version="15.2.7.0" IsNewNode="True" />
+    <SchemaModule Name="CloneObjectModule" Version="16.1.4.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="16.1.4.0" IsNewNode="True" />
+    <SchemaModule Name="SystemWindowsFormsModule" Version="16.1.4.0" IsNewNode="True" />
   </SchemaModules>
 </Application>

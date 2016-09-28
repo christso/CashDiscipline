@@ -25,9 +25,9 @@ AND BankStmt.[Oid] IN ({oids})";
         private const string MapCommandTextListSqlTemplateCommon = @"UPDATE BankStmt SET
 {setpairs}
 FROM BankStmt
-LEFT JOIN Activity ON Activity.Oid = BankStmt.Activity
-LEFT JOIN Account ON Account.Oid = BankStmt.Account
-LEFT JOIN BankStmtTranCode TranCode ON TranCode.Oid = BankStmt.TranCode
+LEFT JOIN Activity ON Activity.Oid = BankStmt.Activity AND Activity.GCRecord IS NULL
+LEFT JOIN Account ON Account.Oid = BankStmt.Account AND Account.GCRecord IS NULL
+LEFT JOIN BankStmtTranCode TranCode ON TranCode.Oid = BankStmt.TranCode AND TranCode.GCRecord IS NULL
 WHERE BankStmt.GCRecord IS NULL";
 
         public BankStmtMapper(XPObjectSpace objspace)
@@ -44,7 +44,9 @@ WHERE BankStmt.GCRecord IS NULL";
                 new SqlDeclareClause("UndefActivityOid", "uniqueidentifer",
                 "(select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)"),
                 new SqlDeclareClause("UndefCounterpartyOid", "uniqueidentifer",
-                "(select oid from counterparty where counterparty.name like 'UNDEFINED' and GCRecord IS NULL)")
+                "(select oid from counterparty where counterparty.name like 'UNDEFINED' and GCRecord IS NULL)"),
+                new SqlDeclareClause("UndefActionOwnerOid", "uniqueidentifer",
+                "(select oid from ActionOwner where ActionOwner.name like 'UNDEFINED' and GCRecord IS NULL)")
             };
             return clauses;
         }
@@ -87,6 +89,11 @@ WHERE BankStmt.GCRecord IS NULL";
 
             commandText = mapper.GetMapSetCommandText("Counterparty", m => string.Format("'{0}'", m.Counterparty.Oid), m => m.Counterparty != null, step,
                 "WHEN BankStmt.Counterparty IS NOT NULL AND BankStmt.Counterparty <> @UndefCounterpartyOid THEN BankStmt.Counterparty");
+            if (!string.IsNullOrWhiteSpace(commandText))
+                setTextList.Add(commandText);
+
+            commandText = mapper.GetMapSetCommandText("ActionOwner", m => string.Format("'{0}'", m.ActionOwner.Oid), m => m.ActionOwner != null, step,
+                "WHEN BankStmt.ActionOwner IS NOT NULL AND BankStmt.ActionOwner <> @UndefActionOwnerOid THEN BankStmt.ActionOwner");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
