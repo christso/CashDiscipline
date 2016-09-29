@@ -349,6 +349,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Content Include="Scripts\CreateIndexes.sql" />
+    <None Include="UnusableNodes6.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UnusableNodes5.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>

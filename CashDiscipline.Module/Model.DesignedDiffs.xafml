@@ -409,6 +409,7 @@
         <ColumnInfo Id="FromDate" Index="5" />
       </Columns>
     </ListView>
+    <ListView Id="CashFlowSnapshot_LookupListView" AllowEdit="False" />
     <ListView Id="Counterparty_LookupListView" AllowEdit="False" />
     <ListView Id="Currency_LookupListView" AllowEdit="False" />
     <ListView Id="FinAccount_LookupListView" AllowEdit="False" />

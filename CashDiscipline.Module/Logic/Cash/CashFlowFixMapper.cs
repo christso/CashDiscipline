@@ -28,6 +28,7 @@ AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate
 AND CashFlow.[Snapshot] = @Snapshot
 AND (
     CashFlow.Fix IS NULL OR Fix.Name LIKE 'Auto' 
+    OR CashFlow.FixActivity IS NULL
     OR CashFlow.ForexSettleType IS NULL
     OR CashFlow.ForexSettleType = @AutoForexSettleType
 )";
@@ -126,7 +127,8 @@ WHERE CashFLow.GCRecord IS NULL";
             var setTextList = new List<string>();
 
             var commandText = GetMapSetCommandText("FixActivity", m => string.Format("'{0}'", m.FixActivity.Oid), m => m.FixActivity != null, step,
-                "WHEN CashFlow.FixActivity IS NOT NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.FixActivity");
+                "WHEN CashFlow.FixActivity IS NOT NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.FixActivity"
+                + "\nWHEN CashFlow.FixActivity IS NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.Activity");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
@@ -192,6 +194,7 @@ WHERE CashFLow.GCRecord IS NULL";
             return maps;
         }
 
+        // defaultValueSql: The first condition in the CASE statement.
         public string GetMapSetCommandText(string mapPropertyName,
             Func<CashFlowFixMapping, string> mapPropertyValue, 
             Predicate<CashFlowFixMapping> predicate, int step, 
