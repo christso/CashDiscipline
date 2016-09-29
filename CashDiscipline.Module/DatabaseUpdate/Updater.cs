@@ -109,6 +109,9 @@ ALTER TABLE [dbo].[Counterparty] ADD CONSTRAINT [DF_Counterparty_DateTimeCreated
             payrollFixTag.Name = CashDiscipline.Common.Constants.PayrollFixTag;
             payrollFixTag.FixTagType = CashForecastFixTagType.ScheduleOut;
 
+            var autoFixTag = objSpace.CreateObject<CashForecastFixTag>();
+            autoFixTag.Name = CashDiscipline.Common.Constants.AutoFixTag;
+            autoFixTag.FixTagType = CashForecastFixTagType.Ignore;
         }
 
         public static void InitSetOfBooks(IObjectSpace objSpace)
