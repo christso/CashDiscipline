@@ -45,6 +45,31 @@ DECLARE @AutoFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag
 DECLARE @ApReclassActivity uniqueidentifier = (SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam)
 */
 
+/* DEBUG
+
+SELECT *, '#TmpFixReversal' AS TableName FROM #TmpFixReversal
+UNION ALL
+SELECT *, '#TmpFixRevReclass_Fixee' AS TableName FROM #TmpFixRevReclass_Fixee
+UNION ALL
+SELECT *, '#TmpFixRevReclass_Fixer' AS TableName FROM #TmpFixRevReclass_Fixer
+UNION ALL
+SELECT *, '#TmpFixResRevRec_Fixee' AS TableName FROM #TmpFixResRevRec_Fixee
+UNION ALL
+SELECT *, '#TmpFixResRevReclass_Fixer' AS TableName FROM #TmpFixResRevReclass_Fixer
+
+SELECT fixeeFixer.*, 
+	fixee.TranDate, 
+	fixee.Counterparty,
+	fixee.AccountCcyAmt,
+	fixee.Account,
+	fixeeAccount.FixAccount,
+	fixee.FixFromDate,
+	fixee.FixToDate
+FROM #TmpFixeeFixer fixeeFixer
+LEFT JOIN CashFlow fixee ON fixee.Oid = fixeeFixer.Fixee
+LEFT JOIN Account fixeeAccount ON fixee.Account = fixeeAccount.Oid
+*/
+
 namespace CashDiscipline.Module.Logic.Cash
 {
     public class FixCashFlowsAlgorithm : IFixCashFlows
@@ -388,7 +413,8 @@ UPDATE revFix SET
 	Fix = @ReversalFixTag,
 	Fixer = NULL,
 	Source = a1.FixSource,
-	[Status] = @ForecastStatus
+	[Status] = @ForecastStatus,
+    TimeEntered = GETDATE()
 FROM #TmpFixReversal revFix
 LEFT JOIN #TmpFixeeFixer fixeeFixer
 	ON fixeeFixer.Fixee = revFix.Oid
@@ -412,7 +438,7 @@ IF OBJECT_ID('tempdb..#TmpFixRevReclass_Fixee') IS NOT NULL DROP TABLE #TmpFixRe
 
 SELECT fixee.*
 INTO #TmpFixRevReclass_Fixee
-FROM CashFlow fixee
+FROM #TmpCashFlowsToFix fixee
 JOIN #TmpFixReversal fr ON fr.ParentCashFlow = fixee.OID
 JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
 JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
@@ -428,7 +454,8 @@ Fix = @RevRecFixTag,
 Activity = @ApReclassActivity,
 TranDate = fixer.TranDate,
 Source = a1.FixSource,
-[Status] = @ForecastStatus
+[Status] = @ForecastStatus,
+TimeEntered = GETDATE()
 FROM #TmpFixRevReclass_Fixee frr
 LEFT JOIN CashFlow fixer ON fixer.Oid = frr.Fixer
 LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
@@ -440,7 +467,7 @@ IF OBJECT_ID('tempdb..#TmpFixResRevRec_Fixee') IS NOT NULL DROP TABLE #TmpFixRes
 
 SELECT fixee.*
 INTO #TmpFixResRevRec_Fixee
-FROM CashFlow fixee
+FROM #TmpCashFlowsToFix fixee
 JOIN #TmpFixReversal fr ON fr.ParentCashFlow = fixee.OID
 JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
 JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
@@ -459,23 +486,21 @@ CounterCcyAmt = -frrr.CounterCcyAmt,
 FunctionalCcyAmt = -frrr.FunctionalCcyAmt,
 TranDate = @ApayableNextLockdownDate,
 Source = a1.FixSource,
-[Status] = @ForecastStatus
+[Status] = @ForecastStatus,
+TimeEntered = GETDATE()
 FROM #TmpFixResRevRec_Fixee frrr
 LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
 
-	-- Fixer.RR: Reverse Fixer Fix into AP Pymt
+	-- Fixer.RR: Reverse 'Allocate Cash Flow' into AP Pymt
 IF OBJECT_ID('tempdb..#TmpFixRevReclass_Fixer') IS NOT NULL DROP TABLE #TmpFixRevReclass_Fixer;
 
-SELECT fixer.*
+SELECT cf.*
 INTO #TmpFixRevReclass_Fixer
-FROM CashFlow fixee
-JOIN #TmpFixReversal fr ON fr.ParentCashFlow = fixee.OID
-JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
-JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
-WHERE fixee.TranDate <= @ApayableLockdownDate 
-	AND fixer.TranDate <= @ApayableLockdownDate 
-	AND (@PayrollFixTag IS NULL OR fixee.Fix != @PayrollFixTag)
+FROM #TmpCashFlowsToFix cf
+JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = cf.Fix
+WHERE cf.TranDate <= @ApayableLockdownDate 
+	AND (@PayrollFixTag IS NULL OR cf.Fix != @PayrollFixTag)
 	AND fixerTag.FixTagType = @AllocateFixTagType
 
 UPDATE frr SET
@@ -488,7 +513,8 @@ FunctionalCcyAmt = -frr.FunctionalCcyAmt,
 CounterCcyAmt = -frr.CounterCcyAmt,
 IsReclass = 1,
 Source = a1.FixSource,
-[Status] = @ForecastStatus
+[Status] = @ForecastStatus,
+TimeEntered = GETDATE()
 FROM #TmpFixRevReclass_Fixer frr
 LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 ;
@@ -497,15 +523,12 @@ LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 
 IF OBJECT_ID('tempdb..#TmpFixResRevReclass_Fixer') IS NOT NULL DROP TABLE #TmpFixResRevReclass_Fixer;
 
-SELECT fixer.*
+SELECT cf.*
 INTO #TmpFixResRevReclass_Fixer
-FROM CashFlow fixee
-JOIN #TmpFixReversal fr ON fr.ParentCashFlow = fixee.OID
-JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
-JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
-WHERE fixee.TranDate <= @ApayableLockdownDate 
-	AND fixer.TranDate <= @ApayableLockdownDate 
-	AND (@PayrollFixTag IS NULL OR fixee.Fix != @PayrollFixTag)
+FROM #TmpCashFlowsToFix cf
+JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = cf.Fix
+WHERE cf.TranDate <= @ApayableLockdownDate 
+	AND (@PayrollFixTag IS NULL OR cf.Fix != @PayrollFixTag)
 	AND fixerTag.FixTagType = @AllocateFixTagType
 
 UPDATE frrr SET
@@ -515,7 +538,8 @@ Fix = @ResRevRecFixTag,
 Activity = @ApReclassActivity,
 TranDate = @ApayableNextLockdownDate,
 Source = a1.FixSource,
-[Status] = @ForecastStatus
+[Status] = @ForecastStatus,
+TimeEntered = GETDATE()
 FROM #TmpFixResRevReclass_Fixer frrr
 LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
@@ -532,23 +556,7 @@ UNION ALL
 SELECT * FROM #TmpFixResRevRec_Fixee
 UNION ALL
 SELECT * FROM #TmpFixResRevReclass_Fixer
-
--- SELECT
-/*
-SELECT fixeeFixer.*, 
-	fixee.TranDate, 
-	fixee.Counterparty,
-	fixee.AccountCcyAmt,
-	fixee.Account,
-	fixeeAccount.FixAccount,
-	fixee.FixFromDate,
-	fixee.FixToDate
-FROM #TmpFixeeFixer fixeeFixer
-LEFT JOIN CashFlow fixee ON fixee.Oid = fixeeFixer.Fixee
-LEFT JOIN Account fixeeAccount ON fixee.Account = fixeeAccount.Oid
-
-SELECT * FROM #TmpFixReversal
-*/";
+";
             }
         }
 
