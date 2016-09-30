@@ -218,6 +218,7 @@
         <PropertyEditor Id="ForexSettleType" Caption="Settle Type" />
         <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
         <PropertyEditor Id="ParentCashFlow" PropertyName="ParentCashFlow" IsNewNode="True" />
+        <PropertyEditor Id="Snapshot" PropertyName="Snapshot" AllowEdit="True" IsNewNode="True" />
       </Items>
       <Layout>
         <LayoutGroup Id="Main" CaptionHorizontalAlignment="Default" CaptionWordWrap="Wrap" RelativeSize="100">
@@ -246,7 +247,7 @@
                 <LayoutItem Id="Counterparty" ViewItem="Counterparty" Index="2" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
                 <LayoutItem Id="Source" ViewItem="Source" Index="3" SizeConstraintsType="Default" RelativeSize="15" IsNewNode="True" />
                 <LayoutItem Id="Status" ViewItem="Status" Index="4" SizeConstraintsType="Default" RelativeSize="35" IsNewNode="True" />
-                <LayoutItem Id="IsReclass" Index="5" />
+                <LayoutItem Id="IsReclass" Index="5" Removed="True" />
                 <LayoutItem Id="TimeEntered" ViewItem="TimeEntered" ShowCaption="" Index="6" IsNewNode="True" />
                 <LayoutItem Id="DateUnFix" Removed="True" />
                 <LayoutItem Id="FixActivity" Removed="True" />
@@ -260,6 +261,7 @@
                 <LayoutItem Id="IsFixerSynced" Removed="True" />
                 <LayoutItem Id="IsFixSynced" Removed="True" />
                 <LayoutItem Id="ParentCashFlow" Removed="True" />
+                <LayoutItem Id="Snapshot" ViewItem="Snapshot" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
             <LayoutGroup Id="Forex" ShowCaption="True" Index="1" RelativeSize="45.938375350140056" CaptionWordWrap="Wrap" Direction="Horizontal" IsNewNode="True">
@@ -273,15 +275,16 @@
             <LayoutGroup Id="Forecast" Direction="Horizontal" ShowCaption="True" Index="3" RelativeSize="19.333333333333332" IsNewNode="True">
               <LayoutGroup Id="Forecast_col1" Index="0" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
                 <LayoutItem Id="Fix" ViewItem="Fix" Index="0" IsNewNode="True" />
-                <LayoutItem Id="FixActivity" ViewItem="FixActivity" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
-                <LayoutItem Id="DateUnFix" ViewItem="DateUnFix" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
-                <LayoutItem Id="FixFromDate" ViewItem="FixFromDate" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
-                <LayoutItem Id="FixRank" ViewItem="FixRank" Index="2" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
-                <LayoutItem Id="FixToDate" ViewItem="FixToDate" Index="2" SizeConstraintsType="Default" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="FixActivity" ViewItem="FixActivity" Index="1" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
+                <LayoutItem Id="DateUnFix" ViewItem="DateUnFix" Index="2" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="FixFromDate" ViewItem="FixFromDate" Index="3" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="FixRank" ViewItem="FixRank" Index="4" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="FixToDate" ViewItem="FixToDate" Index="5" SizeConstraintsType="Default" RelativeSize="50" IsNewNode="True" />
+                <LayoutItem Id="IsReclass" Index="6" ViewItem="IsReclass" ShowCaption="" IsNewNode="True" />
               </LayoutGroup>
               <LayoutGroup Id="Forecast_col2" Index="2" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
-                <LayoutItem Id="Fixer" ViewItem="Fixer" Index="0" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
-                <LayoutItem Id="ParentCashFlow" ViewItem="ParentCashFlow" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="Fixer" ViewItem="Fixer" Index="1" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
+                <LayoutItem Id="ParentCashFlow" ViewItem="ParentCashFlow" Index="2" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="IsFixerSynced" ViewItem="IsFixerSynced" Index="3" IsNewNode="True" />
                 <LayoutItem Id="IsFixeeSynced" ViewItem="IsFixeeSynced" Index="4" IsNewNode="True" />
                 <LayoutItem Id="IsFixerFixeesSynced" ViewItem="IsFixerFixeesSynced" Index="5" IsNewNode="True" />

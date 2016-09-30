@@ -349,19 +349,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Content Include="Scripts\CreateIndexes.sql" />
-    <None Include="UnusableNodes6.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes5.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes4.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes3.xml">
+    <None Include="UnusableNodes.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>
     </None>
@@ -465,14 +453,6 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
-    <None Include="UnusableNodes2.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="UnusableNodes1.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\ServiceReference1\CashDiscipline.Module.ServiceReference1.IntegrationPackageResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -493,10 +473,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Service References\ServiceReference1\Service1.wsdl" />
-    <None Include="UnusableNodes.xml">
-      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
-      <SubType>Designer</SubType>
-    </None>
     <EmbeddedResource Include="Scripts\InstallClr.sql" />
     <EmbeddedResource Include="Images\banner.png" />
     <Content Include="FunctionalTests\Counterparty_Create.inc" />

@@ -25,7 +25,7 @@ namespace CashDiscipline.UnitTests
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.FixAllocLockdownComplex();
+            tests.FixAllocLockdownAud();
 
             tests.TearDown();
             tests.TearDownFixture();

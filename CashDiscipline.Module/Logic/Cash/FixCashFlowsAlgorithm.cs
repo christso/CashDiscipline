@@ -289,7 +289,7 @@ AND
 
 -- CashFlowsToFix
 
-IF OBJECT_ID('#TmpCashFlowsToFix') IS NOT NULL DROP TABLE #TmpCashFlowsToFix;
+IF OBJECT_ID('tempdb..#TmpCashFlowsToFix') IS NOT NULL DROP TABLE #TmpCashFlowsToFix;
 
 SELECT cf.* INTO #TmpCashFlowsToFix
 FROM CashFlow cf
@@ -319,7 +319,7 @@ WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM #TmpCashFlowsToFix cf2)
 
 -- FixeeFixer
 
-IF OBJECT_ID('#TmpFixeeFixer') IS NOT NULL DROP TABLE #TmpFixeeFixer;
+IF OBJECT_ID('tempdb..#TmpFixeeFixer') IS NOT NULL DROP TABLE #TmpFixeeFixer;
 
 SELECT Fixee, Fixer
 INTO #TmpFixeeFixer
@@ -367,7 +367,7 @@ FROM
 WHERE RowNum = 1
 
 -- Insert Cash Flow Reversal
-IF OBJECT_ID('#TmpFixReversal') IS NOT NULL DROP TABLE #TmpFixReversal;
+IF OBJECT_ID('tempdb..#TmpFixReversal') IS NOT NULL DROP TABLE #TmpFixReversal;
 
 SELECT cf.*
 INTO #TmpFixReversal
@@ -408,7 +408,7 @@ FROM CashFlow cf
 
 	-- Fixee.RR: Reclass Fixee Fix into AP Pymt
 	-- (i.e. reverse the reversal so net reversal is zero because the total amount of AP is correct)
-IF OBJECT_ID('#TmpFixRevReclass_Fixee') IS NOT NULL DROP TABLE #TmpFixRevReclass_Fixee;
+IF OBJECT_ID('tempdb..#TmpFixRevReclass_Fixee') IS NOT NULL DROP TABLE #TmpFixRevReclass_Fixee;
 
 SELECT fixee.*
 INTO #TmpFixRevReclass_Fixee
@@ -436,7 +436,7 @@ LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 
 	-- Fixee.RRR: Restore Fixee Fix to future date
 
-IF OBJECT_ID('#TmpFixResRevRec_Fixee') IS NOT NULL DROP TABLE #TmpFixResRevRec_Fixee;
+IF OBJECT_ID('tempdb..#TmpFixResRevRec_Fixee') IS NOT NULL DROP TABLE #TmpFixResRevRec_Fixee;
 
 SELECT fixee.*
 INTO #TmpFixResRevRec_Fixee
@@ -465,7 +465,7 @@ LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
 
 	-- Fixer.RR: Reverse Fixer Fix into AP Pymt
-IF OBJECT_ID('#TmpFixRevReclass_Fixer') IS NOT NULL DROP TABLE #TmpFixRevReclass_Fixer;
+IF OBJECT_ID('tempdb..#TmpFixRevReclass_Fixer') IS NOT NULL DROP TABLE #TmpFixRevReclass_Fixer;
 
 SELECT fixer.*
 INTO #TmpFixRevReclass_Fixer
@@ -495,7 +495,7 @@ LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 
 	-- Fixer.RRR: Restore Fixer Fix to future date
 
-IF OBJECT_ID('#TmpFixResRevReclass_Fixer') IS NOT NULL DROP TABLE #TmpFixResRevReclass_Fixer;
+IF OBJECT_ID('tempdb..#TmpFixResRevReclass_Fixer') IS NOT NULL DROP TABLE #TmpFixResRevReclass_Fixer;
 
 SELECT fixer.*
 INTO #TmpFixResRevReclass_Fixer

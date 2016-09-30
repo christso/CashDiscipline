@@ -31,22 +31,5 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
-    <DetailView Id="CashFlow_DetailView">
-      <Layout Id="Layout">
-        <LayoutGroup Id="Main">
-          <LayoutGroup Id="SimpleEditors">
-            <LayoutGroup Id="Forex">
-              <LayoutGroup Id="Forex_col2">
-                <LayoutItem Id="ForexLinkIsClosed" ViewItem="ForexLinkIsClosed" />
-              </LayoutGroup>
-              <LayoutGroup Id="Forex_col1">
-                <LayoutItem Id="ForexUnlinkedAccountCcyAmt" ViewItem="ForexUnlinkedAccountCcyAmt" />
-                <LayoutItem Id="ForexLinkedAccountCcyAmt" ViewItem="ForexLinkedAccountCcyAmt" />
-              </LayoutGroup>
-            </LayoutGroup>
-          </LayoutGroup>
-        </LayoutGroup>
-      </Layout>
-    </DetailView>
   </Views>
 </Application>
