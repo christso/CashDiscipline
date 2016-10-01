@@ -333,14 +333,6 @@ WHERE
 	)
 ;
 
--- Update Status
-
-UPDATE CashFlow SET
-IsFixeeSynced = 1,
-IsFixerFixeesSynced = 1,
-IsFixerSynced = 1
-WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM #TmpCashFlowsToFix cf2)
-
 -- FixeeFixer
 
 IF OBJECT_ID('tempdb..#TmpFixeeFixer') IS NOT NULL DROP TABLE #TmpFixeeFixer;
@@ -421,17 +413,17 @@ LEFT JOIN #TmpCashFlowsToFix fixer
 	ON fixer.Oid = fixeeFixer.Fixer
 LEFT JOIN Activity a1 ON a1.Oid = revFix.Activity
 
--- Update Fixee Cash Flow
+-- Link Fixee Cash Flow to Fixer
 
 UPDATE CashFlow
 SET 
-Fixer = fixeeFixer.Fixer -- Link Fixee Cash Flow to Fixer
+Fixer = fixeeFixer.Fixer
 FROM CashFlow cf
 	INNER JOIN #TmpFixeeFixer fixeeFixer ON cf.Oid = fixeeFixer.Fixee
 
 -- Reversal logic for AP Lockdown (i.e. payroll is excluded)
 
-	-- Fixee.RR: Reclass Fixee Fix into AP Pymt
+	-- Fixee.RR: Reverse Reversal To Reclass where AP <= @ApayableLockdownDate AND Fixer is Allocate
 	-- (i.e. reverse the reversal so net reversal is zero because the total amount of AP is correct)
 IF OBJECT_ID('tempdb..#TmpFixRevReclass_Fixee') IS NOT NULL DROP TABLE #TmpFixRevReclass_Fixee;
 
@@ -460,7 +452,7 @@ LEFT JOIN CashFlow fixer ON fixer.Oid = frr.Fixer
 LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
 ;
 
-	-- Fixee.RRR: Restore Fixee Fix to future date
+	-- Fixee.RRR: Restore AP reversal to future date
 
 IF OBJECT_ID('tempdb..#TmpFixResRevRec_Fixee') IS NOT NULL DROP TABLE #TmpFixResRevRec_Fixee;
 
@@ -555,6 +547,14 @@ UNION ALL
 SELECT * FROM #TmpFixResRevRec_Fixee
 UNION ALL
 SELECT * FROM #TmpFixResRevReclass_Fixer
+
+-- Update Status
+
+UPDATE CashFlow SET
+IsFixeeSynced = 1,
+IsFixerFixeesSynced = 1,
+IsFixerSynced = 1
+WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM #TmpCashFlowsToFix cf2)
 ";
             }
         }
