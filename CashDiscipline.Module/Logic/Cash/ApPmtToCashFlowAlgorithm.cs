@@ -25,26 +25,13 @@ namespace CashDiscipline.Module.Logic.Cash
 {
     public class ApPmtToCashFlowAlgorithm
     {
-        public ApPmtToCashFlowAlgorithm(XPObjectSpace objSpace, DailyCashUpdateParam paramObj)
+        public ApPmtToCashFlowAlgorithm(XPObjectSpace objSpace)
         {
             this.objSpace = objSpace;
-            this.paramObj = paramObj;
 
-            if (paramObj.FromDate <= SqlDateTime.MinValue.Value)
-                this.fromDate = SqlDateTime.MinValue.Value;
-            else
-                this.fromDate = paramObj.FromDate;
-
-            if (paramObj.ToDate <= SqlDateTime.MinValue.Value)
-                this.toDate = SqlDateTime.MaxValue.Value;
-            else
-                this.toDate = paramObj.ToDate;
         }
 
         private XPObjectSpace objSpace;
-        private DailyCashUpdateParam paramObj;
-        private DateTime fromDate;
-        private DateTime toDate;
 
         public void Process()
         {
@@ -54,7 +41,7 @@ namespace CashDiscipline.Module.Logic.Cash
             using (var cmd = ((SqlConnection)objSpace.Session.Connection).CreateCommand())
             {
                 cmd.Parameters.AddRange(parameters.ToArray());
-                cmd.CommandText = ProcessCommandText;
+                cmd.CommandText = ParameterCommandText + "\n\n" + ProcessCommandText;
                 cmd.ExecuteNonQuery();
             }
         }
@@ -63,11 +50,6 @@ namespace CashDiscipline.Module.Logic.Cash
         {
             var clauses = new List<SqlDeclareClause>()
             {
-                  new SqlDeclareClause("Snapshot", "uniqueidentifier",
-                @"(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)"),
-                new SqlDeclareClause("FromDate", "date", string.Format("'{0}'", fromDate.ToString("yyyy-MM-dd"))),
-                new SqlDeclareClause("ToDate", "date", string.Format("'{0}'", toDate.ToString("yyyy-MM-dd"))),
-                new SqlDeclareClause("ActualStatus", "int", Convert.ToInt32(CashFlowStatus.Actual).ToString())
             };
             return clauses;
         }
@@ -87,69 +69,116 @@ namespace CashDiscipline.Module.Logic.Cash
 
         #region SQL
 
+        public string ParameterCommandText
+        {
+            get
+            {
+                return
+@"DECLARE @Snapshot uniqueidentifier =
+	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
+DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM DailyCashUpdateParam WHERE GCRecord IS NULL)
+DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM DailyCashUpdateParam WHERE GCRecord IS NULL)
+DECLARE @ApReclassSource uniqueidentifier = 
+	(SELECT Oid FROM CashFlowSource WHERE Name LIKE 'AP-Reclass')
+DECLARE @ActualStatus int = 1
+DECLARE @FunctionalCcy uniqueidentifier = (SELECT TOP 1 FunctionalCurrency FROM SetOfBooks WHERE GCRecord IS NULL)
+DECLARE @ApReclassActivity uniqueidentifier = (SELECT TOP 1 ApReclassActivity FROM DailyCashUpdateParam WHERE GCRecord IS NULL)
+DECLARE @ApCounterparty uniqueidentifier = (SELECT TOP 1 Counterparty FROM DailyCashUpdateParam WHERE GCRecord IS NULL)
+DECLARE @ForexSettleType int = 5 --OutReclass
+";
+            }
+        }
+
         public string ProcessCommandText
         {
             get
             {
                 return
-@"DECLARE @StmtSource uniqueidentifier = 
-	(SELECT Oid FROM CashFlowSource WHERE Name LIKE 'Stmt')
-
--- Rank Bank Stmt lines
-IF OBJECT_ID('tempdb..#TmpBankStmt') IS NOT NULL DROP TABLE #TmpBankStmt
+@"-- Rank ApPmtDistn lines
+IF OBJECT_ID('tempdb..#TmpApPmtDistn') IS NOT NULL DROP TABLE #TmpApPmtDistn
 SELECT 
-	bs.Oid,
-	bs.TranDate,
-	bs.Account,
-	bs.Activity,
-	bs.Counterparty,
-	bs.TranAmount,
-	bs.SummaryDescription,
+	ap.Oid,
+	ap.PaymentDate AS TranDate,
+	ap.Account,
+	ap.Activity,
+	ap.Counterparty,
+	CASE WHEN acct.Currency = @FunctionalCcy THEN ap.PaymentAmountAud
+		ELSE ap.PaymentAmountFx END AS AccountCcyAmt,
+	ap.SummaryDescription AS [Description],
 	RANK() OVER (
 		ORDER BY
-			bs.TranDate,
-			bs.Account,
-			bs.Activity,
-			bs.Counterparty,
-			bs.SummaryDescription,
-			bs.CounterCcy,
-			bs.ForexSettleType
+			ap.PaymentDate,
+			ap.Account,
+			ap.Activity,
+			ap.Counterparty,
+			ap.SummaryDescription,
+			ap.PaymentCurrency
 	) AS RowId,
-	bs.CounterCcyAmt,
-	bs.CounterCcy,
-	bs.FunctionalCcyAmt,
-	bs.ForexSettleType,
-	bs.Oid AS CashFlow
-INTO #TmpBankStmt
-FROM BankStmt bs
-WHERE bs.TranDate BETWEEN @FromDate AND @ToDate
-AND bs.GCRecord IS NULL
-ORDER BY 
-	bs.TranDate,
-	bs.Account,
-	bs.Activity,
-	bs.Counterparty,
-	bs.SummaryDescription,
-	bs.CounterCcy,
-	bs.ForexSettleType;
+	ap.PaymentAmountFx AS CounterCcyAmt,
+	ap.InvoiceCurrency AS CounterCcy,
+	ap.PaymentAmountAud AS [FunctionalCcyAmt],
+	ap.Oid AS CashFlow
+INTO #TmpApPmtDistn
+FROM 
+(
+	SELECT
+		ap.Oid,
+		ap.PaymentDate,
+		ap.Account,
+		ap.Activity,
+		ap.Counterparty,
+		- ap.PaymentAmountFx - COALESCE(ap.DistnLineGstFx, 0.00) AS PaymentAmountFx,
+		ap.InvoiceCurrency,
+		- ap.PaymentAmountAud - COALESCE(ap.DistnLineGstAud, 0.00) AS PaymentAmountAud,
+		ap.PaymentCurrency,
+		COALESCE(ap.SummaryDescription,'') AS SummaryDescription
+	FROM ApPmtDistn ap
+	WHERE ap.PaymentDate BETWEEN @FromDate AND @ToDate
+	AND ap.GCRecord IS NULL
 
--- Generate CashFlow GUIDs for each temporary BankStmt
-UPDATE bs1
-SET CashFlow = bs2.CashFlow
+	UNION ALL
+
+	SELECT
+		ap.Oid,
+		ap.PaymentDate,
+		ap.Account,
+		@ApReclassActivity,
+		@ApCounterparty,
+		ap.PaymentAmountFx + COALESCE(ap.DistnLineGstFx, 0.00) AS PaymentAmountFx,
+		ap.InvoiceCurrency,
+		ap.PaymentAmountAud + COALESCE(ap.DistnLineGstAud, 0.00) AS PaymentAmountAud,
+		ap.PaymentCurrency,
+		'' AS SummaryDescription
+	FROM ApPmtDistn ap
+	WHERE ap.PaymentDate BETWEEN @FromDate AND @ToDate
+	AND ap.GCRecord IS NULL
+) ap
+LEFT JOIN Account acct ON acct.Oid = ap.Account AND acct.GCRecord IS NULL
+ORDER BY 
+	ap.PaymentDate,
+	ap.Account,
+	ap.Activity,
+	ap.Counterparty,
+	ap.SummaryDescription,
+	ap.PaymentCurrency
+
+-- Generate CashFlow GUIDs for each temporary ApPmtDistn
+UPDATE ap1
+SET CashFlow = ap2.CashFlow
 FROM
-#TmpBankStmt bs1 
+#TmpApPmtDistn ap1 
 LEFT JOIN 
 (
 	SELECT 
-		bsRows.RowId,
+		apRows.RowId,
 		CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER) AS CashFlow
 	FROM
 	(
 		SELECT DISTINCT
 			RowId
-		FROM #TmpBankStmt
-	) bsRows
-) bs2 ON bs2.RowId = bs1.RowId
+		FROM #TmpApPmtDistn
+	) apRows
+) ap2 ON ap2.RowId = ap1.RowId
 
 -- Delete Existing Cash Flow from current snapshot
 
@@ -161,47 +190,48 @@ Counterparty = NULL,
 Source = NULL,
 CounterCcy = NULL
 WHERE 
-    Snapshot = @Snapshot
-    AND TranDate BETWEEN @FromDate AND @ToDate;
+    [Snapshot] = @Snapshot
+    AND TranDate BETWEEN @FromDate AND @ToDate
+	AND [Source] = @ApReclassSource
+	AND GCRecord IS NULL
 
--- Upload Bank Stmt to Cash Flow
+-- Upload APPmtDistn to Cash Flow
 
 INSERT INTO CashFlow ( [Snapshot], [Oid], [TranDate], [Account], [Activity],
 	[Counterparty], AccountCcyAmt, [Description], [Source], [FunctionalCcyAmt],
 	[CounterCcyAmt], [CounterCcy], [ForexSettleType], [TimeEntered], [Status] )
 SELECT
 	@Snapshot AS [Snapshot],
-	bs.CashFlow AS Oid,
-	bs.TranDate,
-	bs.Account,
-	bs.Activity,
-	bs.Counterparty,
-	SUM(bs.TranAmount) AS AccountCcyAmt,
-	bs.SummaryDescription AS [Description],
-	@StmtSource AS [Source],
-	SUM(bs.FunctionalCcyAmt) AS FunctionalCcyAmt,
-	SUM(bs.CounterCcyAmt) AS CounterCcyAmt,
-	bs.CounterCcy,
-	bs.ForexSettleType,
+	ap.CashFlow AS Oid,
+	ap.TranDate,
+	ap.Account,
+	ap.Activity,
+	ap.Counterparty,
+	SUM(ap.AccountCcyAmt) AS AccountCcyAmt,
+	ap.[Description],
+	@ApReclassSource AS [Source],
+	SUM(ap.FunctionalCcyAmt) AS FunctionalCcyAmt,
+	SUM(ap.CounterCcyAmt) AS CounterCcyAmt,
+	ap.CounterCcy,
+	@ForexSettleType,
 	CURRENT_TIMESTAMP AS TimeEntered,
-    @ActualStatus AS Status
-FROM #TmpBankStmt bs
+    @ActualStatus AS [Status]
+FROM #TmpApPmtDistn ap
 GROUP BY
-	bs.TranDate,
-	bs.Account,
-	bs.Activity,
-	bs.Counterparty,
-	bs.SummaryDescription,
-	bs.CounterCcy,
-	bs.ForexSettleType,
-	bs.CashFlow
+	ap.TranDate,
+	ap.Account,
+	ap.Activity,
+	ap.Counterparty,
+	ap.[Description],
+	ap.CounterCcy,
+	ap.CashFlow
 
--- Update Bank Stmt Cash Flow Oids
+-- Update ApPmtDistn Cash Flow Oids
 
-UPDATE bs0 SET
-CashFlow = bs1.CashFlow
-FROM BankStmt bs0
-JOIN #TmpBankStmt bs1 ON bs1.Oid = bs0.Oid";
+UPDATE ap0 SET
+CashFlow = ap1.CashFlow
+FROM ApPmtDistn ap0
+JOIN #TmpApPmtDistn ap1 ON ap1.Oid = ap0.Oid";
             }
         }
         #endregion

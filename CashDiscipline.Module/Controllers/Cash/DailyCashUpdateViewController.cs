@@ -29,12 +29,16 @@ namespace CashDiscipline.Module.Controllers.Cash
         }
 
         private void RunAction_Execute(object sender, SimpleActionExecuteEventArgs e)
-        {
+        { 
             var paramObj = (DailyCashUpdateParam)View.CurrentObject;
             var objSpace = (XPObjectSpace)Application.CreateObjectSpace();
+            ObjectSpace.CommitChanges(); // update parameters in data source
 
-            var uploader = new CashDiscipline.Module.Logic.Cash.BankStmtToCashFlowAlgorithm(objSpace, paramObj);
-            uploader.Process();
+            var bsUploader = new CashDiscipline.Module.Logic.Cash.BankStmtToCashFlowAlgorithm(objSpace, paramObj);
+            bsUploader.Process();
+
+            var apUploader = new CashDiscipline.Module.Logic.Cash.ApPmtToCashFlowAlgorithm(objSpace);
+            apUploader.Process();
         }
 
         protected override void OnActivated()

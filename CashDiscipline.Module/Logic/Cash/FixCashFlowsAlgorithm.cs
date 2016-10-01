@@ -301,7 +301,6 @@ AND cf.[Snapshot] = @Snapshot
 AND cf.Fix IN (@ReversalFixTag, @RevRecFixTag, @ResRevRecFixTag)
 AND 
 (
-	--cf.ParentCashFlow IN (SELECT cf2.Oid FROM #TmpCashFlowsToFix cf2)
 	cf.ParentCashFlow IN (SELECT cf1.Oid FROM CashFlow cf1 WHERE cf1.GCRecord IS NULL)
 	OR cf.ParentCashFlow IN (SELECT cfd.Oid FROM CashFlow cfd WHERE cfd.GCRecord IS NOT NULL)
 )

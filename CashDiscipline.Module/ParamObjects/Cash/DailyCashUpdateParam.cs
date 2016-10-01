@@ -56,5 +56,45 @@ namespace CashDiscipline.Module.ParamObjects.Cash
                 SetPropertyValue("ToDate", ref _ToDate, value);
             }
         }
+
+        private Activity _ApReclassActivity;
+        public Activity ApReclassActivity
+        {
+            get
+            {
+                return _ApReclassActivity;
+            }
+            set
+            {
+                SetPropertyValue("ApReclassActivity", ref _ApReclassActivity, value);
+            }
+        }
+
+        private CashFlowSource _ApReclassSource;
+        public CashFlowSource ApReclassSource
+        {
+            get
+            {
+                return _ApReclassSource;
+            }
+            set
+            {
+                SetPropertyValue("ApReclassSource", ref _ApReclassSource, value);
+            }
+        }
+
+
+        private Counterparty _Counterparty;
+        public Counterparty Counterparty
+        {
+            get
+            {
+                return _Counterparty;
+            }
+            set
+            {
+                SetPropertyValue("Counterparty", ref _Counterparty, value);
+            }
+        }
     }
 }

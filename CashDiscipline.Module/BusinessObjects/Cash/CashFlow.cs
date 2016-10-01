@@ -19,6 +19,7 @@ using CashDiscipline.Module.Logic.Cash;
 using Xafology.ExpressApp.Xpo.SequentialGuidBase;
 using CashDiscipline.Module.Attributes;
 using Xafology.ExpressApp.BatchDelete;
+using CashDiscipline.Module.BusinessObjects.AccountsPayable;
 
 // Please note that calling Save() will set IsFixeeSynced and IsFixerSynced to false;
 // Therefore, avoid calling Save() if you need to update those properties.
@@ -383,6 +384,16 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             get
             {
                 return GetCollection<BankStmt>("BankStmts");
+            }
+        }
+
+
+        [Association("CashFlow-ApPmtDistns")]
+        public XPCollection<ApPmtDistn> ApPmtDistns
+        {
+            get
+            {
+                return GetCollection<ApPmtDistn>("ApPmtDistns");
             }
         }
 

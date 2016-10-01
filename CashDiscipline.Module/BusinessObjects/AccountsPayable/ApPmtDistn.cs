@@ -447,5 +447,19 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
                 SetPropertyValue("DistributionLineNumber", ref _DistributionLineNumber, value);
             }
         }
+
+        private CashFlow _CashFlow;
+        [Association("CashFlow-ApPmtDistns")]
+        public CashFlow CashFlow
+        {
+            get
+            {
+                return _CashFlow;
+            }
+            set
+            {
+                SetPropertyValue("CashFlow", ref _CashFlow, value);
+            }
+        }
     }
 }
