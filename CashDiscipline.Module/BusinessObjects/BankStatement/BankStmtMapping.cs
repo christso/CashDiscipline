@@ -18,6 +18,7 @@ using CashDiscipline.Module.Interfaces;
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
     [ModelDefault("IsCloneable", "True")]
+    [NavigationItem("Cash Setup")]
     [ModelDefault("IsFooterVisible", "True")]
     [ModelDefault("ImageName", "BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]

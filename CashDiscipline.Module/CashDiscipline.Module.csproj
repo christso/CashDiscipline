@@ -208,6 +208,7 @@
     <Compile Include="AppNavigation\ActionPortalHardLogic.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
+    <Compile Include="BusinessObjects\BankStatement\BankStmtDefaults.cs" />
     <Compile Include="BusinessObjects\ReportConfig.cs" />
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Logic\Cash\ApPmtToCashFlowAlgorithm.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular14.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular16.cs" />

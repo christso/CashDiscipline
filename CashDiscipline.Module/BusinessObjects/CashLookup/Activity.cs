@@ -6,6 +6,7 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.ExpressApp.Model;
 using CashDiscipline.Module.BusinessObjects.Forex;
 using DevExpress.ExpressApp;
+using System.ComponentModel;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -14,6 +15,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [NavigationItem("Cash Setup")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [ModelDefault("IsFooterVisible", "True")]
+    [DefaultProperty("Name")]
     public class Activity : BaseObject
     {
         public Activity(Session session)

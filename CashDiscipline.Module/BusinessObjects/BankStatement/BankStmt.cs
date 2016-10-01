@@ -55,14 +55,23 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         {
             TranDate = DateTime.Now;
 
-            CounterCcy = Session.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
+            var setOfBooks = SetOfBooks.GetInstance(Session);
+            if (setOfBooks != null)
+                CounterCcy = setOfBooks.FunctionalCurrency;
 
-            var defObj = Session.FindObject<CashFlowDefaults>(null);
-            if (defObj == null) return;
+            var bsDefs = BankStmtDefaults.GetInstance(Session);
+            if (bsDefs != null)
+            {
+                TranCode = bsDefs.TranCode;
+            }
 
-            Counterparty = defObj.Counterparty;
-            Account = defObj.Account;
-            Activity = defObj.Activity;
+            var cfDefs = CashFlowDefaults.GetInstance(Session);
+            if (cfDefs != null)
+            {
+                Counterparty = cfDefs.Counterparty;
+                Account = cfDefs.Account;
+                Activity = cfDefs.Activity;
+            }
         }
 
         // Whether Real Time calculation is enabled. If not, then calculation will occur on saving.

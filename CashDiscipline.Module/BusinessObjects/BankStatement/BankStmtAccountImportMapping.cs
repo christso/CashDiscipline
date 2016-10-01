@@ -14,6 +14,7 @@ using DevExpress.Persistent.Validation;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
+    [NavigationItem("Cash Setup")]
     [ModelDefault("ImageName", "BO_List")]
     [ModelDefault("DefaultListViewAllowEdit", "True")]
     [ModelDefault("IsFooterVisible", "True")]

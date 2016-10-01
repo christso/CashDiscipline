@@ -18,6 +18,7 @@ using CashDiscipline.Module.Interfaces;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
+    [NavigationItem("Cash Setup")]
     [ModelDefault("IsCloneable", "True")]
     [ModelDefault("IsFooterVisible", "True")]
     [ModelDefault("ImageName", "BO_List")]
@@ -113,6 +114,19 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             set
             {
                 SetPropertyValue("FixActivity", ref _FixActivity, value);
+            }
+        }
+
+        private string _FixActivityExpr;
+        public string FixActivityExpr
+        {
+            get
+            {
+                return _FixActivityExpr;
+            }
+            set
+            {
+                SetPropertyValue("FixActivityExpr", ref _FixActivityExpr, value);
             }
         }
 

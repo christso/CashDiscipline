@@ -18,6 +18,7 @@ using DevExpress.ExpressApp.Xpo;
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
     [ModelDefault("ImageName", "BO_List")]
+    [NavigationItem("Cash Setup")]
     public class CashFlowDefaults : BaseObject
     {
         public CashFlowDefaults(Session session) : base(session) { }

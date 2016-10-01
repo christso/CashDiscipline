@@ -126,9 +126,17 @@ WHERE CashFLow.GCRecord IS NULL";
         {
             var setTextList = new List<string>();
 
-            var commandText = GetMapSetCommandText("FixActivity", m => string.Format("'{0}'", m.FixActivity.Oid), m => m.FixActivity != null, step,
-                "WHEN CashFlow.FixActivity IS NOT NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.FixActivity"
-                + "\nWHEN CashFlow.FixActivity IS NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.Activity");
+            var commandText = GetMapSetCommandText("FixActivity", m => 
+                {
+                    if (m.FixActivity != null)
+                        return string.Format("'{0}'", m.FixActivity.Oid);
+                    else
+                        return string.Format("{0}", m.FixActivityExpr);
+                },
+                m => m.FixActivity != null || !string.IsNullOrWhiteSpace(m.FixActivityExpr), 
+                step,
+                "WHEN CashFlow.FixActivity IS NOT NULL AND CashFlow.FixActivity <> @UndefActivity AND CashFlow.Fix != @AutoFixTag THEN CashFlow.FixActivity"
+                + "\nWHEN (CashFlow.FixActivity IS NULL AND CashFlow.FixActivity = @UndefActivity) AND CashFlow.Fix != @AutoFixTag THEN CashFlow.Activity");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
@@ -159,6 +167,9 @@ WHERE CashFLow.GCRecord IS NULL";
                 "WHEN CashFlow.ForexSettleType IS NOT NULL AND CashFlow.ForexSettleType != @AutoForexSettleType THEN CashFlow.ForexSettleType");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
+
+            commandText = "DateUnfix = CASE WHEN CashFlow.DateUnfix IS NULL THEN CashFlow.TranDate ELSE CashFlow.DateUnfix END";
+            setTextList.Add(commandText);
 
             return setTextList;
         }

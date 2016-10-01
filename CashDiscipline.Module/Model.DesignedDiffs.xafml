@@ -3,7 +3,7 @@
   <BOModel>
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Account" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Activity" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
-    <Class Name="CashDiscipline.Module.BusinessObjects.Cash.BankStmt" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" DefaultListViewShowAutoFilterRow="True" />
+    <Class Name="CashDiscipline.Module.BusinessObjects.Cash.BankStmt" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" DefaultListViewShowAutoFilterRow="False" />
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Counterparty" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
   </BOModel>
   <NavigationItems DefaultChildItemsDisplayStyle="List" DefaultLeafImageName="BO_List" GenerateRelatedViewVariantsGroup="True" NavigationStyle="NavBar" StartupNavigationItem="">
@@ -31,16 +31,7 @@
         </Items>
       </Item>
       <Item Id="Cash Report" Index="3" IsNewNode="True" />
-      <Item Id="Cash Setup" Index="4" IsNewNode="True">
-        <Items IsNewNode="True">
-          <Item Id="AccountActivityMap" ViewId="AccountActivityMap_ListView" Index="1" IsNewNode="True" />
-          <Item Id="BankStmtAccountImportMapping" ViewId="BankStmtAccountImportMapping_ListView" Index="7" IsNewNode="True" />
-          <Item Id="BankStmtMapping" ViewId="BankStmtMapping_ListView" Index="8" IsNewNode="True" />
-          <Item Id="CashForecastFixTagType" ViewId="CashForecastFixTagType_ListView" Index="11" IsNewNode="True" />
-          <Item Id="CashFlowDefaults" ViewId="CashFlowDefaults_DetailView" Index="13" IsNewNode="True" />
-          <Item Id="CashFlowFixMapping" ViewId="CashFlowFixMapping_ListView" Index="14" IsNewNode="True" />
-        </Items>
-      </Item>
+      <Item Id="Cash Setup" Index="4" IsNewNode="True" />
       <Item Id="Forex" Index="5" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ForexCounterparty" ViewId="ForexCounterparty_ListView" Caption="Forex Counterparty" Index="0" IsNewNode="True" />
@@ -413,6 +404,7 @@
       </Columns>
     </ListView>
     <ListView Id="CashFlowSnapshot_LookupListView" AllowEdit="False" />
+    <ListView Id="CashFlowSource_LookupListView" AllowEdit="False" />
     <ListView Id="Counterparty_LookupListView" AllowEdit="False" />
     <ListView Id="Currency_LookupListView" AllowEdit="False" />
     <ListView Id="FinAccount_LookupListView" AllowEdit="False" />

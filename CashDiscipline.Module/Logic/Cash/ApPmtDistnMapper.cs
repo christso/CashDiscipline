@@ -69,7 +69,7 @@ v.Name,
 @DefaultCounterpartyTag AS CounterpartyL2,
 GETDATE()
 FROM ApVendor v
-WHERE v.Name NOT IN (SELECT c.Name FROM Counterparty c)";
+WHERE NOT EXISTS (SELECT c.Name FROM Counterparty c WHERE c.Name = v.Name)";
 
         public ApPmtDistnMapper(XPObjectSpace objspace)
         {
@@ -162,7 +162,7 @@ WHERE v.Name NOT IN (SELECT c.Name FROM Counterparty c)";
                     if (m.Counterparty != null)
                         return string.Format("'{0}'", m.Counterparty.Oid);
                     else
-                        return string.Format("(SELECT c.Oid FROM Counterparty c WHERE c.Name LIKE {0})", m.CounterpartyExpr);
+                        return string.Format("(SELECT TOP 1 c.Oid FROM Counterparty c WHERE c.Name LIKE {0} AND c.GCRecord IS NULL)", m.CounterpartyExpr);
                 },
                 m => m.Counterparty != null || !string.IsNullOrWhiteSpace(m.CounterpartyExpr), 
                 step,

@@ -591,6 +591,7 @@ AND cf.TranDate <= @MaxActualDate
             }
         }
 
+        //TODO; replace UndefActivity with SetOfBooks
         public static string ParameterCommandText
         {
             get
@@ -618,7 +619,8 @@ DECLARE @ResRevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastF
 DECLARE @PayrollFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR' AND GCRecord IS NULL)
 DECLARE @AutoFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)
 DECLARE @ApReclassActivity uniqueidentifier = (SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam)
-DECLARE @AutoForexSettleType int = {autoForexSettleType}",
+DECLARE @AutoForexSettleType int = {autoForexSettleType}
+DECLARE @UndefActivity uniqueidentifier = (select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)",
 new { autoForexSettleType = Convert.ToInt32(CashFlowForexSettleType.Auto) });
             }
         }
