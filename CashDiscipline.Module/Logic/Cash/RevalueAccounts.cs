@@ -211,7 +211,8 @@ INSERT INTO CashFlow (
 	CounterCcy, 
 	[Source], 
 	TimeEntered, 
-	[Status]
+	[Status],
+    IsReclass
 )
 SELECT 
 	NEWID() AS Oid, 
@@ -227,7 +228,8 @@ SELECT
 	@RevalSource AS [Source], 
 	GETDATE() AS TimeEntered,
 	CASE WHEN TranDate <= @LastActualDate THEN @ActualStatus
-	ELSE @ForecastStatus END AS [Status]
+	ELSE @ForecastStatus END AS [Status],
+    0 AS IsReclass
 FROM #Valuation
 WHERE DiffChange <> 0.00"
 ;
