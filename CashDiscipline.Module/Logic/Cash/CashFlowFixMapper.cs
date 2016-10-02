@@ -46,12 +46,53 @@ LEFT JOIN Account ON Account.Oid = CashFlow.Account
 LEFT JOIN CashForecastFixTag Fix ON Fix.Oid = CashFlow.Fix
 WHERE CashFLow.GCRecord IS NULL";
 
+        private readonly string ParameterCommandText;
+
+        public List<SqlDeclareClause> CreateSqlDeclareClauses()
+        {
+            var clauses = new List<SqlDeclareClause>()
+            {
+                new SqlDeclareClause("FromDate", "date", "(SELECT TOP 1 FromDate FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("ToDate", "date", "(SELECT TOP 1 ToDate FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("IgnoreFixTagType", "int", "0"),
+                new SqlDeclareClause("AllocateFixTagType", "int", "1"),
+                new SqlDeclareClause("ScheduleInFixTagType", "int", "2"),
+                new SqlDeclareClause("ScheduleOutFixTagType", "int", "3"),
+                new SqlDeclareClause("ForecastStatus", "int", "0"),
+                new SqlDeclareClause("Snapshot", "uniqueidentifier", @"COALESCE(
+	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam WHERE GCRecord IS NULL),
+	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)
+)"),
+                new SqlDeclareClause("DefaultCounterparty", "uniqueidentifier",
+                    "(SELECT TOP 1 [Counterparty] FROM CashFlowDefaults WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("ReversalFixTag", "uniqueidentifier",
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'R' AND GCRecord IS NULL)"),
+                new SqlDeclareClause("RevRecFixTag", "uniqueidentifier",
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR' AND GCRecord IS NULL)"),
+                new SqlDeclareClause("ResRevRecFixTag", "uniqueidentifier",
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR' AND GCRecord IS NULL)"),
+                new SqlDeclareClause("PayrollFixTag", "uniqueidentifier",
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR' AND GCRecord IS NULL)"),
+                new SqlDeclareClause("AutoFixTag", "uniqueidentifier",
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)"),
+                new SqlDeclareClause("ApReclassActivity", "uniqueidentifier",
+                    "(SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("UndefActivity", "uniqueidentifier", 
+                    "(select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)"),
+                new SqlDeclareClause("AutoForexSettleType", "int", Convert.ToString(
+                        Convert.ToInt32(CashFlowForexSettleType.Auto)))
+
+            };
+            return clauses;
+        }
         #endregion
 
         public CashFlowFixMapper(XPObjectSpace objSpace)
         {
             this.objSpace = objSpace;
- 
+
+            var sqlStringUtil = new SqlStringUtil();
+            this.ParameterCommandText = sqlStringUtil.CreateCommandText(CreateSqlDeclareClauses());
         }
 
         public void Process(IEnumerable cashFlows)
@@ -70,12 +111,12 @@ WHERE CashFLow.GCRecord IS NULL";
 
             foreach (string commandText in commandTextList)
             {
-                command.CommandText = FixCashFlowsAlgorithm.ParameterCommandText + "\n" + commandText;
+                command.CommandText = ParameterCommandText + "\n\n" + commandText;
                 command.ExecuteNonQuery();
             }
         }
 
-        public void Process(List<SqlParameter> parameters)
+        public void Process()
         {
             RefreshMaps();
 
@@ -85,7 +126,7 @@ WHERE CashFLow.GCRecord IS NULL";
 
             foreach (string commandText in commandTextList)
             {
-                command.CommandText = FixCashFlowsAlgorithm.ParameterCommandText + "\n" + commandText;
+                command.CommandText = ParameterCommandText + "\n\n" + commandText;
                 command.Parameters.Clear();
                 //command.Parameters.AddRange(parameters.ToArray());
                 command.ExecuteNonQuery();
@@ -140,7 +181,7 @@ WHERE CashFLow.GCRecord IS NULL";
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
-            commandText = GetMapSetCommandText("Fix", m => string.Format("'{0}'", m.Fix.Oid), m => m.Fix != null, step,
+            commandText = GetMapSetCommandText("Fix", m => string.Format("'{0}'", m.Fix.Oid), m => m.Fix != null && m.Fix.Name != "Auto", step,
                 "WHEN CashFlow.Fix IS NOT NULL AND CashFlow.Fix != @AutoFixTag THEN CashFlow.Fix");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);

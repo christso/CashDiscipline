@@ -369,11 +369,12 @@ namespace CashDiscipline.UnitTests
 
         }
 
-        [TestCase(FinMapAlgorithmType.SQL)]
+        //[TestCase(FinMapAlgorithmType.SQL)]
         [TestCase(FinMapAlgorithmType.ORM)]
         public void GenerateJournals_CashFlowReclass_MappedToJournals(FinMapAlgorithmType algoType)
         {
             ObjectSpace.CommitChanges();
+            //ObjectSpace.Session.PurgeDeletedObjects();
             #region Prepare
             var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
             journalGroup.Name = "VHF Bank";
@@ -491,7 +492,6 @@ namespace CashDiscipline.UnitTests
 
             journalGroupParam.GenJournalParam = glParam;
 
-            var deleter = new CashDiscipline.UnitTests.TestObjects.MockJournalDeleter(glParam);
             var jg = new ParamJournalGenerator(glParam, ObjectSpace);
             jg.Execute();
             ObjectSpace.CommitChanges();
@@ -561,7 +561,7 @@ namespace CashDiscipline.UnitTests
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
             finActivity1.FromActivity = grossActivity;
             finActivity1.ToActivity = commActivity;
-            finActivity1.FunctionalCcyAmtExpr = "AustPostSettles.Sum(GrossCommission)";
+            finActivity1.FunctionalCcyAmtExpr = "-AustPostSettles.Sum(NetCommission)";
             finActivity1.GlDescription = "AUSTRALIA POST FEES";
             finActivity1.GlDescDateFormat = glDescDateFormat;
             finActivity1.GlAccount = commGlAccount;
@@ -577,7 +577,7 @@ namespace CashDiscipline.UnitTests
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
             finActivity2.FromActivity = grossActivity;
             finActivity2.ToActivity = gstActivity;
-            finActivity2.FunctionalCcyAmtExpr = "AustPostSettles.Sum(CommissionGST)";
+            finActivity2.FunctionalCcyAmtExpr = "-AustPostSettles.Sum(CommissionGST)";
             finActivity2.GlDescription = "GST ON AUSTRALIA POST FEES";
             finActivity2.GlDescDateFormat = glDescDateFormat;
             finActivity2.GlAccount = gstGlAccount;
@@ -593,7 +593,7 @@ namespace CashDiscipline.UnitTests
             var finActivity4 = ObjectSpace.CreateObject<FinActivity>();
             finActivity4.FromActivity = grossActivity;
             finActivity4.ToActivity = dsrFeeActivity;
-            finActivity4.FunctionalCcyAmtExpr = "AustPostSettles.Sum(DishonourChequeFee)";
+            finActivity4.FunctionalCcyAmtExpr = "-AustPostSettles.Sum(DishonourChequeFee)";
             finActivity4.GlDescription = "DISHONOUR FEE - AUST POST";
             finActivity4.GlDescDateFormat = glDescDateFormat;
             finActivity4.GlAccount = dsrFeeGlAccount;
@@ -609,7 +609,7 @@ namespace CashDiscipline.UnitTests
             var finActivity5 = ObjectSpace.CreateObject<FinActivity>();
             finActivity5.FromActivity = grossActivity;
             finActivity5.ToActivity = dsrRvslActivity;
-            finActivity5.FunctionalCcyAmtExpr = "AustPostSettles.Sum(DishonourChequeReversal)";
+            finActivity5.FunctionalCcyAmtExpr = "-AustPostSettles.Sum(DishonourChequeReversal)";
             finActivity5.GlDescription = "SUMMARY POSTING - AUSTRALIA POST";
             finActivity5.GlDescDateFormat = glDescDateFormat;
             finActivity5.GlAccount = dsrRvslGlAccount;
@@ -625,7 +625,7 @@ namespace CashDiscipline.UnitTests
             var finActivity6 = ObjectSpace.CreateObject<FinActivity>();
             finActivity6.FromActivity = grossActivity;
             finActivity6.ToActivity = negActivity;
-            finActivity6.FunctionalCcyAmtExpr = "AustPostSettles.Sum(NegativeCorrections)";
+            finActivity6.FunctionalCcyAmtExpr = "-AustPostSettles.Sum(NegativeCorrections)";
             finActivity6.GlDescription = "SUMMARY POSTING - AUSTRALIA POST";
             finActivity6.GlDescDateFormat = glDescDateFormat;
             finActivity6.GlAccount = negGlAccount;
@@ -653,7 +653,7 @@ namespace CashDiscipline.UnitTests
             // Australia Post Settlement
             var aps = ObjectSpace.CreateObject<AustPostSettle>();
             aps.BankStmt = bankStmt;
-            aps.GrossAmount = 634188.22M;
+            aps.GrossAmount = 648322.69M;
             aps.DishonourChequeFee = 60;
             aps.NegativeCorrections = 727.52M;
             aps.DishonourChequeReversal = 612.12M;
@@ -673,8 +673,6 @@ namespace CashDiscipline.UnitTests
             ObjectSpace.CommitChanges();
 
             journalGroupParam.GenJournalParam = glParam;
-
-            var deleter = new CashDiscipline.UnitTests.TestObjects.MockJournalDeleter(glParam);
             var jg = new ParamJournalGenerator(glParam, ObjectSpace);
             jg.Execute();
             ObjectSpace.CommitChanges();
@@ -682,10 +680,11 @@ namespace CashDiscipline.UnitTests
 
             #region Asserts
             var gls = ObjectSpace.GetObjects<GenLedger>();
-            Assert.AreEqual(12, gls.Count);
+            Assert.AreEqual(12, gls.Where(x => x.IsJournal).Count());
             GenLedger gl = null;
-            gl = gls.FirstOrDefault(x => x.Activity == grossActivity & x.GlAccount == bankGlAccount);
-            Assert.AreEqual(aps.GrossAmount, gl.FunctionalCcyAmt);
+            Assert.AreEqual(aps.GrossAmount, 
+                gls.Where(x => x.Activity == grossActivity & x.GlAccount == bankGlAccount)
+                .Sum(x => x.FunctionalCcyAmt));
 
             gl = gls.FirstOrDefault(x => x.Activity == grossActivity & x.GlAccount == grossGlAccount);
             Assert.AreEqual(-aps.GrossAmount, gl.FunctionalCcyAmt);
@@ -729,7 +728,7 @@ namespace CashDiscipline.UnitTests
             finActivity1.ToActivity = grossActivity;
             finActivity1.FunctionalCcyAmtExpr = "SubString(TranDescription, 71, 9)";
             finActivity1.GlDescription = "SUMMARY POSTING - AMEX";
-            finActivity1.Token = "A";
+            finActivity1.Token = "Gross";
             finActivity1.RowIndex = 1;
             finActivity1.GlDescDateFormat = glDescDateFormat;
             finActivity1.GlAccount = grossGlAccount;
@@ -739,15 +738,15 @@ namespace CashDiscipline.UnitTests
 
             #region Commission
             var commActivity = ObjectSpace.CreateObject<Activity>();
-            commActivity.Name = "V AMEX Comm GST";
+            commActivity.Name = "V AMEX Comm";
             var commGlAccount = "691030";
 
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
             finActivity2.FromActivity = grossActivity;
             finActivity2.ToActivity = commActivity;
-            finActivity2.FunctionalCcyAmtExpr = "{FA} - {FA(A)} * 10/11";
+            finActivity2.FunctionalCcyAmtExpr = "({FA} - {FA(Gross)}) * 10/11";
             finActivity2.GlDescription = "AMEX COMMISSION CHARGES";
-            finActivity2.Token = "B";
+            finActivity2.Token = "Comm";
             finActivity2.GlDescDateFormat = glDescDateFormat;
             finActivity2.GlAccount = commGlAccount;
             finActivity2.RowIndex = 2;
@@ -763,7 +762,7 @@ namespace CashDiscipline.UnitTests
             var finActivity3 = ObjectSpace.CreateObject<FinActivity>();
             finActivity3.FromActivity = grossActivity;
             finActivity3.ToActivity = gstActivity;
-            finActivity3.FunctionalCcyAmtExpr = "{FA(B)} * 0.1";
+            finActivity3.FunctionalCcyAmtExpr = "{FA(Comm)} * 0.1";
             finActivity3.GlDescription = "GST ON AMEX COMMISSION CHARGES";
             finActivity3.Token = "C";
             finActivity3.RowIndex = 3;
@@ -819,7 +818,7 @@ namespace CashDiscipline.UnitTests
             gl = gls.FirstOrDefault(x => x.Activity == grossActivity & x.GlAccount == grossGlAccount);
             Assert.AreEqual(-grossAmount, gl.FunctionalCcyAmt);
 
-            decimal commission = Math.Round(bankStmt.TranAmount - grossAmount * 10 / 11, 2);
+            decimal commission = Math.Round((bankStmt.TranAmount - grossAmount) * 10 / 11, 2);
 
             gl = gls.FirstOrDefault(x => x.Activity == commActivity & x.GlAccount == bankGlAccount);
             Assert.AreEqual(commission, Math.Round(gl.FunctionalCcyAmt, 2));

@@ -19,6 +19,7 @@ using Xafology.ExpressApp.Xpo.Import.Parameters;
 using DevExpress.Data.Filtering;
 using CashDiscipline.Module.ParamObjects.Forex;
 using CashDiscipline.Module.BusinessObjects.AccountsPayable;
+using CashDiscipline.Module.BusinessObjects.BankStatement;
 
 namespace CashDiscipline.UnitTests
 {
@@ -38,6 +39,7 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(BankStmt));
             module.AdditionalExportedTypes.Add(typeof(CashFlow));
             module.AdditionalExportedTypes.Add(typeof(CashFlowDefaults));
+            module.AdditionalExportedTypes.Add(typeof(BankStmtDefaults));
             module.AdditionalExportedTypes.Add(typeof(Account));
             module.AdditionalExportedTypes.Add(typeof(FinActivity));
             module.AdditionalExportedTypes.Add(typeof(FinAccount));

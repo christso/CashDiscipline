@@ -699,6 +699,7 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = fixActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            ObjectSpace.CommitChanges();
 
             var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
@@ -941,8 +942,10 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = fixActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            ObjectSpace.CommitChanges();
 
             var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
+            ObjectSpace.CommitChanges();
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
             
@@ -1122,6 +1125,7 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = fixActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            ObjectSpace.CommitChanges();
 
             var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
@@ -1134,8 +1138,6 @@ namespace CashDiscipline.UnitTests
             #region Assert
 
             cashFlows = ObjectSpace.GetObjects<CashFlow>();
-
-            Assert.AreEqual(7, cashFlows.Count);
 
             Assert.AreEqual(-500, cashFlows
                 .Where(cf => cf.TranDate >= new DateTime(2016, 03, 01)
@@ -1237,6 +1239,7 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = apActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 10, 7);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 10, 12);
+            ObjectSpace.CommitChanges();
 
             var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
@@ -1261,7 +1264,7 @@ namespace CashDiscipline.UnitTests
                         && cf.Fix.Name == CashDiscipline.Common.Constants.ReversalFixTag)
                     .Sum(cf => cf.AccountCcyAmt));
 
-            Assert.AreEqual(-cfFixee1.AccountCcyAmt + cfFixer1.AccountCcyAmt, cashFlows
+            Assert.AreEqual(cfFixer1.AccountCcyAmt - cfFixee1.AccountCcyAmt, cashFlows
               .Where(cf => cf.TranDate == paramObj.ApayableNextLockdownDate
                   && cf.Fix.Name == CashDiscipline.Common.Constants.ResRevRecFixTag)
               .Sum(cf => cf.AccountCcyAmt));
@@ -1348,6 +1351,7 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = apActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 10, 7);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 10, 12);
+            ObjectSpace.CommitChanges();
 
             var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
@@ -1399,16 +1403,11 @@ namespace CashDiscipline.UnitTests
 
             #region Arrange Fix Tags
 
-            var schedOutFixTag2 = ObjectSpace.CreateObject<CashForecastFixTag>();
-            schedOutFixTag2.Name = "S2";
-            schedOutFixTag2.FixTagType = CashForecastFixTagType.ScheduleOut;
-
-            var schedOutFixTag3 = ObjectSpace.CreateObject<CashForecastFixTag>();
-            schedOutFixTag3.Name = "S3";
-            schedOutFixTag3.FixTagType = CashForecastFixTagType.ScheduleOut;
-
             CashDiscipline.Module.DatabaseUpdate.Updater.InitFixTags(ObjectSpace);
 
+            var payrollFixTag = ObjectSpace.FindObject<CashForecastFixTag>(CriteriaOperator.Parse(
+                "Name = ?", CashDiscipline.Common.Constants.PayrollFixTag));
+   
             #endregion
 
             #region Arrange Transactions
@@ -1420,7 +1419,7 @@ namespace CashDiscipline.UnitTests
             cfFixee1.AccountCcyAmt = -500;
             cfFixee1.Activity = payrollActivity;
             cfFixee1.FixRank = 2;
-            cfFixee1.Fix = schedOutFixTag2;
+            cfFixee1.Fix = payrollFixTag;
             cfFixee1.DateUnFix = cfFixee1.TranDate;
             cfFixee1.FixActivity = cfFixee1.Activity;
 
@@ -1431,7 +1430,7 @@ namespace CashDiscipline.UnitTests
             cfFixee2.AccountCcyAmt = -500;
             cfFixee2.Activity = payrollActivity;
             cfFixee2.FixRank = 2;
-            cfFixee2.Fix = schedOutFixTag2;
+            cfFixee2.Fix = payrollFixTag;
             cfFixee2.DateUnFix = cfFixee2.TranDate;
             cfFixee2.FixActivity = cfFixee2.Activity;
 
@@ -1442,7 +1441,7 @@ namespace CashDiscipline.UnitTests
             cfFixer1.AccountCcyAmt = -600;
             cfFixer1.Activity = payrollActivity;
             cfFixer1.FixRank = 3;
-            cfFixer1.Fix = schedOutFixTag3;
+            cfFixer1.Fix = payrollFixTag;
             cfFixer1.FixFromDate = new DateTime(2016, 9, 1);
             cfFixer1.FixToDate = new DateTime(2016, 9, 30);
             cfFixer1.DateUnFix = cfFixer1.TranDate;
@@ -1462,6 +1461,7 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = apActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 10, 7);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 10, 12);
+            ObjectSpace.CommitChanges();
 
             var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
@@ -1475,15 +1475,8 @@ namespace CashDiscipline.UnitTests
 
             var cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
-            Assert.AreEqual(-cfFixer1.AccountCcyAmt, cashFlows
-                .Where(cf => cf.Fix.Name == CashDiscipline.Common.Constants.RevRecFixTag
-                    && cf.TranDate == cfFixee1.TranDate
-                    && cf.Activity.Name == apActivity.Name)
-                .Sum(cf => cf.AccountCcyAmt));
-
-            Assert.AreEqual(cfFixer1.AccountCcyAmt, cashFlows
-              .Where(cf => cf.TranDate == paramObj.ApayableNextLockdownDate
-                  && cf.Fix.Name == CashDiscipline.Common.Constants.ResRevRecFixTag)
+            Assert.AreEqual(cfFixer1.AccountCcyAmt - cfFixee1.AccountCcyAmt, cashFlows
+              .Where(cf => cf.TranDate == paramObj.PayrollNextLockdownDate)
               .Sum(cf => cf.AccountCcyAmt));
 
             #endregion
@@ -1950,6 +1943,7 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = fixActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            ObjectSpace.CommitChanges();
 
             var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 
@@ -1958,14 +1952,14 @@ namespace CashDiscipline.UnitTests
             Assert.AreEqual(500, cashFlows
                  .Where(cf => cf.TranDate == new DateTime(2016, 03, 12))
                  .Sum(cf => cf.AccountCcyAmt));
-
+            
             fixAlgo.ProcessCashFlows();
             ObjectSpace.CommitChanges();
             ObjectSpace.Refresh();
             #endregion
 
             #region Assert Arrange
-            
+
             cashFlows = ObjectSpace.GetObjects<CashFlow>();
 
             Assert.AreEqual(-100, cashFlows
@@ -2532,8 +2526,6 @@ namespace CashDiscipline.UnitTests
             cfFixer1.DateUnFix = cfFixer1.TranDate;
             cfFixer1.FixActivity = cfFixer1.Activity;
 
-            ObjectSpace.CommitChanges();
-
             #endregion
 
             #region Act
@@ -2546,6 +2538,7 @@ namespace CashDiscipline.UnitTests
             paramObj.ApReclassActivity = fixActivity;
             paramObj.PayrollLockdownDate = new DateTime(2016, 03, 18);
             paramObj.PayrollNextLockdownDate = new DateTime(2016, 03, 25);
+            ObjectSpace.CommitChanges();
 
             var fixAlgo = new FixCashFlowsAlgorithm(ObjectSpace, paramObj);
 

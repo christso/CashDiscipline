@@ -265,7 +265,6 @@
     </Compile>
     <Compile Include="Logic\Cash\CashFlowFixMapper.cs" />
     <Compile Include="Logic\Cash\CashFlowHelper.cs" />
-    <Compile Include="Logic\Cash\FixCashFlowsRephaser.cs" />
     <Compile Include="Logic\Cash\FixCashFlowsSqlBuilder.cs" />
     <Compile Include="Logic\Cash\BankStmtForecastReconciler.cs" />
     <Compile Include="Logic\Cash\IFixCashFlows.cs" />
@@ -291,6 +290,7 @@
     <Compile Include="Logic\SqlProcessorUtil.cs" />
     <Compile Include="Logic\SqlServer\SqlQueryUtil.cs" />
     <Compile Include="Logic\SqlServer\SsisUtil.cs" />
+    <Compile Include="Logic\SqlStringUtil.cs" />
     <Compile Include="NavigationHelper.cs" />
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
@@ -351,6 +351,10 @@
       <SubType>Component</SubType>
     </Compile>
     <Content Include="Scripts\CreateIndexes.sql" />
+    <None Include="UnusableNodes1.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="UnusableNodes.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>

@@ -127,8 +127,8 @@ namespace CashDiscipline.Module.Logic.FinAccounting
                 new SqlDeclareClause("TargetObject_BankStmt", "int",  string.Format("{0}", Convert.ToInt32(FinJournalTargetObject.BankStmt))),
                 new SqlDeclareClause("TargetObject_CashFlow", "int", string.Format("{0}", Convert.ToInt32(FinJournalTargetObject.CashFlow))),
                 new SqlDeclareClause("Algorithm", "int",  string.Format("{0}", Convert.ToInt32(FinMapAlgorithmType.SQL))),
-                new SqlDeclareClause("Snapshot", "uniqueidentifier", "(SELECT TOP 1 CurrentCashFlowSnapshot FROM SetOfBooks)"),
-                new SqlDeclareClause("StmtSource", "uniqueidentifier", "(SELECT TOP 1 BankStmtCashFlowSource FROM SetOfBooks)")
+                new SqlDeclareClause("Snapshot", "uniqueidentifier", "(SELECT TOP 1 CurrentCashFlowSnapshot FROM SetOfBooks WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("StmtSource", "uniqueidentifier", "(SELECT TOP 1 BankStmtCashFlowSource FROM SetOfBooks WHERE GCRecord IS NULL)")
             };
             return clauses;
         }

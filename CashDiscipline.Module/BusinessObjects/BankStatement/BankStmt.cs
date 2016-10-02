@@ -26,6 +26,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [DefaultProperty("Oid")]
     [ModelDefault("IsFooterVisible", "True")]
     [AutoColumnWidth(false)]
+    [ModelDefault("ImageName", "BO_List")]
     public class BankStmt : BaseObject, IXpoImportable
     {
         public BankStmt(Session session)

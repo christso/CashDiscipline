@@ -266,10 +266,10 @@
             <LayoutGroup Id="Forecast" Direction="Horizontal" ShowCaption="True" Index="3" RelativeSize="19.333333333333332" IsNewNode="True">
               <LayoutGroup Id="Forecast_col1" Index="0" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
                 <LayoutItem Id="Fix" ViewItem="Fix" Index="0" IsNewNode="True" />
-                <LayoutItem Id="FixActivity" ViewItem="FixActivity" Index="1" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
-                <LayoutItem Id="DateUnFix" ViewItem="DateUnFix" Index="2" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
-                <LayoutItem Id="FixFromDate" ViewItem="FixFromDate" Index="3" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
-                <LayoutItem Id="FixRank" ViewItem="FixRank" Index="4" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="FixRank" ViewItem="FixRank" Index="1" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="FixActivity" ViewItem="FixActivity" Index="2" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
+                <LayoutItem Id="DateUnFix" ViewItem="DateUnFix" Index="3" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
+                <LayoutItem Id="FixFromDate" ViewItem="FixFromDate" Index="4" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
                 <LayoutItem Id="FixToDate" ViewItem="FixToDate" Index="5" SizeConstraintsType="Default" RelativeSize="50" IsNewNode="True" />
                 <LayoutItem Id="IsReclass" Index="6" ViewItem="IsReclass" ShowCaption="" IsNewNode="True" />
               </LayoutGroup>
@@ -287,7 +287,7 @@
             <LayoutItem Id="Description" MaxSize="0, 1" SizeConstraintsType="Default" RelativeSize="100" />
           </LayoutGroup>
           <TabbedGroup Id="Tabs" RelativeSize="28.666666666666668">
-            <LayoutGroup Id="BankStmts" RelativeSize="100">
+            <LayoutGroup Id="BankStmts" RelativeSize="100" ImageName="BO_List">
               <LayoutItem Id="BankStmts" SizeConstraintsType="Default" RelativeSize="100" />
             </LayoutGroup>
             <LayoutGroup Id="PrimaryCashFlowForexTrades" RelativeSize="100">
@@ -405,6 +405,7 @@
     </ListView>
     <ListView Id="CashFlowSnapshot_LookupListView" AllowEdit="False" />
     <ListView Id="CashFlowSource_LookupListView" AllowEdit="False" />
+    <ListView Id="CashForecastFixTag_LookupListView" AllowEdit="False" />
     <ListView Id="Counterparty_LookupListView" AllowEdit="False" />
     <ListView Id="Currency_LookupListView" AllowEdit="False" />
     <ListView Id="FinAccount_LookupListView" AllowEdit="False" />

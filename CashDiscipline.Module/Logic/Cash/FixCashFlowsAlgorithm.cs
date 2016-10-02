@@ -21,29 +21,32 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using SmartFormat;
 
-/* Parameters in SQL
-DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam)
-DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM CashFlowFixParam)
-DECLARE @ApayableLockdownDate date = (SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam)
-DECLARE @ApayableNextLockdownDate date = (SELECT TOP 1 ApayableNextLockdownDate FROM CashFlowFixParam)
+/* PARAMETERS
+DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam WHERE GCRecord IS NULL)
+DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM CashFlowFixParam WHERE GCRecord IS NULL)
+DECLARE @ApayableLockdownDate date = (SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam WHERE GCRecord IS NULL)
+DECLARE @ApayableNextLockdownDate date = (SELECT TOP 1 ApayableNextLockdownDate FROM CashFlowFixParam WHERE GCRecord IS NULL)
+DECLARE @PayrollLockdownDate date = (SELECT TOP 1 PayrollLockdownDate FROM CashFlowFixParam WHERE GCRecord IS NULL)
+DECLARE @PayrollNextLockdownDate date = (SELECT TOP 1 PayrollNextLockdownDate FROM CashFlowFixParam WHERE GCRecord IS NULL)
 DECLARE @IgnoreFixTagType int = 0
 DECLARE @AllocateFixTagType int = 1
 DECLARE @ScheduleInFixTagType int = 2
 DECLARE @ScheduleOutFixTagType int = 3
 DECLARE @ForecastStatus int = 0
 DECLARE @Snapshot uniqueidentifier = COALESCE(
-	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam),
-	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
+	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam WHERE GCRecord IS NULL),
+	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)
 )
-DECLARE @DefaultCounterparty uniqueidentifier = (SELECT TOP 1 [Counterparty] FROM CashFlowDefaults)
-DECLARE @FunctionalCurrency uniqueidentifier = (SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks)
+DECLARE @DefaultCounterparty uniqueidentifier = (SELECT TOP 1 [Counterparty] FROM CashFlowDefaults WHERE GCRecord IS NULL)
+DECLARE @FunctionalCurrency uniqueidentifier = (SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks WHERE GCRecord IS NULL)
 DECLARE @ReversalFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'R' AND GCRecord IS NULL)
 DECLARE @RevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR' AND GCRecord IS NULL)
 DECLARE @ResRevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR' AND GCRecord IS NULL)
 DECLARE @PayrollFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR' AND GCRecord IS NULL)
 DECLARE @AutoFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)
-DECLARE @ApReclassActivity uniqueidentifier = (SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam)
-*/
+DECLARE @ApReclassActivity uniqueidentifier = (SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam WHERE GCRecord IS NULL)
+DECLARE @UndefActivity uniqueidentifier = (select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)
+ */
 
 /* DEBUG
 
@@ -86,6 +89,8 @@ namespace CashDiscipline.Module.Logic.Cash
         private SetOfBooks setOfBooks;
         private CashFlowSnapshot currentSnapshot;
         private CashFlowFixMapper mapper;
+        private List<SqlDeclareClause> sqlDeclareClauses;
+        private readonly string parameterCommandText;
 
         public FixCashFlowsAlgorithm(XPObjectSpace objSpace, CashFlowFixParam paramObj)
             : this(objSpace, paramObj, new CashFlowFixMapper(objSpace))
@@ -128,16 +133,20 @@ namespace CashDiscipline.Module.Logic.Cash
 
             setOfBooks = SetOfBooks.GetInstance(objSpace);
             this.mapper = mapper;
+
+            this.sqlDeclareClauses = CreateSqlDeclareClauses();
+            var sqlStringUtil = new SqlStringUtil();
+            this.parameterCommandText = sqlStringUtil.CreateCommandText(sqlDeclareClauses);
         }
 
         public void ProcessCashFlows()
         {
-            mapper.Process(CreateParameters());
-            Rephase(CreateParameters());
-            ApplyFix(CreateParameters());
+            mapper.Process();
+            Rephase();
+            ApplyFix();
         }
 
-        public List<SqlDeclareClause> CreateSqlParameters()
+        public List<SqlDeclareClause> CreateSqlDeclareClauses()
         {
             var clauses = new List<SqlDeclareClause>()
             {
@@ -169,44 +178,20 @@ namespace CashDiscipline.Module.Logic.Cash
                 new SqlDeclareClause("AutoFixTag", "uniqueidentifier",
                     "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("ApReclassActivity", "uniqueidentifier",
-                    "(SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam WHERE GCRecord IS NULL)")
-           
+                    "(SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("PayrollLockdownDate", "date",
+                    "(SELECT TOP 1 PayrollLockdownDate FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("PayrollNextLockdownDate", "date",
+                    "(SELECT TOP 1 PayrollNextLockdownDate FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("AutoForexSettleType", "int", Convert.ToString(
+                        Convert.ToInt32(CashFlowForexSettleType.Auto)))
+
             };
             return clauses;
         }
 
-        public List<SqlParameter> CreateParameters()
-        {
-            var parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("FromDate", paramObj.FromDate),
-                new SqlParameter("ToDate", paramObj.ToDate),
-                new SqlParameter("Snapshot", currentSnapshot.Oid),
-                new SqlParameter("IgnoreFixTagType", Convert.ToInt32(CashForecastFixTagType.Ignore)),
-                new SqlParameter("AllocateFixTagType", Convert.ToInt32(CashForecastFixTagType.Allocate)),
-                new SqlParameter("ScheduleOutFixTagType", Convert.ToInt32(CashForecastFixTagType.ScheduleOut)),
-                new SqlParameter("ScheduleInFixTagType", Convert.ToInt32(CashForecastFixTagType.ScheduleIn)),
-                new SqlParameter("ForecastStatus", Convert.ToInt32(CashFlowStatus.Forecast)),
-                new SqlParameter("DefaultCounterparty", defaultCounterparty.Oid),
-                new SqlParameter("FunctionalCurrency", setOfBooks.FunctionalCurrency.Oid),
-                new SqlParameter("ReversalFixTag", reversalFixTag.Oid),
-                new SqlParameter("RevRecFixTag", revRecFixTag.Oid),
-                new SqlParameter("ResRevRecFixTag", resRevRecFixTag.Oid),
-                new SqlParameter("PayrollFixTag", payrollFixTag.Oid),
-                new SqlParameter("AutoFixTag", autoFixTag.Oid),
-                new SqlParameter("ApayableLockdownDate", paramObj.ApayableLockdownDate),
-                new SqlParameter("ApayableNextLockdownDate", paramObj.ApayableNextLockdownDate),
-                new SqlParameter("ApReclassActivity", paramObj.ApReclassActivity.Oid),
-            };
-            return parameters;
-        }
 
         public void ApplyFix()
-        {
-            ApplyFix(CreateParameters());
-        }
-
-        public void ApplyFix(List<SqlParameter> parameters)
         {
             if (defaultCounterparty == null)
                 throw new ArgumentException("DefaultCounterparty");
@@ -217,24 +202,23 @@ namespace CashDiscipline.Module.Logic.Cash
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
-            command.Parameters.AddRange(parameters.ToArray());
-            command.CommandText = ProcessCommandText;
+            //command.Parameters.AddRange(parameters.ToArray());
+            command.CommandText = this.parameterCommandText + "\n\n" + ProcessCommandText;
             int result = command.ExecuteNonQuery();
         }
 
         public void Map()
         {
-            mapper.Process(CreateParameters());
+            mapper.Process();
         }
 
-        public void Rephase(List<SqlParameter> parameters)
+        public void Rephase()
         {
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
+            //command.Parameters.AddRange(parameters.ToArray());
 
-            command.Parameters.AddRange(parameters.ToArray());
-
-            command.CommandText = RephaseCommandText;
+            command.CommandText =  this.parameterCommandText + "\n\n" + RephaseCommandText;
             command.ExecuteNonQuery();
         }
 
@@ -267,7 +251,9 @@ namespace CashDiscipline.Module.Logic.Cash
 
                 return
 @"UPDATE CashFlow SET
-GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
+GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
+Fixer = NULL,
+ParentCashFlow = NULL
 FROM CashFlow
 LEFT JOIN CashForecastFixTag ft 
 	ON ft.Oid = CashFlow.Fix AND ft.GCRecord IS NULL
@@ -278,7 +264,8 @@ AND CashFlow.GCRecord IS NULL;
 UPDATE CashFlow SET 
 IsFixeeSynced = 0,
 IsFixerFixeesSynced = 0,
-IsFixerSynced = 0
+IsFixerSynced = 0,
+Fixer = NULL
 WHERE GCRecord IS NULL
 AND [Snapshot] = @Snapshot;";
             }
@@ -293,7 +280,8 @@ AND [Snapshot] = @Snapshot;";
 
 UPDATE cf
 SET 
-GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
+GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
+ParentCashFlow = NULL
 FROM CashFlow cf
 LEFT JOIN CashFlow pcf ON pcf.Oid = cf.ParentCashFlow
 WHERE cf.GCRecord IS NULL
@@ -331,7 +319,6 @@ WHERE
 		OR cf.IsFixeeSynced IS NULL OR cf.IsFixerSynced IS NULL OR cf.IsFixerFixeesSynced IS NULL
 		OR fixer.GCRecord IS NOT NULL
 	)
-;
 
 -- FixeeFixer
 
@@ -344,8 +331,10 @@ FROM
 	SELECT
 		-- RowNum = 1 if fixee currency equals fixer currency, otherwise may be greater than 1
 		ROW_NUMBER() OVER(
-			PARTITION BY fixee.Oid 
-			ORDER BY CASE WHEN fixeeAccount.Currency = fixerAccount.Currency THEN 0 ELSE 1 END
+			PARTITION BY fixee.Oid
+			ORDER BY 
+				CASE WHEN fixeeAccount.Currency = fixerAccount.Currency THEN 0 ELSE 1 END,
+				COALESCE(fixer.DateUnFix, fixer.TranDate)
 		) AS RowNum,
 		fixee.Oid AS Fixee,
 		fixer.Oid AS Fixer,
@@ -358,7 +347,7 @@ FROM
 	LEFT JOIN Counterparty fixeeCparty ON fixeeCparty.Oid = fixee.Counterparty
 	LEFT JOIN Account fixeeAccount ON fixeeAccount.Oid = fixee.Account
 	LEFT JOIN #TmpCashFlowsToFix fixer
-		ON fixee.TranDate BETWEEN fixer.FixFromDate AND fixer.FixToDate
+		ON COALESCE(fixee.DateUnFix, fixee.TranDate) BETWEEN fixer.FixFromDate AND fixer.FixToDate
 			AND fixee.FixActivity = fixer.FixActivity
 			AND fixer.[Status] = @ForecastStatus
 			AND fixer.FixRank > fixee.FixRank
@@ -403,7 +392,7 @@ UPDATE revFix SET
 	FunctionalCcyAmt = -revFix.FunctionalCcyAmt,
 	Fix = @ReversalFixTag,
 	Fixer = NULL,
-	Source = a1.FixSource,
+	[Source] = a1.FixSource,
 	[Status] = @ForecastStatus,
     TimeEntered = GETDATE()
 FROM #TmpFixReversal revFix
@@ -427,26 +416,25 @@ FROM CashFlow cf
 	-- (i.e. reverse the reversal so net reversal is zero because the total amount of AP is correct)
 IF OBJECT_ID('tempdb..#TmpFixRevReclass_Fixee') IS NOT NULL DROP TABLE #TmpFixRevReclass_Fixee;
 
-SELECT fixee.*
+SELECT fr.*
 INTO #TmpFixRevReclass_Fixee
-FROM #TmpCashFlowsToFix fixee
-JOIN #TmpFixReversal fr ON fr.ParentCashFlow = fixee.OID
+FROM #TmpFixReversal fr
+JOIN CashFlow fixee ON fixee.Oid = fr.ParentCashFlow
 JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
 JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
-WHERE fixee.TranDate <= @ApayableLockdownDate 
+WHERE fr.TranDate <= @ApayableLockdownDate 
 	AND fixer.TranDate <= @ApayableLockdownDate 
-	AND (@PayrollFixTag IS NULL OR fixee.Fix != @PayrollFixTag)
+	AND (@PayrollFixTag IS NULL OR fr.Fix != @PayrollFixTag)
 	AND fixerTag.FixTagType = @AllocateFixTagType
 
 UPDATE frr SET 
-ParentCashFlow = frr.Oid,
 Oid = NEWID(),
+CounterCcyAmt = -frr.CounterCcyAmt,
+AccountCcyAmt = -frr.AccountCcyAmt,
+FunctionalCcyAmt = -frr.FunctionalCcyAmt,
 Fix = @RevRecFixTag,
 Activity = @ApReclassActivity,
-TranDate = fixer.TranDate,
-Source = a1.FixSource,
-[Status] = @ForecastStatus,
-TimeEntered = GETDATE()
+Source = a1.FixSource
 FROM #TmpFixRevReclass_Fixee frr
 LEFT JOIN CashFlow fixer ON fixer.Oid = frr.Fixer
 LEFT JOIN Activity a1 ON a1.Oid = frr.Activity
@@ -458,14 +446,7 @@ IF OBJECT_ID('tempdb..#TmpFixResRevRec_Fixee') IS NOT NULL DROP TABLE #TmpFixRes
 
 SELECT fixee.*
 INTO #TmpFixResRevRec_Fixee
-FROM #TmpCashFlowsToFix fixee
-JOIN #TmpFixReversal fr ON fr.ParentCashFlow = fixee.OID
-JOIN CashFlow fixer ON fixer.Oid = fixee.Fixer
-JOIN CashForecastFixTag fixerTag ON fixerTag.Oid = fixer.Fix
-WHERE fixee.TranDate <= @ApayableLockdownDate 
-	AND fixer.TranDate <= @ApayableLockdownDate 
-	AND (@PayrollFixTag IS NULL OR fixee.Fix != @PayrollFixTag)
-	AND fixerTag.FixTagType = @AllocateFixTagType
+FROM #TmpFixRevReclass_Fixee fixee
 
 UPDATE frrr SET 
 ParentCashFlow = frrr.Oid,
@@ -481,7 +462,6 @@ Source = a1.FixSource,
 TimeEntered = GETDATE()
 FROM #TmpFixResRevRec_Fixee frrr
 LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
-;
 
 	-- Fixer.RR: Reverse 'Allocate Cash Flow' into AP Pymt
 IF OBJECT_ID('tempdb..#TmpFixRevReclass_Fixer') IS NOT NULL DROP TABLE #TmpFixRevReclass_Fixer;
@@ -502,7 +482,6 @@ Activity = @ApReclassActivity,
 AccountCcyAmt = -frr.AccountCcyAmt,
 FunctionalCcyAmt = -frr.FunctionalCcyAmt,
 CounterCcyAmt = -frr.CounterCcyAmt,
-IsReclass = 1,
 Source = a1.FixSource,
 [Status] = @ForecastStatus,
 TimeEntered = GETDATE()
@@ -535,6 +514,21 @@ FROM #TmpFixResRevReclass_Fixer frrr
 LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
 
+-- Update Reclass
+
+UPDATE fr SET IsReclass = 1
+FROM #TmpFixReversal fr 
+WHERE EXISTS (SELECT * FROM #TmpFixRevReclass_Fixee frr WHERE fr.ParentCashFlow = frr.ParentCashFlow)
+
+UPDATE #TmpFixRevReclass_Fixee SET IsReclass = 1
+
+UPDATE cf SET IsReclass = 1
+FROM CashFlow cf
+WHERE EXISTS (SELECT * FROM #TmpFixRevReclass_Fixer frr WHERE frr.ParentCashFlow = cf.Oid)
+	AND cf.[Snapshot] = @Snapshot
+
+UPDATE #TmpFixRevReclass_Fixer SET IsReclass = 1
+
 -- Finalize
 
 INSERT INTO CashFlow
@@ -555,6 +549,7 @@ IsFixeeSynced = 1,
 IsFixerFixeesSynced = 1,
 IsFixerSynced = 1
 WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM #TmpCashFlowsToFix cf2)
+AND CashFlow.[Snapshot] = @Snapshot
 ";
             }
         }
@@ -568,12 +563,19 @@ WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM #TmpCashFlowsToFix cf2)
     SELECT Max(TranDate) FROM CashFlow
     WHERE CashFlow.[Snapshot] = @Snapshot
     AND CashFlow.Status != @ForecastStatus
+	AND CashFlow.GCRecord IS NULL
 );
 
 UPDATE cf SET TranDate = CASE
-WHEN FixTag.FixTagType = @ScheduleOutFixTagType
+-- adjust date of AP payments
+WHEN cf.Fix <> @PayrollFixTag 
+	AND FixTag.FixTagType = @ScheduleOutFixTagType
 	AND cf.FixRank > 2 AND cf.TranDate <= @ApayableLockdownDate
 THEN @ApayableNextLockdownDate 
+-- adjust date of payroll payments
+WHEN cf.Fix = @PayrollFixTag
+	AND cf.FixRank > 2 AND cf.TranDate <= @PayrollLockdownDate
+THEN @PayrollNextLockdownDate
 ELSE cf.TranDate
 END
 FROM CashFlow cf
@@ -581,46 +583,12 @@ LEFT JOIN CashForecastFixTag FixTag ON FixTag.Oid = cf.Fix
 WHERE cf.[Status] = @ForecastStatus
 AND cf.[Snapshot] = @Snapshot
 
+-- ensure date is in forecast period (not actual period)
 UPDATE CashFlow SET TranDate = DATEADD(d, 1, @MaxActualDate)
 FROM CashFlow cf
 WHERE cf.[Status] = @ForecastStatus
 AND cf.[Snapshot] = @Snapshot
-AND cf.TranDate <= @MaxActualDate
-";
-            }
-        }
-
-        //TODO; replace UndefActivity with SetOfBooks
-        public static string ParameterCommandText
-        {
-            get
-            {
-                return
-                    Smart.Format(
-@"DECLARE @FromDate date = (SELECT TOP 1 FromDate FROM CashFlowFixParam)
-DECLARE @ToDate date = (SELECT TOP 1 ToDate FROM CashFlowFixParam)
-DECLARE @ApayableLockdownDate date = (SELECT TOP 1 ApayableLockdownDate FROM CashFlowFixParam)
-DECLARE @ApayableNextLockdownDate date = (SELECT TOP 1 ApayableNextLockdownDate FROM CashFlowFixParam)
-DECLARE @IgnoreFixTagType int = 0
-DECLARE @AllocateFixTagType int = 1
-DECLARE @ScheduleInFixTagType int = 2
-DECLARE @ScheduleOutFixTagType int = 3
-DECLARE @ForecastStatus int = 0
-DECLARE @Snapshot uniqueidentifier = COALESCE(
-	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam),
-	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
-)
-DECLARE @DefaultCounterparty uniqueidentifier = (SELECT TOP 1 [Counterparty] FROM CashFlowDefaults)
-DECLARE @FunctionalCurrency uniqueidentifier = (SELECT TOP 1 [FunctionalCurrency] FROM SetOfBooks)
-DECLARE @ReversalFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'R' AND GCRecord IS NULL)
-DECLARE @RevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RR' AND GCRecord IS NULL)
-DECLARE @ResRevRecFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR' AND GCRecord IS NULL)
-DECLARE @PayrollFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR' AND GCRecord IS NULL)
-DECLARE @AutoFixTag uniqueidentifier = (SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)
-DECLARE @ApReclassActivity uniqueidentifier = (SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam)
-DECLARE @AutoForexSettleType int = {autoForexSettleType}
-DECLARE @UndefActivity uniqueidentifier = (select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)",
-new { autoForexSettleType = Convert.ToInt32(CashFlowForexSettleType.Auto) });
+AND cf.TranDate <= @MaxActualDate";
             }
         }
 
