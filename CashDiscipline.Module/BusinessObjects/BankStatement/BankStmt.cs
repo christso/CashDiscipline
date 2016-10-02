@@ -41,7 +41,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         }
         private bool _CalculateEnabled;
-
+    
         public override void AfterConstruction()
         {
             base.AfterConstruction();
@@ -339,7 +339,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 obj.FunctionalCcyAmt = fromAmt;
             else if (obj.TranDate != default(DateTime))
             {
-                var rateObj = GetForexRateObject(session, fromCcy, SetOfBooks.CachedInstance.FunctionalCurrency, (DateTime)obj.TranDate);
+                var rateObj = GetForexRateObject(session, fromCcy, SetOfBooks.GetInstance(obj.Session).FunctionalCurrency, (DateTime)obj.TranDate);
                 if (rateObj != null)
                 {
                     // TODO: do not assume that Functional Currency is 'AUD'

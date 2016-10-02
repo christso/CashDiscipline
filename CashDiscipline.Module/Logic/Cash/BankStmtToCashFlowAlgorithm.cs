@@ -67,7 +67,9 @@ namespace CashDiscipline.Module.Logic.Cash
                 @"(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)"),
                 new SqlDeclareClause("FromDate", "date", string.Format("'{0}'", fromDate.ToString("yyyy-MM-dd"))),
                 new SqlDeclareClause("ToDate", "date", string.Format("'{0}'", toDate.ToString("yyyy-MM-dd"))),
-                new SqlDeclareClause("ActualStatus", "int", Convert.ToInt32(CashFlowStatus.Actual).ToString())
+                new SqlDeclareClause("ActualStatus", "int", Convert.ToInt32(CashFlowStatus.Actual).ToString()),
+                new SqlDeclareClause("StmtSource", "uniqueidentifier", 
+                    "(SELECT Oid FROM CashFlowSource WHERE Name LIKE 'Stmt' AND GCRecord IS NULL)")
             };
             return clauses;
         }
@@ -92,10 +94,7 @@ namespace CashDiscipline.Module.Logic.Cash
             get
             {
                 return
-@"DECLARE @StmtSource uniqueidentifier = 
-	(SELECT Oid FROM CashFlowSource WHERE Name LIKE 'Stmt')
-
--- Rank Bank Stmt lines
+@"-- Rank Bank Stmt lines
 IF OBJECT_ID('tempdb..#TmpBankStmt') IS NOT NULL DROP TABLE #TmpBankStmt
 SELECT 
 	bs.Oid,
@@ -162,7 +161,8 @@ Source = NULL,
 CounterCcy = NULL
 WHERE 
     Snapshot = @Snapshot
-    AND TranDate BETWEEN @FromDate AND @ToDate;
+    AND TranDate BETWEEN @FromDate AND @ToDate
+    AND [Source] = @StmtSource
 
 -- Upload Bank Stmt to Cash Flow
 

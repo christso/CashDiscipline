@@ -241,7 +241,7 @@ AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate";
                 return
 @"UPDATE cf0 SET
 FunctionalCcyAmt =
-cf0.AccountCcyAmt * cf1.FunctionalCcyAmt / cf1.AccountCcyAmt
+cf0.AccountCcyAmt / cf1.AccountCcyAmt * cf1.FunctionalCcyAmt
 FROM CashFlow cf0
 JOIN
 (
@@ -272,13 +272,14 @@ AND cf0.ForexSettleType = @OutReclassSettleType";
             {
                 return
 @"UPDATE BankStmt SET
-FunctionalCcyAmt = CashFlow.FunctionalCcyAmt
+FunctionalCcyAmt = TranAmount / CashFlow.AccountCcyAmt * CashFlow.FunctionalCcyAmt
 FROM BankStmt
 JOIN CashFlow ON CashFlow.Oid = BankStmt.CashFlow
 WHERE 
 	BankStmt.GCRecord IS NULL
 	AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate
-	AND CashFlow.[Snapshot] = @Snapshot";
+	AND CashFlow.[Snapshot] = @Snapshot
+    AND CashFlow.GCRecord IS NULL";
             }
         }
 
@@ -378,10 +379,6 @@ WHERE
             return parameters;
         }
 
-        public void Unlink()
-        {
-
-        }
 
     }
 }

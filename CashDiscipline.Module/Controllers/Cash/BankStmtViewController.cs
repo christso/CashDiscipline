@@ -22,6 +22,7 @@ namespace CashDiscipline.Module.Controllers.Cash
     {
         private const string mapCaption = "Map Selected";
         private const string importCaption = "Import";
+        private const string recalcFuncCaption = "Recalc Func Amt";
 
         public BankStmtViewController()
         {
@@ -47,7 +48,14 @@ namespace CashDiscipline.Module.Controllers.Cash
             var autoReconForecastChoice = new ChoiceActionItem();
             autoReconForecastChoice.Caption = "Auto-Reconcile Forecast";
             BankStmtAction.Items.Add(autoReconForecastChoice);
+
+            var calcFuncAmtChoice = new ChoiceActionItem();
+            calcFuncAmtChoice.Caption = recalcFuncCaption;
+            BankStmtAction.Items.Add(calcFuncAmtChoice);
+
             BankStmtAction.ShowItemsOnClick = true;
+
+    
         }
 
         private SingleChoiceAction BankStmtAction;
@@ -68,6 +76,10 @@ namespace CashDiscipline.Module.Controllers.Cash
                 case "Auto-Reconcile Forecast":
                     var reconciler = new BankStmtForecastReconciler((XPObjectSpace)View.ObjectSpace);
                     reconciler.AutoreconcileTransfers(View.SelectedObjects);
+                    break;
+                case recalcFuncCaption:
+                    var calculator = new BankStmtCalculator((XPObjectSpace)View.ObjectSpace);
+                    calculator.Process(View.SelectedObjects);
                     break;
             }
         }

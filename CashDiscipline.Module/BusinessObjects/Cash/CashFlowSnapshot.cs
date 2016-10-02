@@ -43,6 +43,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         private DateTime _TimeCreated;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy hh:mm:ss")]
         public DateTime TimeCreated
         {
             get

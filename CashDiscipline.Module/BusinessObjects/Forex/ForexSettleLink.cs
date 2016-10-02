@@ -31,7 +31,12 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
             TimeCreated = DateTime.Now;
         }
-     
+
+        protected override void OnLoaded()
+        {
+            base.OnLoaded();
+        }
+
         private bool calculateEnabled;
         [MemberDesignTimeVisibility(false), Browsable(false), NonPersistent]
         public bool CalculateEnabled
@@ -66,7 +71,10 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
-                SetPropertyValue("CashFlowIn", ref _CashFlowIn, value);
+                if (SetPropertyValue("CashFlowIn", ref _CashFlowIn, value))
+                {
+                    //OnChanged("InDate");
+                }
             }
         }
 
@@ -80,7 +88,10 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
-                SetPropertyValue("CashFlowOut", ref _CashFlowOut, value);
+                if (SetPropertyValue("CashFlowOut", ref _CashFlowOut, value))
+                {
+                    //OnChanged("OutDate");
+                }
             }
         }
 
@@ -113,7 +124,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         {
             get
             {
-                return CashFlowOut == null ? default(DateTime) : CashFlowOut.TranDate;
+                return CashFlowOut == null ? default(DateTime) : CashFlowOut.TranDate; ;
             }
         }
 
@@ -124,6 +135,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         {
             get
             {
+                if (CashFlowIn == null) return 0;
                 if (CashFlowIn.FunctionalCcyAmt == 0) return 0;
                 return CashFlowIn.AccountCcyAmt / CashFlowIn.FunctionalCcyAmt;
             }

@@ -240,6 +240,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Logic\Cash\ApPmtToCashFlowAlgorithm.cs" />
+    <Compile Include="Logic\Cash\BankStmtCalculator.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular14.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular16.cs" />
@@ -351,6 +352,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Content Include="Scripts\CreateIndexes.sql" />
+    <Content Include="Scripts\PurgeObjects.sql" />
     <None Include="UnusableNodes1.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>

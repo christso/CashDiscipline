@@ -23,10 +23,6 @@ namespace CashDiscipline.Module.Controllers.Forex
             runAction.Caption = "Run";
             runAction.Execute += RunAction_Execute;
 
-            var unlinkAction = new SimpleAction(this, "ForexSettleFifoUnlinkAction", PredefinedCategory.ObjectsCreation);
-            unlinkAction.Caption = "Unlink";
-            unlinkAction.Execute += UnlinkAction_Execute;
-
         }
 
         private void RunAction_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -42,15 +38,12 @@ namespace CashDiscipline.Module.Controllers.Forex
             }
         }
 
-        private void UnlinkAction_Execute(object sender, SimpleActionExecuteEventArgs e)
-        {
-            
-        }
-
         protected override void OnActivated()
         {
             base.OnActivated();
             ((DetailView)View).ViewEditMode = ViewEditMode.Edit;
+            var batchDeleteController = Frame.GetController<Xafology.ExpressApp.BatchDelete.BatchDeleteListViewController>();
+            batchDeleteController.DeleteFilteredChoiceEnabled = false;
         }
     }
 }
