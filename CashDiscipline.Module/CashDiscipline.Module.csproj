@@ -230,6 +230,9 @@
     <Compile Include="Controllers\Cash\ImportBankStmtParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\FinAccounting\AustPostSettleViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\FinAccounting\FinGenJournalParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>

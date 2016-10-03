@@ -46,7 +46,16 @@ LEFT JOIN Account ON Account.Oid = CashFlow.Account
 LEFT JOIN CashForecastFixTag Fix ON Fix.Oid = CashFlow.Fix
 WHERE CashFLow.GCRecord IS NULL";
 
-        private readonly string ParameterCommandText;
+        public string ParameterCommandText
+        {
+            get
+            {
+                var sqlStringUtil = new SqlStringUtil();
+                return sqlStringUtil.CreateCommandText(SqlDeclareClauses);
+            }
+        }
+
+        public readonly List<SqlDeclareClause> SqlDeclareClauses;
 
         public List<SqlDeclareClause> CreateSqlDeclareClauses()
         {
@@ -77,7 +86,7 @@ WHERE CashFLow.GCRecord IS NULL";
                     "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("ApReclassActivity", "uniqueidentifier",
                     "(SELECT TOP 1 ApReclassActivity FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
-                new SqlDeclareClause("UndefActivity", "uniqueidentifier", 
+                new SqlDeclareClause("UndefActivity", "uniqueidentifier",
                     "(select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)"),
                 new SqlDeclareClause("AutoForexSettleType", "int", Convert.ToString(
                         Convert.ToInt32(CashFlowForexSettleType.Auto)))
@@ -92,7 +101,7 @@ WHERE CashFLow.GCRecord IS NULL";
             this.objSpace = objSpace;
 
             var sqlStringUtil = new SqlStringUtil();
-            this.ParameterCommandText = sqlStringUtil.CreateCommandText(CreateSqlDeclareClauses());
+            this.SqlDeclareClauses = CreateSqlDeclareClauses();
         }
 
         public void Process(IEnumerable cashFlows)
@@ -108,6 +117,21 @@ WHERE CashFLow.GCRecord IS NULL";
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
             var commandTextList = GetMapCommandTextListByItem(cashFlows);
+
+            foreach (string commandText in commandTextList)
+            {
+                command.CommandText = ParameterCommandText + "\n\n" + commandText;
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public void ProcessByOids(string oidQuery)
+        {
+            RefreshMaps();
+
+            var conn = (SqlConnection)objSpace.Session.Connection;
+            var command = conn.CreateCommand();
+            var commandTextList = GetMapCommandTextListByOids(oidQuery);
 
             foreach (string commandText in commandTextList)
             {
@@ -140,7 +164,12 @@ WHERE CashFLow.GCRecord IS NULL";
             {
                 oids.Add(string.Format("'{0}'", cf.Oid));
             }
+            var mapTextList = GetMapCommandTextListByOids(string.Join(",", oids));
+            return mapTextList;
+        }
 
+        public List<string> GetMapCommandTextListByOids(string oidQuery)
+        {
             var steps = maps.GroupBy(m => new { m.MapStep })
                .OrderBy(g => g.Key.MapStep)
                .Select(g => g.Key.MapStep)
@@ -157,7 +186,7 @@ WHERE CashFLow.GCRecord IS NULL";
                 if (setTextList.Count > 0)
                 {
                     mapTextList.Add(Smart.Format(MapCommandTextListByCashFlowSqlTemplate,
-                        new { SetText = setText, OidQuery = string.Join(",", oids) }));
+                        new { SetText = setText, OidQuery = oidQuery }));
                 }
             }
             return mapTextList;

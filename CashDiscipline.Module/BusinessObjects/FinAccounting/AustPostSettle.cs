@@ -13,11 +13,18 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.Validation;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using System.Data.SqlTypes;
+using CashDiscipline.Module.Logic.SqlServer;
+using CashDiscipline.Module.Attributes;
+using Xafology.ExpressApp.Xpo.Import;
 
 namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
     [ModelDefault("ImageName", "BO_List")]
-    public class AustPostSettle : BaseObject
+    [ModelDefault("IsFooterVisible", "True")]
+    [ModelDefault("DefaultListViewAllowEdit", "True")]
+    [AutoColumnWidth(false)]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    public class AustPostSettle : BaseObject, IXpoImportable
     {
         public AustPostSettle(Session session)
             : base(session)
@@ -26,7 +33,9 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            // Place your initialization code here (http://documentation.devexpress.com/#Xaf/CustomDocument2834).
+
+            var sqlUtil = new SqlQueryUtil(Session);
+            DateTimeCreated = sqlUtil.GetDate();
         }
 
         private BankStmt _BankStmt;
@@ -72,6 +81,22 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        [ModelDefault("AllowEdit", "false")]
+        [ModelDefault("DisplayFormat", "n2")]
+        [ModelDefault("EditMask", "n2")]
+        public decimal BankStmtAmount
+        {
+            get
+            {
+                if (BankStmt != null)
+                    return BankStmt.TranAmount;
+                else
+                    return 0.00M;
+            }
+        }
+
+        [ModelDefault("DisplayFormat", "n2")]
+        [ModelDefault("EditMask", "n2")]
         public decimal GrossAmount
         {
             get
@@ -84,7 +109,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
-
+        [ModelDefault("DisplayFormat", "n2")]
+        [ModelDefault("EditMask", "n2")]
         public decimal DishonourChequeFee
         {
             get
@@ -97,6 +123,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        [ModelDefault("DisplayFormat", "n2")]
+        [ModelDefault("EditMask", "n2")]
         public decimal NegativeCorrections
         {
             get
@@ -109,6 +137,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        [ModelDefault("DisplayFormat", "n2")]
+        [ModelDefault("EditMask", "n2")]
         public decimal DishonourChequeReversal
         {
             get
@@ -121,6 +151,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        [ModelDefault("DisplayFormat", "n2")]
+        [ModelDefault("EditMask", "n2")]
         public decimal GrossCommission
         {
             get
@@ -136,6 +168,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        [ModelDefault("DisplayFormat", "n2")]
+        [ModelDefault("EditMask", "n2")]
         public decimal CommissionGST
         {
             get
@@ -151,12 +185,39 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             }
         }
 
+        [ModelDefault("DisplayFormat", "n2")]
+        [ModelDefault("EditMask", "n2")]
         [ModelDefault("AllowEdit", "false")]
         public decimal NetCommission
         {
             get
             {
                 return GrossCommission - CommissionGST;
+            }
+        }
+
+        [ModelDefault("DisplayFormat", "n2")]
+        [ModelDefault("EditMask", "n2")]
+        public decimal Difference
+        {
+            get
+            {
+                return BankStmtAmount - (GrossAmount - DishonourChequeFee - NegativeCorrections
+                    - DishonourChequeReversal - GrossCommission);
+            }
+        }
+
+        private DateTime _DateTimeCreated;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy hh:mm:ss")]
+        public DateTime DateTimeCreated
+        {
+            get
+            {
+                return _DateTimeCreated;
+            }
+            set
+            {
+                SetPropertyValue("DateTimeCreated", ref _DateTimeCreated, value);
             }
         }
 

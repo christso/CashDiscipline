@@ -297,6 +297,7 @@ WHERE
 
         public void Process()
         {
+            MapCashFlows();
             LinkCashFlows();
             RevalueOutflows();
             RevalueOutflowReclass();
@@ -306,7 +307,19 @@ WHERE
         public void MapCashFlows()
         {
             var mapper = new CashFlowFixMapper(objSpace);
-            
+            var fromDateSqlVar = mapper.SqlDeclareClauses.Where(c => c.ParameterName == "FromDate").FirstOrDefault();
+            var toDateSqlVar = mapper.SqlDeclareClauses.Where(c => c.ParameterName == "ToDate").FirstOrDefault();
+            var snapshotSqlVar = mapper.SqlDeclareClauses.Where(c => c.ParameterName == "Snapshot").FirstOrDefault();
+
+            fromDateSqlVar.CommandText = string.Format("'{0}'", fromDate.ToString("yyyy-MM-dd"));
+            toDateSqlVar.CommandText = string.Format("'{0}'", toDate.ToString("yyyy-MM-dd"));
+            snapshotSqlVar.CommandText = @"(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)";
+
+            mapper.ProcessByOids(
+@"SELECT cf.Oid FROM CashFlow cf
+WHERE cf.TranDate BETWEEN @FromDate AND @ToDate
+AND cf.GCRecord IS NULL
+AND cf.Snapshot = @Snapshot");
         }
 
         public void LinkCashFlows()

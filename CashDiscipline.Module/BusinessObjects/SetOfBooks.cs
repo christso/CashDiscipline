@@ -160,6 +160,20 @@ namespace CashDiscipline.Module.BusinessObjects
             }
         }
 
+        private Activity _AustPostSettleActivity;
+        public Activity AustPostSettleActivity
+        {
+            get
+            {
+                return _AustPostSettleActivity;
+            }
+            set
+            {
+                SetPropertyValue("AustPostSettleActivity", ref _AustPostSettleActivity, value);
+            }
+        }
+
+
         #region CurrentSetOfBooks
 
         public static SetOfBooks GetInstance(DevExpress.Xpo.Session session)

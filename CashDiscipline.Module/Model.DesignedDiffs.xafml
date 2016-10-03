@@ -107,6 +107,21 @@
     <ListView Id="ApPmtDistnMapping_LookupListView" AllowEdit="False" />
     <ListView Id="ApSource_LookupListView" AllowEdit="False" />
     <ListView Id="ApVendor_LookupListView" AllowEdit="True" />
+    <ListView Id="AustPostSettle_ListView">
+      <Columns>
+        <ColumnInfo Id="Oid" PropertyName="Oid" SortIndex="-1" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="BankStmt" Index="1" />
+        <ColumnInfo Id="BankStmtDate" Index="2" />
+        <ColumnInfo Id="GrossAmount" Index="3" />
+        <ColumnInfo Id="DishonourChequeFee" Index="4" />
+        <ColumnInfo Id="NegativeCorrections" Index="5" />
+        <ColumnInfo Id="DishonourChequeReversal" Index="6" />
+        <ColumnInfo Id="GrossCommission" Index="7" />
+        <ColumnInfo Id="CommissionGST" Index="8" />
+        <ColumnInfo Id="NetCommission" Index="9" />
+        <ColumnInfo Id="DateTimeCreated" Index="10" />
+      </Columns>
+    </ListView>
     <DetailView Id="BankStmt_DetailView" AllowEdit="True" AllowNew="True" AllowDelete="True" ImageName="">
       <Items>
         <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
