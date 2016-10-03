@@ -14,8 +14,8 @@ using System.Threading.Tasks;
 /*
 DECLARE @Snapshot uniqueidentifier =
 	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks)
-DECLARE @FromDate date = '2016-08-18'
-DECLARE @ToDate date = '2016-08-18'
+DECLARE @FromDate date = '2016-09-01'
+DECLARE @ToDate date = '2016-09-31'
 DECLARE @StmtSource uniqueidentifier = 
 	(SELECT Oid FROM CashFlowSource WHERE Name LIKE 'Stmt')
 DECLARE @ActualStatus int = 1

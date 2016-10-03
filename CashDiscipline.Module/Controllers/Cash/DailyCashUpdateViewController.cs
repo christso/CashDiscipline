@@ -12,6 +12,7 @@ using DevExpress.Xpo;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
+using CashDiscipline.Module.Logic;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -39,6 +40,19 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             var apUploader = new CashDiscipline.Module.Logic.Cash.ApPmtToCashFlowAlgorithm(objSpace);
             apUploader.Process();
+
+            //Delete Forex Settle Links
+            var sqlAlgo = new SqlAlgorithm(objSpace);
+            sqlAlgo.CommandText =
+@"UPDATE ForexSettleLink SET
+GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
+CashFlowIn = NULL,
+CashFlowOut = NULL,
+Account = NULL
+WHERE EXISTS (SELECT * FROM CashFlow cf WHERE cf.GCRecord IS NOT NULL AND cf.Oid = CashFlowIn)
+OR EXISTS (SELECT * FROM CashFlow cf WHERE cf.GCRecord IS NOT NULL AND cf.Oid = CashFlowOUt)
+AND GCRecord IS NULL";
+            sqlAlgo.Process();
         }
 
         protected override void OnActivated()

@@ -275,7 +275,7 @@ AND cf0.ForexSettleType = @OutReclassSettleType";
             {
                 return
 @"UPDATE BankStmt SET
-FunctionalCcyAmt = TranAmount / CashFlow.AccountCcyAmt * CashFlow.FunctionalCcyAmt
+FunctionalCcyAmt = TranAmount * (CashFlow.FunctionalCcyAmt / CashFlow.AccountCcyAmt)
 FROM BankStmt
 JOIN CashFlow ON CashFlow.Oid = BankStmt.CashFlow
 WHERE 
@@ -301,6 +301,12 @@ WHERE
             RevalueOutflows();
             RevalueOutflowReclass();
             RevalueBankStmt();
+        }
+
+        public void MapCashFlows()
+        {
+            var mapper = new CashFlowFixMapper(objSpace);
+            
         }
 
         public void LinkCashFlows()
