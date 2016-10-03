@@ -35,10 +35,10 @@ AND (
 
         private const string MapCommandTextListByCashFlowSqlTemplate =
             MapCommandTextListSqlTemplateCommon + @"
-AND CashFlow.[Oid] IN ({1})";
+AND CashFlow.[Oid] IN ({OidQuery})";
 
         private const string MapCommandTextListSqlTemplateCommon = @"UPDATE CashFlow SET
-{0}
+{SetText}
 FROM CashFlow
 LEFT JOIN CashFlowSource Source ON Source.Oid = CashFlow.Source
 LEFT JOIN Activity ON Activity.Oid = CashFlow.Activity
@@ -156,8 +156,8 @@ WHERE CashFLow.GCRecord IS NULL";
 
                 if (setTextList.Count > 0)
                 {
-                    mapTextList.Add(string.Format(MapCommandTextListByCashFlowSqlTemplate,
-                        setText, string.Join(",", oids)));
+                    mapTextList.Add(Smart.Format(MapCommandTextListByCashFlowSqlTemplate,
+                        new { SetText = setText, OidQuery = string.Join(",", oids) }));
                 }
             }
             return mapTextList;
@@ -188,7 +188,7 @@ WHERE CashFLow.GCRecord IS NULL";
 
             commandText = GetMapSetCommandText("FixRank", m => string.Format("'{0}'", m.FixRank),
                 m => m.FixRank != 0, step,
-                "WHEN CashFlow.{0} IS NOT NULL AND CashFlow.{0} != 0 THEN CashFlow.{0}");
+                "WHEN CashFlow.{PropertyName} IS NOT NULL AND CashFlow.{PropertyName} != 0 THEN CashFlow.{PropertyName}");
             if (!string.IsNullOrWhiteSpace(commandText))
                 setTextList.Add(commandText);
 
@@ -233,8 +233,8 @@ WHERE CashFLow.GCRecord IS NULL";
 
                 if (setTextList.Count > 0)
                 {
-                    mapTextList.Add(string.Format(MapCommandTextListSqlTemplate,
-                        setText));
+                    mapTextList.Add(Smart.Format(MapCommandTextListSqlTemplate,
+                        new { SetText = setText }));
                 }
             }
             return mapTextList;
@@ -287,10 +287,10 @@ WHERE CashFLow.GCRecord IS NULL";
             if (mapsCmdList.Count > 0)
             {
                 if (string.IsNullOrEmpty(defaultValueSql))
-                    defaultValueSql = "WHEN CashFlow.{0} IS NOT NULL THEN CashFlow.{0}";
+                    defaultValueSql = "WHEN CashFlow.{PropertyName} IS NOT NULL THEN CashFlow.{PropertyName}";
 
                 var mapsCmdText = string.Join("\n", mapsCmdList);
-                mapsCmdText = string.Format(defaultValueSql, mapPropertyName)
+                mapsCmdText = Smart.Format(defaultValueSql, new { PropertyName = mapPropertyName })
                     + "\n" + mapsCmdText;
 
                 setText = string.Format(@"{1} = CASE
