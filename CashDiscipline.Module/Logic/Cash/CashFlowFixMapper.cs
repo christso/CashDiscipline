@@ -262,7 +262,8 @@ WHERE CashFLow.GCRecord IS NULL";
             var mapsCmdList = new List<string>();
 
             foreach (var map in maps.Where(m =>
-                m.MapStep == step && predicate(m)))
+                m.MapStep == step && predicate(m))
+                .OrderBy(m => m.RowIndex))
             {
                 if (map.CriteriaExpression.ToLower().Trim() == "else")
                 {

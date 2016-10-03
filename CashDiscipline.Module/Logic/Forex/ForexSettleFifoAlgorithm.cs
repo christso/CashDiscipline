@@ -241,7 +241,7 @@ AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate";
                 return
 @"UPDATE cf0 SET
 FunctionalCcyAmt =
-cf0.AccountCcyAmt / cf1.AccountCcyAmt * cf1.FunctionalCcyAmt
+cf0.AccountCcyAmt / cf1.ForexRate
 FROM CashFlow cf0
 JOIN
 (
@@ -252,7 +252,10 @@ JOIN
 	SUM ( cf1.FunctionalCcyAmt ) AS FunctionalCcyAmt,
 	SUM ( cf1.AccountCcyAmt ) / SUM ( cf1.FunctionalCcyAmt ) AS ForexRate
 	FROM CashFlow cf1
-	WHERE cf1.ForexSettleType = @OutSettleType
+	WHERE cf1.ForexSettleType =  @OutSettleType
+		AND cf1.[Snapshot] = @Snapshot
+		AND cf1.TranDate BETWEEN @FromDate AND @ToDate
+		AND cf1.GCRecord IS NULL
 	GROUP BY 
 		cf1.Account,
 		cf1.TranDate
@@ -279,7 +282,8 @@ WHERE
 	BankStmt.GCRecord IS NULL
 	AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate
 	AND CashFlow.[Snapshot] = @Snapshot
-    AND CashFlow.GCRecord IS NULL";
+    AND CashFlow.GCRecord IS NULL
+    AND CashFlow.AccountCcyAmt <> 0.00";
             }
         }
 
