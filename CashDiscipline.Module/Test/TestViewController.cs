@@ -103,12 +103,9 @@ namespace CashDiscipline.Module.Test
             {
                 activity1 = ObjectSpace.CreateObject<Activity>();
                 activity1.Name = "ANZ Bank Fee";
-                activity1.ActivityL1 = ObjectSpace.CreateObject<ActivityTag>();
-                activity1.ActivityL1.Text = "Non-Capex Payments";
-                activity1.ActivityL2 = ObjectSpace.CreateObject<ActivityTag>();
-                activity1.ActivityL2.Text = "OPEX";
-                activity1.ActivityL3 = ObjectSpace.CreateObject<ActivityTag>();
-                activity1.ActivityL3.Text = "Finance";
+                activity1.ActivityL1 = "Non-Capex Payments";
+                activity1.ActivityL2 = "OPEX";
+                activity1.ActivityL3 = "Finance";
                 activity1.Save();
             }
 
@@ -118,12 +115,9 @@ namespace CashDiscipline.Module.Test
             {
                 activity2 = ObjectSpace.CreateObject<Activity>();
                 activity2.Name = "Interconnect Rcpt";
-                activity2.ActivityL1 = ObjectSpace.CreateObject<ActivityTag>();
-                activity2.ActivityL1.Text = "Receipts";
-                activity2.ActivityL2 = ObjectSpace.CreateObject<ActivityTag>();
-                activity2.ActivityL2.Text = "Interconnect & Roaming";
-                activity2.ActivityL3 = ObjectSpace.CreateObject<ActivityTag>();
-                activity2.ActivityL3.Text = "Interconnect";
+                activity2.ActivityL1 = "Receipts";
+                activity2.ActivityL2 = "Interconnect & Roaming";
+                activity2.ActivityL3 = "Interconnect";
                 activity2.Save();
             }
 

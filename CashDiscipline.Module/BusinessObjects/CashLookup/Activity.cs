@@ -50,8 +50,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _ActivityL1;
-        public ActivityTag ActivityL1
+        private string _ActivityL1;
+        public string ActivityL1
         {
             get
             {
@@ -63,9 +63,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _ActivityL2;
+        private string _ActivityL2;
 
-        public ActivityTag ActivityL2
+        public string ActivityL2
         {
             get
             {
@@ -77,9 +77,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _ActivityL3;
+        private string _ActivityL3;
 
-        public ActivityTag ActivityL3
+        public string ActivityL3
         {
             get
             {
@@ -91,8 +91,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _ActivityL4;
-        public ActivityTag ActivityL4
+        private string _ActivityL4;
+        public string ActivityL4
         {
             get
             {
@@ -104,8 +104,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _OpActivityL1;
-        public ActivityTag OpActivityL1
+        private string _OpActivityL1;
+        public string OpActivityL1
         {
             get
             {
@@ -117,9 +117,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _OpActivityL2;
+        private string _OpActivityL2;
 
-        public ActivityTag OpActivityL2
+        public string OpActivityL2
         {
             get
             {
@@ -131,9 +131,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _OpActivityL3;
+        private string _OpActivityL3;
 
-        public ActivityTag OpActivityL3
+        public string OpActivityL3
         {
             get
             {
@@ -145,8 +145,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _OpActivityL4;
-        public ActivityTag OpActivityL4
+        private string _OpActivityL4;
+        public string OpActivityL4
         {
             get
             {
@@ -159,8 +159,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
 
-        private ActivityTag _RvnuActivityL1;
-        public ActivityTag RvnuActivityL1
+        private string _RvnuActivityL1;
+        public string RvnuActivityL1
         {
             get
             {
@@ -172,9 +172,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _RvnuActivityL2;
+        private string _RvnuActivityL2;
 
-        public ActivityTag RvnuActivityL2
+        public string RvnuActivityL2
         {
             get
             {
@@ -186,8 +186,36 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private ActivityTag _HedgeActivity;
-        public ActivityTag HedgeActivity
+
+        private string _HwlActivityL1;
+        public string HwlActivityL1
+        {
+            get
+            {
+                return _HwlActivityL1;
+            }
+            set
+            {
+                SetPropertyValue("HwlActivityL1", ref _HwlActivityL1, value);
+            }
+        }
+
+        private string _HwlActivityL2;
+
+        public string HwlActivityL2
+        {
+            get
+            {
+                return _HwlActivityL2;
+            }
+            set
+            {
+                SetPropertyValue("HwlActivityL2", ref _HwlActivityL2, value);
+            }
+        }
+
+        private string _HedgeActivity;
+        public string HedgeActivity
         {
             get
             {

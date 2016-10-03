@@ -213,7 +213,6 @@
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
     <Compile Include="BusinessObjects\BaseObjectHelper.cs" />
-    <Compile Include="BusinessObjects\CashLookup\CounterpartyTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\ActionOwner.cs" />
     <Compile Include="Clients\CshDscTabularHelper.cs" />
@@ -308,7 +307,6 @@
     </Compile>
     <Compile Include="SharedAssemblyInfo.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtCashFlowForecast.cs" />
-    <Compile Include="BusinessObjects\CashLookup\ActivityTag.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowDefaults.cs" />
     <Compile Include="BusinessObjects\Cash\CashFlowSnapshot.cs" />
     <Compile Include="BusinessObjects\FinAccounting\AustPostSettle.cs" />

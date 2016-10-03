@@ -186,6 +186,84 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        private string _Description;
+        public string Description
+        {
+            get
+            {
+                return _Description;
+            }
+            set
+            {
+                SetPropertyValue("Description", ref _Description, value);
+            }
+        }
+
+        private string _BankAccountType;
+        public string BankAccountType
+        {
+            get
+            {
+                return _BankAccountType;
+            }
+            set
+            {
+                SetPropertyValue("BankAccountType", ref _BankAccountType, value);
+            }
+        }
+
+        private string _BankAccountName;
+        public string BankAccountName
+        {
+            get
+            {
+                return _BankAccountName;
+            }
+            set
+            {
+                SetPropertyValue("BankAccountName", ref _BankAccountName, value);
+            }
+        }
+
+        private string _HwlAccountType;
+        public string HwlAccountType
+        {
+            get
+            {
+                return _HwlAccountType;
+            }
+            set
+            {
+                SetPropertyValue("HwlAccountType", ref _HwlAccountType, value);
+            }
+        }
+
+        private string _HwlReportingGroup;
+        public string HwlReportingGroup
+        {
+            get
+            {
+                return _HwlReportingGroup;
+            }
+            set
+            {
+                SetPropertyValue("HwlReportingGroup", ref _HwlReportingGroup, value);
+            }
+        }
+
+        private bool _HwlIsReported;
+        public bool HwlIsReported
+        {
+            get
+            {
+                return _HwlIsReported;
+            }
+            set
+            {
+                SetPropertyValue("HwlIsReported", ref _HwlIsReported, value);
+            }
+        }
+
         public new class Fields
         {
             public static OperandProperty Name

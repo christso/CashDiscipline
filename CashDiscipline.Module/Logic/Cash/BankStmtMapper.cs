@@ -11,6 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/*
+DECLARE @UndefActivityOid uniqueidentifier = (select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)
+DECLARE @UndefCounterpartyOid uniqueidentifier = (select oid from counterparty where counterparty.name like 'UNDEFINED' and GCRecord IS NULL)
+DECLARE @UndefActionOwnerOid uniqueidentifier = (select oid from ActionOwner where ActionOwner.name like 'UNDEFINED' and GCRecord IS NULL)
+ */
+
 namespace CashDiscipline.Module.Logic.Cash
 {
     public class BankStmtMapper
@@ -41,11 +47,11 @@ WHERE BankStmt.GCRecord IS NULL";
         {
             var clauses = new List<SqlDeclareClause>()
             {
-                new SqlDeclareClause("UndefActivityOid", "uniqueidentifer",
+                new SqlDeclareClause("UndefActivityOid", "uniqueidentifier",
                 "(select oid from activity where activity.name like 'UNDEFINED' and GCRecord IS NULL)"),
-                new SqlDeclareClause("UndefCounterpartyOid", "uniqueidentifer",
+                new SqlDeclareClause("UndefCounterpartyOid", "uniqueidentifier",
                 "(select oid from counterparty where counterparty.name like 'UNDEFINED' and GCRecord IS NULL)"),
-                new SqlDeclareClause("UndefActionOwnerOid", "uniqueidentifer",
+                new SqlDeclareClause("UndefActionOwnerOid", "uniqueidentifier",
                 "(select oid from ActionOwner where ActionOwner.name like 'UNDEFINED' and GCRecord IS NULL)")
             };
             return clauses;

@@ -213,7 +213,7 @@ new { tcf = "#TmpFifoCashFlow", tio = "#TmpInflowOutflow" });
 @"UPDATE CashFlow SET
 FunctionalCcyAmt =
 (
-	SELECT fsm.FunctionalCcyAmt / fsm.AccountCcyAmt * CashFlow.AccountCcyAmt
+	SELECT CAST(fsm.FunctionalCcyAmt AS float) / CAST(fsm.AccountCcyAmt AS float) * CashFlow.AccountCcyAmt
 )
 FROM CashFlow
 JOIN
@@ -221,7 +221,7 @@ JOIN
 	SELECT 
 		fsl.CashFlowOut,
 		SUM ( fsl.AccountCcyAmt ) AS AccountCcyAmt,
-		SUM ( cfIn.FunctionalCcyAmt * fsl.AccountCcyAmt / cfIn.AccountCcyAmt ) AS FunctionalCcyAmt
+		CAST(SUM(cfIn.FunctionalCcyAmt) AS float) / CAST(SUM(cfIn.AccountCcyAmt) AS float) * SUM(fsl.AccountCcyAmt) AS FunctionalCcyAmt
 	FROM ForexSettleLink fsl
 	LEFT JOIN CashFlow cfIn ON cfIn.Oid = fsl.CashFlowIn
 	WHERE fsl.GCRecord IS NULL
@@ -241,7 +241,7 @@ AND CashFlow.TranDate BETWEEN @FromDate AND @ToDate";
                 return
 @"UPDATE cf0 SET
 FunctionalCcyAmt =
-cf0.AccountCcyAmt / cf1.ForexRate
+cf0.AccountCcyAmt * ( CAST(cf1.FunctionalCcyAmt AS float) / CAST(cf1.AccountCcyAmt AS float) )
 FROM CashFlow cf0
 JOIN
 (
@@ -249,8 +249,7 @@ JOIN
 	cf1.Account,
 	cf1.TranDate,
 	SUM ( cf1.AccountCcyAmt ) AS AccountCcyAmt,
-	SUM ( cf1.FunctionalCcyAmt ) AS FunctionalCcyAmt,
-	SUM ( cf1.AccountCcyAmt ) / SUM ( cf1.FunctionalCcyAmt ) AS ForexRate
+	SUM ( cf1.FunctionalCcyAmt ) AS FunctionalCcyAmt
 	FROM CashFlow cf1
 	WHERE cf1.ForexSettleType =  @OutSettleType
 		AND cf1.[Snapshot] = @Snapshot
@@ -275,7 +274,7 @@ AND cf0.ForexSettleType = @OutReclassSettleType";
             {
                 return
 @"UPDATE BankStmt SET
-FunctionalCcyAmt = TranAmount * (CashFlow.FunctionalCcyAmt / CashFlow.AccountCcyAmt)
+FunctionalCcyAmt = TranAmount * ( CAST(CashFlow.FunctionalCcyAmt AS float) / CAST(CashFlow.AccountCcyAmt AS float) )
 FROM BankStmt
 JOIN CashFlow ON CashFlow.Oid = BankStmt.CashFlow
 WHERE 

@@ -61,8 +61,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private CounterpartyTag _CounterpartyL1;
-        public CounterpartyTag CounterpartyL1
+        private string _CounterpartyL1;
+        public string CounterpartyL1
         {
             get
             {
@@ -74,9 +74,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private CounterpartyTag _CounterpartyL2;
+        private string _CounterpartyL2;
 
-        public CounterpartyTag CounterpartyL2
+        public string CounterpartyL2
         {
             get
             {
