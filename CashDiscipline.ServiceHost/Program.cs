@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using CashDiscipline.ServiceLib;
+using System.Configuration;
 
 namespace CashDiscipline.ServiceHost
 {
@@ -13,7 +14,15 @@ namespace CashDiscipline.ServiceHost
     {
         static void Main(string[] args)
         {
-            Uri baseAddress = new Uri("http://localhost:8080/CashDiscipline");
+
+            // read settings
+            var appSettings = ConfigurationManager.AppSettings;
+            
+            string baseAddressString = appSettings["baseAddress"];
+
+            Uri baseAddress = baseAddressString == null ?
+                new Uri("http://localhost:80/Temporary_Listen_Addresses/CashDiscipline") :
+                new Uri(baseAddressString);
 
             using (System.ServiceModel.ServiceHost host = new System.ServiceModel.ServiceHost(typeof(Service1), baseAddress))
             {
@@ -41,5 +50,6 @@ namespace CashDiscipline.ServiceHost
                 host.Close();
             }
         }
+
     }
 }

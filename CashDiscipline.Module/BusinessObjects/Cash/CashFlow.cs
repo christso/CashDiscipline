@@ -378,6 +378,30 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        [PersistentAlias("Activity.ActivityL1")]
+        public string ActivityL1
+        {
+            get { return Convert.ToString(EvaluateAlias("ActivityL1")); }
+        }
+
+        [PersistentAlias("Activity.ActivityL2")]
+        public string ActivityL2
+        {
+            get { return Convert.ToString(EvaluateAlias("ActivityL2")); }
+        }
+
+        [PersistentAlias("Activity.ActivityL3")]
+        public string ActivityL3
+        {
+            get { return Convert.ToString(EvaluateAlias("ActivityL3")); }
+        }
+
+        [PersistentAlias("Activity.ActivityL4")]
+        public string ActivityL4
+        {
+            get { return Activity.ActivityL4; }
+        }
+
         [Association("CashFlow-BankStmts")]
         public XPCollection<BankStmt> BankStmts
         {

@@ -240,9 +240,11 @@
                 <LayoutItem Id="CounterCcy" SizeConstraintsType="Default" Index="6" RelativeSize="20" />
                 <LayoutItem Id="Account" Removed="True" />
                 <LayoutItem Id="Activity" Removed="True" />
+                <LayoutItem Id="ActivityL1" Removed="True" />
+                <LayoutItem Id="ActivityL2" Removed="True" />
+                <LayoutItem Id="ActivityL3" Removed="True" />
+                <LayoutItem Id="ActivityL4" Removed="True" />
                 <LayoutItem Id="Counterparty" Removed="True" />
-                <LayoutItem Id="Fix" Removed="True" />
-                <LayoutItem Id="FixRank" Removed="True" />
                 <LayoutItem Id="Source" Removed="True" />
                 <LayoutItem Id="Status" Removed="True" />
                 <LayoutItem Id="TimeEntered" Removed="True" />
@@ -256,9 +258,11 @@
                 <LayoutItem Id="IsReclass" Index="5" Removed="True" />
                 <LayoutItem Id="TimeEntered" ViewItem="TimeEntered" ShowCaption="" Index="6" IsNewNode="True" />
                 <LayoutItem Id="DateUnFix" Removed="True" />
+                <LayoutItem Id="Fix" Removed="True" />
                 <LayoutItem Id="FixActivity" Removed="True" />
                 <LayoutItem Id="Fixer" Removed="True" />
                 <LayoutItem Id="FixFromDate" Removed="True" />
+                <LayoutItem Id="FixRank" Removed="True" />
                 <LayoutItem Id="FixToDate" Removed="True" />
                 <LayoutItem Id="ForexSettleGroupId" Removed="True" />
                 <LayoutItem Id="ForexSettleType" Removed="True" />
@@ -301,7 +305,19 @@
           <LayoutGroup Id="SizeableEditors" RelativeSize="4.4">
             <LayoutItem Id="Description" MaxSize="0, 1" SizeConstraintsType="Default" RelativeSize="100" />
           </LayoutGroup>
-          <TabbedGroup Id="Tabs" RelativeSize="28.666666666666668">
+          <LayoutGroup Id="Reporting" Index="2" IsNewNode="True">
+            <LayoutGroup Id="Reporting" ShowCaption="True" Direction="Horizontal" IsNewNode="True">
+              <LayoutGroup Id="Reporting_col1" IsNewNode="True">
+                <LayoutItem Id="ActivityL1" ViewItem="ActivityL1" ShowCaption="" Index="12" IsNewNode="True" />
+                <LayoutItem Id="ActivityL3" ViewItem="ActivityL3" ShowCaption="" Index="14" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="Reporting_col2" IsNewNode="True">
+                <LayoutItem Id="ActivityL2" ViewItem="ActivityL2" ShowCaption="" Index="13" IsNewNode="True" />
+                <LayoutItem Id="ActivityL4" ViewItem="ActivityL4" ShowCaption="" Index="15" IsNewNode="True" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+          <TabbedGroup Id="Tabs" RelativeSize="28.666666666666668" Index="3">
             <LayoutGroup Id="BankStmts" RelativeSize="100" ImageName="BO_List">
               <LayoutItem Id="BankStmts" SizeConstraintsType="Default" RelativeSize="100" />
             </LayoutGroup>
@@ -364,13 +380,17 @@
         <ColumnInfo Id="FixActivity" Index="19" />
         <ColumnInfo Id="TimeEntered" Index="20" />
         <ColumnInfo Id="ForexSettleType" Index="21" />
-        <ColumnInfo Id="Fixer" Index="22" />
-        <ColumnInfo Id="IsFixSynced" Index="23" />
-        <ColumnInfo Id="IsFixerSynced" Index="24" />
-        <ColumnInfo Id="IsFixeeSynced" Index="25" />
-        <ColumnInfo Id="IsFixerFixeesSynced" Index="26" />
-        <ColumnInfo Id="ParentCashFlow" Index="27" LookupProperty="Oid" />
-        <ColumnInfo Id="ForexSettleGroupId" Index="28" />
+        <ColumnInfo Id="ActivityL1" Index="22" />
+        <ColumnInfo Id="ActivityL2" Index="23" />
+        <ColumnInfo Id="ActivityL3" Index="24" />
+        <ColumnInfo Id="ActivityL4" Index="25" />
+        <ColumnInfo Id="Fixer" Index="26" />
+        <ColumnInfo Id="IsFixSynced" Index="27" />
+        <ColumnInfo Id="IsFixerSynced" Index="28" />
+        <ColumnInfo Id="IsFixeeSynced" Index="29" />
+        <ColumnInfo Id="IsFixerFixeesSynced" Index="30" />
+        <ColumnInfo Id="ParentCashFlow" Index="31" LookupProperty="Oid" />
+        <ColumnInfo Id="ForexSettleGroupId" Index="32" />
       </Columns>
     </ListView>
     <ListView Id="CashFlow_LookupListView" DataAccessMode="Server" AllowEdit="False">

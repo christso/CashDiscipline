@@ -8,12 +8,6 @@
           <Item Id="ForexTradeAmend" ViewId="ForexTradeAmend_ListView" />
         </Items>
       </Item>
-      <Item Id="Cash Setup">
-        <Items Id="Items">
-          <Item Id="CashForecastFixTagType" ViewId="CashForecastFixTagType_ListView" />
-          <Item Id="AccountActivityMap" ViewId="AccountActivityMap_ListView" />
-        </Items>
-      </Item>
     </Items>
   </NavigationItems>
   <Views Id="Views">
