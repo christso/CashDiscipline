@@ -3,6 +3,7 @@ using CashDiscipline.Module.Logic.Forex;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.SystemModule;
+using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
 using System;
 using System.Collections.Generic;
@@ -55,6 +56,13 @@ namespace CashDiscipline.Module.Controllers.Forex
         protected override void OnActivated()
         {
             base.OnActivated();
+            this.View.ObjectSpace.Committed += ObjectSpace_Committed;
+        }
+
+        private void ObjectSpace_Committed(object sender, EventArgs e)
+        {
+            //var uploader = new CashDiscipline.Module.Logic.Forex.ForexToCashFlowUploader((XPObjectSpace)ObjectSpace);
+            //uploader.Process();
         }
     }
 }

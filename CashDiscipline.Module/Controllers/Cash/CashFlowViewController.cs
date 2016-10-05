@@ -25,41 +25,41 @@ namespace CashDiscipline.Module.Controllers.Cash
         public const string ActionId = "RunCashFlowProgramAction";
         public const string saveForecastCaption = "Save Forecast";
 
-        public SingleChoiceAction RunProgramAction;
+        public SingleChoiceAction CashFlowActions;
 
         public CashFlowViewController()
         {
             TargetObjectType = typeof(CashFlow);
 
-            RunProgramAction = new SingleChoiceAction(this, ActionId, DevExpress.Persistent.Base.PredefinedCategory.Edit);
-            RunProgramAction.Caption = "Actions";
-            RunProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
-            RunProgramAction.Execute += runProgramAction_Execute;
-            RunProgramAction.ShowItemsOnClick = true;
+            CashFlowActions = new SingleChoiceAction(this, ActionId, DevExpress.Persistent.Base.PredefinedCategory.Edit);
+            CashFlowActions.Caption = "Actions";
+            CashFlowActions.ItemType = SingleChoiceActionItemType.ItemIsOperation;
+            CashFlowActions.Execute += runProgramAction_Execute;
+            CashFlowActions.ShowItemsOnClick = true;
 
             var dailyUpdateAction = new ChoiceActionItem();
             dailyUpdateAction.Caption = "Daily Update";
-            RunProgramAction.Items.Add(dailyUpdateAction);
+            CashFlowActions.Items.Add(dailyUpdateAction);
 
             var mapAction = new ChoiceActionItem();
             mapAction.Caption = mapSelectedCaption;
-            RunProgramAction.Items.Add(mapAction);
+            CashFlowActions.Items.Add(mapAction);
 
             var fixForecastAction = new ChoiceActionItem();
             fixForecastAction.Caption = "Fix Forecast";
-            RunProgramAction.Items.Add(fixForecastAction);
+            CashFlowActions.Items.Add(fixForecastAction);
 
             var reloadForexTradesAction = new ChoiceActionItem();
             reloadForexTradesAction.Caption = "Reload Forex Forecast";
-            RunProgramAction.Items.Add(reloadForexTradesAction);
+            CashFlowActions.Items.Add(reloadForexTradesAction);
 
             var saveForecastAction = new ChoiceActionItem();
             saveForecastAction.Caption = saveForecastCaption;
-            RunProgramAction.Items.Add(saveForecastAction);
+            CashFlowActions.Items.Add(saveForecastAction);
 
             var processCubeAction = new ChoiceActionItem();
             processCubeAction.Caption = processCubeCaption;
-            RunProgramAction.Items.Add(processCubeAction);
+            CashFlowActions.Items.Add(processCubeAction);
 
             var processCubeAllAction = new ChoiceActionItem();
             processCubeAllAction.Caption = processCubeAllCaption;

@@ -34,13 +34,23 @@ namespace CashDiscipline.Module.Logic.Forex
 
         public void Process()
         {
-            var clauses = CreateSqlParameters();
-            var parameters = CreateParameters(clauses);
+            var clauses = new List<SqlDeclareClause>()
+            {
+                new SqlDeclareClause("Snapshot", "uniqueidentifier",
+                @"(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("ActualStatus", "int", Convert.ToInt32(CashFlowStatus.Actual).ToString()),
+                new SqlDeclareClause("ForecastStatus", "int", Convert.ToInt32(CashFlowStatus.Forecast).ToString()),
+                new SqlDeclareClause("Activity", "uniqueidentifier", "(SELECT TOP 1 [ForexSettleActivity] FROM SetOfBooks WHERE GCRecord IS NULL)"),
+                new SqlDeclareClause("Source", "uniqueidentifier", "(SELECT TOP 1 [ForexSettleCashFlowSource] FROM SetOfBooks WHERE GCRecord IS NULL)")
+            };
+
+            var sqlStringUtil = new SqlStringUtil();
+
+            var paramCommandText = sqlStringUtil.CreateCommandText(clauses);
 
             using (var cmd = ((SqlConnection)objSpace.Session.Connection).CreateCommand())
             {
-                cmd.Parameters.AddRange(parameters.ToArray());
-                cmd.CommandText = ProcessCommandText;
+                cmd.CommandText = paramCommandText + "\n\n" + ProcessCommandText;
                 int result = cmd.ExecuteNonQuery();
             }
         }
@@ -57,19 +67,6 @@ namespace CashDiscipline.Module.Logic.Forex
                 new SqlDeclareClause("Source", "uniqueidentifier", "(SELECT TOP 1 [ForexSettleCashFlowSource] FROM SetOfBooks WHERE GCRecord IS NULL)")
             };
             return clauses;
-        }
-
-        public List<SqlParameter> CreateParameters(List<SqlDeclareClause> clauses)
-        {
-            var parameters = new List<SqlParameter>();
-            using (var cmd = objSpace.Session.Connection.CreateCommand())
-            {
-                foreach (var clause in clauses)
-                {
-                    parameters.Add(new SqlParameter(clause.ParameterName, clause.ExecuteScalar(cmd)));
-                }
-            }
-            return parameters;
         }
 
         #region SQL

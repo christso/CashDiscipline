@@ -384,7 +384,7 @@
     <Compile Include="Controllers\Cash\BankStmtViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\Cash\DailyCashUpdateViewController.cs">
+    <Compile Include="Controllers\Cash\DailyCashUpdateParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Forex\ImportForexParamViewController.cs">

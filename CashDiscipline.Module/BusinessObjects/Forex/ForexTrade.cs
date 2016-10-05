@@ -3,6 +3,7 @@ using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Logic.Forex;
 using CashDiscipline.Module.Logic.SqlServer;
 using DevExpress.Data.Filtering;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
@@ -19,6 +20,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
     [DefaultProperty("Oid")]
     [ModelDefault("IsFooterVisible", "True")]
     [AutoColumnWidth(false)]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     public class ForexTrade : BaseObject, ICalculateToggleObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ForexTrade(Session session)

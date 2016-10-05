@@ -23,8 +23,8 @@ namespace CashDiscipline.Module.Controllers.Forex
         public ForexSettleLinkViewController()
         {
             TargetObjectType = typeof(ForexSettleLink);
-            runProgramAction = new SingleChoiceAction(this, "RunForexProgramAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
-            runProgramAction.Caption = "Run Program";
+            runProgramAction = new SingleChoiceAction(this, "ForexSettleLinkAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
+            runProgramAction.Caption = "Actions";
             runProgramAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             runProgramAction.Execute += runProgramAction_Execute;
 

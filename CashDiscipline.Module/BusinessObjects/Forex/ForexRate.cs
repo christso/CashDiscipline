@@ -35,6 +35,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
 
         private bool _IsReversedStatus;
 
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime ConversionDate
         {
             get
