@@ -21,11 +21,11 @@ namespace CashDiscipline.UnitTests
 
         static void RunTest()
         {
-            var tests = new FixCashFlowTests();
+            var tests = new ApPmtDistnTests();
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.FixAllocLockdownAud();
+            tests.MapCounterpartyExpr();
 
             tests.TearDown();
             tests.TearDownFixture();

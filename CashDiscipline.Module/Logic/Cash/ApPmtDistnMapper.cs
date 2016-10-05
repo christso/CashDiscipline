@@ -50,7 +50,7 @@ LEFT JOIN Account ON Account.Oid = ApPmtDistn.Account
 WHERE ApPmtDistn.GCRecord IS NULL";
 
         private const string AddCounterpartySql = @"DECLARE @DefaultFixCounterparty uniqueidentifier = (SELECT Oid FROM Counterparty WHERE Name LIKE 'UNDEFINED')
-DECLARE @DefaultCounterpartyTag string = 'UNDEFINED'
+DECLARE @DefaultCounterpartyTag nvarchar(255) = 'UNDEFINED'
 
 INSERT INTO Counterparty
 (
