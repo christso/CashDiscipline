@@ -15,6 +15,7 @@ using DevExpress.ExpressApp.Actions;
 using DevExpress.Persistent.Base;
 using CashDiscipline.Module.Logic;
 using System.Data.SqlClient;
+using CashDiscipline.Module.Logic.Cash;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -132,6 +133,13 @@ Account = NULL
 WHERE EXISTS (SELECT * FROM CashFlow cf WHERE cf.GCRecord IS NOT NULL AND cf.Oid = CashFlowIn)
 OR EXISTS (SELECT * FROM CashFlow cf WHERE cf.GCRecord IS NOT NULL AND cf.Oid = CashFlowOUt)
 AND GCRecord IS NULL";
+                cmd.ExecuteNonQuery();
+
+                // unfix
+                cmd.CommandText = @"DECLARE @Snapshot uniqueidentifier =
+	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)"
++ "\n\n"
++ FixCashFlowsAlgorithm.ResetCommandText;
                 cmd.ExecuteNonQuery();
             }
         }

@@ -222,6 +222,8 @@ namespace CashDiscipline.Module.Logic.Cash
             command.ExecuteNonQuery();
         }
 
+
+
         public void Reset()
         {
             var conn = (SqlConnection)objSpace.Session.Connection;
@@ -244,7 +246,7 @@ namespace CashDiscipline.Module.Logic.Cash
 
         #region Core Sql
 
-        public string ResetCommandText
+        public static string ResetCommandText
         {
             get
             {
