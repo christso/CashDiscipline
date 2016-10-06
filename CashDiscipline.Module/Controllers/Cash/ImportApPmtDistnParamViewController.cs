@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CashDiscipline.Module.ServiceReference1;
+using DevExpress.ExpressApp.Xpo;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -43,16 +44,13 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             var paramObj = View.CurrentObject as ImportApPmtDistnParam;
 
-            var importer = new ApPmtDistnImporter();
-            var result = importer.Execute(paramObj.FilePath);
+            var objSpace = (XPObjectSpace)ObjectSpace;
+            var importer = new ApPmtDistnImporter(objSpace);
 
-            // show log message
-            string messagesText = CashDiscipline.Module.Logic.SqlServer.SsisUtil.GetMessageText(result.SsisMessages);
-
+            var messagesText = importer.Execute(paramObj.FilePath);
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 messagesText,
-                result.OperationStatus == SsisOperationStatus.Success ?
-                    "Import Successful" : "Imported Failed"
+               "Import Successful"
                 );
         }
 

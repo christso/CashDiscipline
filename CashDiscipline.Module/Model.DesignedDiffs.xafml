@@ -106,7 +106,7 @@
     <ListView Id="ApPmtDistn_LookupListView" AllowEdit="False" />
     <ListView Id="ApPmtDistnMapping_LookupListView" AllowEdit="False" />
     <ListView Id="ApSource_LookupListView" AllowEdit="False" />
-    <ListView Id="ApVendor_LookupListView" AllowEdit="True" />
+    <ListView Id="ApVendor_LookupListView" AllowEdit="False" />
     <ListView Id="AustPostSettle_ListView">
       <Columns>
         <ColumnInfo Id="Oid" PropertyName="Oid" SortIndex="-1" Index="0" IsNewNode="True" />

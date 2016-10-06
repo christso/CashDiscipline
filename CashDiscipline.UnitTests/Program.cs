@@ -25,7 +25,7 @@ namespace CashDiscipline.UnitTests
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.MapCounterpartyExpr();
+            tests.ImportApPmtDistnCsv();
 
             tests.TearDown();
             tests.TearDownFixture();

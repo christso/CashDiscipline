@@ -54,21 +54,7 @@ namespace CashDiscipline.Module.Logic.Forex
                 int result = cmd.ExecuteNonQuery();
             }
         }
-
-        public List<SqlDeclareClause> CreateSqlParameters()
-        {
-            var clauses = new List<SqlDeclareClause>()
-            {
-                new SqlDeclareClause("Snapshot", "uniqueidentifier",
-                @"(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)"),
-                new SqlDeclareClause("ActualStatus", "int", Convert.ToInt32(CashFlowStatus.Actual).ToString()),
-                new SqlDeclareClause("ForecastStatus", "int", Convert.ToInt32(CashFlowStatus.Forecast).ToString()),
-                new SqlDeclareClause("Activity", "uniqueidentifier", "(SELECT TOP 1 [ForexSettleActivity] FROM SetOfBooks WHERE GCRecord IS NULL)"),
-                new SqlDeclareClause("Source", "uniqueidentifier", "(SELECT TOP 1 [ForexSettleCashFlowSource] FROM SetOfBooks WHERE GCRecord IS NULL)")
-            };
-            return clauses;
-        }
-
+        
         #region SQL
 
         public string ProcessCommandText
@@ -76,10 +62,13 @@ namespace CashDiscipline.Module.Logic.Forex
             get
             {
                 return
-@"DECLARE @MaxActualDate datetime = (
+@"IF OBJECT_ID('tempdb..#TmpForexTrade') IS NOT NULL DROP TABLE #TmpForexTrade
+
+DECLARE @MaxActualDate datetime = (
 SELECT COALESCE(MAX(TranDate),'1973-01-01') FROM CashFlow
 WHERE Snapshot = @Snapshot
 AND Status = @ActualStatus)
+
 -- Rank Forex Trades
 
 SELECT

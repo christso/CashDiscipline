@@ -61,8 +61,8 @@ namespace CashDiscipline.Module.Controllers.Forex
 
         private void ObjectSpace_Committed(object sender, EventArgs e)
         {
-            //var uploader = new CashDiscipline.Module.Logic.Forex.ForexToCashFlowUploader((XPObjectSpace)ObjectSpace);
-            //uploader.Process();
+            var uploader = new CashDiscipline.Module.Logic.Forex.ForexToCashFlowUploader((XPObjectSpace)ObjectSpace);
+            uploader.Process();
         }
     }
 }
