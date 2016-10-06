@@ -120,12 +120,12 @@ SELECT @ApPmtDistnCount + @BankStmtCount", new { actualStatus = Convert.ToInt32(
             var apUploader = new CashDiscipline.Module.Logic.Cash.ApPmtToCashFlowAlgorithm(objSpace);
             apUploader.Process();
 
-            //Delete Forex Settle Links
-
             using (var cmd = ((SqlConnection)objSpace.Session.Connection).CreateCommand())
             {
+ 
+                //Delete Forex Settle Links
                 cmd.CommandText = @"UPDATE ForexSettleLink SET
-GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
+                GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
 CashFlowIn = NULL,
 CashFlowOut = NULL,
 Account = NULL

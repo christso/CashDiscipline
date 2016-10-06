@@ -576,6 +576,11 @@ THEN @ApayableNextLockdownDate
 WHEN cf.Fix = @PayrollFixTag
 	AND cf.FixRank > 2 AND cf.TranDate <= @PayrollLockdownDate
 THEN @PayrollNextLockdownDate
+-- move receipts to forecast period
+WHEN FixTag.FixTagType = @ScheduleInFixTagType
+    AND cf.FixRank > 2
+    AND cf.TranDate <= @MaxActualDate
+THEN DATEADD(d, 1, @MaxActualDate)
 ELSE cf.TranDate
 END
 FROM CashFlow cf
@@ -583,12 +588,20 @@ LEFT JOIN CashForecastFixTag FixTag ON FixTag.Oid = cf.Fix
 WHERE cf.[Status] = @ForecastStatus
 AND cf.[Snapshot] = @Snapshot
 
--- ensure date is in forecast period (not actual period)
-UPDATE CashFlow SET TranDate = DATEADD(d, 1, @MaxActualDate)
-FROM CashFlow cf
-WHERE cf.[Status] = @ForecastStatus
-AND cf.[Snapshot] = @Snapshot
-AND cf.TranDate <= @MaxActualDate";
+-- delete everything else
+UPDATE CashFlow SET
+GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
+Activity = NULL,
+Account = NULL,
+Counterparty = NULL,
+Source = NULL,
+CounterCcy = NULL
+WHERE 
+    Snapshot = @Snapshot
+    AND TranDate <= @MaxActualDate
+    AND [Status] = @ForecastStatus
+
+";
             }
         }
 
