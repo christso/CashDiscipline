@@ -72,6 +72,8 @@ namespace CashDiscipline.Module.DatabaseUpdate
             CreateFinAccountingDefaults(objSpace);
             CreateCashFlowDefaults(objSpace);
             Xafology.ExpressApp.StaticHelpers.GetInstance<CashDiscipline.Module.ParamObjects.Cash.CashFlowFixParam>(objSpace);
+            ProcessStatus.GetInstance(objSpace);
+
         }
 
         public static void AddDefaultConstraints(XPObjectSpace os)

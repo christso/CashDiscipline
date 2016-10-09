@@ -99,6 +99,10 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
                     foreach (var fixee in Fixees)
                         fixee.IsFixeeSynced = false;
+
+                    //TODO: correct logic so that only real changes to unfixed.
+                    var processState = ProcessStatus.GetInstance(Session);
+                    processState.IsUnfixRequired = true;
                 }
             }
         }

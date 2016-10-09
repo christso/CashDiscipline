@@ -278,11 +278,46 @@ AND [Snapshot] = @Snapshot;";
             get
             {
                 return
-                    @"-- Delete Existing Fixes
+                    @"
+-- Delete ALL fixes if @IsUnfixRequired is set to TRUE.
+
+DECLARE @IsUnfixRequired int = (SELECT TOP 1 IsUnfixRequired FROM ProcessStatus WHERE GCRecord IS NULL)
+
+IF @IsUnfixRequired = 1
+BEGIN
+
+    UPDATE ProcessStatus
+    SET IsUnfixRequired = 0
+    WHERE GCRecord IS NULL
+
+    UPDATE CashFlow SET
+    GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
+    Fixer = NULL,
+    ParentCashFlow = NULL
+    FROM CashFlow
+    LEFT JOIN CashForecastFixTag ft 
+	    ON ft.Oid = CashFlow.Fix AND ft.GCRecord IS NULL
+    WHERE ft.Name IN ('R','RR','RRR')
+    AND CashFlow.[Snapshot] = @Snapshot
+    AND CashFlow.GCRecord IS NULL;
+
+    UPDATE CashFlow SET 
+    IsFixeeSynced = 0,
+    IsFixerFixeesSynced = 0,
+    IsFixerSynced = 0,
+    Fixer = NULL
+    WHERE GCRecord IS NULL
+    AND [Snapshot] = @Snapshot
+    AND TranDate BETWEEN @FromDate AND @ToDate;
+
+END
+
+-- Delete Existing Fixes
 
 UPDATE cf
 SET 
 GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
+Fixer = NULL,
 ParentCashFlow = NULL
 FROM CashFlow cf
 LEFT JOIN CashFlow pcf ON pcf.Oid = cf.ParentCashFlow

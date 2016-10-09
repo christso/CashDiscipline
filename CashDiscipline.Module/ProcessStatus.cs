@@ -1,4 +1,5 @@
 ﻿using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Model;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace CashDiscipline.Module
 {
+    [ModelDefault("ImageName", "BO_List")]
     public class ProcessStatus : BaseObject
     {
         public ProcessStatus(Session session) : base(session) 
@@ -23,6 +25,17 @@ namespace CashDiscipline.Module
             if (result == null)
             {
                 result = new ProcessStatus(((XPObjectSpace)objectSpace).Session);
+                result.Save();
+            }
+            return result;
+        }
+
+        public static ProcessStatus GetInstance(Session session)
+        {
+            ProcessStatus result = session.FindObject<ProcessStatus>(null);
+            if (result == null)
+            {
+                result = new ProcessStatus(session);
                 result.Save();
             }
             return result;

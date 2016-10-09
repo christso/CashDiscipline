@@ -136,10 +136,16 @@ AND GCRecord IS NULL";
                 cmd.ExecuteNonQuery();
 
                 // unfix
-                cmd.CommandText = @"DECLARE @Snapshot uniqueidentifier =
-	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)"
-+ "\n\n"
-+ FixCashFlowsAlgorithm.ResetCommandText;
+                cmd.CommandText =
+@"DECLARE @Snapshot uniqueidentifier =
+	(SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)
+
+update ps1
+set IsUnfixRequired = 1
+from ProcessStatus ps1
+where ps1.gcrecord is null
+"
++ "\n\n";
                 cmd.ExecuteNonQuery();
             }
         }
