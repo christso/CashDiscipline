@@ -20,6 +20,7 @@ using DevExpress.Data.Filtering;
 using CashDiscipline.Module.ParamObjects.Forex;
 using CashDiscipline.Module.BusinessObjects.AccountsPayable;
 using CashDiscipline.Module.BusinessObjects.BankStatement;
+using CashDiscipline.Module;
 
 namespace CashDiscipline.UnitTests
 {
@@ -76,6 +77,7 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(ApPmtDistn));
             module.AdditionalExportedTypes.Add(typeof(ApSource));
             module.AdditionalExportedTypes.Add(typeof(ApVendor));
+            module.AdditionalExportedTypes.Add(typeof(ProcessStatus));
         }
     }
 }

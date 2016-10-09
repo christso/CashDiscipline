@@ -881,7 +881,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             Snapshot = GetCurrentSnapshot(Session);
 
             TranDate = DateTime.Now.Date;
-            DateUnFix = TranDate;
+            //DateUnFix = TranDate;
 
             CounterCcy = Session.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
 

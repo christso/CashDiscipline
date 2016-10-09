@@ -142,6 +142,5 @@ namespace CashDiscipline.Module.ParamObjects.Cash
                 SetPropertyValue("Snapshot", ref _Snapshot, value);
             }
         }
-
     }
 }

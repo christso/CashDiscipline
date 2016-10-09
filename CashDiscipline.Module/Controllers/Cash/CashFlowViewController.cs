@@ -19,6 +19,7 @@ namespace CashDiscipline.Module.Controllers.Cash
         public const string processCubeAllCaption = "Process All";
         public const string processCubeCurrentCaption = "Process Current";
         public const string processCubeCaption = "Process Report";
+        public const string custProcessCubeCaption = "Custom Process Report";
         public const string processCubeSshotCaption = "Process Snapshots";
         public const string mapSelectedCaption = "Map Selected";
         public const string fixForecastFormCaption = "Fix Forecast";
@@ -57,25 +58,25 @@ namespace CashDiscipline.Module.Controllers.Cash
             saveForecastAction.Caption = saveForecastCaption;
             CashFlowActions.Items.Add(saveForecastAction);
 
-            var processCubeAction = new ChoiceActionItem();
-            processCubeAction.Caption = processCubeCaption;
-            CashFlowActions.Items.Add(processCubeAction);
+            var processReportAction = new ChoiceActionItem();
+            processReportAction.Caption = processCubeCaption;
+            CashFlowActions.Items.Add(processReportAction);
 
-            var processCubeAllAction = new ChoiceActionItem();
-            processCubeAllAction.Caption = processCubeAllCaption;
-            processCubeAction.Items.Add(processCubeAllAction);
+            var processCustomAction = new ChoiceActionItem();
+            processCustomAction.Caption = custProcessCubeCaption;
+            CashFlowActions.Items.Add(processCustomAction);
 
             var processCubeCurrentAction = new ChoiceActionItem();
             processCubeCurrentAction.Caption = processCubeCurrentCaption;
-            processCubeAction.Items.Add(processCubeCurrentAction);
+            processCustomAction.Items.Add(processCubeCurrentAction);
 
             var processCubeHistAction = new ChoiceActionItem();
             processCubeHistAction.Caption = processCubeHistCaption;
-            processCubeAction.Items.Add(processCubeHistAction);
+            processCustomAction.Items.Add(processCubeHistAction);
 
             var processCubeSshotAction = new ChoiceActionItem();
             processCubeSshotAction.Caption = processCubeSshotCaption;
-            processCubeAction.Items.Add(processCubeSshotAction);
+            processCustomAction.Items.Add(processCubeSshotAction);
         }
 
         protected override void OnActivated()
@@ -119,7 +120,8 @@ namespace CashDiscipline.Module.Controllers.Cash
                     SaveForecast();
                     break;
                 default:
-                    if (e.SelectedChoiceActionItem.ParentItem.Caption == processCubeCaption)
+                    if (e.SelectedChoiceActionItem.ParentItem != null && e.SelectedChoiceActionItem.ParentItem.Caption == custProcessCubeCaption
+                        || e.SelectedChoiceActionItem.Caption == processCubeCaption)
                     {
                         ProcessCube(e.SelectedChoiceActionItem.Caption);
                     }
@@ -140,7 +142,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
             switch (caption)
             {
-                case processCubeAllCaption:
+                case processCubeCaption:
                     tabular.ProcessAll();
                     new GenericMessageBox(
                          "ACTION COMPLETED : Process Cash Report - All",
