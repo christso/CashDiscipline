@@ -32,7 +32,7 @@ namespace CashDiscipline.Module.Logic.Cash
         {
             get
             {
-                return 
+                return
 @"declare @NewSnapshot as uniqueidentifier = (SELECT CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER))
 declare @CurrentSnapshot as uniqueidentifier = (SELECT TOP 1 [CurrentCashFlowSnapshot] FROM SetOfBooks WHERE GCRecord IS NULL)
 declare @SnapshotNum as int = (SELECT Max(SequentialNumber) + 1 FROM CashFlowSnapshot WHERE GCRecord IS NULL)
@@ -61,6 +61,7 @@ AND c.Snapshot = @CurrentSnapshot
 AND c.TranDate >= @MinDate
 
 UPDATE #TmpCashFlow SET
+OrigCashFlow = Oid,
 Oid = (SELECT CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER)),
 Snapshot = @NewSnapshot
 

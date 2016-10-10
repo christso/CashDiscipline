@@ -606,7 +606,7 @@ AND CashFlow.[Snapshot] = @Snapshot
 UPDATE cf SET TranDate = CASE
 -- adjust date of AP payments
 WHEN cf.Fix <> @PayrollFixTag 
-	AND FixTag.FixTagType = @ScheduleOutFixTagType
+	AND FixTag.FixTagType IN (@ScheduleOutFixTagType, @AllocateFixTagType)
 	AND cf.FixRank > 2 AND cf.TranDate <= @ApayableLockdownDate
 THEN @ApayableNextLockdownDate 
 -- adjust date of payroll payments
