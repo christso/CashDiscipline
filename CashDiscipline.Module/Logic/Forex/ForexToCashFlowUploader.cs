@@ -62,7 +62,8 @@ namespace CashDiscipline.Module.Logic.Forex
             get
             {
                 return
-@"IF OBJECT_ID('tempdb..#TmpForexTrade') IS NOT NULL DROP TABLE #TmpForexTrade
+@"-- Set up
+IF OBJECT_ID('tempdb..#TmpForexTrade') IS NOT NULL DROP TABLE #TmpForexTrade
 
 DECLARE @MaxActualDate datetime = (
 SELECT COALESCE(MAX(TranDate),'1973-01-01') FROM CashFlow

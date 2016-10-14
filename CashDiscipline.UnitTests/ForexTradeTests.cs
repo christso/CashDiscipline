@@ -19,6 +19,7 @@ namespace CashDiscipline.UnitTests
 {
     public class ForexTradeTests : TestBase
     {
+        #region Setup
         public ForexTradeTests()
         {
             //SetTesterDbType(TesterDbType.InMemory);
@@ -27,6 +28,98 @@ namespace CashDiscipline.UnitTests
             var tester = Tester as MSSqlDbTestBase;
             if (tester != null)
                 tester.DatabaseName = Constants.TestDbName;
+        }
+
+        public override void OnSetup()
+        {
+            CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
+            SetOfBooks.GetInstance(ObjectSpace);
+            CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
+        }
+
+        public override void OnAddExportedTypes(ModuleBase module)
+        {
+            CashDisciplineTestHelper.AddExportedTypes(module);
+        }
+        #endregion
+
+        [Test]
+        public void SetSettleAccountOnSave()
+        {
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+            #region Create Forex objects
+
+            // Forex Rates
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.ConversionDate = new DateTime(2013, 11, 01);
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionRate = 0.9M;
+            rate.Save();
+            ObjectSpace.CommitChanges();
+            #endregion
+
+            #region Create Lookup Objects
+
+            var priAccount = ObjectSpace.CreateObject<Account>();
+            priAccount.Name = "VHA ANZ 70086";
+            priAccount.Currency = ccyAUD;
+
+            var couAccount = ObjectSpace.CreateObject<Account>();
+            couAccount.Name = "VHA ANZ USD";
+            couAccount.Currency = ccyUSD;
+
+            var outActivity = ObjectSpace.CreateObject<Activity>();
+            outActivity.Name = "AP Pymt";
+
+            var outCounterparty = ObjectSpace.CreateObject<Counterparty>();
+            outCounterparty.Name = "UNDEFINED";
+
+            var inCounterparty = ObjectSpace.CreateObject<Counterparty>();
+            inCounterparty.Name = "ANZ";
+
+            var forexCounterparty = ObjectSpace.CreateObject<ForexCounterparty>();
+            forexCounterparty.Name = "ANZ";
+            forexCounterparty.CashFlowCounterparty = inCounterparty;
+            #endregion
+
+            #region Create Standard Settlement Accounts
+
+            var std1 = ObjectSpace.CreateObject<ForexStdSettleAccount>();
+            std1.Counterparty = forexCounterparty;
+            std1.Currency = ccyAUD;
+            std1.Account = priAccount;
+
+            var std2 = ObjectSpace.CreateObject<ForexStdSettleAccount>();
+            std2.Counterparty = forexCounterparty;
+            std2.Currency = ccyUSD;
+            std2.Account = couAccount;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Create Forex Trades
+
+            var ft1 = ObjectSpace.CreateObject<ForexTrade>();
+            ft1.ValueDate = new DateTime(2013, 11, 16);
+            ft1.Counterparty = forexCounterparty;
+            ft1.PrimaryCcy = ccyAUD;
+            ft1.CounterCcy = ccyUSD;
+            ft1.Rate = 0.95M;
+            ft1.CounterCcyAmt = 100;
+            ft1.Save();
+
+            ObjectSpace.CommitChanges();
+            #endregion
+
+            #region Assert
+
+            Assert.AreEqual(priAccount, ft1.PrimarySettleAccount);
+            Assert.AreEqual(couAccount, ft1.CounterSettleAccount);
+            #endregion
+
         }
         
         [Test]
@@ -448,16 +541,5 @@ namespace CashDiscipline.UnitTests
             #endregion
         }
 
-        public override void OnSetup()
-        {
-            CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
-            SetOfBooks.GetInstance(ObjectSpace);
-            CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
-        }
-
-        public override void OnAddExportedTypes(ModuleBase module)
-        {
-            CashDisciplineTestHelper.AddExportedTypes(module);
-        }
     }
 }

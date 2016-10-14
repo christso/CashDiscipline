@@ -270,7 +270,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                     {
                         SetPropertyValue("CounterSettleDate", ref _CounterSettleDate, _ValueDate);
                         SetPropertyValue("PrimarySettleDate", ref _PrimarySettleDate, _ValueDate);
-                        //UpdateCashFlowForecast();
                     }
                 }
             }
@@ -515,103 +514,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             if (ssa != null && ssa.Account != null)
                 return ssa.Account;
             return null;
-        }
-        #endregion
-
-        #region Cash Flow Link Logic
-
-        public void UpdateCashFlowForecast()
-        {
-            // if no date specified, then it's not worth query the database
-            // for the Max Actual Date
-            if (PrimarySettleDate == default(DateTime)
-                || CounterSettleDate == default(DateTime))
-                return;
-
-            // TODO: optimisation: cache max Actual Date
-            var maxActualDate = CashFlow.GetMaxActualTranDate(Session);
-
-            if (PrimarySettleDate <= maxActualDate
-                || CounterSettleDate <= maxActualDate
-                || PrimarySettleAccount == null
-                || CounterSettleAccount == null)
-                return;
-
-            if (!IsForexTradeValid) return;
-
-            CreatePrimaryCashFlow();
-            CreateCounterCashFlow();
-        }
-
-        private bool IsForexTradeValid
-        {
-            get
-            {
-                if (PrimarySettleAccount == null || PrimarySettleDate == default(DateTime)
-                    || CounterSettleAccount == null || CounterSettleDate == default(DateTime)
-                  || CounterCcy == null || PrimaryCcy == null) return false;
-                return true;
-            }
-        }
-
-        private void CreatePrimaryCashFlow()
-        {
-            var cashFlow = new CashFlow(Session);
-            SetPropertyValue("PrimaryCashFlow", ref _PrimaryCashFlow, cashFlow);
-            SetPrimaryCashFlowAttrs(cashFlow);
-            cashFlow.CalculateAmounts();
-        }
-        private void CreateCounterCashFlow()
-        {
-            var cashFlow = new CashFlow(Session);
-            SetPropertyValue("CounterCashFlow", ref _CounterCashFlow, cashFlow);
-            SetCounterCashFlowAttrs(cashFlow);
-            cashFlow.CalculateAmounts();
-        }
-        
-        public void SetPrimaryCashFlowAttrs(CashFlow cashFlow)
-        {
-            cashFlow.Description = string.Format("{0}-{1} {2}-Leg", PrimaryCcy.Name, CounterCcy.Name, PrimaryCcy.Name);
-            cashFlow.CounterCcy = CounterCcy;
-            cashFlow.TranDate = PrimarySettleDate;
-            if (Counterparty != null)
-                cashFlow.Counterparty = Counterparty.CashFlowCounterparty;
-            cashFlow.Status = CashFlowStatus.Forecast;
-            cashFlow.ForexSettleType = CashFlowForexSettleType.In;
-            cashFlow.Account = PrimarySettleAccount; // TODO: ensure this does not change the currency
-            cashFlow.Activity = cashFlow.Session.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
-            cashFlow.Source = cashFlow.Session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.ForexSettleCashFlowSource.Oid);
-            cashFlow.ForexSettleGroupId = SettleGroupId;
-            cashFlow.CounterCcyAmt = -this.CounterCcyAmt;
-            cashFlow.AccountCcyAmt = -this.PrimaryCcyAmt;
-        }
-        public void SetCounterCashFlowAttrs(CashFlow cashFlow)
-        {
-            cashFlow.Description = string.Format("{0}-{1} {2}-Leg", PrimaryCcy.Name, CounterCcy.Name, CounterCcy.Name);
-            cashFlow.CounterCcy = CounterCcy;
-            cashFlow.TranDate = CounterSettleDate;
-            if (Counterparty != null)
-                cashFlow.Counterparty = Counterparty.CashFlowCounterparty;
-            cashFlow.Status = CashFlowStatus.Forecast;
-            cashFlow.ForexSettleType = CashFlowForexSettleType.In;
-            cashFlow.Account = CounterSettleAccount;
-            cashFlow.Activity = cashFlow.Session.GetObjectByKey<Activity>(SetOfBooks.CachedInstance.ForexSettleActivity.Oid);
-            cashFlow.Source = cashFlow.Session.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.ForexSettleCashFlowSource.Oid);
-            cashFlow.ForexSettleGroupId = SettleGroupId;
-            cashFlow.CounterCcyAmt = this.CounterCcyAmt;
-            cashFlow.AccountCcyAmt = this.CounterCcyAmt;
-            cashFlow.FunctionalCcyAmt = this.PrimaryCcyAmt;
-        }
-
-        public void UpdatePrimaryCashFlowAccount()
-        {
-            if (PrimaryCashFlow == null || PrimaryCashFlow == null) return;
-            PrimaryCashFlow.Account = PrimarySettleAccount;
-        }
-        public void UpdateCounterCashFlowAccount()
-        {
-            if (CounterSettleAccount == null || CounterCashFlow == null) return;
-            CounterCashFlow.Account = CounterSettleAccount;
         }
         #endregion
 
