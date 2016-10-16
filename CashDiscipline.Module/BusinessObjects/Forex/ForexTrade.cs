@@ -1,3 +1,4 @@
+using CashDiscipline.Common;
 using CashDiscipline.Module.Attributes;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Logic.Forex;
@@ -31,7 +32,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            if (CashDiscipline.Common.AppBehaviour.UserTriggersEnabled)
+            if (AppBehaviour.UserTriggersEnabled)
                 InitializeValues();
         }
 

@@ -243,22 +243,6 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             get { return _InvoiceLineDesc; }
             set { SetPropertyValue("InvoiceLineDesc", ref _InvoiceLineDesc, value); }
         }
-        private decimal _DistnLineGstAud;
-        [ModelDefault("EditMask", "n2")]
-        [ModelDefault("DisplayFormat", "n2")]
-        public decimal DistnLineGstAud
-        {
-            get { return _DistnLineGstAud; }
-            set { SetPropertyValue("DistnLineGstAud", ref _DistnLineGstAud, value); }
-        }
-        private decimal _DistnLineGstFx;
-        [ModelDefault("EditMask", "n2")]
-        [ModelDefault("DisplayFormat", "n2")]
-        public decimal DistnLineGstFx
-        {
-            get { return _DistnLineGstFx; }
-            set { SetPropertyValue("DistnLineGstFx", ref _DistnLineGstFx, value); }
-        }
 
         private Account _Account;
         public Account Account
@@ -421,6 +405,50 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             }
         }
 
+        private DateTime _InvoiceReceivedDate;
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        public DateTime InvoiceReceivedDate
+        {
+            get
+            {
+                return _InvoiceReceivedDate;
+            }
+            set
+            {
+                SetPropertyValue("InvoiceReceivedDate", ref _InvoiceReceivedDate, value);
+            }
+        }
+
+        private DateTime _PaymentReceiptDate;
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        public DateTime PaymentReceiptDate
+        {
+            get
+            {
+                return _PaymentReceiptDate;
+            }
+            set
+            {
+                SetPropertyValue("PaymentReceiptDate", ref _PaymentReceiptDate, value);
+            }
+        }
+
+        private string _PaymentTerms;
+        [Size(50)]
+        public string PaymentTerms
+        {
+            get
+            {
+                return _PaymentTerms;
+            }
+            set
+            {
+                SetPropertyValue("PaymentTerms", ref _PaymentTerms, value);
+            }
+        }
+
         private int _InvoiceId;
         [ModelDefault("DisplayFormat", "f0")]
         public int InvoiceId
@@ -432,19 +460,6 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             set
             {
                 SetPropertyValue("InvoiceId", ref _InvoiceId, value);
-            }
-        }
-
-        private int _DistributionLineNumber;
-        public int DistributionLineNumber
-        {
-            get
-            {
-                return _DistributionLineNumber;
-            }
-            set
-            {
-                SetPropertyValue("DistributionLineNumber", ref _DistributionLineNumber, value);
             }
         }
 

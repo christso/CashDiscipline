@@ -97,7 +97,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             base.OnSaving();
             if (!_IsReversedStatus && !IsDeleted)
             {
-
                 var revForexRate = Session.FindObject<CashDiscipline.Module.BusinessObjects.Forex.ForexRate>(CriteriaOperator.Parse(
                     "ConversionDate = ? And FromCurrency = ? And ToCurrency = ?",
                     ConversionDate, ToCurrency, FromCurrency));

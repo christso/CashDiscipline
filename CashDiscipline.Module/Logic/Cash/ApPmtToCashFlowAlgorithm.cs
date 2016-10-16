@@ -127,9 +127,9 @@ FROM
 		ap.Account,
 		ap.Activity,
 		ap.Counterparty,
-		- ap.PaymentAmountFx - COALESCE(ap.DistnLineGstFx, 0.00) AS PaymentAmountFx,
+		- ap.PaymentAmountFx AS PaymentAmountFx,
 		ap.InvoiceCurrency,
-		- ap.PaymentAmountAud - COALESCE(ap.DistnLineGstAud, 0.00) AS PaymentAmountAud,
+		- ap.PaymentAmountAud AS PaymentAmountAud,
 		ap.PaymentCurrency,
 		COALESCE(ap.SummaryDescription,'') AS SummaryDescription
 	FROM ApPmtDistn ap
@@ -144,9 +144,9 @@ FROM
 		ap.Account,
 		@ApReclassActivity,
 		@ApCounterparty,
-		ap.PaymentAmountFx + COALESCE(ap.DistnLineGstFx, 0.00) AS PaymentAmountFx,
+		ap.PaymentAmountFx AS PaymentAmountFx,
 		ap.InvoiceCurrency,
-		ap.PaymentAmountAud + COALESCE(ap.DistnLineGstAud, 0.00) AS PaymentAmountAud,
+		ap.PaymentAmountAud AS PaymentAmountAud,
 		ap.PaymentCurrency,
 		'' AS SummaryDescription
 	FROM ApPmtDistn ap
