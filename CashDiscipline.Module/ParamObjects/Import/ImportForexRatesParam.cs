@@ -10,7 +10,7 @@ namespace CashDiscipline.Module.ParamObjects.Import
 {
     [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [ModelDefault("ImageName", "BO_List")]
-    [NavigationItem("Parameters")]
+    [NavigationItem("Import")]
     public class ImportForexRatesParam : BaseObject
     {
         public ImportForexRatesParam(Session session) : base(session)

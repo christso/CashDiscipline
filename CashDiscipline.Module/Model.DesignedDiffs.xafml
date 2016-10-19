@@ -25,10 +25,9 @@
       </Item>
       <Item Id="Cash Data" Caption="Cash Data" Index="2" IsNewNode="True">
         <Items IsNewNode="True">
-          <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="0" IsNewNode="True" />
-          <Item Id="ApPoReceipt" Caption="Ap Po Receipt" ViewId="ApPoReceipt_ListView" Index="1" IsNewNode="True" />
-          <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="2" IsNewNode="True" />
-          <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="3" IsNewNode="True" />
+          <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="1" IsNewNode="True" />
+          <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="3" IsNewNode="True" />
+          <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="4" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="Cash Report" Index="3" IsNewNode="True" />
@@ -52,7 +51,13 @@
           <Item Id="ImportBankStmtParamItem_ListView" Index="5" />
         </Items>
       </Item>
-      <Item Id="System Internals" Index="7" Caption="System Internals" IsNewNode="True">
+      <Item Id="WorkingCapital" Caption="Working Capital" Index="7" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="ApInvoiceBalance" ViewId="ApInvoiceBalance_ListView" Index="0" IsNewNode="True" />
+          <Item Id="ApPoReceipt" Caption="Ap Po Receipt" ViewId="ApPoReceipt_ListView" Index="2" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="System Internals" Index="8" Caption="System Internals" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
           <Item Id="FinGenJournalParam" ViewId="FinGenJournalParam_ListView" Index="4" IsNewNode="True" />
@@ -96,6 +101,7 @@
     <ListView Id="Activity_ListView" AllowEdit="True" />
     <ListView Id="Activity_LookupListView" AllowEdit="False" />
     <ListView Id="ApBankAccount_LookupListView" AllowEdit="False" />
+    <ListView Id="ApInvoiceBalance_ListView" DataAccessMode="Server" />
     <ListView Id="ApInvSource_LookupListView" AllowEdit="False" />
     <ListView Id="ApPayGroup_LookupListView" AllowEdit="False" />
     <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server">

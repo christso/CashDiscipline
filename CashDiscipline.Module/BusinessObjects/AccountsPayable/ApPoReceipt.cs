@@ -12,7 +12,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
     [ModelDefault("IsFooterVisible", "True")]
     [AutoColumnWidth(false)]
     [ModelDefault("ImageName", "BO_List")]
-    public partial class ApPoReceipt : XPLiteObject
+    public class ApPoReceipt : XPLiteObject
     {
         public ApPoReceipt(Session session) : base(session) { }
         public override void AfterConstruction() { base.AfterConstruction(); }

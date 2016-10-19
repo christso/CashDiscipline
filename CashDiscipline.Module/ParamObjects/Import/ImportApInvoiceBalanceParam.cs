@@ -9,20 +9,45 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xafology.ExpressApp.SystemModule;
 
 namespace CashDiscipline.Module.ParamObjects.Import
 {
     [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [ModelDefault("ImageName", "BO_List")]
     [NavigationItem("Import")]
-    public class ImportApPmtDistnParam : BaseObject
+    public class ImportApInvoiceBalanceParam : BaseObject
     {
-        public ImportApPmtDistnParam(Session session) : base(session)
+        public ImportApInvoiceBalanceParam(Session session) : base(session)
         {
             session.LockingOption = LockingOption.None;
         }
 
+        private DateTime _FromDate;
+
+        public DateTime FromDate
+        {
+            get
+            {
+                return _FromDate;
+            }
+            set
+            {
+                SetPropertyValue("FromDate", ref _FromDate, value);
+            }
+        }
+
+        private DateTime _ToDate;
+        public DateTime ToDate
+        {
+            get
+            {
+                return _ToDate;
+            }
+            set
+            {
+                SetPropertyValue("ToDate", ref _ToDate, value);
+            }
+        }
 
         private string _FilePath;
         [Size(SizeAttribute.Unlimited)]

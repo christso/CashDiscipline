@@ -207,6 +207,7 @@
   <ItemGroup>
     <Compile Include="AppNavigation\ActionPortalHardLogic.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApInvoiceBalance.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtDefaults.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPoReceipt.cs" />
@@ -242,7 +243,14 @@
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Logic\Cash\ApPmtDistnImporter.cs" />
+    <Compile Include="Controllers\Cash\ImportApInvoiceBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\ApInvoiceBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Logic\Import\ApInvoiceBalanceImporter.cs" />
+    <Compile Include="Logic\Import\ApPmtDistnImporter.cs" />
     <Compile Include="Logic\Cash\ApPmtToCashFlowAlgorithm.cs" />
     <Compile Include="Logic\Cash\BankStmtCalculator.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular.cs" />
@@ -261,7 +269,7 @@
     <Compile Include="DatabaseUpdate\DbUtils.cs" />
     <Compile Include="Interfaces\IMapping.cs" />
     <Compile Include="Logic\Cash\ApPmtDistnMapper.cs" />
-    <Compile Include="Logic\Cash\BankStmtImporter.cs" />
+    <Compile Include="Logic\Import\BankStmtImporter.cs" />
     <Compile Include="Logic\Cash\BankStmtMapper.cs" />
     <Compile Include="Logic\Cash\BankStmtToCashFlowAlgorithm.cs" />
     <Compile Include="Controllers\Forex\ForexSettleFifoParamViewController.cs">
@@ -299,6 +307,7 @@
     <Compile Include="NavigationHelper.cs" />
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApInvoiceBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
     <Content Include="Scripts\CreateGenLedgerObjects.sql" />
     <Compile Include="ProcessStatus.cs" />

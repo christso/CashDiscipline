@@ -12,7 +12,7 @@ using DevExpress.Xpo;
 namespace CashDiscipline.Module.ParamObjects.Import
 {
     [ModelDefault("ImageName", "BO_List")]
-    [NavigationItem("Parameters")]
+    [NavigationItem("Import")]
     [ModelDefault("IsFooterVisible", "True")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [AutoColumnWidth(false)]
