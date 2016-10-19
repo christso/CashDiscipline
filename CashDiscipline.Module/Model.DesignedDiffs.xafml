@@ -62,8 +62,8 @@
     </Items>
   </NavigationItems>
   <SchemaModules>
-    <SchemaModule Name="CloneObjectModule" Version="16.1.6.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="16.1.6.0" IsNewNode="True" />
+    <SchemaModule Name="CloneObjectModule" Version="16.1.7.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="16.1.7.0" IsNewNode="True" />
     <SchemaModule Name="SystemWindowsFormsModule" Version="12.2.7.0" IsNewNode="True" />
   </SchemaModules>
   <Templates>
@@ -515,6 +515,31 @@
       <Columns>
         <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
         <ColumnInfo Id="ConfDealNum" Index="1" />
+        <ColumnInfo Id="EventType" Index="2" />
+        <ColumnInfo Id="PrimaryCcy" Index="3" />
+        <ColumnInfo Id="PrimaryCcyAmt" Index="4" />
+        <ColumnInfo Id="Rate" Index="5" />
+        <ColumnInfo Id="CounterCcy" Index="6" />
+        <ColumnInfo Id="CounterCcyAmt" Index="7" />
+        <ColumnInfo Id="TradeDate" Index="8" />
+        <ColumnInfo Id="ValueDate" Index="9" />
+        <ColumnInfo Id="Counterparty" Index="10" />
+        <ColumnInfo Id="Status" Index="11" />
+        <ColumnInfo Id="HedgeActivity" Index="12" />
+        <ColumnInfo Id="Description" Index="13" />
+        <ColumnInfo Id="CustomRef" Index="14" />
+        <ColumnInfo Id="OrigTradeDate" Index="15" />
+        <ColumnInfo Id="PrimarySettleDate" Index="16" />
+        <ColumnInfo Id="CounterSettleDate" Index="17" />
+        <ColumnInfo Id="PrimarySettleAccount" Index="18" />
+        <ColumnInfo Id="CounterSettleAccount" Index="19" />
+        <ColumnInfo Id="CreationDate" Index="20" />
+        <ColumnInfo Id="SettleGroupId" Index="21" />
+        <ColumnInfo Id="MtmDealNum" Index="22" />
+        <ColumnInfo Id="PrimaryCashFlow" Index="23" />
+        <ColumnInfo Id="CounterCashFlow" Index="24" />
+        <ColumnInfo Id="OrigTrade" Index="25" />
+        <ColumnInfo Id="ReverseTrade" Index="26" />
       </Columns>
     </ListView>
     <ListView Id="GenLedger_ListView" DataAccessMode="Server" AllowEdit="True" NewItemRowPosition="Top" />
