@@ -183,6 +183,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
+                var oldCounterCcy = _CounterCcy;
                 if (SetPropertyValue("CounterCcy", ref _CounterCcy, value))
                 {
                     if (!IsLoading && !IsSaving && CalculateEnabled)
@@ -194,13 +195,13 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                         {
                             return;
                         }
-                        else if (SetOfBooks.CachedInstance.FunctionalCurrency.Oid == fromCcy.Oid)
+                        else if (oldCounterCcy == null)
                         {
-                            obj.PrimaryCcyAmt = Math.Round(fromAmt, 2);
-                            obj.SetPropertyValue("Rate", ref obj._Rate, 1);
+                            UpdatePrimaryCcyAmt();
                         }
                         else if (obj.ValueDate != default(DateTime))
                         {
+                            //UpdatePrimaryCcyAmt();
                             CalculatePrimaryCcyAmt(fromCcy, fromAmt);
                         }
                         UpdateCounterSettleAccount();
@@ -233,7 +234,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         }
 
         [ModelDefault("EditMask", "dd-MMM-yy HH:mm:ss")]
-        [ModelDefault("DisplayFormat", "dd-MMM-yy HH:mm:ss")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime TradeDate
         {
             get
@@ -628,7 +629,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             OrigTrade = this;
             var sqlUtil = new SqlQueryUtil(Session);
             CreationDate = sqlUtil.GetDate();
-            TradeDate = CreationDate;
+            TradeDate = CreationDate.Date;
             OrigTradeDate = CreationDate;
             ValueDate = CreationDate.Date;
             PrimarySettleDate = ValueDate;
