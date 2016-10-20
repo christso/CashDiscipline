@@ -13,6 +13,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SmartFormat;
+using CashDiscipline.Common;
+using DG2NTT.AnalysisServicesHelpers;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -39,6 +41,14 @@ namespace CashDiscipline.Module.Controllers.Cash
         private void ReportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
             
+            string serverName = Constants.SsasServerName;
+            var processor = new ServerProcessor(serverName, "ApPayables");
+            processor.ProcessDatabase();
+
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                "Process Report Successful",
+                "Process Report Successful"
+            );
         }
 
         private void MapAction_Execute(object sender, SimpleActionExecuteEventArgs e)

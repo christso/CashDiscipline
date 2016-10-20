@@ -143,9 +143,14 @@ namespace CashDiscipline.Module.Controllers.Cash
             switch (caption)
             {
                 case processCubeCaption:
+                    var sw = new System.Diagnostics.Stopwatch();
+                    sw.Start();
                     tabular.ProcessAll();
+                    sw.Stop();
                     new GenericMessageBox(
-                         "ACTION COMPLETED : Process Cash Report - All",
+                         string.Format(
+                            "ACTION COMPLETED : Process Cash Report - All : Elapsed = {0} seconds",
+                            sw.Elapsed.Seconds),
                          "ACTION COMPLETED");
                     break;
                 case processCubeCurrentCaption:
