@@ -50,6 +50,10 @@ namespace CashDiscipline.UnitTests
             CashDisciplineTestHelper.AddExportedTypes(module);
         }
 
+        public void CallService()
+        {
+
+        }
 
     }
 }

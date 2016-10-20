@@ -23,10 +23,10 @@ namespace CashDiscipline.ServiceLib.Integration
         {
             SqlConnection ssisConnection = new SqlConnection(SqlConnectionString);
             IntegrationServices ssisServer = new IntegrationServices(ssisConnection);
-
+            
             // The reference to the package which you want to execute
             PackageInfo ssisPackage = ssisServer.Catalogs[CashDiscipline.Common.Constants.SsisCatalog].Folders[ssisFolderName].Projects[catalogName].Packages[packageName];
-
+            
             // Add execution parameter to override the default asynchronized execution. If you leave this out the package is executed asynchronized
             Collection<PackageInfo.ExecutionValueParameterSet> executionParameter = new Collection<PackageInfo.ExecutionValueParameterSet>();
             executionParameter.Add(new PackageInfo.ExecutionValueParameterSet { ObjectType = 50, ParameterName = "SYNCHRONIZED", ParameterValue = 1 });
@@ -45,7 +45,7 @@ namespace CashDiscipline.ServiceLib.Integration
 
             // Get the identifier of the execution to get the log
             long executionIdentifier = ssisPackage.Execute(false, null, executionParameter);
-
+            
             // Loop through the log and add the messages to the listbox
             SsisMessages = new List<SsisMessage>();
             var execution = ssisServer.Catalogs["SSISDB"].Executions[executionIdentifier];
