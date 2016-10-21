@@ -337,13 +337,5 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             get { return fEnteredOrigRemainingAmount; }
             set { SetPropertyValue<double>("EnteredOrigRemainingAmount", ref fEnteredOrigRemainingAmount, value); }
         }
-        string fOpexExecorCapexDlvryArea;
-        [Size(255)]
-        [Persistent(@"Opex Exec or Capex Dlvry Area")]
-        public string OpexExecorCapexDlvryArea
-        {
-            get { return fOpexExecorCapexDlvryArea; }
-            set { SetPropertyValue<string>("OpexExecorCapexDlvryArea", ref fOpexExecorCapexDlvryArea, value); }
-        }
     }
 }
