@@ -9,7 +9,7 @@ using CashDiscipline.Module.BusinessObjects.Forex;
 
 namespace CashDiscipline.Module.Validation
 {
-    [CodeRule]
+    //[CodeRule]
     public class ForexTradeRule : RuleBase<ForexTrade>
     {
         protected ForexTradeRule(string id, ContextIdentifiers targetContextIDs)
@@ -34,11 +34,11 @@ namespace CashDiscipline.Module.Validation
         }
         protected override bool IsValidInternal(ForexTrade target, out string errorMessageTemplate)
         {
-            decimal expectedValue = Math.Round(target.CounterCcyAmt / target.Rate, 2);
+            decimal expectedRate = target.CounterCcyAmt / target.PrimaryCcyAmt;
             errorMessageTemplate = "";
-            if (expectedValue == Math.Round(target.PrimaryCcyAmt, 2))
+            if (Math.Round(target.Rate, 4) == Math.Round(expectedRate, 4))
                 return true;
-            errorMessageTemplate = string.Format("Primary Ccy Amt should equal to Counter Ccy Amt divided by Rate, in this case, it should equal {0}", expectedValue);
+            errorMessageTemplate = string.Format("Rate should equal Counter Ccy Amt divded by Primary Ccy Amt, in this case, it should equal {0}", expectedRate);
             return false;
         }
     }

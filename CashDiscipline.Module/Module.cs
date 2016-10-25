@@ -30,7 +30,7 @@ namespace CashDiscipline.Module
 
             // register my code rules
             ValidationRulesRegistrator.RegisterRule(moduleManager, typeof(GenLedgerRule), typeof(IRuleBaseProperties));
-            ValidationRulesRegistrator.RegisterRule(moduleManager, typeof(ForexTradeRule), typeof(IRuleBaseProperties));
+            //ValidationRulesRegistrator.RegisterRule(moduleManager, typeof(ForexTradeRule), typeof(IRuleBaseProperties));
 
         }
         public override void Setup(XafApplication application)

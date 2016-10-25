@@ -456,6 +456,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FunctionalTests\Test.ets" />
+    <None Include="FunctionalTests\WebSample.ets" />
     <None Include="Images\ReadMe.txt" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
