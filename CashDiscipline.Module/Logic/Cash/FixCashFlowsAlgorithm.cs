@@ -424,6 +424,7 @@ UPDATE revFix SET
 	-- if the currencies do not match, use functional currency
 	CounterCcy = CASE WHEN revFix.CounterCcy <> fixer.CounterCcy THEN @FunctionalCurrency ELSE revFix.CounterCcy END,
 	CounterCcyAmt = CASE WHEN revFix.CounterCcy <> fixer.CounterCcy THEN -revFix.FunctionalCcyAmt ELSE -revFix.CounterCcyAmt END,
+    Account = fixer.Account,
 
 	AccountCcyAmt = -revFix.AccountCcyAmt,
 	FunctionalCcyAmt = -revFix.FunctionalCcyAmt,

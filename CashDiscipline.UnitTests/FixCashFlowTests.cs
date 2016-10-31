@@ -1733,6 +1733,12 @@ namespace CashDiscipline.UnitTests
                      .Where(cf => cf.TranDate == fixerDate)
                      .Sum(cf => cf.FunctionalCcyAmt), 2));
 
+            Assert.AreEqual(600.00, cashFlows
+                .Where(cf => cf.TranDate == new DateTime(2016, 3, 25)
+                    && cf.Account.Name == "VHA ANZ AUD"
+                    && cf.Fix.Name == "R")
+                .Sum(cf => cf.AccountCcyAmt));
+
             #endregion
         }
 
