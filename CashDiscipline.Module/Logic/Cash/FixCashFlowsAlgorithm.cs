@@ -604,11 +604,16 @@ AND CashFlow.[Snapshot] = @Snapshot
 );
 
 UPDATE cf SET TranDate = CASE
--- adjust date of AP payments
+-- move AP payments forecast to next lockdown date
 WHEN cf.Fix <> @PayrollFixTag 
-	AND FixTag.FixTagType IN (@ScheduleOutFixTagType, @AllocateFixTagType)
+	AND FixTag.FixTagType IN (@ScheduleOutFixTagType)
 	AND cf.FixRank > 2 AND cf.TranDate <= @ApayableLockdownDate
-THEN @ApayableNextLockdownDate 
+THEN @ApayableNextLockdownDate
+-- move business forecast to next week 
+WHEN cf.Fix <> @PayrollFixTag 
+	AND FixTag.FixTagType IN (@AllocateFixTagType)
+	AND cf.FixRank > 2 AND cf.TranDate <= @MaxActualDate
+THEN DATEADD(d, 7, @MaxActualDate)
 -- adjust date of payroll payments
 WHEN cf.Fix = @PayrollFixTag
 	AND cf.FixRank > 2 AND cf.TranDate <= @PayrollLockdownDate

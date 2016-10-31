@@ -31,6 +31,10 @@ namespace CashDiscipline.Module.Controllers.Cash
             fixAction.Caption = "Fix";
             fixAction.Execute += (sender, e) => FixAction_Execute(sender, e, true);
 
+            var rephaseAction = new SimpleAction(this, "CashFlowRephaseAction", "ExecuteActions");
+            rephaseAction.Caption = "Rephase";
+            rephaseAction.Execute += (sender, e) => RephaseAction_Execute(sender, e, true);
+
             var unfixAction = new SimpleAction(this, "CashFlowUnfixAction", "ExecuteActions");
             unfixAction.Caption = "Unfix";
             unfixAction.Execute += (sender, e) => UnfixAction_Execute(sender, e, true);
@@ -42,7 +46,6 @@ namespace CashDiscipline.Module.Controllers.Cash
             var revalAction = new SimpleAction(this, "CashFlowRevalAction", "ExecuteActions");
             revalAction.Caption = "Reval";
             revalAction.Execute += (sender, e) => RevalAction_Execute(sender, e, true);
-
         }
 
         private void RunAction_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -53,6 +56,26 @@ namespace CashDiscipline.Module.Controllers.Cash
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 "Cash Flows were successfully 'Mapped', 'Fixed' and 'Revalued'.",
                 "Cash Flow Fix SUCCESS");
+        }
+
+        private void RephaseAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
+        {
+            ObjectSpace.CommitChanges();
+
+            var os = (XPObjectSpace)Application.CreateObjectSpace();
+            var paramObj = View.CurrentObject as CashFlowFixParam;
+            if (paramObj != null)
+            {
+                var algo = new FixCashFlowsAlgorithm(os, paramObj);
+                algo.Rephase();
+            }
+
+            if (isRootSender)
+            {
+                new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                "Cash Flows were successfully 'Rephased'.",
+                "Cash Flow Fix SUCCESS");
+            }
         }
 
         private void RevalAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)

@@ -589,6 +589,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime DateUnFix
         {
             get
@@ -601,6 +602,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime FixFromDate
         {
             get
@@ -613,7 +615,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime FixToDate
         {
             get

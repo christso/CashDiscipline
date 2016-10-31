@@ -35,13 +35,13 @@ namespace CashDiscipline.Common
         public const string DefaultFixCounterparty = "UNDEFINED";
 
         // SSAS
-        public const string SsasServerName = "FINSERV01";
+        public const string SsasServerName = "vvsw31414";
         public const string SsasDatabase = "CashFlow";
         public const string SsasModel = "Model";
         public const string SsasSnapshotPartition = "CashFlow_Snapshot";
         public const string SsasSnapshotReported = "SnapshotReported";
         public const string SsasSnapshot = "Snapshot";
-        public const string SqlConnectionString = @"Data Source=FINSERV01;Initial Catalog=CashDiscipline;Integrated Security=SSPI;";
+        public const string SqlConnectionString = @"Data Source=vvsw31414;Initial Catalog=CashDiscipline;Integrated Security=SSPI;";
         public const string SqlDatabase = "CashDiscipline";
         public const string SsisFolderName = "CashFlow";
         public const string SsisCatalog = "SSISDB";
