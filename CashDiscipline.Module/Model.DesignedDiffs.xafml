@@ -41,16 +41,6 @@
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Parameters" Index="6" Caption="Import">
-        <Items>
-          <Item Id="ImportHeadersParam" ViewId="ImportHeadersParam_ListView" Index="0" IsNewNode="True" />
-          <Item Id="ImportOrdinalsParam" ViewId="ImportOrdinalsParam_ListView" Index="1" IsNewNode="True" />
-          <Item Id="ImportParamBase" ViewId="ImportParamBase_ListView" Index="2" IsNewNode="True" />
-          <Item Id="ImportApPmtDistnParam_ListView" Index="3" />
-          <Item Id="ImportBankStmtParam_ListView" Index="4" />
-          <Item Id="ImportBankStmtParamItem_ListView" Index="5" />
-        </Items>
-      </Item>
       <Item Id="WorkingCapital" Caption="Working Capital" Index="7" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ApInvoiceBalance" ViewId="ApInvoiceBalance_ListView" Index="0" IsNewNode="True" />
@@ -156,7 +146,7 @@
     <ListView Id="ApPoReceipt_ListView" DataAccessMode="Server" />
     <ListView Id="ApSource_LookupListView" AllowEdit="False" />
     <ListView Id="ApVendor_LookupListView" AllowEdit="False" />
-    <ListView Id="AustPostSettle_ListView">
+    <ListView Id="AustPostSettle_ListView" DataAccessMode="Server">
       <Columns>
         <ColumnInfo Id="Oid" PropertyName="Oid" SortIndex="-1" Index="0" IsNewNode="True" />
         <ColumnInfo Id="BankStmt" Index="1" />

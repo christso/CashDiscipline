@@ -66,6 +66,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         private DateTime _BankStmtDate;
 
         [ModelDefault("AllowEdit", "false")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime BankStmtDate
         {
             get
