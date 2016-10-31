@@ -48,5 +48,9 @@ namespace CashDiscipline.Common
 
         // Resources
         public const string CashDiscSqlInstallScriptPath = @"CashDiscipline.Module.Scripts.InstallClr.sql";
+
+        // Connection strings
+
+        public const string FinanceConnString = "Data Source=vvsw31414;Database=VHAFinance;Integrated Security=true;";
     }
 }

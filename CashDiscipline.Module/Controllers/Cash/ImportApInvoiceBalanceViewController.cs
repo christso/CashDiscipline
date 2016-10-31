@@ -90,7 +90,7 @@ InvoiceReceivedDate =
 )
 WHERE ApTradeCreditor.AsAtDate BETWEEN '{FromDate}' AND '{ToDate}'";
 
-            string connString = "Data Source=vvsw31414;Database=VHAFinance;Integrated Security=true;";
+            const string connString = CashDiscipline.Common.Constants.FinanceConnString;
 
             try
             {

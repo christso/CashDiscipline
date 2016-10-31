@@ -98,13 +98,5 @@ namespace CashDiscipline.UnitTests
 
             #endregion
         }
-
-        [Test]
-        public void ImportApPmtDistnCsv()
-        {
-            var importer = new ApPmtDistnImporter(ObjectSpace);
-            var result = importer.Execute(@"\\vvsw31414\VHA Import\Cash Discipline\AP Payments\AP Payment.CSV");
-            Console.WriteLine(result);
-        }
     }
 }
