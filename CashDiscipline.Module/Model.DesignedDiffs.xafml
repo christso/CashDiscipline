@@ -41,6 +41,7 @@
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
         </Items>
       </Item>
+      <Item Id="Import" Index="6" />
       <Item Id="WorkingCapital" Caption="Working Capital" Index="7" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ApInvoiceBalance" ViewId="ApInvoiceBalance_ListView" Index="0" IsNewNode="True" />

@@ -15,9 +15,9 @@ namespace CashDiscipline.Module.ParamObjects.Import
     [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [ModelDefault("ImageName", "BO_List")]
     [NavigationItem("Import")]
-    public class ImportApInvoiceBalanceParam : BaseObject
+    public class ImportApInvoiceHeaderParam : BaseObject
     {
-        public ImportApInvoiceBalanceParam(Session session) : base(session)
+        public ImportApInvoiceHeaderParam(Session session) : base(session)
         {
             session.LockingOption = LockingOption.None;
         }
@@ -63,9 +63,9 @@ namespace CashDiscipline.Module.ParamObjects.Import
             }
         }
 
-        public static ImportApInvoiceBalanceParam GetInstance(IObjectSpace objectSpace)
+        public static ImportApPmtDistnParam GetInstance(IObjectSpace objectSpace)
         {
-            return BaseObjectHelper.GetInstance<ImportApInvoiceBalanceParam>(objectSpace);
+            return BaseObjectHelper.GetInstance<ImportApPmtDistnParam>(objectSpace);
         }
     }
 }

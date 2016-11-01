@@ -9,15 +9,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xafology.ExpressApp.SystemModule;
 
 namespace CashDiscipline.Module.ParamObjects.Import
 {
     [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [ModelDefault("ImageName", "BO_List")]
     [NavigationItem("Import")]
-    public class ImportApInvoiceBalanceParam : BaseObject
+    public class ImportArReceiptDistnParam : BaseObject
     {
-        public ImportApInvoiceBalanceParam(Session session) : base(session)
+        public ImportArReceiptDistnParam(Session session) : base(session)
         {
             session.LockingOption = LockingOption.None;
         }
@@ -63,9 +64,5 @@ namespace CashDiscipline.Module.ParamObjects.Import
             }
         }
 
-        public static ImportApInvoiceBalanceParam GetInstance(IObjectSpace objectSpace)
-        {
-            return BaseObjectHelper.GetInstance<ImportApInvoiceBalanceParam>(objectSpace);
-        }
     }
 }

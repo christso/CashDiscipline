@@ -9,43 +9,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xafology.ExpressApp.SystemModule;
+
 
 namespace CashDiscipline.Module.ParamObjects.Import
 {
     [Xafology.ExpressApp.Attributes.AutoCreatableObjectAttribute]
     [ModelDefault("ImageName", "BO_List")]
     [NavigationItem("Import")]
-    public class ImportApInvoiceBalanceParam : BaseObject
+    public class ImportArOpenInvoicesParam : BaseObject
     {
-        public ImportApInvoiceBalanceParam(Session session) : base(session)
+        public ImportArOpenInvoicesParam(Session session) : base(session)
         {
             session.LockingOption = LockingOption.None;
         }
 
-        private DateTime _FromDate;
+        private DateTime _AsAtDate;
 
-        public DateTime FromDate
+        public DateTime AsAtDate
         {
             get
             {
-                return _FromDate;
+                return _AsAtDate;
             }
             set
             {
-                SetPropertyValue("FromDate", ref _FromDate, value);
-            }
-        }
-
-        private DateTime _ToDate;
-        public DateTime ToDate
-        {
-            get
-            {
-                return _ToDate;
-            }
-            set
-            {
-                SetPropertyValue("ToDate", ref _ToDate, value);
+                SetPropertyValue("AsAtDate", ref _AsAtDate, value);
             }
         }
 
@@ -61,11 +50,6 @@ namespace CashDiscipline.Module.ParamObjects.Import
             {
                 SetPropertyValue("FilePath", ref _FilePath, value);
             }
-        }
-
-        public static ImportApInvoiceBalanceParam GetInstance(IObjectSpace objectSpace)
-        {
-            return BaseObjectHelper.GetInstance<ImportApInvoiceBalanceParam>(objectSpace);
         }
     }
 }
