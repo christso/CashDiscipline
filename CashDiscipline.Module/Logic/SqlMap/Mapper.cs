@@ -63,7 +63,7 @@ namespace CashDiscipline.Module.Logic.SqlMap
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
-            command.CommandTimeout = 99999;
+            command.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
             var commandTextList = GetMapCommandTextList(sqlTemplate);
 
             foreach (string commandText in commandTextList)
@@ -86,7 +86,7 @@ namespace CashDiscipline.Module.Logic.SqlMap
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
-            command.CommandTimeout = 99999;
+            command.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
             var commandTextList = GetMapCommandTextListByItem(objs);
 
             foreach (string commandText in commandTextList)

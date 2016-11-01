@@ -202,6 +202,7 @@ namespace CashDiscipline.Module.Logic.Cash
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
+            command.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
             //command.Parameters.AddRange(parameters.ToArray());
             command.CommandText = this.parameterCommandText + "\n\n" + ProcessCommandText;
             int result = command.ExecuteNonQuery();

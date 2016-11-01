@@ -249,7 +249,7 @@ FROM #TmpApPmtDistnImport2 tp";
             using (var bc = new SqlBulkCopy(conn))
             {
                 //cmd.Transaction = trn;
-                cmd.CommandTimeout = 999999;
+                cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
 
                 cmd.CommandText = createSql;
                 cmd.ExecuteNonQuery();
