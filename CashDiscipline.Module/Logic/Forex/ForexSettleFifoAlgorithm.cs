@@ -58,10 +58,14 @@ WHERE GCRecord IS NULL
 	AND ForexSettleType = @OutSettleType
 	AND AccountCcyAmt > 0
 	AND TranDate BETWEEN @FromDate AND @ToDate
+    AND Snapshot = @Snapshot
+-- FunctionalCurrency != Account.Currency
+	AND (SELECT TOP 1 SetOfBooks.FunctionalCurrency FROM SetOfBooks WHERE GCRecord IS NULL) 
+		!= (SELECT Account.Currency FROM Account WHERE Account.Oid = CashFlow.Account)
 )
 
-DECLARE @ErrMessage nvarchar(255) = (SELECT 'CashFlow {' + CAST(@InvalidOid as nvarchar(255)) 
-	+ '} with SettleType = Out cannot be a positive number.'
+DECLARE @ErrMessage nvarchar(255) = (SELECT 'CashFlow {{' + CAST(@InvalidOid as nvarchar(255)) 
+	+ '}} with SettleType = Out cannot be a positive number.'
 	+ ' If the CashFlow is a Reclass, then the negative and positive amounts should have SettleType = OutReclass or InReclass.')
 
 IF @InvalidOid IS NOT NULL
