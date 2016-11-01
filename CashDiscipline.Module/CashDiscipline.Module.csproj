@@ -259,6 +259,9 @@
     <Compile Include="Controllers\WorkingCapital\ImportApInvoicesDueViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\WorkingCapital\ImportArOpenInvoicesViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -287,6 +290,7 @@
     <Compile Include="DatabaseUpdate\DbUtils.cs" />
     <Compile Include="Interfaces\IMapping.cs" />
     <Compile Include="Logic\Cash\ApPmtDistnMapper.cs" />
+    <Compile Include="Logic\Import\ApPoReceiptImporter.cs" />
     <Compile Include="Logic\Import\ArOpenInvoicesImporter.cs" />
     <Compile Include="Logic\Import\ArReceiptDistnImporter.cs" />
     <Compile Include="Logic\Import\BankStmtImporter.cs" />
@@ -330,6 +334,7 @@
     <Compile Include="ParamObjects\ImportApInvoicesDueParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApInvoiceBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApInvoiceHeaderParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPoReceiptParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArOpenInvoicesParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArReceiptDistnParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
