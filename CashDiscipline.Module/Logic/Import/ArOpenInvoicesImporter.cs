@@ -1,6 +1,7 @@
 ﻿using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp.Xpo;
 using LumenWorks.Framework.IO.Csv;
+using SmartFormat;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -26,40 +27,24 @@ namespace CashDiscipline.Module.Logic.Import
             {
                 return @"IF OBJECT_ID('tempdb..#TmpArOpenInvoice') IS NOT NULL DROP TABLE #TmpArOpenInvoice
 CREATE TABLE #TmpArOpenInvoice (
-[Request id] int,
-[As at Date] date,
-[Supplier] nvarchar(255),
-[Vendor Type] nvarchar(255),
-[Category1] nvarchar(255),
-[Category2] nvarchar(255),
-[Invoice Number] nvarchar(255),
-[Liability Company] nvarchar(10),
-[Liability Account] nvarchar(10),
-[Liability Cost Centre] nvarchar(10),
-[Liability Intercompany] nvarchar(10),
-[Invoice date] date,
-[GL date] date,
-[Trx currency code] nvarchar(10),
-[Invoice Amount AUD] float,
-[Invoice Remaining Amount AUD] float,
-[Line Distribution Remaining Amount AUD] float,
-[Opex  Capex  Other] nvarchar(255),
-[Extra detail (Opex  Exec  Capex  Delivery Area)] nvarchar(255),
-[Extra detail2 (Opex  GM  Capex  Project Number)] nvarchar(255),
-[Expense Company] nvarchar(10),
-[Expense Account] nvarchar(10),
-[Expense Cost Centre] nvarchar(10),
-[Expense Product] nvarchar(10),
-[Expense Sales Channel] nvarchar(10),
-[Expense Country] nvarchar(10),
-[Expense Intercompany] nvarchar(10),
-[Expense Project] nvarchar(10),
-[Expense Location] nvarchar(10),
-[Invoice Description] nvarchar(255),
+[Customer Name] nvarchar(255),
+[Customer Number] nvarchar(255),
+[Trx Date] date,
 [Due Date] date,
-[Payment Term] nvarchar(50),
-[Entered rounded orig amount] float,
-[Entered rounded rem amount] float
+[Trx Type] nvarchar(255),
+[Trx Number] nvarchar(255),
+[Apply Date] nvarchar(255),
+[Trx Status] nvarchar(255),
+[Sales Order] nvarchar(255),
+[Reference] nvarchar(255),
+[Currency Code] nvarchar(255),
+[Original Amount] float,
+[Balance Due] float,
+[Credited Amount] float,
+[Adjustment Amount] float,
+[Applied Amount] float,
+[Original Receipt Amount] float,
+[Overdue Days] int
 )";
             }
         }
@@ -69,80 +54,53 @@ CREATE TABLE #TmpArOpenInvoice (
             get
             {
                 return
-@"INSERT INTO VHAFinance.dbo.ApTradeCreditor
+@"DELETE FROM VHAFinance.dbo.ArOpenInvoices
+WHERE [AsAtDate] = '{AsAtDate}'
+
+INSERT INTO VHAFinance.dbo.ArOpenInvoices
 (
     [Oid],
-    [RequestId],
     [AsAtDate],
-    [Supplier],
-    [VendorType],
-    [Category1],
-    [Category2],
-    [InvoiceNumber],
-    [LiabilityCompany],
-    [LiabilityAccount],
-    [LiabilityCostCentre],
-    [LiabilityIntercompany],
-    [InvoiceDate],
-    [GlDate],
-    [TrxCurrencyCode],
-    [InvoiceAmountAud],
-    [InvoiceRemainingAmountAud],
-    [LineDistributionRemainingAmountAud],
-    [Opex_Capex_Other],
-    [ExtraDetail1],
-    [ExtraDetail2],
-    [ExpenseCompany],
-    [ExpenseAccount],
-    [ExpenseCostCentre],
-    [ExpenseProduct],
-    [ExpenseSalesChannel],
-    [ExpenseCountry],
-    [ExpenseIntercompany],
-    [ExpenseProject],
-    [ExpenseLocation],
-    [InvoiceDescription],
+    [CustomerName],
+    [CustomerNumber],
+    [TrxDate],
     [DueDate],
-    [PaymentTerm],
-    [EnteredOrigAmount],
-    [EnteredOrigRemainingAmount]
+    [TrxType],
+    [TrxNumber],
+    [ApplyDate],
+    [TrxStatus],
+    [SalesOrder],
+    [Reference],
+    [CurrencyCode],
+    [OriginalAmount],
+    [BalanceDue],
+    [CreditedAmount],
+    [AdjustmentAmount],
+    [AppliedAmount],
+    [OriginalReceiptAmount],
+    [OverdueDays]
 )
 SELECT
     NEWID() AS Oid,
-    [Request id],
-    [As at Date],
-    [Supplier],
-    [Vendor Type],
-    [Category1],
-    [Category2],
-    [Invoice Number],
-    [Liability Company],
-    [Liability Account],
-    [Liability Cost Centre],
-    [Liability Intercompany],
-    [Invoice date],
-    [GL date],
-    [Trx currency code],
-    [Invoice Amount AUD],
-    [Invoice Remaining Amount AUD],
-    [Line Distribution Remaining Amount AUD],
-    [Opex  Capex  Other],
-    [Extra detail (Opex  Exec  Capex  Delivery Area)],
-    [Extra detail2 (Opex  GM  Capex  Project Number)],
-    [Expense Company],
-    [Expense Account],
-    [Expense Cost Centre],
-    [Expense Product],
-    [Expense Sales Channel],
-    [Expense Country],
-    [Expense Intercompany],
-    [Expense Project],
-    [Expense Location],
-    [Invoice Description],
+    {AsAtDate} AS [As At Date],
+    [Customer Name],
+    [Customer Number],
+    [Trx Date],
     [Due Date],
-    [Payment Term],
-    [Entered rounded orig amount],
-    [Entered rounded rem amount]
+    [Trx Type],
+    [Trx Number],
+    TRY_CAST([Apply Date] AS date),
+    [Trx Status],
+    [Sales Order],
+    [Reference],
+    [Currency Code],
+    [Original Amount],
+    [Balance Due],
+    [Credited Amount],
+    [Adjustment Amount],
+    [Applied Amount],
+    [Original Receipt Amount],
+    [Overdue Days]
 FROM #TmpArOpenInvoice
 ";
             }
@@ -155,6 +113,14 @@ FROM #TmpArOpenInvoice
         public string Execute(ImportArOpenInvoicesParam paramObj)
         {
             var statusMessage = string.Empty;
+
+            Func<string, string> formatSql = delegate (string sql)
+            {
+                return Smart.Format(sql, new
+                {
+                    AsAtDate = string.Format("{0:yyyy-MM-dd}", paramObj.AsAtDate.Date),
+                });
+            };
 
             var conn = (SqlConnection)objSpace.Connection;
 
@@ -176,7 +142,7 @@ FROM #TmpArOpenInvoice
                 cmd.CommandText = "SELECT COUNT(*) FROM #TmpArOpenInvoice";
                 rowCount = Convert.ToInt32(cmd.ExecuteScalar());
 
-                cmd.CommandText = persistSql;
+                cmd.CommandText = formatSql(persistSql);
                 cmd.ExecuteNonQuery();
 
             }

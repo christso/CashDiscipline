@@ -259,6 +259,9 @@
     <Compile Include="Controllers\WorkingCapital\ImportApInvoicesDueViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportArOpenInvoicesViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\WorkingCapital\ImportArReceiptsDistnViewController.cs">
       <SubType>Component</SubType>
     </Compile>
