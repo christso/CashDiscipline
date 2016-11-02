@@ -269,6 +269,9 @@
     <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptBalanceViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptMatchInputViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -305,7 +308,9 @@
     <Compile Include="Logic\Cash\ApPmtDistnMapper.cs" />
     <Compile Include="Logic\Import\ApPoContractImporter.cs" />
     <Compile Include="Logic\Import\ApPoReceiptBalanceImporter.cs" />
+    <Compile Include="Logic\Import\ApPoReceiptInpDayImporter.cs" />
     <Compile Include="Logic\Import\ApPoReceiptImporter.cs" />
+    <Compile Include="Logic\Import\ApPoReceiptInpDateImporter.cs" />
     <Compile Include="Logic\Import\ArOpenInvoicesImporter.cs" />
     <Compile Include="Logic\Import\ArReceiptDistnImporter.cs" />
     <Compile Include="Logic\Import\BankStmtImporter.cs" />
@@ -349,11 +354,12 @@
     <Compile Include="NavigationHelper.cs" />
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
-    <Compile Include="ParamObjects\ImportApInvoicesDueParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApInvoicesDueParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApInvoiceBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApInvoiceHeaderParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPoContractParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPoReceiptBalanceParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPoReceiptMatchInputParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPoReceiptParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArOpenInvoicesParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArReceiptDistnParam.cs" />

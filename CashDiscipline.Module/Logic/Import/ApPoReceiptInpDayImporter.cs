@@ -14,9 +14,9 @@ using System.Threading.Tasks;
 
 namespace CashDiscipline.Module.Logic.Import
 {
-    public class ApInvoicesDueInputImporter
+    public class ApPoReceiptInpDayImporter
     {
-        public ApInvoicesDueInputImporter(XPObjectSpace objSpace)
+        public ApPoReceiptInpDayImporter(XPObjectSpace objSpace)
         {
             this.objSpace = objSpace;
         }
@@ -29,12 +29,13 @@ namespace CashDiscipline.Module.Logic.Import
             get
             {
                 return
-@"IF OBJECT_ID('tempdb..#TmpApInvoicesDueInput') IS NOT NULL DROP TABLE #TmpApInvoicesDueInput
-CREATE TABLE #TmpApInvoicesDueInput
+@"IF OBJECT_ID('tempdb..#TmpApPoMatchDaysInput') IS NOT NULL DROP TABLE #TmpApPoMatchDaysInput
+CREATE TABLE #TmpApPoMatchDaysInput
 (
-    Supplier nvarchar(255),
-    InvoiceNumber nvarchar(255),
-    InvoiceDueDate nvarchar(255)
+    Vendor nvarchar(255),
+    PoNum nvarchar(255),
+    ForecastVendorMatchDays float,
+    ForecastMatchDays float
 )";
             }
         }
@@ -44,9 +45,12 @@ CREATE TABLE #TmpApInvoicesDueInput
             get
             {
                 return
-@"DELETE FROM VHAFinance.dbo.ApInvoicesDueInput
-INSERT INTO VHAFinance.dbo.ApInvoicesDueInput
-SELECT * FROM #TmpApInvoicesDueInput";
+@"DELETE FROM VHAFinance.dbo.ApPoMatchInput
+INSERT INTO VHAFinance.dbo.ApPoMatchInput (PoNum, ForecastMatchDays)
+SELECT 
+    PoNum,
+    ForecastMatchDays
+FROM #TmpApPoMatchDaysInput";
             }
         }
 
@@ -56,7 +60,7 @@ SELECT * FROM #TmpApInvoicesDueInput";
 
             var connectionString = string.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};
 Extended Properties = ""Excel 12.0 Xml;HDR=YES""", inputFilePath);
-            var adapter = new OleDbDataAdapter("SELECT * FROM [ApInvoicesDueInput$]", connectionString);
+            var adapter = new OleDbDataAdapter("SELECT * FROM [PoMatchDaysInput$]", connectionString);
 
             var ds = new DataSet();
             adapter.Fill(ds, "anyNameHere");
@@ -75,10 +79,10 @@ Extended Properties = ""Excel 12.0 Xml;HDR=YES""", inputFilePath);
                 cmd.CommandText = createSql;
                 cmd.ExecuteNonQuery();
 
-                bc.DestinationTableName = "#TmpApInvoicesDueInput";
+                bc.DestinationTableName = "#TmpApPoMatchDaysInput";
                 bc.WriteToServer(csv);
 
-                cmd.CommandText = "SELECT COUNT(*) FROM #TmpApInvoicesDueInput";
+                cmd.CommandText = "SELECT COUNT(*) FROM #TmpApPoMatchDaysInput";
                 rowCount = Convert.ToInt32(cmd.ExecuteScalar());
 
                 cmd.CommandText = persistSql;
