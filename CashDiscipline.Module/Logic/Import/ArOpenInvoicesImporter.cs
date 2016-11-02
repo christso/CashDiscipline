@@ -44,7 +44,7 @@ CREATE TABLE #TmpArOpenInvoice (
 [Adjustment Amount] float,
 [Applied Amount] float,
 [Original Receipt Amount] float,
-[Overdue Days] int
+[Overdue Days] nvarchar(255)
 )";
             }
         }
@@ -100,7 +100,7 @@ SELECT
     [Adjustment Amount],
     [Applied Amount],
     [Original Receipt Amount],
-    [Overdue Days]
+    TRY_CAST([Overdue Days] AS int)
 FROM #TmpArOpenInvoice
 ";
             }
