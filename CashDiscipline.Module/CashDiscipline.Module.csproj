@@ -135,6 +135,10 @@
       <HintPath>..\packages\DG2NTT.AnalysisServicesHelpers.1.0.0.3\lib\net45\DG2NTT.AnalysisServicesHelpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="FileHelpers, Version=3.1.5.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
+      <HintPath>..\packages\FileHelpers.3.1.5\lib\net45\FileHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="LumenWorks.Framework.IO, Version=3.9.0.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
       <HintPath>..\packages\LumenWorksCsvReader.3.9\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
       <Private>True</Private>
@@ -262,6 +266,9 @@
     <Compile Include="Controllers\WorkingCapital\ImportApPoContractViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -297,6 +304,7 @@
     <Compile Include="Interfaces\IMapping.cs" />
     <Compile Include="Logic\Cash\ApPmtDistnMapper.cs" />
     <Compile Include="Logic\Import\ApPoContractImporter.cs" />
+    <Compile Include="Logic\Import\ApPoReceiptBalanceImporter.cs" />
     <Compile Include="Logic\Import\ApPoReceiptImporter.cs" />
     <Compile Include="Logic\Import\ArOpenInvoicesImporter.cs" />
     <Compile Include="Logic\Import\ArReceiptDistnImporter.cs" />
@@ -345,6 +353,7 @@
     <Compile Include="ParamObjects\Import\ImportApInvoiceBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApInvoiceHeaderParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPoContractParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPoReceiptBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPoReceiptParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArOpenInvoicesParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArReceiptDistnParam.cs" />
