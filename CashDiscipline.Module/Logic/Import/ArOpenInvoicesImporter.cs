@@ -38,12 +38,12 @@ CREATE TABLE #TmpArOpenInvoice (
 [Sales Order] nvarchar(255),
 [Reference] nvarchar(255),
 [Currency Code] nvarchar(255),
-[Original Amount] float,
-[Balance Due] float,
-[Credited Amount] float,
-[Adjustment Amount] float,
-[Applied Amount] float,
-[Original Receipt Amount] float,
+[Original Amount] nvarchar(255),
+[Balance Due] nvarchar(255),
+[Credited Amount] nvarchar(255),
+[Adjustment Amount] nvarchar(255),
+[Applied Amount] nvarchar(255),
+[Original Receipt Amount] nvarchar(255),
 [Overdue Days] nvarchar(255)
 )";
             }
@@ -94,12 +94,12 @@ SELECT
     [Sales Order],
     [Reference],
     [Currency Code],
-    [Original Amount],
-    [Balance Due],
-    [Credited Amount],
-    [Adjustment Amount],
-    [Applied Amount],
-    [Original Receipt Amount],
+    TRY_CAST([Original Amount] AS float),
+    TRY_CAST([Balance Due] AS float),
+    TRY_CAST([Credited Amount] AS float),
+    TRY_CAST([Adjustment Amount] AS float),
+    TRY_CAST([Applied Amount] AS float),
+    TRY_CAST([Original Receipt Amount] AS float),
     TRY_CAST([Overdue Days] AS int)
 FROM #TmpArOpenInvoice
 ";
