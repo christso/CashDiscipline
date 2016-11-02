@@ -259,6 +259,9 @@
     <Compile Include="Controllers\WorkingCapital\ImportApInvoicesDueViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApPoContractViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -266,6 +269,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\WorkingCapital\ImportArReceiptsDistnViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportVendorSitePaymentTermsViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Logic\Import\ApInvoiceBalanceImporter.cs" />
@@ -290,6 +296,7 @@
     <Compile Include="DatabaseUpdate\DbUtils.cs" />
     <Compile Include="Interfaces\IMapping.cs" />
     <Compile Include="Logic\Cash\ApPmtDistnMapper.cs" />
+    <Compile Include="Logic\Import\ApPoContractImporter.cs" />
     <Compile Include="Logic\Import\ApPoReceiptImporter.cs" />
     <Compile Include="Logic\Import\ArOpenInvoicesImporter.cs" />
     <Compile Include="Logic\Import\ArReceiptDistnImporter.cs" />
@@ -318,6 +325,9 @@
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
     <Compile Include="AppNavigation\ActionPortalEventArgs.cs" />
     <Compile Include="AppNavigation\ActionPortalItem.cs" />
+    <Compile Include="Logic\Import\VendorSitePaymentTermsImporter.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Logic\SqlAlgorithm.cs" />
     <Compile Include="Logic\SqlMap\Mapper.cs" />
     <Compile Include="AppNavigation\ActionPortalLogic.cs" />
@@ -334,11 +344,13 @@
     <Compile Include="ParamObjects\ImportApInvoicesDueParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApInvoiceBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApInvoiceHeaderParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPoContractParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPoReceiptParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArOpenInvoicesParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArReceiptDistnParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
     <Content Include="Scripts\CreateGenLedgerObjects.sql" />
+    <Compile Include="ParamObjects\Import\ImportVendorSitePaymentTermsParam.cs" />
     <Compile Include="ProcessStatus.cs" />
     <Compile Include="Service References\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
