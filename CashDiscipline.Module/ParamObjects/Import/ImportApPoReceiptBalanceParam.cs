@@ -23,6 +23,19 @@ namespace CashDiscipline.Module.ParamObjects.Import
             session.LockingOption = LockingOption.None;
         }
 
+        private DateTime _PrevAsAtDate;
+        public DateTime PrevAsAtDate
+        {
+            get
+            {
+                return _PrevAsAtDate;
+            }
+            set
+            {
+                SetPropertyValue("PrevAsAtDate", ref _PrevAsAtDate, value);
+            }
+        }
+
         private DateTime _AsAtDate;
         public DateTime AsAtDate
         {
