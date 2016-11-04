@@ -129,5 +129,18 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                 SetPropertyValue("ActionOwner", ref _ActionOwner, value);
             }
         }
+
+        private MapAlgorithmType _Algorithm;
+        public MapAlgorithmType Algorithm
+        {
+            get
+            {
+                return _Algorithm;
+            }
+            set
+            {
+                SetPropertyValue("Algorithm", ref _Algorithm, value);
+            }
+        }
     }
 }

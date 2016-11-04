@@ -219,6 +219,7 @@
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtDefaults.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPoReceipt.cs" />
+    <Compile Include="BusinessObjects\MapAlgorithmType.cs" />
     <Compile Include="BusinessObjects\ReportConfig.cs" />
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />

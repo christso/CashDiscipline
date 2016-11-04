@@ -184,6 +184,20 @@ namespace CashDiscipline.Module.Logic.SqlMap
             return mapTextList;
         }
 
+        public string ParseCriteriaExpression(IMapping map)
+        {
+            
+            if (map.Algorithm == BusinessObjects.MapAlgorithmType.SQL)
+            {
+                return map.CriteriaExpression;
+            }
+            else
+            {
+                var sqlCriteria = CriteriaToWhereClauseHelper.GetMsSqlWhere(XpoCriteriaFixer.Fix(map.CriteriaExpression));
+                return sqlCriteria;
+            }
+        }
+
         public string GetMapSetCommandText(string mapPropertyName,
             Func<TMap, string> mapPropertyValue,
             Predicate<TMap> predicate, int step,
@@ -210,7 +224,8 @@ namespace CashDiscipline.Module.Logic.SqlMap
                 {
                     mapsCmdList.Add(string.Format(
                         @"WHEN {0} THEN {1}",
-                        map.CriteriaExpression, mapPropertyValue((TMap)map)));
+                        ParseCriteriaExpression(map), 
+                        mapPropertyValue((TMap)map)));
                 }
             }
 
