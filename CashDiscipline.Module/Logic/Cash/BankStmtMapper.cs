@@ -31,9 +31,10 @@ AND BankStmt.[Oid] IN ({oids})";
         private const string MapCommandTextListSqlTemplateCommon = @"UPDATE BankStmt SET
 {setpairs}
 FROM BankStmt
-LEFT JOIN Activity ON Activity.Oid = BankStmt.Activity AND Activity.GCRecord IS NULL
-LEFT JOIN Account ON Account.Oid = BankStmt.Account AND Account.GCRecord IS NULL
-LEFT JOIN BankStmtTranCode TranCode ON TranCode.Oid = BankStmt.TranCode AND TranCode.GCRecord IS NULL
+LEFT JOIN Activity ON Activity.Oid = BankStmt.Activity
+LEFT JOIN Account ON Account.Oid = BankStmt.Account
+LEFT JOIN BankStmtTranCode TranCode ON TranCode.Oid = BankStmt.TranCode
+LEFT JOIN ActionOwner ON ActionOwner.Oid = BankStmt.ActionOwner
 WHERE BankStmt.GCRecord IS NULL";
 
         public BankStmtMapper(XPObjectSpace objspace)

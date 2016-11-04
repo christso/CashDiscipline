@@ -251,7 +251,7 @@ namespace CashDiscipline.Module.Logic.Cash
         {
             get
             {
-
+                //TODO: unhack: ft.Name IN ('R','RR','RRR')
                 return
 @"UPDATE CashFlow SET
 GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
@@ -260,17 +260,10 @@ ParentCashFlow = NULL
 FROM CashFlow
 LEFT JOIN CashForecastFixTag ft 
 	ON ft.Oid = CashFlow.Fix AND ft.GCRecord IS NULL
+
 WHERE ft.Name IN ('R','RR','RRR')
 AND CashFlow.[Snapshot] = @Snapshot
-AND CashFlow.GCRecord IS NULL;
-
-UPDATE CashFlow SET 
-IsFixeeSynced = 0,
-IsFixerFixeesSynced = 0,
-IsFixerSynced = 0,
-Fixer = NULL
-WHERE GCRecord IS NULL
-AND [Snapshot] = @Snapshot;";
+AND CashFlow.GCRecord IS NULL;";
             }
         }
 
@@ -280,63 +273,6 @@ AND [Snapshot] = @Snapshot;";
             {
                 return
                     @"
--- Delete ALL fixes if @IsUnfixRequired is set to TRUE.
-
-DECLARE @IsUnfixRequired int = (SELECT TOP 1 IsUnfixRequired FROM ProcessStatus WHERE GCRecord IS NULL)
-
-IF @IsUnfixRequired = 1
-BEGIN
-
-    UPDATE ProcessStatus
-    SET IsUnfixRequired = 0
-    WHERE GCRecord IS NULL
-
-    UPDATE CashFlow SET
-    GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
-    Fixer = NULL,
-    ParentCashFlow = NULL
-    FROM CashFlow
-    LEFT JOIN CashForecastFixTag ft 
-	    ON ft.Oid = CashFlow.Fix AND ft.GCRecord IS NULL
-    WHERE ft.Name IN ('R','RR','RRR')
-    AND CashFlow.[Snapshot] = @Snapshot
-    AND CashFlow.GCRecord IS NULL;
-
-    UPDATE CashFlow SET 
-    IsFixeeSynced = 0,
-    IsFixerFixeesSynced = 0,
-    IsFixerSynced = 0,
-    Fixer = NULL
-    WHERE GCRecord IS NULL
-    AND [Snapshot] = @Snapshot
-    AND TranDate BETWEEN @FromDate AND @ToDate;
-
-END
-
--- Delete Existing Fixes
-
-UPDATE cf
-SET 
-GCRecord = CAST(RAND() * 2147483646 + 1 AS INT),
-Fixer = NULL,
-ParentCashFlow = NULL
-FROM CashFlow cf
-LEFT JOIN CashFlow pcf ON pcf.Oid = cf.ParentCashFlow
-WHERE cf.GCRecord IS NULL
-AND cf.[Snapshot] = @Snapshot
-AND cf.Fix IN (@ReversalFixTag, @RevRecFixTag, @ResRevRecFixTag)
-AND 
-(
-	cf.ParentCashFlow IN (SELECT cf1.Oid FROM CashFlow cf1 WHERE cf1.GCRecord IS NULL)
-	OR cf.ParentCashFlow IN (SELECT cfd.Oid FROM CashFlow cfd WHERE cfd.GCRecord IS NOT NULL)
-)
-AND 
-(
-	cf.ParentCashFlow IS NULL
-	OR pcf.IsFixeeSynced=0 OR pcf.IsFixerSynced=0 OR pcf.IsFixerFixeesSynced=0
-	OR pcf.IsFixeeSynced IS NULL OR pcf.IsFixerSynced IS NULL OR pcf.IsFixerFixeesSynced IS NULL
-)
-
 -- CashFlowsToFix
 
 IF OBJECT_ID('tempdb..#TmpCashFlowsToFix') IS NOT NULL DROP TABLE #TmpCashFlowsToFix;
@@ -351,12 +287,7 @@ WHERE
     AND cf.TranDate BETWEEN @FromDate AND @ToDate
 	AND cf.[Snapshot] = @Snapshot
     AND (cf.Fix = NULL OR tag.FixTagType != @IgnoreFixTagType)
-    AND 
-	(
-		cf.IsFixeeSynced=0 OR cf.IsFixerSynced=0 OR cf.IsFixerFixeesSynced=0
-		OR cf.IsFixeeSynced IS NULL OR cf.IsFixerSynced IS NULL OR cf.IsFixerFixeesSynced IS NULL
-		OR fixer.GCRecord IS NOT NULL
-	)
+    AND fixer.GCRecord IS NOT NULL
 
 -- FixeeFixer
 
@@ -580,15 +511,6 @@ UNION ALL
 SELECT * FROM #TmpFixResRevRec_Fixee
 UNION ALL
 SELECT * FROM #TmpFixResRevReclass_Fixer
-
--- Update Status
-
-UPDATE CashFlow SET
-IsFixeeSynced = 1,
-IsFixerFixeesSynced = 1,
-IsFixerSynced = 1
-WHERE CashFlow.Oid IN (SELECT cf2.Oid FROM #TmpCashFlowsToFix cf2)
-AND CashFlow.[Snapshot] = @Snapshot
 ";
             }
         }

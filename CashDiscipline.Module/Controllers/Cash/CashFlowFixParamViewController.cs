@@ -50,12 +50,22 @@ namespace CashDiscipline.Module.Controllers.Cash
 
         private void RunAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            MapAction_Execute(sender, e, false);
-            FixAction_Execute(sender, e, false);
-            RevalAction_Execute(sender, e, false);
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
+            string messageText = string.Empty;
+
+            messageText += MapAction_Execute(sender, e, false);
+            messageText += "\r\n" + FixAction_Execute(sender, e, false);
+            messageText += "\r\n" + RevalAction_Execute(sender, e, false);
+
+            sw.Stop();
+
+            messageText += string.Format("\r\nTotal Elapsed Time = {0} seconds",
+                sw.Elapsed.Seconds);
+
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                "Cash Flows were successfully 'Mapped', 'Fixed' and 'Revalued'.",
-                "Cash Flow Fix SUCCESS");
+                messageText, "Cash Flow Fix SUCCESS");
         }
 
         private void RephaseAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
@@ -78,23 +88,36 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
         }
 
-        private void RevalAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
+        private string RevalAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
         {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
             var os = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = View.CurrentObject as CashFlowFixParam;
             var revaluer = new RevalueAccounts(os, paramObj);
             revaluer.Process();
 
+            sw.Stop();
+            var messageText = string.Format("Foreign Currency Account balances were successfully 'Revalued'. Elapsed Time = {0} seconds",
+                sw.Elapsed.Seconds);
+
             if (isRootSender)
             {
                 new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                    "Foreign Currency Account balances were successfully 'Revalued'.",
+                    messageText,
                     "Cash Balance Revaluation SUCCESS");
             }
+
+            return string.Format(messageText,
+                sw.Elapsed.Seconds);
         }
 
-        private void MapAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
+        private string MapAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
         {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
             var os = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = View.CurrentObject as CashFlowFixParam;
             if (paramObj != null)
@@ -102,12 +125,21 @@ namespace CashDiscipline.Module.Controllers.Cash
                 var algo = new FixCashFlowsAlgorithm(os, paramObj);
                 algo.Map();
             }
+
+            sw.Stop();
+            var messageText = string.Format("Cash Flows were successfully 'Mapped'. Elapsed Time = {0} seconds",
+                sw.Elapsed.Seconds);
+
             if (isRootSender)
             {
                 new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                    "Cash Flows were successfully 'Mapped'.",
+                    messageText,
                     "Cash Flow Map SUCCESS");
+                
             }
+
+            return string.Format(messageText,
+                sw.Elapsed.Seconds);
         }
 
         private void UnfixAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
@@ -128,8 +160,11 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
         }
 
-        private void FixAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
+        private string FixAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
         {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
             ObjectSpace.CommitChanges();
 
             var os = (XPObjectSpace)Application.CreateObjectSpace();
@@ -137,15 +172,23 @@ namespace CashDiscipline.Module.Controllers.Cash
             if (paramObj != null)
             {
                 var algo = new FixCashFlowsAlgorithm(os, paramObj);
+                algo.Reset();
                 algo.ProcessCashFlows();
             }
+
+            sw.Stop();
+            var messageText = string.Format("Cash Flows were successfully 'Fixed'. Elapsed Time = {0} seconds",
+                sw.Elapsed.Seconds);
 
             if (isRootSender)
             {
                 new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                    "Cash Flows were successfully 'Fixed'.",
+                    messageText,
                     "Cash Flow Fix SUCCESS");
             }
+
+            return string.Format(messageText,
+               sw.Elapsed.Seconds);
         }
 
         protected override void OnActivated()

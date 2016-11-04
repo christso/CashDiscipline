@@ -18,6 +18,7 @@ using System.Diagnostics;
 using Xafology.ExpressApp.Xpo.Import;
 using CashDiscipline.Module.BusinessObjects.BankStatement;
 using CashDiscipline.Module.Attributes;
+using Xafology.ExpressApp.BatchDelete;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -26,8 +27,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [DefaultProperty("Oid")]
     [ModelDefault("IsFooterVisible", "True")]
     [AutoColumnWidth(false)]
+    [BatchDelete(isVisible: true, isOptimized: true)]
     [ModelDefault("ImageName", "BO_List")]
-    public class BankStmt : BaseObject, IXpoImportable
+    public class BankStmt : BaseObject, IXpoImportable, IBatchDeletable
     {
         public BankStmt(Session session)
             : base(session)
