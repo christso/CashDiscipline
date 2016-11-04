@@ -12,6 +12,5 @@ namespace CashDiscipline.Module.Interfaces
         int MapStep { get; }
         string CriteriaExpression { get; }
         int RowIndex { get; }
-        MapAlgorithmType Algorithm { get; }
     }
 }

@@ -53,6 +53,10 @@ namespace CashDiscipline.Module.Controllers.Cash
             calcFuncAmtChoice.Caption = recalcFuncCaption;
             BankStmtAction.Items.Add(calcFuncAmtChoice);
 
+            //var testChoice = new ChoiceActionItem();
+            //testChoice.Caption = "Test";
+            //BankStmtAction.Items.Add(testChoice);
+
             BankStmtAction.ShowItemsOnClick = true;
 
     
@@ -80,6 +84,9 @@ namespace CashDiscipline.Module.Controllers.Cash
                 case recalcFuncCaption:
                     var calculator = new BankStmtCalculator((XPObjectSpace)View.ObjectSpace);
                     calculator.Process(View.SelectedObjects);
+                    break;
+                case "Test":
+
                     break;
             }
         }
