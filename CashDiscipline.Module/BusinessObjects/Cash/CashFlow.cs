@@ -84,27 +84,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         {
             if (!this.IsLoading)
             {
-                // reset fix status for current and fixer cashflows
-                if (e.PropertyName != null
-                    && e.PropertyName != Fields.IsFixeeSynced.PropertyName
-                    && e.PropertyName != Fields.IsFixerSynced.PropertyName
-                    && e.PropertyName != Fields.IsFixerFixeesSynced.PropertyName
-                    && e.PropertyName != Fields.IsFixSynced.PropertyName
-                    && e.PropertyName != Fields.TimeEntered.PropertyName)
-                {
-                    this.IsFixeeSynced = false;
-                    this.IsFixerSynced = false;
-
-                    if (Fixer != null)
-                        Fixer.IsFixerFixeesSynced = false;
-
-                    foreach (var fixee in Fixees)
-                        fixee.IsFixeeSynced = false;
-
-                    //TODO: correct logic so that only real changes to unfixed.
-                    var processState = ProcessStatus.GetInstance(Session);
-                    processState.IsUnfixRequired = true;
-                }
+                
             }
         }
 
@@ -724,67 +704,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             get
             {
                 return GetCollection<CashFlow>("Fixees");
-            }
-        }
-
-        // returns true if cashflow is fixed with no further changes
-        private bool _IsFixerSynced;
-        //[VisibleInListView(false)]
-        [VisibleInLookupListView(false)]
-        public bool IsFixerSynced
-        {
-            get
-            {
-                return _IsFixerSynced;
-            }
-            set
-            {
-                SetPropertyValue("IsFixerSynced", ref _IsFixerSynced, value);
-            }
-        }
-
-        private bool _IsFixeeSynced;
-        //[VisibleInListView(false)]
-        [VisibleInLookupListView(false)]
-        public bool IsFixeeSynced
-        {
-            get
-            {
-                return _IsFixeeSynced;
-            }
-            set
-            {
-                SetPropertyValue("IsFixeeSynced", ref _IsFixeeSynced, value);
-            }
-        }
-
-        private bool _IsFixerFixeesSynced;
-        //[VisibleInListView(false)]
-        [VisibleInLookupListView(false)]
-        public bool IsFixerFixeesSynced
-        {
-            get
-            {
-                return _IsFixerFixeesSynced;
-            }
-            set
-            {
-                SetPropertyValue("IsFixerFixeesSynced", ref _IsFixerFixeesSynced, value);
-            }
-        }
-
-        [VisibleInLookupListView(false)]
-        [PersistentAlias(
-            "IsFixerSynced And IsFixeeSynced And IsFixerFixeesSynced")]
-        public bool IsFixSynced
-        {
-            get
-            {
-                object tempObject = EvaluateAlias("IsFixSynced");
-                if (tempObject != null)
-                    return (bool)tempObject;
-                else
-                    return false;
             }
         }
 

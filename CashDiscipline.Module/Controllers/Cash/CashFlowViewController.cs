@@ -90,8 +90,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             var cashFlow = e.Object as CashFlow;
             if (cashFlow != null && !cashFlow.IsDeleted)
             {
-                cashFlow.IsFixeeSynced = false;
-                cashFlow.IsFixerSynced = false;
+
             }
         }
 
