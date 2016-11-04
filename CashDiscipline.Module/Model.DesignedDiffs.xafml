@@ -8,12 +8,13 @@
   </BOModel>
   <NavigationItems DefaultChildItemsDisplayStyle="List" DefaultLeafImageName="BO_List" GenerateRelatedViewVariantsGroup="True" NavigationStyle="NavBar" StartupNavigationItem="">
     <Items>
-      <Item Id="Default" Caption="Administration" Index="0" ImageName="BO_Folder" IsNewNode="True">
+      <Item Id="Home" Index="0" ViewId="HomeDashboard" IsNewNode="True" />
+      <Item Id="Default" Caption="Administration" Index="1" ImageName="BO_Folder" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="PasteParam_ListView" ViewId="PasteParam_ListView" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Accounting" Index="1" IsNewNode="True">
+      <Item Id="Accounting" Index="2" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="AustPostSettle" ViewId="AustPostSettle_ListView" Index="0" IsNewNode="True" />
           <Item Id="FinAccountingDefaults" Caption="Default Accounting" ViewId="FinAccountingDefaults_ListView" Index="1" IsNewNode="True" />
@@ -23,16 +24,16 @@
           <Item Id="General Ledger" ViewId="GenLedger_ListView" Caption="General Ledger" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Cash Data" Caption="Cash Data" Index="2" IsNewNode="True">
+      <Item Id="Cash Data" Caption="Cash Data" Index="3" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="1" IsNewNode="True" />
           <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="3" IsNewNode="True" />
           <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="4" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Cash Report" Index="3" IsNewNode="True" />
-      <Item Id="Cash Setup" Index="4" IsNewNode="True" />
-      <Item Id="Forex" Index="5" IsNewNode="True">
+      <Item Id="Cash Report" Index="4" IsNewNode="True" />
+      <Item Id="Cash Setup" Index="5" IsNewNode="True" />
+      <Item Id="Forex" Index="6" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ForexCounterparty" ViewId="ForexCounterparty_ListView" Caption="Forex Counterparty" Index="0" IsNewNode="True" />
           <Item Id="Forex Rates" ViewId="ForexRate_ListView" Index="1" IsNewNode="True" />
@@ -41,14 +42,14 @@
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Import" Index="6" />
-      <Item Id="WorkingCapital" Caption="Working Capital" Index="7" IsNewNode="True">
+      <Item Id="Import" Index="7" />
+      <Item Id="WorkingCapital" Caption="Working Capital" Index="8" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ApInvoiceBalance" ViewId="ApInvoiceBalance_ListView" Index="0" IsNewNode="True" />
           <Item Id="ApPoReceipt" Caption="Ap Po Receipt" ViewId="ApPoReceipt_ListView" Index="2" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="System Internals" Index="8" Caption="System Internals" IsNewNode="True">
+      <Item Id="System Internals" Index="9" Caption="System Internals" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
           <Item Id="FinGenJournalParam" ViewId="FinGenJournalParam_ListView" Index="4" IsNewNode="True" />
@@ -559,6 +560,11 @@
       </Columns>
     </ListView>
     <ListView Id="GenLedger_ListView" DataAccessMode="Server" AllowEdit="True" NewItemRowPosition="Top" />
+    <DashboardView Id="HomeDashboard" Caption="Home" IsNewNode="True">
+      <Items IsNewNode="True">
+        <StaticText Id="Message" Caption="Cash Discipline Home Page" Text="Message inbox is empty." IsNewNode="True" />
+      </Items>
+    </DashboardView>
     <ListView Id="ImportBankStmtParam_ImportBankStmtParamItems_ListView">
       <Columns>
         <ColumnInfo Id="Enabled" Index="0" />
