@@ -230,6 +230,9 @@
     <Compile Include="Controllers\AboutInfoWindowController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\Cash\MappingCriteriaGeneratorViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -284,6 +287,7 @@
     <Compile Include="Controllers\WorkingCapital\ImportVendorSitePaymentTermsViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Interfaces\IMappingCriteriaGenerator.cs" />
     <Compile Include="Logic\Import\ApInvoiceBalanceImporter.cs" />
     <Compile Include="Logic\Import\ApInvoiceHeaderImporter.cs" />
     <Compile Include="Logic\Import\ApInvoicesDueInputImporter.cs" />

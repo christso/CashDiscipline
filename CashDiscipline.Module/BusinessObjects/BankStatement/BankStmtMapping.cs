@@ -14,6 +14,8 @@ using DevExpress.Persistent.Validation;
 using Xafology.ExpressApp.RowMover;
 using CashDiscipline.Module.Attributes;
 using CashDiscipline.Module.Interfaces;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.Utils;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -23,7 +25,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [ModelDefault("ImageName", "BO_List")]
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [AutoColumnWidth(false)]
-    public class BankStmtMapping : BaseObject, IRowMoverObject, IMapping
+    public class BankStmtMapping : BaseObject, IRowMoverObject, IMapping, IMappingCriteriaGenerator
     {
         public BankStmtMapping(Session session)
             : base(session)
@@ -39,14 +41,12 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
                     NextIndex = (int)maxIndex + 1;
             }
             this.RowIndex = NextIndex;
+
         }
 
         // singleton
         private static int NextIndex = 1;
 
-        // Fields...
-
-        private string _CriteriaExpression;
         private int _RowIndex;
 
         [ModelDefault("DisplayFormat","f0")]
@@ -76,6 +76,24 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        [ValueConverter(typeof(TypeToStringConverter)), ImmediatePostData]
+        [TypeConverter(typeof(LocalizedClassInfoTypeConverter))]
+        [MemberDesignTimeVisibility(false)]
+        public Type CriteriaObjectType
+        {
+            get { return typeof(BankStmt); }
+        }
+
+        private string _Criteria;
+        [CriteriaOptions("CriteriaObjectType"), Size(SizeAttribute.Unlimited)]
+        [EditorAlias(EditorAliases.PopupCriteriaPropertyEditor)]
+        public string Criteria
+        {
+            get { return _Criteria; }
+            set { SetPropertyValue("Criteria", ref _Criteria, value); }
+        }
+
+        private string _CriteriaExpression;
         [VisibleInLookupListView(true)]
         [VisibleInListView(true)]
         [Size(SizeAttribute.Unlimited)]

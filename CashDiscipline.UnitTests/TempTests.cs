@@ -29,6 +29,7 @@ using CashDiscipline.Common;
 using ADOMD = Microsoft.AnalysisServices.AdomdClient;
 using CashDiscipline.Module.Logic.FinAccounting;
 using CashDiscipline.Module.ParamObjects.FinAccounting;
+using DevExpress.ExpressApp.Editors;
 
 namespace CashDiscipline.UnitTests
 {
@@ -52,6 +53,15 @@ namespace CashDiscipline.UnitTests
         public override void OnAddExportedTypes(ModuleBase module)
         {
             CashDisciplineTestHelper.AddExportedTypes(module);
+        }
+
+        public void CriteriaToSqlTest()
+        {
+            string xpoCriteriaText = "[Activity] Is Not Null Or [ActionOwner.Name] Like 'UNDEFINED'";
+            var criteria = CriteriaEditorHelper.GetCriteriaOperator(
+               xpoCriteriaText, typeof(BankStmt), ObjectSpace);
+            var sqlCriteriaText = CriteriaToWhereClauseHelper.GetOracleWhere(XpoCriteriaFixer.Fix(criteria));
+            Console.WriteLine(sqlCriteriaText);
         }
 
         //[Test]

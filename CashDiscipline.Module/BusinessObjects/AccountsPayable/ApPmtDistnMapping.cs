@@ -15,6 +15,8 @@ using Xafology.ExpressApp.RowMover;
 using CashDiscipline.Module.Attributes;
 using CashDiscipline.Module.Interfaces;
 using CashDiscipline.Module.BusinessObjects.Cash;
+using DevExpress.ExpressApp.Utils;
+using DevExpress.ExpressApp.Editors;
 
 namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
@@ -24,7 +26,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [AutoColumnWidth(false)]
     [NavigationItem("Cash Setup")]
-    public class ApPmtDistnMapping : BaseObject, IRowMoverObject, IMapping
+    public class ApPmtDistnMapping : BaseObject, IRowMoverObject, IMapping, IMappingCriteriaGenerator
     {
         public ApPmtDistnMapping(Session session)
             : base(session)
@@ -75,6 +77,23 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             {
                 SetPropertyValue("MapStep", ref _MapStep, value);
             }
+        }
+
+        [ValueConverter(typeof(TypeToStringConverter)), ImmediatePostData]
+        [TypeConverter(typeof(LocalizedClassInfoTypeConverter))]
+        [MemberDesignTimeVisibility(false)]
+        public Type CriteriaObjectType
+        {
+            get { return typeof(ApPmtDistn); }
+        }
+
+        private string _Criteria;
+        [CriteriaOptions("CriteriaObjectType"), Size(SizeAttribute.Unlimited)]
+        [EditorAlias(EditorAliases.PopupCriteriaPropertyEditor)]
+        public string Criteria
+        {
+            get { return _Criteria; }
+            set { SetPropertyValue("Criteria", ref _Criteria, value); }
         }
 
         [VisibleInLookupListView(true)]

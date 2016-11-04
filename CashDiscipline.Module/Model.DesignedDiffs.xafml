@@ -143,6 +143,18 @@
       </Columns>
     </ListView>
     <ListView Id="ApPmtDistn_LookupListView" AllowEdit="False" />
+    <DetailView Id="ApPmtDistnMapping_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="ExecuteActions" ActionContainer="ExecuteActions" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SizeableEditors" Caption="Criteria Editor" ShowCaption="True">
+            <LayoutItem Id="ExecuteActions" ViewItem="ExecuteActions" HorizontalAlign="Right" IsNewNode="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <ListView Id="ApPmtDistnMapping_LookupListView" AllowEdit="False" />
     <ListView Id="ApPoReceipt_ListView" DataAccessMode="Server" />
     <ListView Id="ApSource_LookupListView" AllowEdit="False" />
@@ -253,6 +265,27 @@
         <ColumnInfo Id="TranDescription" Index="6" />
       </Columns>
     </ListView>
+    <DetailView Id="BankStmtMapping_DetailView">
+      <Items>
+        <PropertyEditor Id="ActionOwner" Index="0" />
+        <PropertyEditor Id="Activity" Index="1" />
+        <PropertyEditor Id="Counterparty" Index="2" />
+        <PropertyEditor Id="Criteria" Index="3" />
+        <PropertyEditor Id="CriteriaExpression" Index="4" />
+        <ActionContainerViewItem Id="ExecuteActions" ActionContainer="ExecuteActions" Index="5" IsNewNode="True" />
+        <PropertyEditor Id="MapStep" Index="7" />
+        <PropertyEditor Id="RowIndex" Index="8" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SizeableEditors" Caption="Criteria Editor" ShowCaption="True">
+            <LayoutItem Id="Criteria" Index="1" />
+            <LayoutItem Id="CriteriaExpression" Index="2" />
+            <LayoutItem Id="ExecuteActions" ViewItem="ExecuteActions" HorizontalAlign="Right" IsNewNode="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <ListView Id="BankStmtTranCode_LookupListView" AllowEdit="False" />
     <DetailView Id="CashFlow_DetailView">
       <Items>
@@ -280,8 +313,6 @@
                 <LayoutItem Id="Activity" Removed="True" />
                 <LayoutItem Id="ActivityL1" Removed="True" />
                 <LayoutItem Id="ActivityL2" Removed="True" />
-                <LayoutItem Id="ActivityL3" Removed="True" />
-                <LayoutItem Id="ActivityL4" Removed="True" />
                 <LayoutItem Id="Counterparty" Removed="True" />
                 <LayoutItem Id="Source" Removed="True" />
                 <LayoutItem Id="Status" Removed="True" />
@@ -304,10 +335,6 @@
                 <LayoutItem Id="FixToDate" Removed="True" />
                 <LayoutItem Id="ForexSettleGroupId" Removed="True" />
                 <LayoutItem Id="ForexSettleType" Removed="True" />
-                <LayoutItem Id="IsFixeeSynced" Removed="True" />
-                <LayoutItem Id="IsFixerFixeesSynced" Removed="True" />
-                <LayoutItem Id="IsFixerSynced" Removed="True" />
-                <LayoutItem Id="IsFixSynced" Removed="True" />
                 <LayoutItem Id="ParentCashFlow" Removed="True" />
                 <LayoutItem Id="Snapshot" ViewItem="Snapshot" IsNewNode="True" />
               </LayoutGroup>
@@ -333,10 +360,6 @@
               <LayoutGroup Id="Forecast_col2" Index="2" ShowCaption="False" RelativeSize="32.4" IsNewNode="True">
                 <LayoutItem Id="Fixer" ViewItem="Fixer" Index="1" SizeConstraintsType="Default" RelativeSize="28.571428571428573" IsNewNode="True" />
                 <LayoutItem Id="ParentCashFlow" ViewItem="ParentCashFlow" Index="2" SizeConstraintsType="Default" RelativeSize="21.428571428571427" IsNewNode="True" />
-                <LayoutItem Id="IsFixerSynced" ViewItem="IsFixerSynced" Index="3" IsNewNode="True" />
-                <LayoutItem Id="IsFixeeSynced" ViewItem="IsFixeeSynced" Index="4" IsNewNode="True" />
-                <LayoutItem Id="IsFixerFixeesSynced" ViewItem="IsFixerFixeesSynced" Index="5" IsNewNode="True" />
-                <LayoutItem Id="IsFixSynced" ViewItem="IsFixSynced" Index="6" IsNewNode="True" />
               </LayoutGroup>
             </LayoutGroup>
           </LayoutGroup>
@@ -423,10 +446,6 @@
         <ColumnInfo Id="ActivityL3" Index="24" />
         <ColumnInfo Id="ActivityL4" Index="25" />
         <ColumnInfo Id="Fixer" Index="26" />
-        <ColumnInfo Id="IsFixSynced" Index="27" />
-        <ColumnInfo Id="IsFixerSynced" Index="28" />
-        <ColumnInfo Id="IsFixeeSynced" Index="29" />
-        <ColumnInfo Id="IsFixerFixeesSynced" Index="30" />
         <ColumnInfo Id="ParentCashFlow" Index="31" LookupProperty="Oid" />
         <ColumnInfo Id="ForexSettleGroupId" Index="32" />
       </Columns>

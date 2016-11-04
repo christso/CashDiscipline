@@ -10,7 +10,7 @@ namespace CashDiscipline.Module.Interfaces
     public interface IMapping
     {
         int MapStep { get; }
-        string CriteriaExpression { get; }
+        string CriteriaExpression { get; set; }
         int RowIndex { get; }
     }
 }

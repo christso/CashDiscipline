@@ -10,8 +10,7 @@ namespace CashDisicpline.ScratchPad
     {
         static void Main(string[] args)
         {
-            var tests = new Tests();
-            tests.CriteriaToSqlTest();
+
             Console.ReadKey();
         }
     }

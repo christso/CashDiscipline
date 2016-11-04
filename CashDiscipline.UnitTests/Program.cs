@@ -21,11 +21,11 @@ namespace CashDiscipline.UnitTests
 
         static void RunTest()
         {
-            var tests = new ForexTradeTests();
+            var tests = new TempTests();
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.SetSettleAccountOnSave();
+            tests.CriteriaToSqlTest();
 
             tests.TearDown();
             tests.TearDownFixture();
