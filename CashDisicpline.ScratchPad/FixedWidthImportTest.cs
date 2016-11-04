@@ -28,7 +28,7 @@ namespace CashDisicpline.ScratchPad
     {
         public void Execute()
         {
-            var filePath = @"\\finserv01\VHA Import\SSIS\AP_Accrual_PO_Data\VHA_AP_and_PO_Accrual_Reconcil_021116.txt";
+            var filePath = @"\\localhost\VHA Import\SSIS\AP_Accrual_PO_Data\VHA_AP_and_PO_Accrual_Reconcil_021116.txt";
 
         }
     }
