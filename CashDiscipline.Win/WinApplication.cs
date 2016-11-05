@@ -1,22 +1,20 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using DevExpress.ExpressApp.Win;
-using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.Win;
+using System.Collections.Generic;
+using DevExpress.ExpressApp.Updating;
 using DevExpress.ExpressApp.Xpo;
 using Xafology.ExpressApp.Xpo;
 
-namespace CashDiscipline.Win
-{
-    public partial class CashDisciplineWindowsFormsApplication : WinApplication
-    {
-        public CashDisciplineWindowsFormsApplication()
-        {
+namespace CashDiscipline.Win {
+    // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/DevExpressExpressAppWinWinApplicationMembersTopicAll.aspx
+    public partial class CashDisciplineWindowsFormsApplication : WinApplication {
+        public CashDisciplineWindowsFormsApplication() {
             InitializeComponent();
+            //LinkNewObjectToParentImmediately = false;
             DelayedViewItemsInitialization = true;
             this.CustomCheckCompatibility += CashDisc_CustomCheckCompatibility;
-            
         }
 
         protected override void CreateDefaultObjectSpaceProvider(CreateCustomObjectSpaceProviderEventArgs args)
@@ -24,42 +22,42 @@ namespace CashDiscipline.Win
             args.ObjectSpaceProvider = new ExtObjectSpaceProvider(args.ConnectionString, args.Connection);
             args.ObjectSpaceProviders.Add(new NonPersistentObjectSpaceProvider(TypesInfo, null));
         }
-
+    
         private void CashDisc_CustomCheckCompatibility(object sender, DevExpress.ExpressApp.CustomCheckCompatibilityEventArgs e)
         {
             // do not check compatibility for release version
             // so we avoid throwing error in the app when we make minor changes to the database
             //var pubVer = CashDiscipline.Module.AssemblyInfo.Version;
             if (!System.Diagnostics.Debugger.IsAttached)
-            { 
+            {
                 e.Handled = true;
             }
         }
 
-        private void CashDisciplineWindowsFormsApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e)
-        {
+        private void CashDisciplineWindowsFormsApplication_DatabaseVersionMismatch(object sender, DevExpress.ExpressApp.DatabaseVersionMismatchEventArgs e) {
 #if EASYTEST
-			e.Updater.Update();
-			e.Handled = true;
+            e.Updater.Update();
+            e.Handled = true;
 #else
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
+            if(System.Diagnostics.Debugger.IsAttached) {
                 e.Updater.Update();
                 e.Handled = true;
             }
-            else
-            {
-                throw new InvalidOperationException(
-                    "The application cannot connect to the specified database, because the latter doesn't exist or its version is older than that of the application.\r\n" +
-                    "This error occurred  because the automatic database update was disabled when the application was started without debugging.\r\n" +
-                    "To avoid this error, you should either start the application under Visual Studio in debug mode, or modify the " +
-                    "source code of the 'DatabaseVersionMismatch' event handler to enable automatic database update, " +
-                    "or manually create a database using the 'DBUpdater' tool.\r\n" +
-                    "Anyway, refer to the 'Update Application and Database Versions' help topic at http://www.devexpress.com/Help/?document=ExpressApp/CustomDocument2795.htm " +
-                    "for more detailed information. If this doesn't help, please contact our Support Team at http://www.devexpress.com/Support/Center/");
+            else {
+				string message = "The application cannot connect to the specified database, " +
+					"because the database doesn't exist, its version is older " +
+					"than that of the application or its schema does not match " +
+					"the ORM data model structure. To avoid this error, use one " +
+					"of the solutions from the https://www.devexpress.com/kb=T367835 KB Article.";
+
+				if(e.CompatibilityError != null && e.CompatibilityError.Exception != null) {
+					message += "\r\n\r\nInner exception: " + e.CompatibilityError.Exception.Message;
+				}
+				throw new InvalidOperationException(message);
             }
 #endif
         }
+
         private void CashDisciplineWindowsFormsApplication_CustomizeLanguagesList(object sender, CustomizeLanguagesListEventArgs e)
         {
             string userLanguageName = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;

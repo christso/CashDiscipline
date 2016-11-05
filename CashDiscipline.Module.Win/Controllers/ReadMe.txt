@@ -7,13 +7,13 @@ that can change the default XAF application flow and add new features.
 Relevant Documentation
 
 Extend Functionality
-http://help.devexpress.com/#Xaf/CustomDocument2623
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112623.aspx
 
 Controller Class
-http://help.devexpress.com/#Xaf/clsDevExpressExpressAppControllertopic
+https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppControllertopic.aspx
 
 ViewController Class
-http://help.devexpress.com/#Xaf/clsDevExpressExpressAppViewControllertopic
+https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppViewControllertopic.aspx
 
 WindowController Class
-http://help.devexpress.com/#Xaf/clsDevExpressExpressAppWindowControllertopic
+https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppWindowControllertopic.aspx

@@ -1,6 +1,6 @@
 ﻿Project Description
 
-The CashDiscipline.Win project implements a Windows Forms application. The root project folder 
+This project implements a WinForms application. The root project folder 
 contains the WinApplication.cs(vb) file with the class that inherits 
 WinApplication. This class can be designed with the Application Designer that 
 allows you to view and customize application components: referenced modules, 
@@ -13,22 +13,22 @@ the Model Editor.
 Relevant Documentation
 
 Application Solution Components
-http://help.devexpress.com/#Xaf/CustomDocument2569
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112569.aspx
 
 WinApplication Class
-http://help.devexpress.com/#Xaf/clsDevExpressExpressWinWinApplicationtopic
+https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppWinWinApplicationtopic.aspx
 
 XafApplication Class
-http://help.devexpress.com/#Xaf/clsDevExpressExpressXafApplicationtopic
+https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppXafApplicationtopic.aspx
 
 Application Designer
-http://help.devexpress.com/#Xaf/CustomDocument2827
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112827.aspx
 
 Application Model
-http://help.devexpress.com/#Xaf/CustomDocument2579
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112579.aspx
 
 Model Editor
-http://help.devexpress.com/#Xaf/CustomDocument2582
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112582.aspx
 
 
 eXpand Framework - http://www.expandframework.com

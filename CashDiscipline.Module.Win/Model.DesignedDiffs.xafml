@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application>
-  <NavigationItems DefaultLeafImageName="BO_List" />
-  <Options Skin="Visual Studio 2013 Blue" EnableHtmlFormatting="True" />
+  <Options EnableHtmlFormatting="True" />
   <SchemaModules>
     <SchemaModule Name="CloneObjectModule" Version="16.1.7.0" IsNewNode="True" />
     <SchemaModule Name="SystemModule" Version="16.1.7.0" IsNewNode="True" />

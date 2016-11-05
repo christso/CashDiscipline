@@ -1,33 +1,33 @@
 ﻿Folder Description
 
-This project folder is intended for storing custom Windows Forms List Editors, 
+This project folder is intended for storing custom WinForms List Editors, 
 Property Editors and View Items.
 
 Relevant Documentation
 
 List Editors
-http://help.devexpress.com/#Xaf/CustomDocument3189
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113189.aspx
 
 Implement Custom Property Editors
-http://help.devexpress.com/#Xaf/CustomDocument3097
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113097.aspx
 
 Implement Custom View Items
-http://help.devexpress.com/#Xaf/CustomDocument2695
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112695.aspx
 
-How to: Implement a Custom Windows Forms List Editor
-http://help.devexpress.com/#Xaf/CustomDocument2659
+How to: Implement a Custom WinForms List Editor
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112659.aspx
 
-How to: Support a Context Menu for a Custom Windows Forms List Editor
-http://help.devexpress.com/#Xaf/CustomDocument2660
+How to: Support a Context Menu for a Custom WinForms List Editor
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112660.aspx
 
-How to: Implement a Property Editor (in Windows Forms Applications)
-http://help.devexpress.com/#Xaf/CustomDocument2679
+How to: Implement a Property Editor (in WinForms Applications)
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112679.aspx
 
-How to: Implement a Property Editor for Specific Data Management (in Windows Forms Applications)
-http://help.devexpress.com/#Xaf/CustomDocument3101
+How to: Implement a Property Editor for Specific Data Management (in WinForms Applications)
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113101.aspx
 
 How to: Extend Built-in Property Editor's Functionality
-http://help.devexpress.com/#Xaf/CustomDocument3104
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113104.aspx
 
 How to: Implement a View Item
-http://help.devexpress.com/#Xaf/CustomDocument2641
+https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112641.aspx

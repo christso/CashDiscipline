@@ -8,12 +8,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CashDiscipline.Win")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany(CashDiscipline.Module.AssemblyInfo.AssemblyCompany)]
-[assembly: AssemblyProduct("CashDiscipline")]
-[assembly: AssemblyCopyright(CashDiscipline.Module.AssemblyInfo.AssemblyCopyright)]
+[assembly: AssemblyCompany("-")]
+[assembly: AssemblyProduct("CashDiscipline.Win")]
+[assembly: AssemblyCopyright("Copyright © - 2007")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -30,3 +29,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Revision and Build Numbers 
 // by using the '*' as shown below:
 [assembly: AssemblyVersion(CashDiscipline.Module.AssemblyInfo.Version)]
+

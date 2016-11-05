@@ -1,37 +1,32 @@
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using System.Text;
 using System.ComponentModel;
-
 using DevExpress.ExpressApp;
+using DevExpress.ExpressApp.DC;
+using System.Collections.Generic;
+using DevExpress.ExpressApp.Model;
+using DevExpress.ExpressApp.Editors;
+using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Updating;
+using DevExpress.ExpressApp.Model.Core;
+using DevExpress.ExpressApp.Model.DomainLogics;
+using DevExpress.ExpressApp.Model.NodeGenerators;
 
-namespace CashDiscipline.Module.Win
-{
+namespace CashDiscipline.Module.Win {
     [ToolboxItemFilter("Xaf.Platform.Win")]
-    public sealed partial class CashDisciplineWindowsFormsModule : ModuleBase
-    {
-        public CashDisciplineWindowsFormsModule()
-        {
+    // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppModuleBasetopic.aspx.
+    public sealed partial class CashDisciplineWindowsFormsModule : ModuleBase {
+        public CashDisciplineWindowsFormsModule() {
             InitializeComponent();
         }
-        public override IEnumerable<ModuleUpdater> GetModuleUpdaters(IObjectSpace objectSpace, Version versionFromDB)
-        {
+        public override IEnumerable<ModuleUpdater> GetModuleUpdaters(IObjectSpace objectSpace, Version versionFromDB) {
             return ModuleUpdater.EmptyModuleUpdaters;
         }
-
-        public override void Setup(XafApplication application)
-        {
+        public override void Setup(XafApplication application) {
             base.Setup(application);
             // Manage various aspects of the application UI and behavior at the module level.
             this.RequiredModuleTypes.Add(typeof(Xafology.ExpressApp.Paste.Win.PasteWinModule));
-        }
-
-        // Extends the Application Model elements for View and Navigation Items to be able to specify custom controls via the Model Editor.
-        // Refer to the http://documentation.devexpress.com/#Xaf/CustomDocument3169 help article for more information.
-        public override void ExtendModelInterfaces(DevExpress.ExpressApp.Model.ModelInterfaceExtenders extenders)
-        {
-            base.ExtendModelInterfaces(extenders);
         }
     }
 }

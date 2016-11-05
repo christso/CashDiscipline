@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Configuration;
 using System.Windows.Forms;
 
@@ -9,27 +9,24 @@ using DevExpress.Persistent.Base;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Data.Filtering;
 
-namespace CashDiscipline.Win
-{
-    static class Program
-    {
+namespace CashDiscipline.Win {
+    static class Program {
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
-        {
+        static void Main() {
 #if EASYTEST
-			DevExpress.ExpressApp.Win.EasyTest.EasyTestRemotingRegistration.Register();
+            DevExpress.ExpressApp.Win.EasyTest.EasyTestRemotingRegistration.Register();
 #endif
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             EditModelPermission.AlwaysGranted = System.Diagnostics.Debugger.IsAttached;
+			Tracing.LocalUserAppDataPath = Application.LocalUserAppDataPath;
+			Tracing.Initialize();
             CashDisciplineWindowsFormsApplication winApplication = new CashDisciplineWindowsFormsApplication();
 
-            if (ConfigurationManager.ConnectionStrings["ConnectionString"] != null)
-            {
+            if(ConfigurationManager.ConnectionStrings["ConnectionString"] != null) {
                 winApplication.ConnectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
             }
 #if EASYTEST
@@ -37,8 +34,10 @@ namespace CashDiscipline.Win
                 winApplication.ConnectionString = ConfigurationManager.ConnectionStrings["EasyTestConnectionString"].ConnectionString;
             }
 #endif
-            try
-            {
+            if(System.Diagnostics.Debugger.IsAttached && winApplication.CheckCompatibilityType == CheckCompatibilityType.DatabaseSchema) {
+                winApplication.DatabaseUpdateMode = DatabaseUpdateMode.UpdateDatabaseAlways;
+            }
+            try {
                 CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.MultiConcatFunction());
                 CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.RegexMatchFunction());
                 CriteriaOperator.RegisterCustomFunction(new CashDiscipline.Module.CustomFunctions.BoMonthFunction());
