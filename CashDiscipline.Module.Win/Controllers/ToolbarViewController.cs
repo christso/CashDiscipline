@@ -16,7 +16,8 @@ namespace CashDiscipline.Module.Win.Controllers
         protected override void OnActivated()
         {
             base.OnActivated();
-            if (View.Id == "FinGenJournalParam_JournalGroupParams_ListView")
+            if (View.Id == "FinGenJournalParam_JournalGroupParams_ListView"
+                || View.Id == "Welcome_ListView")
             {
                 Frame.GetController<DevExpress.ExpressApp.Win.SystemModule.ToolbarVisibilityController>().SetToolbarVisibility(false);
                 Frame.TemplateChanged += Frame_TemplateChanged;

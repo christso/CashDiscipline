@@ -225,6 +225,7 @@
     <Compile Include="BusinessObjects\BaseObjectHelper.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\ActionOwner.cs" />
+    <Compile Include="BusinessObjects\Welcome.cs" />
     <Compile Include="Clients\CshDscTabularHelper.cs" />
     <Compile Include="Clients\DaxClient.cs" />
     <Compile Include="Controllers\AboutInfoWindowController.cs">
@@ -252,6 +253,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\ActionPortalViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\InitializeNonPersistentListViewWindowController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\WelcomeDashboardViewController.cs">
@@ -373,7 +377,6 @@
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
     <Content Include="Scripts\CreateGenLedgerObjects.sql" />
     <Compile Include="ParamObjects\Import\ImportVendorSitePaymentTermsParam.cs" />
-    <Compile Include="ProcessStatus.cs" />
     <Compile Include="Service References\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

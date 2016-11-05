@@ -6,7 +6,7 @@
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.BankStmt" DefaultDetailViewImage="BO_List" DefaultListViewImage="" ImageName="BO_List" DefaultListViewShowAutoFilterRow="False" />
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Counterparty" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
   </BOModel>
-  <NavigationItems DefaultChildItemsDisplayStyle="List" DefaultLeafImageName="BO_List" GenerateRelatedViewVariantsGroup="True" NavigationStyle="NavBar" StartupNavigationItem="">
+  <NavigationItems DefaultChildItemsDisplayStyle="List" DefaultLeafImageName="BO_List" GenerateRelatedViewVariantsGroup="True" NavigationStyle="NavBar" StartupNavigationItem="Welcome">
     <Items>
       <Item Id="Home" Index="0" ViewId="" IsNewNode="True">
         <Items IsNewNode="True">
@@ -601,8 +601,16 @@
     </DetailView>
     <DashboardView Id="Welcome_Dashboard" Caption="Welcome" IsNewNode="True">
       <Items IsNewNode="True">
-        <StaticText Id="Welcome" Text="&lt;p&gt;&lt;strong&gt;Welcome to the Cash Discipline WinForms application. This is a data-capture and data-transformation tool used for daily cash flow analysis.&lt;/strong&gt;&lt;/p&gt;&#xD;&#xA;&lt;p&gt;&lt;strong&gt;Important Links:&lt;/strong&gt;&lt;/p&gt;&#xD;&#xA;&lt;table&gt;&#xD;&#xA;&lt;tbody&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Working Capital Reports&lt;/td&gt;&#xD;&#xA;&lt;td&gt;\\vhacorp07.vha.internal\vodashare$\Finance\Cash Reports\Working Capital&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Customer Reports&lt;/td&gt;&#xD;&#xA;&lt;td&gt;\\vhacorp07.vha.internal\vodashare$\Finance\Cash Reports\Customer Investment&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Accounting Reports&lt;/td&gt;&#xD;&#xA;&lt;td&gt;\\vhacorp07.vha.internal\vodashare$\Finance\Cash Reports\Accounting&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;/tbody&gt;&#xD;&#xA;&lt;/table&gt;&#xD;&#xA;&lt;p&gt;&lt;strong&gt;Server Details:&lt;/strong&gt;&lt;/p&gt;&#xD;&#xA;&lt;table&gt;&#xD;&#xA;&lt;tbody&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Hostname:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{svr_hostname}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;IP Address:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{svr_ipaddress}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Data Source:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{svr_datasource}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;/tbody&gt;&#xD;&#xA;&lt;/table&gt;&#xD;&#xA;&lt;p&gt;&lt;strong&gt;User Details:&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;&#xD;&#xA;&lt;table&gt;&#xD;&#xA;&lt;tbody&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Username:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{username}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Hostname:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{user_hostname}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;IP Address:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{user_ipaddress}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Application Path:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{apppath}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;/tbody&gt;&#xD;&#xA;&lt;/table&gt;" Caption="" IsNewNode="True" />
+        <StaticText Id="Welcome" Text="&lt;b&gt;CASH DISCIPLINE – DAILY CASH FLOW ANALYSIS FORMS&lt;b&gt;" Caption="" IsNewNode="True" />
+        <DashboardViewItem Id="WelcomeList" ViewId="Welcome_ListView" IsNewNode="True" />
       </Items>
+      <Layout IsNewNode="True">
+        <LayoutGroup Id="Main" Index="0" IsNewNode="True">
+          <LayoutItem Id="Welcome" ViewItem="Welcome" Index="0" IsNewNode="True" />
+          <LayoutItem Id="WelcomeList" ViewItem="WelcomeList" Index="1" IsNewNode="True" />
+        </LayoutGroup>
+      </Layout>
     </DashboardView>
+    <ListView Id="Welcome_ListView" DataAccessMode="Client" AutoExpandAllGroups="True" DetailViewID="" />
   </Views>
 </Application>

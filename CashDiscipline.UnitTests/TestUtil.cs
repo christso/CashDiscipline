@@ -77,7 +77,6 @@ namespace CashDiscipline.UnitTests
             module.AdditionalExportedTypes.Add(typeof(ApPmtDistn));
             module.AdditionalExportedTypes.Add(typeof(ApSource));
             module.AdditionalExportedTypes.Add(typeof(ApVendor));
-            module.AdditionalExportedTypes.Add(typeof(ProcessStatus));
         }
     }
 }
