@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CashDiscipline.Module.BusinessObjects
 {
-    [DefaultClassOptions]
+    [NavigationItem("Administration")]
     [ModelDefault("ImageName", "BO_List")]
     public class ReportConfig : BaseObject
     {

@@ -11,7 +11,7 @@ using System;
 namespace CashDiscipline.Module.BusinessObjects
 {
     [ModelDefault("ImageName", "BO_List")]
-    [DefaultClassOptions]
+    [NavigationItem("Administration")]
     public class SetOfBooks : BaseObject
     {
         public SetOfBooks(Session session)
