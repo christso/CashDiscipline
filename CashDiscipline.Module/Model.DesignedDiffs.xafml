@@ -8,7 +8,11 @@
   </BOModel>
   <NavigationItems DefaultChildItemsDisplayStyle="List" DefaultLeafImageName="BO_List" GenerateRelatedViewVariantsGroup="True" NavigationStyle="NavBar" StartupNavigationItem="">
     <Items>
-      <Item Id="Home" Index="0" ViewId="HomeDashboard" IsNewNode="True" />
+      <Item Id="Home" Index="0" ViewId="" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="Welcome" ImageName="Action_AboutInfo" ViewId="Welcome_Dashboard" IsNewNode="True" />
+        </Items>
+      </Item>
       <Item Id="Default" Caption="Administration" Index="1" ImageName="BO_Folder" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="PasteParam_ListView" ViewId="PasteParam_ListView" IsNewNode="True" />
@@ -58,6 +62,7 @@
       </Item>
     </Items>
   </NavigationItems>
+  <Options DataAccessMode="Server" />
   <SchemaModules>
     <SchemaModule Name="CloneObjectModule" Version="16.1.7.0" IsNewNode="True" />
     <SchemaModule Name="SystemModule" Version="16.1.7.0" IsNewNode="True" />
@@ -560,11 +565,6 @@
       </Columns>
     </ListView>
     <ListView Id="GenLedger_ListView" DataAccessMode="Server" AllowEdit="True" NewItemRowPosition="Top" />
-    <DashboardView Id="HomeDashboard" Caption="Home" IsNewNode="True">
-      <Items IsNewNode="True">
-        <StaticText Id="Message" Caption="Cash Discipline Home Page" Text="Message inbox is empty." IsNewNode="True" />
-      </Items>
-    </DashboardView>
     <ListView Id="ImportBankStmtParam_ImportBankStmtParamItems_ListView">
       <Columns>
         <ColumnInfo Id="Enabled" Index="0" />
@@ -599,5 +599,10 @@
         <PropertyEditor Id="CurrentCashFlowStartDate" ToolTip="Start Date of the Cash Flow SSAS Current Partition. If you change this property, please perform &quot;Process All&quot; afterwards before performing &quot;Process Current&quot; at a later stage." />
       </Items>
     </DetailView>
+    <DashboardView Id="Welcome_Dashboard" Caption="Welcome" IsNewNode="True">
+      <Items IsNewNode="True">
+        <StaticText Id="Welcome" Text="&lt;p&gt;&lt;strong&gt;Welcome to the Cash Discipline WinForms application. This is a data-capture and data-transformation tool used for daily cash flow analysis.&lt;/strong&gt;&lt;/p&gt;&#xD;&#xA;&lt;p&gt;&lt;strong&gt;Important Links:&lt;/strong&gt;&lt;/p&gt;&#xD;&#xA;&lt;table&gt;&#xD;&#xA;&lt;tbody&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Working Capital Reports&lt;/td&gt;&#xD;&#xA;&lt;td&gt;\\vhacorp07.vha.internal\vodashare$\Finance\Cash Reports\Working Capital&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Customer Reports&lt;/td&gt;&#xD;&#xA;&lt;td&gt;\\vhacorp07.vha.internal\vodashare$\Finance\Cash Reports\Customer Investment&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Accounting Reports&lt;/td&gt;&#xD;&#xA;&lt;td&gt;\\vhacorp07.vha.internal\vodashare$\Finance\Cash Reports\Accounting&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;/tbody&gt;&#xD;&#xA;&lt;/table&gt;&#xD;&#xA;&lt;p&gt;&lt;strong&gt;Server Details:&lt;/strong&gt;&lt;/p&gt;&#xD;&#xA;&lt;table&gt;&#xD;&#xA;&lt;tbody&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Hostname:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{svr_hostname}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;IP Address:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{svr_ipaddress}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Data Source:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{svr_datasource}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;/tbody&gt;&#xD;&#xA;&lt;/table&gt;&#xD;&#xA;&lt;p&gt;&lt;strong&gt;User Details:&amp;nbsp;&lt;/strong&gt;&lt;/p&gt;&#xD;&#xA;&lt;table&gt;&#xD;&#xA;&lt;tbody&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Username:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{username}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Hostname:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{user_hostname}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;IP Address:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{user_ipaddress}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;tr&gt;&#xD;&#xA;&lt;td&gt;Application Path:&lt;/td&gt;&#xD;&#xA;&lt;td&gt;{apppath}&lt;/td&gt;&#xD;&#xA;&lt;/tr&gt;&#xD;&#xA;&lt;/tbody&gt;&#xD;&#xA;&lt;/table&gt;" Caption="" IsNewNode="True" />
+      </Items>
+    </DashboardView>
   </Views>
 </Application>

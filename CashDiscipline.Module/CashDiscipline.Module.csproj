@@ -254,6 +254,9 @@
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\WelcomeDashboardViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\WorkingCapital\ImportApInvoiceBalanceViewController.cs">
       <SubType>Component</SubType>
     </Compile>
