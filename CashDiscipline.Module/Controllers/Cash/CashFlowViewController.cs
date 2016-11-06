@@ -149,7 +149,7 @@ namespace CashDiscipline.Module.Controllers.Cash
                     new GenericMessageBox(
                          string.Format(
                             "ACTION COMPLETED : Process Cash Report - All : Elapsed = {0} seconds",
-                            sw.Elapsed.Seconds),
+                            Math.Round(sw.Elapsed.TotalSeconds,2)),
                          "ACTION COMPLETED");
                     break;
                 case processCubeCurrentCaption:

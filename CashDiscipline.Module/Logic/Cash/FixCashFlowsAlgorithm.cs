@@ -287,7 +287,6 @@ WHERE
     AND cf.TranDate BETWEEN @FromDate AND @ToDate
 	AND cf.[Snapshot] = @Snapshot
     AND (cf.Fix = NULL OR tag.FixTagType != @IgnoreFixTagType)
-    AND fixer.GCRecord IS NOT NULL
 
 -- FixeeFixer
 

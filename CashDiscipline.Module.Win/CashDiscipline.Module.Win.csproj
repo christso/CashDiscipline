@@ -212,9 +212,6 @@
     <Compile Include="Controllers\CustomizeGridViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\ToolbarViewController.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="WinModule.cs">
       <SubType>Component</SubType>
     </Compile>

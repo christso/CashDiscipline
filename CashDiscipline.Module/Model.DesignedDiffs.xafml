@@ -600,7 +600,7 @@
     </DetailView>
     <DashboardView Id="Welcome_Dashboard" Caption="Welcome" IsNewNode="True">
       <Items IsNewNode="True">
-        <StaticText Id="Welcome" Text="&lt;b&gt;CASH DISCIPLINE – DAILY CASH FLOW ANALYSIS FORMS&lt;b&gt;" Caption="" IsNewNode="True" />
+        <StaticText Id="Welcome" Text="&lt;b&gt;CASH FLOW DATA CAPTURE AND TRANSFORMATION APPLICATION&lt;b&gt;" Caption="" IsNewNode="True" />
         <DashboardViewItem Id="WelcomeList" ViewId="Welcome_ListView" IsNewNode="True" />
       </Items>
       <Layout IsNewNode="True">
@@ -610,6 +610,11 @@
         </LayoutGroup>
       </Layout>
     </DashboardView>
-    <ListView Id="Welcome_ListView" DataAccessMode="Client" AutoExpandAllGroups="True" DetailViewID="" GroupSummary="None" />
+    <DetailView Id="Welcome_DetailView" AllowDelete="False" AllowEdit="False" AllowNew="False" />
+    <ListView Id="Welcome_ListView" DataAccessMode="Client" AutoExpandAllGroups="True" GroupSummary="None" AllowDelete="False" AllowLink="False" AllowNew="False" DetailViewID="">
+      <Columns>
+        <ColumnInfo Id="Category" SortOrder="Ascending" GroupIndex="0" />
+      </Columns>
+    </ListView>
   </Views>
 </Application>

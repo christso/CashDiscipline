@@ -319,7 +319,14 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
             set
             {
-                SetPropertyValue("CounterCcy", ref _CounterCcy, value);
+                if (SetPropertyValue("CounterCcy", ref _CounterCcy, value))
+                {
+                    if (!IsLoading && CounterCcy != null && CalculateEnabled && TranDate != default(DateTime))
+                    {
+                        UpdateFunctionalCcyAmt(this, CounterCcyAmt, CounterCcy);
+                        UpdateAccountCcyAmt(this, CounterCcyAmt, CounterCcy);
+                    }
+                }
             }
         }
 

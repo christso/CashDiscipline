@@ -62,7 +62,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             sw.Stop();
 
             messageText += string.Format("\r\nTotal Elapsed Time = {0} seconds",
-                sw.Elapsed.Seconds);
+                Math.Round(sw.Elapsed.TotalSeconds,2));
 
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 messageText, "Cash Flow Fix SUCCESS");
@@ -100,7 +100,7 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             sw.Stop();
             var messageText = string.Format("Foreign Currency Account balances were successfully 'Revalued'. Elapsed Time = {0} seconds",
-                sw.Elapsed.Seconds);
+                Math.Round(sw.Elapsed.TotalSeconds,2));
 
             if (isRootSender)
             {
@@ -110,7 +110,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
 
             return string.Format(messageText,
-                sw.Elapsed.Seconds);
+                Math.Round(sw.Elapsed.TotalSeconds,2));
         }
 
         private string MapAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
@@ -128,7 +128,7 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             sw.Stop();
             var messageText = string.Format("Cash Flows were successfully 'Mapped'. Elapsed Time = {0} seconds",
-                sw.Elapsed.Seconds);
+                Math.Round(sw.Elapsed.TotalSeconds,2));
 
             if (isRootSender)
             {
@@ -139,7 +139,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
 
             return string.Format(messageText,
-                sw.Elapsed.Seconds);
+                Math.Round(sw.Elapsed.TotalSeconds,2));
         }
 
         private void UnfixAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
@@ -178,7 +178,7 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             sw.Stop();
             var messageText = string.Format("Cash Flows were successfully 'Fixed'. Elapsed Time = {0} seconds",
-                sw.Elapsed.Seconds);
+                Math.Round(sw.Elapsed.TotalSeconds,2));
 
             if (isRootSender)
             {
@@ -188,7 +188,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
 
             return string.Format(messageText,
-               sw.Elapsed.Seconds);
+               Math.Round(sw.Elapsed.TotalSeconds,2));
         }
 
         protected override void OnActivated()

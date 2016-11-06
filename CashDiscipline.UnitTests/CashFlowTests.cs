@@ -53,6 +53,60 @@ namespace CashDiscipline.UnitTests
         }
 
         [Test]
+        public void PasteCashFlowCounterCcyAmt()
+        {
+            #region Create Forex objects
+            // Currencies
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+
+            // Forex Rates
+            var rate = ObjectSpace.CreateObject<ForexRate>();
+            rate.ConversionDate = new DateTime(2013, 11, 01);
+            rate.FromCurrency = ccyAUD;
+            rate.ToCurrency = ccyUSD;
+            rate.ConversionRate = 0.9M;
+            rate.Save();
+            ObjectSpace.CommitChanges();
+            #endregion
+
+            #region Create Lookup Objects
+
+            var priAccount = ObjectSpace.CreateObject<Account>();
+            priAccount.Name = "VHA ANZ 70086";
+            priAccount.Currency = ccyAUD;
+
+            var couAccount = ObjectSpace.CreateObject<Account>();
+            couAccount.Name = "VHA ANZ USD";
+            couAccount.Currency = ccyUSD;
+
+            var outActivity = ObjectSpace.CreateObject<Activity>();
+            outActivity.Name = "AP Pymt";
+            #endregion
+
+            #region Act
+            //var modelClass = Application.FindModelClass(typeof(CashFlow));
+            //var counterCcyAmt = modelClass.FindMember("CounterCcyAmt");
+
+            var cf = ObjectSpace.CreateObject<CashFlow>();
+            cf.Account = priAccount;
+            cf.AccountCcyAmt = 0;
+            cf.FunctionalCcyAmt = 0;
+            cf.CounterCcyAmt = 300;
+            cf.CounterCcy = ccyUSD;
+                   
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Assert
+
+            Assert.AreEqual(Math.Round(300.0M / 0.9M,2), Math.Round(cf.FunctionalCcyAmt,2));
+
+            #endregion
+        }
+
+        [Test]
         public void UploadBankStmtToCashFlow()
         {
             #region Create Forex objects
