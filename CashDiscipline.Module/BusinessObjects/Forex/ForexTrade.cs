@@ -139,9 +139,9 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
         }
 
-        [ModelDefault("EditMask", "n6")]
-        [ModelDefault("DisplayFormat", "n6")]
-        [DbType("decimal(19, 6)")]
+        [ModelDefault("EditMask", "n10")]
+        [ModelDefault("DisplayFormat", "n10")]
+        [DbType("decimal(19, 10)")]
         [ImmediatePostData(true)]
         [EditorAlias("Xafology_DecimalActionPropertyEditor")]
     //    [RuleCriteria("ForexTrade.Rate_RuleCriteria", DefaultContexts.Save,
