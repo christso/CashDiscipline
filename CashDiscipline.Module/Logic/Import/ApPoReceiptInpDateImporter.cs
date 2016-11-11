@@ -1,5 +1,6 @@
 ﻿using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp.Xpo;
+using Excel;
 using LumenWorks.Framework.IO.Csv;
 using SmartFormat;
 using System;
@@ -52,30 +53,27 @@ SELECT PoNum, ForecastMatchDate FROM #TmpApPoMatchDateInput";
         public string Execute(string inputFilePath)
         {
             var statusMessage = string.Empty;
-
-            var connectionString = string.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};
-Extended Properties = ""Excel 12.0 Xml;HDR=YES""", inputFilePath);
-            var adapter = new OleDbDataAdapter("SELECT * FROM [ManualMatchDate$]", connectionString);
-
-            var ds = new DataSet();
-            adapter.Fill(ds, "anyNameHere");
-            DataTable data = ds.Tables["anyNameHere"];
-
+            
             var conn = (SqlConnection)objSpace.Connection;
             int rowCount = 0;
 
-            using (var csv = data.CreateDataReader())
+            using (FileStream stream = File.Open(inputFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var cmd = conn.CreateCommand())
             using (var bc = new SqlBulkCopy(conn))
             {
-                //cmd.Transaction = trn;
+                IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                excelReader.IsFirstRowAsColumnNames = true;
+                DataSet xlsDataSet = excelReader.AsDataSet();
+                excelReader.Close();
+                DataTable xlsDataTable = xlsDataSet.Tables["ManualMatchDate"];
+
                 cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
 
                 cmd.CommandText = createSql;
                 cmd.ExecuteNonQuery();
 
                 bc.DestinationTableName = "#TmpApPoMatchDateInput";
-                bc.WriteToServer(csv);
+                bc.WriteToServer(xlsDataTable);
 
                 cmd.CommandText = "SELECT COUNT(*) FROM #TmpApPoMatchDateInput";
                 rowCount = Convert.ToInt32(cmd.ExecuteScalar());

@@ -1,5 +1,6 @@
 ﻿using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp.Xpo;
+using Excel;
 using LumenWorks.Framework.IO.Csv;
 using SmartFormat;
 using System;
@@ -58,21 +59,19 @@ FROM #TmpApPoMatchDaysInput";
         {
             var statusMessage = string.Empty;
 
-            var connectionString = string.Format(@"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};
-Extended Properties = ""Excel 12.0 Xml;HDR=YES""", inputFilePath);
-            var adapter = new OleDbDataAdapter("SELECT * FROM [PoMatchDaysInput$]", connectionString);
-
-            var ds = new DataSet();
-            adapter.Fill(ds, "anyNameHere");
-            DataTable data = ds.Tables["anyNameHere"];
-
             var conn = (SqlConnection)objSpace.Connection;
             int rowCount = 0;
 
-            using (var csv = data.CreateDataReader())
+            using (FileStream stream = File.Open(inputFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var cmd = conn.CreateCommand())
             using (var bc = new SqlBulkCopy(conn))
             {
+                IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                excelReader.IsFirstRowAsColumnNames = true;
+                DataSet xlsDataSet = excelReader.AsDataSet();
+                excelReader.Close();
+                DataTable xlsDataTable = xlsDataSet.Tables["PoMatchDaysInput"];
+
                 //cmd.Transaction = trn;
                 cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
 
@@ -80,7 +79,7 @@ Extended Properties = ""Excel 12.0 Xml;HDR=YES""", inputFilePath);
                 cmd.ExecuteNonQuery();
 
                 bc.DestinationTableName = "#TmpApPoMatchDaysInput";
-                bc.WriteToServer(csv);
+                bc.WriteToServer(xlsDataTable);
 
                 cmd.CommandText = "SELECT COUNT(*) FROM #TmpApPoMatchDaysInput";
                 rowCount = Convert.ToInt32(cmd.ExecuteScalar());

@@ -303,6 +303,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Interfaces\IMappingCriteriaGenerator.cs" />
+    <Compile Include="Clients\ExcelXmlToSqlServerLoader.cs" />
     <Compile Include="Logic\Import\ApInvoiceBalanceImporter.cs" />
     <Compile Include="Logic\Import\ApInvoiceHeaderImporter.cs" />
     <Compile Include="Logic\Import\ApInvoicesDueInputImporter.cs" />
