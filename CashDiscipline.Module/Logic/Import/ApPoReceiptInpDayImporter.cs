@@ -32,8 +32,8 @@ namespace CashDiscipline.Module.Logic.Import
 @"IF OBJECT_ID('tempdb..#TmpApPoMatchDaysInput') IS NOT NULL DROP TABLE #TmpApPoMatchDaysInput
 CREATE TABLE #TmpApPoMatchDaysInput
 (
-    Vendor nvarchar(255),
     PoNum nvarchar(255),
+    Vendor nvarchar(255),
     ForecastVendorMatchDays float,
     ForecastMatchDays float
 )";

@@ -87,6 +87,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
+            command.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
             command.Parameters.AddRange(parameters.ToArray());
             command.CommandText = commandText;
             try

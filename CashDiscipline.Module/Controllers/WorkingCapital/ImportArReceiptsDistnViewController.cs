@@ -29,6 +29,55 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             var importAction = new SimpleAction(this, "ImportArReceiptAction", PredefinedCategory.ObjectsCreation);
             importAction.Caption = "Import";
             importAction.Execute += ImportAction_Execute;
+
+            var mapAction = new SimpleAction(this, "MapArReceiptAction", PredefinedCategory.ObjectsCreation);
+            mapAction.Caption = "Map";
+            mapAction.Execute += mapAction_Execute;
+        }
+
+        private void mapAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            var paramObj = (ImportArReceiptDistnParam)View.CurrentObject;
+
+            Func<string, string> formatSql = delegate (string sql)
+            {
+                return Smart.Format(sql, new
+                {
+                    FromDate = string.Format("{0:yyyy-MM-dd}", paramObj.FromDate.Date),
+                    ToDate = string.Format("{0:yyyy-MM-dd}", paramObj.ToDate.Date)
+                });
+            };
+
+            string sqlMap = @"exec sp_map_arreceipt_account '{FromDate}', '{ToDate}'
+exec sp_map_arreceipt_customer '{FromDate}', '{ToDate}'
+exec sp_map_arreceipt_final '{FromDate}', '{ToDate}'
+";
+
+            const string connString = CashDiscipline.Common.Constants.FinanceConnString;
+
+            try
+            {
+                using (var conn = new SqlConnection(connString))
+                using (var cmd = new SqlCommand())
+                {
+                    cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
+
+                    conn.Open();
+                    cmd.Connection = conn;
+
+                    cmd.CommandText = formatSql(sqlMap);
+                    cmd.ExecuteNonQuery();
+                }
+
+                new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                    "Mapping Successful",
+                   "Mapping Successful"
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
+            }
         }
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)

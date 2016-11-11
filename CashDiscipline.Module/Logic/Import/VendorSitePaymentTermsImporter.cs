@@ -94,7 +94,7 @@ INSERT INTO VHAFinance.dbo.VendorSitePaymentTerms
 )
 SELECT
     NEWID() AS Oid,
-    {AsAtDate} AS [As At Date],
+    '{AsAtDate}' AS [As At Date],
     [Org],
     TRY_CAST([Vendor id] AS int),
     TRY_CAST([Vendor site id] AS int),

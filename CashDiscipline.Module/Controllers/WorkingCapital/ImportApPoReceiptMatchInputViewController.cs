@@ -29,6 +29,7 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             var importAction = new SimpleAction(this, "ImportApPoReceiptMatchInputAction", PredefinedCategory.ObjectsCreation);
             importAction.Caption = "Import";
             importAction.Execute += ImportAction_Execute;
+
         }
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
