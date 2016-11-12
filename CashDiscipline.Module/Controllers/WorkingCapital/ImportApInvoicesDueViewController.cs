@@ -37,8 +37,7 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
 
             var paramObj = (ImportApInvoicesDueParam)View.CurrentObject;
             var conn = (SqlConnection)((XPObjectSpace)ObjectSpace).Connection;
-            var loader = new ExcelXmlToSqlServerLoader(conn);
-            loader.ExcelFilePath = paramObj.FilePath;
+            var loader = new SqlServerLoader(conn);
             loader.CreateSql = @"CREATE TABLE {TempTable}
 (
     Supplier nvarchar(255),
@@ -52,9 +51,9 @@ Supplier,
 InvoiceNumber,
 InvoiceDueDate
 FROM {TempTable}";
-            loader.ExcelSheetName = "ApInvoicesDueInput";
-
-            var messagesText = loader.Execute();
+            var sourceTable = DataObjectFactory.CreateTableFromExcelXml(paramObj.FilePath, "ApInvoicesDueInput");
+          
+            var messagesText = loader.Execute(sourceTable);
 
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 messagesText,

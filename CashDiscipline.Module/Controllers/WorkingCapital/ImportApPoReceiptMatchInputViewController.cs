@@ -47,11 +47,10 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
 
         private string ImportDays()
         {
-
             var paramObj = (ImportApPoReceiptMatchInputParam)View.CurrentObject;
-
             var conn = (SqlConnection)((XPObjectSpace)ObjectSpace).Connection;
-            var loader = new ExcelXmlToSqlServerLoader(conn);
+            var loader = new SqlServerLoader(conn);
+
             loader.CreateSql = @"CREATE TABLE {TempTable}
 (
     PoNum nvarchar(255),
@@ -65,9 +64,9 @@ SELECT
     PoNum,
     ForecastMatchDays
 FROM {TempTable}";
-            loader.ExcelFilePath = paramObj.FilePath;
-            loader.ExcelSheetName = "PoMatchDaysInput";
-            return loader.Execute();
+
+            var sourceTable = DataObjectFactory.CreateTableFromExcelXml(paramObj.FilePath, "PoMatchDaysInput");
+            return loader.Execute(sourceTable);
         }
 
         private string ImportDates()
@@ -75,7 +74,7 @@ FROM {TempTable}";
             var paramObj = (ImportApPoReceiptMatchInputParam)View.CurrentObject;
 
             var conn = (SqlConnection)((XPObjectSpace)ObjectSpace).Connection;
-            var loader = new ExcelXmlToSqlServerLoader(conn);
+            var loader = new SqlServerLoader(conn);
             loader.CreateSql = @"CREATE TABLE {TempTable}
 (
     PoNum nvarchar(255),
@@ -84,9 +83,9 @@ FROM {TempTable}";
             loader.PersistSql = @"DELETE FROM VHAFinance.dbo.ApPoMatchDateInput
 INSERT INTO VHAFinance.dbo.ApPoMatchDateInput (PoNum, ForecastMatchDate)
 SELECT PoNum, ForecastMatchDate FROM {TempTable}";
-            loader.ExcelFilePath = paramObj.FilePath;
-            loader.ExcelSheetName = "ManualMatchDate";
-            return loader.Execute();
+
+            var sourceTable = DataObjectFactory.CreateTableFromExcelXml(paramObj.FilePath, "ManualMatchDate");
+            return loader.Execute(sourceTable);
         }
     }
 }

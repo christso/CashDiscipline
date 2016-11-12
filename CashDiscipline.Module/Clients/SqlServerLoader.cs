@@ -15,15 +15,15 @@ using System.Text;
 
 namespace CashDiscipline.Module.Clients
 {
-    public class ExcelXmlToSqlServerLoader
+    public class SqlServerLoader
     {
-        public ExcelXmlToSqlServerLoader(SqlConnection sqlConn)
+        public SqlServerLoader(SqlConnection sqlConn)
         {
             this.sqlConn = sqlConn;
         }
-
         private readonly SqlConnection sqlConn;
         private string tempTableName;
+
 
         private string createSql;
         public string CreateSql
@@ -39,47 +39,31 @@ namespace CashDiscipline.Module.Clients
             set { this.persistSql = value; }
         }
 
-        private string excelFilePath;
-        public string ExcelFilePath
+        public string Execute(DataTable sourceTable)
         {
-            get { return this.excelFilePath; }
-            set { this.excelFilePath = value; }
+            return Execute((object)sourceTable);
         }
 
-        private string excelSheetName;
-        public string ExcelSheetName
+        public string Execute(IDataReader sourceReader)
         {
-            get { return this.excelSheetName; }
-            set { this.excelSheetName = value; }
+            return Execute((object)sourceReader);
         }
-        
+
         private string FormatSql(string commandText)
         {
             return Smart.Format(commandText, new { TempTable = tempTableName });
         }
 
-        public string Execute()
+        private string Execute(object source)
         {
-            Guard.ArgumentNotNull(excelFilePath, "Excel File Path");
-            Guard.ArgumentNotNull(excelSheetName, "Excel Sheet Name");
-            Guard.ArgumentNotNull(createSql, "Create SQL");
-            Guard.ArgumentNotNull(persistSql, "Persist SQL");
             tempTableName = "#tmp_" + Guid.NewGuid().ToString("N");
 
             int rowCount = 0;
             var statusMessage = string.Empty;
 
-            using (FileStream stream = File.Open(excelFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (var cmd = sqlConn.CreateCommand())
             using (var bc = new SqlBulkCopy(sqlConn))
             {
-                IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                excelReader.IsFirstRowAsColumnNames = true;
-                DataSet xlsDataSet = excelReader.AsDataSet();
-                excelReader.Close();
-
-                DataTable xlsDataTable = xlsDataSet.Tables[excelSheetName];
-
                 cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
 
                 cmd.CommandText = FormatSql(
@@ -88,7 +72,16 @@ namespace CashDiscipline.Module.Clients
                 cmd.ExecuteNonQuery();
 
                 bc.DestinationTableName = tempTableName;
-                bc.WriteToServer(xlsDataTable);
+
+                #region write source to destination
+                if (source is IDataReader)
+                    bc.WriteToServer((IDataReader)source);
+                else if (source is DataTable)
+                    bc.WriteToServer((DataTable)source);
+                else
+                    throw new InvalidOperationException(string.Format(
+                        "Source must be of type IDataReader or DataTable. Type is {0}", source.GetType()));
+                #endregion
 
                 cmd.CommandText = FormatSql("SELECT COUNT(*) FROM {TempTable}");
                 rowCount = Convert.ToInt32(cmd.ExecuteScalar());
@@ -100,5 +93,6 @@ namespace CashDiscipline.Module.Clients
             statusMessage = string.Format("{0} rows processed.", rowCount);
             return statusMessage;
         }
+
     }
 }

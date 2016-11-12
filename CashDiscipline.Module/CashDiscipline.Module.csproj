@@ -235,6 +235,8 @@
     <Compile Include="BusinessObjects\ActionOwner.cs" />
     <Compile Include="BusinessObjects\Welcome.cs" />
     <Compile Include="Clients\CshDscTabularHelper.cs" />
+    <Compile Include="Clients\DataObjectFactory.cs" />
+    <Compile Include="Clients\SqlServerLoader.cs" />
     <Compile Include="Clients\DaxClient.cs" />
     <Compile Include="Controllers\AboutInfoWindowController.cs">
       <SubType>Component</SubType>
@@ -303,10 +305,8 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Interfaces\IMappingCriteriaGenerator.cs" />
-    <Compile Include="Clients\ExcelXmlToSqlServerLoader.cs" />
     <Compile Include="Logic\Import\ApInvoiceBalanceImporter.cs" />
     <Compile Include="Logic\Import\ApInvoiceHeaderImporter.cs" />
-    <Compile Include="Logic\Import\ApPmtDistnImporter.cs" />
     <Compile Include="Logic\Cash\ApPmtToCashFlowAlgorithm.cs" />
     <Compile Include="Logic\Cash\BankStmtCalculator.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular.cs" />
