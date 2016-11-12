@@ -45,6 +45,8 @@ namespace CashDiscipline.Module.ParamObjects.FinAccounting
         private DateTime _FromDate;
         private DateTime _ToDate;
 
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime FromDate 
         {
             get
@@ -56,6 +58,9 @@ namespace CashDiscipline.Module.ParamObjects.FinAccounting
                 SetPropertyValue("FromDate", ref _FromDate, value);
             }
         }
+
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime ToDate
         {
             get

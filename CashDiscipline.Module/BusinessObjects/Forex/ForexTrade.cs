@@ -144,8 +144,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         [DbType("decimal(19, 10)")]
         [ImmediatePostData(true)]
         [EditorAlias("Xafology_DecimalActionPropertyEditor")]
-    //    [RuleCriteria("ForexTrade.Rate_RuleCriteria", DefaultContexts.Save,
-    //"Rate is not null", SkipNullOrEmptyValues = false)]
         public decimal Rate
         {
             get
@@ -154,24 +152,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             }
             set
             {
-                if (SetPropertyValue("Rate", ref _Rate, value))
-                {
-                    if (!IsLoading && !IsSaving && CalculateEnabled)
-                    {
-                        //var obj = this;
-                        //var fromCcy = CounterCcy;
-                        //var fromAmt = CounterCcyAmt;
-                        //if (fromCcy == null)
-                        //{
-                        //    return;
-                        //}
-                        //if (_Rate != 0)
-                        //{
-                        //    var toAmt = Math.Round(fromAmt / _Rate, 2);
-                        //    obj.SetPropertyValue("PrimaryCcyAmt", ref obj._PrimaryCcyAmt, toAmt);
-                        //}
-                    }
-                }
+                SetPropertyValue("Rate", ref _Rate, value);
             }
         }
 

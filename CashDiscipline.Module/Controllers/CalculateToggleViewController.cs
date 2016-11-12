@@ -29,6 +29,17 @@ namespace CashDiscipline.Module.Controllers
             CalculateAction.Items.Add(calculateOffChoice);
         }
 
+        public SingleChoiceAction CalculateAction;
+        private ChoiceActionItem calculateOnChoice;
+        private ChoiceActionItem calculateOffChoice;
+        private bool IsCalculateEnabled
+        {
+            get
+            {
+                return CalculateAction.SelectedItem == calculateOnChoice;
+            }
+        }
+
         protected override void OnActivated()
         {
             base.OnActivated();
@@ -42,26 +53,17 @@ namespace CashDiscipline.Module.Controllers
             var objs = View.SelectedObjects;
             foreach (ICalculateToggleObject obj in objs)
             {
-                obj.CalculateEnabled = true;
+                obj.CalculateEnabled = IsCalculateEnabled;
             }
         }
 
-        public SingleChoiceAction CalculateAction;
-        private ChoiceActionItem calculateOnChoice;
-        private ChoiceActionItem calculateOffChoice;
-
         void calculateAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
-            var obj = View.CurrentObject as ICalculateToggleObject;
-            if (obj == null) return;
-            switch (e.SelectedChoiceActionItem.Caption)
+            var objs = View.SelectedObjects;
+            
+            foreach (ICalculateToggleObject obj in objs)
             {
-                case CalculateEnabledCaption.Off:
-                    obj.CalculateEnabled = false;
-                    break;
-                case CalculateEnabledCaption.On:
-                    obj.CalculateEnabled = true;
-                    break;
+                obj.CalculateEnabled = IsCalculateEnabled;
             }
         }
         private struct CalculateEnabledCaption

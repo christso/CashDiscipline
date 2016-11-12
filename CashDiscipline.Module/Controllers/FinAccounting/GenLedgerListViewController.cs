@@ -18,22 +18,15 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
             TargetObjectType = typeof(GenLedger);
             TargetViewType = ViewType.ListView;
 
-            genJnlAction = new SingleChoiceAction(this, "GenJnlAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
+            var genJnlAction = new SimpleAction(this, "GenJnlAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             genJnlAction.Caption = "Generate Journals";
-            genJnlAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
-            genJnlAction.ShowItemsOnClick = false;
             genJnlAction.Execute += genJnlAction_Execute;
-
-            var choice1 = new ChoiceActionItem();
-            choice1.Caption = "Generate";
-            genJnlAction.Items.Add(choice1);
-
         }
 
         private SingleChoiceAction genJnlAction;
         private FinGenJournalParam _ParamObj;
 
-        void genJnlAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
+        void genJnlAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
             ShowGeneratorForm(e.ShowViewParameters);
         }

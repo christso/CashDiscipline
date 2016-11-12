@@ -115,17 +115,7 @@ namespace CashDiscipline.Module.Logic.FinAccounting
 UPDATE GenLedger SET GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
 FROM GenLedger
 WHERE GenLedger.EntryType = @EntryType
-AND (
-    GenLedger.SrcBankStmt IN 
-    (
-        SELECT BankStmt.Oid FROM BankStmt WHERE BankStmt.TranDate BETWEEN @FromDate AND @ToDate
-    )
-    OR GenLedger.SrcCashFlow IN
-    (
-        SELECT CashFlow.Oid FROM CashFlow WHERE CashFlow.TranDate BETWEEN @FromDate AND @ToDate
-        AND CashFlow.Snapshot = @SnapshotOid
-    )
-)";
+AND GenLedger.GlDate BETWEEN @FromDate AND @ToDate";
             }
         }
         #endregion

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using DG2NTT.AnalysisServicesHelpers;
 using Xafology.ExpressApp.SystemModule;
+using System.Data.SqlClient;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -83,6 +84,9 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             base.OnActivated();
             ObjectSpace.ObjectSaving += ObjectSpace_ObjectSaving;
+
+            
+
         }
 
         private void ObjectSpace_ObjectSaving(object sender, ObjectManipulatingEventArgs e)

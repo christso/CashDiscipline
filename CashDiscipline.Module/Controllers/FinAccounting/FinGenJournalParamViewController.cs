@@ -24,8 +24,25 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
 
             SimpleAction cancelAction = new SimpleAction(this, "CancelGenJnlction", "ExecuteActions");
             cancelAction.Caption = "Cancel";
-
             cancelAction.Execute += CancelAction_Execute;
+
+            SimpleAction deleteAction = new SimpleAction(this, "DeleteGenJnlction", "ExecuteActions");
+            deleteAction.Caption = "Delete";
+            deleteAction.Execute += DeleteAction_Execute;
+
+        }
+
+        private void DeleteAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            FinGenJournalParam paramObj = e.CurrentObject as FinGenJournalParam;
+            var journalGenerator = new ParamJournalGenerator(paramObj, (XPObjectSpace)ObjectSpace);
+            journalGenerator.DeleteAutoGenLedgerItems();
+            ObjectSpace.CommitChanges();
+            View.Close();
+
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+              "Auto-generated journals successfully deleted. Manual journals are untouched. Please refresh the Cash Gen Ledger Report.",
+              "Auto-Journal Deletion SUCCESS");
         }
 
         private void OkAction_Execute(object sender, SimpleActionExecuteEventArgs e)

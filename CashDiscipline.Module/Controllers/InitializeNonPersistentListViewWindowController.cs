@@ -24,10 +24,11 @@ namespace CashDiscipline.Module.Controllers
         {
             if ((e.CollectionSource.ObjectTypeInfo.Type == typeof(Welcome)) && (e.CollectionSource.ObjectSpace is NonPersistentObjectSpace))
             {
-                ((NonPersistentObjectSpace)e.CollectionSource.ObjectSpace).ObjectsGetting += ObjectSpace_ObjectsGetting;
+                ((NonPersistentObjectSpace)e.CollectionSource.ObjectSpace).ObjectsGetting += WelcomeObjectSpace_ObjectsGetting;
             }
         }
-        private void ObjectSpace_ObjectsGetting(Object sender, ObjectsGettingEventArgs e)
+
+        private void WelcomeObjectSpace_ObjectsGetting(Object sender, ObjectsGettingEventArgs e)
         {
             BindingList<Welcome> objects = new BindingList<Welcome>();
 
@@ -43,6 +44,7 @@ namespace CashDiscipline.Module.Controllers
 
             e.Objects = objects;
         }
+
         protected override void OnDeactivated()
         {
             base.OnDeactivated();

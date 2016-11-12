@@ -563,7 +563,11 @@
         <ColumnInfo Id="ReverseTrade" Index="26" />
       </Columns>
     </ListView>
-    <ListView Id="GenLedger_ListView" DataAccessMode="Server" AllowEdit="True" NewItemRowPosition="Top" />
+    <ListView Id="GenLedger_ListView" DataAccessMode="Server" AllowEdit="True" NewItemRowPosition="Top" Filter="[GlDate] &gt;= #2016-11-01#">
+      <Columns>
+        <ColumnInfo Id="GlDate" SortIndex="0" SortOrder="Ascending" />
+      </Columns>
+    </ListView>	
     <ListView Id="ImportBankStmtParam_ImportBankStmtParamItems_ListView">
       <Columns>
         <ColumnInfo Id="Enabled" Index="0" />

@@ -65,42 +65,17 @@ namespace CashDiscipline.UnitTests
         }
 
         //[Test]
-        public void SaveTest()
+        public void RateRuleTest()
         {
-
-            var reversalFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            reversalFixTag.Name = CashDiscipline.Common.Constants.ReversalFixTag;
-            reversalFixTag.FixTagType = CashForecastFixTagType.Ignore;
-
-            var revRecFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            revRecFixTag.Name = CashDiscipline.Common.Constants.RevRecFixTag;
-            revRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
-
-            var resRevRecFixTag = ObjectSpace.CreateObject<CashForecastFixTag>();
-            resRevRecFixTag.Name = CashDiscipline.Common.Constants.ResRevRecFixTag;
-            resRevRecFixTag.FixTagType = CashForecastFixTagType.Ignore;
-
-
-            var cf1 = ObjectSpace.CreateObject<CashFlow>();
-            cf1.AccountCcyAmt = 100;
-            cf1.Fix = reversalFixTag;
-
-            var cf2 = ObjectSpace.CreateObject<CashFlow>();
-            cf2.AccountCcyAmt = 300;
-            cf2.ParentCashFlow = cf1;
-            cf2.Fixer = cf1;
-            cf2.Fix = revRecFixTag;
-
-            ObjectSpace.CommitChanges();
-
-            var os = (XPObjectSpace)Application.CreateObjectSpace();
-            var cfs = os.GetObjects<CashFlow>();
-
-            Assert.AreEqual(2, cfs.Count);
+            
+            var ft = ObjectSpace.CreateObject<ForexTrade>();
+            ft.PrimaryCcyAmt = 120;
+            ft.CounterCcyAmt = 100;
+            ft.Rate = 0.8M;
+            var isValid = ft.Fit(CriteriaOperator.Parse("Iif(Rate != 0, Round(Rate,2) == Round(CounterCcyAmt / PrimaryCcyAmt,2), true)"));
+            Console.WriteLine(isValid);
         }
         
-
-
-
+        
     }
 }

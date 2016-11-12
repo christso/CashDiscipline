@@ -39,6 +39,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
 
 
         private DateTime _FromDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime FromDate
         {
             get
@@ -52,6 +54,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
         }
 
         private DateTime _ToDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime ToDate
         {
             get
@@ -66,6 +70,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
 
         private DateTime _ApayableLockdownDate;
         [DisplayName("AP Lockdown Date")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime ApayableLockdownDate
         {
             get
@@ -79,6 +85,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
         }
 
         private DateTime _ApayableNextLockdownDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime ApayableNextLockdownDate
         {
             get
@@ -92,6 +100,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
         }
 
         private DateTime _PayrollLockdownDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime PayrollLockdownDate
         {
             get
@@ -105,6 +115,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
         }
 
         private DateTime _PayrollNextLockdownDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime PayrollNextLockdownDate
         {
             get
