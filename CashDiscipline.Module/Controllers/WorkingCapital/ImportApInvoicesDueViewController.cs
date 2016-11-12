@@ -16,6 +16,7 @@ using SmartFormat;
 using CashDiscipline.Common;
 using DG2NTT.AnalysisServicesHelpers;
 using CashDiscipline.Module.ParamObjects;
+using CashDiscipline.Module.Clients;
 
 namespace CashDiscipline.Module.Controllers.WorkingCapital
 {
@@ -33,9 +34,27 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var importer = new ApInvoicesDueInputImporter((XPObjectSpace)ObjectSpace);
+
             var paramObj = (ImportApInvoicesDueParam)View.CurrentObject;
-            var messagesText = importer.Execute(paramObj.FilePath);
+            var conn = (SqlConnection)((XPObjectSpace)ObjectSpace).Connection;
+            var loader = new ExcelXmlToSqlServerLoader(conn);
+            loader.ExcelFilePath = paramObj.FilePath;
+            loader.CreateSql = @"CREATE TABLE {TempTable}
+(
+    Supplier nvarchar(255),
+    InvoiceNumber nvarchar(255),
+    InvoiceDueDate date
+)";
+            loader.PersistSql = @"DELETE FROM VHAFinance.dbo.ApInvoicesDueInput
+INSERT INTO VHAFinance.dbo.ApInvoicesDueInput
+SELECT
+Supplier,
+InvoiceNumber,
+InvoiceDueDate
+FROM {TempTable}";
+            loader.ExcelSheetName = "ApInvoicesDueInput";
+
+            var messagesText = loader.Execute();
 
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 messagesText,

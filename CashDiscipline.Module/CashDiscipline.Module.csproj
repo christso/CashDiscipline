@@ -306,7 +306,6 @@
     <Compile Include="Clients\ExcelXmlToSqlServerLoader.cs" />
     <Compile Include="Logic\Import\ApInvoiceBalanceImporter.cs" />
     <Compile Include="Logic\Import\ApInvoiceHeaderImporter.cs" />
-    <Compile Include="Logic\Import\ApInvoicesDueInputImporter.cs" />
     <Compile Include="Logic\Import\ApPmtDistnImporter.cs" />
     <Compile Include="Logic\Cash\ApPmtToCashFlowAlgorithm.cs" />
     <Compile Include="Logic\Cash\BankStmtCalculator.cs" />
@@ -328,9 +327,7 @@
     <Compile Include="Logic\Cash\ApPmtDistnMapper.cs" />
     <Compile Include="Logic\Import\ApPoContractImporter.cs" />
     <Compile Include="Logic\Import\ApPoReceiptBalanceImporter.cs" />
-    <Compile Include="Logic\Import\ApPoReceiptInpDayImporter.cs" />
     <Compile Include="Logic\Import\ApPoReceiptImporter.cs" />
-    <Compile Include="Logic\Import\ApPoReceiptInpDateImporter.cs" />
     <Compile Include="Logic\Import\ArOpenInvoicesImporter.cs" />
     <Compile Include="Logic\Import\ArReceiptDistnImporter.cs" />
     <Compile Include="Logic\Import\BankStmtImporter.cs" />
@@ -358,9 +355,7 @@
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
     <Compile Include="AppNavigation\ActionPortalEventArgs.cs" />
     <Compile Include="AppNavigation\ActionPortalItem.cs" />
-    <Compile Include="Logic\Import\VendorSitePaymentTermsImporter.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Logic\Import\VendorSitePaymentTermsImporter.cs" />
     <Compile Include="Logic\SqlAlgorithm.cs" />
     <Compile Include="Logic\SqlMap\Mapper.cs" />
     <Compile Include="AppNavigation\ActionPortalLogic.cs" />

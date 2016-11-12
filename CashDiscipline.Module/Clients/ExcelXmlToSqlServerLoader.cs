@@ -23,6 +23,7 @@ namespace CashDiscipline.Module.Clients
         }
 
         private readonly SqlConnection sqlConn;
+        private string tempTableName;
 
         private string createSql;
         public string CreateSql
@@ -51,6 +52,11 @@ namespace CashDiscipline.Module.Clients
             get { return this.excelSheetName; }
             set { this.excelSheetName = value; }
         }
+        
+        private string FormatSql(string commandText)
+        {
+            return Smart.Format(commandText, new { TempTable = tempTableName });
+        }
 
         public string Execute()
         {
@@ -58,8 +64,7 @@ namespace CashDiscipline.Module.Clients
             Guard.ArgumentNotNull(excelSheetName, "Excel Sheet Name");
             Guard.ArgumentNotNull(createSql, "Create SQL");
             Guard.ArgumentNotNull(persistSql, "Persist SQL");
-
-            string tempTableName = "#tmp_" + Guid.NewGuid().ToString("N");
+            tempTableName = "#tmp_" + Guid.NewGuid().ToString("N");
 
             int rowCount = 0;
             var statusMessage = string.Empty;
@@ -77,18 +82,18 @@ namespace CashDiscipline.Module.Clients
 
                 cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
 
-                cmd.CommandText = createSql;
+                cmd.CommandText = FormatSql(
+                    "IF OBJECT_ID('tempdb..{TempTable}') IS NOT NULL DROP TABLE {TempTable}\r\n"
+                    + createSql);
                 cmd.ExecuteNonQuery();
 
                 bc.DestinationTableName = tempTableName;
                 bc.WriteToServer(xlsDataTable);
 
-                cmd.CommandText = Smart.Format("SELECT COUNT(*) FROM {TempTable}", 
-                    new { TempTable = tempTableName });
+                cmd.CommandText = FormatSql("SELECT COUNT(*) FROM {TempTable}");
                 rowCount = Convert.ToInt32(cmd.ExecuteScalar());
 
-                cmd.CommandText = Smart.Format(persistSql, 
-                    new { TempTable = tempTableName });
+                cmd.CommandText = FormatSql(persistSql);
                 cmd.ExecuteNonQuery();
             }
 

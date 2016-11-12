@@ -16,6 +16,7 @@ using SmartFormat;
 using CashDiscipline.Common;
 using DG2NTT.AnalysisServicesHelpers;
 using CashDiscipline.Module.ParamObjects;
+using CashDiscipline.Module.Clients;
 
 namespace CashDiscipline.Module.Controllers.WorkingCapital
 {
@@ -46,18 +47,46 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
 
         private string ImportDays()
         {
-            var importer = new ApPoReceiptInpDayImporter((XPObjectSpace)ObjectSpace);
+
             var paramObj = (ImportApPoReceiptMatchInputParam)View.CurrentObject;
-            var messagesText = importer.Execute(paramObj.FilePath);
-            return messagesText;
+
+            var conn = (SqlConnection)((XPObjectSpace)ObjectSpace).Connection;
+            var loader = new ExcelXmlToSqlServerLoader(conn);
+            loader.CreateSql = @"CREATE TABLE {TempTable}
+(
+    PoNum nvarchar(255),
+    Vendor nvarchar(255),
+    ForecastVendorMatchDays float,
+    ForecastMatchDays float
+)";
+            loader.PersistSql = @"DELETE FROM VHAFinance.dbo.ApPoMatchInput
+INSERT INTO VHAFinance.dbo.ApPoMatchInput (PoNum, ForecastMatchDays)
+SELECT 
+    PoNum,
+    ForecastMatchDays
+FROM {TempTable}";
+            loader.ExcelFilePath = paramObj.FilePath;
+            loader.ExcelSheetName = "PoMatchDaysInput";
+            return loader.Execute();
         }
 
         private string ImportDates()
         {
-            var importer = new ApPoReceiptInpDateImporter((XPObjectSpace)ObjectSpace);
             var paramObj = (ImportApPoReceiptMatchInputParam)View.CurrentObject;
-            var messagesText = importer.Execute(paramObj.FilePath);
-            return messagesText;
+
+            var conn = (SqlConnection)((XPObjectSpace)ObjectSpace).Connection;
+            var loader = new ExcelXmlToSqlServerLoader(conn);
+            loader.CreateSql = @"CREATE TABLE {TempTable}
+(
+    PoNum nvarchar(255),
+    ForecastMatchDate date
+)";
+            loader.PersistSql = @"DELETE FROM VHAFinance.dbo.ApPoMatchDateInput
+INSERT INTO VHAFinance.dbo.ApPoMatchDateInput (PoNum, ForecastMatchDate)
+SELECT PoNum, ForecastMatchDate FROM {TempTable}";
+            loader.ExcelFilePath = paramObj.FilePath;
+            loader.ExcelSheetName = "ManualMatchDate";
+            return loader.Execute();
         }
     }
 }

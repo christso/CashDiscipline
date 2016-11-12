@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CashDiscipline.Module.Logic.Import
 {
-    public class VendorSitePaymentTermsImporter : ViewController
+    public class VendorSitePaymentTermsImporter
     {
         public VendorSitePaymentTermsImporter(XPObjectSpace objSpace)
         {
