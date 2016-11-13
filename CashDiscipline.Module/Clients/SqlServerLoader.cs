@@ -22,8 +22,14 @@ namespace CashDiscipline.Module.Clients
             this.sqlConn = sqlConn;
         }
         private readonly SqlConnection sqlConn;
-        private string tempTableName;
 
+
+        private string tempTableName;
+        public string TempTableName
+        {
+            get { return this.tempTableName; }
+            set { this.tempTableName = value; }
+        }
 
         private string createSql;
         public string CreateSql
@@ -56,7 +62,8 @@ namespace CashDiscipline.Module.Clients
 
         private string Execute(object source)
         {
-            tempTableName = "#tmp_" + Guid.NewGuid().ToString("N");
+            if (string.IsNullOrEmpty(tempTableName))
+                tempTableName = "#tmp_" + Guid.NewGuid().ToString("N");
 
             int rowCount = 0;
             var statusMessage = string.Empty;
@@ -86,13 +93,20 @@ namespace CashDiscipline.Module.Clients
                 cmd.CommandText = FormatSql("SELECT COUNT(*) FROM {TempTable}");
                 rowCount = Convert.ToInt32(cmd.ExecuteScalar());
 
-                cmd.CommandText = FormatSql(persistSql);
-                cmd.ExecuteNonQuery();
+                try
+                {
+                    cmd.CommandText = FormatSql(persistSql);
+                    cmd.ExecuteNonQuery();
+                }
+                catch (SqlException ex)
+                {
+                    throw new InvalidOperationException(string.Format(
+                        "SQL Exception: {0} at Line Number {1}-------\r\n{2}", ex.Message, ex.LineNumber, cmd.CommandText));
+                }
+                statusMessage = string.Format("{0} rows processed.", rowCount);
+                return statusMessage;
             }
 
-            statusMessage = string.Format("{0} rows processed.", rowCount);
-            return statusMessage;
         }
-
     }
 }

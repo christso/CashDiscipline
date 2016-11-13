@@ -1,5 +1,6 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Forex;
 using CashDiscipline.Module.Logic.Forex;
+using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.SystemModule;
@@ -22,11 +23,14 @@ namespace CashDiscipline.Module.Controllers.Forex
             var ftAction = new SingleChoiceAction(this, "ForexTradeAction", PredefinedCategory.ObjectsCreation);
             ftAction.Caption = "Actions";
             ftAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
+            ftAction.ShowItemsOnClick = true;
             ftAction.Execute += ftAction_Execute;
             var myActionItem = new ChoiceActionItem();
             myActionItem.Caption = pdyCaption;
             ftAction.Items.Add(myActionItem);
         }
+
+        private int maxSettleGroupId = 0;
 
         private void ftAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
@@ -57,6 +61,15 @@ namespace CashDiscipline.Module.Controllers.Forex
         {
             base.OnActivated();
             this.View.ObjectSpace.Committed += ObjectSpace_Committed;
+            var newController = Frame.GetController<NewObjectViewController>();
+            newController.ObjectCreated += NewController_ObjectCreated;
+        }
+
+        private void NewController_ObjectCreated(object sender, ObjectCreatedEventArgs e)
+        {
+            var obj = (ForexTrade)e.CreatedObject;
+            maxSettleGroupId++;
+            obj.SettleGroupId = maxSettleGroupId;
         }
 
         private void ObjectSpace_Committed(object sender, EventArgs e)
@@ -64,5 +77,12 @@ namespace CashDiscipline.Module.Controllers.Forex
             var uploader = new CashDiscipline.Module.Logic.Forex.ForexToCashFlowUploader((XPObjectSpace)ObjectSpace);
             uploader.Process();
         }
+
+        protected override void OnDeactivated()
+        {
+            this.View.ObjectSpace.Committed -= ObjectSpace_Committed;
+            base.OnDeactivated();
+        }
+
     }
 }

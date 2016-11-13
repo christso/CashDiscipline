@@ -16,6 +16,9 @@ using SmartFormat;
 using CashDiscipline.Common;
 using DG2NTT.AnalysisServicesHelpers;
 using CashDiscipline.Module.ParamObjects;
+using CashDiscipline.Module.Clients;
+using LumenWorks.Framework.IO.Csv;
+using System.IO;
 
 namespace CashDiscipline.Module.Controllers.WorkingCapital
 {
@@ -29,18 +32,230 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             var importAction = new SimpleAction(this, "ImportArOpenInvoicesAction", PredefinedCategory.ObjectsCreation);
             importAction.Caption = "Import";
             importAction.Execute += ImportAction_Execute;
+
+
+            var resetAction = new SimpleAction(this, "ResetImportArOpenInvoicesAction", PredefinedCategory.ObjectsCreation);
+            resetAction.Caption = "Reset";
+            resetAction.Execute += ResetAction_Execute;
         }
 
+        private void ResetAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            var paramObj = (ImportArOpenInvoicesParam)View.CurrentObject;
+            paramObj.CreateSql = @"CREATE TABLE {TempTable} (
+[Customer Name] nvarchar(255),
+[Customer Number] nvarchar(255),
+[Trx Date] date,
+[Due Date] date,
+[Trx Type] nvarchar(255),
+[Trx Number] nvarchar(255),
+[Apply Date] nvarchar(255),
+[Trx Status] nvarchar(255),
+[Sales Order] nvarchar(255),
+[Reference] nvarchar(255),
+[Currency Code] nvarchar(255),
+[Original Amount] nvarchar(255),
+[Balance Due] nvarchar(255),
+[Credited Amount] nvarchar(255),
+[Adjustment Amount] nvarchar(255),
+[Applied Amount] nvarchar(255),
+[Original Receipt Amount] nvarchar(255),
+[Overdue Days] nvarchar(255)
+)";
+            paramObj.PersistSql = @"DELETE FROM VHAFinance.dbo.ArOpenInvoices
+WHERE [AsAtDate] = '{AsAtDate}'
+
+INSERT INTO VHAFinance.dbo.ArOpenInvoices
+(
+    [Oid],
+    [AsAtDate],
+    [CustomerName],
+    [CustomerNumber],
+    [TrxDate],
+    [DueDate],
+    [TrxType],
+    [TrxNumber],
+    [ApplyDate],
+    [TrxStatus],
+    [SalesOrder],
+    [Reference],
+    [CurrencyCode],
+    [OriginalAmount],
+    [BalanceDue],
+    [CreditedAmount],
+    [AdjustmentAmount],
+    [AppliedAmount],
+    [OriginalReceiptAmount],
+    [OverdueDays]
+)
+SELECT
+    NEWID() AS Oid,
+    '{AsAtDate}' AS [As At Date],
+    [Customer Name],
+    [Customer Number],
+    [Trx Date],
+    [Due Date],
+    [Trx Type],
+    [Trx Number],
+    TRY_CAST([Apply Date] AS date),
+    [Trx Status],
+    [Sales Order],
+    [Reference],
+    [Currency Code],
+    TRY_CAST([Original Amount] AS float),
+    TRY_CAST([Balance Due] AS float),
+    TRY_CAST([Credited Amount] AS float),
+    TRY_CAST([Adjustment Amount] AS float),
+    TRY_CAST([Applied Amount] AS float),
+    TRY_CAST([Original Receipt Amount] AS float),
+    TRY_CAST([Overdue Days] AS int)
+FROM {TempTable}
+";
+        }
+
+        private void ImportAction_Execute_bak(object sender, SimpleActionExecuteEventArgs e)
+        {
+            var paramObj = (ImportArOpenInvoicesParam)View.CurrentObject;
+            var tempTableName = "#TmpArOpenInvoices" + Guid.NewGuid().ToString("N");
+            Func<string, string> formatSql = delegate (string sql)
+            {
+                return Smart.Format(sql, new
+                {
+                    AsAtDate = string.Format("{0:yyyy-MM-dd}", paramObj.AsAtDate.Date),
+                    TempTable = tempTableName
+                });
+            };
+
+            var objSpace = (XPObjectSpace)ObjectSpace;
+
+            string persistSql = formatSql(paramObj.PersistSql);
+            using (var csvReader = DataObjectFactory.CreateReaderFromCsv(paramObj.FilePath))
+            {
+                var loader = new SqlServerLoader((SqlConnection)objSpace.Connection);
+                loader.TempTableName = tempTableName;
+                loader.CreateSql = paramObj.CreateSql;
+                loader.PersistSql = formatSql(paramObj.PersistSql);
+                loader.Execute(csvReader);
+                var messagesText = loader.Execute(csvReader);
+                new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                    messagesText,
+                   "Import Successful"
+                    );
+            }
+        }
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var importer = new ArOpenInvoicesImporter((XPObjectSpace)ObjectSpace);
             var paramObj = (ImportArOpenInvoicesParam)View.CurrentObject;
-            var messagesText = importer.Execute(paramObj);
+            var statusMessage = string.Empty;
+            var createSql = @"CREATE TABLE {TempTable} (
+[Customer Name] nvarchar(255),
+[Customer Number] nvarchar(255),
+[Trx Date] date,
+[Due Date] date,
+[Trx Type] nvarchar(255),
+[Trx Number] nvarchar(255),
+[Apply Date] nvarchar(255),
+[Trx Status] nvarchar(255),
+[Sales Order] nvarchar(255),
+[Reference] nvarchar(255),
+[Currency Code] nvarchar(255),
+[Original Amount] nvarchar(255),
+[Balance Due] nvarchar(255),
+[Credited Amount] nvarchar(255),
+[Adjustment Amount] nvarchar(255),
+[Applied Amount] nvarchar(255),
+[Original Receipt Amount] nvarchar(255),
+[Overdue Days] nvarchar(255)
+)";
+            var persistSql = @"DELETE FROM VHAFinance.dbo.ArOpenInvoices
+WHERE [AsAtDate] = '{AsAtDate}'
 
+INSERT INTO VHAFinance.dbo.ArOpenInvoices
+(
+    [Oid],
+    [AsAtDate],
+    [CustomerName],
+    [CustomerNumber],
+    [TrxDate],
+    [DueDate],
+    [TrxType],
+    [TrxNumber],
+    [ApplyDate],
+    [TrxStatus],
+    [SalesOrder],
+    [Reference],
+    [CurrencyCode],
+    [OriginalAmount],
+    [BalanceDue],
+    [CreditedAmount],
+    [AdjustmentAmount],
+    [AppliedAmount],
+    [OriginalReceiptAmount],
+    [OverdueDays]
+)
+SELECT
+    NEWID() AS Oid,
+    '{AsAtDate}' AS [As At Date],
+    [Customer Name],
+    [Customer Number],
+    [Trx Date],
+    [Due Date],
+    [Trx Type],
+    [Trx Number],
+    TRY_CAST([Apply Date] AS date),
+    [Trx Status],
+    [Sales Order],
+    [Reference],
+    [Currency Code],
+    TRY_CAST([Original Amount] AS float),
+    TRY_CAST([Balance Due] AS float),
+    TRY_CAST([Credited Amount] AS float),
+    TRY_CAST([Adjustment Amount] AS float),
+    TRY_CAST([Applied Amount] AS float),
+    TRY_CAST([Original Receipt Amount] AS float),
+    TRY_CAST([Overdue Days] AS int)
+FROM {TempTable}
+";
+
+            Func<string, string> formatSql = delegate (string sql)
+            {
+                return Smart.Format(sql, new
+                {
+                    AsAtDate = string.Format("{0:yyyy-MM-dd}", paramObj.AsAtDate.Date),
+                    TempTable = "#ArOpenInvoices1"
+                });
+            };
+
+            var objSpace = (XPObjectSpace)ObjectSpace;
+            var conn = (SqlConnection)objSpace.Connection;
+
+            int rowCount = 0;
+
+            using (var csv = new CachedCsvReader(new StreamReader(paramObj.FilePath), true))
+            using (var cmd = conn.CreateCommand())
+            using (var bc = new SqlBulkCopy(conn))
+            {
+                //cmd.Transaction = trn;
+                cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
+
+                cmd.CommandText = formatSql(createSql);
+                cmd.ExecuteNonQuery();
+
+                bc.DestinationTableName = "#ArOpenInvoices1";
+                bc.WriteToServer(csv);
+
+                cmd.CommandText = "SELECT COUNT(*) FROM #ArOpenInvoices1";
+                rowCount = Convert.ToInt32(cmd.ExecuteScalar());
+
+                cmd.CommandText = formatSql(persistSql);
+                cmd.ExecuteNonQuery();
+
+            }
+            statusMessage = string.Format("{0} rows processed.", rowCount);
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                messagesText,
-               "Import Successful"
-                );
+               statusMessage,
+              "Import Successful"
+               );
         }
     }
 }

@@ -46,7 +46,11 @@
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Import" Index="7" />
+      <Item Id="Import" Index="7">
+        <Items>
+          <Item Id="SqlServerDataLoadParam" ViewId="SqlServerDataLoadParam_ListView" IsNewNode="True" />
+        </Items>
+      </Item>
       <Item Id="WorkingCapital" Caption="Working Capital" Index="8" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ApInvoiceBalance" ViewId="ApInvoiceBalance_ListView" Index="0" IsNewNode="True" />
@@ -567,7 +571,7 @@
       <Columns>
         <ColumnInfo Id="GlDate" SortIndex="0" SortOrder="Ascending" />
       </Columns>
-    </ListView>	
+    </ListView>
     <ListView Id="ImportBankStmtParam_ImportBankStmtParamItems_ListView">
       <Columns>
         <ColumnInfo Id="Enabled" Index="0" />
