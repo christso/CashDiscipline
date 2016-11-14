@@ -378,6 +378,8 @@ SET
 Fixer = fixeeFixer.Fixer
 FROM CashFlow cf
 	INNER JOIN #TmpFixeeFixer fixeeFixer ON cf.Oid = fixeeFixer.Fixee
+WHERE cf.Snapshot = @Snapshot
+AND cf.GCRecord IS NULL
 
 -- Reversal logic for AP Lockdown (i.e. payroll is excluded)
 
@@ -478,10 +480,19 @@ Activity = @ApReclassActivity,
 TranDate = @ApayableNextLockdownDate,
 Source = a1.FixSource,
 [Status] = @ForecastStatus,
+IsReclass = 0,
 TimeEntered = GETDATE()
 FROM #TmpFixResRevReclass_Fixer frrr
 LEFT JOIN Activity a1 ON a1.Oid = frrr.Activity
 ;
+
+-- Reset IsReclass Flag
+UPDATE cf
+SET IsReclass = 0
+FROM CashFlow cf
+WHERE cf.Snapshot = @Snapshot
+AND cf.GCRecord IS NULL
+AND cf.IsReclass = 1
 
 -- Update Reclass
 
