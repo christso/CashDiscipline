@@ -111,44 +111,61 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
         }
 
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [PersistentAlias("CashFlowIn.TranDate")]
         public DateTime InDate
         {
             get
             {
-                return CashFlowIn == null ? default(DateTime) : CashFlowIn.TranDate;
+                object tempObject = EvaluateAlias("InDate");
+                if (tempObject != null)
+                    return (DateTime)tempObject;
+                else
+                    return default(DateTime);
             }
         }
 
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [PersistentAlias("CashFlowOut.TranDate")]
         public DateTime OutDate
         {
             get
             {
-                return CashFlowOut == null ? default(DateTime) : CashFlowOut.TranDate; ;
+                object tempObject = EvaluateAlias("OutDate");
+                if (tempObject != null)
+                    return (DateTime)tempObject;
+                else
+                    return default(DateTime);
             }
         }
 
         [DbType("decimal(19, 6)")]
         [ModelDefault("EditMask", "n6")]
         [ModelDefault("DisplayFormat", "n6")]
+        [PersistentAlias("Iif(CashFlowIn.FunctionalCcyAmt==0, 0, CashFlowIn.AccountCcyAmt / CashFlowIn.FunctionalCcyAmt)")]
         public decimal ForexSettleRate
         {
             get
             {
-                if (CashFlowIn == null) return 0;
-                if (CashFlowIn.FunctionalCcyAmt == 0) return 0;
-                return CashFlowIn.AccountCcyAmt / CashFlowIn.FunctionalCcyAmt;
+                object tempObject = EvaluateAlias("ForexSettleRate");
+                if (tempObject != null)
+                    return (decimal)tempObject;
+                else
+                    return 0;
             }
         }
 
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("DisplayFormat", "n2")]
+        [PersistentAlias("Iif(ForexSettleRate==0, 0, AccountCcyAmt / ForexSettleRate)")]
         public decimal FunctionalCcyAmt
         {
             get
             {
-                if (ForexSettleRate == 0) return 0;
-                return AccountCcyAmt / ForexSettleRate;
+                object tempObject = EvaluateAlias("FunctionalCcyAmt");
+                if (tempObject != null)
+                    return (decimal)tempObject;
+                else
+                    return 0;
             }
         }
 

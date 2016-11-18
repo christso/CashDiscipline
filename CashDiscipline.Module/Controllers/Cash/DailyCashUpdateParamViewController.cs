@@ -16,6 +16,7 @@ using DevExpress.Persistent.Base;
 using CashDiscipline.Module.Logic;
 using System.Data.SqlClient;
 using CashDiscipline.Module.Logic.Cash;
+using Xafology.ExpressApp.SystemModule;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -37,6 +38,9 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             ObjectSpace.CommitChanges(); // update parameters in data source
             ProcessWithValidation();
+            new GenericMessageBox(
+                   "ACTION COMPLETED : Daily Cash Update",
+                   "ACTION COMPLETED");
         }
 
         public void ProcessWithValidation()

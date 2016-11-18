@@ -9,6 +9,7 @@ using DevExpress.Xpo;
 using DevExpress.Xpo.DB;
 using CashDiscipline.Module.BusinessObjects.Cash;
 using DevExpress.ExpressApp.Xpo;
+using DevExpress.ExpressApp.Model;
 
 namespace CashDiscipline.Module.ParamObjects.Cash
 {
@@ -32,6 +33,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
 
 
         private DateTime _FromDate;
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime FromDate
         {
             get
@@ -45,6 +48,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
         }
 
         private DateTime _ToDate;
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime ToDate
         {
             get

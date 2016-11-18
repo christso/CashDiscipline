@@ -175,6 +175,8 @@ namespace CashDiscipline.Module.Logic.Cash
                     "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'RRR' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("PayrollFixTag", "uniqueidentifier",
                     "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'PR' AND GCRecord IS NULL)"),
+                new SqlDeclareClause("DlrComFixTag", "uniqueidentifier",
+                    "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'DC' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("AutoFixTag", "uniqueidentifier",
                     "(SELECT TOP 1 Oid FROM CashForecastFixTag WHERE Name LIKE 'Auto' AND GCRecord IS NULL)"),
                 new SqlDeclareClause("ApReclassActivity", "uniqueidentifier",
@@ -197,8 +199,8 @@ namespace CashDiscipline.Module.Logic.Cash
                 throw new ArgumentException("DefaultCounterparty");
             if (paramApReclassActivity == null)
                 throw new ArgumentNullException("ApReclassActivity");
-            if (payrollFixTag == null)
-                throw new ArgumentException("PayrollFixTag");
+            //if (payrollFixTag == null)
+            //    throw new ArgumentException("PayrollFixTag");
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
@@ -537,27 +539,46 @@ SELECT * FROM #TmpFixResRevReclass_Fixer
 	AND CashFlow.GCRecord IS NULL
 );
 
+-- Set Monday as day number 1
+SET DATEFIRST 1
+
+-- Set day of week for dealer commission payments
+DECLARE @DlrComDayOfWeek int = 3
+
 UPDATE cf SET TranDate = CASE
--- move AP payments forecast to next lockdown date
-WHEN cf.Fix <> @PayrollFixTag 
-	AND FixTag.FixTagType IN (@ScheduleOutFixTagType)
-	AND cf.FixRank > 2 AND cf.TranDate <= @ApayableLockdownDate
-THEN @ApayableNextLockdownDate
--- move business forecast to next week 
-WHEN cf.Fix <> @PayrollFixTag 
-	AND FixTag.FixTagType IN (@AllocateFixTagType)
-	AND cf.FixRank > 2 AND cf.TranDate <= @MaxActualDate
-THEN DATEADD(d, 7, @MaxActualDate)
+
+-- adjust date of dealer commission payments to the next Wednesday
+WHEN cf.Fix = @DlrComFixTag
+AND cf.FixRank > 2 AND cf.TranDate <= @ApayableLockdownDate
+THEN CASE
+    WHEN @DlrComDayOfWeek <= DATEPART(weekday, @ApayableLockdownDate)
+    THEN DATEADD(d, - DATEPART(weekday, @ApayableLockdownDate) + @DlrComDayOfWeek + 7, @ApayableLockdownDate)
+    ELSE DATEADD(d, - DATEPART(weekday, @ApayableLockdownDate) + @DlrComDayOfWeek, @ApayableLockdownDate) 
+    END
+
 -- adjust date of payroll payments
 WHEN cf.Fix = @PayrollFixTag
 	AND cf.FixRank > 2 AND cf.TranDate <= @PayrollLockdownDate
 THEN @PayrollNextLockdownDate
+
+-- move AP payments forecast to next lockdown date
+WHEN FixTag.FixTagType IN (@ScheduleOutFixTagType)
+	AND cf.FixRank > 2 AND cf.TranDate <= @ApayableLockdownDate
+THEN @ApayableNextLockdownDate
+
+-- move business forecast to next week 
+WHEN FixTag.FixTagType IN (@AllocateFixTagType)
+	AND cf.FixRank > 2 AND cf.TranDate <= @MaxActualDate
+THEN DATEADD(d, 7, @MaxActualDate)
+
 -- move receipts to forecast period
 WHEN FixTag.FixTagType = @ScheduleInFixTagType
     AND cf.FixRank > 2
     AND cf.TranDate <= @MaxActualDate
 THEN DATEADD(d, 1, @MaxActualDate)
+
 ELSE cf.TranDate
+
 END
 FROM CashFlow cf
 LEFT JOIN CashForecastFixTag FixTag ON FixTag.Oid = cf.Fix

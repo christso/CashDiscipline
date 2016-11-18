@@ -40,6 +40,8 @@ INSERT INTO AustPostSettle
 (
 Oid,
 BankStmt,
+BankStmtDate,
+BankStmtAmount,
 GrossAmount,
 DishonourChequeFee,
 NegativeCorrections,
@@ -51,6 +53,8 @@ DateTimeCreated
 SELECT 
 	NEWID(),
 	bs.Oid,
+    bs.TranDate,
+	bs.TranAmount,
 	bs.TranAmount,
 	0.00,
 	0.00,

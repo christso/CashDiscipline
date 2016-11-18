@@ -58,7 +58,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             {
                 if (SetPropertyValue("BankStmt", ref _BankStmt, value))
                 {
-
+                    if (!IsLoading)
+                        OnUpdateBankStmt();
                 }
             }
         }
@@ -72,16 +73,24 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         {
             get
             {
-                if (BankStmt != null)
-                    return BankStmt.TranDate;
-                else
-                    return SqlDateTime.MinValue.Value;
+                return _BankStmtDate;
             }
             set
             {
                 SetPropertyValue("BankStmtDate", ref _BankStmtDate, value);
             }
         }
+
+        public void OnUpdateBankStmt()
+        {
+            if (BankStmt != null)
+            {
+                BankStmtDate = BankStmt.TranDate;
+                BankStmtAmount = BankStmt.TranAmount;
+            }
+        }
+
+        private decimal _BankStmtAmount;
 
         [ModelDefault("AllowEdit", "false")]
         [ModelDefault("DisplayFormat", "n2")]
@@ -90,10 +99,11 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         {
             get
             {
-                if (BankStmt != null)
-                    return BankStmt.TranAmount;
-                else
-                    return 0.00M;
+                return _BankStmtAmount;
+            }
+            set
+            {
+                SetPropertyValue("BankStmtAmount", ref _BankStmtAmount, value);
             }
         }
 
@@ -165,7 +175,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             {
                 if (SetPropertyValue("GrossCommission", ref _GrossCommission, value))
                 {
-                    OnChanged("NetCommission");
+                    if (!IsLoading)
+                        UpdateNetCommission();
                 }
             }
         }
@@ -182,7 +193,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
             {
                 if (SetPropertyValue("CommissionGST", ref _CommissionGST, value))
                 {
-                    OnChanged("NetCommission");
+                    if (!IsLoading)
+                        UpdateNetCommission();
                 }
             }
         }
@@ -190,12 +202,26 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
         [ModelDefault("DisplayFormat", "n2")]
         [ModelDefault("EditMask", "n2")]
         [ModelDefault("AllowEdit", "false")]
+        [PersistentAlias("GrossCommission - CommissionGST")]
         public decimal NetCommission
         {
             get
             {
-                return GrossCommission - CommissionGST;
+                object tempObject = EvaluateAlias("NetCommission");
+                if (tempObject != null)
+                {
+                    return (decimal)tempObject;
+                }
+                else
+                {
+                    return 0;
+                }
             }
+        }
+
+        public void UpdateNetCommission()
+        {
+            OnChanged("NetCommission");
         }
 
         [ModelDefault("DisplayFormat", "n2")]

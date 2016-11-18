@@ -149,6 +149,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         [RuleRequiredField("CashFlow.TranDate_RuleRequiredField", DefaultContexts.Save)]
         public DateTime TranDate
@@ -577,6 +578,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime DateUnFix
         {
             get
@@ -590,6 +592,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime FixFromDate
         {
             get
@@ -603,6 +606,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime FixToDate
         {
             get
