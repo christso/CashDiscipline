@@ -10,7 +10,7 @@ namespace CashDiscipline.Common
     {
         // Server
         public static bool MsasTabularCompatibility_13 = true;
-        public static int SqlCommandTimeout = 0;
+        public static int SqlCommandTimeout = 999999;
 
         // Views
         public const string CashFlowListViewId = "CashFlow_ListView";

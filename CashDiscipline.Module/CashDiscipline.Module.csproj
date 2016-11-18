@@ -436,6 +436,10 @@
     </Compile>
     <Content Include="Scripts\CreateIndexes.sql" />
     <Content Include="Scripts\PurgeObjects.sql" />
+    <None Include="UnusableNodes.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="app.config" />
     <None Include="FunctionalTests\ForexTrade_Create.ets" />
     <Compile Include="BusinessObjects\Forex\ForexRate.cs" />

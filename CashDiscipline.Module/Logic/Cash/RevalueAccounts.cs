@@ -245,6 +245,7 @@ WHERE DiffChange <> 0.00"
 
             using (var cmd = ((SqlConnection)objSpace.Session.Connection).CreateCommand())
             {
+                cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
                 cmd.Parameters.AddRange(parameters.ToArray());
                 cmd.CommandText = ProcessCommandText;
                 cmd.ExecuteNonQuery();

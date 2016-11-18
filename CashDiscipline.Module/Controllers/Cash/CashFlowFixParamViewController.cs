@@ -22,7 +22,11 @@ namespace CashDiscipline.Module.Controllers.Cash
         public CashFlowFixParamViewController()
         {
             TargetObjectType = typeof(CashFlowFixParam);
-            
+
+            var addDays = new SimpleAction(this, "CashFlowRephaseAddDaysAction", "SetupActions");
+            addDays.Caption = "Add Days";
+            addDays.Execute += (sender, e) => AddDaysAction_Execute(sender, e);
+
             var runAction = new SimpleAction(this, "CashFlowRunAction", "ExecuteActions");
             runAction.Caption = "Run";
             runAction.Execute += (sender, e) => RunAction_Execute(sender, e);
@@ -46,6 +50,18 @@ namespace CashDiscipline.Module.Controllers.Cash
             var revalAction = new SimpleAction(this, "CashFlowRevalAction", "ExecuteActions");
             revalAction.Caption = "Reval";
             revalAction.Execute += (sender, e) => RevalAction_Execute(sender, e, true);
+        }
+
+        private void AddDaysAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            var paramObj = View.CurrentObject as CashFlowFixParam;
+            if (paramObj != null)
+            {
+                paramObj.ApayableLockdownDate = paramObj.ApayableLockdownDate.AddDays(7);
+                paramObj.ApayableNextLockdownDate = paramObj.ApayableNextLockdownDate.AddDays(7);
+                paramObj.PayrollLockdownDate = paramObj.PayrollLockdownDate.AddDays(7);
+                paramObj.PayrollNextLockdownDate = paramObj.PayrollNextLockdownDate.AddDays(7);
+            }
         }
 
         private void RunAction_Execute(object sender, SimpleActionExecuteEventArgs e)

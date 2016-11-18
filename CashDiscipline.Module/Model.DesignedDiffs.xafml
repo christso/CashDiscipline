@@ -475,11 +475,14 @@
     <DetailView Id="CashFlowFixParam_DetailView">
       <Items>
         <ActionContainerViewItem Id="ExecuteActionsContainer" ActionContainer="ExecuteActions" IsNewNode="True" />
+        <ActionContainerViewItem Id="SetupActionsContainer" ActionContainer="SetupActions" IsNewNode="True" />
       </Items>
       <Layout>
         <LayoutGroup Id="Main">
           <LayoutGroup Id="SimpleEditors">
-            <LayoutItem Id="ExecuteActionsContainer" ViewItem="ExecuteActionsContainer" HorizontalAlign="Right" IsNewNode="True" />
+            <LayoutItem Id="SetupActionsContainer" ViewItem="SetupActionsContainer" Index="0" HorizontalAlign="Left" IsNewNode="True" />
+            <LayoutGroup Id="CashFlowFixParam" Index="1" />
+            <LayoutItem Id="ExecuteActionsContainer" ViewItem="ExecuteActionsContainer" HorizontalAlign="Left" IsNewNode="True" />
           </LayoutGroup>
         </LayoutGroup>
       </Layout>
