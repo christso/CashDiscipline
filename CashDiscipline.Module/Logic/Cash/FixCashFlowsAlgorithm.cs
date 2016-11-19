@@ -586,6 +586,7 @@ FROM CashFlow cf
 LEFT JOIN CashForecastFixTag FixTag ON FixTag.Oid = cf.Fix
 WHERE cf.[Status] = @ForecastStatus
 AND cf.[Snapshot] = @Snapshot
+AND cf.GCRecord IS NULL
 
 -- delete everything else
 UPDATE CashFlow SET
@@ -597,8 +598,9 @@ Source = NULL,
 CounterCcy = NULL
 WHERE 
     Snapshot = @Snapshot
-    AND TranDate <= @MaxActualDate
     AND [Status] = @ForecastStatus
+    AND TranDate <= @MaxActualDate
+	AND GCRecord IS NULL
 
 ";
             }
