@@ -1,4 +1,5 @@
-﻿IF OBJECT_ID('dbo.RevalDates') IS NOT NULL
+﻿/*
+IF OBJECT_ID('dbo.RevalDates') IS NOT NULL
 	BEGIN		
 		DROP TABLE dbo.RevalDates;
 	END;
@@ -12,6 +13,7 @@ CONSTRAINT [PK_RevalDates] PRIMARY KEY CLUSTERED
 	[PeriodDate] ASC
 )
 )
+*/
 
 IF OBJECT_ID('dbo.sp_cashflow_reval') IS NOT NULL
 	BEGIN		
@@ -72,8 +74,8 @@ WHERE TranDate BETWEEN @FromDate AND @ToDate
 SELECT
 	cf.TranDate,
 	cf.Account,
-	COALESCE(SUM(cf.AccountCcyAmt), 0.00) AS AccountCcyAmt,
-	COALESCE(SUM(cf.FunctionalCcyAmt), 0.00) AS FunctionalCcyAmt,
+	SUM(COALESCE(cf.AccountCcyAmt, 0.00)) AS AccountCcyAmt,
+	SUM(COALESCE(cf.FunctionalCcyAmt, 0.00)) AS FunctionalCcyAmt,
 	Account.Currency AS Currency
 INTO #AccountTotal
 FROM CashFlow cf
@@ -85,6 +87,25 @@ WHERE
 GROUP BY cf.TranDate, cf.Account, Account.Currency
 
 CREATE INDEX i_AccountTotal ON #AccountTotal (TranDate, Account)
+
+/* Insert dates for revaluation in Account Total summary ------- */
+
+INSERT INTO #AccountTotal (TranDate, Account, AccountCcyAmt, FunctionalCcyAmt, Currency)
+SELECT DISTINCT
+	r.PeriodDate,
+	a1.Account,
+	0.00 AS AccountCcyAmt,
+	0.00 AS FunctionalCcyAmt,
+	a1.Currency
+FROM #AccountTotal a1
+CROSS JOIN 
+(
+	SELECT r.PeriodDate FROM RevalDates r
+	WHERE r.PeriodDate BETWEEN @FromDate AND @ToDate
+) r
+LEFT JOIN #AccountTotal a2 ON a2.TranDate =r.PeriodDate
+	AND a2.Account = a1.Account
+WHERE a2.Account IS NULL
 
 /* Create Forex Rate Table ------- */
 
