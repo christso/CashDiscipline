@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace CashDiscipline.Module.Interfaces
 {
     using BusinessObjects;
-    using CashDiscipline.Module.BusinessObjects.Cash;
+    using BusinessObjects.Cash;
+
     public interface ICashFlow
     {
         Account Account { get; set; }

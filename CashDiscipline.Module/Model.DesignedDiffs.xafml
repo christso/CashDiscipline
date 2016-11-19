@@ -26,6 +26,7 @@
           <Item Id="Fin Activity" ViewId="FinActivity_ListView" Index="3" IsNewNode="True" />
           <Item Id="Fin Journal Group" ViewId="FinJournalGroup_ListView" IsNewNode="True" />
           <Item Id="General Ledger" ViewId="GenLedger_ListView" Caption="General Ledger" IsNewNode="True" />
+          <Item Id="RevalDates" ViewId="RevalDates_ListView" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="Cash Data" Caption="Cash Data" Index="3" IsNewNode="True">
@@ -44,11 +45,6 @@
           <Item Id="ForexSettleLink" ViewId="ForexSettleLink_ListView" Index="2" IsNewNode="True" />
           <Item Id="ForexTrade" ViewId="ForexTrade_ListView" Caption="Forex Trades" Index="4" IsNewNode="True" />
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
-        </Items>
-      </Item>
-      <Item Id="Import" Index="7">
-        <Items>
-          <Item Id="SqlServerDataLoadParam" ViewId="SqlServerDataLoadParam_ListView" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="WorkingCapital" Caption="Working Capital" Index="8" IsNewNode="True">

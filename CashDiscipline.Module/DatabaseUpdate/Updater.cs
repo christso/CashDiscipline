@@ -17,6 +17,7 @@ using System.IO;
 using Cash = CashDiscipline.Module.BusinessObjects.Cash;
 using System.Collections.Generic;
 using System.Linq;
+using CashDiscipline.Common;
 
 
 namespace CashDiscipline.Module.DatabaseUpdate

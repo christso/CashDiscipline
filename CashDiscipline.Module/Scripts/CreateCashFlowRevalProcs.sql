@@ -1,21 +1,4 @@
-﻿/*
-IF OBJECT_ID('dbo.RevalDates') IS NOT NULL
-	BEGIN		
-		DROP TABLE dbo.RevalDates;
-	END;
-GO
-
-CREATE TABLE [dbo].[RevalDates] 
-(
-	[PeriodDate] [date] NOT NULL,
-CONSTRAINT [PK_RevalDates] PRIMARY KEY CLUSTERED 
-(
-	[PeriodDate] ASC
-)
-)
-*/
-
-IF OBJECT_ID('dbo.sp_cashflow_reval') IS NOT NULL
+﻿IF OBJECT_ID('dbo.sp_cashflow_reval') IS NOT NULL
 	BEGIN		
 		DROP PROCEDURE dbo.sp_cashflow_reval;
 	END;
@@ -60,6 +43,11 @@ DECLARE @FunctionalCurrency uniqueidentifier = (SELECT TOP 1 [FunctionalCurrency
 DECLARE @RevalSource uniqueidentifier = (SELECT TOP 1 [FcaRevalCashFlowSource] FROM SetOfBooks WHERE GCRecord IS NULL)
 DECLARE @UnrealFxActivity uniqueidentifier = (SELECT TOP 1 [UnrealFxActivity] FROM SetOfBooks WHERE GCRecord IS NULL)
 DECLARE @LastActualDate datetime = (SELECT MAX(TranDate) FROM CashFlow WHERE [Snapshot] = @Snapshot AND [Status] = @ActualStatus AND GCRecord IS NULL)
+
+/* Insert month end date to ensure revaluation occurs at the last day of each month */
+INSERT INTO RevalDates (Oid, PeriodDate)
+SELECT NEWID(), EOMONTH(@LastActualDate)
+WHERE NOT EXISTS (SELECT * FROM RevalDates r WHERE r.PeriodDate = EOMONTH(@LastActualDate))
 
 /* Delete existing revaluations ------- */
 UPDATE CashFlow 

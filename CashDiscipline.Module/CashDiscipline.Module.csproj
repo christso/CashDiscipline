@@ -367,6 +367,7 @@
     <Compile Include="Logic\SqlServer\SsisUtil.cs" />
     <Compile Include="Logic\SqlStringUtil.cs" />
     <Compile Include="NavigationHelper.cs" />
+    <Compile Include="BusinessObjects\Cash\RevalDates.cs" />
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApInvoicesDueParam.cs" />
