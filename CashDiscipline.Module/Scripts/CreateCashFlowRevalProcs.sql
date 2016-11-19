@@ -1,4 +1,19 @@
-﻿IF OBJECT_ID('dbo.sp_cashflow_reval') IS NOT NULL
+﻿IF OBJECT_ID('dbo.RevalDates') IS NOT NULL
+	BEGIN		
+		DROP TABLE dbo.RevalDates;
+	END;
+GO
+
+CREATE TABLE [dbo].[RevalDates] 
+(
+	[PeriodDate] [date] NOT NULL,
+CONSTRAINT [PK_RevalDates] PRIMARY KEY CLUSTERED 
+(
+	[PeriodDate] ASC
+)
+)
+
+IF OBJECT_ID('dbo.sp_cashflow_reval') IS NOT NULL
 	BEGIN		
 		DROP PROCEDURE dbo.sp_cashflow_reval;
 	END;
@@ -47,9 +62,9 @@ DECLARE @LastActualDate datetime = (SELECT MAX(TranDate) FROM CashFlow WHERE [Sn
 /* Delete existing revaluations ------- */
 UPDATE CashFlow 
 SET GCRecord = CAST(RAND() * 2147483646 + 1 AS INT)
-WHERE [Snapshot] = @Snapshot
-	AND TranDate BETWEEN @FromDate AND @ToDate
+WHERE TranDate BETWEEN @FromDate AND @ToDate 
 	AND Source = @RevalSource
+	AND [Snapshot] = @Snapshot
     AND GCRecord IS NULL
 
 /* Create account total summary ------- */
@@ -57,49 +72,19 @@ WHERE [Snapshot] = @Snapshot
 SELECT
 	cf.TranDate,
 	cf.Account,
-	SUM(cf.AccountCcyAmt) AS AccountCcyAmt,
-	SUM(cf.FunctionalCcyAmt) AS FunctionalCcyAmt
+	COALESCE(SUM(cf.AccountCcyAmt), 0.00) AS AccountCcyAmt,
+	COALESCE(SUM(cf.FunctionalCcyAmt), 0.00) AS FunctionalCcyAmt,
+	Account.Currency AS Currency
 INTO #AccountTotal
 FROM CashFlow cf
+JOIN Account ON Account.Oid = cf.Account
 WHERE
-    cf.GCRecord IS NULL
-	AND cf.[Snapshot] = @Snapshot
-	AND cf.Account NOT IN 
-	(
-		SELECT a.Oid FROM Account a
-		WHERE a.Currency LIKE @FunctionalCurrency
-        AND a.GCRecord IS NULL
-	)
-GROUP BY cf.TranDate, cf.Account
+	cf.[Snapshot] = @Snapshot
+	AND Account.Currency <> @FunctionalCurrency
+	AND cf.GCRecord IS NULL
+GROUP BY cf.TranDate, cf.Account, Account.Currency
 
 CREATE INDEX i_AccountTotal ON #AccountTotal (TranDate, Account)
-
-/* Transform account total summary to include all dates ------- */
-SELECT
-	dates.TranDate,
-	accts.Account,
-	COALESCE(totals.AccountCcyAmt, 0.00) AS AccountCcyAmt,
-	COALESCE(totals.FunctionalCcyAmt, 0.00) AS FunctionalCcyAmt,
-	Currency.Oid AS Currency
-INTO #AccountTotalExt
-FROM
-(
-	SELECT DISTINCT
-		d.TranDate
-	FROM #AccountTotal d
-) dates
-CROSS JOIN
-(
-	SELECT DISTINCT
-		a.Account
-	FROM #AccountTotal a
-) accts
-LEFT JOIN #AccountTotal totals ON totals.TranDate = dates.TranDate
-	AND totals.Account = accts.Account
-LEFT JOIN Account ON Account.Oid = accts.Account
-LEFT JOIN Currency ON Currency.Oid = Account.Currency;
-
-CREATE INDEX i_AccountTotalExt ON #AccountTotalExt (TranDate, Account)
 
 /* Create Forex Rate Table ------- */
 
@@ -107,17 +92,17 @@ CREATE TABLE #ForexRate (Currency uniqueidentifier, TranDate datetime, FxDate da
 
 INSERT INTO #ForexRate (Currency, TranDate)
 SELECT a.Currency, a.TranDate
-FROM #AccountTotalExt a
+FROM #AccountTotal a
 GROUP BY a.TranDate, a.Currency
 
 UPDATE #ForexRate SET 
 FxDate =
 (
 	SELECT MAX(fr.ConversionDate) FROM ForexRate fr
-	WHERE fr.GCRecord IS NULL
-		AND fr.ConversionDate <= #ForexRate.TranDate
+	WHERE fr.ConversionDate <= #ForexRate.TranDate
 		AND fr.ToCurrency = #ForexRate.Currency
 		AND fr.FromCurrency = @FunctionalCurrency
+		AND fr.GCRecord IS NULL
 )
 FROM #ForexRate
 
@@ -157,7 +142,7 @@ SELECT
 	CAST(NULL AS float) AS DiffChange,
 	CAST(NULL AS datetime) AS PrevTranDate
 INTO #Valuation
-FROM #AccountTotalExt a1
+FROM #AccountTotal a1
 LEFT JOIN #ForexRate fr ON fr.Currency = a1.Currency AND fr.TranDate = a1.TranDate
 WHERE a1.TranDate BETWEEN @FromDate AND @ToDate
 
@@ -208,6 +193,3 @@ SELECT
     0 AS IsReclass
 FROM #Valuation
 WHERE DiffChange <> 0.00
-GO
-
-

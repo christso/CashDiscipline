@@ -72,6 +72,8 @@ namespace CashDiscipline.Module.Controllers.Cash
             string messageText = string.Empty;
 
             messageText += MapAction_Execute(sender, e, false);
+            messageText += "\r\n" + RephaseAction_Execute(sender, e, false);
+            messageText += "\r\n" + UnfixAction_Execute(sender, e, false);
             messageText += "\r\n" + FixAction_Execute(sender, e, false);
             messageText += "\r\n" + RevalAction_Execute(sender, e, false);
 
@@ -84,8 +86,11 @@ namespace CashDiscipline.Module.Controllers.Cash
                 messageText, "Cash Flow Fix SUCCESS");
         }
 
-        private void RephaseAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
+        private string RephaseAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
         {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
             ObjectSpace.CommitChanges();
 
             var os = (XPObjectSpace)Application.CreateObjectSpace();
@@ -95,13 +100,19 @@ namespace CashDiscipline.Module.Controllers.Cash
                 var algo = new FixCashFlowsAlgorithm(os, paramObj);
                 algo.Rephase();
             }
+            sw.Stop();
+            var messageText = string.Format("Cash Flows were successfully 'Rephased'. Elapsed Time = {0} seconds",
+                Math.Round(sw.Elapsed.TotalSeconds, 2));
 
             if (isRootSender)
             {
                 new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                "Cash Flows were successfully 'Rephased'.",
-                "Cash Flow Fix SUCCESS");
+                messageText,
+                "Cash Flow Rephase SUCCESS");
             }
+
+            return string.Format(messageText,
+                Math.Round(sw.Elapsed.TotalSeconds, 2));
         }
 
         private string RevalAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
@@ -158,8 +169,11 @@ namespace CashDiscipline.Module.Controllers.Cash
                 Math.Round(sw.Elapsed.TotalSeconds,2));
         }
 
-        private void UnfixAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
+        private string UnfixAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)
         {
+            var sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
+
             var os = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = View.CurrentObject as CashFlowFixParam;
             if (paramObj != null)
@@ -168,12 +182,17 @@ namespace CashDiscipline.Module.Controllers.Cash
                 algo.Reset();
             }
 
+            var messageText = string.Format("Cash Flows were successfully 'Unfixed'. Elapsed Time = {0} seconds",
+                Math.Round(sw.Elapsed.TotalSeconds, 2));
+
             if (isRootSender)
             {
                 new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                    "Cash Flows were successfully 'Unfixed'.",
+                    messageText,
                     "Cash Flow Unfix SUCCESS");
             }
+            return string.Format(messageText,
+                 Math.Round(sw.Elapsed.TotalSeconds, 2));
         }
 
         private string FixAction_Execute(object sender, SimpleActionExecuteEventArgs e, bool isRootSender = false)

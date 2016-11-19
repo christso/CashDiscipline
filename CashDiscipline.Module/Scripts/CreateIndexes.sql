@@ -1,16 +1,17 @@
 ﻿/* Forex Rate ------------ */
 
-IF EXISTS(SELECT * FROM sys.indexes WHERE object_id = object_id('dbo.ForexRate') AND NAME = 'i_ForexRate_Date_Curr')
-    DROP INDEX [i_ForexRate_Date_Curr] ON [dbo].[ForexRate]
+IF EXISTS(SELECT * FROM sys.indexes WHERE object_id = object_id('dbo.ForexRate') AND NAME = 'iConversionDateToCurrencyFromCurrency_ForexRate')
+    DROP INDEX [iConversionDateToCurrencyFromCurrency_ForexRate] ON [dbo].[ForexRate]
 GO
 
-CREATE NONCLUSTERED INDEX [i_ForexRate_Date_Curr] ON [dbo].[ForexRate]
+CREATE NONCLUSTERED INDEX [iConversionDateToCurrencyFromCurrency_ForexRate] ON [dbo].[ForexRate]
 (
 	[ConversionDate] ASC,
 	[FromCurrency] ASC,
 	[ToCurrency] ASC
 )
 GO
+
 
 /* CashFlow ------------*/
 
@@ -37,3 +38,10 @@ CREATE NONCLUSTERED INDEX [i_CashFlow_Snapshot_Reclass] ON [dbo].[CashFlow]
 	[GCRecord] ASC
 )
 INCLUDE ([Oid])
+
+IF EXISTS(SELECT * FROM sys.indexes WHERE object_id = object_id('dbo.CashFlow') AND NAME = 'i_CashFlow_Snapshot_Source_TranDate')
+    DROP INDEX [i_CashFlow_Snapshot_Source_TranDate] ON [dbo].[CashFlow]
+GO
+
+CREATE NONCLUSTERED INDEX [i_CashFlow_Snapshot_Source_TranDate]
+ON [dbo].[CashFlow] ([Snapshot],[Source],[TranDate])
