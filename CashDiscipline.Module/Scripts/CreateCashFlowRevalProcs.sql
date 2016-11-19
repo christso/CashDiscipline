@@ -1,37 +1,13 @@
-﻿using CashDiscipline.Module.BusinessObjects.Cash;
-using CashDiscipline.Module.ParamObjects.Cash;
-using DevExpress.ExpressApp.Xpo;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿IF OBJECT_ID('dbo.sp_cashflow_reval') IS NOT NULL
+	BEGIN		
+		DROP PROCEDURE dbo.sp_cashflow_reval;
+	END;
 
-/*
-declare @ActualStatus int = 1
-declare @ForecastStatus int = 0
-*/
+GO
 
-namespace CashDiscipline.Module.Logic.Cash
-{
-    public class RevalueAccounts
-    {
-        private readonly XPObjectSpace objSpace;
-        private CashFlowFixParam paramObj;
-        public RevalueAccounts(XPObjectSpace objSpace, CashFlowFixParam paramObj)
-        {
-            this.objSpace = objSpace;
-            this.paramObj = paramObj;
-        }
+CREATE PROCEDURE [dbo].[sp_cashflow_reval] AS
 
-        public string ProcessCommandText
-
-        {
-            get
-            {
-                return
-@"/* Clean Up ------- */
+/* Clean Up ------- */
 IF OBJECT_ID('tempdb..#AccountTotal') IS NOT NULL
 BEGIN
 DROP TABLE #AccountTotal
@@ -231,48 +207,7 @@ SELECT
 	ELSE @ForecastStatus END AS [Status],
     0 AS IsReclass
 FROM #Valuation
-WHERE DiffChange <> 0.00"
-;
-            }
-        }
+WHERE DiffChange <> 0.00
+GO
 
-        public void Process()
-        {
-            objSpace.CommitChanges(); // persist parameters
 
-            var clauses = CreateSqlParameters();
-            var parameters = CreateParameters(clauses);
-
-            using (var cmd = ((SqlConnection)objSpace.Session.Connection).CreateCommand())
-            {
-                cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
-                //cmd.Parameters.AddRange(parameters.ToArray());
-                //cmd.CommandText = ProcessCommandText;
-                cmd.CommandText = "exec dbo.sp_cashflow_reval";
-                cmd.ExecuteNonQuery();
-            }
-        }
-
-        public List<SqlDeclareClause> CreateSqlParameters()
-        {
-            var clauses = new List<SqlDeclareClause>()
-            {
-                //new SqlDeclareClause("FromDate", "date", "(SELECT TOP 1 FromDate FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
-            };
-            return clauses;
-        }
-
-        public List<SqlParameter> CreateParameters(List<SqlDeclareClause> clauses)
-        {
-            var parameters = new List<SqlParameter>();
-            using (var cmd = objSpace.Session.Connection.CreateCommand())
-            {
-                foreach (var clause in clauses)
-                {
-                    parameters.Add(new SqlParameter(clause.ParameterName, clause.ExecuteScalar(cmd)));
-                }
-            }
-            return parameters;
-        }
-    }
-}

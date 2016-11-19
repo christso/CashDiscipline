@@ -188,8 +188,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             if (paramObj != null)
             {
                 var algo = new FixCashFlowsAlgorithm(os, paramObj);
-                algo.Reset();
-                algo.ProcessCashFlows();
+                algo.ApplyFix();
             }
 
             sw.Stop();

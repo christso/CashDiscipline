@@ -44,7 +44,7 @@ namespace CashDiscipline.UnitTests
 
         public override void OnSetup()
         {
-            CashDiscipline.Module.DatabaseUpdate.Updater.CreateFunctions(ObjectSpace);
+            CashDiscipline.Module.DatabaseUpdate.Updater.CreateDbObjects(ObjectSpace);
             CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
             CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);

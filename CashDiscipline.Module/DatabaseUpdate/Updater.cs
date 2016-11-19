@@ -15,6 +15,8 @@ using System;
 using System.Data.SqlClient;
 using System.IO;
 using Cash = CashDiscipline.Module.BusinessObjects.Cash;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace CashDiscipline.Module.DatabaseUpdate
@@ -30,7 +32,7 @@ namespace CashDiscipline.Module.DatabaseUpdate
         public override void UpdateDatabaseBeforeUpdateSchema()
         {
             base.UpdateDatabaseBeforeUpdateSchema();
-            CreateFunctions((XPObjectSpace)ObjectSpace);
+            CreateDbObjects((XPObjectSpace)ObjectSpace);
         }
 
         public override void UpdateDatabaseAfterUpdateSchema()
@@ -52,16 +54,23 @@ namespace CashDiscipline.Module.DatabaseUpdate
             this.ExecuteNonQueryCommand("alter table " + tableName + " drop constraint " + constraintName, true);
         }
 
-        public static void CreateFunctions(XPObjectSpace os)
+        public static void CreateDbObjects(XPObjectSpace os)
         {
             var conn = os.Session.Connection as SqlConnection;
             if (conn == null) return;
 
-            string resourcePath = CashDiscipline.Common.Constants.CashDiscSqlInstallScriptPath;
-            var stream = typeof(CashDiscipline.Module.AssemblyInfo).Assembly.GetManifestResourceStream(resourcePath);
-            StreamReader reader = new StreamReader(stream);
-            var script = reader.ReadToEnd();
-            DbUtils.ExecuteNonQueryCommand(os, script, false);
+            var resourcePaths = new List<string>();
+            resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlInstallScriptPath);
+            resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCashFlowFixProcsPath);
+            resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCashFlowRevalProcsPath);
+
+            foreach (var resourcePath in resourcePaths)
+            {
+                var stream = typeof(CashDiscipline.Module.AssemblyInfo).Assembly.GetManifestResourceStream(resourcePath);
+                StreamReader reader = new StreamReader(stream);
+                var script = reader.ReadToEnd();
+                DbUtils.ExecuteNonQueryCommand(os, script, false);
+            }
         }
 
         // Set up the minimum objects for this application to function correctly

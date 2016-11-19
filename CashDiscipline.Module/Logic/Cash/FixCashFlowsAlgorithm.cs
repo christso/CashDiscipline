@@ -206,7 +206,8 @@ namespace CashDiscipline.Module.Logic.Cash
             var command = conn.CreateCommand();
             command.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
             //command.Parameters.AddRange(parameters.ToArray());
-            command.CommandText = this.parameterCommandText + "\n\n" + ProcessCommandText;
+            //command.CommandText = this.parameterCommandText + "\n\n" + ProcessCommandText;
+            command.CommandText = "EXEC dbo.sp_cashflow_fix";
             int result = command.ExecuteNonQuery();
         }
 
@@ -358,6 +359,7 @@ UPDATE revFix SET
 	CounterCcy = CASE WHEN revFix.CounterCcy <> fixer.CounterCcy THEN @FunctionalCurrency ELSE revFix.CounterCcy END,
 	CounterCcyAmt = CASE WHEN revFix.CounterCcy <> fixer.CounterCcy THEN -revFix.FunctionalCcyAmt ELSE -revFix.CounterCcyAmt END,
     Account = fixer.Account,
+    [Counterparty] = fixer.Counterparty,
 
 	AccountCcyAmt = -revFix.AccountCcyAmt,
 	FunctionalCcyAmt = -revFix.FunctionalCcyAmt,

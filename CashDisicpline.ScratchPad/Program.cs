@@ -10,7 +10,7 @@ namespace CashDisicpline.ScratchPad
     {
         static void Main(string[] args)
         {
-
+            var list = new List<string>();
             Console.ReadKey();
         }
     }

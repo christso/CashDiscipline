@@ -379,7 +379,8 @@
     <Compile Include="ParamObjects\Import\ImportArOpenInvoicesParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArReceiptDistnParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
-    <Content Include="Scripts\CreateGenLedgerObjects.sql" />
+    <EmbeddedResource Include="Scripts\CreateCashFlowRevalProcs.sql" />
+    <EmbeddedResource Include="Scripts\CreateGenLedgerProcs.sql" />
     <Compile Include="ParamObjects\Import\ImportVendorSitePaymentTermsParam.cs" />
     <Compile Include="Service References\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -434,7 +435,8 @@
     <Compile Include="Controllers\Forex\ForexTradeViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Content Include="Scripts\CreateIndexes.sql" />
+    <EmbeddedResource Include="Scripts\CreateIndexes.sql" />
+    <EmbeddedResource Include="Scripts\CreateCashFlowFixProcs.sql" />
     <Content Include="Scripts\PurgeObjects.sql" />
     <None Include="UnusableNodes.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>

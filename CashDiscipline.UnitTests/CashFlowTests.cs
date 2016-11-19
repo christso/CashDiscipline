@@ -41,10 +41,12 @@ namespace CashDiscipline.UnitTests
         public override void OnSetup()
         {
             CashDisciplineTestHelper.RegisterCustomFunctions();
+            CashDiscipline.Module.DatabaseUpdate.Updater.CreateDbObjects(ObjectSpace);
 
             CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
             CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
+            
         }
 
         public override void OnAddExportedTypes(ModuleBase module)

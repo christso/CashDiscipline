@@ -35,7 +35,7 @@ namespace CashDiscipline.UnitTests
             CashDiscipline.Module.DatabaseUpdate.Updater.CreateCurrencies(ObjectSpace);
             SetOfBooks.GetInstance(ObjectSpace);
             CashDiscipline.Module.DatabaseUpdate.Updater.InitSetOfBooks(ObjectSpace);
-            CashDiscipline.Module.DatabaseUpdate.Updater.CreateFunctions(ObjectSpace);
+            CashDiscipline.Module.DatabaseUpdate.Updater.CreateDbObjects(ObjectSpace);
         }
         public override void OnAddExportedTypes(ModuleBase module)
         {
