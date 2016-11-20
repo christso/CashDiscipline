@@ -23,8 +23,8 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
     [ModelDefault("ImageName", "BO_List")]
     [ModelDefault("DefaultListViewAllowEdit", "True")]
     [AutoColumnWidth(false)]
-    [BatchDelete(isVisible: true, isOptimized: true)]
-    public class ApPmtDistn : BaseObject, IBatchDeletable
+    [BatchDelete(isVisible: true)]
+    public class ApPmtDistn : BaseObject
     {
         public ApPmtDistn(Session session)
             : base(session)

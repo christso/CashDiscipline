@@ -17,8 +17,8 @@ using Xafology.ExpressApp.BatchDelete;
 namespace CashDiscipline.Module.BusinessObjects.Forex
 {
     [ModelDefault("ImageName", "BO_List")]
-    [BatchDelete(isVisible: true, isOptimized: true)]
-    public class ForexSettleLink : BaseObject, IBatchDeletable
+    [BatchDelete(isVisible: true)]
+    public class ForexSettleLink : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (http://documentation.devexpress.com/#Xaf/CustomDocument3146).
         public ForexSettleLink(Session session)
             : base(session)

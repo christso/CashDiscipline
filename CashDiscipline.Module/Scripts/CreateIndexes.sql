@@ -15,11 +15,11 @@ GO
 
 /* CashFlow ------------*/
 
-IF EXISTS(SELECT * FROM sys.indexes WHERE object_id = object_id('dbo.CashFlow') AND NAME = 'iCashFlow_Snapshot_TranDate_Status')
-    DROP INDEX [iCashFlow_Snapshot_TranDate_Status] ON [dbo].[CashFlow]
+IF EXISTS(SELECT * FROM sys.indexes WHERE object_id = object_id('dbo.CashFlow') AND NAME = 'i_CashFlow_Snapshot_TranDate_Status')
+    DROP INDEX [i_CashFlow_Snapshot_TranDate_Status] ON [dbo].[CashFlow]
 GO
 
-CREATE NONCLUSTERED INDEX [iCashFlow_Snapshot_TranDate_Status] ON [dbo].[CashFlow]
+CREATE NONCLUSTERED INDEX [i_CashFlow_Snapshot_TranDate_Status] ON [dbo].[CashFlow]
 (
 	[Snapshot] ASC,
 	[TranDate] ASC,
@@ -39,9 +39,18 @@ CREATE NONCLUSTERED INDEX [i_CashFlow_Snapshot_Reclass] ON [dbo].[CashFlow]
 )
 INCLUDE ([Oid])
 
-IF EXISTS(SELECT * FROM sys.indexes WHERE object_id = object_id('dbo.CashFlow') AND NAME = 'i_CashFlow_Snapshot_Source_TranDate')
-    DROP INDEX [i_CashFlow_Snapshot_Source_TranDate] ON [dbo].[CashFlow]
+IF EXISTS(SELECT * FROM sys.indexes WHERE object_id = object_id('dbo.CashFlow') AND NAME = 'i_CashFlow_Oid')
+    DROP INDEX i_CashFlow_Oid ON [dbo].[CashFlow]
 GO
 
-CREATE NONCLUSTERED INDEX [i_CashFlow_Snapshot_Source_TranDate]
-ON [dbo].[CashFlow] ([Snapshot],[Source],[TranDate])
+CREATE NONCLUSTERED INDEX [i_CashFlow_Oid]
+ON [dbo].[CashFlow] ([Oid])
+INCLUDE (Snapshot, TranDate, Account, Activity, Counterparty, AccountCcyAmt, FunctionalCcyAmt, CounterCcyAmt, CounterCcy, Description, Source, Status, FixRank, Fix)
+
+IF EXISTS(SELECT * FROM sys.indexes WHERE object_id = object_id('dbo.CashFlow') AND NAME = 'i_CashFlow_GCRecord')
+    DROP INDEX i_CashFlow_GCRecord ON [dbo].[CashFlow]
+GO
+
+CREATE NONCLUSTERED INDEX i_CashFlow_GCRecord
+ON [dbo].[CashFlow] ([GCRecord])
+INCLUDE ([Oid],[Snapshot],[TranDate],[Account],[Activity],[Counterparty],[AccountCcyAmt],[FunctionalCcyAmt],[CounterCcyAmt],[CounterCcy],[Description],[Source],[Status],[FixRank],[Fix],[IsReclass])

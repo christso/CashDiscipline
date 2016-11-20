@@ -36,7 +36,6 @@
           <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="4" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Cash Report" Index="4" IsNewNode="True" />
       <Item Id="Cash Setup" Index="5" IsNewNode="True" />
       <Item Id="Forex" Index="6" IsNewNode="True">
         <Items IsNewNode="True">
@@ -412,7 +411,11 @@
     <ListView Id="CashFlow_ListView" DataAccessMode="Server" IsFooterVisible="True" DetailViewID="">
       <Columns>
         <ColumnInfo Id="OrigCashFlow" Index="-1" />
-        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True">
+          <Summary IsNewNode="True">
+            <ColumnSummaryItem Id="@3809ec1c-ccd8-47d1-aa9e-bc94c34ad382" SummaryType="Count" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
         <ColumnInfo Id="Snapshot" Index="1" />
         <ColumnInfo Id="Status" Index="2" />
         <ColumnInfo Id="TranDate" Index="3" />

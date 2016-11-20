@@ -33,9 +33,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("Oid")]
     [AutoColumnWidth(false)]
-    [BatchDelete(isVisible: true, isOptimized: true)]
+    [BatchDelete(isVisible: true)]
     public class CashFlow : SequentialGuidBaseObject, ICalculateToggleObject, ICashFlow, 
-        IXpoImportable, IBatchDeletable
+        IXpoImportable
     {
 
         private Activity _FixActivity;

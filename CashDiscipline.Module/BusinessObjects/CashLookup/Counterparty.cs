@@ -6,6 +6,7 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
 using CashDiscipline.Module.Logic.SqlServer;
+using DevExpress.Persistent.Validation;
 
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
@@ -27,15 +28,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             DateTimeCreated = sqlUtil.GetDate();
         }
 
-        int _Id;
-        public int Id
-        {
-            get { return _Id; }
-            set { SetPropertyValue<int>("Id", ref _Id, value); }
-        }
-
-        // Fields...
         private string _Name;
+        [Indexed(Name = @"iName_Counterparty", Unique = false)]
+        [RuleUniqueValue("Counterparty_Name_RuleUniqueValue", DefaultContexts.Save)]
         public string Name
         {
             get

@@ -27,9 +27,9 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
     [DefaultProperty("Oid")]
     [ModelDefault("IsFooterVisible", "True")]
     [AutoColumnWidth(false)]
-    [BatchDelete(isVisible: true, isOptimized: true)]
+    [BatchDelete(isVisible: true)]
     [ModelDefault("ImageName", "BO_List")]
-    public class BankStmt : BaseObject, IXpoImportable, IBatchDeletable
+    public class BankStmt : BaseObject, IXpoImportable
     {
         public BankStmt(Session session)
             : base(session)

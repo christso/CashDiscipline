@@ -23,8 +23,8 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
     [ModelDefault("ImageName", "BO_List")]
     [AutoColumnWidth(false)]
-    [BatchDelete(isVisible: true, isOptimized: true)]
-    public class GenLedger : BaseObject, IBatchDeletable
+    [BatchDelete(isVisible: true)]
+    public class GenLedger : BaseObject
     { 
         public GenLedger(Session session)
             : base(session)
