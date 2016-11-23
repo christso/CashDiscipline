@@ -151,7 +151,8 @@ FROM #TmpApPoReceiptBal
 
             int rowCount = 0;
 
-            using (var csv = new CachedCsvReader(new StreamReader(inputFilePath), true, '\t'))
+            char delimiter = ParseDelimiter(paramObj.Delimiter ?? ",");
+            using (var csv = new CachedCsvReader(new StreamReader(inputFilePath), true, delimiter))
             using (var cmd = conn.CreateCommand())
             using (var bc = new SqlBulkCopy(conn))
             {
@@ -161,6 +162,7 @@ FROM #TmpApPoReceiptBal
                 cmd.ExecuteNonQuery();
 
                 bc.DestinationTableName = "#TmpApPoReceiptBal";
+                AddColumnMappings(bc);
                 bc.WriteToServer(csv);
 
                 cmd.CommandText = "SELECT COUNT(*) FROM #TmpApPoReceiptBal";
@@ -171,6 +173,52 @@ FROM #TmpApPoReceiptBal
             }
             statusMessage = string.Format("{0} rows processed.", rowCount);
             return statusMessage;
+        }
+
+        private void AddColumnMappings(SqlBulkCopy bc)
+        {
+
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "PO Number", DestinationColumn = "PO Number" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "PO Release", DestinationColumn = "PO Release" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "PO Line", DestinationColumn = "PO Line" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "PO Shipment", DestinationColumn = "PO Shipment" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "PO Distribution", DestinationColumn = "PO Distribution" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "PO Distribution ID", DestinationColumn = "PO Distribution ID" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "PO Balance", DestinationColumn = "PO Balance" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "AP Balance", DestinationColumn = "AP Balance" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Write Off Balance", DestinationColumn = "Write Off Balance" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Total Balance", DestinationColumn = "Total Balance" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Age In Days", DestinationColumn = "Age In Days" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Item", DestinationColumn = "Item" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Vendor", DestinationColumn = "Vendor" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Destination", DestinationColumn = "Destination" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Opex/Capex/Other", DestinationColumn = "Opex/Capex/Other" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Extra Detail1", DestinationColumn = "Extra Detail1" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Extra Detail2", DestinationColumn = "Extra Detail2" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Company", DestinationColumn = "Company" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Account", DestinationColumn = "Account" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Cost Centre", DestinationColumn = "Cost Centre" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Product", DestinationColumn = "Product" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Saleschannel", DestinationColumn = "Saleschannel" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Country", DestinationColumn = "Country" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Interco", DestinationColumn = "Interco" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Project", DestinationColumn = "Project" });
+            bc.ColumnMappings.Add(new SqlBulkCopyColumnMapping() { SourceColumn = "Location", DestinationColumn = "Location" });
+        }
+
+        private char ParseDelimiter(string delimiter)
+        {
+            char result = ',';
+            switch (delimiter)
+            {
+                case "\t":
+                    result = '\t';
+                    break;
+                default:
+                    result = Convert.ToChar(delimiter.Substring(0, 1));
+                    break;
+            }
+            return result;
         }
     }
 }

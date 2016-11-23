@@ -62,5 +62,20 @@ namespace CashDiscipline.Module.ParamObjects.Import
                 SetPropertyValue("FilePath", ref _FilePath, value);
             }
         }
+
+
+        private string _Delimiter;
+        [Size(10)]
+        public string Delimiter
+        {
+            get
+            {
+                return _Delimiter;
+            }
+            set
+            {
+                SetPropertyValue("Delimiter", ref _Delimiter, value);
+            }
+        }
     }
 }

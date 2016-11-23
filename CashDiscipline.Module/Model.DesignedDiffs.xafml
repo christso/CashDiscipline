@@ -99,9 +99,13 @@
     <ListView Id="ApInvoiceBalance_ListView" DataAccessMode="Server" />
     <ListView Id="ApInvSource_LookupListView" AllowEdit="False" />
     <ListView Id="ApPayGroup_LookupListView" AllowEdit="False" />
-    <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server">
+    <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server" IsFooterVisible="True">
       <Columns>
-        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True">
+          <Summary IsNewNode="True">
+            <ColumnSummaryItem Id="@1a3f5d3a-61e1-459d-9e3e-75f134121613" SummaryType="Count" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
         <ColumnInfo Id="PaymentBatchName" Index="1" />
         <ColumnInfo Id="PaymentDate" Index="2" />
         <ColumnInfo Id="Source" Index="3" />
@@ -121,8 +125,16 @@
         <ColumnInfo Id="PoNum" Index="17" />
         <ColumnInfo Id="InvoiceNum" Index="18" />
         <ColumnInfo Id="InvoiceLineDesc" Index="19" />
-        <ColumnInfo Id="PaymentAmountFx" Index="20" />
-        <ColumnInfo Id="PaymentAmountAud" Index="21" />
+        <ColumnInfo Id="PaymentAmountFx" Index="20">
+          <Summary>
+            <ColumnSummaryItem Id="@b5732a96-7a94-484c-8ce0-123eca248942" SummaryType="Sum" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
+        <ColumnInfo Id="PaymentAmountAud" Index="21">
+          <Summary>
+            <ColumnSummaryItem Id="@73b91883-ae05-4416-81bd-e43ac01747f3" SummaryType="Sum" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
         <ColumnInfo Id="PaymentNumber" Index="22" />
         <ColumnInfo Id="InvoiceCurrency" Index="23" />
         <ColumnInfo Id="PaymentCreationDate" Index="24" />
