@@ -237,6 +237,7 @@ namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 
         private DateTime _DateTimeCreated;
         [ModelDefault("DisplayFormat", "dd-MMM-yy hh:mm:ss")]
+        [ModelDefault("AllowEdit", "false")]
         public DateTime DateTimeCreated
         {
             get

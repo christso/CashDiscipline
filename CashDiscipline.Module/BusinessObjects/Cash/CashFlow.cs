@@ -358,7 +358,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        [ModelDefault("DisplayFormat", "dd-MMM-yy hh:mm:ss")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy hh:mm:ss tt")]
         public DateTime TimeEntered
         {
             get

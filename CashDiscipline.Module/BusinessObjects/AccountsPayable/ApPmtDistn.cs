@@ -476,5 +476,24 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
                 SetPropertyValue("CashFlow", ref _CashFlow, value);
             }
         }
+
+        private InputSourceType _InputSource;
+        public InputSourceType InputSource
+        {
+            get
+            {
+                return _InputSource;
+            }
+            set
+            {
+                SetPropertyValue("InputSource", ref _InputSource, value);
+            }
+        }
+
+        public enum InputSourceType
+        {
+            Oracle = 0,
+            Manual = 1
+        }
     }
 }

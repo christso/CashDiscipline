@@ -208,7 +208,8 @@ INSERT INTO ApPmtDistn
 [ExpenditureType],
 [ProjectNumber],
 [InvoiceId],
-[DistributionLineNumber]
+[DistributionLineNumber],
+[InputSource]
 )
 SELECT
 CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER) AS Oid,
@@ -247,7 +248,8 @@ tp.[Invoice Date],
 tp.[Expenditure Type],
 TRY_CONVERT(int, tp.[Project Number]),
 tp.[Invoice Id],
-tp.[Distribution Line Number]
+tp.[Distribution Line Number],
+0 AS InputSource
 FROM {TempTable} tp";
                 var messagesText = loader.Execute(csvReader);
 
