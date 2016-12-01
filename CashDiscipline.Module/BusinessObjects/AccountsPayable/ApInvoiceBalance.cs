@@ -27,12 +27,15 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             set { SetPropertyValue<Guid>("Oid", ref fOid, value); }
         }
         double fRequestId;
+        [ModelDefault("DisplayFormat", "f0")]
         public double RequestId
         {
             get { return fRequestId; }
             set { SetPropertyValue<double>("RequestId", ref fRequestId, value); }
         }
         DateTime fAsAtDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime AsAtDate
         {
             get { return fAsAtDate; }
@@ -81,12 +84,16 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             set { SetPropertyValue<string>("LiabilityIntercompany", ref fLiabilityIntercompany, value); }
         }
         DateTime fInvoiceDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime InvoiceDate
         {
             get { return fInvoiceDate; }
             set { SetPropertyValue<DateTime>("InvoiceDate", ref fInvoiceDate, value); }
         }
         DateTime fGlDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime GlDate
         {
             get { return fGlDate; }
@@ -286,6 +293,8 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             set { SetPropertyValue<string>("Activity", ref fActivity, value); }
         }
         DateTime fDueDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime DueDate
         {
             get { return fDueDate; }
@@ -299,6 +308,8 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             set { SetPropertyValue<string>("PaymentTerm", ref fPaymentTerm, value); }
         }
         DateTime fInvoiceReceivedDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
         public DateTime InvoiceReceivedDate
         {
             get { return fInvoiceReceivedDate; }

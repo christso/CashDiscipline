@@ -21,7 +21,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
     [ModelDefault("IsFooterVisible", "True")]
     [ModelDefault("ImageName", "BO_List")]
-    [ModelDefault("DefaultListViewAllowEdit", "True")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [AutoColumnWidth(false)]
     [BatchDelete(isVisible: true)]
     public class ApPmtDistn : BaseObject

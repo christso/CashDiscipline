@@ -41,6 +41,7 @@ declare @MinDate as datetime = (
 	WHERE GCRecord IS NULL AND Status = @ForecastStatus
 		AND Snapshot = @CurrentSnapshot
 )
+DECLARE @SnapshotReported uniqueidentifier = (SELECT TOP 1 CashSnapshotReported FROM SetOfBooks WHERE GCRecord IS NULL)
 
 INSERT INTO CashFlowSnapshot (Oid, Name, SequentialNumber, Description, FromDate, TimeCreated)
 VALUES 
@@ -71,7 +72,12 @@ SELECT * FROM #TmpCashFlow
 UPDATE CashFlowSnapshot
 SET TimeCreated = GETDATE(),
 FromDate = (SELECT Min(TranDate) FROM CashFlow WHERE GCRecord IS NULL)
-WHERE Oid = @CurrentSnapshot";
+WHERE Oid = @CurrentSnapshot
+
+UPDATE CashSnapshotReported
+SET PreviousSnapshot = @NewSnapshot
+WHERE Oid = @SnapshotReported;
+";
             }
         }
 

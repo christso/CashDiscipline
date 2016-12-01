@@ -19,12 +19,14 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 
         double _PoNum;
         [Persistent(@"Po Num")]
+        [ModelDefault("DisplayFormat", "f0")]
         public double PoNum
         {
             get { return _PoNum; }
             set { SetPropertyValue<double>("PoNum", ref _PoNum, value); }
         }
         double _ReceiptNum;
+        [ModelDefault("DisplayFormat", "f0")]
         [Persistent(@"Receipt Num")]
         public double ReceiptNum
         {
@@ -48,6 +50,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
         }
         double _ReqNum;
         [Persistent(@"Req Num")]
+        [ModelDefault("DisplayFormat", "f0")]
         public double ReqNum
         {
             get { return _ReqNum; }
