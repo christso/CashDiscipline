@@ -394,15 +394,18 @@ namespace CashDiscipline.UnitTests
 
             #region Act
 
+            // define values
             const decimal pdCounterCcyAmt1 = 1000;
             DateTime pdValueDate1 = new DateTime(2013, 11, 30);
             decimal pdRate1 = 0.92M;
             decimal pdPrimaryCcyAmt1 = Math.Round(pdCounterCcyAmt1 / pdRate1, 2);
 
-            var newFt = ForexTradeLogic.Initialize(ft1);
+            // assign values to new forex trade
+            ForexTrade newFt = ForexTradeLogic.Initialize(ft1);
             newFt.CounterCcyAmt = pdCounterCcyAmt1;
             newFt.ValueDate = pdValueDate1;
             newFt.Rate = pdRate1;
+            newFt.PrimaryCcyAmt = newFt.CounterCcyAmt / newFt.Rate;
 
             ObjectSpace.CommitChanges();
 

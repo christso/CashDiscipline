@@ -32,10 +32,11 @@ namespace CashDiscipline.Module.Logic.Forex
             newFt.TradeDate = newFt.CreationDate;
 
             ForexTrade revFt = ForexTradeLogic.CloneForexTrade(origFt);
-            newFt.ReverseTrade = revFt;
             revFt.Rate = origFt.Rate;
             revFt.CreationDate = newFt.CreationDate;
             revFt.TradeDate = revFt.CreationDate;
+
+            newFt.ReverseTrade = revFt;
             UpdateReverseTrade(newFt);
             return newFt;
         }
@@ -44,6 +45,7 @@ namespace CashDiscipline.Module.Logic.Forex
         {
             if (newFt.ReverseTrade == null) return;
             newFt.ReverseTrade.CounterCcyAmt = -newFt.CounterCcyAmt;
+            newFt.ReverseTrade.PrimaryCcyAmt = -newFt.PrimaryCcyAmt;
         }
 
         public static ForexTrade CloneForexTrade(ForexTrade fromFt)
