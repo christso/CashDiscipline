@@ -50,6 +50,7 @@
         <Items IsNewNode="True">
           <Item Id="ApInvoiceBalance" ViewId="ApInvoiceBalance_ListView" Index="0" IsNewNode="True" />
           <Item Id="ApPoReceipt" Caption="Ap Po Receipt" ViewId="ApPoReceipt_ListView" Index="2" IsNewNode="True" />
+          <Item Id="ApPaymentDateSchedule" ViewId="ApPmtDateSched_ListView" Caption="AP Payment Date Schedule" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="System Internals" Index="9" Caption="System Internals" IsNewNode="True">

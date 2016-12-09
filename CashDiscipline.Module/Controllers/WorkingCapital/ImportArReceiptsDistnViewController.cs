@@ -48,9 +48,7 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
                 });
             };
 
-            string sqlMap = @"exec sp_map_arreceipt_account '{FromDate}', '{ToDate}'
-exec sp_map_arreceipt_customer '{FromDate}', '{ToDate}'
-exec sp_map_arreceipt_final '{FromDate}', '{ToDate}'
+            string sqlMap = @"exec sp_map_arreceipt_final '{FromDate}', '{ToDate}'
 ";
 
             const string connString = CashDiscipline.Common.Constants.FinanceConnString;
