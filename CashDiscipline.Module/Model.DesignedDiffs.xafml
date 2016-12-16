@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Title="CASH DISCIPLINE" Logo="banner" Company="DG2NTT Pty Ltd" Copyright="Copyright (c) 2016 DG2NTT Pty Ltd" WebSite="http://dg2ntt.com" Description="Software for Flexible and Disciplined Cash Flow Forecasting (http://cashdiscipline.com)">
+<Application Title="CASH DISCIPLINE" Logo="banner" Company="DG2NTT Pty Ltd" Copyright="Copyright (c) 2016 OpenDot Systems Pty Ltd" WebSite="http://dg2ntt.com" Description="Software for Flexible and Disciplined Cash Flow Forecasting (http://cashdiscipline.com)">
   <BOModel>
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Account" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Activity" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
@@ -48,9 +48,10 @@
       </Item>
       <Item Id="WorkingCapital" Caption="Working Capital" Index="8" IsNewNode="True">
         <Items IsNewNode="True">
-          <Item Id="ApInvoiceBalance" ViewId="ApInvoiceBalance_ListView" Index="0" IsNewNode="True" />
-          <Item Id="ApPoReceipt" Caption="Ap Po Receipt" ViewId="ApPoReceipt_ListView" Index="2" IsNewNode="True" />
-          <Item Id="ApPaymentDateSchedule" ViewId="ApPmtDateSched_ListView" Caption="AP Payment Date Schedule" IsNewNode="True" />
+          <Item Id="ApInvoiceBalance" ViewId="ApInvoiceBalance_ListView" Index="0" Caption="AP Invoice Balance" IsNewNode="True" />
+          <Item Id="ApPoReceipt" Caption="AP Po Receipt" ViewId="ApPoReceipt_ListView" Index="1" IsNewNode="True" />
+          <Item Id="ApPaymentDateSchedule" ViewId="ApPmtDateSched_ListView" Caption="AP Payment Date Schedule" Index="2" IsNewNode="True" />
+          <Item Id="ApVendorSitePaymentTerms" Caption="AP Vendor Site Payment Terms" Index="3" ViewId="ApVendorSitePaymentTerms_ListView" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="System Internals" Index="9" Caption="System Internals" IsNewNode="True">

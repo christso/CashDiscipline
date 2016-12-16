@@ -42,8 +42,17 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             
             string serverName = Constants.SsasServerName;
-            var processor = new ServerProcessor(serverName, "ApPayables");
-            processor.ProcessDatabase();
+            var processor = new AdomdProcessor(serverName);
+            processor.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""ApPayables""
+      }
+    ]
+  }
+}");
 
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 "Process Report Successful",

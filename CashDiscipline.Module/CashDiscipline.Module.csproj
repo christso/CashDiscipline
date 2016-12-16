@@ -226,8 +226,10 @@
     <Compile Include="BusinessObjects\AccountsPayable\ApInvoiceBalance.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDateSched.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApVendorSitePaymentTerms.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtDefaults.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPoReceipt.cs" />
+    <Compile Include="BusinessObjects\FinAccounting\TB_TrialBalance.cs" />
     <Compile Include="BusinessObjects\ReportConfig.cs" />
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
@@ -265,6 +267,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\ActionPortalViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\FinAccounting\ImportTrialBalanceViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\InitializeNonPersistentListViewWindowController.cs">
@@ -395,6 +400,7 @@
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
     <EmbeddedResource Include="Scripts\CreateCashFlowRevalProcs.sql" />
     <EmbeddedResource Include="Scripts\CreateGenLedgerProcs.sql" />
+    <Compile Include="ParamObjects\Import\ImportTrialBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportVendorSitePaymentTermsParam.cs" />
     <Compile Include="Service References\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
