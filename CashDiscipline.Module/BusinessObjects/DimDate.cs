@@ -47,16 +47,16 @@ namespace CashDiscipline.Module.BusinessObjects
         }
 
 
-        private int _MontNumberOfYear;
-        public int MontNumberOfYear
+        private int _MonthNumberOfYear;
+        public int MonthNumberOfYear
         {
             get
             {
-                return _MontNumberOfYear;
+                return _MonthNumberOfYear;
             }
             set
             {
-                SetPropertyValue("MontNumberOfYear", ref _MontNumberOfYear, value);
+                SetPropertyValue("MonthNumberOfYear", ref _MonthNumberOfYear, value);
             }
         }
 

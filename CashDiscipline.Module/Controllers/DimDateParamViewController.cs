@@ -11,6 +11,7 @@ using DevExpress.Persistent.Base;
 using CashDiscipline.Module.BusinessObjects;
 using CashDiscipline.Module.ParamObjects.Import;
 using System.Data.SqlTypes;
+using System.Data.SqlClient;
 
 namespace CashDiscipline.Module.Controllers
 {
@@ -32,7 +33,35 @@ namespace CashDiscipline.Module.Controllers
 
         private void CalculateAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            
+
+            string commandText = 
+@"DECLARE @FromDate datetime = '{FromDate}';
+DECLARE @ToDate datetime = '{ToDate}';
+EXEC sp_CalculateDimDate @FromDate, @ToDate;";
+
+            const string connString = CashDiscipline.Common.Constants.FinanceConnString;
+
+            try
+            {
+                using (var conn = new SqlConnection(connString))
+                using (var cmd = new SqlCommand())
+                {
+                    conn.Open();
+                    cmd.Connection = conn;
+
+                    cmd.CommandText = (commandText);
+                    cmd.ExecuteNonQuery();
+                }
+
+                new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                    "Date Column Calculation Successful",
+                   "ACTION SUCCESSFUL"
+                    );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
+            }
         }
 
         private void GenerateAction_Execute(object sender, SimpleActionExecuteEventArgs e)

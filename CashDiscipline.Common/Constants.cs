@@ -48,9 +48,12 @@ namespace CashDiscipline.Common
         public const string SsisCatalog = "SSISDB";
 
         // Resources
+        // ensure you change the file's Build Action to 'Embedded Resource'
         public const string CashDiscSqlInstallScriptPath = @"CashDiscipline.Module.Scripts.InstallClr.sql";
         public const string CashDiscSqlCashFlowFixProcsPath = @"CashDiscipline.Module.Scripts.CreateCashFlowFixProcs.sql";
         public const string CashDiscSqlCashFlowRevalProcsPath = @"CashDiscipline.Module.Scripts.CreateCashFlowRevalProcs.sql";
+        public const string CashDiscSqlDimDateProcsPath = @"CashDiscipline.Module.Scripts.CreateDimDateProcs.sql";
+
         // Connection strings
 
         public const string FinanceConnString = "Data Source=vvsw31414;Database=VHAFinance;Integrated Security=true;";

@@ -409,6 +409,7 @@
     <EmbeddedResource Include="Scripts\CreateGenLedgerProcs.sql" />
     <Compile Include="ParamObjects\Import\ImportTrialBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportVendorSitePaymentTermsParam.cs" />
+    <EmbeddedResource Include="Scripts\CreateDimDateProcs.sql" />
     <Compile Include="Service References\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

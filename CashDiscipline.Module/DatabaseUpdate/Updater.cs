@@ -64,6 +64,7 @@ namespace CashDiscipline.Module.DatabaseUpdate
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlInstallScriptPath);
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCashFlowFixProcsPath);
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCashFlowRevalProcsPath);
+            resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlDimDateProcsPath);
 
             foreach (var resourcePath in resourcePaths)
             {
