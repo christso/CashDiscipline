@@ -81,17 +81,17 @@
       <HintPath>..\packages\AutoMapper.4.2.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.CloneObject.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.ExpressApp.CloneObject.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.Security.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.ExpressApp.Security.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.Validation.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.ExpressApp.Validation.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.ExpressApp.ViewVariantsModule.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.ExpressApp.ViewVariantsModule.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <Private>False</Private>
     </Reference>
     <Reference Include="DevExpress.ExpressApp.Xpo.v16.1">
@@ -118,25 +118,37 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.Utils.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+    <Reference Include="DevExpress.Utils.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="DevExpress.Xpo.v16.1">
       <SpecificVersion>False</SpecificVersion>
       <Private>False</Private>
     </Reference>
-    <Reference Include="DevExpress.XtraEditors.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Sparkline.v16.1.Core, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v16.1.UI, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.CodeParser.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.DataAccess.v16.1, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.DataAccess.v16.1.UI, Version=16.1.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraEditors.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Sparkline.v16.1.Core, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v16.1.UI, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.CodeParser.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataAccess.v16.1, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.DataAccess.v16.1.UI, Version=16.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="DG2NTT.AnalysisServicesHelpers, Version=1.0.0.3, Culture=neutral, PublicKeyToken=e9cfe43101879f64, processorArchitecture=MSIL">
       <HintPath>..\packages\DG2NTT.AnalysisServicesHelpers.1.0.0.3\lib\net45\DG2NTT.AnalysisServicesHelpers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="LumenWorks.Framework.IO, Version=3.9.0.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
-      <HintPath>..\packages\LumenWorksCsvReader.3.9\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
+    <Reference Include="Excel, Version=2.1.2.3, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.2.1.2.3\lib\net45\Excel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FileHelpers, Version=3.1.5.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
+      <HintPath>..\packages\FileHelpers.3.1.5\lib\net45\FileHelpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LumenWorks.Framework.IO, Version=3.9.1.0, Culture=neutral, PublicKeyToken=5ad3ea2f85776344, processorArchitecture=MSIL">
+      <HintPath>..\packages\LumenWorksCsvReader.3.9.1\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AnalysisServices, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
@@ -148,7 +160,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=12.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=13.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\assemblies\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
     </Reference>
@@ -162,6 +174,10 @@
     </Reference>
     <Reference Include="SmartFormat, Version=1.6.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SmartFormat.NET.1.6.1.0\lib\net40\SmartFormat.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlClrProvider, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\assemblies\Microsoft.SqlServer.SqlClrProvider.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System">
@@ -207,18 +223,29 @@
   <ItemGroup>
     <Compile Include="AppNavigation\ActionPortalHardLogic.cs" />
     <Compile Include="Attributes\AutoColumnWidthAttribute.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApInvoiceBalance.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApPmtDateSched.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApVendorSitePaymentTerms.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtDefaults.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPoReceipt.cs" />
+    <Compile Include="BusinessObjects\FinAccounting\TB_TrialBalance.cs" />
     <Compile Include="BusinessObjects\ReportConfig.cs" />
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
     <Compile Include="BusinessObjects\BaseObjectHelper.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\ActionOwner.cs" />
+    <Compile Include="BusinessObjects\Welcome.cs" />
     <Compile Include="Clients\CshDscTabularHelper.cs" />
+    <Compile Include="Clients\DataObjectFactory.cs" />
+    <Compile Include="Clients\SqlServerLoader.cs" />
     <Compile Include="Clients\DaxClient.cs" />
+    <Compile Include="Clients\SqlServerLoader2.cs" />
     <Compile Include="Controllers\AboutInfoWindowController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\MappingCriteriaGeneratorViewController.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controllers\Cash\CashFlowSnapshotViewController.cs">
@@ -242,7 +269,60 @@
     <Compile Include="Controllers\ActionPortalViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Logic\Cash\ApPmtDistnImporter.cs" />
+    <Compile Include="Controllers\FinAccounting\ImportTrialBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\InitializeNonPersistentListViewWindowController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WelcomeDashboardViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ApPmtDateSchedViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApInvoiceBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\ApInvoiceBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApInvoiceHeaderViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApInvoicesDueViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApPoContractViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptMatchInputViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportApPoReceiptViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportArBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportArCustomersViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportArOpenInvoicesViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportArReceiptsDistnViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WorkingCapital\ImportVendorSitePaymentTermsViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IMappingCriteriaGenerator.cs" />
+    <Compile Include="Logic\Import\ApInvoiceBalanceImporter.cs" />
+    <Compile Include="Logic\Import\ApInvoiceHeaderImporter.cs" />
     <Compile Include="Logic\Cash\ApPmtToCashFlowAlgorithm.cs" />
     <Compile Include="Logic\Cash\BankStmtCalculator.cs" />
     <Compile Include="Logic\Cash\CashFlowTabular.cs" />
@@ -261,7 +341,12 @@
     <Compile Include="DatabaseUpdate\DbUtils.cs" />
     <Compile Include="Interfaces\IMapping.cs" />
     <Compile Include="Logic\Cash\ApPmtDistnMapper.cs" />
-    <Compile Include="Logic\Cash\BankStmtImporter.cs" />
+    <Compile Include="Logic\Import\ApPoContractImporter.cs" />
+    <Compile Include="Logic\Import\ApPoReceiptBalanceImporter.cs" />
+    <Compile Include="Logic\Import\ApPoReceiptImporter.cs" />
+    <Compile Include="Logic\Import\ArOpenInvoicesImporter.cs" />
+    <Compile Include="Logic\Import\ArReceiptDistnImporter.cs" />
+    <Compile Include="Logic\Import\BankStmtImporter.cs" />
     <Compile Include="Logic\Cash\BankStmtMapper.cs" />
     <Compile Include="Logic\Cash\BankStmtToCashFlowAlgorithm.cs" />
     <Compile Include="Controllers\Forex\ForexSettleFifoParamViewController.cs">
@@ -286,6 +371,7 @@
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
     <Compile Include="AppNavigation\ActionPortalEventArgs.cs" />
     <Compile Include="AppNavigation\ActionPortalItem.cs" />
+    <Compile Include="Logic\Import\VendorSitePaymentTermsImporter.cs" />
     <Compile Include="Logic\SqlAlgorithm.cs" />
     <Compile Include="Logic\SqlMap\Mapper.cs" />
     <Compile Include="AppNavigation\ActionPortalLogic.cs" />
@@ -297,11 +383,25 @@
     <Compile Include="Logic\SqlServer\SsisUtil.cs" />
     <Compile Include="Logic\SqlStringUtil.cs" />
     <Compile Include="NavigationHelper.cs" />
+    <Compile Include="BusinessObjects\Cash\RevalDates.cs" />
     <Compile Include="ParamObjects\Cash\BankStmtMappingParam.cs" />
     <Compile Include="ParamObjects\Forex\ForexSettleFifoParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApInvoicesDueParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApInvoiceBalanceParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApInvoiceHeaderParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPoContractParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPoReceiptBalanceParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPoReceiptMatchInputParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPoReceiptParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportArBalanceParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportArCustomersParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportArOpenInvoicesParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportArReceiptDistnParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
-    <Content Include="Scripts\CreateGenLedgerObjects.sql" />
-    <Compile Include="ProcessStatus.cs" />
+    <EmbeddedResource Include="Scripts\CreateCashFlowRevalProcs.sql" />
+    <EmbeddedResource Include="Scripts\CreateGenLedgerProcs.sql" />
+    <Compile Include="ParamObjects\Import\ImportTrialBalanceParam.cs" />
+    <Compile Include="ParamObjects\Import\ImportVendorSitePaymentTermsParam.cs" />
     <Compile Include="Service References\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -355,8 +455,13 @@
     <Compile Include="Controllers\Forex\ForexTradeViewController.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Content Include="Scripts\CreateIndexes.sql" />
+    <EmbeddedResource Include="Scripts\CreateIndexes.sql" />
+    <EmbeddedResource Include="Scripts\CreateCashFlowFixProcs.sql" />
     <Content Include="Scripts\PurgeObjects.sql" />
+    <None Include="UnusableNodes.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="app.config" />
     <None Include="FunctionalTests\ForexTrade_Create.ets" />
     <Compile Include="BusinessObjects\Forex\ForexRate.cs" />
@@ -447,6 +552,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FunctionalTests\Test.ets" />
+    <None Include="FunctionalTests\WebSample.ets" />
+    <None Include="FunctionalTests\WinSample.ets" />
     <None Include="Images\ReadMe.txt" />
     <None Include="packages.config">
       <SubType>Designer</SubType>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Application Title="CASH DISCIPLINE" Logo="banner" Company="DG2NTT Pty Ltd" Copyright="Copyright (c) 2016 OpenDot Systems Pty Ltd" WebSite="http://dg2ntt.com" Description="Software for Flexible and Disciplined Cash Flow Forecasting (http://cashdiscipline.com)">
+<Application Title="CASH DISCIPLINE" Logo="banner" Company="OpenDot Systems Pty Ltd" Copyright="Copyright (c) 2017 OpenDot Systems Pty Ltd" WebSite="http://dg2ntt.com" Description="Software for Flexible and Disciplined Cash Flow Forecasting (http://cashdiscipline.com)">
   <BOModel>
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Account" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
     <Class Name="CashDiscipline.Module.BusinessObjects.Cash.Activity" DefaultDetailViewImage="BO_List" DefaultListViewImage="BO_List" />
@@ -64,8 +64,8 @@
   </NavigationItems>
   <Options DataAccessMode="Server" />
   <SchemaModules>
-    <SchemaModule Name="CloneObjectModule" Version="16.1.7.0" IsNewNode="True" />
-    <SchemaModule Name="SystemModule" Version="16.1.7.0" IsNewNode="True" />
+    <SchemaModule Name="CloneObjectModule" Version="16.2.3.0" IsNewNode="True" />
+    <SchemaModule Name="SystemModule" Version="16.2.3.0" IsNewNode="True" />
     <SchemaModule Name="SystemWindowsFormsModule" Version="12.2.7.0" IsNewNode="True" />
   </SchemaModules>
   <Templates>

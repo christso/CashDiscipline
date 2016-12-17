@@ -21,6 +21,7 @@ namespace CashDiscipline.Module.Clients
         {
             this.sqlConn = sqlConn;
             this.bc = new SqlBulkCopy(sqlConn);
+            this.SqlStringReplacers = new Dictionary<string, string>();
         }
 
         private readonly SqlConnection sqlConn;
@@ -56,10 +57,16 @@ namespace CashDiscipline.Module.Clients
         {
             return Execute((object)sourceReader);
         }
+        
+        public Dictionary<string, string> SqlStringReplacers;
 
         private string FormatSql(string commandText)
         {
-            return Smart.Format(commandText, new { TempTable = tempTableName });
+            string tempVar = string.Empty;
+            this.SqlStringReplacers.TryGetValue("TempTable", out tempVar);
+            if (tempVar == null)
+                SqlStringReplacers.Add("TempTable", tempTableName);
+            return Smart.Format(commandText, SqlStringReplacers);
         }
 
         public SqlBulkCopyColumnMappingCollection ColumnMappings
@@ -80,16 +87,12 @@ namespace CashDiscipline.Module.Clients
 
             using (var cmd = sqlConn.CreateCommand())
             {
-                cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
-
-                cmd.CommandText = FormatSql(
-                    "IF OBJECT_ID('tempdb..{TempTable}') IS NOT NULL DROP TABLE {TempTable}\r\n"
-                    + createSql);
-                cmd.ExecuteNonQuery();
-                
-                bc.DestinationTableName = tempTableName;
+                ExecuteCreateTabe(cmd);
 
                 #region write source to destination
+
+                bc.DestinationTableName = tempTableName;
+
                 if (source is IDataReader)
                     bc.WriteToServer((IDataReader)source);
                 else if (source is DataTable)
@@ -99,23 +102,42 @@ namespace CashDiscipline.Module.Clients
                         "Source must be of type IDataReader or DataTable. Type is {0}", source.GetType()));
                 #endregion
 
+                ExecutePersist(cmd);
+
+                #region Status Message
                 cmd.CommandText = FormatSql("SELECT COUNT(*) FROM {TempTable}");
                 rowCount = Convert.ToInt32(cmd.ExecuteScalar());
-
-                try
-                {
-                    cmd.CommandText = FormatSql(persistSql);
-                    cmd.ExecuteNonQuery();
-                }
-                catch (SqlException ex)
-                {
-                    throw new InvalidOperationException(string.Format(
-                        "SQL Exception: {0} at Line Number {1}-------\r\n{2}", ex.Message, ex.LineNumber, cmd.CommandText));
-                }
+                statusMessage = string.Format("{0} rows processed.", rowCount);
+                #endregion
             }
-            statusMessage = string.Format("{0} rows processed.", rowCount);
+
             return statusMessage;
 
+        }
+
+        private void ExecuteCreateTabe(SqlCommand cmd)
+        {
+            cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
+
+            cmd.CommandText = FormatSql(
+                "IF OBJECT_ID('tempdb..{TempTable}') IS NOT NULL DROP TABLE {TempTable}\r\n"
+                + createSql);
+            cmd.ExecuteNonQuery();
+
+        }
+
+        private void ExecutePersist(SqlCommand cmd)
+        {
+            try
+            {
+                cmd.CommandText = FormatSql(persistSql);
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw new InvalidOperationException(string.Format(
+                    "SQL Exception: {0} at Line Number {1}-------\r\n{2}", ex.Message, ex.LineNumber, cmd.CommandText));
+            }
         }
 
         #region IDisposable Support

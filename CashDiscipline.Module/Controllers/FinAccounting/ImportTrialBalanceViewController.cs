@@ -31,20 +31,12 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
 
             var paramObj = (ImportTrialBalanceParam)View.CurrentObject;
 
-            var tempTableName = "#TmpTrialBalanceViewController";
-            Func<string, string> formatSql = delegate (string sql)
-            {
-                return Smart.Format(sql, new
-                {
-                    FromDate = string.Format("{0:yyyy-MM-dd}", paramObj.FromDate.Date),
-                    ToDate = string.Format("{0:yyyy-MM-dd}", paramObj.ToDate.Date),
-                    TempTable = tempTableName
-                });
-            };
-
             var conn = (SqlConnection)((XPObjectSpace)ObjectSpace).Connection;
             using (var loader = new SqlServerLoader2(conn))
             {
+                loader.SqlStringReplacers.Add("FromDate", string.Format("{0:yyyy-MM-dd}", paramObj.FromDate.Date));
+                loader.SqlStringReplacers.Add("ToDate", string.Format("{0:yyyy-MM-dd}", paramObj.ToDate.Date));
+
                 loader.ColumnMappings.Add("Company", "Company");
                 loader.ColumnMappings.Add("Account", "Account");
                 loader.ColumnMappings.Add("BS or P&L", "BS or PL");
