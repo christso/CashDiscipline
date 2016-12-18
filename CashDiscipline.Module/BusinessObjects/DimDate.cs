@@ -20,6 +20,9 @@ namespace CashDiscipline.Module.BusinessObjects
         { }
 
         private DateTime _FullDate;
+
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime FullDate
         {
             get
@@ -34,6 +37,8 @@ namespace CashDiscipline.Module.BusinessObjects
 
 
         private int _DayOfMonth;
+        [ModelDefault("DisplayFormat", "0")]
+        [ModelDefault("EditMask", "0")]
         public int DayOfMonth
         {
             get
@@ -48,6 +53,8 @@ namespace CashDiscipline.Module.BusinessObjects
 
 
         private int _MonthNumberOfYear;
+        [ModelDefault("DisplayFormat", "0")]
+        [ModelDefault("EditMask", "0")]
         public int MonthNumberOfYear
         {
             get
@@ -62,6 +69,8 @@ namespace CashDiscipline.Module.BusinessObjects
 
 
         private int _Year;
+        [ModelDefault("DisplayFormat", "0")]
+        [ModelDefault("EditMask", "0")]
         public int Year
         {
             get
@@ -75,6 +84,8 @@ namespace CashDiscipline.Module.BusinessObjects
         }
 
         private int _DayOfWeekNumber;
+        [ModelDefault("DisplayFormat", "0")]
+        [ModelDefault("EditMask", "0")]
         public int DayOfWeekNumber
         {
             get
@@ -115,6 +126,8 @@ namespace CashDiscipline.Module.BusinessObjects
         }
 
         private DateTime _WeekEnding;
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime WeekEnding
         {
             get
