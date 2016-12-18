@@ -3,21 +3,22 @@ using DevExpress.Xpo;
 using DevExpress.Data.Filtering;
 using System.Collections.Generic;
 using System.ComponentModel;
+using DevExpress.ExpressApp.Model;
+using DevExpress.Persistent.BaseImpl;
+using DevExpress.ExpressApp;
+using DevExpress.Persistent.Base;
 
-namespace CashDiscipline.Module.BusinessObjects.VHAFinance
+namespace CashDiscipline.Module.BusinessObjects.FinAccounting
 {
-    public class TB_TrialBalance : XPLiteObject
+    [ImageName("BO_List")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
+    [ModelDefault("IsFooterVisible", "True")]
+    [DeferredDeletion(false)]
+    public class TB_TrialBalance : BaseObject
     {
         public TB_TrialBalance(Session session) : base(session) { }
         public override void AfterConstruction() { base.AfterConstruction(); }
 
-        Guid fOid;
-        [Key(true)]
-        public Guid Oid
-        {
-            get { return fOid; }
-            set { SetPropertyValue<Guid>("Oid", ref fOid, value); }
-        }
         string fCompany;
         [Size(10)]
         public string Company
@@ -100,6 +101,8 @@ namespace CashDiscipline.Module.BusinessObjects.VHAFinance
             set { SetPropertyValue<decimal>("AUDEndBal", ref fAUDEndBal, value); }
         }
         DateTime fDateKey;
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime DateKey
         {
             get { return fDateKey; }

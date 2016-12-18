@@ -36,8 +36,8 @@
           <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="4" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Cash Setup" Index="5" IsNewNode="True" />
-      <Item Id="Forex" Index="6" IsNewNode="True">
+      <Item Id="Cash Setup" Index="4" IsNewNode="True" />
+      <Item Id="Forex" Index="5" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ForexCounterparty" ViewId="ForexCounterparty_ListView" Caption="Forex Counterparty" Index="0" IsNewNode="True" />
           <Item Id="Forex Rates" ViewId="ForexRate_ListView" Index="1" IsNewNode="True" />
@@ -46,7 +46,14 @@
           <Item Id="ForexStdSettleAccount" ViewId="ForexStdSettleAccount_ListView" Caption="Standard Settlement Accounts" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="WorkingCapital" Caption="Working Capital" Index="8" IsNewNode="True">
+      <Item Id="TrialBalance" Caption="Trial Balance" Index="6" IsNewNode="True">
+        <Items IsNewNode="True">
+          <Item Id="TB_Account" ViewId="TB_Account_ListView" Caption="TB Account" Index="1" IsNewNode="True" />
+          <Item Id="TB_Company" ViewId="TB_Company_ListView" Caption="TB Company" Index="2" IsNewNode="True" />
+          <Item Id="TB_TrialBalance" ViewId="TB_TrialBalance_ListView" Caption="TB Trial Balance" Index="3" IsNewNode="True" />
+        </Items>
+      </Item>
+      <Item Id="WorkingCapital" Caption="Working Capital" Index="7" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="ApInvoiceBalance" ViewId="ApInvoiceBalance_ListView" Index="0" Caption="AP Invoice Balance" IsNewNode="True" />
           <Item Id="ApPoReceipt" Caption="AP Po Receipt" ViewId="ApPoReceipt_ListView" Index="1" IsNewNode="True" />
@@ -54,12 +61,13 @@
           <Item Id="ApVendorSitePaymentTerms" Caption="AP Vendor Site Payment Terms" Index="3" ViewId="ApVendorSitePaymentTerms_ListView" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="System Internals" Index="9" Caption="System Internals" IsNewNode="True">
+      <Item Id="System Internals" Index="8" Caption="System Internals" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
           <Item Id="FinGenJournalParam" ViewId="FinGenJournalParam_ListView" Index="4" IsNewNode="True" />
         </Items>
       </Item>
+      <Item Id="Import" Index="9" />
     </Items>
   </NavigationItems>
   <Options DataAccessMode="Server" />
