@@ -158,6 +158,7 @@ namespace CashDiscipline.Module.Logic.Cash
                 new SqlDeclareClause("AllocateFixTagType", "int", "1"),
                 new SqlDeclareClause("ScheduleInFixTagType", "int", "2"),
                 new SqlDeclareClause("ScheduleOutFixTagType", "int", "3"),
+                new SqlDeclareClause("BasicFixTagType", "int", "4"),
                 new SqlDeclareClause("ForecastStatus", "int", "0"),
                 new SqlDeclareClause("Snapshot", "uniqueidentifier", @"COALESCE(
 	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam WHERE GCRecord IS NULL),
@@ -568,8 +569,8 @@ WHEN FixTag.FixTagType IN (@ScheduleOutFixTagType)
 	AND cf.FixRank > 2 AND cf.TranDate <= @ApayableLockdownDate
 THEN @ApayableNextLockdownDate
 
--- move business forecast to next week 
-WHEN FixTag.FixTagType IN (@AllocateFixTagType)
+-- move business and planning forecast to next week 
+WHEN FixTag.FixTagType IN (@AllocateFixTagType, @BasicFixTagType)
 	AND cf.FixRank > 2 AND cf.TranDate <= @MaxActualDate
 THEN DATEADD(d, 7, @MaxActualDate)
 

@@ -80,6 +80,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         [DevExpress.ExpressApp.DC.XafDisplayName("Schedule In")]
         ScheduleIn,
         [DevExpress.ExpressApp.DC.XafDisplayName("Schedule Out")]
-        ScheduleOut
+        ScheduleOut,
+        [DevExpress.ExpressApp.DC.XafDisplayName("Basic")]
+        Basic
     }
 }
