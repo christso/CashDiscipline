@@ -424,11 +424,117 @@ namespace CashDiscipline.UnitTests
             Assert.AreEqual(ft1, newFt.OrigTrade);
             Assert.AreEqual(pdCounterCcyAmt1, newFt.CounterCcyAmt);
             Assert.AreEqual(pdRate1, newFt.Rate);
-            Assert.AreEqual(pdPrimaryCcyAmt1, newFt.PrimaryCcyAmt);
+            Assert.AreEqual(Math.Round(pdPrimaryCcyAmt1,2), Math.Round(newFt.PrimaryCcyAmt,2));
             Assert.AreEqual(pdValueDate1, newFt.ValueDate);
-            Assert.AreEqual(-pdCounterCcyAmt1, newFt.ReverseTrade.CounterCcyAmt);
+            Assert.AreEqual(Math.Round(-pdCounterCcyAmt1,2), Math.Round(newFt.ReverseTrade.CounterCcyAmt,2));
             Assert.AreEqual(ft1.Rate, newFt.ReverseTrade.Rate);
-            Assert.AreEqual(Math.Round(-pdCounterCcyAmt1 / ft1.Rate, 2), newFt.ReverseTrade.PrimaryCcyAmt);
+            Assert.AreEqual(Math.Round(-pdCounterCcyAmt1 / ft1.Rate, 2), Math.Round(newFt.ReverseTrade.PrimaryCcyAmt,2));
+
+            // Assert cashflow object values
+            var cfs2 = ObjectSpace.GetObjects<CashFlow>();
+            var couCf2 = cfs2.FirstOrDefault(x => x == newFt.CounterCashFlow);
+            var priCf2 = cfs2.FirstOrDefault(x => x == newFt.PrimaryCashFlow);
+
+            Assert.AreEqual(pdPrimaryCcyAmt1, couCf2.FunctionalCcyAmt);
+            Assert.AreEqual(-pdPrimaryCcyAmt1, priCf2.FunctionalCcyAmt);
+
+            #endregion
+        }
+
+
+        [Test]
+        public void PartPredeliverForexTrade()
+        {
+            #region Arrange
+            var ccyAUD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
+            var ccyUSD = ObjectSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "USD"));
+
+            // create counterparty
+            var fxCounterparty = ObjectSpace.CreateObject<ForexCounterparty>();
+            fxCounterparty.Name = "ANZ";
+            var counterparty = ObjectSpace.FindObject<Counterparty>(CriteriaOperator.Parse("Name = ?", "ANZ"));
+            if (counterparty == null)
+            {
+                counterparty = ObjectSpace.CreateObject<Counterparty>();
+                counterparty.Name = "ANZ";
+            }
+            fxCounterparty.CashFlowCounterparty = counterparty;
+
+            // create accounts
+            var usdAccount = ObjectSpace.CreateObject<Account>();
+            usdAccount.Name = "VHA ANZ USD";
+            usdAccount.Currency = ccyUSD;
+
+            var audAccount = ObjectSpace.CreateObject<Account>();
+            audAccount.Name = "VHA ANZ AUD";
+            audAccount.Currency = ccyAUD;
+
+            // create standard settlement accounts
+            var usdSsa = ObjectSpace.CreateObject<ForexStdSettleAccount>();
+            usdSsa.Account = usdAccount;
+            usdSsa.Counterparty = fxCounterparty;
+            usdSsa.Currency = ccyUSD;
+
+            var audSsa = ObjectSpace.CreateObject<ForexStdSettleAccount>();
+            audSsa.Account = audAccount;
+            audSsa.Counterparty = fxCounterparty;
+            audSsa.Currency = ccyAUD;
+
+            // create forex trade 1
+            var ft1 = ObjectSpace.CreateObject<ForexTrade>();
+            ft1.CalculateEnabled = true;
+            ft1.ValueDate = new DateTime(2013, 12, 31);
+            ft1.PrimaryCcy = ccyAUD;
+            ft1.CounterCcy = ccyUSD;
+            ft1.CounterSettleAccount = usdAccount;
+            ft1.PrimarySettleAccount = audAccount;
+            ft1.Rate = 0.9M;
+            ft1.CounterCcyAmt = 1000;
+            ft1.Counterparty = fxCounterparty;
+
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Act
+
+            // define values
+            const decimal pdCounterCcyAmt1 = 500;
+            DateTime pdValueDate1 = new DateTime(2013, 11, 30);
+            decimal pdRate1 = 0.92M;
+            decimal pdPrimaryCcyAmt1 = Math.Round(pdCounterCcyAmt1 / pdRate1, 2);
+
+            // assign values to new forex trade
+            ForexTrade newFt = ForexTradeLogic.Initialize(ft1);
+            newFt.CounterCcyAmt = pdCounterCcyAmt1;
+            newFt.ValueDate = pdValueDate1;
+            newFt.Rate = pdRate1;
+            newFt.PrimaryCcyAmt = newFt.CounterCcyAmt / newFt.Rate;
+
+            ForexTradeLogic.UpdateReverseForexTrade(newFt); //HACK
+
+            ObjectSpace.CommitChanges();
+
+            var uploader = new ForexToCashFlowUploader(ObjectSpace);
+            uploader.Process();
+            ObjectSpace.Refresh();
+            ft1 = ObjectSpace.GetObjectByKey<ForexTrade>(ft1.Oid);
+            newFt = ObjectSpace.GetObjectByKey<ForexTrade>(newFt.Oid);
+
+            #endregion
+
+            #region Assert
+
+            // Assert predelivery object values
+
+            Assert.AreEqual(ft1, newFt.OrigTrade);
+            Assert.AreEqual(pdCounterCcyAmt1, newFt.CounterCcyAmt);
+            Assert.AreEqual(pdRate1, newFt.Rate);
+            Assert.AreEqual(Math.Round(pdPrimaryCcyAmt1, 2), Math.Round(newFt.PrimaryCcyAmt, 2));
+            Assert.AreEqual(pdValueDate1, newFt.ValueDate);
+            Assert.AreEqual(Math.Round(-pdCounterCcyAmt1, 2), Math.Round(newFt.ReverseTrade.CounterCcyAmt, 2));
+            Assert.AreEqual(ft1.Rate, newFt.ReverseTrade.Rate);
+            Assert.AreEqual(Math.Round(-pdCounterCcyAmt1 / ft1.Rate, 2), Math.Round(newFt.ReverseTrade.PrimaryCcyAmt, 2));
 
             // Assert cashflow object values
             var cfs2 = ObjectSpace.GetObjects<CashFlow>();

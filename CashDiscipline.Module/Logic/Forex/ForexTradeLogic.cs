@@ -37,11 +37,12 @@ namespace CashDiscipline.Module.Logic.Forex
             revFt.TradeDate = revFt.CreationDate;
 
             newFt.ReverseTrade = revFt;
-            UpdateReverseTrade(newFt);
+            InitializeReverseForexTrade(newFt);
+        
             return newFt;
         }
 
-        public static void UpdateReverseTrade(ForexTrade newFt)
+        public static void InitializeReverseForexTrade(ForexTrade newFt)
         {
             if (newFt.ReverseTrade == null) return;
             newFt.ReverseTrade.CounterCcyAmt = -newFt.CounterCcyAmt;
@@ -56,5 +57,17 @@ namespace CashDiscipline.Module.Logic.Forex
             amendFt.OrigTrade = fromFt;
             return amendFt;
         }
+
+        // Updates the associated Reverse Forex Trade given a New Forex Trade
+        public static void UpdateReverseForexTrade(ForexTrade newFt)
+        {
+            var revFt = newFt.ReverseTrade;
+            if (revFt == null) return;
+
+            revFt.CounterCcyAmt = -newFt.CounterCcyAmt;
+            revFt.CounterCcy = newFt.CounterCcy;
+            revFt.PrimaryCcyAmt = Math.Round(revFt.CounterCcyAmt / revFt.Rate,2);
+            
+        }     
     }
 }

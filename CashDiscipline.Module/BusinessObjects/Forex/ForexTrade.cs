@@ -131,10 +131,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
             {
                 if (SetPropertyValue("PrimaryCcyAmt", ref _PrimaryCcyAmt, value))
                 {
-                    //if (!IsLoading && !IsSaving && CalculateEnabled)
-                    //{
-                    //    UpdateCounterCcyAmt();
-                    //}
                 }
             }
         }
@@ -171,22 +167,6 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                 {
                     if (!IsLoading && !IsSaving && CalculateEnabled)
                     {
-                        //var obj = this;
-                        //var fromCcy = _CounterCcy;
-                        //var fromAmt = _CounterCcyAmt;
-                        //if (fromCcy == null)
-                        //{
-                        //    return;
-                        //}
-                        //else if (oldCounterCcy == null)
-                        //{
-                        //    UpdatePrimaryCcyAmt();
-                        //}
-                        //else if (obj.ValueDate != default(DateTime))
-                        //{
-                        //    //UpdatePrimaryCcyAmt();
-                        //    CalculatePrimaryCcyAmt(fromCcy, fromAmt);
-                        //}
                         UpdateCounterSettleAccount();
                     }
                 }
@@ -209,8 +189,7 @@ namespace CashDiscipline.Module.BusinessObjects.Forex
                 {
                     if (!IsLoading && !IsSaving && CalculateEnabled)
                     {
-                        ForexTradeLogic.UpdateReverseTrade(this);
-                        //UpdatePrimaryCcyAmt();
+                        ForexTradeLogic.UpdateReverseForexTrade(this);
                     }
                 }
             }
