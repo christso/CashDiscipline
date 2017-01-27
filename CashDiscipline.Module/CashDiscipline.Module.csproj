@@ -269,6 +269,9 @@
     <Compile Include="Controllers\FinAccounting\FinGenJournalParamViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\FinAccounting\TrialBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\Forex\ForexRateViewController.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -410,6 +413,7 @@
     <Compile Include="ParamObjects\Import\ImportTrialBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportVendorSitePaymentTermsParam.cs" />
     <EmbeddedResource Include="Scripts\CreateDimDateProcs.sql" />
+    <EmbeddedResource Include="Scripts\ReindexCashFlow.sql" />
     <Compile Include="Service References\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

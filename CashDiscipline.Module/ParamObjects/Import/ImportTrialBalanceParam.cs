@@ -63,9 +63,9 @@ namespace CashDiscipline.Module.ParamObjects.Import
             }
         }
 
-        public static ImportApPmtDistnParam GetInstance(IObjectSpace objectSpace)
+        public static ImportTrialBalanceParam GetInstance(IObjectSpace objectSpace)
         {
-            return BaseObjectHelper.GetInstance<ImportApPmtDistnParam>(objectSpace);
+            return BaseObjectHelper.GetInstance<ImportTrialBalanceParam>(objectSpace);
         }
     }
 }
