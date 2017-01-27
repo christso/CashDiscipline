@@ -369,6 +369,65 @@ namespace CashDiscipline.UnitTests
 
         }
 
+        [TestCase(FinMapAlgorithmType.SQL)]
+        public void GenerateJournals_GSTFromStmt(FinMapAlgorithmType algoType)
+        {
+            #region Prepare
+            var journalGroup = ObjectSpace.CreateObject<FinJournalGroup>();
+            journalGroup.Name = "VF Bank";
+
+            var account = ObjectSpace.CreateObject<Account>();
+            account.Name = "VHA ANZ 94902";
+            var currency = ObjectSpace.CreateObject<Currency>();
+            currency.Name = "AUD";
+
+            var glDescDateFormat = "dd-mmm-yy";
+            var bankGlAccount = "210159";
+
+            var stmtSource = ObjectSpace.GetObjectByKey<CashFlowSource>(SetOfBooks.CachedInstance.BankStmtCashFlowSource.Oid);
+
+            #endregion
+
+            #region Cash Flow Mapping
+
+            var finAccount = ObjectSpace.CreateObject<FinAccount>();
+            finAccount.Account = account;
+            finAccount.GlAccount = bankGlAccount;
+            finAccount.JournalGroup = journalGroup;
+
+            var activity = ObjectSpace.CreateObject<Activity>();
+            activity.Name = "Kogan Rcpt";
+            var glAccount1 = "232004";
+
+            var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity1.FromActivity = activity;
+            finActivity1.ToActivity = activity;
+            finActivity1.FunctionalCcyAmtExpr = "{FA} * 10/11";
+            finActivity1.GlDescription = "Kogan Rcpt";
+            finActivity1.GlDescDateFormat = glDescDateFormat;
+            finActivity1.GlAccount = glAccount1;
+            finActivity1.JournalGroup = journalGroup;
+            finActivity1.TargetObject = FinJournalTargetObject.BankStmt;
+            finActivity1.Algorithm = algoType;
+            finActivity1.Enabled = true;
+
+            var glAccount2 = "303400";
+            var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity2.FromActivity = activity;
+            finActivity2.ToActivity = activity;
+            finActivity2.FunctionalCcyAmtExpr = "{FA} * 1/11";
+            finActivity2.GlDescription = "Kogan Rcpt";
+            finActivity2.GlDescDateFormat = glDescDateFormat;
+            finActivity2.GlAccount = glAccount2;
+            finActivity2.JournalGroup = journalGroup;
+            finActivity2.TargetObject = FinJournalTargetObject.BankStmt;
+            finActivity2.Algorithm = algoType;
+            finActivity2.Enabled = true;
+
+            #endregion
+
+        }
+
         //[TestCase(FinMapAlgorithmType.SQL)]
         [TestCase(FinMapAlgorithmType.ORM)]
         public void GenerateJournals_CashFlowReclass_MappedToJournals(FinMapAlgorithmType algoType)
