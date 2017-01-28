@@ -103,7 +103,7 @@ SELECT
 SELECT 
 	bs.Oid,
 	FinActivity.Oid AS FinActivity,
-    ROW_NUMBER() OVER (PARTITION BY FinActivity.JournalGroup, bs.Oid ORDER BY bs.Oid) AS CalcRow
+    ROW_NUMBER() OVER (PARTITION BY FinActivity.JournalGroup, bs.Oid ORDER BY FinActivity.RowIndex) AS CalcRow
 FROM BankStmt bs
 JOIN [FinActivity] ON bs.Activity = FinActivity.FromActivity
 WHERE FinActivity.GCRecord IS NULL AND bs.GCRecord IS NULL

@@ -400,7 +400,7 @@ namespace CashDiscipline.UnitTests
 
             var glAccount1 = "232004";
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
-            finActivity1.RowIndex = 80;
+            finActivity1.RowIndex = 81;
             finActivity1.FromActivity = activity;
             finActivity1.ToActivity = activity;
             finActivity1.FunctionalCcyAmtExpr = "{FA} * 10/11";
