@@ -370,13 +370,6 @@ namespace CashDiscipline.UnitTests
         }
 
         [TestCase(FinMapAlgorithmType.SQL)]
-        [TestCase(FinMapAlgorithmType.SQL)]
-        [TestCase(FinMapAlgorithmType.SQL)]
-        [TestCase(FinMapAlgorithmType.SQL)]
-        [TestCase(FinMapAlgorithmType.SQL)]
-        [TestCase(FinMapAlgorithmType.SQL)]
-        [TestCase(FinMapAlgorithmType.SQL)]
-        [TestCase(FinMapAlgorithmType.SQL)]
         public void GenerateJournals_GSTFromStmt(FinMapAlgorithmType algoType)
         {
             #region Prepare
@@ -404,9 +397,10 @@ namespace CashDiscipline.UnitTests
 
             var activity = ObjectSpace.CreateObject<Activity>();
             activity.Name = "Kogan Rcpt";
-            var glAccount1 = "232004";
 
+            var glAccount1 = "232004";
             var finActivity1 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity1.RowIndex = 80;
             finActivity1.FromActivity = activity;
             finActivity1.ToActivity = activity;
             finActivity1.FunctionalCcyAmtExpr = "{FA} * 10/11";
@@ -420,6 +414,7 @@ namespace CashDiscipline.UnitTests
 
             var glAccount2 = "303400";
             var finActivity2 = ObjectSpace.CreateObject<FinActivity>();
+            finActivity2.RowIndex = 81;
             finActivity2.FromActivity = activity;
             finActivity2.ToActivity = activity;
             finActivity2.FunctionalCcyAmtExpr = "{FA} * 1/11";
@@ -448,6 +443,8 @@ namespace CashDiscipline.UnitTests
             #endregion
 
             #region Generate Journals
+            ObjectSpace.CommitChanges();
+
             // Params
             var glParam = ObjectSpace.CreateObject<FinGenJournalParam>();
             glParam.FromDate = new DateTime(2017, 01, 01);
