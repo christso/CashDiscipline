@@ -356,7 +356,7 @@ namespace CashDiscipline.UnitTests
 
             #endregion
 
-            #region
+            #region Assert
 
             var gls = ObjectSpace.GetObjects<GenLedger>();
 
@@ -369,6 +369,13 @@ namespace CashDiscipline.UnitTests
 
         }
 
+        [TestCase(FinMapAlgorithmType.SQL)]
+        [TestCase(FinMapAlgorithmType.SQL)]
+        [TestCase(FinMapAlgorithmType.SQL)]
+        [TestCase(FinMapAlgorithmType.SQL)]
+        [TestCase(FinMapAlgorithmType.SQL)]
+        [TestCase(FinMapAlgorithmType.SQL)]
+        [TestCase(FinMapAlgorithmType.SQL)]
         [TestCase(FinMapAlgorithmType.SQL)]
         public void GenerateJournals_GSTFromStmt(FinMapAlgorithmType algoType)
         {
@@ -426,6 +433,54 @@ namespace CashDiscipline.UnitTests
 
             #endregion
 
+            #region Transactions
+
+            var bankStmt1 = ObjectSpace.CreateObject<BankStmt>();
+            bankStmt1.TranDate = new DateTime(2017, 1, 3);
+            bankStmt1.Account = account;
+            bankStmt1.Activity = activity;
+            bankStmt1.TranAmount = 319747.05M;
+            bankStmt1.TranDescription = "ANZ EFTPOS                              VODAFONE            POS3254069          EFF DATE 31 DEC 16";
+            bankStmt1.CounterCcyAmt = bankStmt1.TranAmount;
+            bankStmt1.FunctionalCcyAmt = bankStmt1.TranAmount;
+            bankStmt1.CounterCcy = currency;
+
+            #endregion
+
+            #region Generate Journals
+            // Params
+            var glParam = ObjectSpace.CreateObject<FinGenJournalParam>();
+            glParam.FromDate = new DateTime(2017, 01, 01);
+            glParam.ToDate = new DateTime(2017, 01, 31);
+            var journalGroupParam = ObjectSpace.CreateObject<FinJournalGroupParam>();
+            journalGroupParam.JournalGroup = journalGroup;
+
+            ObjectSpace.CommitChanges();
+
+            journalGroupParam.GenJournalParam = glParam;
+
+            var jg = new ParamJournalGenerator(glParam, ObjectSpace);
+            jg.Execute();
+            ObjectSpace.CommitChanges();
+
+            #endregion
+
+            #region Assert
+
+            var gls = ObjectSpace.GetObjects<GenLedger>();
+
+            Assert.AreEqual(Math.Round(bankStmt1.TranAmount,2),
+                Math.Round(
+                        gls.Where(x => x.GlAccount == bankGlAccount && x.SrcBankStmt != null).Sum(x => x.FunctionalCcyAmt),2));
+
+            var gstAmount = bankStmt1.TranAmount * 1 / 11;
+            var netAmount = bankStmt1.TranAmount - gstAmount;
+
+            Assert.AreEqual(-1 * Math.Round(gstAmount,2),
+                Math.Round(
+                    gls.Where(x => x.GlAccount == glAccount2 && x.SrcBankStmt != null).Sum(x => x.FunctionalCcyAmt),2));
+
+            #endregion
         }
 
         //[TestCase(FinMapAlgorithmType.SQL)]
