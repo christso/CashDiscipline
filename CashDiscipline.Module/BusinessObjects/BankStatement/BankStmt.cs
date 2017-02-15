@@ -244,7 +244,8 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
         }
 
         private DateTime _TimeEntered;
-        [ModelDefault("DisplayFormat", "dd-MMM-yy hh:mm:ss")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy HH:mm:ss")]
+        [ModelDefault("EditMask", "dd-MMM-yy HH:mm:ss")]
         public DateTime TimeEntered
         {
             get
