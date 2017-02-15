@@ -79,7 +79,7 @@ namespace CashDiscipline.Module.Clients
                 cmd.ExecuteNonQuery();
 
                 bc.DestinationTableName = tempTableName;
-
+                
                 #region write source to destination
                 if (source is IDataReader)
                     bc.WriteToServer((IDataReader)source);

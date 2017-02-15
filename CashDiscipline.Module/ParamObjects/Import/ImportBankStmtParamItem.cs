@@ -88,7 +88,7 @@ namespace CashDiscipline.Module.ParamObjects.Import
                 SetPropertyValue("FilePath", ref _FilePath, value);
             }
         }
-        	
+
         private ImportBankStmtParam importBankStmtParam;
         [Association("ImportBankStmtParam-ImportBankStmtParamItems")]
         public ImportBankStmtParam ImportBankStmtParam
@@ -96,6 +96,5 @@ namespace CashDiscipline.Module.ParamObjects.Import
             get { return importBankStmtParam; }
             set { SetPropertyValue("ImportBankStmtParam", ref importBankStmtParam, value); }
         }
-
     }
 }

@@ -97,7 +97,7 @@ NEWID() AS Oid,
 [AUD End Bal],
 CAST ( '1-' + [Period Name] AS datetime ) AS DateKey
 FROM {TempTable}";
-                var sourceReader = DataObjectFactory.CreateReaderFromCsv(paramObj.FilePath);
+                var sourceReader = DataObjectFactory.CreateCachedReaderFromCsv(paramObj.FilePath);
 
                 messagesText = loader.Execute(sourceReader);
             }

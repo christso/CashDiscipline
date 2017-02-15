@@ -24,10 +24,15 @@ namespace CashDiscipline.Module.Clients
             }
         }
 
-        public static IDataReader CreateReaderFromCsv(string filePath)
+        public static CachedCsvReader CreateCachedReaderFromCsv(string filePath, bool hasHeaders = true)
         {
             FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            return new CachedCsvReader(new StreamReader(stream), true);
+            return new CachedCsvReader(new StreamReader(stream), hasHeaders);
+        }
+        public static CsvReader CreateReaderFromCsv(string filePath, bool hasHeaders = true)
+        {
+            FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            return new CsvReader(new StreamReader(stream), hasHeaders);
         }
     }
 }

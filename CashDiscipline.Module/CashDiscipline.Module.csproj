@@ -380,6 +380,7 @@
     <Compile Include="Logic\Forex\WbcForexRateImporter.cs" />
     <Compile Include="AppNavigation\ActionPortalEventArgs.cs" />
     <Compile Include="AppNavigation\ActionPortalItem.cs" />
+    <Compile Include="Logic\Import\BankStmtImporter2.cs" />
     <Compile Include="Logic\Import\VendorSitePaymentTermsImporter.cs" />
     <Compile Include="Logic\SqlAlgorithm.cs" />
     <Compile Include="Logic\SqlMap\Mapper.cs" />

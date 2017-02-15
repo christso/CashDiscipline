@@ -14,6 +14,7 @@ using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.Logic;
 using System.Linq;
 using CashDiscipline.Module.ServiceReference1;
+using CashDiscipline.Module.Logic.Import;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -27,6 +28,22 @@ namespace CashDiscipline.Module.Controllers.Cash
             var importAction = new SimpleAction(this, "ImportBankStmtAction", PredefinedCategory.ObjectsCreation);
             importAction.Caption = "Run Import";
             importAction.Execute += ImportAction_Execute;
+
+            var importAction2 = new SimpleAction(this, "ImportBankStmtAction2", PredefinedCategory.ObjectsCreation);
+            importAction2.Caption = "Run Import 2";
+            importAction2.Execute += ImportAction_Execute2;
+        }
+
+        private void ImportAction_Execute2(object sender, SimpleActionExecuteEventArgs e)
+        {
+            try
+            {
+                Import2();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
+            }
         }
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -39,6 +56,19 @@ namespace CashDiscipline.Module.Controllers.Cash
             {
                 throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
             }
+        }
+
+        public void Import2()
+        {
+            var paramObj = View.CurrentObject as ImportBankStmtParam;
+
+            var importer = new BankStmtImporter2();
+            var messagesText = importer.Execute(paramObj.ImportBankStmtParamItems);
+
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                messagesText,
+                    "Import Completed Successfully"
+                );
         }
 
         public void Import()

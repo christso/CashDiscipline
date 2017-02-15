@@ -47,7 +47,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             var paramObj = View.CurrentObject as ImportApPmtDistnParam;
             var objSpace = (XPObjectSpace)ObjectSpace;
 
-            using (var csvReader = DataObjectFactory.CreateReaderFromCsv(paramObj.FilePath))
+            using (var csvReader = DataObjectFactory.CreateCachedReaderFromCsv(paramObj.FilePath))
             {
                 var loader = new SqlServerLoader((SqlConnection)objSpace.Connection);
 
