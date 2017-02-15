@@ -28,22 +28,7 @@ namespace CashDiscipline.Module.Controllers.Cash
             var importAction = new SimpleAction(this, "ImportBankStmtAction", PredefinedCategory.ObjectsCreation);
             importAction.Caption = "Run Import";
             importAction.Execute += ImportAction_Execute;
-
-            var importAction2 = new SimpleAction(this, "ImportBankStmtAction2", PredefinedCategory.ObjectsCreation);
-            importAction2.Caption = "Run Import 2";
-            importAction2.Execute += ImportAction_Execute2;
-        }
-
-        private void ImportAction_Execute2(object sender, SimpleActionExecuteEventArgs e)
-        {
-            try
-            {
-                Import2();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
-            }
+   
         }
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -57,8 +42,8 @@ namespace CashDiscipline.Module.Controllers.Cash
                 throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
             }
         }
-
-        public void Import2()
+        
+        public void Import()
         {
             var paramObj = View.CurrentObject as ImportBankStmtParam;
 
@@ -67,36 +52,6 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                 messagesText,
-                    "Import Completed Successfully"
-                );
-        }
-
-        public void Import()
-        {
-            var paramObj = View.CurrentObject as ImportBankStmtParam;
-
-            var importer = new BankStmtImporter();
-
-            var result = importer.Execute(paramObj.ImportBankStmtParamItems);
-
-            string messagesText = string.Empty;
-            foreach (var childResult in result)
-            {
-                if (!string.IsNullOrEmpty(messagesText))
-                    messagesText += "\r\n\r\n";
-                messagesText += string.Format("## {0}: {1} ---------------\r\n", 
-                    childResult.OperationStatus.ToString().ToUpper(),
-                    childResult.PackageName);
-                messagesText += CashDiscipline.Module.Logic.SqlServer.SsisUtil.GetMessageText(childResult.SsisMessages);
-            }
-
-            int successCount = result.Where(x => x.OperationStatus == SsisOperationStatus.Success).Count();
-            int failCount = result.Count - successCount;
-            
-
-            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                messagesText,
-                    failCount > 0 ? string.Format("Import Completed with {0} Failures", failCount) :
                     "Import Completed Successfully"
                 );
         }
