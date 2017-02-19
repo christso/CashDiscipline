@@ -463,6 +463,20 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             }
         }
 
+        private int _VendorNumber;
+        [ModelDefault("DisplayFormat", "f0")]
+        public int VendorNumber
+        {
+            get
+            {
+                return _VendorNumber;
+            }
+            set
+            {
+                SetPropertyValue("VendorNumber", ref _VendorNumber, value);
+            }
+        }
+
         private CashFlow _CashFlow;
         [Association("CashFlow-ApPmtDistns")]
         public CashFlow CashFlow

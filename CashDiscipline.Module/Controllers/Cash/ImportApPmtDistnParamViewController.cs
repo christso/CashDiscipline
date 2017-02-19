@@ -89,7 +89,8 @@ namespace CashDiscipline.Module.Controllers.Cash
 [Capex Number] nvarchar(50),
 [Invoice Id] int,
 [Expenditure Type] nvarchar(255),
-[Project Number] nvarchar(255)
+[Project Number] nvarchar(255),
+[Vendor Number] nvarchar(255)
 )";
                 loader.PersistSql = @"/* Insert Lookups */
 INSERT INTO ApSource (Oid, Name)
@@ -209,6 +210,7 @@ INSERT INTO ApPmtDistn
 [ProjectNumber],
 [InvoiceId],
 [DistributionLineNumber],
+[VendorNumber],
 [InputSource]
 )
 SELECT
@@ -248,6 +250,7 @@ tp.[Invoice Date],
 tp.[Expenditure Type],
 TRY_CONVERT(int, tp.[Project Number]),
 tp.[Invoice Id],
+tp.[Vendor Number],
 tp.[Distribution Line Number],
 0 AS InputSource
 FROM {TempTable} tp";
