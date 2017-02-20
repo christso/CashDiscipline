@@ -49,7 +49,7 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             using (var csvReader = DataObjectFactory.CreateCachedReaderFromCsv(paramObj.FilePath))
             {
-                var loader = new SqlServerLoader((SqlConnection)objSpace.Connection);
+                var loader = new SqlServerLoader2((SqlConnection)objSpace.Connection);
 
                 loader.CreateSql = @"CREATE TABLE {TempTable} (
 [Actual Payment Date] date,
@@ -90,7 +90,7 @@ namespace CashDiscipline.Module.Controllers.Cash
 [Invoice Id] int,
 [Expenditure Type] nvarchar(255),
 [Project Number] nvarchar(255),
-[Vendor Number] nvarchar(255)
+[Vendor Number] nvarchar(100)
 )";
                 loader.PersistSql = @"/* Insert Lookups */
 INSERT INTO ApSource (Oid, Name)
@@ -210,7 +210,7 @@ INSERT INTO ApPmtDistn
 [ProjectNumber],
 [InvoiceId],
 [DistributionLineNumber],
-[VendorNumber],
+--[VendorNumber],
 [InputSource]
 )
 SELECT
@@ -250,7 +250,7 @@ tp.[Invoice Date],
 tp.[Expenditure Type],
 TRY_CONVERT(int, tp.[Project Number]),
 tp.[Invoice Id],
-tp.[Vendor Number],
+--tp.[Vendor Number],
 tp.[Distribution Line Number],
 0 AS InputSource
 FROM {TempTable} tp";

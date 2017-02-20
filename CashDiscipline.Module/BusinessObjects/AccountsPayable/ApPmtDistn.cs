@@ -463,9 +463,9 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             }
         }
 
-        private int _VendorNumber;
+        private string _VendorNumber;
         [ModelDefault("DisplayFormat", "f0")]
-        public int VendorNumber
+        public string VendorNumber
         {
             get
             {
