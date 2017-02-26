@@ -49,8 +49,49 @@ namespace CashDiscipline.Module.Controllers.Cash
 
             using (var csvReader = DataObjectFactory.CreateCachedReaderFromCsv(paramObj.FilePath))
             {
+                csvReader.Columns = new List<LumenWorks.Framework.IO.Csv.Column>
+                {
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Actual Payment Date", Type = typeof(DateTime) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Due Date", Type = typeof(DateTime) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Source", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Capex Opex", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Org Name", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Bank Account Name", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Pay Group", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Inv Source", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Vendor Name", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Company", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Account", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Cost Centre", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Product", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Sales Channel", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Country", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Intercompany", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Project", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Location", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Po Num", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Num", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Creation Date", Type = typeof(DateTime) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Distribution Line Number", Type = typeof(int) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Actual Payment Amount Fx SUM", Type = typeof(double) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Amount Aud SUM", Type = typeof(double) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Number", Type = typeof(int) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Batch Name", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Method", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Currency", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Creation Date", Type = typeof(DateTime) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Line Type Lookup Code", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Line Desc", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Tax Code", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Currency", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Date", Type = typeof(DateTime) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Capex Number", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Id", Type = typeof(int) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Expenditure Type", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Project Number", Type = typeof(string) },
+                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Vendor Number", Type = typeof(string) }
+                };
                 var loader = new SqlServerLoader2((SqlConnection)objSpace.Connection);
-
                 loader.CreateSql = @"CREATE TABLE {TempTable} (
 [Actual Payment Date] date,
 [Invoice Due Date] date,
@@ -208,9 +249,9 @@ INSERT INTO ApPmtDistn
 [InvoiceDate],
 [ExpenditureType],
 [ProjectNumber],
+[VendorNumber],
 [InvoiceId],
 [DistributionLineNumber],
---[VendorNumber],
 [InputSource]
 )
 SELECT
@@ -249,8 +290,8 @@ tp.[Tax Code],
 tp.[Invoice Date],
 tp.[Expenditure Type],
 TRY_CONVERT(int, tp.[Project Number]),
+tp.[Vendor Number],
 tp.[Invoice Id],
---tp.[Vendor Number],
 tp.[Distribution Line Number],
 0 AS InputSource
 FROM {TempTable} tp";
