@@ -33,10 +33,35 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             importAction.Caption = "Import";
             importAction.Execute += ImportAction_Execute;
 
+            var reportAction = new SimpleAction(this, "ReportArOpenInvoicesAction", PredefinedCategory.ObjectsCreation);
+            reportAction.Caption = "Process Report";
+            reportAction.Execute += ReportAction_Execute;
 
             var resetAction = new SimpleAction(this, "ResetImportArOpenInvoicesAction", PredefinedCategory.ObjectsCreation);
             resetAction.Caption = "Reset";
             resetAction.Execute += ResetAction_Execute;
+        
+        }
+
+        private void ReportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            string serverName = Constants.SsasServerName;
+            var processor = new AdomdProcessor(serverName);
+            processor.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""ArOpenInvoices""
+      }
+    ]
+  }
+}");
+
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                "Process Report Successful",
+                "Process Report Successful"
+            );
         }
 
         private void ResetAction_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -116,7 +141,8 @@ FROM {TempTable}
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
             var paramObj = (ImportArOpenInvoicesParam)View.CurrentObject;
-            var tempTableName = "#TmpArOpenInvoices";
+            var tempTableName = paramObj.TempTable ?? "#TmpArOpenInvoices";
+            
             Func<string, string> formatSql = delegate (string sql)
             {
                 return Smart.Format(sql, new
@@ -129,9 +155,15 @@ FROM {TempTable}
             var objSpace = (XPObjectSpace)ObjectSpace;
 
             string persistSql = formatSql(paramObj.PersistSql);
-            using (var csvReader = new CachedCsvReader(new StreamReader(paramObj.FilePath), true))
+            using (var csvReader = DataObjectFactory.CreateCachedReaderFromCsv(paramObj.FilePath))
             {
-                var loader = new SqlServerLoader((SqlConnection)objSpace.Connection);
+                //csvReader.Columns = new List<LumenWorks.Framework.IO.Csv.Column>
+                //{
+                //    new LumenWorks.Framework.IO.Csv.Column() { Name = "Customer Name", Type = typeof(string) },
+                //    new LumenWorks.Framework.IO.Csv.Column() { Name = "Customer Number", Type = typeof(string) },
+                //};
+
+                var loader = new SqlServerLoader2((SqlConnection)objSpace.Connection);
                 loader.TempTableName = tempTableName;
                 loader.CreateSql = paramObj.CreateSql;
                 loader.PersistSql = formatSql(paramObj.PersistSql);

@@ -25,7 +25,8 @@ namespace CashDiscipline.Module.ParamObjects.Import
         }
 
         private DateTime _AsAtDate;
-
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
         public DateTime AsAtDate
         {
             get
@@ -78,6 +79,19 @@ namespace CashDiscipline.Module.ParamObjects.Import
             set
             {
                 SetPropertyValue("PersistSql", ref _PersistSql, value);
+            }
+        }
+
+        private string _TempTable;
+        public string TempTable
+        {
+            get
+            {
+                return _TempTable;
+            }
+            set
+            {
+                SetPropertyValue("TempTable", ref _TempTable, value);
             }
         }
     }

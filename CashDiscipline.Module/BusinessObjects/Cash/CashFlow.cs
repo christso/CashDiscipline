@@ -101,15 +101,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         #region Main Properties
 
-        //[NonPersistent]
-        //public string ShortUID
-        //{
-        //    get
-        //    {
-        //        return Convert.ToString(Oid).Substring(0, 8);
-        //    }
-        //}
-
         public CashFlow OrigCashFlow
         {
             get
@@ -818,7 +809,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             Snapshot = GetCurrentSnapshot(Session);
 
             TranDate = DateTime.Now.Date;
-            //DateUnFix = TranDate;
 
             CounterCcy = Session.GetObjectByKey<Currency>(SetOfBooks.CachedInstance.FunctionalCurrency.Oid);
 

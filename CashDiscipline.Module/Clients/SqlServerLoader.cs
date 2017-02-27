@@ -74,7 +74,8 @@ namespace CashDiscipline.Module.Clients
                 cmd.CommandTimeout = CashDiscipline.Common.Constants.SqlCommandTimeout;
 
                 cmd.CommandText = FormatSql(
-                    "IF OBJECT_ID('tempdb..{TempTable}') IS NOT NULL DROP TABLE {TempTable}\r\n"
+                    "IF OBJECT_ID('tempdb..{TempTable}') IS NOT NULL DROP TABLE {TempTable};\r\n"
+                    + "IF OBJECT_ID('TmpArOpenInvoices') IS NOT NULL DROP TABLE TmpArOpenInvoices;"
                     + createSql);
                 cmd.ExecuteNonQuery();
 

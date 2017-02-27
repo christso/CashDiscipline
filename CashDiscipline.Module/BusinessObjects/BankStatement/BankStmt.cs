@@ -51,7 +51,7 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
 
         public void InitDefaultValues()
         {
-            TranDate = DateTime.Now;
+            TranDate = DateTime.Now.Date;
 
             var setOfBooks = SetOfBooks.GetInstance(Session);
             if (setOfBooks != null)
