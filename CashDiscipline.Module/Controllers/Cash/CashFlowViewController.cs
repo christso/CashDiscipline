@@ -63,21 +63,6 @@ namespace CashDiscipline.Module.Controllers.Cash
             processReportAction.Caption = processCubeCaption;
             CashFlowActions.Items.Add(processReportAction);
 
-            var processCustomAction = new ChoiceActionItem();
-            processCustomAction.Caption = custProcessCubeCaption;
-            CashFlowActions.Items.Add(processCustomAction);
-
-            var processCubeCurrentAction = new ChoiceActionItem();
-            processCubeCurrentAction.Caption = processCubeCurrentCaption;
-            processCustomAction.Items.Add(processCubeCurrentAction);
-
-            var processCubeHistAction = new ChoiceActionItem();
-            processCubeHistAction.Caption = processCubeHistCaption;
-            processCustomAction.Items.Add(processCubeHistAction);
-
-            var processCubeSshotAction = new ChoiceActionItem();
-            processCubeSshotAction.Caption = processCubeSshotCaption;
-            processCustomAction.Items.Add(processCubeSshotAction);
         }
 
         protected override void OnActivated()
