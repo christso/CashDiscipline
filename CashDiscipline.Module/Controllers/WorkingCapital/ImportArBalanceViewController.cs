@@ -1,10 +1,12 @@
-﻿using CashDiscipline.Module.BusinessObjects.AccountsPayable;
+﻿using CashDiscipline.Common;
+using CashDiscipline.Module.BusinessObjects.AccountsPayable;
 using CashDiscipline.Module.Clients;
 using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.Base;
+using DG2NTT.AnalysisServicesHelpers;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -24,6 +26,31 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             var importAction = new SimpleAction(this, "ImportArBalanceAction", PredefinedCategory.ObjectsCreation);
             importAction.Caption = "Import";
             importAction.Execute += ImportAction_Execute;
+
+            var reportAction = new SimpleAction(this, "ReportArBalanceAction", PredefinedCategory.ObjectsCreation);
+            reportAction.Caption = "Process Report";
+            reportAction.Execute += ReportAction_Execute;
+        }
+
+        private void ReportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            string serverName = Constants.SsasServerName;
+            var processor = new AdomdProcessor(serverName);
+            processor.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""ArGlBalance""
+      }
+    ]
+  }
+}");
+
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                "Process Report Successful",
+                "Process Report Successful"
+            );
         }
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)

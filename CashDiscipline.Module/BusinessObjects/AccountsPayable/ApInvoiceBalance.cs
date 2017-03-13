@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xafology.ExpressApp.BatchDelete;
 
 namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
@@ -14,6 +15,7 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
     [ModelDefault("IsFooterVisible", "True")]
     [AutoColumnWidth(false)]
     [ModelDefault("ImageName", "BO_List")]
+    [BatchDelete(isVisible: true)]
     public class ApInvoiceBalance : XPLiteObject
     {
         public ApInvoiceBalance(Session session) : base(session) { }

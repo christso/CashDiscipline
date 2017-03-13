@@ -33,6 +33,31 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             var mapAction = new SimpleAction(this, "MapApPoReceiptBalanceAction", PredefinedCategory.ObjectsCreation);
             mapAction.Caption = "Map";
             mapAction.Execute += MapAction_Execute;
+
+            var reportAction = new SimpleAction(this, "ReportApReceiptBalanceAction", PredefinedCategory.ObjectsCreation);
+            reportAction.Caption = "Process Report";
+            reportAction.Execute += ReportAction_Execute;
+        }
+
+        private void ReportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            string serverName = Constants.SsasServerName;
+            var processor = new AdomdProcessor(serverName);
+            processor.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""ApPayables""
+      }
+    ]
+  }
+}");
+
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                "Process Report Successful",
+                "Process Report Successful"
+            );
         }
 
         private void MapAction_Execute(object sender, SimpleActionExecuteEventArgs e)

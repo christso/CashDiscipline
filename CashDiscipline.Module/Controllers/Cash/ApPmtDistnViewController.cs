@@ -1,10 +1,12 @@
-﻿using CashDiscipline.Module.BusinessObjects.AccountsPayable;
+﻿using CashDiscipline.Common;
+using CashDiscipline.Module.BusinessObjects.AccountsPayable;
 using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.Data.Filtering;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Xpo;
+using DG2NTT.AnalysisServicesHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,7 @@ namespace CashDiscipline.Module.Controllers.Cash
     {
         private const string mapSelectedCaption = "Map Selected";
         private const string mapFilteredCaption = "Map Filtered";
+        private const string processCaption = "Proces Report";
         private const string importCaption = "Import";
 
         public ApPmtDistnViewController()
@@ -42,6 +45,10 @@ namespace CashDiscipline.Module.Controllers.Cash
             var mapFilteredChoice = new ChoiceActionItem();
             mapFilteredChoice.Caption = mapFilteredCaption;
             mainAction.Items.Add(mapFilteredChoice);
+
+            var processChoice = new ChoiceActionItem();
+            processChoice.Caption = processCaption;
+            mainAction.Items.Add(processChoice);
         }
 
         private void MainAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -58,7 +65,31 @@ namespace CashDiscipline.Module.Controllers.Cash
                 case importCaption:
                     ShowImportForm(e.ShowViewParameters);
                     break;
+                case processCaption:
+                    ProcessReport();
+                    break;
             }
+        }
+
+        private void ProcessReport()
+        {
+            string serverName = Constants.SsasServerName;
+            var processor = new AdomdProcessor(serverName);
+            processor.ProcessCommand(@"{
+  ""refresh"": {
+    ""type"": ""full"",
+    ""objects"": [
+      {
+        ""database"": ""ApPayments""
+      }
+    ]
+  }
+}");
+
+            new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                "Process Report Successful",
+                "Process Report Successful"
+            );
         }
 
         private void ShowImportForm(ShowViewParameters svp)
