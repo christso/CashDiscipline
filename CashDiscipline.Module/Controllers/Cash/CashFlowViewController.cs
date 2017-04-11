@@ -16,11 +16,8 @@ namespace CashDiscipline.Module.Controllers.Cash
 {
     public class CashFlowViewController : ViewController
     {
-        public const string processCubeHistCaption = "Process Historical";
-        public const string processCubeAllCaption = "Process All";
-        public const string processCubeCurrentCaption = "Process Current";
-        public const string processCubeCaption = "Process Report";
-        public const string custProcessCubeCaption = "Custom Process Report";
+
+        public const string processCubeCaption = "Process Report";  
         public const string processCubeSshotCaption = "Process Snapshots";
         public const string mapSelectedCaption = "Map Selected";
         public const string fixForecastFormCaption = "Fix Forecast";
@@ -107,14 +104,24 @@ namespace CashDiscipline.Module.Controllers.Cash
                 case "Save Forecast":
                     SaveForecast();
                     break;
+                case "Reindex":
+                    Reindex();
+                    break;
                 default:
-                    if (e.SelectedChoiceActionItem.ParentItem != null && e.SelectedChoiceActionItem.ParentItem.Caption == custProcessCubeCaption
-                        || e.SelectedChoiceActionItem.Caption == processCubeCaption)
+                    if (e.SelectedChoiceActionItem.Caption == processCubeCaption)
                     {
                         ProcessCube(e.SelectedChoiceActionItem.Caption);
                     }
                     break;
             }
+        }
+
+        public void Reindex()
+        {
+            var objSpace = (XPObjectSpace)ObjectSpace;
+            objSpace.Session.PurgeDeletedObjects();
+
+
         }
 
         public bool ProcessCube(string caption)
@@ -140,20 +147,6 @@ namespace CashDiscipline.Module.Controllers.Cash
                             "ACTION COMPLETED : Process Cash Report - All : Elapsed = {0} seconds",
                             Math.Round(sw.Elapsed.TotalSeconds,2)),
                          "ACTION COMPLETED");
-                    break;
-                case processCubeCurrentCaption:
-                    var os = Application.CreateObjectSpace();
-                    tabular.ProcessCurrent((XPObjectSpace)os);
-                    new GenericMessageBox(
-                        "ACTION COMPLETED : Process Cash Report - Current\r\n"
-                        + "NOTE : " + tabular.LastReturnMessage,
-                        "ACTION COMPLETED");
-                    break;
-                case processCubeHistCaption:
-                    tabular.ProcessHist();
-                    new GenericMessageBox(
-                        "ACTION COMPLETED : Process Cash Report - Historical",
-                        "ACTION COMPLETED");
                     break;
                 case processCubeSshotCaption:
                     tabular.ProcessSshot();

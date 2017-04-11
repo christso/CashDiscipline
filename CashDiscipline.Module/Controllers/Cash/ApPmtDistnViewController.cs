@@ -21,7 +21,7 @@ namespace CashDiscipline.Module.Controllers.Cash
     {
         private const string mapSelectedCaption = "Map Selected";
         private const string mapFilteredCaption = "Map Filtered";
-        private const string processCaption = "Proces Report";
+        private const string processCaption = "Process Report";
         private const string importCaption = "Import";
 
         public ApPmtDistnViewController()
