@@ -25,7 +25,7 @@ namespace CashDiscipline.UnitTests
             tests.SetUpFixture();
             tests.Setup();
 
-            tests.RateRuleTest();
+            tests.GetManifestResourceTest();
 
             tests.TearDown();
             tests.TearDownFixture();

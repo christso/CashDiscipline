@@ -239,7 +239,7 @@
     <Compile Include="BusinessObjects\BaseObjectHelper.cs" />
     <Compile Include="BusinessObjects\Cash\CashSnapshotReported.cs" />
     <Compile Include="BusinessObjects\ActionOwner.cs" />
-    <Compile Include="BusinessObjects\SystemMaintenance.cs" />
+    <Compile Include="BusinessObjects\SqlJob.cs" />
     <Compile Include="BusinessObjects\Welcome.cs" />
     <Compile Include="Clients\CshDscTabularHelper.cs" />
     <Compile Include="Clients\DataObjectFactory.cs" />
@@ -471,7 +471,6 @@
     </Compile>
     <EmbeddedResource Include="Scripts\CreateIndexes.sql" />
     <EmbeddedResource Include="Scripts\CreateCashFlowFixProcs.sql" />
-    <Content Include="Scripts\InstallPurgeObjectsJob.sql" />
     <None Include="UnusableNodes.xml">
       <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
       <SubType>Designer</SubType>
@@ -578,6 +577,7 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <EmbeddedResource Include="Scripts\CreatePurgeObjectsJob.sql" />
     <None Include="Service References\ServiceReference1\CashDiscipline.Module.ServiceReference1.IntegrationPackageResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>

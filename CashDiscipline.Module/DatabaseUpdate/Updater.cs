@@ -33,13 +33,13 @@ namespace CashDiscipline.Module.DatabaseUpdate
         public override void UpdateDatabaseBeforeUpdateSchema()
         {
             base.UpdateDatabaseBeforeUpdateSchema();
-            CreateDbObjects((XPObjectSpace)ObjectSpace);
+            
         }
 
         public override void UpdateDatabaseAfterUpdateSchema()
         {
             base.UpdateDatabaseAfterUpdateSchema();
-
+            CreateDbObjects((XPObjectSpace)ObjectSpace);
             SetupObjects(ObjectSpace);
             //AddDefaultConstraints((XPObjectSpace)ObjectSpace);
             //SetupSecurity();
@@ -61,11 +61,13 @@ namespace CashDiscipline.Module.DatabaseUpdate
             if (conn == null) return;
 
             var resourcePaths = new List<string>();
+
+            resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCreatePurgeJobPath);
+
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlInstallScriptPath);
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCashFlowFixProcsPath);
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCashFlowRevalProcsPath);
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlDimDateProcsPath);
-            resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlInstallPurgeJobPath);
 
             foreach (var resourcePath in resourcePaths)
             {

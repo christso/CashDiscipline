@@ -55,6 +55,14 @@ namespace CashDiscipline.UnitTests
             CashDisciplineTestHelper.AddExportedTypes(module);
         }
 
+
+        public void GetManifestResourceTest()
+        {
+            var resourcePath = CashDiscipline.Common.Constants.CashDiscSqlCreatePurgeJobPath;
+            var stream = typeof(CashDiscipline.Module.AssemblyInfo).Assembly.GetManifestResourceStream(resourcePath);
+            Console.WriteLine(stream.Length);
+        }
+
         public void CriteriaToSqlTest()
         {
             string xpoCriteriaText = "[Activity] Is Not Null Or [ActionOwner.Name] Like 'UNDEFINED'";

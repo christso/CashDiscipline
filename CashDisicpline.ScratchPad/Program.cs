@@ -10,12 +10,7 @@ namespace CashDisicpline.ScratchPad
     {
         static void Main(string[] args)
         {
-            var input = "20170214";
-            var year = Convert.ToInt32(input.Substring(0, 4));
-            var month = Convert.ToInt32(input.Substring(4, 2));
-            var day = Convert.ToInt32(input.Substring(6, 2));
-
-            var output = new DateTime(year, month, day);
+            //var stream = typeof(CashDiscipline.Module.AssemblyInfo).Assembly.GetManifestResourceStream(resourcePath);
             Console.WriteLine("{0}", output);
             Console.ReadKey();
         }
