@@ -630,6 +630,14 @@
         <PropertyEditor Id="CurrentCashFlowStartDate" ToolTip="Start Date of the Cash Flow SSAS Current Partition. If you change this property, please perform &quot;Process All&quot; afterwards before performing &quot;Process Current&quot; at a later stage." />
       </Items>
     </DetailView>
+    <ListView Id="SqlJob_ListView">
+      <Columns>
+        <ColumnInfo Id="Oid" Caption="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
+        <ColumnInfo Id="JobName" Index="1" />
+        <ColumnInfo Id="LogDateTime" Index="2" />
+        <ColumnInfo Id="LogMessage" Index="3" />
+      </Columns>
+    </ListView>
     <DashboardView Id="Welcome_Dashboard" Caption="Welcome" IsNewNode="True">
       <Items IsNewNode="True">
         <StaticText Id="Welcome" Text="&lt;b&gt;CASH FLOW DATA CAPTURE AND TRANSFORMATION APPLICATION&lt;b&gt;" Caption="" IsNewNode="True" />

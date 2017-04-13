@@ -23,7 +23,7 @@ namespace CashDiscipline.Module.Controllers.FinAccounting
             genJnlAction.Execute += genJnlAction_Execute;
         }
 
-        private SingleChoiceAction genJnlAction;
+  
         private FinGenJournalParam _ParamObj;
 
         void genJnlAction_Execute(object sender, SimpleActionExecuteEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.Controllers.Cash;
+using CashDiscipline.Module.DatabaseUpdate;
 using CashDiscipline.Module.Logic.FinAccounting;
 using CashDiscipline.Module.ParamObjects.Cash;
 using CashDiscipline.Module.ParamObjects.FinAccounting;
@@ -77,6 +78,7 @@ namespace CashDiscipline.Module.AppNavigation
                 {
                     var objSpace = (XPObjectSpace)args.ObjectSpace;
                     objSpace.Session.PurgeDeletedObjects();
+                    DbUtils.ExecuteNonQueryCommand(objSpace, "cashdisc_purge_objects", false);
                 }
             });
 

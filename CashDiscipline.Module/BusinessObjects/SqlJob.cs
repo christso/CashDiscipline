@@ -6,11 +6,14 @@ using DevExpress.Persistent.BaseImpl;
 using DevExpress.ExpressApp.Model;
 using System.ComponentModel;
 using DevExpress.ExpressApp;
+using CashDiscipline.Module.Attributes;
 
 namespace CashDiscipline.Module.BusinessObjects
 {
     [NavigationItem("Administration")]
     [ModelDefault("ImageName", "BO_List")]
+    [ModelDefault("IsFooterVisible", "True")]
+    [AutoColumnWidth(false)]
     public class SqlJob : BaseObject
     {
         public SqlJob()

@@ -577,6 +577,7 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <EmbeddedResource Include="Scripts\CreateSsasProcCash.sql" />
     <EmbeddedResource Include="Scripts\CreatePurgeObjectsJob.sql" />
     <None Include="Service References\ServiceReference1\CashDiscipline.Module.ServiceReference1.IntegrationPackageResult.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>

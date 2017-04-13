@@ -11,7 +11,7 @@ namespace CashDisicpline.ScratchPad
         static void Main(string[] args)
         {
             //var stream = typeof(CashDiscipline.Module.AssemblyInfo).Assembly.GetManifestResourceStream(resourcePath);
-            Console.WriteLine("{0}", output);
+
             Console.ReadKey();
         }
     }

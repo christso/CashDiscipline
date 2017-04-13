@@ -43,6 +43,12 @@ EXEC @ReturnCode = msdb.dbo.sp_add_jobstep @job_id=@jobId, @step_name=N'purge',
 		@retry_interval=0, 
 		@os_run_priority=0, @subsystem=N'TSQL', 
 		@command=N'
+INSERT INTO SqlJob (Oid, JobName, LogMessage, LogDateTime)
+SELECT CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER), 
+''Purge'',
+''Started'', 
+GETDATE();
+
 delete gl from genledger gl
 where exists (select * from cashflow cf where cf.GCRecord is not null and cf.oid = gl.SrcCashFlow);
 
@@ -80,7 +86,13 @@ from cashflow cf0
 where exists (select * from cashflow cf1 where cf1.GCRecord is not null and cf1.oid = cf0.Fixer);
 
 delete cf From cashflow cf
-where cf.GCRecord is not null;', 
+where cf.GCRecord is not null;
+
+INSERT INTO SqlJob (Oid, JobName, LogMessage, LogDateTime)
+SELECT CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER), 
+''Purge'',
+''Finished'', 
+GETDATE();', 
 		@database_name=N'CashDiscipline', 
 		@flags=12
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback
