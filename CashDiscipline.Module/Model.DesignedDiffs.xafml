@@ -637,6 +637,9 @@
         <ColumnInfo Id="LogDateTime" Index="2" />
         <ColumnInfo Id="LogMessage" Index="3" />
       </Columns>
+      <Sorting>
+        <SortProperty Id="@8b759c5f-def6-47c7-937b-3c0f0f93321b" PropertyName="LogDateTime" Direction="Descending" IsNewNode="True" />
+      </Sorting>
     </ListView>
     <DashboardView Id="Welcome_Dashboard" Caption="Welcome" IsNewNode="True">
       <Items IsNewNode="True">

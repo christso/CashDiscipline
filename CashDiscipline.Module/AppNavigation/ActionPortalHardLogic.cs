@@ -10,6 +10,7 @@ using DevExpress.ExpressApp.Xpo;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -78,7 +79,31 @@ namespace CashDiscipline.Module.AppNavigation
                 {
                     var objSpace = (XPObjectSpace)args.ObjectSpace;
                     objSpace.Session.PurgeDeletedObjects();
-                    DbUtils.ExecuteNonQueryCommand(objSpace, "cashdisc_purge_objects", false);
+                    var conn = (SqlConnection)objSpace.Session.Connection;
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "MSDB.dbo.sp_start_job 'cashdisc_purge_objects'";
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            });
+
+            #endregion
+
+            #region Reindex Cash
+            ActionPortalList.Add(new ActionPortalItem()
+            {
+                ActionName = "Reindex CashFlow",
+                ActionDescription = "Reindex CashFlow",
+                ExecutableAction = (args) =>
+                {
+                    var objSpace = (XPObjectSpace)args.ObjectSpace;
+                    var conn = (SqlConnection)objSpace.Session.Connection;
+                    using (var cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = "MSDB.dbo.sp_start_job 'cashdisc_reindex_cash'";
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             });
 

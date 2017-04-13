@@ -159,6 +159,7 @@ namespace CashDiscipline.Module.Logic.Cash
                 new SqlDeclareClause("ScheduleInFixTagType", "int", "2"),
                 new SqlDeclareClause("ScheduleOutFixTagType", "int", "3"),
                 new SqlDeclareClause("BasicFixTagType", "int", "4"),
+                new SqlDeclareClause("DlrComDayOfWeek", "int", "(SELECT TOP 1 DlrComDayOfWeek FROM CashFlowFixParam WHERE GCRecord IS NULL)"),
                 new SqlDeclareClause("ForecastStatus", "int", "0"),
                 new SqlDeclareClause("Snapshot", "uniqueidentifier", @"COALESCE(
 	(SELECT TOP 1 [Snapshot] FROM CashFlowFixParam WHERE GCRecord IS NULL),
@@ -545,12 +546,9 @@ SELECT * FROM #TmpFixResRevReclass_Fixer
 -- Set Monday as day number 1
 SET DATEFIRST 1
 
--- Set day of week for dealer commission payments
-DECLARE @DlrComDayOfWeek int = 3
-
 UPDATE cf SET TranDate = CASE
 
--- adjust date of dealer commission payments to the next Wednesday
+-- adjust date of dealer commission payments to the next Wednesday or day set by DlrComDayOfWeek
 WHEN cf.Fix = @DlrComFixTag
 AND cf.FixRank > 2 AND cf.TranDate <= @ApayableLockdownDate
 THEN CASE

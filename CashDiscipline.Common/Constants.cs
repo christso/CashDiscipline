@@ -54,6 +54,7 @@ namespace CashDiscipline.Common
         public const string CashDiscSqlCashFlowRevalProcsPath = @"CashDiscipline.Module.Scripts.CreateCashFlowRevalProcs.sql";
         public const string CashDiscSqlDimDateProcsPath = @"CashDiscipline.Module.Scripts.CreateDimDateProcs.sql";
         public const string CashDiscSqlCreatePurgeJobPath = @"CashDiscipline.Module.Scripts.CreatePurgeObjectsJob.sql";
+        public const string CashDiscSqlCreateReindexCashFlowJobPath = @"CashDiscipline.Module.Scripts.CreateReindexCashFlowJob.sql";
 
         // Connection strings
 

@@ -415,7 +415,7 @@
     <Compile Include="ParamObjects\Import\ImportTrialBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportVendorSitePaymentTermsParam.cs" />
     <EmbeddedResource Include="Scripts\CreateDimDateProcs.sql" />
-    <EmbeddedResource Include="Scripts\ReindexCashFlow.sql" />
+    <EmbeddedResource Include="Scripts\CreateReindexCashFlowJob.sql" />
     <Compile Include="Service References\ServiceReference1\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

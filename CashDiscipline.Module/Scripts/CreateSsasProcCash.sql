@@ -1,6 +1,10 @@
 ﻿USE [msdb]
 GO
 
+IF EXISTS (SELECT job_id FROM msdb.dbo.sysjobs_view WHERE name = N'cashdisc_process_cash')
+EXEC msdb.dbo.sp_delete_job @job_name=N'cashdisc_process_cash', @delete_unused_schedule=1
+GO
+
 /****** Object:  Job [cashdisc_process_cash]    Script Date: 13/04/2017 10:07:41 AM ******/
 BEGIN TRANSACTION
 DECLARE @ReturnCode INT

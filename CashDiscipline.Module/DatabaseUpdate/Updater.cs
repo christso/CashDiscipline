@@ -18,7 +18,7 @@ using Cash = CashDiscipline.Module.BusinessObjects.Cash;
 using System.Collections.Generic;
 using System.Linq;
 using CashDiscipline.Common;
-
+using CashDiscipline.Module.ParamObjects.Cash;
 
 namespace CashDiscipline.Module.DatabaseUpdate
 {
@@ -39,8 +39,8 @@ namespace CashDiscipline.Module.DatabaseUpdate
         public override void UpdateDatabaseAfterUpdateSchema()
         {
             base.UpdateDatabaseAfterUpdateSchema();
-            CreateDbObjects((XPObjectSpace)ObjectSpace);
             SetupObjects(ObjectSpace);
+            CreateDbObjects((XPObjectSpace)ObjectSpace);
             //AddDefaultConstraints((XPObjectSpace)ObjectSpace);
             //SetupSecurity();
         }
@@ -68,6 +68,7 @@ namespace CashDiscipline.Module.DatabaseUpdate
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCashFlowFixProcsPath);
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCashFlowRevalProcsPath);
             resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlDimDateProcsPath);
+            resourcePaths.Add(CashDiscipline.Common.Constants.CashDiscSqlCreateReindexCashFlowJobPath);
 
             foreach (var resourcePath in resourcePaths)
             {
@@ -76,17 +77,25 @@ namespace CashDiscipline.Module.DatabaseUpdate
                 var script = reader.ReadToEnd();
                 DbUtils.ExecuteNonQueryCommand(os, script, false);
             }
+
+            // select current database
+            //DbUtils.ExecuteNonQueryCommand(os, "USE CashDiscipline", false);
         }
 
         // Set up the minimum objects for this application to function correctly
         public static void SetupObjects(IObjectSpace objSpace)
         {
+            InitParams(objSpace);
             CreateCurrencies(objSpace); // prerequisite for the below
             InitSetOfBooks(objSpace);
             CreateFinAccountingDefaults(objSpace);
             CreateCashFlowDefaults(objSpace);
-            Xafology.ExpressApp.StaticHelpers.GetInstance<CashDiscipline.Module.ParamObjects.Cash.CashFlowFixParam>(objSpace);
+        }
 
+        public static void InitParams(IObjectSpace objSpace)
+        {
+            CashFlowFixParam.GetInstance(objSpace);
+  
         }
 
         public static void AddDefaultConstraints(XPObjectSpace os)

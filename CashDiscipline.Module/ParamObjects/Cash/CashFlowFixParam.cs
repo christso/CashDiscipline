@@ -34,9 +34,8 @@ namespace CashDiscipline.Module.ParamObjects.Cash
         public override void AfterConstruction()
         {
             base.AfterConstruction();
+            this.DlrComDayOfWeek = 3;
         }
-
-
 
         private DateTime _FromDate;
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]
@@ -154,5 +153,21 @@ namespace CashDiscipline.Module.ParamObjects.Cash
                 SetPropertyValue("Snapshot", ref _Snapshot, value);
             }
         }
+
+        private int _DlrComDayOfWeek;
+        public int DlrComDayOfWeek
+        {
+            get
+            {
+                return _DlrComDayOfWeek;
+            }
+            set
+            {
+                SetPropertyValue("DlrComDayOfWeek", ref _DlrComDayOfWeek, value);
+            }
+        }
+
+
+
     }
 }
