@@ -597,6 +597,12 @@
       </Columns>
     </ListView>
     <DetailView Id="ImportApPmtDistnParam_DetailView">
+      <Items>
+        <PropertyEditor Id="CreateSql" ToolTip="Creates staging table based on column ordinals of CSV file" />
+        <PropertyEditor Id="FilePath" ToolTip="Path to the CSV file" />
+        <PropertyEditor Id="ImportApPmtDistnColumns" ToolTip="Maps CSV columns (based on ordinals) into the staging table" />
+        <PropertyEditor Id="PersistSql" ToolTip="Persists the staging table into the database" />
+      </Items>
       <Layout>
         <TabbedGroup Id="Item1" CaptionLocation="Top" Index="0" RelativeSize="100" IsNewNode="True">
           <LayoutGroup Id="Main" ShowCaption="True" Index="0" RelativeSize="100" IsNewNode="True">
@@ -606,7 +612,7 @@
               <LayoutItem Id="PersistSql" ViewItem="PersistSql" Index="2" RelativeSize="33.450704225352112" IsNewNode="True" />
             </LayoutGroup>
           </LayoutGroup>
-          <LayoutGroup Id="Columns" ShowCaption="True" CaptionLocation="Top" Direction="Horizontal" Index="1" IsNewNode="True">
+          <LayoutGroup Id="Columns" ShowCaption="True" CaptionLocation="Top" Direction="Horizontal" Index="1" ToolTip="Maps CSV columns (based on ordinals) into the staging table" IsNewNode="True">
             <LayoutGroup Id="ImportApPmtDistnColumns_Group" ShowCaption="True" Caption="Import Ap Pmt Distn Columns" Index="1" RelativeSize="49.911816578483247" IsNewNode="True">
               <LayoutItem Id="ImportApPmtDistnColumns" ViewItem="ImportApPmtDistnColumns" Index="0" RelativeSize="100" IsNewNode="True" />
             </LayoutGroup>
