@@ -14,6 +14,9 @@ using CashDiscipline.Module.ServiceReference1;
 using DevExpress.ExpressApp.Xpo;
 using CashDiscipline.Module.Clients;
 using System.Data.SqlClient;
+using System.Reflection;
+using DevExpress.Data.Filtering;
+using DevExpress.Xpo;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
@@ -28,6 +31,24 @@ namespace CashDiscipline.Module.Controllers.Cash
             importAction.Caption = "Run Import";
             importAction.Execute += ImportAction_Execute;
 
+
+            var resetAction = new SimpleAction(this, "ResetImportApPmtDistnAction", PredefinedCategory.ObjectsCreation);
+            resetAction.Caption = "Reset Config";
+            resetAction.Execute += ResetConfigAction_Execute;
+
+
+        }
+
+        private void ResetConfigAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        {
+            try
+            {
+                ResetConfig();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
+            }
         }
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
@@ -47,52 +68,37 @@ namespace CashDiscipline.Module.Controllers.Cash
             var paramObj = View.CurrentObject as ImportApPmtDistnParam;
             var objSpace = (XPObjectSpace)ObjectSpace;
 
+
+            var csvColumns = objSpace.GetObjects<ImportApPmtDistnColumn>().OrderBy(x => x.Ordinal);
+     
             using (var csvReader = DataObjectFactory.CreateCachedReaderFromCsv(paramObj.FilePath))
             {
-                csvReader.Columns = new List<LumenWorks.Framework.IO.Csv.Column>
+                var ih = new ImportHelper();
+
+                foreach (var csvColumn in csvColumns)
                 {
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Actual Payment Date", Type = typeof(DateTime) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Due Date", Type = typeof(DateTime) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Source", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Capex Opex", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Org Name", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Bank Account Name", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Pay Group", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Inv Source", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Vendor Name", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Company", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Account", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Cost Centre", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Product", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Sales Channel", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Country", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Intercompany", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Project", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Location", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Po Num", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Num", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Creation Date", Type = typeof(DateTime) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Distribution Line Number", Type = typeof(int) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Actual Payment Amount Fx SUM", Type = typeof(double) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Amount Aud SUM", Type = typeof(double) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Number", Type = typeof(int) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Batch Name", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Method", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Currency", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Creation Date", Type = typeof(DateTime) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Line Type Lookup Code", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Line Desc", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Tax Code", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Payment Currency", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Date", Type = typeof(DateTime) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Capex Number", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Invoice Id", Type = typeof(int) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Expenditure Type", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Project Number", Type = typeof(string) },
-                    new LumenWorks.Framework.IO.Csv.Column() { Name = "Vendor Number", Type = typeof(string) }
-                };
+                    string name = csvColumn.Name;
+                    Type type = ih.ParseType(csvColumn.TypeName);
+                    csvReader.Columns.Add(new LumenWorks.Framework.IO.Csv.Column() { Name = name, Type = type });
+                }
+
+
                 var loader = new SqlServerLoader2((SqlConnection)objSpace.Connection);
-                loader.CreateSql = @"CREATE TABLE {TempTable} (
+                loader.CreateSql = paramObj.CreateSql;
+                loader.PersistSql = paramObj.PersistSql;
+                var messagesText = loader.Execute(csvReader);
+
+                new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                    messagesText,
+                   "Import Successful"
+                    );
+            }
+        }
+
+        private void ResetConfig()
+        {
+            var paramObj = (ImportApPmtDistnParam)View.CurrentObject;
+            paramObj.CreateSql = @"CREATE TABLE {TempTable} (
 [Actual Payment Date] date,
 [Invoice Due Date] date,
 [Source] nvarchar(50),
@@ -133,7 +139,7 @@ namespace CashDiscipline.Module.Controllers.Cash
 [Project Number] nvarchar(255),
 [Vendor Number] nvarchar(100)
 )";
-                loader.PersistSql = @"/* Insert Lookups */
+            paramObj.PersistSql = @"/* Insert Lookups */
 INSERT INTO ApSource (Oid, Name)
 SELECT NEWID() AS Oid,
 	p.*
@@ -295,13 +301,6 @@ tp.[Invoice Id],
 tp.[Distribution Line Number],
 0 AS InputSource
 FROM {TempTable} tp";
-                var messagesText = loader.Execute(csvReader);
-
-                new Xafology.ExpressApp.SystemModule.GenericMessageBox(
-                    messagesText,
-                   "Import Successful"
-                    );
-            }
         }
 
         protected override void OnActivated()

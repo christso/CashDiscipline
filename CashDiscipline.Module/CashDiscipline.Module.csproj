@@ -229,6 +229,8 @@
     <Compile Include="BusinessObjects\AccountsPayable\ApVendorSitePaymentTerms.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtDefaults.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPoReceipt.cs" />
+    <Compile Include="ImportHelper.cs" />
+    <Compile Include="ParamObjects\Import\ImportApPmtDistnColumn.cs" />
     <Compile Include="BusinessObjects\DimDate.cs" />
     <Compile Include="BusinessObjects\FinAccounting\TB_Account.cs" />
     <Compile Include="BusinessObjects\FinAccounting\TB_Company.cs" />
@@ -577,6 +579,10 @@
     <Content Include="FunctionalTests\Config.xml">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="UnusableNodes1.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="Scripts\CreateSsasProcCash.sql" />
     <EmbeddedResource Include="Scripts\CreatePurgeObjectsJob.sql" />
     <None Include="Service References\ServiceReference1\CashDiscipline.Module.ServiceReference1.IntegrationPackageResult.datasource">

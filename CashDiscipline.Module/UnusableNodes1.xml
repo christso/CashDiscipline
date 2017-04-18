@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DetailView Id="ImportApPmtDistnParam_DetailView">
+      <Layout Id="Layout">
+        <TabbedGroup Id="Item1">
+          <LayoutGroup Id="Main" ShowCaption="True">
+            <LayoutGroup Id="ImportApPmtDistnColumns_Group" TextAlignMode="AlignWithChildren" Removed="True" />
+            <LayoutGroup Id="SizeableEditors" RelativeSize="100">
+              <LayoutItem Id="FilePath" RelativeSize="32.0139697322468" />
+              <LayoutItem Id="CreateSql" RelativeSize="32.0139697322468" />
+              <LayoutItem Id="PersistSql" RelativeSize="35.9720605355064" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="ImportApPmtDistnColumns_Group" TextAlignMode="AlignWithChildren" ShowCaption="True" Caption="Columns" Index="1" RelativeSize="100">
+            <LayoutItem Id="ImportApPmtDistnColumns" ViewItem="ImportApPmtDistnColumns" Index="0" RelativeSize="100" />
+          </LayoutGroup>
+        </TabbedGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+</Application>

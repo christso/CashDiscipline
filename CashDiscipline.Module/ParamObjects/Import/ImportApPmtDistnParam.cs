@@ -38,6 +38,45 @@ namespace CashDiscipline.Module.ParamObjects.Import
             }
         }
 
+
+        private string _CreateSql;
+        [Size(SizeAttribute.Unlimited)]
+        public string CreateSql
+        {
+            get
+            {
+                return _CreateSql;
+            }
+            set
+            {
+                SetPropertyValue("CreateSql", ref _CreateSql, value);
+            }
+        }
+
+        private string _PersistSql;
+        [Size(SizeAttribute.Unlimited)]
+        public string PersistSql
+        {
+            get
+            {
+                return _PersistSql;
+            }
+            set
+            {
+                SetPropertyValue("PersistSql", ref _PersistSql, value);
+            }
+        }
+
+
+        [Association("ImportApPmtDistnParam-ImportApPmtDistnColumns")]
+        public XPCollection<ImportApPmtDistnColumn> ImportApPmtDistnColumns
+        {
+            get
+            {
+                return GetCollection<ImportApPmtDistnColumn>("ImportApPmtDistnColumns");
+            }
+        }
+
         public static ImportApPmtDistnParam GetInstance(IObjectSpace objectSpace)
         {
             return BaseObjectHelper.GetInstance<ImportApPmtDistnParam>(objectSpace);

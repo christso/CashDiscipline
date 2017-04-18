@@ -596,6 +596,34 @@
         <ColumnInfo Id="GlDate" SortIndex="0" SortOrder="Ascending" />
       </Columns>
     </ListView>
+    <DetailView Id="ImportApPmtDistnParam_DetailView">
+      <Layout>
+        <TabbedGroup Id="Item1" CaptionLocation="Top" Index="0" RelativeSize="100" IsNewNode="True">
+          <LayoutGroup Id="Main" ShowCaption="True" Index="0" RelativeSize="100" IsNewNode="True">
+            <LayoutGroup Id="SizeableEditors" ShowCaption="False" Index="0" RelativeSize="50.088183421516753" IsNewNode="True">
+              <LayoutItem Id="FilePath" ViewItem="FilePath" Index="0" RelativeSize="33.450704225352112" IsNewNode="True" />
+              <LayoutItem Id="CreateSql" ViewItem="CreateSql" Index="1" RelativeSize="33.098591549295776" IsNewNode="True" />
+              <LayoutItem Id="PersistSql" ViewItem="PersistSql" Index="2" RelativeSize="33.450704225352112" IsNewNode="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="Columns" ShowCaption="True" CaptionLocation="Top" Direction="Horizontal" Index="1" IsNewNode="True">
+            <LayoutGroup Id="ImportApPmtDistnColumns_Group" ShowCaption="True" Caption="Import Ap Pmt Distn Columns" Index="1" RelativeSize="49.911816578483247" IsNewNode="True">
+              <LayoutItem Id="ImportApPmtDistnColumns" ViewItem="ImportApPmtDistnColumns" Index="0" RelativeSize="100" IsNewNode="True" />
+            </LayoutGroup>
+          </LayoutGroup>
+        </TabbedGroup>
+        <LayoutGroup Id="Main" ShowCaption="" Removed="True" />
+      </Layout>
+    </DetailView>
+    <ListView Id="ImportApPmtDistnParam_ImportApPmtDistnColumns_ListView">
+      <Columns>
+        <ColumnInfo Id="Ordinal" Index="0" />
+        <ColumnInfo Id="Name" Index="1" />
+      </Columns>
+      <Sorting>
+        <SortProperty Id="@7eec752a-ec2a-4a4d-b7e2-341c6296941c" PropertyName="Ordinal" IsNewNode="True" />
+      </Sorting>
+    </ListView>
     <ListView Id="ImportBankStmtParam_ImportBankStmtParamItems_ListView">
       <Columns>
         <ColumnInfo Id="Enabled" Index="0" />
