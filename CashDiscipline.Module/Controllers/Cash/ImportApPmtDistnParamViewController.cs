@@ -32,18 +32,35 @@ namespace CashDiscipline.Module.Controllers.Cash
             importAction.Execute += ImportAction_Execute;
 
 
-            var resetAction = new SimpleAction(this, "ResetImportApPmtDistnAction", PredefinedCategory.ObjectsCreation);
-            resetAction.Caption = "Reset Config";
-            resetAction.Execute += ResetConfigAction_Execute;
+            var resetAction = new SingleChoiceAction(this, "ResetImportApPmtDistnAction", PredefinedCategory.ObjectsCreation);
+            resetAction.Caption = "Reset";
+            resetAction.ShowItemsOnClick = true;
+            resetAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
+            resetAction.Execute += ResetAction_Execute;
 
+            var resetSqlChoice = new ChoiceActionItem();
+            resetSqlChoice.Caption = "Reset SQL";
+            resetAction.Items.Add(resetSqlChoice);
 
+            var resetColumns = new ChoiceActionItem();
+            resetColumns.Caption = "Reset Columns";
+            resetAction.Items.Add(resetColumns);
         }
 
-        private void ResetConfigAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        private void ResetAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
             try
             {
-                ResetConfig();
+                switch(e.SelectedChoiceActionItem.Caption)
+                {
+                    case "Reset SQL":
+                        ResetSql();
+                        break;
+                    case "Reset Columns":
+                        ResetColumns();
+                        break;
+                }
+                
             }
             catch (Exception ex)
             {
@@ -69,7 +86,9 @@ namespace CashDiscipline.Module.Controllers.Cash
             var objSpace = (XPObjectSpace)ObjectSpace;
 
 
-            var csvColumns = objSpace.GetObjects<ImportApPmtDistnColumn>().OrderBy(x => x.Ordinal);
+            var csvColumns = objSpace.GetObjects<ImportApPmtDistnColumn>()
+                .Where(x => x.ImportApPmtDistnParam == paramObj)
+                .OrderBy(x => x.Ordinal);
      
             using (var csvReader = DataObjectFactory.CreateCachedReaderFromCsv(paramObj.FilePath))
             {
@@ -95,11 +114,68 @@ namespace CashDiscipline.Module.Controllers.Cash
             }
         }
 
-        private void ResetConfig()
+        private void ResetColumns()
+        {
+            ImportApPmtDistnColumn obj = null;
+            var objs = ObjectSpace.GetObjects<ImportApPmtDistnColumn>();
+            ObjectSpace.Delete(objs);
+
+            obj = CreateImportColumn(ObjectSpace, 1, "Payment Date", "DateTime");
+            obj = CreateImportColumn(ObjectSpace, 2, "Invoice Due Date", "DateTime");
+            obj = CreateImportColumn(ObjectSpace, 3, "Source", "string");
+            obj = CreateImportColumn(ObjectSpace, 4, "Capex Opex", "string");
+            obj = CreateImportColumn(ObjectSpace, 5, "Org Name", "string");
+            obj = CreateImportColumn(ObjectSpace, 6, "Bank Account Name", "string");
+            obj = CreateImportColumn(ObjectSpace, 7, "Pay Group", "string");
+            obj = CreateImportColumn(ObjectSpace, 8, "Inv Source", "string");
+            obj = CreateImportColumn(ObjectSpace, 9, "Vendor Name", "string");
+            obj = CreateImportColumn(ObjectSpace, 10, "Company", "string");
+            obj = CreateImportColumn(ObjectSpace, 11, "Account", "string");
+            obj = CreateImportColumn(ObjectSpace, 12, "Cost Centre", "string");
+            obj = CreateImportColumn(ObjectSpace, 13, "Product", "string");
+            obj = CreateImportColumn(ObjectSpace, 14, "Sales Channel", "string");
+            obj = CreateImportColumn(ObjectSpace, 15, "Country", "string");
+            obj = CreateImportColumn(ObjectSpace, 16, "Intercompany", "string");
+            obj = CreateImportColumn(ObjectSpace, 17, "Project", "string");
+            obj = CreateImportColumn(ObjectSpace, 18, "Location", "string");
+            obj = CreateImportColumn(ObjectSpace, 19, "Po Num", "string");
+            obj = CreateImportColumn(ObjectSpace, 20, "Invoice Num", "string");
+            obj = CreateImportColumn(ObjectSpace, 21, "Invoice Creation Date", "DateTime");
+            obj = CreateImportColumn(ObjectSpace, 22, "Distribution Line Number", "int");
+            obj = CreateImportColumn(ObjectSpace, 23, "Payment Amount Fx", "double");
+            obj = CreateImportColumn(ObjectSpace, 24, "Payment Amount Aud", "double");
+            obj = CreateImportColumn(ObjectSpace, 25, "Payment Number", "int");
+            obj = CreateImportColumn(ObjectSpace, 26, "Payment Batch Name", "string");
+            obj = CreateImportColumn(ObjectSpace, 27, "Payment Method", "string");
+            obj = CreateImportColumn(ObjectSpace, 28, "Invoice Currency", "string");
+            obj = CreateImportColumn(ObjectSpace, 29, "Payment Creation Date", "DateTime");
+            obj = CreateImportColumn(ObjectSpace, 30, "Line Type Lookup Code", "string");
+            obj = CreateImportColumn(ObjectSpace, 31, "Invoice Line Desc", "string");
+            obj = CreateImportColumn(ObjectSpace, 32, "Tax Code", "string");
+            obj = CreateImportColumn(ObjectSpace, 33, "Payment Currency", "string");
+            obj = CreateImportColumn(ObjectSpace, 34, "Invoice Date", "DateTime");
+            obj = CreateImportColumn(ObjectSpace, 35, "Capex Number", "string");
+            obj = CreateImportColumn(ObjectSpace, 36, "Invoice Id", "int");
+            obj = CreateImportColumn(ObjectSpace, 37, "Expenditure Type", "string");
+            obj = CreateImportColumn(ObjectSpace, 38, "Project Number", "string");
+            obj = CreateImportColumn(ObjectSpace, 39, "Vendor Number", "string");
+        }
+
+        private ImportApPmtDistnColumn CreateImportColumn(IObjectSpace os, int ord, string name, string typeName)
+        {
+            var obj = os.CreateObject<ImportApPmtDistnColumn>();
+            obj.ImportApPmtDistnParam = (ImportApPmtDistnParam)View.CurrentObject;
+            obj.Ordinal = ord;
+            obj.Name = name;
+            obj.TypeName = typeName;
+            return obj;
+        }
+
+        private void ResetSql()
         {
             var paramObj = (ImportApPmtDistnParam)View.CurrentObject;
             paramObj.CreateSql = @"CREATE TABLE {TempTable} (
-[Actual Payment Date] date,
+[Payment Date] date,
 [Invoice Due Date] date,
 [Source] nvarchar(50),
 [Capex Opex] nvarchar(50),
@@ -121,8 +197,8 @@ namespace CashDiscipline.Module.Controllers.Cash
 [Invoice Num] nvarchar(255),
 [Invoice Creation Date] date,
 [Distribution Line Number] int,
-[Actual Payment Amount Fx SUM] float,
-[Payment Amount Aud SUM] float,
+[Payment Amount Fx] float,
+[Payment Amount Aud] float,
 [Payment Number] int,
 [Payment Batch Name] nvarchar(50),
 [Payment Method] nvarchar(50),
@@ -262,7 +338,7 @@ INSERT INTO ApPmtDistn
 )
 SELECT
 CAST(CAST(NEWID() AS BINARY(10)) + CAST(GETDATE() AS BINARY(6)) AS UNIQUEIDENTIFIER) AS Oid,
-tp.[Actual Payment Date],
+tp.[Payment Date],
 (SELECT s.Oid FROM ApSource s WHERE s.Name LIKE tp.[Source] AND s.GCRecord IS NULL) AS Source,
 (SELECT a.Oid FROM ApBankAccount a WHERE a.BankAccountName LIKE tp.[Bank Account Name] AND a.GCRecord IS NULL) AS BankAccount,
 (SELECT a.Oid FROM ApPayGroup a WHERE a.Name LIKE tp.[Pay Group] AND a.GCRecord IS NULL) AS PayGroup,
@@ -279,8 +355,8 @@ tp.[Project],
 tp.[Location],
 TRY_CONVERT(int, tp.[Po Num]),
 tp.[Invoice Num],
-tp.[Actual Payment Amount Fx SUM],
-tp.[Payment Amount Aud SUM],
+tp.[Payment Amount Fx],
+tp.[Payment Amount Aud],
 tp.[Payment Number],
 tp.[Payment Batch Name],
 (SELECT a.Oid FROM Currency a WHERE a.Name LIKE tp.[Invoice Currency] AND a.GCRecord IS NULL) AS InvoiceCurrency,
