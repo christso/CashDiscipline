@@ -81,18 +81,6 @@ namespace CashDiscipline.Module.ParamObjects.Import
                 SetPropertyValue("PersistSql", ref _PersistSql, value);
             }
         }
-
-        private string _TempTable;
-        public string TempTable
-        {
-            get
-            {
-                return _TempTable;
-            }
-            set
-            {
-                SetPropertyValue("TempTable", ref _TempTable, value);
-            }
-        }
+        
     }
 }

@@ -227,6 +227,7 @@
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDateSched.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApVendorSitePaymentTerms.cs" />
+    <Compile Include="BusinessObjects\AccountsReceivable\ArOpenInvoices.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtDefaults.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPoReceipt.cs" />
     <Compile Include="BusinessObjects\Cash\AccountBalance.cs" />

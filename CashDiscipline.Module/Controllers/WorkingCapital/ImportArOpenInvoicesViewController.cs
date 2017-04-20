@@ -87,10 +87,8 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
 [Original Receipt Amount] nvarchar(255),
 [Overdue Days] nvarchar(255)
 )";
-            paramObj.PersistSql = @"DELETE FROM VHAFinance.dbo.ArOpenInvoices
-WHERE [AsAtDate] = '{AsAtDate}'
-
-INSERT INTO VHAFinance.dbo.ArOpenInvoices
+            paramObj.PersistSql = 
+@"INSERT INTO ArOpenInvoices
 (
     [Oid],
     [AsAtDate],
@@ -140,34 +138,29 @@ FROM {TempTable}
 
         private void ImportAction_Execute(object sender, SimpleActionExecuteEventArgs e)
         {
-            var paramObj = (ImportArOpenInvoicesParam)View.CurrentObject;
-            var tempTableName = paramObj.TempTable ?? "#TmpArOpenInvoices";
-            
-            Func<string, string> formatSql = delegate (string sql)
+            try
             {
-                return Smart.Format(sql, new
-                {
-                    AsAtDate = string.Format("{0:yyyy-MM-dd}", paramObj.AsAtDate.Date),
-                    TempTable = tempTableName
-                });
-            };
+                Import();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + "\r\n" + ex.StackTrace);
+            }
+        }
 
+        private void Import()
+        {
+            var paramObj = (ImportArOpenInvoicesParam)View.CurrentObject;
             var objSpace = (XPObjectSpace)ObjectSpace;
 
-            string persistSql = formatSql(paramObj.PersistSql);
             using (var csvReader = DataObjectFactory.CreateCachedReaderFromCsv(paramObj.FilePath))
             {
-                //csvReader.Columns = new List<LumenWorks.Framework.IO.Csv.Column>
-                //{
-                //    new LumenWorks.Framework.IO.Csv.Column() { Name = "Customer Name", Type = typeof(string) },
-                //    new LumenWorks.Framework.IO.Csv.Column() { Name = "Customer Number", Type = typeof(string) },
-                //};
-
                 var loader = new SqlServerLoader2((SqlConnection)objSpace.Connection);
-                loader.TempTableName = tempTableName;
+                loader.SqlStringReplacers.Add("AsAtDate", string.Format("{0:yyyy-MM-dd}", paramObj.AsAtDate.Date));
                 loader.CreateSql = paramObj.CreateSql;
-                loader.PersistSql = formatSql(paramObj.PersistSql);
+                loader.PersistSql = paramObj.PersistSql;
                 var messagesText = loader.Execute(csvReader);
+
                 new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                     messagesText,
                    "Import Successful"

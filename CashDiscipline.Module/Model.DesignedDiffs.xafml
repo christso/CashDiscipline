@@ -31,7 +31,7 @@
       </Item>
       <Item Id="Cash Data" Caption="Cash Data" Index="3" IsNewNode="True">
         <Items IsNewNode="True">
-          <Item Id="AccountBalance_ListView" Index="0" />
+          <Item Id="AccountBalance_ListView" Index="0" IsNewNode="True" />
           <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="1" IsNewNode="True" />
           <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="2" IsNewNode="True" />
           <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="3" IsNewNode="True" />
@@ -60,6 +60,7 @@
           <Item Id="ApPoReceipt" Caption="AP Po Receipt" ViewId="ApPoReceipt_ListView" Index="1" IsNewNode="True" />
           <Item Id="ApPaymentDateSchedule" ViewId="ApPmtDateSched_ListView" Caption="AP Payment Date Schedule" Index="2" IsNewNode="True" />
           <Item Id="ApVendorSitePaymentTerms" Caption="AP Vendor Site Payment Terms" Index="3" ViewId="ApVendorSitePaymentTerms_ListView" IsNewNode="True" />
+          <Item Id="ArOpenInvoices" ViewId="ArOpenInvoices_ListView" Caption="AR Open Invoices" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="Import" Index="8" />
@@ -190,6 +191,11 @@
     <ListView Id="ApPoReceipt_ListView" DataAccessMode="Server" />
     <ListView Id="ApSource_LookupListView" AllowEdit="False" />
     <ListView Id="ApVendor_LookupListView" AllowEdit="False" />
+    <ListView Id="ArOpenInvoices_ListView">
+      <Sorting>
+        <SortProperty Id="@8d4c9e9f-b36b-4e26-8c16-96126588bb23" PropertyName="AsAtDate" Direction="Descending" IsNewNode="True" />
+      </Sorting>
+    </ListView>
     <ListView Id="AustPostSettle_ListView" DataAccessMode="Server">
       <Columns>
         <ColumnInfo Id="Oid" PropertyName="Oid" SortIndex="-1" Index="0" IsNewNode="True" />
@@ -659,6 +665,26 @@
         <SortProperty Id="@7eec752a-ec2a-4a4d-b7e2-341c6296941c" PropertyName="Ordinal" IsNewNode="True" />
       </Sorting>
     </ListView>
+    <DetailView Id="ImportArOpenInvoicesParam_DetailView">
+      <Items>
+        <StaticText Id="Note" Text="NOTE: This uploads AR open invoices into CD. Please perform steps below:&#xD;&#xA;- Run Disco report HTAR Billing Receipt History Detail Report, and export to CSV&#xD;&#xA;- Delete the top few rows in the CSV so the column names are at the first row&#xD;&#xA;- Hit 'Import', then 'Process'." Caption="Note(2)" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutItem Id="Note" ViewItem="Note" Index="0" RelativeSize="18.181818181818183" IsNewNode="True" />
+          <LayoutGroup Id="SimpleEditors" Index="1" RelativeSize="10.227272727272727">
+            <LayoutGroup Id="ImportArOpenInvoicesParam" RelativeSize="100">
+              <LayoutItem Id="AsAtDate" Index="0" RelativeSize="100" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors" Index="2" RelativeSize="1">
+            <LayoutItem Id="FilePath" RelativeSize="1" />
+            <LayoutItem Id="CreateSql" RelativeSize="43.650793650793652" />
+            <LayoutItem Id="PersistSql" RelativeSize="33.730158730158728" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <ListView Id="ImportBankStmtParam_ImportBankStmtParamItems_ListView">
       <Columns>
         <ColumnInfo Id="Enabled" Index="0" />
