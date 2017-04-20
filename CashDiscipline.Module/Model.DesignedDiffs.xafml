@@ -31,9 +31,10 @@
       </Item>
       <Item Id="Cash Data" Caption="Cash Data" Index="3" IsNewNode="True">
         <Items IsNewNode="True">
+          <Item Id="AccountBalance_ListView" Index="0" />
           <Item Id="ApPmtDistn" ViewId="ApPmtDistn_ListView" Caption="Ap Payment Distribution" Index="1" IsNewNode="True" />
-          <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="3" IsNewNode="True" />
-          <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="4" IsNewNode="True" />
+          <Item Id="Bank Stmt" ViewId="BankStmt_ListView" Index="2" IsNewNode="True" />
+          <Item Id="CashFlow" ViewId="CashFlow_ListView" Index="3" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="Cash Setup" Index="4" IsNewNode="True" />
@@ -61,13 +62,13 @@
           <Item Id="ApVendorSitePaymentTerms" Caption="AP Vendor Site Payment Terms" Index="3" ViewId="ApVendorSitePaymentTerms_ListView" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="System Internals" Index="8" Caption="System Internals" IsNewNode="True">
+      <Item Id="Import" Index="8" />
+      <Item Id="System Internals" Index="9" Caption="System Internals" IsNewNode="True">
         <Items IsNewNode="True">
           <Item Id="BankStmtCashFlowForecast" ViewId="BankStmtCashFlowForecast_ListView" Index="2" IsNewNode="True" />
           <Item Id="FinGenJournalParam" ViewId="FinGenJournalParam_ListView" Index="4" IsNewNode="True" />
         </Items>
       </Item>
-      <Item Id="Import" Index="9" />
     </Items>
   </NavigationItems>
   <Options DataAccessMode="Server" />
@@ -106,7 +107,11 @@
     <ListView Id="Activity_ListView" AllowEdit="True" />
     <ListView Id="Activity_LookupListView" AllowEdit="False" />
     <ListView Id="ApBankAccount_LookupListView" AllowEdit="False" />
-    <ListView Id="ApInvoiceBalance_ListView" DataAccessMode="Server" />
+    <ListView Id="ApInvoiceBalance_ListView" DataAccessMode="Server">
+      <Sorting>
+        <SortProperty Id="AsAtDate_Sort" PropertyName="AsAtDate" Direction="Descending" IsNewNode="True" />
+      </Sorting>
+    </ListView>
     <ListView Id="ApInvSource_LookupListView" AllowEdit="False" />
     <ListView Id="ApPayGroup_LookupListView" AllowEdit="False" />
     <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server" IsFooterVisible="True">
@@ -596,6 +601,30 @@
         <ColumnInfo Id="GlDate" SortIndex="0" SortOrder="Ascending" />
       </Columns>
     </ListView>
+    <DetailView Id="ImportApInvoiceBalanceParam_DetailView">
+      <Items>
+        <PropertyEditor Id="FromDate" ToolTip="The first AsAtDate to map" />
+        <StaticText Id="Note" Caption="Note(2)" Text="NOTE: This form is used for uploading AP Invoice Balances into CD. Here's what each action does: &#xD;&#xA;- 'Import' uploads new data. Please note that it will not delete existing data (so it does not prevent uploading twice) &#xD;&#xA;- 'Map' will map the activity of data where AsAtDate is between FromDate and ToDate.&#xD;&#xA;- 'Process' will push the changes to the report (which still needs to be refreshed in Excel)." IsNewNode="True" />
+        <PropertyEditor Id="ToDate" ToolTip="The last AsAtDate to map" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main" RelativeSize="100">
+          <LayoutItem Id="Note" ViewItem="Note" Index="0" RelativeSize="24.725274725274726" IsNewNode="True" />
+          <LayoutGroup Id="SimpleEditors" Index="1" RelativeSize="10">
+            <LayoutGroup Id="ImportApInvoiceBalanceParam" Index="0" RelativeSize="1">
+              <LayoutItem Id="FilePath" ViewItem="FilePath" ShowCaption="" Index="0" RelativeSize="1" IsNewNode="True" />
+              <LayoutItem Id="FromDate" Index="1" RelativeSize="1" />
+              <LayoutItem Id="ToDate" Index="2" RelativeSize="1" />
+            </LayoutGroup>
+          </LayoutGroup>
+          <LayoutGroup Id="SizeableEditors" Index="2" RelativeSize="100">
+            <LayoutItem Id="CreateSql" Index="0" RelativeSize="50" />
+            <LayoutItem Id="PersistSql" Index="1" RelativeSize="50" />
+            <LayoutItem Id="FilePath" Removed="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <DetailView Id="ImportApPmtDistnParam_DetailView">
       <Items>
         <PropertyEditor Id="CreateSql" ToolTip="Creates staging table based on column ordinals of CSV file" />

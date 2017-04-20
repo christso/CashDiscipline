@@ -22,33 +22,6 @@ namespace CashDiscipline.Module.ParamObjects.Import
             session.LockingOption = LockingOption.None;
         }
 
-        private DateTime _FromDate;
-
-        public DateTime FromDate
-        {
-            get
-            {
-                return _FromDate;
-            }
-            set
-            {
-                SetPropertyValue("FromDate", ref _FromDate, value);
-            }
-        }
-
-        private DateTime _ToDate;
-        public DateTime ToDate
-        {
-            get
-            {
-                return _ToDate;
-            }
-            set
-            {
-                SetPropertyValue("ToDate", ref _ToDate, value);
-            }
-        }
-
         private string _FilePath;
         [Size(SizeAttribute.Unlimited)]
         public string FilePath
@@ -62,6 +35,65 @@ namespace CashDiscipline.Module.ParamObjects.Import
                 SetPropertyValue("FilePath", ref _FilePath, value);
             }
         }
+
+        private DateTime _FromDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        public DateTime FromDate
+        {
+            get
+            {
+                return _FromDate;
+            }
+            set
+            {
+                SetPropertyValue("FromDate", ref _FromDate, value);
+            }
+        }
+
+        private DateTime _ToDate;
+        [ModelDefault("DisplayFormat", "dd-MMM-yy")]
+        [ModelDefault("EditMask", "dd-MMM-yy")]
+        public DateTime ToDate
+        {
+            get
+            {
+                return _ToDate;
+            }
+            set
+            {
+                SetPropertyValue("ToDate", ref _ToDate, value);
+            }
+        }
+
+        private string _CreateSql;
+        [Size(SizeAttribute.Unlimited)]
+        public string CreateSql
+        {
+            get
+            {
+                return _CreateSql;
+            }
+            set
+            {
+                SetPropertyValue("CreateSql", ref _CreateSql, value);
+            }
+        }
+
+        private string _PersistSql;
+        [Size(SizeAttribute.Unlimited)]
+        public string PersistSql
+        {
+            get
+            {
+                return _PersistSql;
+            }
+            set
+            {
+                SetPropertyValue("PersistSql", ref _PersistSql, value);
+            }
+        }
+
 
         public static ImportApInvoiceBalanceParam GetInstance(IObjectSpace objectSpace)
         {

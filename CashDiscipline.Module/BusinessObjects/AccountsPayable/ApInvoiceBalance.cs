@@ -1,5 +1,6 @@
 ﻿using CashDiscipline.Module.Attributes;
 using DevExpress.ExpressApp.Model;
+using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
 using System;
 using System.Collections.Generic;
@@ -16,18 +17,19 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
     [AutoColumnWidth(false)]
     [ModelDefault("ImageName", "BO_List")]
     [BatchDelete(isVisible: true)]
-    public class ApInvoiceBalance : XPLiteObject
+    public class ApInvoiceBalance : BaseObject
     {
         public ApInvoiceBalance(Session session) : base(session) { }
         public override void AfterConstruction() { base.AfterConstruction(); }
 
-        Guid fOid;
-        [Key]
-        public Guid Oid
-        {
-            get { return fOid; }
-            set { SetPropertyValue<Guid>("Oid", ref fOid, value); }
-        }
+        //Guid fOid;
+        //[Key]
+        //public Guid Oid
+        //{
+        //    get { return fOid; }
+        //    set { SetPropertyValue<Guid>("Oid", ref fOid, value); }
+        //}
+
         double fRequestId;
         [ModelDefault("DisplayFormat", "f0")]
         public double RequestId

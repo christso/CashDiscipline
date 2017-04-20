@@ -229,7 +229,15 @@
     <Compile Include="BusinessObjects\AccountsPayable\ApVendorSitePaymentTerms.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtDefaults.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPoReceipt.cs" />
+    <Compile Include="BusinessObjects\Cash\AccountBalance.cs" />
+    <Compile Include="Controllers\Cash\AccountBalanceParamViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Cash\AccountBalanceViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ImportHelper.cs" />
+    <Compile Include="ParamObjects\Import\AccountBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPmtDistnColumn.cs" />
     <Compile Include="BusinessObjects\DimDate.cs" />
     <Compile Include="BusinessObjects\FinAccounting\TB_Account.cs" />

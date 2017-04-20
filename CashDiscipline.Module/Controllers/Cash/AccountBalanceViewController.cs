@@ -1,4 +1,4 @@
-﻿using CashDiscipline.Module.BusinessObjects.AccountsPayable;
+﻿using CashDiscipline.Module.BusinessObjects.Cash;
 using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
@@ -8,24 +8,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashDiscipline.Module.Controllers.WorkingCapital
-{
-    public class ApInvoiceBalanceViewController : ViewController
-    {
-        private const string importCaption = "Import";
-        public ApInvoiceBalanceViewController()
-        {
-            TargetObjectType = typeof(ApInvoiceBalance);
 
-            var mainAction = new SingleChoiceAction(this, "ApInvoiceBalanceAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
+namespace CashDiscipline.Module.Controllers.Cash
+{
+    public class AccountBalanceViewController : ViewController
+    {
+        private const string calcBalCaption = "Calculate";
+
+        public AccountBalanceViewController()
+        {
+            TargetObjectType = typeof(AccountBalance);
+
+            var mainAction = new SingleChoiceAction(this, "AccountBalanceAction", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             mainAction.Caption = "Actions";
             mainAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             mainAction.ShowItemsOnClick = true;
             mainAction.Execute += MainAction_Execute;
 
-            var importChoice = new ChoiceActionItem();
-            importChoice.Caption = importCaption;
-            mainAction.Items.Add(importChoice);
+            var calcBalChoice = new ChoiceActionItem();
+            calcBalChoice.Caption = calcBalCaption;
+            mainAction.Items.Add(calcBalChoice);
         }
 
         private void MainAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -33,7 +35,7 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             var caption = e.SelectedChoiceActionItem.Caption;
             switch (caption)
             {
-                case importCaption:
+                case calcBalCaption:
                     ShowImportForm(e.ShowViewParameters);
                     break;
             }
@@ -42,7 +44,7 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
         private void ShowImportForm(ShowViewParameters svp)
         {
             var os = Application.CreateObjectSpace();
-            var paramObj = ImportApInvoiceBalanceParam.GetInstance(os);
+            var paramObj = AccountBalanceParam.GetInstance(os);
             var detailView = Application.CreateDetailView(os, paramObj);
             svp.TargetWindow = TargetWindow.NewModalWindow;
             svp.CreatedView = detailView;
