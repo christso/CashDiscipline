@@ -237,6 +237,9 @@
     <Compile Include="Controllers\Cash\AccountBalanceViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\WorkingCapital\ArOpenInvoicesViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ImportHelper.cs" />
     <Compile Include="ParamObjects\Import\AccountBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPmtDistnColumn.cs" />

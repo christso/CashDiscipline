@@ -81,6 +81,11 @@ namespace CashDiscipline.Module.ParamObjects.Import
                 SetPropertyValue("PersistSql", ref _PersistSql, value);
             }
         }
-        
+
+        public static ImportArOpenInvoicesParam GetInstance(IObjectSpace objectSpace)
+        {
+            return BaseObjectHelper.GetInstance<ImportArOpenInvoicesParam>(objectSpace);
+        }
+
     }
 }
