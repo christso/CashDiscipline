@@ -60,7 +60,10 @@
           <Item Id="ApPoReceipt" Caption="AP Po Receipt" ViewId="ApPoReceipt_ListView" Index="1" IsNewNode="True" />
           <Item Id="ApPaymentDateSchedule" ViewId="ApPmtDateSched_ListView" Caption="AP Payment Date Schedule" Index="2" IsNewNode="True" />
           <Item Id="ApVendorSitePaymentTerms" Caption="AP Vendor Site Payment Terms" Index="3" ViewId="ApVendorSitePaymentTerms_ListView" IsNewNode="True" />
-          <Item Id="ArOpenInvoices" ViewId="ArOpenInvoices_ListView" Caption="AR Open Invoices" IsNewNode="True" />
+          <Item Id="ArOpenInvoices" ViewId="ArOpenInvoices_ListView" Caption="AR Open Invoices" Index="4" IsNewNode="True" />
+          <Item Id="GlAccountActivityMap" ViewId="GlAccountActivityMap_ListView" Index="5" IsNewNode="True" />
+          <Item Id="ApInvoiceBalanceMapping" ViewId="ApInvoiceBalanceMapping_ListView" IsNewNode="True" />
+          <Item Id="GlCostCentreActivityMap" ViewId="GlCostCentreActivityMap_ListView" IsNewNode="True" />
         </Items>
       </Item>
       <Item Id="Import" Index="8" />
@@ -108,11 +111,90 @@
     <ListView Id="Activity_ListView" AllowEdit="True" />
     <ListView Id="Activity_LookupListView" AllowEdit="False" />
     <ListView Id="ApBankAccount_LookupListView" AllowEdit="False" />
-    <ListView Id="ApInvoiceBalance_ListView" DataAccessMode="Server">
+    <DetailView Id="ApInvoiceBalance_DetailView">
+      <Items>
+        <PropertyEditor Id="Oid" PropertyName="Oid" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="ApInvoiceBalance">
+              <LayoutGroup Id="ApInvoiceBalance_col1" Index="0" ShowCaption="False" IsNewNode="True" Removed="True">
+                <LayoutItem Id="Oid" ViewItem="Oid" Index="0" IsNewNode="True" />
+                <LayoutItem Id="AsAtDate" ViewItem="AsAtDate" ShowCaption="" Index="1" IsNewNode="True" />
+                <LayoutItem Id="Supplier" ViewItem="Supplier" ShowCaption="" Index="2" IsNewNode="True" />
+                <LayoutItem Id="InvoiceNumber" ViewItem="InvoiceNumber" ShowCaption="" Index="3" IsNewNode="True" />
+                <LayoutItem Id="LiabilityCompany" ViewItem="LiabilityCompany" ShowCaption="" Index="4" IsNewNode="True" />
+                <LayoutItem Id="LiabilityAccount" ViewItem="LiabilityAccount" ShowCaption="" Index="5" IsNewNode="True" />
+                <LayoutItem Id="LiabilityCostCentre" ViewItem="LiabilityCostCentre" ShowCaption="" Index="6" IsNewNode="True" />
+                <LayoutItem Id="LiabilityIntercompany" ViewItem="LiabilityIntercompany" ShowCaption="" Index="7" IsNewNode="True" />
+                <LayoutItem Id="InvoiceDate" ViewItem="InvoiceDate" ShowCaption="" Index="8" IsNewNode="True" />
+                <LayoutItem Id="GlDate" ViewItem="GlDate" ShowCaption="" Index="9" IsNewNode="True" />
+                <LayoutItem Id="TrxCurrencyCode" ViewItem="TrxCurrencyCode" ShowCaption="" Index="10" IsNewNode="True" />
+                <LayoutItem Id="InvoiceAmountAud" ViewItem="InvoiceAmountAud" ShowCaption="" Index="11" IsNewNode="True" />
+                <LayoutItem Id="InvoiceRemainingAmountAud" ViewItem="InvoiceRemainingAmountAud" ShowCaption="" Index="12" IsNewNode="True" />
+                <LayoutItem Id="LineDistributionRemainingAmountAud" ViewItem="LineDistributionRemainingAmountAud" ShowCaption="" Index="13" IsNewNode="True" />
+                <LayoutItem Id="Opex_Capex_Other" ViewItem="Opex_Capex_Other" ShowCaption="" Index="14" IsNewNode="True" />
+                <LayoutItem Id="ExtraDetail1" ViewItem="ExtraDetail1" ShowCaption="" Index="15" IsNewNode="True" />
+                <LayoutItem Id="ExtraDetail2" ViewItem="ExtraDetail2" ShowCaption="" Index="16" IsNewNode="True" />
+                <LayoutItem Id="ExpenseCompany" ViewItem="ExpenseCompany" ShowCaption="" Index="17" IsNewNode="True" />
+                <LayoutItem Id="ExpenseAccount" ViewItem="ExpenseAccount" ShowCaption="" Index="18" IsNewNode="True" />
+                <LayoutItem Id="ExpenseCostCentre" ViewItem="ExpenseCostCentre" ShowCaption="" Index="19" IsNewNode="True" />
+                <LayoutItem Id="ExpenseProduct" ViewItem="ExpenseProduct" ShowCaption="" Index="20" IsNewNode="True" />
+              </LayoutGroup>
+              <LayoutGroup Id="ApInvoiceBalance_col2">
+                <LayoutItem Id="RequestId" ViewItem="RequestId" ShowCaption="" Index="0" IsNewNode="True" />
+                <LayoutItem Id="ExpenseSalesChannel" Index="1" />
+                <LayoutItem Id="ExpenseCountry" Index="2" />
+                <LayoutItem Id="ExpenseIntercompany" Index="3" />
+                <LayoutItem Id="ExpenseProject" Index="4" />
+                <LayoutItem Id="ExpenseLocation" Index="5" />
+                <LayoutItem Id="InvoiceDescription" Index="6" />
+                <LayoutItem Id="Tax" Index="7" />
+                <LayoutItem Id="OpexArea" Index="8" />
+                <LayoutItem Id="RevenueArea" Index="9" />
+                <LayoutItem Id="AccountActivity" Index="10" />
+                <LayoutItem Id="CostCentreActivity" Index="11" />
+                <LayoutItem Id="Activity" Index="12" />
+                <LayoutItem Id="DueDate" Index="13" />
+                <LayoutItem Id="PaymentTerm" Index="14" />
+                <LayoutItem Id="InvoiceReceivedDate" Index="15" />
+                <LayoutItem Id="VendorType" Index="16" />
+                <LayoutItem Id="Category1" Index="17" />
+                <LayoutItem Id="Category2" Index="18" />
+                <LayoutItem Id="EnteredOrigAmount" Index="19" />
+                <LayoutItem Id="EnteredOrigRemainingAmount" Index="20" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+    <ListView Id="ApInvoiceBalance_ListView" DataAccessMode="Server" IsFooterVisible="True">
+      <Columns>
+        <ColumnInfo Id="Oid" PropertyName="Oid" Index="0" IsNewNode="True">
+          <Summary IsNewNode="True">
+            <ColumnSummaryItem Id="@52d09b4f-1616-4914-8a95-0c71d2ae4e9f" SummaryType="Count" IsNewNode="True" />
+          </Summary>
+        </ColumnInfo>
+      </Columns>
       <Sorting>
         <SortProperty Id="AsAtDate_Sort" PropertyName="AsAtDate" Direction="Descending" IsNewNode="True" />
       </Sorting>
     </ListView>
+    <DetailView Id="ApInvoiceBalanceMapping_DetailView">
+      <Items>
+        <ActionContainerViewItem Id="ExecuteActions" ActionContainer="ExecuteActions" IsNewNode="True" />
+      </Items>
+      <Layout>
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors" Caption="Main" ShowCaption="True" />
+          <LayoutGroup Id="SizeableEditors" ShowCaption="True" Caption="Criteria">
+            <LayoutItem Id="ExecuteActions" ViewItem="ExecuteActions" HorizontalAlign="Right" IsNewNode="True" />
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
     <ListView Id="ApInvSource_LookupListView" AllowEdit="False" />
     <ListView Id="ApPayGroup_LookupListView" AllowEdit="False" />
     <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server" IsFooterVisible="True">

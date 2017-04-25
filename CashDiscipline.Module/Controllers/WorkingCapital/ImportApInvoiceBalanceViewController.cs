@@ -16,11 +16,16 @@ using SmartFormat;
 using CashDiscipline.Common;
 using DG2NTT.AnalysisServicesHelpers;
 using CashDiscipline.Module.Clients;
+using DevExpress.Data.Filtering;
 
 namespace CashDiscipline.Module.Controllers.Cash
 {
     public class ImportApInvoiceBalanceViewController : ViewController
     {
+        private const string resetImportSqlCaption = "Import SQL";
+        private const string resetMapSqlCaption = "Map SQL";
+        private const string resetActyMapSqlCaption = "Acty Map SQL";
+
         public ImportApInvoiceBalanceViewController()
         {
             TargetObjectType = typeof(ImportApInvoiceBalanceParam);
@@ -39,15 +44,14 @@ namespace CashDiscipline.Module.Controllers.Cash
             reportAction.Execute += ReportAction_Execute;
 
             var resetAction = new SingleChoiceAction(this, "ResetImportApInvoiceBalanceAction", PredefinedCategory.ObjectsCreation);
-            resetAction.Caption = "Reset";
+            resetAction.Caption = "Reset SQL";
             resetAction.ShowItemsOnClick = true;
             resetAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             resetAction.Execute += ResetAction_Execute;
 
-            var resetSqlChoice = new ChoiceActionItem();
-            resetSqlChoice.Caption = "Reset SQL";
-            resetAction.Items.Add(resetSqlChoice);
-
+            var resetImportSqlChoice = new ChoiceActionItem();
+            resetImportSqlChoice.Caption = resetImportSqlCaption;
+            resetAction.Items.Add(resetImportSqlChoice);
         }
 
         private void ResetAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -56,8 +60,8 @@ namespace CashDiscipline.Module.Controllers.Cash
             {
                 switch (e.SelectedChoiceActionItem.Caption)
                 {
-                    case "Reset SQL":
-                        ResetSql();
+                    case resetImportSqlCaption:
+                        ResetImportSql();
                         break;
                 }
 
@@ -94,63 +98,24 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             var paramObj = (ImportApInvoiceBalanceParam)View.CurrentObject;
 
+            /*
             Func<string, string> formatSql = delegate(string sql)
             {
                 return Smart.Format(sql, new
                 {
                     FromDate = string.Format("{0:yyyy-MM-dd}", paramObj.FromDate.Date),
-                    ToDate = string.Format("{0:yyyy-MM-dd}", paramObj.ToDate.Date)
+                    ToDate = string.Format("{0:yyyy-MM-dd}", paramObj.ToDate.Date),
+                    MapActivitySql = paramObj.ActivityMapSql
                 });
             };
-
-            string sqlVendor = @"INSERT INTO Vendors
-SELECT DISTINCT T1.[Supplier] FROM ApTradeCreditor T1
-WHERE T1.AsAtDate BETWEEN '{FromDate}' AND '{ToDate}'
-AND T1.[Supplier] NOT IN (SELECT Vendor FROM Vendors)";
-
-            string sqlMapActivity = @"exec sp_map_apcreditor_account '{FromDate}', '{ToDate}'
-exec sp_map_apcreditor_costcentre '{FromDate}', '{ToDate}'
-exec sp_map_apcreditor_final '{FromDate}', '{ToDate}'";
-
-            string sqlInvoices = @"INSERT INTO ApInvoices
-SELECT DISTINCT T1.InvoiceNumber, T1.InvoiceDate
-FROM ApTradeCreditor T1
-WHERE T1.InvoiceNumber NOT IN (SELECT ApInvoices.InvoiceNum FROM ApInvoices)
-AND T1.InvoiceNumber IS NOT NULL
-AND T1.AsAtDate BETWEEN '{FromDate}' AND '{ToDate}'";
-
-            string sqlInvoiceReceivedDate = @"UPDATE ApTradeCreditor SET 
-InvoiceReceivedDate =
-(
-	SELECT MAX(T1.[Invoice Received Date])
-	FROM ApInvoiceHeader T1
-	WHERE T1.[Vendor Name] = ApTradeCreditor.Supplier
-		AND T1.[Invoice Num] = ApTradeCreditor.InvoiceNumber
-)
-WHERE ApTradeCreditor.AsAtDate BETWEEN '{FromDate}' AND '{ToDate}'";
-
-            const string connString = CashDiscipline.Common.Constants.FinanceConnString;
+            */
 
             try
             {
-                using (var conn = new SqlConnection(connString))
-                using (var cmd = new SqlCommand())
-                {
-                    conn.Open();
-                    cmd.Connection = conn;
-
-                    cmd.CommandText = formatSql(sqlVendor);
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = formatSql(sqlMapActivity);
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = formatSql(sqlInvoices);
-                    cmd.ExecuteNonQuery();
-
-                    cmd.CommandText = formatSql(sqlInvoiceReceivedDate);
-                    cmd.ExecuteNonQuery();
-                }
+                var objSpace = (XPObjectSpace)ObjectSpace;
+                
+                var mapper = new ApInvoiceBalanceMapper(objSpace);
+                mapper.Process(paramObj);
 
                 new Xafology.ExpressApp.SystemModule.GenericMessageBox(
                     "Mapping Successful",
@@ -197,7 +162,7 @@ WHERE ApTradeCreditor.AsAtDate BETWEEN '{FromDate}' AND '{ToDate}'";
             }
         }
 
-        private void ResetSql()
+        private void ResetImportSql()
         {
             var paramObj = (ImportApInvoiceBalanceParam)View.CurrentObject;
             paramObj.CreateSql = @"CREATE TABLE {TempTable} (
@@ -312,7 +277,7 @@ SELECT
     [Entered rounded rem amount]
 FROM {TempTable}";
         }
-
+        
         protected override void OnActivated()
         {
             base.OnActivated();

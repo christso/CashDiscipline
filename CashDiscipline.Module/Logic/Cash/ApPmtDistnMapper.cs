@@ -47,7 +47,8 @@ LEFT JOIN Currency InvoiceCurrency ON InvoiceCurrency.Oid = ApPmtDistn.InvoiceCu
 LEFT JOIN Currency PaymentCurrency ON PaymentCurrency.Oid = ApPmtDistn.PaymentCurrency
 LEFT JOIN Activity ON Activity.Oid = ApPmtDistn.Activity
 LEFT JOIN Account ON Account.Oid = ApPmtDistn.Account
-WHERE ApPmtDistn.GCRecord IS NULL";
+WHERE ApPmtDistn.GCRecord IS NULL
+{criteria}";
 
         private const string AddCounterpartySql = @"DECLARE @DefaultFixCounterparty uniqueidentifier = (SELECT Oid FROM Counterparty WHERE Name LIKE 'UNDEFINED')
 DECLARE @DefaultCounterpartyTag nvarchar(255) = 'UNDEFINED'

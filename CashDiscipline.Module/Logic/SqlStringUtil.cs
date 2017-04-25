@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SmartFormat;
+using DevExpress.Data.Filtering;
+using Xafology.ExpressApp.Xpo;
 
 namespace CashDiscipline.Module.Logic
 {
@@ -20,6 +22,13 @@ namespace CashDiscipline.Module.Logic
                     clause.ParameterName, clause.DataType, clause.CommandText);
             }
             return result;
+        }
+
+        public string AddSqlCriteria(string sqlUpdate, CriteriaOperator criteria)
+        {
+            var sqlWhere = CriteriaToWhereClauseHelper.GetMsSqlWhere(XpoCriteriaFixer.Fix(criteria));
+            var sqlTemplate = sqlUpdate.Replace("{criteria}", (string.IsNullOrEmpty(sqlWhere) ? "" : " AND " + sqlWhere));
+            return sqlTemplate;
         }
     }
 }

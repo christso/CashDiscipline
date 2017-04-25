@@ -56,10 +56,20 @@ namespace CashDiscipline.Module.Logic.SqlMap
         public List<SqlParameter> SqlParameters { get; set; }
 
         public void Process(string sqlUpdate, CriteriaOperator criteria)
+        { 
+            var sqlTemplate = ConvertToSql(sqlUpdate, criteria);
+            Process(sqlTemplate);
+        }
+
+        public string ConvertToSql(string sqlUpdate, CriteriaOperator criteria)
         {
             var sqlWhere = CriteriaToWhereClauseHelper.GetMsSqlWhere(XpoCriteriaFixer.Fix(criteria));
-            var sqlTemplate = sqlUpdate + (string.IsNullOrEmpty(sqlWhere) ? "" : " AND " + sqlWhere);
+            var sqlTemplate = sqlUpdate.Replace("{criteria}", (string.IsNullOrEmpty(sqlWhere) ? "" : " AND " + sqlWhere));
+            return sqlTemplate;
+        }
 
+        public void Process(string sqlTemplate)
+        {
             RefreshMaps();
 
             var conn = (SqlConnection)objSpace.Session.Connection;

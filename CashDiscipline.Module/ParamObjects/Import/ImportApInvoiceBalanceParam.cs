@@ -94,7 +94,6 @@ namespace CashDiscipline.Module.ParamObjects.Import
             }
         }
 
-
         public static ImportApInvoiceBalanceParam GetInstance(IObjectSpace objectSpace)
         {
             return BaseObjectHelper.GetInstance<ImportApInvoiceBalanceParam>(objectSpace);

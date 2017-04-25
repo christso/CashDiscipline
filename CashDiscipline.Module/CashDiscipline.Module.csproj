@@ -227,6 +227,9 @@
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDateSched.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPmtDistnMapping.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApVendorSitePaymentTerms.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\GlAccountActivityMap.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\ApInvoiceBalanceMapping.cs" />
+    <Compile Include="BusinessObjects\AccountsPayable\GlCostCentreActivityMap.cs" />
     <Compile Include="BusinessObjects\AccountsReceivable\ArOpenInvoices.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtDefaults.cs" />
     <Compile Include="BusinessObjects\AccountsPayable\ApPoReceipt.cs" />
@@ -241,6 +244,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ImportHelper.cs" />
+    <Compile Include="Logic\WorkingCapital\ApInvoiceBalanceMapper.cs" />
     <Compile Include="ParamObjects\Import\AccountBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPmtDistnColumn.cs" />
     <Compile Include="BusinessObjects\DimDate.cs" />

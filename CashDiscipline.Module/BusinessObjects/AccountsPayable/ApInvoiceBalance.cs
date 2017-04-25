@@ -1,4 +1,6 @@
 ﻿using CashDiscipline.Module.Attributes;
+using CashDiscipline.Module.BusinessObjects.Cash;
+using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Model;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Xpo;
@@ -12,23 +14,17 @@ using Xafology.ExpressApp.BatchDelete;
 
 namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
 {
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("Oid")]
     [ModelDefault("IsFooterVisible", "True")]
     [AutoColumnWidth(false)]
-    [ModelDefault("ImageName", "BO_List")]
     [BatchDelete(isVisible: true)]
+    [ModelDefault("ImageName", "BO_List")]
     public class ApInvoiceBalance : BaseObject
     {
         public ApInvoiceBalance(Session session) : base(session) { }
         public override void AfterConstruction() { base.AfterConstruction(); }
 
-        //Guid fOid;
-        //[Key]
-        //public Guid Oid
-        //{
-        //    get { return fOid; }
-        //    set { SetPropertyValue<Guid>("Oid", ref fOid, value); }
-        //}
 
         double fRequestId;
         [ModelDefault("DisplayFormat", "f0")]
@@ -219,82 +215,24 @@ namespace CashDiscipline.Module.BusinessObjects.AccountsPayable
             get { return fInvoiceDescription; }
             set { SetPropertyValue<string>("InvoiceDescription", ref fInvoiceDescription, value); }
         }
-        string fTax;
-        [Size(255)]
-        public string Tax
-        {
-            get { return fTax; }
-            set { SetPropertyValue<string>("Tax", ref fTax, value); }
-        }
-        string fBalanceSheet;
-        [Size(255)]
-        public string BalanceSheet
-        {
-            get { return fBalanceSheet; }
-            set { SetPropertyValue<string>("BalanceSheet", ref fBalanceSheet, value); }
-        }
-        string fPNLDecidingFactor;
-        [Size(255)]
-        public string PNLDecidingFactor
-        {
-            get { return fPNLDecidingFactor; }
-            set { SetPropertyValue<string>("PNLDecidingFactor", ref fPNLDecidingFactor, value); }
-        }
-        string fPNLAcc;
-        [Size(255)]
-        public string PNLAcc
-        {
-            get { return fPNLAcc; }
-            set { SetPropertyValue<string>("PNLAcc", ref fPNLAcc, value); }
-        }
-        string fOpexArea;
-        [Size(255)]
-        public string OpexArea
-        {
-            get { return fOpexArea; }
-            set { SetPropertyValue<string>("OpexArea", ref fOpexArea, value); }
-        }
-        string fRevenueArea;
-        [Size(255)]
-        public string RevenueArea
-        {
-            get { return fRevenueArea; }
-            set { SetPropertyValue<string>("RevenueArea", ref fRevenueArea, value); }
-        }
-        string fMappingArea_CredOnly;
-        [Size(255)]
-        public string MappingArea_CredOnly
-        {
-            get { return fMappingArea_CredOnly; }
-            set { SetPropertyValue<string>("MappingArea_CredOnly", ref fMappingArea_CredOnly, value); }
-        }
-        string fMappingArea_IncGst_CredOnly;
-        [Size(255)]
-        public string MappingArea_IncGst_CredOnly
-        {
-            get { return fMappingArea_IncGst_CredOnly; }
-            set { SetPropertyValue<string>("MappingArea_IncGst_CredOnly", ref fMappingArea_IncGst_CredOnly, value); }
-        }
-        string fAccountActivity;
-        [Size(255)]
-        public string AccountActivity
+        Activity fAccountActivity;
+        public Activity AccountActivity
         {
             get { return fAccountActivity; }
-            set { SetPropertyValue<string>("AccountActivity", ref fAccountActivity, value); }
+            set { SetPropertyValue("AccountActivity", ref fAccountActivity, value); }
         }
-        string fCostCentreActivity;
-        [Size(255)]
-        public string CostCentreActivity
+        Activity fCostCentreActivity;
+        public Activity CostCentreActivity
         {
             get { return fCostCentreActivity; }
-            set { SetPropertyValue<string>("CostCentreActivity", ref fCostCentreActivity, value); }
+            set { SetPropertyValue("CostCentreActivity", ref fCostCentreActivity, value); }
         }
-        string fActivity;
+        Activity fActivity;
         [Size(255)]
-        public string Activity
+        public Activity Activity
         {
             get { return fActivity; }
-            set { SetPropertyValue<string>("Activity", ref fActivity, value); }
+            set { SetPropertyValue("Activity", ref fActivity, value); }
         }
         DateTime fDueDate;
         [ModelDefault("DisplayFormat", "dd-MMM-yy")]

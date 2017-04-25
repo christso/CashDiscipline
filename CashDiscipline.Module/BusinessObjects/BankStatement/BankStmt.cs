@@ -23,7 +23,7 @@ using Xafology.ExpressApp.BatchDelete;
 namespace CashDiscipline.Module.BusinessObjects.Cash
 {
     [VisibleInReports(true)]
-    [ModelDefault("DefaultListViewAllowEdit", "True")]
+    [DefaultListViewOptions(allowEdit: true, newItemRowPosition: NewItemRowPosition.Top)]
     [DefaultProperty("Oid")]
     [ModelDefault("IsFooterVisible", "True")]
     [AutoColumnWidth(false)]
