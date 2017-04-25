@@ -141,8 +141,12 @@ WHERE EXISTS (SELECT * FROM #TmpApInvoiceBalance b2 WHERE b2.Oid = b1.Oid);";
 
         public void Process(ImportApInvoiceBalanceParam paramObj)
         {
-
             var criteria = CriteriaOperator.Parse("AsAtDate Between(?,?)", paramObj.FromDate, paramObj.ToDate);
+            Process(criteria);
+        }
+
+        public void Process(CriteriaOperator criteria)
+        {
             var sqlTemplate = mapper.ConvertToSql(MapCommandTextListSqlTemplateCommon, criteria);
 
             var conn = (SqlConnection)objSpace.Session.Connection;

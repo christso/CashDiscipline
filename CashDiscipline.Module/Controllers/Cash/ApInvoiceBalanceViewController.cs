@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xafology.ExpressApp.BatchDelete;
 
 namespace CashDiscipline.Module.Controllers.WorkingCapital
 {
@@ -53,6 +54,9 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
                 case mapSelectedCaption:
                     MapSelected();
                     break;
+                case mapFilteredCaption:
+                    MapFiltered();
+                    break;
             }
         }
 
@@ -61,6 +65,31 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             var mapper = new ApInvoiceBalanceMapper((XPObjectSpace)ObjectSpace);
             var objs = View.SelectedObjects;
             mapper.Process(objs);
+        }
+
+        private void MapFiltered()
+        {
+            var mapper = new ApInvoiceBalanceMapper((XPObjectSpace)ObjectSpace);
+
+            var batchController = Frame.GetController<BatchDeleteListViewController>();
+            if (batchController != null)
+            {
+                var criteria = batchController.ActiveFilterCriteria;
+                var filtered = batchController.ActiveFilterEnabled;
+
+                if (Object.ReferenceEquals(null, criteria) || !filtered)
+                {
+                    var message = new Xafology.ExpressApp.SystemModule.GenericMessageBox(
+                        "Filter is empty. Do you wish to continue mapping the ENTIRE table?",
+                        "Warning",
+                        (sender, svp) => mapper.Process(criteria),
+                        (sender, svp) => { return; });
+                }
+                else
+                {
+                    mapper.Process(criteria);
+                }
+            }
         }
 
         private void ShowImportForm(ShowViewParameters svp)
