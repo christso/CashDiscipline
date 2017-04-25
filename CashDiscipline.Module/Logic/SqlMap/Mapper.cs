@@ -89,11 +89,7 @@ namespace CashDiscipline.Module.Logic.SqlMap
         {
             RefreshMaps();
 
-            var oidStrings = new List<string>();
-            foreach (BaseObject obj in objs)
-            {
-                oidStrings.Add(string.Format("'{0}'", obj.Oid));
-            }
+       
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();

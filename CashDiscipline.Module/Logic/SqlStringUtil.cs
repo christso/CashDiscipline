@@ -11,6 +11,8 @@ namespace CashDiscipline.Module.Logic
 {
     public class SqlStringUtil
     {
+        public const string CriteriaToken = "{criteria}";
+
         public string CreateCommandText(List<SqlDeclareClause> clauses)
         {
             string result = string.Empty;
@@ -27,7 +29,7 @@ namespace CashDiscipline.Module.Logic
         public string AddSqlCriteria(string sqlUpdate, CriteriaOperator criteria)
         {
             var sqlWhere = CriteriaToWhereClauseHelper.GetMsSqlWhere(XpoCriteriaFixer.Fix(criteria));
-            var sqlTemplate = sqlUpdate.Replace("{criteria}", (string.IsNullOrEmpty(sqlWhere) ? "" : " AND " + sqlWhere));
+            var sqlTemplate = sqlUpdate.Replace(CriteriaToken, (string.IsNullOrEmpty(sqlWhere) ? "" : " AND " + sqlWhere));
             return sqlTemplate;
         }
     }

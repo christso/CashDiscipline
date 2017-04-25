@@ -130,23 +130,13 @@ WHERE EXISTS (SELECT * FROM #TmpApInvoiceBalance b2 WHERE b2.Oid = b1.Oid);";
 
         public void Process(IEnumerable objs)
         {
-            BeforeProcess();
+            BeforeProcess(objs);
 
             var clauses = CreateSqlParameters();
             var sqlParams = CreateParameters(clauses);
             mapper.SqlParameters = sqlParams;
 
             mapper.Process(objs);
-        }
-
-        public void Process(IXPObject obj)
-        {
-            BeforeProcess();
-
-            var clauses = CreateSqlParameters();
-            var sqlParams = CreateParameters(clauses);
-            mapper.SqlParameters = sqlParams;
-            mapper.Process(obj);
         }
 
         public void Process(ImportApInvoiceBalanceParam paramObj)
@@ -169,13 +159,19 @@ WHERE EXISTS (SELECT * FROM #TmpApInvoiceBalance b2 WHERE b2.Oid = b1.Oid);";
             mapper.Process(sqlTemplate);
         }
 
-        private void BeforeProcess()
+        private void BeforeProcess(IEnumerable objs)
         {
+            var oids = new List<string>();
+            foreach (BaseObject obj in objs)
+            {
+                oids.Add(string.Format("'{0}'", obj.Oid));
+            }
+
             var util = new SqlStringUtil();
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
-            command.CommandText = BeforeSql; // replace {criteria} with filter
+            command.CommandText = BeforeSql.Replace(SqlStringUtil.CriteriaToken, "AND Oid IN (" + string.Join(",", oids) + ")"); // replace {criteria} with filter
             command.ExecuteNonQuery();
         }
 
@@ -186,7 +182,7 @@ WHERE EXISTS (SELECT * FROM #TmpApInvoiceBalance b2 WHERE b2.Oid = b1.Oid);";
 
             var conn = (SqlConnection)objSpace.Session.Connection;
             var command = conn.CreateCommand();
-            command.CommandText = util.AddSqlCriteria(BeforeSql, criteria); // replace {criteria} with filter
+            command.CommandText = util.AddSqlCriteria(BeforeSql, criteria); 
             command.ExecuteNonQuery();
         }
 

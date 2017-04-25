@@ -1,7 +1,9 @@
 ﻿using CashDiscipline.Module.BusinessObjects.AccountsPayable;
+using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
+using DevExpress.ExpressApp.Xpo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +15,9 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
     public class ApInvoiceBalanceViewController : ViewController
     {
         private const string importCaption = "Import";
+        private const string mapSelectedCaption = "Map Selected";
+        private const string mapFilteredCaption = "Map Filtered";
+
         public ApInvoiceBalanceViewController()
         {
             TargetObjectType = typeof(ApInvoiceBalance);
@@ -26,6 +31,15 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             var importChoice = new ChoiceActionItem();
             importChoice.Caption = importCaption;
             mainAction.Items.Add(importChoice);
+
+            var mapSelectedChoice = new ChoiceActionItem();
+            mapSelectedChoice.Caption = mapSelectedCaption;
+            mainAction.Items.Add(mapSelectedChoice);
+
+            var mapFilteredChoice = new ChoiceActionItem();
+            mapFilteredChoice.Caption = mapFilteredCaption;
+            mainAction.Items.Add(mapFilteredChoice);
+
         }
 
         private void MainAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
@@ -36,7 +50,17 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
                 case importCaption:
                     ShowImportForm(e.ShowViewParameters);
                     break;
+                case mapSelectedCaption:
+                    MapSelected();
+                    break;
             }
+        }
+
+        private void MapSelected()
+        {
+            var mapper = new ApInvoiceBalanceMapper((XPObjectSpace)ObjectSpace);
+            var objs = View.SelectedObjects;
+            mapper.Process(objs);
         }
 
         private void ShowImportForm(ShowViewParameters svp)
