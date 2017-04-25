@@ -119,7 +119,7 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-
+            ObjectSpace.CommitChanges();
             var os = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = View.CurrentObject as CashFlowFixParam;
             var revaluer = new RevalueAccounts(os, paramObj);
@@ -144,6 +144,8 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
+
+            ObjectSpace.CommitChanges();
 
             var os = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = View.CurrentObject as CashFlowFixParam;
@@ -173,7 +175,7 @@ namespace CashDiscipline.Module.Controllers.Cash
         {
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();
-
+            ObjectSpace.CommitChanges();
             var os = (XPObjectSpace)Application.CreateObjectSpace();
             var paramObj = View.CurrentObject as CashFlowFixParam;
             if (paramObj != null)
