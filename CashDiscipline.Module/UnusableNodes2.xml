@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DetailView Id="ApInvoiceBalance_DetailView">
+      <Layout Id="Layout">
+        <LayoutGroup Id="Main">
+          <LayoutGroup Id="SimpleEditors">
+            <LayoutGroup Id="ApInvoiceBalance">
+              <LayoutGroup Id="ApInvoiceBalance_col2">
+                <LayoutItem Id="Tax" Index="7" />
+                <LayoutItem Id="OpexArea" Index="8" />
+                <LayoutItem Id="RevenueArea" Index="9" />
+              </LayoutGroup>
+            </LayoutGroup>
+          </LayoutGroup>
+        </LayoutGroup>
+      </Layout>
+    </DetailView>
+  </Views>
+</Application>

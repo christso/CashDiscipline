@@ -22,8 +22,11 @@ using System.IO;
 
 namespace CashDiscipline.Module.Controllers.WorkingCapital
 {
+
     public class ImportArOpenInvoicesViewController : ViewController
     {
+        private const string ResetSqlChoiceCaption = "Reset SQL";
+
         public ImportArOpenInvoicesViewController()
         {
             TargetObjectType = typeof(ImportArOpenInvoicesParam);
@@ -37,9 +40,15 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             reportAction.Caption = "Process Report";
             reportAction.Execute += ReportAction_Execute;
 
-            var resetAction = new SimpleAction(this, "ResetImportArOpenInvoicesAction", PredefinedCategory.ObjectsCreation);
+            var resetAction = new SingleChoiceAction(this, "ResetImportArOpenInvoicesAction", PredefinedCategory.ObjectsCreation);
+            resetAction.ShowItemsOnClick = true;
+            resetAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             resetAction.Caption = "Reset";
             resetAction.Execute += ResetAction_Execute;
+
+            var resetSqlChoice = new ChoiceActionItem();
+            resetSqlChoice.Caption = ResetSqlChoiceCaption;
+            resetAction.Items.Add(resetSqlChoice);
         
         }
 
@@ -64,8 +73,20 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
             );
         }
 
-        private void ResetAction_Execute(object sender, SimpleActionExecuteEventArgs e)
+        private void ResetAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
         {
+            switch (e.SelectedChoiceActionItem.Caption)
+            {
+                case ResetSqlChoiceCaption:
+                    ResetSql();
+                    break;
+
+            }
+        }
+
+        private void ResetSql()
+        {
+
             var paramObj = (ImportArOpenInvoicesParam)View.CurrentObject;
             paramObj.CreateSql = @"CREATE TABLE {TempTable} (
 [Customer Name] nvarchar(255),
@@ -87,7 +108,7 @@ namespace CashDiscipline.Module.Controllers.WorkingCapital
 [Original Receipt Amount] nvarchar(255),
 [Overdue Days] nvarchar(255)
 )";
-            paramObj.PersistSql = 
+            paramObj.PersistSql =
 @"INSERT INTO ArOpenInvoices
 (
     [Oid],

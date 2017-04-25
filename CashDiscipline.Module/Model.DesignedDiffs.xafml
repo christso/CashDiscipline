@@ -150,9 +150,6 @@
                 <LayoutItem Id="ExpenseProject" Index="4" />
                 <LayoutItem Id="ExpenseLocation" Index="5" />
                 <LayoutItem Id="InvoiceDescription" Index="6" />
-                <LayoutItem Id="Tax" Index="7" />
-                <LayoutItem Id="OpexArea" Index="8" />
-                <LayoutItem Id="RevenueArea" Index="9" />
                 <LayoutItem Id="AccountActivity" Index="10" />
                 <LayoutItem Id="CostCentreActivity" Index="11" />
                 <LayoutItem Id="Activity" Index="12" />
@@ -804,8 +801,8 @@
     <ListView Id="SqlJob_ListView">
       <Columns>
         <ColumnInfo Id="Oid" Caption="Oid" PropertyName="Oid" Index="0" IsNewNode="True" />
-        <ColumnInfo Id="JobName" Index="1" />
-        <ColumnInfo Id="LogDateTime" Index="2" />
+        <ColumnInfo Id="JobName" Index="1" SortOrder="None" />
+        <ColumnInfo Id="LogDateTime" Index="2" SortOrder="Descending" />
         <ColumnInfo Id="LogMessage" Index="3" />
       </Columns>
       <Sorting>
