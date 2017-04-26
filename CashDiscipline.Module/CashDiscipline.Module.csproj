@@ -240,10 +240,15 @@
     <Compile Include="Controllers\Cash\AccountBalanceViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controllers\CashReportConfigViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controllers\WorkingCapital\ArOpenInvoicesViewController.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Content Include="ExternalScripts\DwhCashFlow.sql" />
     <Compile Include="ImportHelper.cs" />
+    <Compile Include="Logic\Cash\AccountBalanceGenerator.cs" />
     <Compile Include="Logic\WorkingCapital\ApInvoiceBalanceMapper.cs" />
     <Compile Include="ParamObjects\Import\AccountBalanceParam.cs" />
     <Compile Include="ParamObjects\Import\ImportApPmtDistnColumn.cs" />
@@ -251,7 +256,7 @@
     <Compile Include="BusinessObjects\FinAccounting\TB_Account.cs" />
     <Compile Include="BusinessObjects\FinAccounting\TB_Company.cs" />
     <Compile Include="BusinessObjects\FinAccounting\TB_TrialBalance.cs" />
-    <Compile Include="BusinessObjects\ReportConfig.cs" />
+    <Compile Include="BusinessObjects\CashReportConfig.cs" />
     <Compile Include="BusinessObjects\Setup\ActionPortal.cs" />
     <Compile Include="BusinessObjects\BankStatement\BankStmtTranCode.cs" />
     <Compile Include="BusinessObjects\BaseObjectHelper.cs" />

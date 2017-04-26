@@ -70,32 +70,6 @@ namespace CashDiscipline.Module.BusinessObjects.Cash
             }
         }
 
-        private DateTime _FromDate;
-        public DateTime FromDate
-        {
-            get
-            {
-                return _FromDate;
-            }
-            set
-            {
-                SetPropertyValue("FromDate", ref _FromDate, value);
-            }
-        }
-
-        private DateTime _ToDate;
-        public DateTime ToDate
-        {
-            get
-            {
-                return _ToDate;
-            }
-            set
-            {
-                SetPropertyValue("ToDate", ref _ToDate, value);
-            }
-        }
-
         private bool _IsEnabled;
         public bool IsEnabled
         {

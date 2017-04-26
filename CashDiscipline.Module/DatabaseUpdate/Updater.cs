@@ -193,6 +193,7 @@ ALTER TABLE [dbo].[Counterparty] ADD CONSTRAINT [DF_Counterparty_DateTimeCreated
 
         public static void CreateCurrencies(IObjectSpace objSpace)
         {
+
             var ccy = objSpace.FindObject<Currency>(CriteriaOperator.Parse("Name = ?", "AUD"));
             if (ccy == null)
             {
@@ -224,6 +225,7 @@ ALTER TABLE [dbo].[Counterparty] ADD CONSTRAINT [DF_Counterparty_DateTimeCreated
                 counterparty = objSpace.CreateObject<Counterparty>();
                 counterparty.Name = "UNDEFINED";
             }
+            
             var activity = objSpace.FindObject<Activity>(CriteriaOperator.Parse("Name = ?", "UNDEFINED"));
             if (activity == null)
             {

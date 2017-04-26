@@ -1,4 +1,5 @@
 ﻿using CashDiscipline.Module.BusinessObjects.Cash;
+using CashDiscipline.Module.Logic.Cash;
 using CashDiscipline.Module.ParamObjects.Import;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
@@ -31,15 +32,10 @@ namespace CashDiscipline.Module.Controllers.Cash
             ObjectSpace.CommitChanges();
 
             var objSpace = (XPObjectSpace)ObjectSpace;
-            var conn = (SqlConnection)objSpace.Session.Connection;
-            using (var command = conn.CreateCommand())
-            {
-                command.CommandText =
-@"DECLARE @FromDate datetime = (SELECT TOP 1 FromDate FROM AccountBalanceParam WHERE GCRecord IS NULL);
-DECLARE @ToDate datetime = (SELECT TOP 1 ToDate FROM AccountBalanceParam WHERE GCRecord IS NULL);
-DECLARE @Snapshot uniqueidentifier = (SELECT TOP 1 CurrentCashFlowSnapshot FROM SetOfBooks WHERE GCRecord IS NULL);";
-                command.ExecuteNonQuery();
-            }
+            var paramObj = (AccountBalanceParam)View.CurrentObject;
+            var generator = new AccountBalanceGenerator(objSpace);
+
+            generator.Generate(paramObj);
 
             new GenericMessageBox(
                 "ACTION COMPLETED : CALCULATE",
