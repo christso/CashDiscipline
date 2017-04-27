@@ -192,6 +192,11 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <ListView Id="ApInvoiceBalanceMapping_ListView">
+      <Columns>
+        <ColumnInfo Id="RowIndex" SortOrder="Ascending" />
+      </Columns>
+    </ListView>
     <ListView Id="ApInvSource_LookupListView" AllowEdit="False" />
     <ListView Id="ApPayGroup_LookupListView" AllowEdit="False" />
     <ListView Id="ApPmtDistn_ListView" DataAccessMode="Server" IsFooterVisible="True">
@@ -266,6 +271,11 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <ListView Id="ApPmtDistnMapping_ListView">
+      <Columns>
+        <ColumnInfo Id="RowIndex" SortOrder="Ascending" />
+      </Columns>
+    </ListView>
     <ListView Id="ApPmtDistnMapping_LookupListView" AllowEdit="False" />
     <ListView Id="ApPoReceipt_ListView" DataAccessMode="Server" />
     <ListView Id="ApSource_LookupListView" AllowEdit="False" />
@@ -402,6 +412,11 @@
         </LayoutGroup>
       </Layout>
     </DetailView>
+    <ListView Id="BankStmtMapping_ListView">
+      <Columns>
+        <ColumnInfo Id="RowIndex" SortOrder="Ascending" />
+      </Columns>
+    </ListView>
     <ListView Id="BankStmtTranCode_LookupListView" AllowEdit="False" />
     <DetailView Id="CashFlow_DetailView">
       <Items>
@@ -581,6 +596,11 @@
         <ColumnInfo Id="CounterCcyAmt" PropertyName="CounterCcyAmt" Width="50" Index="7" IsNewNode="True" />
         <ColumnInfo Id="CounterCcy" PropertyName="CounterCcy" Width="70" Index="8" IsNewNode="True" />
         <ColumnInfo Id="Source" PropertyName="Source" Width="70" Index="9" IsNewNode="True" />
+      </Columns>
+    </ListView>
+    <ListView Id="CashFlowFixMapping_ListView">
+      <Columns>
+        <ColumnInfo Id="RowIndex" SortOrder="Ascending" />
       </Columns>
     </ListView>
     <DetailView Id="CashFlowFixParam_DetailView">
@@ -792,11 +812,6 @@
           <LayoutItem Id="StatusMessage" ViewItem="StatusMessage" ShowCaption="False" IsNewNode="True" />
         </LayoutGroup>
       </Layout>
-    </DetailView>
-    <DetailView Id="ReportConfig_DetailView">
-      <Items>
-        <PropertyEditor Id="CurrentCashFlowStartDate" ToolTip="Start Date of the Cash Flow SSAS Current Partition. If you change this property, please perform &quot;Process All&quot; afterwards before performing &quot;Process Current&quot; at a later stage." />
-      </Items>
     </DetailView>
     <ListView Id="SqlJob_ListView">
       <Columns>

@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application>
+  <Views Id="Views">
+    <DetailView Id="ReportConfig_DetailView">
+      <Items Id="Items">
+        <PropertyEditor Id="CurrentCashFlowStartDate" ToolTip="Start Date of the Cash Flow SSAS Current Partition. If you change this property, please perform &quot;Process All&quot; afterwards before performing &quot;Process Current&quot; at a later stage." />
+      </Items>
+    </DetailView>
+  </Views>
+</Application>

@@ -433,6 +433,10 @@
     <Compile Include="ParamObjects\Import\ImportArOpenInvoicesParam.cs" />
     <Compile Include="ParamObjects\Import\ImportArReceiptDistnParam.cs" />
     <Compile Include="ParamObjects\Import\ImportBankStmtParamItem.cs" />
+    <None Include="UnusableNodes3.xml">
+      <DependentUpon>Model.DesignedDiffs.xafml</DependentUpon>
+      <SubType>Designer</SubType>
+    </None>
     <EmbeddedResource Include="Scripts\CreateCashFlowRevalProcs.sql" />
     <EmbeddedResource Include="Scripts\CreateGenLedgerProcs.sql" />
     <Compile Include="ParamObjects\Import\ImportTrialBalanceParam.cs" />
