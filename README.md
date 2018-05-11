@@ -2,4 +2,4 @@ CashDiscipline was a custom software solution built for analyzing, forecasting a
 
 I've made a previous version of the software open source as it has some interesting algorithms and design patterns that might be helpful to some people.
 
-![logo][cash_discipline_simple-300x247.png]
+[![CashDiscipline Logo](cash_discipline_simple-300x247.png)]
