@@ -1,5 +1,5 @@
-### CTMS
+CashDiscipline was a custom software solution built for analyzing, forecasting and managing cash flow and working capital for large businesses that have irregular cash flow requirements.
 
-CTMS (Corporate Treasury Management System) is a Windows Forms application for managing corporate treasuries.
+I've made a previous version of the software open source as it has some interesting algorithms and design patterns that might be helpful to some people.
 
-It is developed using the DevExpress ExpressApp Framework, and uses SQL Server as the database.
+![logo][cash_discipline_simple-300x247.png]
